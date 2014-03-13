@@ -18,22 +18,7 @@
 extern "C" {
 #endif
 
-typedef int (WINAPI *LPCANCEL_ROUTINE)(
-    __in HRESULT hrError,
-    __in_z_opt LPCWSTR wzError,
-    __in BOOL fAllowRetry,
-    __in_opt LPVOID pvContext
-    );
-
 // structs
-
-typedef struct _BURN_CACHE_CALLBACK
-{
-    LPPROGRESS_ROUTINE pfnProgress;
-    LPCANCEL_ROUTINE pfnCancel;
-    LPVOID pv;
-} BURN_CACHE_CALLBACK;
-
 
 // functions
 
@@ -90,13 +75,13 @@ HRESULT CacheSetLastUsedSource(
     __in_z LPCWSTR wzRelativePath
     );
 HRESULT CacheSendProgressCallback(
-    __in BURN_CACHE_CALLBACK* pCallback,
+    __in DOWNLOAD_CACHE_CALLBACK* pCallback,
     __in DWORD64 dw64Progress,
     __in DWORD64 dw64Total,
     __in HANDLE hDestinationFile
     );
 void CacheSendErrorCallback(
-    __in BURN_CACHE_CALLBACK* pCallback,
+    __in DOWNLOAD_CACHE_CALLBACK* pCallback,
     __in HRESULT hrError,
     __in_z_opt LPCWSTR wzError,
     __out_opt BOOL* pfRetry

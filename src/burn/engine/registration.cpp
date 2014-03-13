@@ -16,11 +16,7 @@
 
 // constants
 
-#define WINXP_MSI_DRIVER_INSTALL_FIX
-#ifdef WINXP_MSI_DRIVER_INSTALL_FIX
 const LPCWSTR REGISTRY_RUN_KEY = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-#endif
-
 const LPCWSTR REGISTRY_RUN_ONCE_KEY = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce";
 const LPCWSTR REGISTRY_REBOOT_PENDING_FORMAT = L"%ls.RebootRequired";
 const LPCWSTR REGISTRY_BUNDLE_INSTALLED = L"Installed";
@@ -1109,22 +1105,19 @@ static HRESULT UpdateResumeMode(
     DWORD er = ERROR_SUCCESS;
     HKEY hkRebootRequired = NULL;
     HKEY hkRun = NULL;
-    LPWSTR sczRunOnceCommandLine = NULL;
-    LPCWSTR sczRunOrRunOnceKey = REGISTRY_RUN_ONCE_KEY;
-#ifdef WINXP_MSI_DRIVER_INSTALL_FIX
-    // On XP the resume-key is written to Run path instead of RunOnce,
-    // as an MSI-package that contains a driver-install might trigger
-    // premature execution of the RunOnce key.  As there is no need
-    // for elevation prior to Vista, the run-key should suffice.
+    LPWSTR sczResumeCommandLine = NULL;
+    LPCWSTR sczResumeKey = REGISTRY_RUN_ONCE_KEY;
     OS_VERSION osv = OS_VERSION_UNKNOWN;
     DWORD dwServicePack = 0;
 
+    // On Windows XP and Server 2003, write the resume information to the Run key
+    // instead of RunOnce. That avoids the problem that driver installation might
+    // trigger RunOnce commands to be executed before the reboot.
     OsGetVersion(&osv, &dwServicePack);
     if (osv < OS_VERSION_VISTA)
     {
-        sczRunOrRunOnceKey = REGISTRY_RUN_KEY;
+        sczResumeKey = REGISTRY_RUN_KEY;
     }
-#endif
 
     // write resume information
     if (hkRegistration)
@@ -1151,19 +1144,19 @@ static HRESULT UpdateResumeMode(
     if (BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated)
     {
         // append RunOnce switch
-        hr = StrAllocFormatted(&sczRunOnceCommandLine, L"%ls /%ls", pRegistration->sczResumeCommandLine, BURN_COMMANDLINE_SWITCH_RUNONCE);
+        hr = StrAllocFormatted(&sczResumeCommandLine, L"%ls /%ls", pRegistration->sczResumeCommandLine, BURN_COMMANDLINE_SWITCH_RUNONCE);
         ExitOnFailure(hr, "Failed to format resume command line for RunOnce.");
 
         // write run key
-        hr = RegCreate(pRegistration->hkRoot, sczRunOrRunOnceKey, KEY_WRITE, &hkRun);
+        hr = RegCreate(pRegistration->hkRoot, sczResumeKey, KEY_WRITE, &hkRun);
         ExitOnFailure(hr, "Failed to create run key.");
 
-        hr = RegWriteString(hkRun, pRegistration->sczId, sczRunOnceCommandLine);
+        hr = RegWriteString(hkRun, pRegistration->sczId, sczResumeCommandLine);
         ExitOnFailure(hr, "Failed to write run key value.");
     }
     else // delete run key value
     {
-        hr = RegOpen(pRegistration->hkRoot, sczRunOrRunOnceKey, KEY_WRITE, &hkRun);
+        hr = RegOpen(pRegistration->hkRoot, sczResumeKey, KEY_WRITE, &hkRun);
         if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
         {
             hr = S_OK;
@@ -1182,7 +1175,7 @@ static HRESULT UpdateResumeMode(
     }
 
 LExit:
-    ReleaseStr(sczRunOnceCommandLine);
+    ReleaseStr(sczResumeCommandLine);
     ReleaseRegKey(hkRebootRequired);
     ReleaseRegKey(hkRun);
 

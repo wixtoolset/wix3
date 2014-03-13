@@ -57,11 +57,5 @@
         </Feature>
 
         <FeatureRef Id="Feature_MSBuild" />
-
-        <!--<FeatureRef Id="Feature_NAnt" />-->
-
-        <!-- ClickThrough is disabled in WiX v3.8
-        <FeatureRef Id="Feature_ClickThrough" />
-        -->
     </Product>
 </Wix>

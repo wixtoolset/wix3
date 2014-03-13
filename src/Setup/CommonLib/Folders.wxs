@@ -83,48 +83,6 @@
     </Fragment>
 
     <!--
-        VS2008
-    -->
-    <Fragment>
-        <DirectoryRef Id="ProgramFilesFolder">
-            <Directory Id="VisualStudio2008Folder" Name="Microsoft Visual Studio 9.0">
-                <Directory Id="Common7Vs2008" Name="Common7">
-                    <Directory Id="IDEVs2008" Name="IDE"/>
-                </Directory>
-                <Directory Id="XmlVs2008" Name="Xml"/>
-            </Directory>
-        </DirectoryRef>
-    </Fragment>
-
-    <Fragment>
-        <PropertyRef Id="VS90_ITEMTEMPLATES_DIR" />
-
-        <DirectoryRef Id="IDEVs2008">
-            <Directory Id="VS90_ITEMTEMPLATES_DIR" Name="ItemTemplates">
-                <Directory Id="VsItemTemplatesWix2008Folder" Name="WiX" />
-            </Directory>
-        </DirectoryRef>
-    </Fragment>
-    
-    <Fragment>
-        <PropertyRef Id="VS90_PROJECTTEMPLATES_DIR" />
-
-        <DirectoryRef Id="IDEVs2008">
-            <Directory Id="VS90_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
-                <Directory Id="VsProjectTemplatesWix2008Folder" Name="WiX" />
-            </Directory>
-        </DirectoryRef>
-    </Fragment>
-
-    <Fragment>
-        <PropertyRef Id="VS90_SCHEMAS_DIR" />
-
-        <DirectoryRef Id="XmlVs2008">
-            <Directory Id="VS90_SCHEMAS_DIR" Name="Schemas" />
-        </DirectoryRef>
-    </Fragment>
-
-    <!--
         VS2010
     -->
     <Fragment>

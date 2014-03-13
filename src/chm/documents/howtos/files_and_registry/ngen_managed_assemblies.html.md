@@ -4,7 +4,7 @@ layout: documentation
 after: create_uninstall_shortcut
 ---
 # How To: NGen Managed Assemblies During Installation
-<a target="_blank" href="http://msdn.microsoft.com/magazine/cc163808.aspx">NGen</a> during installation can improve your managed application&apos;s startup time by creating native images of the managed assemblies on the target machine. This how to describes using the WiX support to NGen managed assemblies at install time.
+<a target="_blank" href="http://msdn.microsoft.com/en-us/magazine/cc163808.aspx">NGen</a> during installation can improve your managed application&apos;s startup time by creating native images of the managed assemblies on the target machine. This how to describes using the WiX support to NGen managed assemblies at install time.
 
 ## Step 1: Add the WiX .NET extensions library to your project
 The WiX support for NGen is included in a WiX extension library that must be added to your project prior to use. If you are using WiX on the command-line you need to add the following to your candle and light command lines:

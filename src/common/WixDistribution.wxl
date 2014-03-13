@@ -13,5 +13,5 @@
     <String Id="Product" Overridable="yes">Windows Installer XML Toolset</String>
     <String Id="ShortProduct" Overridable="yes">WiX Toolset</String>
     <String Id="SupportUrl" Overridable="yes">http://wixtoolset.org</String>
-    <String Id="UpdateUrl" Overridable="yes">http://wixtoolset.org/releases/feed/v3.8</String>
+    <String Id="UpdateUrl" Overridable="yes">http://wixtoolset.org/releases/feed/v3.9</String>
 </WixLocalization>

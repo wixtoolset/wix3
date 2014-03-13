@@ -114,7 +114,7 @@ namespace WixBuild.Tools.DocCompiler
 
             if (!String.IsNullOrEmpty(commandLine.AppendMarkdownTableOfContentsFile))
             {
-                AppendMarkdownTableOfContents(ordered, commandLine.AppendMarkdownTableOfContentsFile);
+                AppendMarkdownTableOfContents(ordered, commandLine.AppendMarkdownTableOfContentsFile, commandLine.IgnoreXsdSimpleTypeInTableOfContents);
             }
 
             if (!String.IsNullOrEmpty(commandLine.HtmlHelpProjectFile))
@@ -394,7 +394,7 @@ namespace WixBuild.Tools.DocCompiler
             }
         }
 
-        private void AppendMarkdownTableOfContents(List<IndexedDocument> ordered, string tocFile)
+        private void AppendMarkdownTableOfContents(List<IndexedDocument> ordered, string tocFile, bool ignoreXsdSimpleTypes)
         {
             using (StreamWriter sw = File.AppendText(tocFile))
             {
@@ -406,6 +406,15 @@ namespace WixBuild.Tools.DocCompiler
                     {
                         continue;
                     }
+
+                    if (ignoreXsdSimpleTypes)
+                    {
+                        if (doc.TitleHtmlSafe.EndsWith(" (Simple Type)") && Path.GetFileName(doc.SourcePath).StartsWith("simple_type_", StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+                    }
+
 
                     // prepend with the correct number of spaces to get the Markdown list
                     // indent correct.

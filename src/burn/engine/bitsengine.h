@@ -24,8 +24,8 @@ extern "C" {
 // functions
 
 HRESULT BitsDownloadUrl(
-    __in BURN_CACHE_CALLBACK* pCallback,
-    __in BURN_DOWNLOAD_SOURCE* pDownloadSource,
+    __in DOWNLOAD_CACHE_CALLBACK* pCallback,
+    __in DOWNLOAD_SOURCE* pDownloadSource,
     __in LPCWSTR wzDestinationPath
     );
 

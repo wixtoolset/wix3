@@ -21,9 +21,16 @@ interface IBootstrapperBAFunction
     STDMETHOD(OnPlanComplete)() = 0;
 };
 
-extern "C" typedef HRESULT (WINAPI *PFN_BOOTSTRAPPER_BA_FUNCTION_CREATE)(
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef HRESULT (WINAPI *PFN_BOOTSTRAPPER_BA_FUNCTION_CREATE)(
     __in IBootstrapperEngine* pEngine,
     __in HMODULE hModule,
     __out IBootstrapperBAFunction** ppBAFunction
     );
 
+#ifdef __cplusplus
+}
+#endif

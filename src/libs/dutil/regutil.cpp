@@ -363,6 +363,28 @@ LExit:
     return hr;
 }
 
+/********************************************************************
+ RegGetType - reads a registry key value type.
+ *********************************************************************/
+HRESULT DAPI RegGetType(
+    __in HKEY hk,
+    __in_z_opt LPCWSTR wzName,
+    __out DWORD *pdwType
+     )
+{
+    HRESULT hr = S_OK;
+    DWORD er = ERROR_SUCCESS;
+
+    er = vpfnRegQueryValueExW(hk, wzName, NULL, pdwType, NULL, NULL);
+    if (E_FILENOTFOUND == HRESULT_FROM_WIN32(er))
+    {
+        ExitFunction1(hr = E_FILENOTFOUND);
+    }
+    ExitOnWin32Error(er, hr, "Failed to read registry value.");
+LExit:
+
+    return hr;
+}
 
 /********************************************************************
  RegReadBinary - reads a registry key binary value.

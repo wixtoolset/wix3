@@ -30,7 +30,7 @@ static HRESULT SetCredentials(
     __in_z_opt LPCWSTR wzPassword
     );
 static void SendError(
-    __in BURN_CACHE_CALLBACK* pCacheCallback,
+    __in DOWNLOAD_CACHE_CALLBACK* pCacheCallback,
     __in IBackgroundCopyJob* pJob,
     __in HRESULT hrError,
     __in BG_ERROR_CONTEXT context,
@@ -248,7 +248,7 @@ private:
 
 public:
     CBurnBitsCallback(
-        __in_opt BURN_CACHE_CALLBACK* pCallback,
+        __in_opt DOWNLOAD_CACHE_CALLBACK* pCallback,
         __out HRESULT* pHR
         )
     {
@@ -283,13 +283,13 @@ private:
     HRESULT m_hrError;
 
     HANDLE m_hComplete;
-    BURN_CACHE_CALLBACK* m_pCallback;
+    DOWNLOAD_CACHE_CALLBACK* m_pCallback;
 };
 
 
 extern "C" HRESULT BitsDownloadUrl(
-    __in BURN_CACHE_CALLBACK* pCallback,
-    __in BURN_DOWNLOAD_SOURCE* pDownloadSource,
+    __in DOWNLOAD_CACHE_CALLBACK* pCallback,
+    __in DOWNLOAD_SOURCE* pDownloadSource,
     __in_z LPCWSTR wzDestinationPath
     )
 {
@@ -455,7 +455,7 @@ LExit:
 }
 
 static void SendError(
-    __in BURN_CACHE_CALLBACK* pCacheCallback,
+    __in DOWNLOAD_CACHE_CALLBACK* pCacheCallback,
     __in IBackgroundCopyJob* pJob,
     __in HRESULT hrError,
     __in BG_ERROR_CONTEXT /*context*/,

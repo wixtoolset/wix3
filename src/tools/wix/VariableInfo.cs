@@ -21,25 +21,62 @@ namespace Microsoft.Tools.WindowsInstallerXml
     /// </summary>
     internal class VariableInfo
     {
-        public VariableInfo(Row row)
-            : this((string)row[0], (string)row[1], (string)row[2], (int)row[3] == 1 ? true : false, (int)row[4] == 1 ? true : false)
+        private VariableRow variableRow;
+
+        public VariableInfo(VariableRow variableRow)
         {
+            this.variableRow = variableRow;
         }
 
-        public VariableInfo(string id, string value, string type, bool hidden, bool persisted)
+        /// <summary>
+        /// Gets or sets whether this variable is hidden.
+        /// </summary>
+        /// <value>Whether this variable is hidden.</value>
+        public bool Hidden
         {
-            this.Id = id;
-            this.Value = value;
-            this.Type = type;
-            this.Hidden = hidden;
-            this.Persisted = persisted;
+            get { return this.variableRow.Hidden; }
+            private set { this.variableRow.Hidden = value; }
         }
 
-        public bool Hidden { get; private set; }
-        public string Id { get; private set; }
-        public bool Persisted { get; private set; }
-        public string Value { get; private set; }
-        public string Type { get; private set; }
+        /// <summary>
+        /// Gets or sets the variable identifier.
+        /// </summary>
+        /// <value>The variable identifier.</value>
+        public string Id
+        {
+            get { return this.variableRow.Id; }
+            private set { this.variableRow.Id = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether this variable is persisted.
+        /// </summary>
+        /// <value>Whether this variable is persisted.</value>
+        public bool Persisted
+        {
+            get { return this.variableRow.Persisted; }
+            private set { this.variableRow.Persisted = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the variable's value.
+        /// </summary>
+        /// <value>The variable's value.</value>
+        public string Value
+        {
+            get { return this.variableRow.Value; }
+            private set { this.variableRow.Value = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the variable's type.
+        /// </summary>
+        /// <value>The variable's type.</value>
+        public string Type
+        {
+            get { return this.variableRow.Type; }
+            private set { this.variableRow.Type = value; }
+        }
 
         /// <summary>
         /// Generates Burn manifest markup for a variable.

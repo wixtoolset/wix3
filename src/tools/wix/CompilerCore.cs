@@ -711,12 +711,23 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <param name="sourceLineNumbers">Source and line number of current row.</param>
         public void CreateVariableRow(SourceLineNumberCollection sourceLineNumbers, string name, string value, string type, bool hidden, bool persisted)
         {
-            Row row = this.CreateRow(sourceLineNumbers, "Variable");
-            row[0] = name;
-            row[1] = value;
-            row[2] = type;
-            row[3] = hidden ? 1 : 0;
-            row[4] = persisted ? 1 : 0;
+            VariableRow variableRow = (VariableRow)this.CreateRow(sourceLineNumbers, "Variable");
+            variableRow.Id = name;
+            variableRow.Value = value;
+            variableRow.Type = type;
+            variableRow.Hidden = hidden;
+            variableRow.Persisted = persisted;
+        }
+
+        /// <summary>
+        /// Creates a WixCatalog row in the active section.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source and line number of current row.</param>
+        public void CreateWixCatalogRow(SourceLineNumberCollection sourceLineNumbers, string id, string sourceFile)
+        {
+            WixCatalogRow wixCatalogRow = (WixCatalogRow)this.CreateRow(sourceLineNumbers, "WixCatalog");
+            wixCatalogRow.Id = id;
+            wixCatalogRow.SourceFile = sourceFile;
         }
 
         /// <summary>

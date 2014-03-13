@@ -1884,7 +1884,15 @@ private: // privates
                             }
                         }
 
-                        StrAllocFormatted(&sczText, L"0x%08x - %ls", m_hrFinal, sczUnformattedText);
+                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal)
+                        {
+                            StrAllocString(&sczText, sczUnformattedText, 0);
+                        }
+                        else
+                        {
+                            StrAllocFormatted(&sczText, L"0x%08x - %ls", m_hrFinal, sczUnformattedText);
+                        }
+
                         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, sczText);
                         fShowErrorMessage = TRUE;
                     }
@@ -2419,7 +2427,10 @@ private: // privates
 
             if (!fResult)
             {
+                BalLog(BOOTSTRAPPER_LOG_LEVEL_ERROR, "%ls", m_sczFailedMessage);
+
                 hr = E_WIXSTDBA_CONDITION_FAILED;
+                // todo: remove in WiX v4, in case people are relying on v3.x logging behavior
                 BalExitOnFailure1(hr, "Bundle condition evaluated to false: %ls", pCondition->sczCondition);
             }
         }

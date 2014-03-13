@@ -23,19 +23,6 @@
         <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
 
         <Feature Id="VotiveFeature" Title="Votive 200x" Level="1">
-            <?if $(var.BuildVotive2008)=true ?>
-            <Feature Id="Intellisense2008" Title="IntelliSense 2008" Description="Schema files for IntelliSense in the Visual Studio 2008 editor" AllowAdvertise="no" Display="expand" InstallDefault="local" Level="0" TypicalDefault="install">
-                <Condition Level="1">VS90DEVENV OR VS90_ROOT_FOLDER OR REMOVE</Condition>
-                <ComponentGroupRef Id="Votive2008SchemaComponents" />
-            </Feature>
-
-            <Feature Id="Votive2008" Title="Project Templates 2008" Description="Votive Package for Visual Studio 2008" AllowAdvertise="no" Display="expand" InstallDefault="local" Level="0" TypicalDefault="install">
-                <Condition Level="1">VS90DEVENV OR REMOVE</Condition>
-                <ComponentGroupRef Id="Votive2008Components" />
-                <ComponentGroupRef Id="FileAssociationComponents" />
-            </Feature>
-            <?endif?>
-
             <?if $(var.BuildVotive2010)=true ?>
             <Feature Id="Intellisense2010" Title="IntelliSense 2010" Description="Schema files for IntelliSense in the Visual Studio 2010 editor" AllowAdvertise="no" Display="expand" InstallDefault="local" Level="0" TypicalDefault="install">
                 <Condition Level="1">VS2010DEVENV OR VS2010_ROOT_FOLDER OR REMOVE</Condition>
@@ -77,29 +64,24 @@
         <Property Id="LATEST_DEVENV_EXE" Secure="yes" />
         <Property Id="LATEST_DEVENV_EXE_COMMAND" Secure="yes" />
 
-        <PropertyRef Id="VS90DEVENV" />
         <PropertyRef Id="VS2010DEVENV" />
         <PropertyRef Id="VS2012DEVENV" />
         <PropertyRef Id="VS2013DEVENV" />
 
-        <CustomAction Id="CA_SetLatestDevenv_2008" Property="LATEST_DEVENV_EXE" Value="[VS90DEVENV]"/>
         <CustomAction Id="CA_SetLatestDevenv_2010" Property="LATEST_DEVENV_EXE" Value="[VS2010DEVENV]"/>
         <CustomAction Id="CA_SetLatestDevenv_2012" Property="LATEST_DEVENV_EXE" Value="[VS2012DEVENV]" />
         <CustomAction Id="CA_SetLatestDevenv_2013" Property="LATEST_DEVENV_EXE" Value="[VS2013DEVENV]" />
 
-        <CustomAction Id="CA_SetLatestDevenvCommand_2008" Property="LATEST_DEVENV_EXE_COMMAND" Value="&amp;Open in Visual Studio 2008"/>
         <CustomAction Id="CA_SetLatestDevenvCommand_2010" Property="LATEST_DEVENV_EXE_COMMAND" Value="&amp;Open in Visual Studio 2010"/>
         <CustomAction Id="CA_SetLatestDevenvCommand_2012" Property="LATEST_DEVENV_EXE_COMMAND" Value="&amp;Open in Visual Studio 2012"/>
         <CustomAction Id="CA_SetLatestDevenvCommand_2013" Property="LATEST_DEVENV_EXE_COMMAND" Value="&amp;Open in Visual Studio 2013"/>
 
         <!-- Install Sequences -->
         <InstallExecuteSequence>
-            <Custom Action="CA_SetLatestDevenv_2008" After="CostFinalize"><![CDATA[VS90DEVENV AND NOT VS2010DEVENV AND NOT VS2012DEVENV]]></Custom>
             <Custom Action="CA_SetLatestDevenv_2010" After="CostFinalize"><![CDATA[VS2010DEVENV AND NOT VS2012DEVENV]]></Custom>
             <Custom Action="CA_SetLatestDevenv_2012" After="CostFinalize"><![CDATA[VS2012DEVENV AND NOT VS2013DEVENV]]></Custom>
             <Custom Action="CA_SetLatestDevenv_2013" After="CostFinalize"><![CDATA[VS2013DEVENV]]></Custom>
 
-            <Custom Action="CA_SetLatestDevenvCommand_2008" After="CostFinalize"><![CDATA[VS90DEVENV AND NOT VS2010DEVENV AND NOT VS2012DEVENV]]></Custom>
             <Custom Action="CA_SetLatestDevenvCommand_2010" After="CostFinalize"><![CDATA[VS2010DEVENV AND NOT VS2012DEVENV]]></Custom>
             <Custom Action="CA_SetLatestDevenvCommand_2012" After="CostFinalize"><![CDATA[VS2012DEVENV AND NOT VS2013DEVENV]]></Custom>
             <Custom Action="CA_SetLatestDevenvCommand_2013" After="CostFinalize"><![CDATA[VS2013DEVENV]]></Custom>

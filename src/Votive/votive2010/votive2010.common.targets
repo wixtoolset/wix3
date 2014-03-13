@@ -10,255 +10,224 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.VisualStudio</RootNamespace>
+    <ProjectBasePath>vssdk</ProjectBasePath>
   </PropertyGroup>
 
+  <Import Project="mpf_project.files" />
+
   <ItemGroup>
-    <Compile Include="..\votive\Controls\FolderBrowserTextBox.cs">
+    <Compile Include="src\Controls\FolderBrowserTextBox.cs">
       <SubType>UserControl</SubType>
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="..\votive\Controls\FolderBrowserTextBox.Designer.cs">
+    <Compile Include="src\Controls\FolderBrowserTextBox.Designer.cs">
       <DependentUpon>FolderBrowserTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\Controls\WixBuildEventEditor.cs">
+    <Compile Include="src\Controls\WixBuildEventEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\WixBuildEventEditor.Designer.cs">
+    <Compile Include="src\Controls\WixBuildEventEditor.Designer.cs">
       <DependentUpon>WixBuildEventEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\Controls\WixBuildEventTextBox.cs">
+    <Compile Include="src\Controls\WixBuildEventTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\votive\Controls\WixFoldersSelector.cs">
+    <Compile Include="src\Controls\WixFoldersSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="..\votive\Controls\WixFoldersSelector.Designer.cs">
+    <Compile Include="src\Controls\WixFoldersSelector.Designer.cs">
       <DependentUpon>WixFoldersSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\Controls\WixGroupBox.cs">
+    <Compile Include="src\Controls\WixGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\votive\Controls\WixGroupLabel.cs">
+    <Compile Include="src\Controls\WixGroupLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\WixColorUserControl.cs">
+    <Compile Include="src\Controls\WixColorUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\WixColorUserControl.Designer.cs">
+    <Compile Include="src\Controls\WixColorUserControl.Designer.cs">
       <DependentUpon>WixColorUserControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\WixColorUserControl.resx">
+    <EmbeddedResource Include="src\Controls\WixColorUserControl.resx">
       <DependentUpon>WixColorUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Forms\WixBuildEventEditorForm.cs">
+    <Compile Include="src\Forms\WixBuildEventEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\votive\Forms\WixBuildEventEditorForm.Designer.cs">
+    <Compile Include="src\Forms\WixBuildEventEditorForm.Designer.cs">
       <DependentUpon>WixBuildEventEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixBuildEventsPropertyPage.cs" />
-    <Compile Include="..\votive\PropertyPages\WixBuildEventsPropertyPagePanel.cs">
+    <Compile Include="src\PropertyPages\WixBuildEventsPropertyPage.cs" />
+    <Compile Include="src\PropertyPages\WixBuildEventsPropertyPagePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PropertyPages\WixBuildEventsPropertyPagePanel.Designer.cs">
+    <Compile Include="src\PropertyPages\WixBuildEventsPropertyPagePanel.Designer.cs">
       <DependentUpon>WixBuildEventsPropertyPagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixInstallerPropertyPage.cs" />
-    <Compile Include="..\votive\IProjectSourceNode.cs"/>
-    <Compile Include="..\votive\PropertyPages\WixInstallerPropertyPagePanel.cs">
+    <Compile Include="src\PropertyPages\WixInstallerPropertyPage.cs" />
+    <Compile Include="src\IProjectSourceNode.cs"/>
+    <Compile Include="src\PropertyPages\WixInstallerPropertyPagePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PropertyPages\WixInstallerPropertyPagePanel.Designer.cs">
+    <Compile Include="src\PropertyPages\WixInstallerPropertyPagePanel.Designer.cs">
       <DependentUpon>WixInstallerPropertyPagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixBuildPropertyPage.cs"/>
-    <Compile Include="..\votive\PropertyPages\WixBuildPropertyPagePanel.cs">
+    <Compile Include="src\PropertyPages\WixBuildPropertyPage.cs"/>
+    <Compile Include="src\PropertyPages\WixBuildPropertyPagePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PropertyPages\WixBuildPropertyPagePanel.Designer.cs">
+    <Compile Include="src\PropertyPages\WixBuildPropertyPagePanel.Designer.cs">
       <DependentUpon>WixBuildPropertyPagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixPathsPropertyPage.cs" />
-    <Compile Include="..\votive\PropertyPages\WixPathsPropertyPagePanel.cs">
+    <Compile Include="src\PropertyPages\WixPathsPropertyPage.cs" />
+    <Compile Include="src\PropertyPages\WixPathsPropertyPagePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixPathsPropertyPagePanel.Designer.cs">
+    <Compile Include="src\PropertyPages\WixPathsPropertyPagePanel.Designer.cs">
       <DependentUpon>WixPathsPropertyPagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixPropertyPage.cs"/>
-    <Compile Include="PropertyPages\WixPropertyPagePanel.cs">
+    <Compile Include="src\PropertyPages\WixPropertyPage.cs"/>
+    <Compile Include="src\PropertyPages\WixPropertyPagePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixPropertyPagePanel.Designer.cs">
+    <Compile Include="src\PropertyPages\WixPropertyPagePanel.Designer.cs">
       <DependentUpon>WixPropertyPagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixToolsSettingsPropertyPage.cs"/>
-    <Compile Include="..\votive\PropertyPages\WixToolsSettingsPropertyPagePanel.cs">
+    <Compile Include="src\PropertyPages\WixToolsSettingsPropertyPage.cs"/>
+    <Compile Include="src\PropertyPages\WixToolsSettingsPropertyPagePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="..\votive\PropertyPages\WixToolsSettingsPropertyPagePanel.Designer.cs">
+    <Compile Include="src\PropertyPages\WixToolsSettingsPropertyPagePanel.Designer.cs">
       <DependentUpon>WixToolsSettingsPropertyPagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\votive\GlobalSuppressions.cs"/>
-    <Compile Include="..\votive\IsolatedDomain.cs"/>
-    <Compile Include="..\votive\OAWixProject.cs"/>
-    <Compile Include="..\votive\ProjectPropertyArgumentException.cs" />
-    <Compile Include="ProjectProperty.cs" />
-    <Compile Include="..\votive\PropertyValidator.cs" />
-    <Compile Include="..\votive\FileSearchHelperMethods.cs">
+    <Compile Include="src\GlobalSuppressions.cs"/>
+    <Compile Include="src\IsolatedDomain.cs"/>
+    <Compile Include="src\OAWixProject.cs"/>
+    <Compile Include="src\ProjectPropertyArgumentException.cs" />
+    <Compile Include="src\ProjectProperty.cs" />
+    <Compile Include="src\PropertyValidator.cs" />
+    <Compile Include="src\FileSearchHelperMethods.cs">
       <Link>FileSearchHelperMethods.cs</Link>
     </Compile>
-    <Compile Include="..\votive\RunPostBuildEvent.cs"/>
-    <Compile Include="WixBuildMacroCollection.cs"/>
-    <Compile Include="WixConfigProvider.cs"/>
-    <Compile Include="..\votive\WixDesignPropertyDescriptor.cs"/>
-    <Compile Include="..\votive\WixFileNode.cs"/>
-    <Compile Include="..\votive\WixFileNodeProperties.cs"/>
-    <Compile Include="..\votive\WixLinkedFileNodeProperties.cs"/>
-    <Compile Include="WixFileNodeNonMemberProperties.cs"/>
-    <Compile Include="WixExtensionReferenceNode.cs"/>
-    <Compile Include="WixExtensionReferenceNodeProperties.cs"/>
-    <Compile Include="..\votive\WixReferenceContainerNode.cs"/>
-    <Compile Include="..\votive\WixReferenceValidator.cs"/>
-    <Compile Include="..\votive\WixFolderNode.cs"/>
-    <Compile Include="..\votive\WixFolderNodeNonMemberProperties.cs"/>
-    <Compile Include="..\votive\WixFolderNodeProperties.cs"/>
-    <Compile Include="..\votive\WixLibraryReferenceNode.cs"/>
-    <Compile Include="..\votive\WixLibraryReferenceNodeProperties.cs"/>
-    <Compile Include="..\votive\WixLocalizedCategoryAttribute.cs"/>
-    <Compile Include="..\votive\WixLocalizedControlTextAttribute.cs"/>
-    <Compile Include="..\votive\WixLocalizedDescriptionAttribute.cs"/>
-    <Compile Include="..\votive\WixLocalizedDisplayNameAttribute.cs"/>
-    <Compile Include="..\votive\WixNonMemberDesignPropertyDescriptor.cs"/>
-    <Compile Include="..\votive\WixOutputType.cs"/>
-    <Compile Include="..\votive\WixPackageSettings.cs"/>
-    <Compile Include="WixProjectConfig.cs"/>
-    <Compile Include="WixProjectFileConstants.cs"/>
-    <Compile Include="..\votive\WixProjectNodeProperties.cs"/>
-    <Compile Include="WixProjectReferenceNode.cs"/>
-    <Compile Include="..\votive\WixProjectReferenceNodeProperties.cs"/>
-    <Compile Include="WixHelperMethods.cs"/>
-    <Compile Include="WixProjectNode.cs"/>
-    <Compile Include="WixProjectMembers.cs"/>
-    <Compile Include="WixProjectFactory.cs"/>
-    <Compile Include="WixPackage.cs"/>
-    <Compile Include="WixReferenceNode.cs"/>
-    <Compile Include="..\votive\WixReferenceNodeProperties.cs"/>
-    <Compile Include="..\votive\WixVsConstants.cs"/>
-    <Compile Include="..\votive\WixWarningLevel.cs"/>
-    <Compile Include="WixStrings.Designer.cs">
+    <Compile Include="src\RunPostBuildEvent.cs"/>
+    <Compile Include="src\WixBuildMacroCollection.cs"/>
+    <Compile Include="src\WixConfigProvider.cs"/>
+    <Compile Include="src\WixDesignPropertyDescriptor.cs"/>
+    <Compile Include="src\WixFileNode.cs"/>
+    <Compile Include="src\WixFileNodeProperties.cs"/>
+    <Compile Include="src\WixLinkedFileNodeProperties.cs"/>
+    <Compile Include="src\WixFileNodeNonMemberProperties.cs"/>
+    <Compile Include="src\WixExtensionReferenceNode.cs"/>
+    <Compile Include="src\WixExtensionReferenceNodeProperties.cs"/>
+    <Compile Include="src\WixReferenceContainerNode.cs"/>
+    <Compile Include="src\WixReferenceValidator.cs"/>
+    <Compile Include="src\WixFolderNode.cs"/>
+    <Compile Include="src\WixFolderNodeNonMemberProperties.cs"/>
+    <Compile Include="src\WixFolderNodeProperties.cs"/>
+    <Compile Include="src\WixLibraryReferenceNode.cs"/>
+    <Compile Include="src\WixLibraryReferenceNodeProperties.cs"/>
+    <Compile Include="src\WixLocalizedCategoryAttribute.cs"/>
+    <Compile Include="src\WixLocalizedControlTextAttribute.cs"/>
+    <Compile Include="src\WixLocalizedDescriptionAttribute.cs"/>
+    <Compile Include="src\WixLocalizedDisplayNameAttribute.cs"/>
+    <Compile Include="src\WixNonMemberDesignPropertyDescriptor.cs"/>
+    <Compile Include="src\WixOutputType.cs"/>
+    <Compile Include="src\WixPackageSettings.cs"/>
+    <Compile Include="src\WixProjectConfig.cs"/>
+    <Compile Include="src\WixProjectFileConstants.cs"/>
+    <Compile Include="src\WixProjectNodeProperties.cs"/>
+    <Compile Include="src\WixProjectReferenceNode.cs"/>
+    <Compile Include="src\WixProjectReferenceNodeProperties.cs"/>
+    <Compile Include="src\WixHelperMethods.cs"/>
+    <Compile Include="src\WixProjectNode.cs"/>
+    <Compile Include="src\WixProjectMembers.cs"/>
+    <Compile Include="src\WixProjectFactory.cs"/>
+    <Compile Include="src\WixPackage.cs"/>
+    <Compile Include="src\WixReferenceNode.cs"/>
+    <Compile Include="src\WixReferenceNodeProperties.cs"/>
+    <Compile Include="src\WixVsConstants.cs"/>
+    <Compile Include="src\WixWarningLevel.cs"/>
+    <Compile Include="src\WixStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>WixStrings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WixStrings.resx">
+    <EmbeddedResource Include="src\WixStrings.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WixStrings.Designer.cs</LastGenOutput>
+      <LogicalName>$(RootNamespace).WixStrings.resources</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\FolderBrowserTextBox.resx">
+    <EmbeddedResource Include="src\Controls\FolderBrowserTextBox.resx">
       <DependentUpon>FolderBrowserTextBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WixBuildEventEditor.resx">
+    <EmbeddedResource Include="src\Controls\WixBuildEventEditor.resx">
       <DependentUpon>WixBuildEventEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\WixBuildEventEditorForm.resx">
+    <EmbeddedResource Include="src\Forms\WixBuildEventEditorForm.resx">
       <DependentUpon>WixBuildEventEditorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyPages\WixBuildEventsPropertyPagePanel.resx">
+    <EmbeddedResource Include="src\PropertyPages\WixBuildEventsPropertyPagePanel.resx">
       <DependentUpon>WixBuildEventsPropertyPagePanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyPages\WixBuildPropertyPagePanel.resx">
+    <EmbeddedResource Include="src\PropertyPages\WixBuildPropertyPagePanel.resx">
       <DependentUpon>WixBuildPropertyPagePanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WixFoldersSelector.resx">
+    <EmbeddedResource Include="src\Controls\WixFoldersSelector.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WixFoldersSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyPages\WixPropertyPagePanel.resx">
+    <EmbeddedResource Include="src\PropertyPages\WixPropertyPagePanel.resx">
       <DependentUpon>WixPropertyPagePanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WixBuildEventTextBox.resx">
+    <EmbeddedResource Include="src\Controls\WixBuildEventTextBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WixBuildEventTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WixGroupBox.resx">
+    <EmbeddedResource Include="src\Controls\WixGroupBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WixGroupBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WixGroupLabel.resx">
+    <EmbeddedResource Include="src\Controls\WixGroupLabel.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WixGroupLabel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyPages\WixInstallerPropertyPagePanel.resx">
+    <EmbeddedResource Include="src\PropertyPages\WixInstallerPropertyPagePanel.resx">
       <DependentUpon>WixInstallerPropertyPagePanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyPages\WixPathsPropertyPagePanel.resx">
+    <EmbeddedResource Include="src\PropertyPages\WixPathsPropertyPagePanel.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WixPathsPropertyPagePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyPages\WixToolsSettingsPropertyPagePanel.resx">
+    <EmbeddedResource Include="src\PropertyPages\WixToolsSettingsPropertyPagePanel.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WixToolsSettingsPropertyPagePanel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Icons\ProjectFile.ico">
+    <Content Include="src\Icons\ProjectFile.ico">
       <Link>Resources\ProjectFile.ico</Link>
     </Content>
-    <Content Include="Resources\Delete.png"/>
-    <Content Include="Resources\DownArrow.png"/>
-    <Content Include="Resources\Macro.ico"/>
-    <Content Include="Resources\Splash.bmp"/>
-    <Content Include="Resources\UpArrow.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ZipItem Include="Templates\ProjectItems\BlankFile\BlankFile.ico"/>
-    <ZipItem Include="Templates\ProjectItems\BlankFile\BlankFile.vstemplate"/>
-    <ZipItem Include="Templates\ProjectItems\BlankFile\BlankFile.wxs"/>
-    <ZipItem Include="Templates\ProjectItems\IncludeFile\IncludeFile.ico"/>
-    <ZipItem Include="Templates\ProjectItems\IncludeFile\IncludeFile.vstemplate"/>
-    <ZipItem Include="Templates\ProjectItems\IncludeFile\IncludeFile.wxi"/>
-    <ZipItem Include="Templates\ProjectItems\LocalizationFile\LocalizationFile.ico"/>
-    <ZipItem Include="Templates\ProjectItems\LocalizationFile\LocalizationFile.vstemplate"/>
-    <ZipItem Include="Templates\ProjectItems\LocalizationFile\LocalizationFile.wxl"/>
-    <ZipItem Include="Templates\ProjectItems\TextFile\TextFile.ico"/>
-    <ZipItem Include="Templates\ProjectItems\TextFile\TextFile.txt"/>
-    <ZipItem Include="Templates\ProjectItems\TextFile\TextFile.vstemplate"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ZipProject Include="Templates\Projects\WixBundleProject\Bundle.Generated.wxs"/>
-    <ZipProject Include="Templates\Projects\WixBundleProject\Bundle.wxs"/>
-    <ZipProject Include="Templates\Projects\WixBundleProject\BundleProject.wixproj"/>
-    <ZipProject Include="Templates\Projects\WixBundleProject\WixBundle.ico"/>
-    <ZipProject Include="Templates\Projects\WixBundleProject\WixBundle.vstemplate"/>
-    <ZipProject Include="Templates\Projects\WixLibrary\Library.wxs"/>
-    <ZipProject Include="Templates\Projects\WixLibrary\SetupLibrary.wixproj"/>
-    <ZipProject Include="Templates\Projects\WixLibrary\WixLibrary.ico"/>
-    <ZipProject Include="Templates\Projects\WixLibrary\WixLibrary.vstemplate"/>
-    <ZipProject Include="Templates\Projects\WixMergeModule\MergeModule.wixproj"/>
-    <ZipProject Include="Templates\Projects\WixMergeModule\MergeModule.wxs"/>
-    <ZipProject Include="Templates\Projects\WixMergeModule\WixMergeModule.ico"/>
-    <ZipProject Include="Templates\Projects\WixMergeModule\WixMergeModule.vstemplate"/>
-    <ZipProject Include="Templates\Projects\WixProject\Product.wxs"/>
-    <ZipProject Include="Templates\Projects\WixProject\SetupProject.wixproj"/>
-    <ZipProject Include="Templates\Projects\WixProject\WixProject.ico"/>
-    <ZipProject Include="Templates\Projects\WixProject\WixProject.vstemplate"/>
+    <Content Include="src\Resources\Delete.png"/>
+    <Content Include="src\Resources\DownArrow.png"/>
+    <Content Include="src\Resources\Macro.ico"/>
+    <Content Include="src\Resources\Splash.bmp"/>
+    <Content Include="src\Resources\UpArrow.png" />
   </ItemGroup>
 
   <!--

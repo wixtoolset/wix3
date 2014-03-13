@@ -24,11 +24,11 @@ typedef const void* C_STRINGDICT_HANDLE;
 
 extern const int STRINGDICT_HANDLE_BYTES;
 
-enum DICT_FLAG
+typedef enum DICT_FLAG
 {
     DICT_FLAG_NONE = 0,
     DICT_FLAG_CASEINSENSITIVE = 1
-};
+} DICT_FLAG;
 
 HRESULT DAPI DictCreateWithEmbeddedKey(
     __out_bcount(STRINGDICT_HANDLE_BYTES) STRINGDICT_HANDLE* psdHandle,

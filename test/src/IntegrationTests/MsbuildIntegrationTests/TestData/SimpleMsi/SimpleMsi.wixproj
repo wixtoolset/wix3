@@ -9,7 +9,7 @@
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.8</ProductVersion>
+    <ProductVersion>3.9</ProductVersion>
     <ProjectGuid>{822B8D17-3932-43E5-B410-22A5257995FA}</ProjectGuid>
     <OutputName>SimpleMsi</OutputName>
     <OutputType>Package</OutputType>

@@ -34,7 +34,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     /// <summary>
-    /// X86, x64, IA64.
+    /// X86, x64, IA64, ARM.
     /// </summary>
     public enum Platform
     {
@@ -10677,6 +10677,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         switch (child.LocalName)
                         {
+                            case "All":
+                                this.ParseAllElement(child);
+                                break;
                             case "BinaryRef":
                                 this.ParsePatchChildRefElement(child, "Binary");
                                 break;
@@ -10728,6 +10731,53 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     this.core.CreateComplexReference(sourceLineNumbers, parentType, parentId, null, ComplexReferenceChildType.PatchFamily, id, ComplexReferenceParentType.Patch == parentType);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Parses the All element under a PatchFamily.
+        /// </summary>
+        /// <param name="node">The element to parse.</param>
+        private void ParseAllElement(XmlNode node)
+        {
+            SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
+
+            // find unexpected attributes
+            foreach (XmlAttribute attrib in node.Attributes)
+            {
+                if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
+                {
+                    this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
+                }
+                else
+                {
+                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                }
+            }
+
+            // find unexpected child elements
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                if (XmlNodeType.Element == child.NodeType)
+                {
+                    if (child.NamespaceURI == this.schema.TargetNamespace)
+                    {
+                        this.core.UnexpectedElement(node, child);
+                    }
+                    else
+                    {
+                        this.core.UnsupportedExtensionElement(node, child);
+                    }
+                }
+            }
+
+            // Always warn when using the All element.
+            this.core.OnMessage(WixWarnings.AllChangesIncludedInPatch(sourceLineNumbers));
+
+            if (!this.core.EncounteredError)
+            {
+                string[] primaryKey = new string[] { "*" };
+                this.core.AddPatchFamilyChildReference(sourceLineNumbers, "*", primaryKey);
             }
         }
 
@@ -20146,9 +20196,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // Create catalog row
             if (!this.core.EncounteredError)
             {
-                Row row = this.core.CreateRow(sourceLineNumbers, "WixCatalog");
-                row[0] = id;
-                row[1] = sourceFile;
+                this.core.CreateWixCatalogRow(sourceLineNumbers, id, sourceFile);
             }
         }
 
@@ -21525,6 +21573,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.OnMessage(WixErrors.ExpectedAttributeWithElement(sourceLineNumbers, node.Name, "DownloadUrl", "RemotePayload"));
             }
 
+            if (YesNoDefaultType.No != compressed && null != remotePayload)
+            {
+                compressed = YesNoDefaultType.No;
+                this.core.OnMessage(WixWarnings.RemotePayloadsMustNotAlsoBeCompressed(sourceLineNumbers, node.Name));
+            }
+
             if (String.IsNullOrEmpty(id))
             {
                 if (!String.IsNullOrEmpty(name))
@@ -22310,7 +22364,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                     else
                     {
-                        // Sadly, Version doesn't have a TryParse() method, so we have to try/catch to see if it parses.
+                        // Sadly, Version doesn't have a TryParse() method until .NET 4, so we have to try/catch to see if it parses.
                         try
                         {
                             Version version = new Version(value.Substring(1));

@@ -20,7 +20,7 @@
 extern "C" {
 #endif
 
-enum URI_PROTOCOL
+typedef enum URI_PROTOCOL
 {
     URI_PROTOCOL_UNKNOWN,
     URI_PROTOCOL_FILE,
@@ -29,7 +29,7 @@ enum URI_PROTOCOL
     URI_PROTOCOL_HTTPS,
     URI_PROTOCOL_LOCAL,
     URI_PROTOCOL_UNC
-};
+} URI_PROTOCOL;
 
 typedef struct _URI_INFO
 {

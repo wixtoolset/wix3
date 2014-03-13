@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="Burn.DependencyTests.cs" company="Outercurve Foundation">
 //   Copyright (c) 2004, Outercurve Foundation.
 //   This software is released under Microsoft Reciprocal License (MS-RL).
@@ -570,5 +570,62 @@ namespace WixTest.Tests.Burn
 
             this.CleanTestArtifacts = true;
         }
+
+        [TestMethod]
+        [Priority(2)]
+        [Description("Installs an upgrade bundle that contains the same patch as a previous bundle version and an additional patch.")]
+        [TestProperty("IsRuntimeTest", "true")]
+        public void Burn_InstallPatchBundleUpgrade()
+        {
+            const string expectedVersion1 = "1.0.1.0";
+            const string expectedVersion2 = "1.0.2.0";
+
+            // Build the packages.
+            string packageA1 = new PackageBuilder(this, "A") { Extensions = Extensions }.Build().Output;
+            string packageA2 = new PackageBuilder(this, "A") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion1 } }, NeverGetsInstalled = true }.Build().Output;
+            string packageA3 = new PackageBuilder(this, "A") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion2 } }, NeverGetsInstalled = true }.Build().Output;
+            string packageB = new PackageBuilder(this, "B") { Extensions = Extensions }.Build().Output;
+            string patchA = new PatchBuilder(this, "PatchA") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion1 } }, TargetPath = packageA1, UpgradePath = packageA2 }.Build().Output;
+            string patchB = new PatchBuilder(this, "PatchB") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion2 } }, TargetPath = packageA1, UpgradePath = packageA3 }.Build().Output;
+
+            // Create the named bind paths to the packages.
+            Dictionary<string, string> bindPaths = new Dictionary<string, string>();
+            bindPaths.Add("packageA", packageA1);
+            bindPaths.Add("packageB", packageB);
+            bindPaths.Add("patchA", patchA);
+            bindPaths.Add("patchB", patchB);
+
+            // Build the bundles.
+            string bundleF = new BundleBuilder(this, "BundleF") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+            string bundleG = new BundleBuilder(this, "BundleG") { BindPaths = bindPaths, Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion1 } } }.Build().Output;
+            string bundleI = new BundleBuilder(this, "BundleI") { BindPaths = bindPaths, Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion2 } } }.Build().Output;
+
+            // Install the base bundle and make sure all packages are installed.
+            BundleInstaller installerF = new BundleInstaller(this, bundleF).Install();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+
+            // Install patch bundle and make sure all packages are installed.
+            BundleInstaller installerG = new BundleInstaller(this, bundleG).Install();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsTrue(MsiUtils.IsPatchInstalled(patchA));
+
+            // Install patch bundle upgrade and make sure all packages are installed.
+            BundleInstaller installerI = new BundleInstaller(this, bundleI).Install();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsTrue(MsiUtils.IsPatchInstalled(patchA));
+            Assert.IsTrue(MsiUtils.IsPatchInstalled(patchB));
+
+            // Uninstall the base bundle and make sure all packages are uninstalled.
+            installerF.Uninstall();
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsFalse(MsiUtils.IsPatchInstalled(patchA));
+            Assert.IsFalse(MsiUtils.IsPatchInstalled(patchB));
+
+            this.CleanTestArtifacts = true;
+        }
     }
-}   
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="BundleG.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="~$(var.TestName) - Bundle I" Version="$(var.Version)" UpgradeCode="4B83C1F7-6023-4F6E-944E-8B3D3F07CF66" ParentName="$(var.TestName) - Bundle A">
+    <RelatedBundle Id="583B5ECB-04E6-4837-A30C-A1ADCBE24235" Action="Patch" />
+    <Log Prefix="$(var.TestName)_BundleI" />
+    <Variable Name="TestName" Value="$(var.TestName)" />
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload Name="BootstrapperCore.config" SourceFile="!(bindpath.build)\TestBA.BootstrapperCore.config" />
+      <Payload SourceFile="!(bindpath.build)\TestBA.dll" />
+    </BootstrapperApplicationRef>
+    <WixVariable Id="WixMbaPrereqPackageId" Value="ignored" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="ignored" />
+    <Chain>
+      <MspPackage Id="PatchA" Name="~$(var.TestName)_PatchA.msp" Compressed="yes" SourceFile="!(bindpath.patchA)" Vital="yes" PerMachine="yes">
+        <dep:Provides Key="$(var.TestName)_PatchA" Version="$(var.Version)" />
+      </MspPackage>
+      <MspPackage Id="PatchB" Name="~$(var.TestName)_PatchB.msp" Compressed="yes" SourceFile="!(bindpath.patchB)" Vital="yes" PerMachine="yes">
+        <dep:Provides Key="$(var.TestName)_PatchB" Version="$(var.Version)" />
+      </MspPackage>
+    </Chain>
+  </Bundle>
+</Wix>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="PatchB.wxs" company="Microsoft Corporation">
+    Copyright (c) 1999, Microsoft Corporation.  All rights reserved.
+  </copyright>
+-->
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Patch AllowRemoval="yes" Classification="Update" ClientPatchId="$(var.TestName)_PatchB" Description="Patch B in test $(var.TestName)" DisplayName="~$(var.TestName) - Patch B" Manufacturer="Microsoft Corporation" MinorUpdateTargetRTM="yes">
+    <Media Id="100" Cabinet="A" EmbedCab="yes">
+      <PatchBaseline Id="PatchB" />
+    </Media>
+    <PatchFamily Id="B" Version="$(var.Version)" Supersede="yes">
+      <ComponentRef Id="RegistryComponentB" />
+      <PropertyRef Id="TestVersion" />
+    </PatchFamily>
+  </Patch>
+</Wix>

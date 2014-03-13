@@ -25,7 +25,7 @@
             <xs:documentation>
                 Registers an exception for a program or a specific port and protocol in the Windows Firewall
                 on Windows XP SP2, Windows Server 2003 SP1, and later. For more information about the Windows
-                Firewall, see <html:a href="http://msdn2.microsoft.com/en-us/library/aa364679.aspx">
+                Firewall, see <html:a href="http://msdn.microsoft.com/en-us/library/aa364679.aspx">
                 About Windows Firewall API</html:a>.
             </xs:documentation>
             <xs:appinfo>
@@ -184,10 +184,10 @@
                 A remote address to which the port or program can listen. Address formats vary 
                 based on the version of Windows and Windows Firewall the program is being installed
                 on. For Windows XP SP2 and Windows Server 2003 SP1, see
-                <html:a href="http://msdn2.microsoft.com/en-us/library/aa365270.aspx">
+                <html:a href="http://msdn.microsoft.com/en-us/library/aa365270.aspx">
                     RemoteAddresses Property</html:a>.
                 For Windows Vista and Windows Server 2008, see
-                <html:a href="http://msdn2.microsoft.com/en-us/library/aa365366.aspx">
+                <html:a href="http://msdn.microsoft.com/en-us/library/aa365366.aspx">
                     RemoteAddresses Property</html:a>.
             </xs:documentation>
         </xs:annotation>

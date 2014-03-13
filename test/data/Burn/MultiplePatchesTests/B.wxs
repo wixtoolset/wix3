@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="B.wxs" company="Microsoft Corporation">
+    Copyright (c) 1999, Microsoft Corporation.  All rights reserved.
+  </copyright>
+-->
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="~$(var.TestName) - B" Language="1033" Version="$(var.Version)" Manufacturer="Microsoft Corporation" UpgradeCode="6C0EDBB9-3E29-4A9C-AFF7-D5845786B9E7">
+    <Package Compressed="yes" InstallerVersion="300" InstallScope="perMachine" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Property Id="MsiLogging" Value="voicewarmup" />
+    <PropertyRef Id="TestVersion" />
+    <Feature Id="Complete" Level="1">
+      <ComponentRef Id="FileComponent" />
+      <ComponentRef Id="RegistryComponentB" />
+      <ComponentRef Id="RegistryComponentB2" />
+    </Feature>
+  </Product>
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="WixDir" Name="~Test WiX">
+          <Directory Id="TestDir" Name="$(var.TestName)">
+            <Directory Id="INSTALLFOLDER" Name="B" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+  <Fragment>
+    <Component Id="FileComponent" Directory="INSTALLFOLDER">
+      <File Source="$(sys.SOURCEFILEPATH)" />
+    </Component>
+  </Fragment>
+  <Fragment>
+    <Component Id="RegistryComponentB" Directory="INSTALLFOLDER">
+      <RegistryValue Root="HKLM" Key="Software\WiX\Tests\$(var.TestName)" Name="B" Value="!(bind.Property.TestVersion)" Type="string" />
+    </Component>
+  </Fragment>
+  <Fragment>
+    <Component Id="RegistryComponentB2" Directory="INSTALLFOLDER">
+      <RegistryValue Root="HKLM" Key="Software\WiX\Tests\$(var.TestName)" Name="B2" Value="!(bind.Property.TestVersion)" Type="string" />
+    </Component>
+  </Fragment>
+  <Fragment>
+    <Property Id="TestVersion" Value="$(var.Version)" />
+  </Fragment>
+</Wix>

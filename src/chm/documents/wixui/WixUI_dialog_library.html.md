@@ -28,7 +28,7 @@ Assuming you have an existing installer that is functional but is just lacking a
 </pre>
   </li>
 
-  <li>Pass the -ext and -cultures switches to <a href="~/overview/light.html">light.exe</a> to reference the WixUIExtension. For example:
+  <li>Pass the -ext and -cultures switches to [light.exe](~/overview/light.html) to reference the WixUIExtension. For example:
     <pre>
 light -ext WixUIExtension -cultures:en-us Product.wixobj -out Product.msi
 </pre>

@@ -37,32 +37,32 @@ extern "C" {
 #define MessageExitOnNullWithLastError2(p, x, e, f, s, t) if (NULL == p) { x = ::GetLastError(); x = HRESULT_FROM_WIN32(x); if (!FAILED(x)) { x = E_FAIL; } ExitTrace(x, f, s, t); WcaErrorMessage(e, x, MB_OK, 2, s, t);  goto LExit; }
 
 // Generic action enum.
-enum WCA_ACTION
+typedef enum WCA_ACTION
 {
     WCA_ACTION_NONE,
     WCA_ACTION_INSTALL,
     WCA_ACTION_UNINSTALL,
-};
+} WCA_ACTION;
 
-enum WCA_CASCRIPT
+typedef enum WCA_CASCRIPT
 {
     WCA_CASCRIPT_SCHEDULED,
     WCA_CASCRIPT_ROLLBACK,
-};
+} WCA_CASCRIPT;
 
-enum WCA_CASCRIPT_CLOSE
+typedef enum WCA_CASCRIPT_CLOSE
 {
     WCA_CASCRIPT_CLOSE_PRESERVE,
     WCA_CASCRIPT_CLOSE_DELETE,
-};
+} WCA_CASCRIPT_CLOSE; 
 
-enum WCA_TODO
+typedef enum WCA_TODO
 {
     WCA_TODO_UNKNOWN,
     WCA_TODO_INSTALL,
     WCA_TODO_UNINSTALL,
     WCA_TODO_REINSTALL,
-};
+} WCA_TODO;
 
 typedef struct WCA_CASCRIPT_STRUCT
 {
@@ -94,13 +94,13 @@ void WIXAPI WcaSetReturnValue(
     );
 BOOL WIXAPI WcaCancelDetected();
 
-const int LOG_BUFFER = 2048;
-enum LOGLEVEL
+#define LOG_BUFFER 2048
+typedef enum LOGLEVEL
 { 
     LOGMSG_TRACEONLY,  // Never written to the log file (except in DEBUG builds)
     LOGMSG_VERBOSE,    // Written to log when LOGVERBOSE
     LOGMSG_STANDARD    // Written to log whenever informational logging is enabled
-};
+} LOGLEVEL;
 
 void __cdecl WcaLog(
     __in LOGLEVEL llv,

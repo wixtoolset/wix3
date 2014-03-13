@@ -57,7 +57,7 @@ typedef struct _BURN_PAYLOAD
 
     LPWSTR sczSourcePath;
     BURN_CONTAINER* pContainer;
-    BURN_DOWNLOAD_SOURCE downloadSource;
+    DOWNLOAD_SOURCE downloadSource;
 
     // mutable members
     BURN_PAYLOAD_STATE state;

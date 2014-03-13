@@ -50,7 +50,6 @@
     <ClCompile Include="container.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="dependency.cpp" />
-    <ClCompile Include="downloadengine.cpp" />
     <ClCompile Include="elevation.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="exeengine.cpp" />
@@ -87,7 +86,6 @@
     <ClInclude Include="embedded.h" />
     <ClInclude Include="EngineForApplication.h" />
     <ClInclude Include="dependency.h" />
-    <ClInclude Include="downloadengine.h" />
     <ClInclude Include="cabextract.h" />
     <ClInclude Include="cache.h" />
     <ClInclude Include="condition.h" />

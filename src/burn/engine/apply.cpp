@@ -45,6 +45,13 @@ typedef struct _BURN_EXECUTE_CONTEXT
 
 
 // internal function declarations
+static HRESULT WINAPI AuthenticationRequired(
+    __in LPVOID pData,
+    __in HINTERNET hUrl,
+    __in long lHttpCode,
+    __out BOOL* pfRetrySend,
+    __out BOOL* pfRetry
+    );
 
 static HRESULT ExecuteDependentRegistrationActions(
     __in HANDLE hPipe,
@@ -181,6 +188,7 @@ static HRESULT ExecuteMsuPackage(
     __in BURN_EXECUTE_ACTION* pExecuteAction,
     __in BURN_EXECUTE_CONTEXT* pContext,
     __in BOOL fRollback,
+    __in BOOL fStopWusaService,
     __out BOOL* pfRetry,
     __out BOOL* pfSuspend,
     __out BOOTSTRAPPER_APPLY_RESTART* pRestart
@@ -1372,9 +1380,11 @@ static HRESULT DownloadPayload(
     DWORD dwFileAttributes = 0;
     LPCWSTR wzPackageOrContainerId = pProgress->pContainer ? pProgress->pContainer->sczId : pProgress->pPackage ? pProgress->pPackage->sczId : L"";
     LPCWSTR wzPayloadId = pProgress->pPayload ? pProgress->pPayload->sczKey : L"";
-    BURN_DOWNLOAD_SOURCE* pDownloadSource = pProgress->pContainer ? &pProgress->pContainer->downloadSource : &pProgress->pPayload->downloadSource;
+    DOWNLOAD_SOURCE* pDownloadSource = pProgress->pContainer ? &pProgress->pContainer->downloadSource : &pProgress->pPayload->downloadSource;
     DWORD64 qwDownloadSize = pProgress->pContainer ? pProgress->pContainer->qwFileSize : pProgress->pPayload->qwFileSize;
-    BURN_CACHE_CALLBACK callback = { };
+    DOWNLOAD_CACHE_CALLBACK cacheCallback = { };
+    DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = {};
+    APPLY_AUTHENTICATION_REQUIRED_DATA authenticationData = {};
 
     DWORD dwLogId = pProgress->pContainer ? (pProgress->pPayload ? MSG_ACQUIRE_CONTAINER_PAYLOAD : MSG_ACQUIRE_CONTAINER) : pProgress->pPackage ? MSG_ACQUIRE_PACKAGE_PAYLOAD : MSG_ACQUIRE_BUNDLE_PAYLOAD;
     LogId(REPORT_STANDARD, dwLogId, wzPackageOrContainerId, wzPayloadId, "download", pDownloadSource->sczUrl);
@@ -1392,10 +1402,10 @@ static HRESULT DownloadPayload(
         }
     }
 
-    callback.pfnProgress = CacheProgressRoutine;
-    callback.pfnCancel = NULL; // TODO: set this
-    callback.pv = pProgress;
-
+    cacheCallback.pfnProgress = CacheProgressRoutine;
+    cacheCallback.pfnCancel = NULL; // TODO: set this
+    cacheCallback.pv = pProgress;
+   
     // If the protocol is specially marked, "bits" let's use that.
     if (L'b' == pDownloadSource->sczUrl[0] &&
         L'i' == pDownloadSource->sczUrl[1] &&
@@ -1404,15 +1414,79 @@ static HRESULT DownloadPayload(
         (L':' == pDownloadSource->sczUrl[4] || (L's' == pDownloadSource->sczUrl[4] && L':' == pDownloadSource->sczUrl[5]))
         )
     {
-        hr = BitsDownloadUrl(&callback, pDownloadSource, wzDestinationPath);
+        hr = BitsDownloadUrl(&cacheCallback, pDownloadSource, wzDestinationPath);
     }
     else // wininet handles everything else.
     {
-        hr = WininetDownloadUrl(pProgress->pUX, &callback, wzPackageOrContainerId, wzPayloadId, pDownloadSource, qwDownloadSize, wzDestinationPath);
+        authenticationData.pUX = pProgress->pUX;
+        authenticationData.wzPackageOrContainerId = wzPackageOrContainerId;
+        authenticationData.wzPayloadId = wzPayloadId;
+        authenticationCallback.pv =  static_cast<LPVOID>(&authenticationData);
+        authenticationCallback.pfnAuthenticate = &AuthenticationRequired;
+        
+        hr = DownloadUrl(pDownloadSource, qwDownloadSize, wzDestinationPath, &cacheCallback, &authenticationCallback);
     }
     ExitOnFailure2(hr, "Failed attempt to download URL: '%ls' to: '%ls'", pDownloadSource->sczUrl, wzDestinationPath);
 
 LExit:
+    return hr;
+}
+
+static HRESULT WINAPI AuthenticationRequired(
+    __in LPVOID pData,
+    __in HINTERNET hUrl,
+    __in long lHttpCode,
+    __out BOOL* pfRetrySend,
+    __out BOOL* pfRetry
+    )
+{
+    Assert(401 == lHttpCode || 407 == lHttpCode);
+
+    HRESULT hr = S_OK;
+    DWORD er = ERROR_SUCCESS;
+    BOOTSTRAPPER_ERROR_TYPE errorType = (401 == lHttpCode) ? BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_SERVER : BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_PROXY;
+    LPWSTR sczError = NULL;
+
+    *pfRetrySend = FALSE;
+    *pfRetry = FALSE;
+
+    hr = StrAllocFromError(&sczError, HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED), NULL);
+    ExitOnFailure(hr, "Failed to allocation error string.");
+
+    APPLY_AUTHENTICATION_REQUIRED_DATA* authenticationData = reinterpret_cast<APPLY_AUTHENTICATION_REQUIRED_DATA*>(pData);
+
+    int nResult = authenticationData->pUX->pUserExperience->OnError(errorType, authenticationData->wzPackageOrContainerId, ERROR_ACCESS_DENIED, sczError, MB_RETRYTRYAGAIN, 0, NULL, IDNOACTION);
+    nResult = UserExperienceCheckExecuteResult(authenticationData->pUX, FALSE, MB_RETRYTRYAGAIN, nResult);
+    if (IDTRYAGAIN == nResult && authenticationData->pUX->hwndApply)
+    {
+        er = ::InternetErrorDlg(authenticationData->pUX->hwndApply, hUrl, ERROR_INTERNET_INCORRECT_PASSWORD, FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA, NULL);
+        if (ERROR_SUCCESS == er || ERROR_CANCELLED == er)
+        {
+            hr = HRESULT_FROM_WIN32(ERROR_INSTALL_USEREXIT);
+        }
+        else if (ERROR_INTERNET_FORCE_RETRY == er)
+        {
+            *pfRetrySend = TRUE;
+            hr = S_OK;
+        }
+        else
+        {
+            hr = HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED);
+        }
+    }
+    else if (IDRETRY == nResult)
+    {
+        *pfRetry = TRUE;
+        hr = S_OK;
+    }
+    else
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED);
+    }
+
+LExit:
+    ReleaseStr(sczError);
+
     return hr;
 }
 
@@ -1531,6 +1605,7 @@ static HRESULT DoExecuteAction(
     HANDLE rghWait[2] = { };
     BOOTSTRAPPER_APPLY_RESTART restart = BOOTSTRAPPER_APPLY_RESTART_NONE;
     BOOL fRetry = FALSE;
+    BOOL fStopWusaService = FALSE;
 
     pContext->fRollback = FALSE;
 
@@ -1585,7 +1660,8 @@ static HRESULT DoExecuteAction(
             break;
 
         case BURN_EXECUTE_ACTION_TYPE_MSU_PACKAGE:
-            hr = ExecuteMsuPackage(pEngineState, pExecuteAction, pContext, FALSE, &fRetry, pfSuspend, &restart);
+            hr = ExecuteMsuPackage(pEngineState, pExecuteAction, pContext, FALSE, fStopWusaService, &fRetry, pfSuspend, &restart);
+            fStopWusaService = fRetry;
             ExitOnFailure(hr, "Failed to execute MSU package.");
             break;
 
@@ -1695,7 +1771,7 @@ static HRESULT DoRollbackActions(
                 break;
 
             case BURN_EXECUTE_ACTION_TYPE_MSU_PACKAGE:
-                hr = ExecuteMsuPackage(pEngineState, pRollbackAction, pContext, TRUE, &fRetryIgnored, &fSuspendIgnored, &restart);
+                hr = ExecuteMsuPackage(pEngineState, pRollbackAction, pContext, TRUE, FALSE, &fRetryIgnored, &fSuspendIgnored, &restart);
                 TraceError(hr, "Failed to rollback MSU package.");
                 hr = S_OK;
                 break;
@@ -1924,6 +2000,7 @@ static HRESULT ExecuteMsuPackage(
     __in BURN_EXECUTE_ACTION* pExecuteAction,
     __in BURN_EXECUTE_CONTEXT* pContext,
     __in BOOL fRollback,
+    __in BOOL fStopWusaService,
     __out BOOL* pfRetry,
     __out BOOL* pfSuspend,
     __out BOOTSTRAPPER_APPLY_RESTART* pRestart
@@ -1958,7 +2035,7 @@ static HRESULT ExecuteMsuPackage(
     // execute package
     if (pExecuteAction->msuPackage.pPackage->fPerMachine)
     {
-        hrExecute = ElevationExecuteMsuPackage(pEngineState->companionConnection.hPipe, pExecuteAction, fRollback, GenericExecuteMessageHandler, pContext, pRestart);
+        hrExecute = ElevationExecuteMsuPackage(pEngineState->companionConnection.hPipe, pExecuteAction, fRollback, fStopWusaService, GenericExecuteMessageHandler, pContext, pRestart);
         ExitOnFailure(hrExecute, "Failed to configure per-machine MSU package.");
     }
     else

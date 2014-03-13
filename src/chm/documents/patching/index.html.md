@@ -17,4 +17,4 @@ There are also [restrictions](patch_restrictions.html) on how patches are built 
 
 Patches contain a collection of transforms - most often a pair of transforms for each target product. When a patch is applied, each installed target product is reinstalled individually with the corresponding patch transforms applied. These transforms contain the differences between that target product and the upgrade product that might contain new file versions and sizes, new registry keys, etc.
 
-For more information about patching with Windows Installer, read <a href="http://msdn2.microsoft.com/en-us/library/aa370579.aspx" target="_blank">Patching and Upgrades</a>.
+For more information about patching with Windows Installer, read <a href="http://msdn.microsoft.com/en-us/library/aa370579.aspx" target="_blank">Patching and Upgrades</a>.

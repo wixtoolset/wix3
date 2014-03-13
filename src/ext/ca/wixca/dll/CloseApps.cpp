@@ -74,7 +74,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
             // If application said it was okay to close, do that.
             if (dwResult)
             {
-                ::SendMessageTimeoutW(hwnd, WM_ENDSESSION, 0, ENDSESSION_CLOSEAPP, SMTO_BLOCK, pPM->dwTimeout, &dwResult);
+                ::SendMessageTimeoutW(hwnd, WM_ENDSESSION, TRUE, ENDSESSION_CLOSEAPP, SMTO_BLOCK, pPM->dwTimeout, &dwResult);
             }
             else // application said don't try to close it, so don't bother sending messages to any other top-level windows.
             {

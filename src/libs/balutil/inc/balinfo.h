@@ -6,7 +6,7 @@
 //   The license and further copyright text can be found in the file
 //   LICENSE.TXT at the root directory of the distribution.
 // </copyright>
-//
+// 
 // <summary>
 // Bootstrapper Application Layer package utility.
 // </summary>
@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-enum BAL_INFO_PACKAGE_TYPE
+typedef enum BAL_INFO_PACKAGE_TYPE
 {
     BAL_INFO_PACKAGE_TYPE_UNKNOWN,
     BAL_INFO_PACKAGE_TYPE_EXE,
@@ -27,7 +27,7 @@ enum BAL_INFO_PACKAGE_TYPE
     BAL_INFO_PACKAGE_TYPE_BUNDLE_UPGRADE,
     BAL_INFO_PACKAGE_TYPE_BUNDLE_ADDON,
     BAL_INFO_PACKAGE_TYPE_BUNDLE_PATCH,
-};
+} BAL_INFO_PACKAGE_TYPE;
 
 
 typedef struct _BAL_INFO_PACKAGE
@@ -39,6 +39,9 @@ typedef struct _BAL_INFO_PACKAGE
     BOOL fPermanent;
     BOOL fVital;
     BOOL fDisplayInternalUI;
+    LPWSTR sczProductCode;
+    LPWSTR sczUpgradeCode;
+    LPWSTR sczVersion;
 } BAL_INFO_PACKAGE;
 
 

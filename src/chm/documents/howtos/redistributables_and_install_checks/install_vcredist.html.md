@@ -49,4 +49,4 @@ Including the Visual C++ Runtime merge module in your installer will result in t
     light.exe(0,0): warning LGHT1076: ICE82: This action SystemFolder.98CB24AD_52FB_DB5F_FF1F_C8B3B9A1E18E has duplicate sequence number 1 in the table AdminUISequence
     light.exe(0,0): warning LGHT1076: ICE82: This action SystemFolder.98CB24AD_52FB_DB5F_FF1F_C8B3B9A1E18E has duplicate sequence number 1 in the table AdvtExecuteSequence
 
-These warnings are expected and are due to how the Visual C++ merge modules were authored. For more details see <a href="http://blogs.msdn.com/astebner/archive/2007/02/13/building-an-msi-using-wix-v3-0-that-includes-the-vc-8-0-runtime-merge-modules.aspx" target="_blank">Aaron Stebner&apos;s blog entry</a>.
+These warnings are expected and are due to how the Visual C++ merge modules were authored. For more details see <a href="http://blogs.msdn.com/b/astebner/archive/2007/02/13/building-an-msi-using-wix-v3-0-that-includes-the-vc-8-0-runtime-merge-modules.aspx" target="_blank">Aaron Stebner&apos;s blog entry</a>.

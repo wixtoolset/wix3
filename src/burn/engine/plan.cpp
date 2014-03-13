@@ -307,7 +307,7 @@ extern "C" HRESULT PlanDefaultPackageRequestState(
             *pRequestState = BOOTSTRAPPER_REQUEST_STATE_NONE;
         }
     }
-    else if (BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED == currentState && !BOOTSTRAPPER_ACTION_UNINSTALL == action)
+    else if (BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED == currentState && BOOTSTRAPPER_ACTION_UNINSTALL != action)
     {
         // Superseded means the package is on the machine but not active, so only uninstall operations are allowed.
         // All other operations do nothing.

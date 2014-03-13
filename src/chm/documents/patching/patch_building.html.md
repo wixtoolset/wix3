@@ -5,7 +5,7 @@ layout: documentation
 
 # Using Patch Creation Properties
 
-A patch contains the differences between one or more pairs of Windows Installer packages. The tool PatchWiz.dll in the <a href="http://go.microsoft.com/fwlink?linkid=55774" target="_blank">Windows SDK</a> compares pairs of packages and produces a patch using a file called a Patch Creation Properties (PCP) file.
+A patch contains the differences between one or more pairs of Windows Installer packages. The tool PatchWiz.dll in the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=3138" target="_blank">Windows SDK</a> compares pairs of packages and produces a patch using a file called a Patch Creation Properties (PCP) file.
 
 It is recommended that you download the latest Windows SDK to get the newest tools for building patches.
 

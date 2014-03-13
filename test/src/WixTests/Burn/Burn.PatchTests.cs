@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="Burn.PatchTests.cs" company="Outercurve Foundation">
 //   Copyright (c) 2004, Outercurve Foundation.
 //   This software is released under Microsoft Reciprocal License (MS-RL).
@@ -43,8 +43,8 @@ namespace WixTest.Tests.Burn
             bindPaths.Add("packageA", packageA);
             bindPaths.Add("patchA", patchA);
 
-            string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
-            string bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+            string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = WixTests.Extensions }.Build().Output;
+            string bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = WixTests.Extensions }.Build().Output;
 
             // Install the unpatched bundle.
             BundleInstaller installA = new BundleInstaller(this, bundleA).Install();
@@ -96,7 +96,7 @@ namespace WixTest.Tests.Burn
             bindPaths.Add("patchA", patchA);
             bindPaths.Add("patchA2", patchA2);
 
-            string bundlePatch = new BundleBuilder(this, "PatchBundleA2") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+            string bundlePatch = new BundleBuilder(this, "PatchBundleA2") { BindPaths = bindPaths, Extensions = WixTests.Extensions }.Build().Output;
 
             // Install the original MSI and ensure the registry keys that get patched are as expected.
             MSIExec.InstallProduct(packageA, MSIExec.MSIExecReturnCode.SUCCESS);

@@ -13,6 +13,7 @@
     <TargetPath>$(OutputPath_x86)$(TargetName)$(TargetExt)</TargetPath>
 
     <IntermediateDocumentsFolder>$(IntermediateOutputPath)documents\</IntermediateDocumentsFolder>
+    <IntermediateDocumentsPreprocessedFolder>$(IntermediateOutputPath)intermediate\</IntermediateDocumentsPreprocessedFolder>
     <IntermediateBuildFolder>$(IntermediateOutputPath)out\</IntermediateBuildFolder>
   </PropertyGroup>
 
@@ -60,13 +61,19 @@
     <Copy SourceFiles="@(DocumentContent)" DestinationFiles="@(DocumentContent->'$(IntermediateDocumentsFolder)%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true" UseHardlinksIfPossible="false" />
 
-    <Exec Command="&quot;$(OutputPath_x86)doccompiler.exe&quot; &quot;$(IntermediateDocumentsFolder)\&quot; &quot;$(IntermediateBuildFolder)\&quot; &quot;$(LayoutsFolder)&quot; -appendmdtoc &quot;$(IntermediateDocumentsFolder)\index.html.md&quot; -htmlhelp &quot;$(IntermediateOutputPath)$(TargetName).hhp&quot;" />
+    <!-- replace all uri's starting with ~/ by a relative uri into the IntermediateDocumentsPreprocessedFolder folder -->
+    <Exec Command="&quot;$(OutputPath_x86)tildetorelative.exe&quot; &quot;$(IntermediateDocumentsFolder)\&quot; &quot;$(IntermediateDocumentsPreprocessedFolder)\&quot;" />
+
+    <!-- Convert the Markdown and Html files and generate the HtmlHelpProject. -->
+    <Exec Command="&quot;$(OutputPath_x86)doccompiler.exe&quot; &quot;$(IntermediateDocumentsPreprocessedFolder)\&quot; &quot;$(IntermediateBuildFolder)\&quot; &quot;$(LayoutsFolder)&quot; -appendmdtoc &quot;$(IntermediateDocumentsPreprocessedFolder)\index.html.md&quot; -ignorexsdsimpletypeintoc -htmlhelp &quot;$(IntermediateOutputPath)$(TargetName).hhp&quot;" />
   </Target>
 
   <Target Name="_ProcessFileContent"
           Inputs="@(FileContent)"
           Outputs="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)%(Filename)%(Extension)')">
-    <!-- "processing" file content is easy, it just gets duplicated into the intermediate build location. -->
+    <!-- "processing" file content is easy, it just gets duplicated into the intermediate build locations. -->
+    <Copy SourceFiles="@(FileContent)" DestinationFiles="@(FileContent->'$(IntermediateDocumentsPreProcessedFolder)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
     <Copy SourceFiles="@(FileContent)" DestinationFiles="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
   </Target>

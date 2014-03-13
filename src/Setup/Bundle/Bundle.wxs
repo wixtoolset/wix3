@@ -35,7 +35,6 @@
         <util:RegistrySearch Id="PreviousInstallFolderSearch" Root='HKLM' Key='SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajorMinor)' Value='InstallFolder' Variable='PreviousInstallFolder' />
         <util:DirectorySearch Path='[PreviousInstallFolder]' Variable='InstallFolder' After='PreviousInstallFolderSearch' Condition='PreviousInstallFolder' />
 
-        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\9.0' Value='InstallDir' Variable='VS2008InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\10.0' Value='InstallDir' Variable='VS2010InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\11.0' Value='InstallDir' Variable='VS2012InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\12.0' Value='InstallDir' Variable='VS2013InstallFolder' />
@@ -63,7 +62,7 @@
 
             <!-- Votive needs to be last as it runs devenv /setup -->
             <MsiPackage Vital='yes' Name='data\votive.msi' SourceFile='data\votive.msi'
-                        InstallCondition='VS2008InstallFolder OR VS2010InstallFolder OR VS2012InstallFolder OR VS2013InstallFolder'
+                        InstallCondition='VS2010InstallFolder OR VS2012InstallFolder OR VS2013InstallFolder'
                         >
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
@@ -72,14 +71,6 @@
 
     <Fragment>
         <PackageGroup Id='NativeSdkPackages'>
-            <?ifdef VS2008SdkAvailable ?>
-            <MsiPackage Vital='yes' Name='data\nsdk2008.msi' SourceFile='data\nsdk2008.msi'
-                        InstallCondition='VS2008InstallFolder'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-            <?endif?>
-
             <?ifdef VS2010SdkAvailable ?>
             <MsiPackage Vital='yes' Name='data\nsdk2010.msi' SourceFile='data\nsdk2010.msi'
                         InstallCondition='VS2010InstallFolder'

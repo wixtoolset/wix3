@@ -25,7 +25,6 @@
     <DefineConstants>$(DefineConstants);CCI_TRACING;Enable_CCIDiagnostics;Enable_CCIFileOutput</DefineConstants>
   </PropertyGroup>
 
-  <Import Project="$(VS2008SdkTargetsPath)" Condition=" '$(TargetVisualStudio)'=='2008' " />
   <Import Project="$(VS2010SdkTargetsPath)" Condition=" ('$(TargetVisualStudio)'=='2010' or '$(TargetVisualStudio)'=='2012' or '$(TargetVisualStudio)'=='2013') and !$(VS2012SdkAvailable) and !$(VS2013SdkAvailable)" />
   <Import Project="$(VS2012SdkTargetsPath)" Condition=" ('$(TargetVisualStudio)'=='2010' or '$(TargetVisualStudio)'=='2012' or '$(TargetVisualStudio)'=='2013') and $(VS2012SdkAvailable) and !$(VS2013SdkAvailable)" />
   <Import Project="$(VS2013SdkTargetsPath)" Condition=" ('$(TargetVisualStudio)'=='2010' or '$(TargetVisualStudio)'=='2012' or '$(TargetVisualStudio)'=='2013')  and $(VS2013SdkAvailable) " />

@@ -27,6 +27,7 @@
     <Compile Include="Burn\Burn.FailureTests.cs" />
     <Compile Include="Burn\Burn.FeatureTests.cs" />
     <Compile Include="Burn\Burn.ForwardCompatibleTests.cs" />
+    <Compile Include="Burn\Burn.MultiplePatchesTests.cs" />
     <Compile Include="Burn\Burn.ParentTests.cs" />
     <Compile Include="Burn\Burn.PatchTests.cs" />
     <Compile Include="Burn\Burn.PermanentTests.cs" />
@@ -251,6 +252,24 @@
     </None>
     <None Include="..\..\data\Burn\ForwardCompatibleTests\C.wxs">
       <Link>Burn\ForwardCompatibleTests\C.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\A.wxs">
+      <Link>Burn\MultiplePatchesTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\B.wxs">
+      <Link>Burn\MultiplePatchesTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\BundleA.wxs">
+      <Link>Burn\MultiplePatchesTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\BundleB.wxs">
+      <Link>Burn\MultiplePatchesTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\PatchAB.wxs">
+      <Link>Burn\MultiplePatchesTests\PatchAB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\PatchB.wxs">
+      <Link>Burn\MultiplePatchesTests\PatchB.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\ParentTests\A.wxs">
       <Link>Burn\ParentTests\A.wxs</Link>

@@ -102,7 +102,7 @@ Light supports the following command line parameters:
       <p>-cultures:&lt;cultures&gt;</p>
     </td>
     <td>
-      <p>Specifies a semicolon or comma delimited list of localized string cultures to load from .wxl files and libraries.  Precedence of cultures is from left to right.  For more information see <a href="~/howtos/ui_and_localization/specifying_cultures_to_build.html">Specifying cultures to build</a>.</p>
+      <p>Specifies a semicolon or comma delimited list of localized string cultures to load from .wxl files and libraries.  Precedence of cultures is from left to right.  For more information see [Specifying cultures to build](~/howtos/ui_and_localization/specifying_cultures_to_build.html).</p>
     </td>
   </tr>
   <tr>
@@ -148,7 +148,7 @@ Light supports the following command line parameters:
            This bug was subsequently fixed in the .NET Framework 1.1 SP1. Use this option if you require non-padded
            assembly versions in the MsiAssemblyName table (or in relevant bind variables), and do not mind if your
            MSI is incompatible with the initial release of the .NET Framework 1.1. For more information, see
-           <A href="http://blogs.msdn.com/astebner/archive/2005/02/12/371646.aspx" target="_blank">this blog post</A>.
+           <A href="http://blogs.msdn.com/b/astebner/archive/2005/02/12/371646.aspx" target="_blank">this blog post</A>.
            <BR/><BR/>Note that when using this option, your setup will still be compatible with the .NET Framework 1.0 RTM,
            .NET Framework 1.1 SP1, .NET Framework 2.0, and later versions of the .NET Framework.
            <BR/><BR/>This property is available starting with WiX v3.5.</p>

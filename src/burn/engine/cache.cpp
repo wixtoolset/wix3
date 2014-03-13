@@ -493,7 +493,7 @@ LExit:
 }
 
 extern "C" HRESULT CacheSendProgressCallback(
-    __in BURN_CACHE_CALLBACK* pCallback,
+    __in DOWNLOAD_CACHE_CALLBACK* pCallback,
     __in DWORD64 dw64Progress,
     __in DWORD64 dw64Total,
     __in HANDLE hDestinationFile
@@ -539,7 +539,7 @@ LExit:
 }
 
 extern "C" void CacheSendErrorCallback(
-    __in BURN_CACHE_CALLBACK* pCallback,
+    __in DOWNLOAD_CACHE_CALLBACK* pCallback,
     __in HRESULT hrError,
     __in_z_opt LPCWSTR wzError,
     __out_opt BOOL* pfRetry

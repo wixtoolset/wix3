@@ -11,13 +11,13 @@ There are different restrictions for patches based on what type of patch is to b
 * <b>Minor upgrades</b> do change the ProductVersion property of a target product and typically represent a larger subset of files to be updated. Minor upgrades might also be installed as upgrade MSIs.
 * <b>Major upgrades</b> change both the ProductVersion and ProductCode and contain all files in a product. Shipping major upgrades as a patch is, however, not recommended and WiX does not support building major upgrade patches because of the problems they create.
 
-For information about restrictions for each type of patch, read <a href="http://msdn2.microsoft.com/en-us/library/aa367850.aspx" target="_blank">Changing the Product Code</a>.
+For information about restrictions for each type of patch, read <a href="http://msdn.microsoft.com/en-us/library/aa367850.aspx" target="_blank">Changing the Product Code</a>.
 
 ## Uninstallable Patches
 
 For a patch to be uninstallable, the MsiPatchMetadata table must exist in the patch package and must contain the AllowRemoval property set to 1. This can be authored into the [Patch Creation Properties](patch_building.html) file using the [PatchMetadata](~/xsd/wix/patchmetadata.html)/@AllowRemoval attribute or into the [patch XML](wix_patching.html) file using the [Patch](~/xsd/wix/patch.html)/@AllowRemoval attribute.
 
-Beside that, certain tables cannot be modified in the upgrade package from which a patch is built. Read <a href="http://msdn2.microsoft.com/en-us/library/aa372102.aspx" target="_blank">Uninstallable Patches</a> for the current list of tables. Pyro.exe will error if one of these tables would be modified when building a [patch XML](wix_patching.html) file.
+Beside that, certain tables cannot be modified in the upgrade package from which a patch is built. Read <a href="http://msdn.microsoft.com/en-us/library/aa372102.aspx" target="_blank">Uninstallable Patches</a> for the current list of tables. Pyro.exe will error if one of these tables would be modified when building a [patch XML](wix_patching.html) file.
 
 The following table lists tables and corresponding elements or attributes in WiX.
 
@@ -38,7 +38,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/file.html">File</a>/@BindPath</p>
+      <p>[File](~/xsd/wix/file.html)/@BindPath</p>
     </td>
   </tr>
 
@@ -48,7 +48,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/class.html">Class</a></p>
+      <p>[Class](~/xsd/wix/class.html)</p>
     </td>
   </tr>
 
@@ -58,7 +58,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/component.html">Component</a>/@ComPlusFlags</p>
+      <p>[Component](~/xsd/wix/component.html)/@ComPlusFlags</p>
     </td>
   </tr>
 
@@ -68,7 +68,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/createfolder.html">CreateFolder</a></p>
+      <p>[CreateFolder](~/xsd/wix/createfolder.html)</p>
     </td>
   </tr>
 
@@ -78,7 +78,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/copyfile.html">CopyFile</a></p>
+      <p>[CopyFile](~/xsd/wix/copyfile.html)</p>
     </td>
   </tr>
 
@@ -88,7 +88,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/environment.html">Environment</a></p>
+      <p>[Environment](~/xsd/wix/environment.html)</p>
     </td>
   </tr>
 
@@ -98,7 +98,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/extension.html">Extension</a></p>
+      <p>[Extension](~/xsd/wix/extension.html)</p>
     </td>
   </tr>
 
@@ -108,7 +108,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/file.html">File</a>/@FontTitle</p>
+      <p>[File](~/xsd/wix/file.html)/@FontTitle</p>
     </td>
   </tr>
 
@@ -118,7 +118,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/inifile.html">IniFile</a></p>
+      <p>[IniFile](~/xsd/wix/inifile.html)</p>
     </td>
   </tr>
 
@@ -128,7 +128,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/isolatecomponent.html">IsolatedComponent</a></p>
+      <p>[IsolatedComponent](~/xsd/wix/isolatecomponent.html)</p>
     </td>
   </tr>
 
@@ -138,7 +138,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/permission.html">Permission</a></p>
+      <p>[Permission](~/xsd/wix/permission.html)</p>
     </td>
   </tr>
 
@@ -148,7 +148,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/mime.html">MIME</a></p>
+      <p>[MIME](~/xsd/wix/mime.html)</p>
     </td>
   </tr>
 
@@ -158,7 +158,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/copyfile.html">CopyFile</a></p>
+      <p>[CopyFile](~/xsd/wix/copyfile.html)</p>
     </td>
   </tr>
 
@@ -168,7 +168,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/odbcdriver.html">ODBCDriver</a>/<a href="~/xsd/wix/property.html">Property</a></p>
+      <p>[ODBCDriver](~/xsd/wix/odbcdriver.html)/[Property](~/xsd/wix/property.html)</p>
     </td>
   </tr>
 
@@ -178,7 +178,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/odbcdatasource.html">ODBCDataSource</a></p>
+      <p>[ODBCDataSource](~/xsd/wix/odbcdatasource.html)</p>
     </td>
   </tr>
 
@@ -188,7 +188,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/odbcdriver.html">ODBCDriver</a></p>
+      <p>[ODBCDriver](~/xsd/wix/odbcdriver.html)</p>
     </td>
   </tr>
 
@@ -198,7 +198,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/odbcdatasource.html">ODBCDataSource</a>/<a href="~/xsd/wix/property.html">Property</a></p>
+      <p>[ODBCDataSource](~/xsd/wix/odbcdatasource.html)/[Property](~/xsd/wix/property.html)</p>
     </td>
   </tr>
 
@@ -208,7 +208,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/odbctranslator.html">ODBCTranslator</a></p>
+      <p>[ODBCTranslator](~/xsd/wix/odbctranslator.html)</p>
     </td>
   </tr>
 
@@ -218,7 +218,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/progid.html">ProgId</a></p>
+      <p>[ProgId](~/xsd/wix/progid.html)</p>
     </td>
   </tr>
 
@@ -228,7 +228,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/category.html">Category</a></p>
+      <p>[Category](~/xsd/wix/category.html)</p>
     </td>
   </tr>
 
@@ -238,7 +238,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/inifile.html">IniFile</a></p>
+      <p>[IniFile](~/xsd/wix/inifile.html)</p>
     </td>
   </tr>
 
@@ -248,7 +248,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/file.html">File</a>/@SelfRegCost</p>
+      <p>[File](~/xsd/wix/file.html)/@SelfRegCost</p>
     </td>
   </tr>
 
@@ -258,7 +258,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/servicecontrol.html">ServiceControl</a></p>
+      <p>[ServiceControl](~/xsd/wix/servicecontrol.html)</p>
     </td>
   </tr>
 
@@ -268,7 +268,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/serviceinstall.html">ServiceInstall</a></p>
+      <p>[ServiceInstall](~/xsd/wix/serviceinstall.html)</p>
     </td>
   </tr>
 
@@ -278,7 +278,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/typelib.html">TypeLib</a></p>
+      <p>[TypeLib](~/xsd/wix/typelib.html)</p>
     </td>
   </tr>
 
@@ -288,7 +288,7 @@ The following table lists tables and corresponding elements or attributes in WiX
     </td>
 
     <td valign="top">
-      <p><a href="~/xsd/wix/verb.html">Verb</a></p>
+      <p>[Verb](~/xsd/wix/verb.html)</p>
     </td>
   </tr>
 </table>

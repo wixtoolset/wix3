@@ -61,7 +61,8 @@ static HRESULT PlanTargetProduct(
     __in BURN_VARIABLES* pVariables,
     __in BOOTSTRAPPER_ACTION_STATE actionState,
     __in BURN_PACKAGE* pPackage,
-    __in BURN_MSPTARGETPRODUCT* pTargetProduct
+    __in BURN_MSPTARGETPRODUCT* pTargetProduct,
+    __in_opt HANDLE hCacheEvent
     );
 
 
@@ -411,24 +412,22 @@ extern "C" HRESULT MspEnginePlanAddPackage(
     {
         BURN_MSPTARGETPRODUCT* pTargetProduct = pPackage->Msp.rgTargetProducts + i;
 
-        // If the execute state for patching this target product is higher than the overall package execute state then
-        // skip patching this target product. This happens when the patch uninstall was disabled because there are other
-        // dependents on the machine.
-        if (pPackage->execute < pTargetProduct->execute)
+        // If the dependency manager changed the action state for the patch, change the target product actions.
+        if (pPackage->fDependencyManagerWasHere)
         {
-            pTargetProduct->execute = BOOTSTRAPPER_ACTION_STATE_NONE;
-            pTargetProduct->rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
+            pTargetProduct->execute = pPackage->execute;
+            pTargetProduct->rollback = pPackage->rollback;
         }
 
         if (BOOTSTRAPPER_ACTION_STATE_NONE != pTargetProduct->execute)
         {
-            hr = PlanTargetProduct(display, FALSE, pPlan, pLog, pVariables, pTargetProduct->execute, pPackage, pTargetProduct);
+            hr = PlanTargetProduct(display, FALSE, pPlan, pLog, pVariables, pTargetProduct->execute, pPackage, pTargetProduct, hCacheEvent);
             ExitOnFailure(hr, "Failed to plan target product.");
         }
 
         if (BOOTSTRAPPER_ACTION_STATE_NONE != pTargetProduct->rollback)
         {
-            hr = PlanTargetProduct(display, TRUE, pPlan, pLog, pVariables, pTargetProduct->rollback, pPackage, pTargetProduct);
+            hr = PlanTargetProduct(display, TRUE, pPlan, pLog, pVariables, pTargetProduct->rollback, pPackage, pTargetProduct, hCacheEvent);
             ExitOnFailure(hr, "Failed to plan rollack target product.");
         }
     }
@@ -516,7 +515,7 @@ extern "C" HRESULT MspEngineExecutePackage(
     hr = MsiEngineConcatProperties(pExecuteAction->mspTarget.pPackage->Msp.rgProperties, pExecuteAction->mspTarget.pPackage->Msp.cProperties, pVariables, fRollback, &sczObfuscatedProperties, TRUE);
     ExitOnFailure(hr, "Failed to add properties to obfuscated argument string.");
 
-    LogId(REPORT_STANDARD, MSG_APPLYING_PATCH_PACKAGE, pExecuteAction->mspTarget.pPackage->sczId, LoggingActionStateToString(pExecuteAction->mspTarget.action), sczMspPath, sczObfuscatedProperties, pExecuteAction->mspTarget.sczTargetProductCode);
+    LogId(REPORT_STANDARD, MSG_APPLYING_PATCH_PACKAGE, pExecuteAction->mspTarget.pPackage->sczId, LoggingActionStateToString(pExecuteAction->mspTarget.action), sczPatches, sczObfuscatedProperties, pExecuteAction->mspTarget.sczTargetProductCode);
 
     //
     // Do the actual action.
@@ -819,13 +818,15 @@ static HRESULT PlanTargetProduct(
     __in BURN_VARIABLES* pVariables,
     __in BOOTSTRAPPER_ACTION_STATE actionState,
     __in BURN_PACKAGE* pPackage,
-    __in BURN_MSPTARGETPRODUCT* pTargetProduct
+    __in BURN_MSPTARGETPRODUCT* pTargetProduct,
+    __in_opt HANDLE hCacheEvent
     )
 {
     HRESULT hr = S_OK;
     BURN_EXECUTE_ACTION* rgActions = fRollback ? pPlan->rgRollbackActions : pPlan->rgExecuteActions;
     DWORD cActions = fRollback ? pPlan->cRollbackActions : pPlan->cExecuteActions;
     BURN_EXECUTE_ACTION* pAction = NULL;
+    DWORD dwInsertSequence = 0;
 
     // Try to find another MSP action with the exact same action (install or uninstall) targeting
     // the same product in the same machine context (per-user or per-machine).
@@ -838,6 +839,7 @@ static HRESULT PlanTargetProduct(
             pAction->mspTarget.fPerMachineTarget == (MSIINSTALLCONTEXT_MACHINE == pTargetProduct->context) &&
             CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, pAction->mspTarget.sczTargetProductCode, -1, pTargetProduct->wzTargetProductCode, -1))
         {
+            dwInsertSequence = i;
             break;
         }
 
@@ -874,6 +876,23 @@ static HRESULT PlanTargetProduct(
         }
 
         LoggingSetPackageVariable(pPackage, pAction->mspTarget.sczTargetProductCode, fRollback, pLog, pVariables, &pAction->mspTarget.sczLogPath); // ignore errors.
+    }
+    else
+    {
+        if (!fRollback && hCacheEvent)
+        {
+            // Since a previouse MSP target action is being updated with the new MSP, 
+            // insert a wait syncpoint to before this action since we need to cache the current MSI before using it.
+            BURN_EXECUTE_ACTION* pWaitSyncPointAction = NULL;
+            hr = PlanInsertExecuteAction(dwInsertSequence, pPlan, &pWaitSyncPointAction);
+            ExitOnFailure(hr, "Failed to insert execute action.");
+
+            pWaitSyncPointAction->type = BURN_EXECUTE_ACTION_TYPE_WAIT_SYNCPOINT;
+            pWaitSyncPointAction->syncpoint.hEvent = hCacheEvent;
+
+            // Since we inserted an action before the MSP target action that we will be updating, need to increment the pointer.
+            ++pAction;
+        }
     }
 
     // Add our target product to the array and sort based on their order determined during detection.

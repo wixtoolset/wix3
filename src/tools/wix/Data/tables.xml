@@ -1830,6 +1830,9 @@
         <columnDefinition name="RollbackLogPathVariable" type="string" length="0" nullable="yes"/>
         <columnDefinition name="Compressed" type="string" length="0" nullable="yes"/>
         <columnDefinition name="DisplayInternalUI" type="string" length="0" nullable="yes"/>
+        <columnDefinition name="ProductCode" type="string" length="0" nullable="yes"/>
+        <columnDefinition name="UpgradeCode" type="string" length="0" nullable="yes"/>
+        <columnDefinition name="Version" type="string" length="0" nullable="yes"/>
     </tableDefinition>
     <tableDefinition name="WixPayloadProperties" unreal="yes" bootstrapperApplicationData="yes">
         <columnDefinition name="Payload"  type="string" length="0" category="identifier" primaryKey="yes" />

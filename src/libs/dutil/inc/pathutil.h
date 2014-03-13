@@ -16,11 +16,11 @@
 extern "C" {
 #endif
 
-enum PATH_EXPAND
+typedef enum PATH_EXPAND
 {
     PATH_EXPAND_ENVIRONMENT = 0x0001,
     PATH_EXPAND_FULLPATH    = 0x0002,
-};
+} PATH_EXPAND;
 
 
 /*******************************************************************

@@ -23,7 +23,7 @@
             <xs:documentation>
                 Improves the performance of managed applications by creating native images.
                 Requires the .NET Framework 2.0 or newer to be installed on the target machine since
-                it runs <html:a href="http://msdn2.microsoft.com/en-us/library/6t9t5wcf.aspx">NGen</html:a>.
+                it runs <html:a href="http://msdn.microsoft.com/en-us/library/6t9t5wcf.aspx">NGen</html:a>.
             </xs:documentation>
             <xs:appinfo>
                 <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="File" />

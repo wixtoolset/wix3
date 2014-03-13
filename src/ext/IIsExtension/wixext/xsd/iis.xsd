@@ -198,7 +198,7 @@
             </xs:attribute>
             <xs:attribute name="Value" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Value for the custom HTTP Header. This attribute can contain a formatted string that is processed at install time to insert the values of properties using [PropertyName] syntax. Also supported are environment variables, file installation paths, and component installation directories; see <a href="http://msdn2.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</a> for details.</xs:documentation>
+                    <xs:documentation>Value for the custom HTTP Header. This attribute can contain a formatted string that is processed at install time to insert the values of properties using [PropertyName] syntax. Also supported are environment variables, file installation paths, and component installation directories; see <a href="http://msdn.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</a> for details.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
         </xs:complexType>
@@ -410,7 +410,7 @@
             <xs:annotation>
               <xs:documentation>
                 Specifies the request-processing mode that is used to process requests for managed content.  Only available on IIS7, ignored on IIS6.
-                See <a href="http://www.iis.net/ConfigReference/system.applicationHost/applicationPools/applicationPoolDefaults" target="_blank">http://www.iis.net/ConfigReference/system.applicationHost/applicationPools/applicationPoolDefaults</a> for valid values.
+                See <a href="http://www.iis.net/configreference/system.applicationhost/applicationpools/applicationpooldefaults" target="_blank">http://www.iis.net/ConfigReference/system.applicationHost/applicationPools/applicationPoolDefaults</a> for valid values.
                 This attribute may be set via a formatted Property (e.g. [MyProperty]).
               </xs:documentation>
             </xs:annotation>
@@ -419,7 +419,7 @@
             <xs:annotation>
               <xs:documentation>
                 Specifies the .NET Framework version to be used by the application pool.  Only available on IIS7, ignored on IIS6.
-                See <a href="http://www.iis.net/ConfigReference/system.applicationHost/applicationPools/applicationPoolDefaults" target="_blank">http://www.iis.net/ConfigReference/system.applicationHost/applicationPools/applicationPoolDefaults</a> for valid values.
+                See <a href="http://www.iis.net/configreference/system.applicationhost/applicationpools/applicationpooldefaults" target="_blank">http://www.iis.net/ConfigReference/system.applicationHost/applicationPools/applicationPoolDefaults</a> for valid values.
                 This attribute may be set via a formatted Property (e.g. [MyProperty]).
               </xs:documentation>
             </xs:annotation>
@@ -505,7 +505,7 @@
                             <xs:annotation>
                                 <xs:documentation>
                                     Contains the certificates of those that the user normally sends enveloped messages to or receives signed messages from.
-                                    See <a href="http://msdn2.microsoft.com/library/aa388160.aspx" target="_blank">MSDN documentation</a> for more information.
+                                    See <a href="http://msdn.microsoft.com/library/aa388160.aspx" target="_blank">MSDN documentation</a> for more information.
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>
@@ -513,7 +513,7 @@
                             <xs:annotation>
                                 <xs:documentation>
                                     Contains the certificates of those directly trusted people and resources.
-                                    See <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename.aspxx" target="_blank">MSDN documentation</a> for more information.
+                                    See <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename.aspx" target="_blank">MSDN documentation</a> for more information.
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>
@@ -521,7 +521,7 @@
                             <xs:annotation>
                                 <xs:documentation>
                                     Contains the certificates of those publishers who are trusted.
-                                    See <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename.aspxx" target="_blank">MSDN documentation</a> for more information.
+                                    See <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename.aspx" target="_blank">MSDN documentation</a> for more information.
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>

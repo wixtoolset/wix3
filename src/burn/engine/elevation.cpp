@@ -820,6 +820,7 @@ extern "C" HRESULT ElevationExecuteMsuPackage(
     __in HANDLE hPipe,
     __in BURN_EXECUTE_ACTION* pExecuteAction,
     __in BOOL fRollback,
+    __in BOOL fStopWusaService,
     __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
     __in LPVOID pvContext,
     __out BOOTSTRAPPER_APPLY_RESTART* pRestart
@@ -843,6 +844,9 @@ extern "C" HRESULT ElevationExecuteMsuPackage(
 
     hr = BuffWriteNumber(&pbData, &cbData, fRollback);
     ExitOnFailure(hr, "Failed to write rollback.");
+
+    hr = BuffWriteNumber(&pbData, &cbData, fStopWusaService);
+    ExitOnFailure(hr, "Failed to write StopWusaService.");
 
     // send message
     context.pfnGenericMessageHandler = pfnGenericMessageHandler;
@@ -2065,6 +2069,7 @@ static HRESULT OnExecuteMsuPackage(
     SIZE_T iData = 0;
     LPWSTR sczPackage = NULL;
     DWORD dwRollback = 0;
+    DWORD dwStopWusaService = 0;
     BURN_EXECUTE_ACTION executeAction = { };
     BOOTSTRAPPER_APPLY_RESTART restart = BOOTSTRAPPER_APPLY_RESTART_NONE;
 
@@ -2083,11 +2088,14 @@ static HRESULT OnExecuteMsuPackage(
     hr = BuffReadNumber(pbData, cbData, &iData, &dwRollback);
     ExitOnFailure(hr, "Failed to read rollback.");
 
+    hr = BuffReadNumber(pbData, cbData, &iData, &dwStopWusaService);
+    ExitOnFailure(hr, "Failed to read StopWusaService.");
+
     hr = PackageFindById(pPackages, sczPackage, &executeAction.msuPackage.pPackage);
     ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
 
     // execute MSU package
-    hr = MsuEngineExecutePackage(&executeAction, static_cast<BOOL>(dwRollback), GenericExecuteMessageHandler, hPipe, &restart);
+    hr = MsuEngineExecutePackage(&executeAction, static_cast<BOOL>(dwRollback), static_cast<BOOL>(dwStopWusaService), GenericExecuteMessageHandler, hPipe, &restart);
     ExitOnFailure(hr, "Failed to execute MSU package.");
 
 LExit:

@@ -20,7 +20,7 @@
 
 
 // enums
-enum REPORT_LEVEL
+typedef enum REPORT_LEVEL
 {
     REPORT_NONE,      // turns off report (only valid for XXXSetLevel())
     REPORT_WARNING,   // written if want only warnings or reporting is on in general
@@ -28,21 +28,30 @@ enum REPORT_LEVEL
     REPORT_VERBOSE,   // written only if verbose reporting is on
     REPORT_DEBUG,     // reporting useful when debugging code
     REPORT_ERROR,     // always gets reported, but can never be specified
-};
+} REPORT_LEVEL;
 
 // asserts and traces
 typedef BOOL (DAPI *DUTIL_ASSERTDISPLAYFUNCTION)(__in_z LPCSTR sz);
 
-extern "C" void DAPI Dutil_SetAssertModule(__in HMODULE hAssertModule);
-extern "C" void DAPI Dutil_SetAssertDisplayFunction(__in DUTIL_ASSERTDISPLAYFUNCTION pfn);
-extern "C" void DAPI Dutil_Assert(__in_z LPCSTR szFile, __in int iLine);
-extern "C" void DAPI Dutil_AssertSz(__in_z LPCSTR szFile, __in int iLine, __in_z LPCSTR szMsg);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-extern "C" void DAPI Dutil_TraceSetLevel(__in REPORT_LEVEL ll, __in BOOL fTraceFilenames);
-extern "C" REPORT_LEVEL DAPI Dutil_TraceGetLevel();
-extern "C" void __cdecl Dutil_Trace(__in_z LPCSTR szFile, __in int iLine, __in REPORT_LEVEL rl, __in_z __format_string LPCSTR szMessage, ...);
-extern "C" void __cdecl Dutil_TraceError(__in_z LPCSTR szFile, __in int iLine, __in REPORT_LEVEL rl, __in HRESULT hr, __in_z __format_string LPCSTR szMessage, ...);
-extern "C" void DAPI Dutil_RootFailure(__in_z LPCSTR szFile, __in int iLine, __in HRESULT hrError);
+void DAPI Dutil_SetAssertModule(__in HMODULE hAssertModule);
+void DAPI Dutil_SetAssertDisplayFunction(__in DUTIL_ASSERTDISPLAYFUNCTION pfn);
+void DAPI Dutil_Assert(__in_z LPCSTR szFile, __in int iLine);
+void DAPI Dutil_AssertSz(__in_z LPCSTR szFile, __in int iLine, __in_z LPCSTR szMsg);
+
+void DAPI Dutil_TraceSetLevel(__in REPORT_LEVEL ll, __in BOOL fTraceFilenames);
+REPORT_LEVEL DAPI Dutil_TraceGetLevel();
+void __cdecl Dutil_Trace(__in_z LPCSTR szFile, __in int iLine, __in REPORT_LEVEL rl, __in_z __format_string LPCSTR szMessage, ...);
+void __cdecl Dutil_TraceError(__in_z LPCSTR szFile, __in int iLine, __in REPORT_LEVEL rl, __in HRESULT hr, __in_z __format_string LPCSTR szMessage, ...);
+void DAPI Dutil_RootFailure(__in_z LPCSTR szFile, __in int iLine, __in HRESULT hrError);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #ifdef DEBUG
 
@@ -210,6 +219,15 @@ typedef const BYTE* LPCBYTE;
 #define MAKEDWORD(lo, hi) ((DWORD)MAKELONG(lo, hi))
 #define MAKEQWORDVERSION(mj, mi, b, r) (((DWORD64)MAKELONG(r, b)) | (((DWORD64)MAKELONG(mi, mj)) << 32))
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // other functions
-extern "C" HRESULT DAPI LoadSystemLibrary(__in_z LPCWSTR wzModuleName, __out HMODULE *phModule);
-extern "C" HRESULT DAPI LoadSystemLibraryWithPath(__in_z LPCWSTR wzModuleName, __out HMODULE *phModule, __deref_out_z_opt LPWSTR* psczPath);
+HRESULT DAPI LoadSystemLibrary(__in_z LPCWSTR wzModuleName, __out HMODULE *phModule);
+HRESULT DAPI LoadSystemLibraryWithPath(__in_z LPCWSTR wzModuleName, __out HMODULE *phModule, __deref_out_z_opt LPWSTR* psczPath);
+
+#ifdef __cplusplus
+}
+#endif

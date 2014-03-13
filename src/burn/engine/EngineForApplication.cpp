@@ -494,7 +494,7 @@ public: // IBootstrapperEngine
         HRESULT hr = S_OK;
         BURN_CONTAINER* pContainer = NULL;
         BURN_PAYLOAD* pPayload = NULL;
-        BURN_DOWNLOAD_SOURCE* pDownloadSource = NULL;
+        DOWNLOAD_SOURCE* pDownloadSource = NULL;
 
         ::EnterCriticalSection(&m_pEngineState->csActive);
         hr = UserExperienceEnsureEngineInactive(&m_pEngineState->userExperience);

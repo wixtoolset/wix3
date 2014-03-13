@@ -34,6 +34,7 @@
 #include <intsafe.h>
 #include <mscat.h>
 #include <lmcons.h>
+#include <wininet.h>
 
 #include <dutil.h>
 #include <aclutil.h>
@@ -61,6 +62,7 @@
 #include <xmlutil.h>
 #include <dictutil.h>
 #include <deputil.h>
+#include <dlutil.h>
 
 #include "IBootstrapperEngine.h"
 #include "IBootstrapperApplication.h"
@@ -87,7 +89,6 @@
 #include "pipe.h"
 #include "core.h"
 #include "cache.h"
-#include "downloadengine.h"
 #include "apply.h"
 #include "exeengine.h"
 #include "msiengine.h"

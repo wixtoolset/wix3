@@ -6,7 +6,7 @@
 //   The license and further copyright text can be found in the file
 //   LICENSE.TXT at the root directory of the distribution.
 // </copyright>
-// 
+//
 // <summary>
 //    Header for cabinet creation helper functions.
 // </summary>
@@ -31,14 +31,14 @@ extern "C" {
 extern const int CABC_HANDLE_BYTES;
 
 // time vs. space trade-off
-enum COMPRESSION_TYPE 
-{ 
+typedef enum COMPRESSION_TYPE
+{
     COMPRESSION_TYPE_NONE, // fastest
-    COMPRESSION_TYPE_LOW, 
+    COMPRESSION_TYPE_LOW,
     COMPRESSION_TYPE_MEDIUM,
     COMPRESSION_TYPE_HIGH, // smallest
     COMPRESSION_TYPE_MSZIP
-};
+} COMPRESSION_TYPE;
 
 // functions
 HRESULT DAPI CabCBegin(

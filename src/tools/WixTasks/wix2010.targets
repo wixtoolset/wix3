@@ -45,8 +45,8 @@
   InitialTargets="_CheckForInvalidConfigurationAndPlatform;
                   _CheckRequiredProperties">
   <PropertyGroup>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.8@InstallRoot)</WixInstallPath>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.8@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.9@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.9@InstallRoot)</WixInstallPath>
   </PropertyGroup>
 
   <!--

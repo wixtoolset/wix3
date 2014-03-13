@@ -21,8 +21,10 @@
 #include <shlwapi.h>
 #include <stdlib.h>
 #include <strsafe.h>
+#include "wininet.h"
 
 #include <dutil.h>
+#include <dlutil.h>
 #include <buffutil.h>
 #include <dirutil.h>
 #include <fileutil.h>
@@ -63,7 +65,6 @@
 #include "logging.h"
 #include "core.h"
 #include "cache.h"
-#include "downloadengine.h"
 #include "apply.h"
 #include "exeengine.h"
 #include "msiengine.h"

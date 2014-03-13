@@ -305,10 +305,32 @@ extern "C" HRESULT SearchesParseFromXml(
         else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstrNodeName, -1, L"MsiProductSearch", -1))
         {
             pSearch->Type = BURN_SEARCH_TYPE_MSI_PRODUCT;
+            pSearch->MsiProductSearch.GuidType = BURN_MSI_PRODUCT_SEARCH_GUID_TYPE_NONE;
 
-            // @ProductCode
-            hr = XmlGetAttributeEx(pixnNode, L"ProductCode", &pSearch->MsiProductSearch.sczProductCode);
-            ExitOnFailure(hr, "Failed to get @ProductCode.");
+            // @ProductCode (if we don't find a product code then look for an upgrade code)
+            hr = XmlGetAttributeEx(pixnNode, L"ProductCode", &pSearch->MsiProductSearch.sczGuid);
+            if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure(hr, "Failed to get @ProductCode.");
+                pSearch->MsiProductSearch.GuidType = BURN_MSI_PRODUCT_SEARCH_GUID_TYPE_PRODUCTCODE;
+            }
+            else
+            {
+                // @UpgradeCode
+                hr = XmlGetAttributeEx(pixnNode, L"UpgradeCode", &pSearch->MsiProductSearch.sczGuid);
+                if (E_NOTFOUND != hr)
+                {
+                    ExitOnFailure(hr, "Failed to get @UpgradeCode.");
+                    pSearch->MsiProductSearch.GuidType = BURN_MSI_PRODUCT_SEARCH_GUID_TYPE_UPGRADECODE;
+                }
+            }
+
+            // make sure we found either a product or upgrade code
+            if (BURN_MSI_PRODUCT_SEARCH_GUID_TYPE_NONE == pSearch->MsiProductSearch.GuidType)
+            {
+                hr = E_NOTFOUND;
+                ExitOnFailure(hr, "Failed to get @ProductCode or @UpgradeCode.");
+            }
 
             // @Type
             hr = XmlGetAttributeEx(pixnNode, L"Type", &scz);
@@ -514,7 +536,7 @@ extern "C" void SearchesUninitialize(
                 ReleaseStr(pSearch->MsiComponentSearch.sczComponentId);
                 break;
             case BURN_SEARCH_TYPE_MSI_PRODUCT:
-                ReleaseStr(pSearch->MsiProductSearch.sczProductCode);
+                ReleaseStr(pSearch->MsiProductSearch.sczGuid);
                 break;
             case BURN_SEARCH_TYPE_MSI_FEATURE:
                 ReleaseStr(pSearch->MsiFeatureSearch.sczProductCode);
@@ -1021,8 +1043,10 @@ static HRESULT MsiProductSearch(
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR sczProductCode = NULL;
+    LPWSTR sczGuid = NULL;
     LPCWSTR wzProperty = NULL;
+    LPWSTR *rgsczRelatedProductCodes = NULL;
+    DWORD dwRelatedProducts = 0;
     BURN_VARIANT_TYPE type = BURN_VARIANT_TYPE_NONE;
     BURN_VARIANT value = { };
 
@@ -1044,31 +1068,54 @@ static HRESULT MsiProductSearch(
         ExitOnFailure1(hr = E_NOTIMPL, "Unsupported product search type: %u", pSearch->MsiProductSearch.Type);
     }
 
-    // format product code string
-    hr = VariableFormatString(pVariables, pSearch->MsiProductSearch.sczProductCode, &sczProductCode, NULL);
-    ExitOnFailure(hr, "Failed to format product code string.");
+    // format guid string
+    hr = VariableFormatString(pVariables, pSearch->MsiProductSearch.sczGuid, &sczGuid, NULL);
+    ExitOnFailure(hr, "Failed to format GUID string.");
 
     // get product info
     value.Type = BURN_VARIANT_TYPE_STRING;
 
-    hr = WiuGetProductInfo(sczProductCode, wzProperty, &value.sczValue);
-    if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PROPERTY) == hr)
+    // if this is an upgrade code then get the product code of the highest versioned related product
+    if (BURN_MSI_PRODUCT_SEARCH_GUID_TYPE_UPGRADECODE == pSearch->MsiProductSearch.GuidType)
     {
-        // product state is available only through MsiGetProductInfoEx
-        LogStringLine(REPORT_VERBOSE, "Trying per-machine extended info for property '%ls' for product: %ls", wzProperty, sczProductCode);
-        hr = WiuGetProductInfoEx(sczProductCode, NULL, MSIINSTALLCONTEXT_MACHINE, wzProperty, &value.sczValue);
+        hr = WiuEnumRelatedProductCodes(sczGuid, &rgsczRelatedProductCodes, &dwRelatedProducts, TRUE);
+        ExitOnFailure(hr, "Failed to enumerate related products for upgrade code.");
 
-        // if not in per-machine context, try per-user (unmanaged)
-        if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) == hr)
+        // if we actually found a related product then use its upgrade code for the rest of the search
+        if (1 == dwRelatedProducts)
         {
-            LogStringLine(REPORT_STANDARD, "Trying per-user extended info for property '%ls' for product: %ls", wzProperty, sczProductCode);
-            hr = WiuGetProductInfoEx(sczProductCode, NULL, MSIINSTALLCONTEXT_USERUNMANAGED, wzProperty, &value.sczValue);
+            hr = StrAllocString(&sczGuid, rgsczRelatedProductCodes[0], 0);
+            ExitOnFailure(hr, "Failed to copy upgrade code.");
+        }
+        else
+        {
+            // set this here so we have a way of knowing that we don't need to bother
+            // querying for the product information below
+            hr = HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT);
+        }
+    }
+
+    if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) != hr)
+    {
+        hr = WiuGetProductInfo(sczGuid, wzProperty, &value.sczValue);
+        if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PROPERTY) == hr)
+        {
+            // product state is available only through MsiGetProductInfoEx
+            LogStringLine(REPORT_VERBOSE, "Trying per-machine extended info for property '%ls' for product: %ls", wzProperty, sczGuid);
+            hr = WiuGetProductInfoEx(sczGuid, NULL, MSIINSTALLCONTEXT_MACHINE, wzProperty, &value.sczValue);
+
+            // if not in per-machine context, try per-user (unmanaged)
+            if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) == hr)
+            {
+                LogStringLine(REPORT_STANDARD, "Trying per-user extended info for property '%ls' for product: %ls", wzProperty, sczGuid);
+                hr = WiuGetProductInfoEx(sczGuid, NULL, MSIINSTALLCONTEXT_USERUNMANAGED, wzProperty, &value.sczValue);
+            }
         }
     }
 
     if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) == hr)
     {
-        LogStringLine(REPORT_STANDARD, "Product not found: %ls", sczProductCode);
+        LogStringLine(REPORT_STANDARD, "Product or related product not found: %ls", sczGuid);
 
         // set value to indicate absent
         switch (pSearch->MsiProductSearch.Type)
@@ -1118,7 +1165,8 @@ LExit:
         LogStringLine(REPORT_STANDARD, "MsiProductSearch failed: ID '%ls', HRESULT 0x%x", pSearch->sczKey, hr);
     }
 
-    ReleaseStr(sczProductCode);
+    ReleaseStr(sczGuid);
+    ReleaseStrArray(rgsczRelatedProductCodes, dwRelatedProducts);
     BVariantUninitialize(&value);
 
     return hr;

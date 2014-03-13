@@ -397,6 +397,7 @@ extern "C" HRESULT MsiEngineDetectPackage(
     LPWSTR sczInstalledLanguage = NULL;
     INSTALLSTATE installState = INSTALLSTATE_UNKNOWN;
     BOOTSTRAPPER_RELATED_OPERATION operation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
+    BOOTSTRAPPER_RELATED_OPERATION relatedMsiOperation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
     WCHAR wzProductCode[MAX_GUID_CHARS + 1] = { };
     DWORD64 qwVersion = 0;
     UINT uLcid = 0;
@@ -543,29 +544,37 @@ extern "C" HRESULT MsiEngineDetectPackage(
             }
 
             // If this is a detect-only related package and we're not installed yet, then we'll assume a downgrade
-            // would taking place since that is the overwhelmingly common use of detect-only related packages. If
+            // would take place since that is the overwhelmingly common use of detect-only related packages. If
             // not detect-only then it's easy; we're clearly doing a major upgrade.
             if (pRelatedMsi->fOnlyDetect)
             {
-                if (BOOTSTRAPPER_PACKAGE_STATE_ABSENT == pPackage->currentState)
+                // If we've already detected a major upgrade that trumps any guesses that the detect is a downgrade
+                // or even something else.
+                if (BOOTSTRAPPER_RELATED_OPERATION_MAJOR_UPGRADE == operation)
                 {
+                    relatedMsiOperation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
+                }
+                else if (BOOTSTRAPPER_PACKAGE_STATE_ABSENT == pPackage->currentState)
+                {
+                    relatedMsiOperation = BOOTSTRAPPER_RELATED_OPERATION_DOWNGRADE;
                     operation = BOOTSTRAPPER_RELATED_OPERATION_DOWNGRADE;
                     pPackage->currentState = BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE;
                 }
                 else // we're already on the machine so the detect-only *must* be for detection purposes only.
                 {
-                    operation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
+                    relatedMsiOperation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
                 }
             }
             else
             {
+                relatedMsiOperation = BOOTSTRAPPER_RELATED_OPERATION_MAJOR_UPGRADE;
                 operation = BOOTSTRAPPER_RELATED_OPERATION_MAJOR_UPGRADE;
             }
 
-            LogId(REPORT_STANDARD, MSG_DETECTED_RELATED_PACKAGE, wzProductCode, LoggingPerMachineToString(fPerMachine), LoggingVersionToString(qwVersion), uLcid, LoggingRelatedOperationToString(operation));
+            LogId(REPORT_STANDARD, MSG_DETECTED_RELATED_PACKAGE, wzProductCode, LoggingPerMachineToString(fPerMachine), LoggingVersionToString(qwVersion), uLcid, LoggingRelatedOperationToString(relatedMsiOperation));
 
             // pass to UX
-            nResult = pUserExperience->pUserExperience->OnDetectRelatedMsiPackage(pPackage->sczId, wzProductCode, fPerMachine, qwVersion, operation);
+            nResult = pUserExperience->pUserExperience->OnDetectRelatedMsiPackage(pPackage->sczId, wzProductCode, fPerMachine, qwVersion, relatedMsiOperation);
             hr = UserExperienceInterpretResult(pUserExperience, MB_OKCANCEL, nResult);
             ExitOnRootFailure(hr, "UX aborted detect related MSI package.");
         }

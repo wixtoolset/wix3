@@ -26,10 +26,10 @@ extern __declspec(selectany) const IID XmlUtil_IID_IXMLDOMDocument =  {0x2933BF8
 extern __declspec(selectany) const IID XmlUtil_IID_IXMLDOMDocument2 = {0x2933BF95, 0x7B36, 0x11D2, {0xB2, 0x0E, 0x00, 0xC0, 0x4F, 0x98, 0x3E, 0x60}};
 extern __declspec(selectany) const IID XmlUtil_IID_IXMLDOMSchemaCollection = {0x373984C8, 0xB845, 0x449B, {0x91, 0xE7, 0x45, 0xAC, 0x83, 0x03, 0x6A, 0xDE}};
 
-enum XML_LOAD_ATTRIBUTE
+typedef enum XML_LOAD_ATTRIBUTE
 {
     XML_LOAD_PRESERVE_WHITESPACE = 1,
-};
+} XML_LOAD_ATTRIBUTE;
 
 
 #ifdef __cplusplus

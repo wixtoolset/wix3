@@ -40,6 +40,8 @@ namespace WixBuild.Tools.DocCompiler
 
         public string HtmlHelpProjectFile { get; private set; }
 
+        public bool IgnoreXsdSimpleTypeInTableOfContents { get; private set; }
+
         public List<string> Variables { get; private set; }
 
         public static void ShowHelp()
@@ -108,6 +110,10 @@ namespace WixBuild.Tools.DocCompiler
                             {
                                 commandLine.HtmlHelpProjectFile = args[i];
                             }
+                            break;
+
+                        case "ignorexsdsimpletypeintoc":
+                            commandLine.IgnoreXsdSimpleTypeInTableOfContents = true;
                             break;
 
                         default:

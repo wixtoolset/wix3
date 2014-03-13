@@ -2144,6 +2144,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="All" minOccurs="0" />
           <xs:element ref="BinaryRef" minOccurs="0" maxOccurs="unbounded" />
           <xs:element ref="ComponentRef" minOccurs="0" maxOccurs="unbounded" />
           <xs:element ref="CustomActionRef" minOccurs="0" maxOccurs="unbounded" />
@@ -2282,17 +2283,17 @@
       </xs:attribute>
       <xs:attribute name="AllowMajorVersionMismatches" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether the major versions between the upgrade and target images match. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductVersionMajorMismatches</html:a> for more information.</xs:documentation>
+          <xs:documentation>Use this to set whether the major versions between the upgrade and target images match. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductVersionMajorMismatches</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="AllowProductCodeMismatches" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether the product code between the upgrade and target images match. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductCodeMismatches</html:a> for more information.</xs:documentation>
+          <xs:documentation>Use this to set whether the product code between the upgrade and target images match. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductCodeMismatches</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="CleanWorkingFolder" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether Patchwiz should clean the temp folder when finished. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">DontRemoveTempFolderWhenFinished</html:a> for more information.	</xs:documentation>
+          <xs:documentation>Use this to set whether Patchwiz should clean the temp folder when finished. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">DontRemoveTempFolderWhenFinished</html:a> for more information.	</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Codepage" type="xs:string">
@@ -2302,22 +2303,22 @@
       </xs:attribute>
       <xs:attribute name="OutputPath" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The full path, including file name, of the patch package file that is to be generated. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">PatchOutputPath</html:a> for more information.</xs:documentation>
+          <xs:documentation>The full path, including file name, of the patch package file that is to be generated. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">PatchOutputPath</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceList" type="xs:string">
         <xs:annotation>
-          <xs:documentation>Used to locate the .msp file for the patch if the cached copy is unavailable. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">PatchSourceList</html:a> for more information.</xs:documentation>
+          <xs:documentation>Used to locate the .msp file for the patch if the cached copy is unavailable. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">PatchSourceList</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SymbolFlags" type="xs:int">
         <xs:annotation>
-          <xs:documentation>An 8-digit hex integer representing the combination of patch symbol usage flags to use when creating a binary file patch. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">ApiPatchingSymbolFlags</html:a> for more information.</xs:documentation>
+          <xs:documentation>An 8-digit hex integer representing the combination of patch symbol usage flags to use when creating a binary file patch. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">ApiPatchingSymbolFlags</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="WholeFilesOnly" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether changing files should be included in their entirety. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">IncludeWholeFilesOnly</html:a> for more information.</xs:documentation>
+          <xs:documentation>Use this to set whether changing files should be included in their entirety. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">IncludeWholeFilesOnly</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>
@@ -4891,7 +4892,7 @@
       </xs:attribute>
       <xs:attribute name="Source" type="xs:string">
         <xs:annotation>
-          <xs:documentation>Specifies the path to the File in the build process. Overrides default source path set by parent directories and Name attribute. This attribute must be set if no source information can be gathered from parent directories. For more information, see <html:a href="specifying_source_files.htm">Specifying source files</html:a>.</xs:documentation>
+          <xs:documentation>Specifies the path to the File in the build process. Overrides default source path set by parent directories and Name attribute. This attribute must be set if no source information can be gathered from parent directories. For more information, see <html:a href="~/howtos/general/specifying_source_files.html">Specifying source files</html:a>.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="src" type="xs:string">
@@ -7684,6 +7685,17 @@
       </xs:anyAttribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="All">
+    <xs:annotation>
+      <xs:documentation>Used only for PatchFamilies to include all changes between the baseline and upgraded packages in a patch.</xs:documentation>
+      <xs:appinfo>
+        <xse:remarks>
+          <html:p>Warning: this is intended for testing purposes only. Shipping a patch with all changes negates the benefits of using patch families for including only specific changes.</html:p>
+          <html:p>Because changing the ProductCode is not supported in a patch, the ProductCode property is automatically removed from the transform.</html:p>
+        </xse:remarks>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="BinaryRef">
     <xs:annotation>
       <xs:documentation>Used only for PatchFamilies to include only a binary table entry in a patch.</xs:documentation>
@@ -7938,7 +7950,7 @@
 
                         Do not specify this attribute (or the LongName attribute) if this directory represents
                         the same directory as the parent (see the Windows Installer SDK's
-                        <html:a href="http://msdn2.microsoft.com/library/Aa368295.aspx" target="_blank">Directory table</html:a>
+                        <html:a href="http://msdn.microsoft.com/library/Aa368295.aspx" target="_blank">Directory table</html:a>
                         topic for more information about the "." operator).
 
                         In prior versions of the WiX toolset, this attribute specified the short directory name.
@@ -8094,7 +8106,7 @@
           </xs:attribute>
           <xs:attribute name="Property" type="xs:string" use="required">
             <xs:annotation>
-              <xs:documentation>When the FindRelatedProducts action detects a related product installed on the system, it appends the product code to the property specified in this field.  Windows Installer documentation for the <html:a href="http://msdn2.microsoft.com/library/aa372379.aspx" target="_blank">Upgrade table</html:a> states that the property specified in this field must be a public property and must be added to the <html:a href="http://msdn2.microsoft.com/library/aa371571.aspx" target="_blank">SecureCustomProperties</html:a> property.  WiX automatically appends the property specified in this field to the SecureCustomProperties property when creating an MSI.  Each UpgradeVersion must have a unique Property value.  After the FindRelatedProducts action is run, the value of this property is a list of product codes, separated by semicolons (;), detected on the system.</xs:documentation>
+              <xs:documentation>When the FindRelatedProducts action detects a related product installed on the system, it appends the product code to the property specified in this field.  Windows Installer documentation for the <html:a href="http://msdn.microsoft.com/library/aa372379.aspx" target="_blank">Upgrade table</html:a> states that the property specified in this field must be a public property and must be added to the <html:a href="http://msdn.microsoft.com/library/aa371571.aspx" target="_blank">SecureCustomProperties</html:a> property.  WiX automatically appends the property specified in this field to the SecureCustomProperties property when creating an MSI.  Each UpgradeVersion must have a unique Property value.  After the FindRelatedProducts action is run, the value of this property is a list of product codes, separated by semicolons (;), detected on the system.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="MigrateFeatures" type="YesNoTypeUnion">
@@ -11206,7 +11218,7 @@
       </xs:attribute>
       <xs:attribute name="Text" type="xs:string">
         <xs:annotation>
-          <xs:documentation>A localizable string used to set the initial text contained in a control. This attribute can contain a formatted string that is processed at install time to insert the values of properties using [PropertyName] syntax. Also supported are environment variables, file installation paths, and component installation directories; see <html:a href="http://msdn2.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</html:a> for details.</xs:documentation>
+          <xs:documentation>A localizable string used to set the initial text contained in a control. This attribute can contain a formatted string that is processed at install time to insert the values of properties using [PropertyName] syntax. Also supported are environment variables, file installation paths, and component installation directories; see <html:a href="http://msdn.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</html:a> for details.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Help" type="xs:string">

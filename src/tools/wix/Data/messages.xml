@@ -3727,6 +3727,17 @@
                 Package/@InstallerVersion must be 500 or greater for an Arm package. The value will be changed to 500. Please specify a value of 500 or greater in order to eliminate this warning.
             </Instance>
         </Message>
+        <Message Id="RemotePayloadsMustNotAlsoBeCompressed" Number="1144">
+            <Instance>
+                The {0}/@Compressed attribute must have value 'no' when a RemotePayload child element is present. RemotePayload indicates that a package will always be downloaded and cannot be compressed into a bundle. To eliminate this warning, explicitly set the {0}/@Compressed attribute to 'no'.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="AllChangesIncludedInPatch" Number="1145">
+            <Instance>
+                All changes between the baseline and upgraded packages will be included in the patch except for any change to the ProductCode. The 'All' element is supported primarily for testing purposes and negates the benefits of patch families.
+            </Instance>
+        </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">

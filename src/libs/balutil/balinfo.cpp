@@ -149,6 +149,9 @@ DAPI_(void) BalInfoUninitialize(
         ReleaseStr(pBundle->packages.rgPackages[i].sczDisplayName);
         ReleaseStr(pBundle->packages.rgPackages[i].sczDescription);
         ReleaseStr(pBundle->packages.rgPackages[i].sczId);
+        ReleaseStr(pBundle->packages.rgPackages[i].sczProductCode);
+        ReleaseStr(pBundle->packages.rgPackages[i].sczUpgradeCode);
+        ReleaseStr(pBundle->packages.rgPackages[i].sczVersion);
     }
 
     ReleaseMem(pBundle->packages.rgPackages);
@@ -189,7 +192,7 @@ static HRESULT ParsePackagesFromXml(
         hr = XmlGetAttributeEx(pNode, L"DisplayName", &prgPackages[iPackage].sczDisplayName);
         if (E_NOTFOUND != hr)
         {
-            ExitOnFailure(hr, "Failed to get description for package.");
+            ExitOnFailure(hr, "Failed to get display name for package.");
         }
 
         hr = XmlGetAttributeEx(pNode, L"Description", &prgPackages[iPackage].sczDescription);
@@ -199,7 +202,7 @@ static HRESULT ParsePackagesFromXml(
         }
 
         hr = XmlGetAttributeEx(pNode, L"PackageType", &sczType);
-        ExitOnFailure(hr, "Failed to get description for package.");
+        ExitOnFailure(hr, "Failed to get package type for package.");
 
         if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Exe", -1, sczType, -1))
         {
@@ -226,6 +229,24 @@ static HRESULT ParsePackagesFromXml(
 
         hr = XmlGetYesNoAttribute(pNode, L"DisplayInternalUI", &prgPackages[iPackage].fDisplayInternalUI);
         ExitOnFailure(hr, "Failed to get DisplayInternalUI setting for package.");
+
+        hr = XmlGetAttributeEx(pNode, L"ProductCode", &prgPackages[iPackage].sczProductCode);
+        if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get product code for package.");
+        }
+
+        hr = XmlGetAttributeEx(pNode, L"UpgradeCode", &prgPackages[iPackage].sczUpgradeCode);
+        if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get upgrade code for package.");
+        }
+
+        hr = XmlGetAttributeEx(pNode, L"Version", &prgPackages[iPackage].sczVersion);
+        if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get version for package.");
+        }
 
         ++iPackage;
         ReleaseNullObject(pNode);
