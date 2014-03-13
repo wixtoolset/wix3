@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="RestrictedDomain.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="00000000-0000-0000-0005-000000000003" Name="User" Language="1033" Version="1.0.0.0" UpgradeCode="{D3C08DD4-A77E-43e8-8969-DB3D6CB0BEC2}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test from: User" Comments="Test from: User" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\directories.wxi ?>
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="Component1" Guid="00030829-0000-0000-C000-000000000046" DiskId="1" >
+        <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" KeyPath="yes"/>
+        
+        <util:User Id="TEST_USER_test" Name="testName1" Domain="$(env.tempdomain)" Password="test123!@#" PasswordExpired="no" />
+
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="Component1" />
+    </Feature>
+
+  </Product>
+</Wix>

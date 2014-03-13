@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Firewall Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="WixFirewallException">
+        <columnDefinition name="WixFirewallException" type="string" length="72" primaryKey="yes" modularize="column"
+            category="identifier" description="The primary key, a non-localized token." />
+        <columnDefinition name="Name" type="localized" length="255" nullable="yes" modularize="property" 
+            category="formatted" description="Localizable display name." />
+        <columnDefinition name="RemoteAddresses" type="string" length="0" modularize="property" 
+            category="formatted" description="Remote address to accept incoming connections from." />
+        <columnDefinition name="Port" type="string" length="0" modularize="property" nullable="yes" 
+            category="formatted" minValue="1" description="Port number." />
+        <columnDefinition name="Protocol" type="number" length="1" nullable="yes" 
+            category="integer" minValue="6" maxValue="17" description="Protocol (6=TCP; 17=UDP)." />
+        <columnDefinition name="Program" type="string" length="255" nullable="yes" modularize="property"
+            category="formatted" description="Exception for a program (formatted path name)." />
+        <columnDefinition name="Attributes" type="number" length="4" nullable="yes" 
+            minValue="0" maxValue="65536" description="Vital=1" />
+        <columnDefinition name="Profile" type="number" length="4" nullable="no"
+            category="integer" minValue="1" maxValue="2147483647" description="Profile (1=domain; 2=private; 4=public; 2147483647=all)." />
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+            keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table referencing component that controls the firewall configuration."/>
+        <columnDefinition name="Description" type="string" length="255" nullable="yes"
+            category="formatted" description="Description displayed in Windows Firewall manager for this firewall rule."/>
+    </tableDefinition>
+</tableDefinitions>

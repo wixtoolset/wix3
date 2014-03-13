@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Sample C# Custom Action</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Sample C# Custom Action</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="managedcas.htm">Managed CAs</a> &gt;
+        <a href="writingcas.htm">Writing CAs</a> &gt;
+        <span class="nolink">C# Sample</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+      
+            <p>MSI custom actions are MUCH easier to write in C# than 
+            in C++!</p><pre><font face="Consolas, Courier New">    [CustomAction]
+    <font color=blue>public</font> <font color=blue>static</font> ActionResult SampleCustomAction1(Session session)
+    {
+        session.Log(<font color="purple">"Hello from SampleCA1"</font>);
+        
+        <font color=blue>string</font> testProp = session[<font color="purple">"SampleCATest"</font>];
+        <font color=blue>string</font> testProp2;
+        testProp2 = (<font color="blue">string</font>) session.Database.ExecuteScalar(
+            <font color="purple">"SELECT `Value` FROM `Property` WHERE `Property` = 'SampleCATest'"</font>);
+        
+        <font color=blue>if</font>(testProp == testProp2)
+        {
+            session.Log(<font color="purple">"Simple property test passed."</font>);
+            <font color=blue>return</font> ActionResult.Success;
+        }
+        <font color=blue>else</font>
+            <font color=blue>return</font> ActionResult.Failure;
+    }
+            </font></pre>
+            <p>A sample CA project with two CAs is included in the
+            Samples\ManagedCA directory.&nbsp; Running the CustomActionTest project will package the CA and insert
+            it into a test MSI. The MSI will invoke the custom actions, but it will not install anything
+            since the second sample CA returns ActionResult.UserExit.
+            </p>
+            
+        <p><br/></p>
+        <p><b>See also:</b></p>
+        <ul>
+            <li><a href="writingcas.htm">Writing Managed Custom Actions</a></li>
+            <li><a href="caconfig.htm">Specifying the Runtime Version</a></li>
+            <li><a href="databases.htm">Working with MSI Databases</a></li>
+            <li><a href="buildingcas.htm">Building Managed Custom Actions</a></li>
+            <li><a href="debuggingcas.htm">Debugging Managed Custom Actions</a></li>
+        </ul>
+        <p><br/></p>
+
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

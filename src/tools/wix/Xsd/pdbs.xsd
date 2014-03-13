@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="pdbs.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2007/pdbs"
+              xmlns="http://schemas.microsoft.com/wix/2007/pdbs"
+         xmlns:outs="http://schemas.microsoft.com/wix/2006/outputs">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing Windows Installer Xml Pdb files (.wixpdb).
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/objects" schemaLocation="objects.xsd" />
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/outputs" schemaLocation="outputs.xsd" />
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/tables" schemaLocation="tables.xsd" />
+
+    <xs:element name="wixPdb">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="outs:wixOutput" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+
+            <xs:attribute name="version" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Version of WiX used to create this pdb file</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

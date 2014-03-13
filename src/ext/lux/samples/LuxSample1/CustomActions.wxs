@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:lux="http://schemas.microsoft.com/wix/2009/Lux">
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="LuxSample1" />
+      </Directory>
+    </Directory>
+  </Fragment>
+  
+  <Fragment>
+    <CustomAction Id="TestCustomActionSimple" Property="SIMPLE" Value="[INSTALLFOLDER]" />
+    <CustomAction Id="TestCustomActionSimpleNumber" Property="SIMPLENUMBER" Value="1" />
+    <CustomAction Id="TestCustomActionMultiValue" Property="MULTIVALUE" Value="1*[INSTALLFOLDER]*WIXEAST" />
+    <CustomAction Id="TestCustomActionNameValuePairs" Property="NAMEVALUEPAIRS" Value="InstallationRoot#[INSTALLFOLDER]#Developers#WIXEAST" />
+
+    <InstallExecuteSequence>
+      <Custom Action="TestCustomActionSimple" After="InstallFiles" />
+      <Custom Action="TestCustomActionSimpleNumber" After="TestCustomActionSimple" />
+      <Custom Action="TestCustomActionMultiValue" After="TestCustomActionSimpleNumber" />
+      <Custom Action="TestCustomActionNameValuePairs" Before="InstallFinalize" />
+    </InstallExecuteSequence>
+  </Fragment>
+
+<Fragment>
+  <lux:UnitTest CustomAction="TestCustomActionSimple" Property="SIMPLE" Value="[INSTALLFOLDER]" Operator="equal" />
+</Fragment>
+
+<Fragment>
+  <lux:UnitTest CustomAction="TestCustomActionSimpleNumber" Property="SIMPLENUMBER" Value="1" />
+</Fragment>
+
+<Fragment>
+  <lux:UnitTest Id="TestConditionBeforeVista" CustomAction="TestCustomActionSimple" Property="SIMPLE" Value="[INSTALLFOLDER]">
+    <lux:Condition><![CDATA[VersionNT < 600]]></lux:Condition>
+  </lux:UnitTest>
+  <lux:UnitTest Id="TestConditionVistaOrLater" CustomAction="TestCustomActionSimple" Property="SIMPLE" Value="[INSTALLFOLDER]">
+    <lux:Condition><![CDATA[VersionNT >= 600]]></lux:Condition>
+  </lux:UnitTest>
+</Fragment>
+
+<Fragment>
+  <lux:UnitTest Id="TestExpressionTruth" CustomAction="TestCustomActionSimple">
+    <lux:Expression>NOT MsiSystemRebootPending AND SIMPLE</lux:Expression>
+  </lux:UnitTest>
+</Fragment>
+
+<Fragment>
+  <lux:UnitTest CustomAction="TestCustomActionMultiValue" Property="MULTIVALUE" ValueSeparator="*">
+    <lux:Condition>VersionNT</lux:Condition>
+    <!-- intentional failure -->
+    <lux:UnitTest Index="0" Value="INTENTIONAL_FAILURE" /> 
+    <lux:UnitTest Index="1" Value="[INSTALLFOLDER]">
+      <lux:Condition>NOT Installed</lux:Condition>
+    </lux:UnitTest>
+    <lux:UnitTest Index="2" Value="WIXEAST" /> 
+  </lux:UnitTest>
+</Fragment>
+
+<Fragment>
+  <lux:UnitTest CustomAction="TestCustomActionNameValuePairs" Property="NAMEVALUEPAIRS" NameValueSeparator="#">
+    <lux:UnitTest Index="InstallationRoot" Value="[INSTALLFOLDER]" />
+    <lux:UnitTest Index="Developers" Operator="caseInsensitiveNotEqual" Value="WIXWEST" />
+  </lux:UnitTest>
+</Fragment>
+</Wix>

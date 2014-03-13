@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="el-gr" Language="1032" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">Εγκατάσταση του [WixBundleName]</String>
+  <String Id="Title">Για την εγκατάσταση του [WixBundleName] απαιτείται το Microsoft .NET Framework</String>
+  <String Id="ConfirmCancelMessage">Είστε βέβαιοι ότι θέλετε να γίνει ακύρωση;</String>
+  <String Id="HelpHeader">Βοήθεια για την εγκατάσταση</String>
+  <String Id="HelpText">/passive | /quiet -  εμφανίζει ελάχιστο περιεχόμενο του περιβάλλοντος εργασίας
+   χρήστη χωρίς μηνύματα ή δεν εμφανίζει περιβάλλον εργασίας χρήστη και
+   μηνύματα. Από προεπιλογή, εμφανίζονται όλα τα μηνύματα και το περιβάλλον
+   εργασίας χρήστη.
+
+/norestart   - αποκρύπτει οποιεσδήποτε προσπάθειες για επανεκκίνηση. Από
+   προεπιλογή, το περιβάλλον εργασίας χρήστη θα εμφανίσει μήνυμα πριν από την
+   επανεκκίνηση.
+/log log.txt - πραγματοποιεί καταγραφή σε ένα συγκεκριμένο αρχείο. Από
+   προεπιλογή, δημιουργείται ένα αρχείο καταγραφής στο %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Κλείσιμο</String>
+  <String Id="InstallLicenseTerms">Κάντε κλικ στο κουμπί "Αποδοχή και εγκατάσταση" για να αποδεχτείτε τους &lt;a href="#"&gt;όρους της άδειας χρήσης&lt;/a&gt; του Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Αποδοχή και εγκατάσταση</String>
+  <String Id="InstallDeclineButton">&amp;Απόρριψη</String>
+  <String Id="ProgressHeader">Πρόοδος εγκατάστασης</String>
+  <String Id="ProgressLabel">Επεξεργασία:</String>
+  <String Id="ProgressCancelButton">&amp;Άκυρο</String>
+  <String Id="FailureHeader">Αποτυχία εγκατάστασης</String>
+  <String Id="FailureLogLinkText">Ένα ή περισσότερα προβλήματα προκάλεσαν την αποτυχία της εγκατάστασης. Διορθώστε τα προβλήματα και μετά επαναλάβετε την εγκατάσταση. Για περισσότερες πληροφορίες, ανατρέξτε στο &lt;a href="#"&gt;αρχείο καταγραφής&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Για να ολοκληρωθεί η επαναφορά του λογισμικού, πρέπει να κάνετε επανεκκίνηση του υπολογιστή.</String>
+  <String Id="FailureRestartButton">&amp;Επανεκκίνηση</String>
+  <String Id="FailureCloseButton">&amp;Κλείσιμο</String>
+</WixLocalization>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="CoreMsi.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
+    <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Core" Language="1033" Manufacturer="!(loc.Company)"
+             Version="$(var.WixVersion)" UpgradeCode="3618724B-2523-44F9-A908-866AA619504D">
+        <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
+        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+
+        <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
+
+        <Media Id="1" Cabinet="core.cab" CompressionLevel="high" />
+
+        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+
+        <Icon Id="WixSetupIcons.ico" SourceFile="wixsetupicons.dll" />
+
+        <Feature Id="Feature_WiX" Title="WiX Toolset" Level="1">
+            <Component Id="Licensing" Directory="INSTALLFOLDER">
+                <File Source="LICENSE.TXT" />
+            </Component>
+
+            <Component Id="ProductRegistration" Directory="INSTALLFOLDER">
+                <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajorMinor)">
+                    <RegistryValue Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" />
+                </RegistryKey>
+            </Component>
+
+            <Component Id="ProductFamilyRegistration" Directory="INSTALLFOLDER">
+                <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajor).x">
+                    <RegistryValue Name="v$(var.WixMajorMinor)" Value="[INSTALLFOLDER]" Type="string" />
+                </RegistryKey>
+            </Component>
+
+            <Component Id="ProductInformation" Directory="BinFolder">
+                <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajorMinor)">
+                    <RegistryValue Name="InstallRoot" Value="[BinFolder]" Type="string"/>
+                    <RegistryValue Name="ProductVersion" Value="[ProductVersion]" Type="string" />
+                </RegistryKey>
+
+                <RemoveFolder Id="CleanupShortcutFolder" Directory="ShortcutFolder" On="uninstall" />
+            </Component>
+
+            <ComponentGroupRef Id="ToolsetComponents" />
+            <ComponentGroupRef Id="ExtensionComponents" />
+            <ComponentGroupRef Id="LuxComponents" />
+            <ComponentGroupRef Id="DocComponents" />
+        </Feature>
+
+        <FeatureRef Id="Feature_MSBuild" />
+
+        <!--<FeatureRef Id="Feature_NAnt" />-->
+
+        <!-- ClickThrough is disabled in WiX v3.8
+        <FeatureRef Id="Feature_ClickThrough" />
+        -->
+    </Product>
+</Wix>

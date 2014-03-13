@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_he-IL.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="he-il" Codepage="1255" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">ה&amp;קודם</String>
+    <String Id="WixUINext" Overridable="yes">ה&amp;בא</String>
+    <String Id="WixUICancel" Overridable="yes">ביטול</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;סיום</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;נסה שוב</String>
+    <String Id="WixUIIgnore" Overridable="yes">ה&amp;תעלם</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;כן</String>
+    <String Id="WixUINo" Overridable="yes">&amp;לא</String>
+    <String Id="WixUIOK" Overridable="yes">אישור</String>
+    <String Id="WixUIPrint" Overridable="yes">הדפ&amp;ס</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}קרא את הסכם הרשיון של [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">אני &amp;מקבל את תנאי הסכם הרשיון</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">לחץ על 'התקן' כדי להתקין את המוצר עם אפשרויות ברירת מחדל עבור כל המשתמשים. לחץ על 'מתקדם' כדי לשנות אפשרויות התקנה.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">לחץ על 'התקן' כדי להתקין את המוצר עם אפשרויות ברירת מחדל עבורך בלבד. לחץ על 'מתקדם' כדי לשנות אפשרויות התקנה.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">ה&amp;תקן</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">&amp;מתקדם</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Times New Roman</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;חפש ב:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">רמה אחת למעלה</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">צור תיקיה חדשה</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;שם תיקיה:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">עבור אל תיקיית היעד</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}שינוי תיקיית יעד</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="CancelDlgText" Overridable="yes">האם אתה בטוח שברצונך לבטל את ההתקנה של [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">סמל מידע</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">עץ בחירות</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">&amp;עיון...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">אי&amp;פוס</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">&amp;שימוש בדיסק</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">לחץ על הסמלים בעץ להלן כדי לשנות את אופן ההתקנה של תכונות.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">בחר כיצד ברצונך להתקין את התכונות.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}התקנה מותאמת אישית</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">מיקום:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">באמצעי האחסון המסומנים אין די שטח דיסק זמין עבור התכונות שנבחרו. באפשרותך להסיר חלק מהקבצים מאמצעי האחסון המסומנים, להתקין פחות תכונות או לבחור כונני יעד אחרים.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">שטח הדיסק הנדרש להתקנת התכונות שנבחרו.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}דרישות שטח דיסק</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">טקסט מידע</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">סמל מידע</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">לחץ על לחצן 'סיום' כדי לצאת מאשף ההתקנה.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}פעולתו של אשף ההתקנה של [ProductName] הושלמה</String>
+
+    <String Id="FatalError_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}פעולתו של אשף ההתקנה של [ProductName] הסתיימה מוקדם מהצפוי</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">פעולתו של אשף ההתקנה של [ProductName] הסתיימה מוקדם מהצפוי עקב שגיאה. המערכת שלך לא השתנתה. כדי להתקין תוכנית זו במועד מאוחר יותר, הפעל שוב את אשף ההתקנה.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">לחץ על לחצן 'סיום' כדי לצאת מאשף ההתקנה.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">תכונות מוצר</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">בחר כיצד ברצונך להתקין את התכונות.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}תכונות מוצר</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">ה&amp;תקן</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;שנה</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes">י&amp;ציאה</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">היישומים הבאים עושים שימוש בקבצים שתוכנית התקנה זו חייבת לעדכן. סגור יישומים אלה ולאחר מכן לחץ על '&amp;נסה שוב' כדי להמשיך בהתקנה, או על 'יציאה' כדי לצאת ממנה.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">חלק מהקבצים שיש לעדכן נמצאים כעת בשימוש.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}קבצים בשימוש</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;שינוי...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}תיקיית יעד</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">לחץ על 'הבא' כדי להתקין את תיקיית ברירת המחדל או לחץ על 'שנה' כדי לבחור תיקיה אחרת.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">התקן את [ProductName] ב:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">בחר את הטווח והתיקיה להתקנה</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}טווח התקנה</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}התקן &amp;רק עבורך ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] יותקן בתיקיה לפי משתמש ויהיה זמין רק עבור חשבון המשתמש שלך. אינך זקוק להרשאות מקומיות של מנהל מערכת.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] אינו תומך בהתקנה לפי משתמש.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}התקן עבור כל משתמשי &amp;מחשב זה</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">[ProductName] יותקן בתיקיה לפי מחשב כברירת מחדל ויהיה זמין עבור כל המשתמשים. באפשרותך לשנות את תיקיית היעד המהווה ברירת מחדל. יש צורך בהרשאות מקומיות של מנהל מערכת.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">תיקיית &amp;התקנה:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;שינוי...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">ספריית ההתקנה חייבת להימצא בכונן קשיח מקומי.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">סמל מידע</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">אני &amp;מקבל את תנאי הסכם הרשיון</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">קרא בעיון את הסכם הרשיון שלהלן</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}הסכם רשיון למשתמש קצה</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;שנה</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">שנה התקנה</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">&amp;תקן</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">תקן התקנה</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">ה&amp;סר</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">הסר התקנה</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">בחר את הפעולה שברצונך לבצע.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}שינוי, תיקון או הסרה של ההתקנה</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">מתן אפשרות לשינוי אופן ההתקנה של תכונות.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">ל- [ProductName] אין תכונות הניתנות לבחירה באופן עצמאי.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">הסרת [ProductName] מהמחשב.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">אין אפשרות להסיר את [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">תיקון שגיאות בהתקנה האחרונה על-ידי תיקון קבצים, קיצורי דרך וערכי רישום חסרים ופגומים.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">אין אפשרות לתקן את [ProductName].</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">אשף ההתקנה מאפשר לך לשנות את אופן ההתקנה של התכונות של [ProductName] במחשב או להסיר מוצר זה מהמחשב. לחץ על 'הבא' כדי להמשיך או על 'ביטול' כדי לצאת מאשף ההתקנה.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}ברוך הבא אל אשף ההתקנה של [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">היישומים הבאים משתמשים בקבצים שתוכנית התקנה זו צריכה לעדכן. באפשרותך לאפשר לאשף ההתקנה לסגור אותם ולנסות להפעיל אותם מחדש או לאתחל מחדש את המחשב מאוחר יותר.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">חלק מהקבצים שיש לעדכן נמצאים כעת בשימוש.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}קבצים בשימוש</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;סגור את היישומים ונסה להפעיל אותם מחדש.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;אל תסגור את היישומים. יידרש אתחול מחדש.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">באמצעי האחסון המסומנים אין די שטח דיסק זמין עבור התכונות הנוכחיות שנבחרו. באפשרותך להסיר קבצים מסוימים מאמצעי האחסון המסומנים, להתקין פחות תכונות או לבחור כונן יעד אחר.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">שטח הדיסק הנדרש עבור ההתקנה חורג משטח הדיסק הזמין.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}אזל השטח בדיסק</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">באמצעי האחסון המסומנים אין די שטח דיסק זמין עבור התכונות הנוכחיות שנבחרו. באפשרותך להסיר קבצים מסוימים מאמצעי האחסון המסומנים, להתקין פחות תכונות או לבחור כונן יעד אחר.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">שטח הדיסק הנדרש עבור ההתקנה חורג משטח הדיסק הזמין.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}אזל השטח בדיסק</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">לחלופין, תוכל לבחור להפוך ללא זמינה את פונקציונליות ההחזרה למצב קודם של המתקין. הפיכת ההחזרה למצב קודם ללא זמינה מונעת מהמתקין לשחזר את המצב המקורי של המחשב במקרה שההתקנה מופסקת בצורה כלשהי. לחץ על 'כן' אם ברצונך לקחת את הסיכון של הפיכת ההחזרה למצב קודם ללא זמינה.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">נא המתן בעת שאשף ההתקנה מתכונן להנחות אותך בתהליך ההתקנה.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}ברוך הבא אל אשף ההתקנה של [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">נא המתן בזמן שאשף ההתקנה מתקין את [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}התקנת [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">נא המתן בזמן שאשף ההתקנה משנה את [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}שינוי [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">נא המתן בזמן שאשף ההתקנה מתקן את [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}תיקון [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">נא המתן בזמן שאשף ההתקנה מסיר את [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}הסרת [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">נא המתן בזמן שאשף ההתקנה מעדכן את [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}עדכון [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">ההתקדמות הסתיימה</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">מצב:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">ה&amp;תקן</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">אשף ההתקנה ישלים את התקנת [ProductName] במחשב שלך. לחץ על 'התקן' כדי להמשיך, או על 'ביטול' כדי לצאת מאשף ההתקנה.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}חידוש פעולתו של אשף ההתקנה של [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;רגילה</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">התקנה רגילה</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">מ&amp;ותאמת אישית</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">התקנה מותאמת אישית</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">מ&amp;לאה</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">התקנה מלאה</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}בחירת סוג התקנה</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">בחר בסוג ההתקנה שמתאים ביותר לצרכיך</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">התקנת תכונות התוכנית הנפוצות ביותר. מומלץ עבור מרבית המשתמשים.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">מתן אפשרות למשתמשים לבחור אילו תכונות תוכנית יותקנו והיכן הן יותקנו. מומלץ עבור משתמשים מתקדמים.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">כל תכונות התוכנית יותקנו. האפשרות דורשת את שטח הדיסק הרב ביותר.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}פעולתו של אשף ההתקנה של [ProductName] הופסקה</String>
+    <String Id="UserExitDescription1" Overridable="yes">התקנת [ProductName] הופסקה. המערכת שלך לא השתנתה. כדי להתקין תוכנית זו במועד מאוחר יותר, הפעל שוב את ההתקנה.</String>
+    <String Id="UserExitDescription2" Overridable="yes">לחץ על לחצן 'סיום' כדי לצאת מאשף ההתקנה.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">ה&amp;תקן</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">לחץ על 'התקן' כדי להתחיל בהתקנה. לחץ על 'הקודם' כדי לסקור או לשנות הגדרה כלשהי מהגדרות ההתקנה. לחץ על 'ביטול' כדי לצאת מהאשף.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}מוכן להתקנת [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;שנה</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">לחץ על 'שנה' כדי להתחיל בהתקנה. לחץ על 'הקודם' כדי לסקור או לשנות הגדרה כלשהי מהגדרות ההתקנה. לחץ על 'ביטול' כדי לצאת מהאשף.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}מוכן לשינוי [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">&amp;תקן</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">לחץ על 'תקן' כדי לתקן את ההתקנה של [ProductName]. לחץ על 'הקודם' כדי לסקור או לשנות הגדרה כלשהי מהגדרות ההתקנה. לחץ על 'ביטול' כדי לצאת מהאשף.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}מוכן לתיקון [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">ה&amp;סר</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">לחץ על 'הסר' כדי להסיר את [ProductName] מהמחשב. לחץ על 'הקודם' כדי לסקור או לשנות הגדרה כלשהי מהגדרות ההתקנה. לחץ על 'ביטול' כדי לצאת מהאשף.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}מוכן להסרת [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;עדכן</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">לחץ על 'עדכן' כדי לעדכן את [ProductName] במחשב. לחץ על 'הקודם' כדי לסקור או לשנות הגדרה כלשהי מהגדרות ההתקנה. לחץ על 'ביטול' כדי לצאת מהאשף.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}מוכן לעדכון [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;חזור</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">נא המתן בזמן שהמתקין מסיים להגדיר את דרישות שטח הדיסק שלך.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">סמל של סימן קריאה</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">אשף ההתקנה יתקין את [ProductName] במחשב שלך. לחץ על 'הבא' כדי להמשיך או על 'ביטול' כדי לצאת מאשף ההתקנה.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">אשף ההתקנה יעדכן את [ProductName] במחשב. לחץ על 'הבא' כדי להמשיך או על 'ביטול' כדי לצאת מאשף ההתקנה.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}ברוך הבא אל אשף ההתקנה של [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">אני &amp;מקבל את תנאי הסכם הרשיון</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">ה&amp;תקן</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;עדכן</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}קרא את הסכם הרשיון של [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">מאמת התקנה</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">מעתיק קבצים חדשים</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [9], גודל: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">מעתיק קבצי התקנה ברשת</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">קובץ: [1], ספריה: [9], גודל: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">מחשב דרישות שטח</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">מחשב דרישות שטח</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">מחשב דרישות שטח</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">יוצר קיצורי דרך</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">קיצור דרך: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">מפרסם רכיבים העומדים בדרישות</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">מזהה רכיב: [1], מזהה: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">מפרסם תכונות מוצר</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">תכונה: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">מפרסם מידע אודות המוצר</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">רושם שרתי מחלקה</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">מזהה מחלקה: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">רושם שרתי הרחבה</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">הרחבה: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">רושם מידע MIME</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">סוג תוכן MIME‏: [1], הרחבה: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">רושם מזהי תוכנית</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgID:‏ [1]‎</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">מקצה שטח רישום</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">שטח פנוי: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">מחפש יישומים מותקנים</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">מאפיין: [1], חתימה: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">מאגד קבצי הפעלה</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">קובץ: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">מחפש מוצרים שעומדים בדרישות</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">יוצר תיקיות</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">תיקיה: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">מוחק שירותים</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">שירות: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">יוצר קבצים כפולים</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [9], גודל: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">מחפש יישומים קשורים</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">נמצא יישום: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">מתקין רכיבי ODBC</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">מתקין שירותים חדשים</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">שירות: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">מעריך תנאי הפעלה</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">מעביר מצבי תכונות מיישומים קשורים</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">יישום: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">מעביר קבצים</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [9], גודל: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">מתקן קבצים</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [2], גודל: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">מעדכן רישום רכיבים</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">מבצע רישום יישומים ורכיבים של COM+‎</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">AppId‏: [1], {{AppType‏: [2], משתמשים: [3], RSN‏: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">מבצע רישום גופנים</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">גופן: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">רושם מוצר</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">רושם ספריות סוגים</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID:‏ [1]‎</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">רושם משתמש</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">מסיר קבצים כפולים</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">מעדכן מחרוזות סביבה</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">שם: [1], ערך: [2], פעולה [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">מסיר יישומים</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">יישום: [1], שורת פקודה: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">מסיר קבצים</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">מסיר תיקיות</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">תיקיה: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">‏‏מסיר ערכים בקבצי INI</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">קובץ: [1], סעיף: [2], מפתח: [3], ערך: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">מסיר רכיבי ODBC</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">מסיר ערכי רישום של המערכת</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">מפתח: [1], שם: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">מסיר קיצורי דרך</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">קיצור דרך: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">מחפש מוצרים שעומדים בדרישות</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">רושם מודולים</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">קובץ: [1], תיקיה: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">מבטל רישום מודולים</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">קובץ: [1], תיקיה: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">מאתחל ספריות ODBC</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">מפעיל שירותים</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">שירות: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">מפסיק שירותים</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">שירות: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">מבטל פרסום של רכיבים העומדים בדרישות</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">מזהה רכיב: [1], מזהה: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">מבטל פרסום של תכונות מוצר</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">תכונה: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">מסיר רישום של שרתי מחלקה</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">מזהה מחלקה: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">מבטל רישום יישומים ורכיבים של +COM</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">‏AppId‏: [1] {{AppType: ‏[2]‏}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">מבטל רישום של שרתי הרחבה</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">הרחבה: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">מבטל רישום גופנים</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">גופן: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">מבטל רישום של מידע MIME</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">סוג תוכן MIME‏: [1], הרחבה: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">מבטל רישום של מזהי תוכנית</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">ProgID:‏ [1]‎</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">מבטל רישום של ספריות סוגים</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">LibID:‏ [1]‎</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">מעדכן מחרוזות סביבה</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">שם: [1], ערך: [2], פעולה [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">כותב ערכים בקבצי INI</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">קובץ: [1], סעיף: [2], מפתח: [3], ערך: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">כותב ערכי רישום של המערכת</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">מפתח: [1], שם: [2], ערך: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">מפרסם יישום</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">יוצר פעולות Script עבור הפעולה:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">מתקין את קטלוג המערכת</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">קובץ: [1], יחסי תלות: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">מפרסם מידע הרכבה</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">הקשר יישום: [1], שם הרכבה: [2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">מבטל פרסום של מידע הרכבה</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">הקשר יישום: [1], שם הרכבה: [2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">פעולת חזרה למצב קודם:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">מסיר קבצי גיבוי</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">קובץ: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">מסיר קבצים שהועברו</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">קובץ: [1], ספריה: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">מבטל פרסום מידע אודות המוצר</String>
+
+    <String Id="Error0" Overridable="yes">{{שגיאה מכרעת: }}</String>
+    <String Id="Error1" Overridable="yes">{{שגיאה [1]. }}</String>
+    <String Id="Error2" Overridable="yes">אזהרה [1]. </String>
+    <String Id="Error4" Overridable="yes">‏‏מידע [1]. </String>
+    <String Id="Error5" Overridable="yes">‏‏המתקין נתקל בשגיאה בלתי צפויה בהתקנת חבילה זו. ייתכן ששגיאה זו מצביעה על בעיה בחבילה. קוד השגיאה הוא [1]. {{הארגומנטים הם: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{הדיסק מלא: }}</String>
+    <String Id="Error8" Overridable="yes">פעולה [Time]: [1]. [2]‏</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">סוג הודעה: [1], ארגומנט: [2]‏</String>
+    <String Id="Error12" Overridable="yes">=== תחילת הרישום: [Date] ‏ [Time]‏ ===</String>
+    <String Id="Error13" Overridable="yes">=== סיום הרישום: [Date] ‏ [Time] ===</String>
+    <String Id="Error14" Overridable="yes">תחילת הפעולה [Time]‏: [1].</String>
+    <String Id="Error15" Overridable="yes">סיום הפעולה [Time]‏: [1]. ערך החזרה [2].</String>
+    <String Id="Error16" Overridable="yes">זמן נותר: {[1] דקות }{[2] שניות}</String>
+    <String Id="Error17" Overridable="yes">אין זיכרון פנוי. סגור יישומים אחרים לפני שתנסה שוב.</String>
+    <String Id="Error18" Overridable="yes">המתקין הפסיק להגיב.</String>
+    <String Id="Error19" Overridable="yes">פעולת המתקין הופסקה בטרם עת.</String>
+    <String Id="Error20" Overridable="yes">נא המתן בזמן ש- Windows קובע את תצורת [ProductName]</String>
+    <String Id="Error21" Overridable="yes">אוסף מידע נדרש...</String>
+    <String Id="Error22" Overridable="yes">מסיר גירסאות קודמות של יישום זה...</String>
+    <String Id="Error23" Overridable="yes">מתכונן להסרת גירסאות קודמות של יישום זה...</String>
+    <String Id="Error32" Overridable="yes">התקנת {[ProductName] }הסתיימה בהצלחה.</String>
+    <String Id="Error33" Overridable="yes">התקנת {[ProductName] }נכשלה.</String>
+    <String Id="Error1101" Overridable="yes">שגיאה בקריאה מקובץ: [2]. {{ שגיאת מערכת [3].}} ודא שהקובץ קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1301" Overridable="yes">אין אפשרות ליצור את הקובץ '[2]'. ספריה בשם זה כבר קיימת. בטל את ההתקנה ונסה להתקין במיקום אחר.</String>
+    <String Id="Error1302" Overridable="yes">‏‏נא הכנס את הדיסק: [2]‏</String>
+    <String Id="Error1303" Overridable="yes">למתקין אין די הרשאות לגשת לספריה זו: [2]. אין אפשרות להמשיך בהתקנה. היכנס כמנהל מערכת, או פנה למנהל המערכת.</String>
+    <String Id="Error1304" Overridable="yes">שגיאה בכתיבה לקובץ: [2]. ודא שיש לך גישה לספריה זו.</String>
+    <String Id="Error1305" Overridable="yes">שגיאה בקריאה מקובץ ‎[2]‎. {{ שגיאת מערכת [3].}} ודא שהקובץ קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1306" Overridable="yes">ליישום אחר יש גישה בלעדית לקובץ '[2]'. סגור את כל היישומים האחרים ולאחר מכן לחץ על 'נסה שוב'.</String>
+    <String Id="Error1307" Overridable="yes">אין די שטח דיסק להתקנת קובץ זה: [2]. פנה שטח דיסק ולחץ על 'נסה שוב', או לחץ על 'ביטול' כדי לצאת.</String>
+    <String Id="Error1308" Overridable="yes">קובץ המקור לא נמצא: [2]. ודא שהקובץ קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1309" Overridable="yes">‏‏שגיאה בקריאה מקובץ: [3]. {{ שגיאת מערכת [2].}} ודא שהקובץ קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1310" Overridable="yes">‏‏שגיאה בכתיבה לקובץ: [3]. {{ שגיאת מערכת [2].}} ודא שיש לך גישה לספריה זו.</String>
+    <String Id="Error1311" Overridable="yes">קובץ המקור לא נמצא {{(קובץ Cabinet‏)}}: [2]. ודא שהקובץ קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1312" Overridable="yes">אין אפשרות ליצור את הספריה '[2]'. קובץ בשם זה קיים כבר. שנה את שם הקובץ או הסר אותו, ולחץ על 'נסה שוב', או לחץ על 'ביטול' כדי לצאת.</String>
+    <String Id="Error1313" Overridable="yes">אמצעי האחסון [2] אינו זמין כעת. בחר אמצעי אחסון אחר.</String>
+    <String Id="Error1314" Overridable="yes">הנתיב שצוין '[2]' אינו זמין.</String>
+    <String Id="Error1315" Overridable="yes">‏‏לא ניתן לכתוב לתיקיה שצוינה: [2].</String>
+    <String Id="Error1316" Overridable="yes">אירעה שגיאת רשת בעת הניסיון לקרוא מהקובץ: [2]</String>
+    <String Id="Error1317" Overridable="yes">אירעה שגיאה בעת הניסיון ליצור את הספריה: [2]</String>
+    <String Id="Error1318" Overridable="yes">‏‏אירעה שגיאת רשת בעת הניסיון ליצור את הספריה: [2]‏</String>
+    <String Id="Error1319" Overridable="yes">אירעה שגיאת רשת בעת הניסיון לפתוח את קובץ Cabinet של קובץ המקור: [2]</String>
+    <String Id="Error1320" Overridable="yes">הנתיב שצוין ארוך מדי: [2]</String>
+    <String Id="Error1321" Overridable="yes">‏‏למתקין אין הרשאות מספיקות לשינוי קובץ זה: [2].</String>
+    <String Id="Error1322" Overridable="yes">חלק מנתיב התיקיה '[2]' אינו חוקי. הוא ריק, או שהוא חורג מהאורך שהמערכת מתירה.</String>
+    <String Id="Error1323" Overridable="yes">נתיב התיקיה '[2]' מכיל מילים שאינן חוקיות עבור נתיבי תיקיות.</String>
+    <String Id="Error1324" Overridable="yes">נתיב התיקיה '[2]' מכיל תו לא חוקי.</String>
+    <String Id="Error1325" Overridable="yes">'[2]' אינו שם קובץ קצר חוקי.</String>
+    <String Id="Error1326" Overridable="yes">שגיאה בקבלת אבטחת הקובץ: [3] ‏GetLastError‏: [2]</String>
+    <String Id="Error1327" Overridable="yes">כונן לא חוקי: [2]</String>
+    <String Id="Error1328" Overridable="yes">שגיאה בהחלת תיקון על קובץ [2]. כנראה שהקובץ עודכן באמצעים אחרים, ולא ניתן עוד לשנותו באמצעות תיקון זה. לקבלת מידע נוסף, פנה לספק התיקון. {{שגיאת מערכת: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">אין אפשרות להתקין קובץ נדרש מאחר שקובץ ה- Cabinet ‏[2] אינו חתום בחתימה דיגיטלית. דבר זה עשוי להצביע על כך שקובץ ה- Cabinet פגום.</String>
+    <String Id="Error1330" Overridable="yes">אין אפשרות להתקין קובץ נדרש מאחר שקובץ ה- Cabinet ‏[2] כולל חתימה דיגיטלית שאינה חוקית. דבר זה עשוי להצביע על כך שקובץ ה- Cabinet פגום.{{ WinVerifyTrust החזיר את שגיאה [3].}}</String>
+    <String Id="Error1331" Overridable="yes">העתקת קובץ [2] כראוי נכשלה: שגיאת CRC.</String>
+    <String Id="Error1332" Overridable="yes">העברת קובץ [2] כראוי נכשלה: שגיאת CRC.</String>
+    <String Id="Error1333" Overridable="yes">תיקון קובץ [2] כראוי נכשל: שגיאת CRC.</String>
+    <String Id="Error1334" Overridable="yes">אין אפשרות להתקין את הקובץ '[2]' מאחר שהקובץ אינו נמצא בקובץ Cabinet ‏'[3]'. מצב זה עשוי להצביע על שגיאת רשת, שגיאה בקריאה מכונן תקליטורים או בעיה בחבילה זו.</String>
+    <String Id="Error1335" Overridable="yes">אין אפשרות להשתמש בקובץ Cabinet ‏'[2]' הדרוש להתקנה זו, מאחר שהוא פגום. מצב זה עשוי להצביע על שגיאת רשת, שגיאה בקריאה מכונן תקליטורים או בעיה בחבילה זו.</String>
+    <String Id="Error1336" Overridable="yes">אירעה שגיאה בעת יצירת קובץ זמני הדרוש להשלמת התקנה זו. {{ תיקיה: [3]. קוד שגיאת מערכת: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">לא ניתן ליצור את המפתח: [2]. {{ שגיאת מערכת [3].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה.‏ </String>
+    <String Id="Error1402" Overridable="yes">לא ניתן לפתוח את המפתח: [2]. {{ שגיאת מערכת [3].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה. </String>
+    <String Id="Error1403" Overridable="yes">לא ניתן למחוק את הערך [2] ממפתח [3]. {{ שגיאת מערכת [4].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה. </String>
+    <String Id="Error1404" Overridable="yes">‏‏‏‏לא ניתן למחוק את המפתח [2]. {{ שגיאת מערכת [3].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה. </String>
+    <String Id="Error1405" Overridable="yes">לא ניתן לקרוא את הערך [2] מהמפתח [3]. {{ שגיאת מערכת [4].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה. </String>
+    <String Id="Error1406" Overridable="yes">לא ניתן לכתוב את הערך [2] למפתח [3]. {{ שגיאת מערכת [4].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה.</String>
+    <String Id="Error1407" Overridable="yes">לא ניתן לקבל שמות ערכים עבור מפתח [2]. {{ שגיאת מערכת [3].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה.</String>
+    <String Id="Error1408" Overridable="yes">לא ניתן לקבל שמות מפתחות משנה עבור מפתח [2]. {{ שגיאת מערכת [3].}} ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה.</String>
+    <String Id="Error1409" Overridable="yes">לא ניתן לקרוא מידע אבטחה עבור מפתח [2]. {{ שגיאת מערכת [3].}}  ודא שיש לך הרשאות גישה מספיקות למפתח זה או פנה לצוות התמיכה.</String>
+    <String Id="Error1410" Overridable="yes">לא ניתן להגדיל את שטח הרישום הזמין. ‎[2] KB של שטח רישום פנוי דרושים להתקנת יישום זה.</String>
+    <String Id="Error1500" Overridable="yes">התקנה אחרת מתבצעת כעת. עליך להשלים התקנה זו לפני שתמשיך בהתקנה הנוכחית.</String>
+    <String Id="Error1501" Overridable="yes">שגיאה בגישה לנתונים מאובטחים. ודא ש- Windows Installer מוגדר כראוי ונסה להתקין שוב.</String>
+    <String Id="Error1502" Overridable="yes">משתמש '[2]' הפעיל בעבר התקנה של מוצר '[3]'. משתמש זה יצטרך להפעיל התקנה זו שוב בטרם יוכל להשתמש במוצר זה. ההתקנה הנוכחית שלך תמשיך כעת.</String>
+    <String Id="Error1503" Overridable="yes">משתמש '[2]' הפעיל בעבר התקנה של מוצר '[3]'. משתמש זה יצטרך להפעיל התקנה זו שוב בטרם יוכל להשתמש במוצר זה.</String>
+    <String Id="Error1601" Overridable="yes">אזל השטח בדיסק -- אמצעי אחסון: '[2]'; שטח נדרש: ‎[3] KB; שטח זמין: [4] KB. פנה שטח בדיסק ונסה שוב.</String>
+    <String Id="Error1602" Overridable="yes">‏‏האם אתה בטוח שברצונך לבטל?</String>
+    <String Id="Error1603" Overridable="yes">הקובץ [2][3] מוחזק בשימוש על-ידי ההליך הבא: {שם: [4], מזהה: [5], כותרת החלון: '[6]'}. סגור יישום זה ונסה שוב.</String>
+    <String Id="Error1604" Overridable="yes">המוצר '[2]' כבר מותקן, דבר המונע את התקנת מוצר זה. שני מוצרים אלה אינם תואמים.</String>
+    <String Id="Error1605" Overridable="yes">אין די שטח דיסק באמצעי אחסון '[2]' כדי להמשיך את ההתקנה עם אפשרות שחזור מופעלת. דרושים KB ‏[3], אבל רק KB ‏[4] פנויים. לחץ על 'התעלם' להמשך ההתקנה ללא אפשרות שמירת נתוני השחזור, לחץ על 'נסה שוב' לבדיקה חוזרת של שטח פנוי או לחץ על 'ביטול' ליציאה מתוכנית ההתקנה.</String>
+    <String Id="Error1606" Overridable="yes">לא ניתן לגשת למיקום הרשת [2].</String>
+    <String Id="Error1607" Overridable="yes">יש לסגור את היישומים הבאים לפני המשך ההתקנה:</String>
+    <String Id="Error1608" Overridable="yes">לא נמצאו מוצרים תואמים שהותקנו בעבר במחשב המיועד להתקנת מוצר זה.</String>
+    <String Id="Error1609" Overridable="yes">אירעה שגיאה בעת הקצאת הגדרות אבטחה. [2] אינו משתמש או קבוצה חוקיים. הבעיה עשויה להיות בחבילה או בעיה בהתחברות לבקר תחום ברשת. בדוק את חיבור הרשת ולחץ על 'נסה שוב', או לחץ על 'ביטול' כדי לסיים את ההתקנה. {{אין אפשרות לאתר את SID המשתמש, שגיאת מערכת [3]}}</String>
+    <String Id="Error1701" Overridable="yes">המפתח [2] אינו חוקי. ודא שהזנת את המפתח הנכון.</String>
+    <String Id="Error1702" Overridable="yes">המתקין חייב להפעיל מחדש את המערכת שלך כדי שניתן יהיה להמשיך עם קביעת התצורה של [2]. לחץ על 'כן' כדי להפעיל מחדש כעת, או על 'לא' אם בכוונתך להפעיל מחדש באופן ידני מאוחר יותר.</String>
+    <String Id="Error1703" Overridable="yes">עליך להפעיל מחדש את המערכת כדי ששינויי התצורה של [2] ייכנסו לתוקף. לחץ על 'כן', כדי להפעיל מחדש כעת, או על 'לא' אם בכוונתך להפעיל מחדש באופן ידני מאוחר יותר.</String>
+    <String Id="Error1704" Overridable="yes">התקנה של [2] מושעית כעת. כדי להמשיך, עליך לבטל את השינויים שביצעה התקנה זו. האם ברצונך לבטל שינויים אלה?</String>
+    <String Id="Error1705" Overridable="yes">מתבצעת כעת התקנה קודמת של מוצר זה. כדי להמשיך, עליך לבטל את השינויים שביצעה התקנה זו. האם ברצונך לבטל שינויים אלה?</String>
+    <String Id="Error1706" Overridable="yes">לא נמצאה חבילת התקנה עבור המוצר [2]. נסה את ההתקנה שוב באמצעות עותק חוקי של חבילת ההתקנה '[3]'.</String>
+    <String Id="Error1707" Overridable="yes">ההתקנה הושלמה בהצלחה.</String>
+    <String Id="Error1708" Overridable="yes">ההתקנה נכשלה.</String>
+    <String Id="Error1709" Overridable="yes">מוצר: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">באפשרותך לשחזר את המחשב למצבו הקודם או להמשיך בהתקנה במועד מאוחר יותר. האם ברצונך לבצע שחזור?</String>
+    <String Id="Error1711" Overridable="yes">אירעה שגיאה במהלך כתיבת מידע התקנה בדיסק. ודא שיש די שטח דיסק זמין ולחץ על 'נסה שוב, או לחץ על 'ביטול' כדי לסיים את ההתקנה.</String>
+    <String Id="Error1712" Overridable="yes">לא ניתן לאתר קובץ אחד או יותר מהקבצים הדרושים לשחזור המחשב שלך למצבו הקודם. לא ניתן יהיה לבצע שחזור.</String>
+    <String Id="Error1713" Overridable="yes">ל- [2] אין אפשרות להתקין אחד מהמוצרים הנדרשים שלו. פנה לקבוצת התמיכה הטכנית. {{שגיאת מערכת: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">לא ניתן להסיר את הגירסה הקודמת של [2]. פנה לקבוצת התמיכה הטכנית. {{שגיאת מערכת [3].}}</String>
+    <String Id="Error1715" Overridable="yes">[2] הותקן</String>
+    <String Id="Error1716" Overridable="yes">[2] הוגדר</String>
+    <String Id="Error1717" Overridable="yes">[2] הוסר</String>
+    <String Id="Error1718" Overridable="yes">קובץ [2] נדחה על-ידי מדיניות חתימה דיגיטלית.</String>
+    <String Id="Error1719" Overridable="yes">לא ניתן לגשת לשירות Windows Installer. הדבר עשוי להתרחש אם Windows פועל במצב בטוח או אם Windows Installer אינו מותקן כראוי. פנה לצוות התמיכה לקבלת סיוע.</String>
+    <String Id="Error1720" Overridable="yes">קיימת בעיה בחבילה זו של Windows Installer. לא ניתן להפעיל קובץ Script שנדרש להשלמת התקנה זו. פנה לצוות התמיכה או לספק החבילה. {{פעולה מותאמת אישית [2] שגיאת Script ‏[3], [4]: [5] שורה [6], עמודה [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">קיימת בעיה בחבילה זו של Windows Installer. לא ניתן להפעיל קובץ DLL שנדרש להשלמת התקנה זו. פנה לצוות התמיכה או לספק החבילה. {{פעולה [2], מיקום: [3], פקודה: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">קיימת בעיה בחבילה זו של Windows Installer. תוכנית המופעלת כחלק מההתקנה לא סיימה את פעולתה כצפוי. פנה לצוות התמיכה או לספק החבילה. {{פעולה [2], מיקום: [3], פקודה: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">קיימת בעיה בחבילה זו של Windows Installer. לא ניתן להפעיל קובץ DLL שנדרש להשלמת התקנה זו. פנה לצוות התמיכה או לספק החבילה. {{פעולה [2], ערך: [3], ספריה: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">‏‏ההסרה הושלמה בהצלחה.</String>
+    <String Id="Error1725" Overridable="yes">‏‏ההסרה נכשלה.</String>
+    <String Id="Error1726" Overridable="yes">המודעה הושלמה בהצלחה.</String>
+    <String Id="Error1727" Overridable="yes">המודעה נכשלה.</String>
+    <String Id="Error1728" Overridable="yes">‏‏קביעת התצורה הושלמה בהצלחה.</String>
+    <String Id="Error1729" Overridable="yes">‏‏קביעת התצורה נכשלה.</String>
+    <String Id="Error1730" Overridable="yes">‏‏עליך להיות מנהל מערכת כדי להסיר יישום זה. להסרת יישום זה, היכנס למערכת עם הרשאות של מנהל מערכת או פנה לקבוצת התמיכה הטכנית לקבלת סיוע.</String>
+    <String Id="Error1731" Overridable="yes">חבילת ההתקנה המקורית של המוצר [2] אינה מסונכרנת עם חבילת הלקוח. נסה לבצע את ההתקנה שוב באמצעות עותק חוקי של חבילת ההתקנה '[3]'.</String>
+    <String Id="Error1732" Overridable="yes">כדי להשלים את ההתקנה של [2], עליך להפעיל מחדש את המחשב. משתמשים אחרים מחוברים כעת למחשב זה, והפעלה מחדש עלולה לגרום להם לאבד את עבודתם. האם ברצונך להפעיל מחדש כעת?</String>
+    <String Id="Error1801" Overridable="yes">הנתיב [2] אינו חוקי. נא ציין נתיב חוקי.</String>
+    <String Id="Error1802" Overridable="yes">אין זיכרון פנוי. סגור יישומים אחרים לפני שתנסה שוב.</String>
+    <String Id="Error1803" Overridable="yes">אין דיסק בכונן [2]. הכנס דיסק ולחץ על 'נסה שוב', או לחץ על 'ביטול' כדי לחזור אל אמצעי האחסון הקודם שנבחר.</String>
+    <String Id="Error1804" Overridable="yes">אין דיסק בכונן [2]. הכנס דיסק ולחץ על 'נסה שוב', או לחץ על 'ביטול' כדי לחזור אל תיבת העיון ולבחור אמצעי אחסון אחר.</String>
+    <String Id="Error1805" Overridable="yes">התיקיה [2] אינה קיימת. נא הזן נתיב לתיקיה קיימת.</String>
+    <String Id="Error1806" Overridable="yes">אין לך הרשאות מתאימות לקריאת תיקיה זו.</String>
+    <String Id="Error1807" Overridable="yes">לא ניתן לקבוע תיקיית יעד חוקית עבור ההתקנה.</String>
+    <String Id="Error1901" Overridable="yes">‏‏שגיאה בניסיון לקרוא ממסד הנתונים המקורי של ההתקנה: [2].</String>
+    <String Id="Error1902" Overridable="yes">מתזמן פעולת אתחול מחדש: משנה את שם הקובץ [2] ל- [3]. יש לבצע אתחול מחדש כדי להשלים את הפעולה.</String>
+    <String Id="Error1903" Overridable="yes">מתזמן פעולת אתחול מחדש: מוחק את הקובץ [2]. יש לבצע אתחול מחדש כדי להשלים את הפעולה.</String>
+    <String Id="Error1904" Overridable="yes">רישום מודול [2] נכשל. HRESULT ‏[3]. פנה לצוות התמיכה.</String>
+    <String Id="Error1905" Overridable="yes">ביטול הרישום של מודול [2] נכשל. HRESULT ‏[3]. פנה לצוות התמיכה.</String>
+    <String Id="Error1906" Overridable="yes">אחסון החבילה [2] במטמון נכשל. שגיאה: [3]. פנה לצוות התמיכה.</String>
+    <String Id="Error1907" Overridable="yes">לא ניתן לרשום את הגופן [2]. ודא שיש לך הרשאות מספיקות להתקנת גופנים ושהמערכת תומכת בגופן זה.</String>
+    <String Id="Error1908" Overridable="yes">ביטול רישום הגופן [2] נכשל. ודא שיש לך הרשאות מספיקות להסרת גופנים.</String>
+    <String Id="Error1909" Overridable="yes">לא ניתן ליצור את קיצור הדרך [2]. ודא שתיקיית היעד קיימת ושבאפשרותך לגשת אליה.</String>
+    <String Id="Error1910" Overridable="yes">‏‏לא ניתן להסיר את קיצור הדרך [2]. ודא שקיצור הדרך קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1911" Overridable="yes">לא ניתן לרשום ספריית סוגים עבור הקובץ [2]. פנה לצוות התמיכה.</String>
+    <String Id="Error1912" Overridable="yes">לא ניתן לבטל את רישום ספריית הסוגים עבור הקובץ [2]. פנה לצוות התמיכה.</String>
+    <String Id="Error1913" Overridable="yes">לא ניתן לעדכן את קובץ ה- INI ‏[2][3]. ודא שהקובץ קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1914" Overridable="yes">לא ניתן לתזמן את הקובץ [2] להחליף את הקובץ [3] במהלך אתחול מחדש. ודא שיש לך הרשאות כתיבה לקובץ [3].</String>
+    <String Id="Error1915" Overridable="yes">שגיאה בעת הסרת מנהל של מנהלי ההתקנים של ODBC, שגיאת ODBC‏ [2]: [3]. פנה לצוות התמיכה.</String>
+    <String Id="Error1916" Overridable="yes">שגיאה בעת התקנת מנהל של מנהלי ההתקנים של ODBC, שגיאת ODBC‏ [2]: [3]. פנה לצוות התמיכה.</String>
+    <String Id="Error1917" Overridable="yes">שגיאה בעת הסרת מנהל ההתקן של ODBC‏: [4], שגיאת ODBC‏ [2]: [3]. ודא שיש לך הרשאות מתאימות להסרת מנהלי התקן של ODBC.</String>
+    <String Id="Error1918" Overridable="yes">שגיאה בעת התקנת מנהל ההתקן של ODBC‏: [4], שגיאת ODBC‏ [2]: [3]. ודא שהקובץ [4] קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1919" Overridable="yes">‏‏שגיאה בהגדרת תצורה של מקור נתוני ODBC: ‏[4], שגיאת ODBC ‏[2]:‏ [3]. ודא שהקובץ [4] קיים ושבאפשרותך לגשת אליו.</String>
+    <String Id="Error1920" Overridable="yes">הפעלת שירות '[2]' ([3]) נכשלה. ודא שברשותך הרשאות מספיקות להפעלת שירותי מערכת.</String>
+    <String Id="Error1921" Overridable="yes">לא ניתן להפסיק את שירות '[2]' ([3]). ודא שברשותך הרשאות מספיקות להפסקת שירותי מערכת.</String>
+    <String Id="Error1922" Overridable="yes">לא ניתן למחוק את שירות '[2]' ([3]). ודא שברשותך הרשאות מספיקות להסרת שירותי מערכת.</String>
+    <String Id="Error1923" Overridable="yes">לא ניתן להתקין את שירות '[2]' ([3]). ודא שברשותך הרשאות מספיקות להתקנת שירותי מערכת.</String>
+    <String Id="Error1924" Overridable="yes">לא ניתן לעדכן את משתנה הסביבה '[2]'. ודא שברשותך הרשאות מספיקות לשינוי משתני סביבה.</String>
+    <String Id="Error1925" Overridable="yes">אין לך הרשאות מספיקות להשלמת התקנה זו עבור כל משתמשי המחשב. היכנס כמנהל מערכת ולאחר מכן נסה שוב לבצע התקנה זו.</String>
+    <String Id="Error1926" Overridable="yes">לא ניתן להגדיר אבטחת קובץ עבור הקובץ '[3]'. שגיאה: [2]. ודא שברשותך הרשאות מספיקות לשינוי הרשאות האבטחה עבור קובץ זה.</String>
+    <String Id="Error1927" Overridable="yes">שירותי רכיבים (COM+ 1.0) אינם מותקנים במחשב זה. כדי שהתקנה זו תסתיים בהצלחה, יש צורך בשירותי רכיבים. שירותי רכיבים זמינים ב- Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">שגיאה ברישום יישום COM+‎‎. פנה לצוות התמיכה לקבלת מידע נוסף.</String>
+    <String Id="Error1929" Overridable="yes">שגיאה בביטול הרישום של יישום COM+‎‎. פנה לצוות התמיכה לקבלת מידע נוסף.</String>
+    <String Id="Error1930" Overridable="yes">לא ניתן לשנות את התיאור של שירות '[2]' ([3]).</String>
+    <String Id="Error1931" Overridable="yes">לשירות Windows Installer אין אפשרות לעדכן את קובץ המערכת [2] מאחר שהקובץ מוגן על-ידי Windows. ייתכן שתצטרך לעדכן את מערכת ההפעלה שלך כדי שתוכנית זו תפעל כהלכה. {{גירסת חבילה: [3], גירסה המוגנת על-ידי מערכת ההפעלה: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">לשירות Windows Installer אין אפשרות לעדכן את קובץ Windows המוגן [2]. {{גירסת חבילה: [3], גירסה המוגנת על-ידי מערכת ההפעלה: [4], שגיאת SFP‏: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">לשירות Windows Installer אין אפשרות לעדכן קובץ Windows מוגן אחד או יותר. {{שגיאת SFP: ‏[2]. רשימת קבצים מוגנים:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">מדיניות במחשב אינה מאפשרת התקנות משתמש.</String>
+    <String Id="Error1935" Overridable="yes">אירעה שגיאה במהלך התקנת רכיב ההרכבה '[6]'. עיין בעזרה ותמיכה לקבלת מידע נוסף. HRESULT:‏ [3]. {{ממשק הרכבה: [4], פונקציה: [5], רכיב: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">אירעה שגיאה במהלך התקנת ההרכבה '[6]'. להרכבה לא מוגדר שם חזק או שהיא אינה חתומה באמצעות מפתח באורך המינימלי הנדרש. HRESULT‏: [3]. {{ממשק הרכבה: [4], פונקציה: [5], רכיב: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">אירעה שגיאה במהלך התקנת ההרכבה '[6]'. לא ניתן לאמת את החתימה או הקטלוג או שהפריט אינו חוקי. HRESULT‏: [3]. {{ממשק הרכבה: [4], פונקציה: [5], רכיב: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">אירעה שגיאה במהלך התקנת ההרכבה '[6]'. לא ניתן לאתר מודול אחד או יותר של ההרכבה. HRESULT‏: [3]. {{ממשק הרכבה: [4], פונקציה: [5], רכיב: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">בתים</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">KB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">התכונה כולה תהיה לא זמינה</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">התכונה תותקן לפי דרישה</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">התכונה המלאה תותקן להפעלה מתקליטור</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">התכונה המלאה תותקן בכונן קשיח מקומי</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">התכונה המלאה תותקן להפעלה מרשת</String>
+    <String Id="UITextMenuCD" Overridable="yes">תותקן להפעלה מתקליטור</String>
+    <String Id="UITextMenuLocal" Overridable="yes">תותקן בכונן קשיח מקומי</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">תותקן להפעלה מרשת</String>
+    <String Id="UITextNewFolder" Overridable="yes">תיקיה|תיקיה חדשה</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">אוסף מידע נדרש...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">תכונה זו תישאר לא מותקנת</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">תכונה זו תוגדר להתקנה לפי דרישה</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">תכונה זו תותקן להפעלה מתקליטור</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">תכונה זו תותקן בכונן הקשיח המקומי</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">תכונה זו תותקן להפעלה מהרשת</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">תכונה זו תהפוך ללא זמינה</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">תותקן לפי דרישה</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">תכונה זו תהיה זמינה להפעלה מתקליטור</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">תכונה זו תותקן בכונן הקשיח המקומי שלך</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">תכונה זו תהיה זמינה להפעלה מהרשת</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">תכונה זו תוסר לחלוטין, לא תוכל להפעיל אותה מתקליטור</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">תכונה זו תעבור ממצב הפעלה מתקליטור להגדרת התקנה לפי דרישה</String>
+    <String Id="UITextSelCDCD" Overridable="yes">תכונה זו תישאר במצב הפעלה מתקליטור</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">תכונה זו תשתנה ממצב הפעלה מתקליטור למצב התקנה בכונן הקשיח המקומי</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">תכונה זו מפנה עד [1] בכונן הקשיח.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">תכונה זו דורשת [1] בכונן הקשיח.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">מחשב דרישות עבור תכונה זו...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">תכונה זו תוסר לחלוטין</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">תכונה זו תוסר מהכונן הקשיח המקומי שלך, אך תוגדר להתקנה לפי דרישה</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">תכונה זו תוסר מהכונן הקשיח המקומי שלך, אך עדיין תהיה זמינה להפעלה מתקליטור</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">תכונה זו תישאר בכונן הקשיח המקומי</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">תכונה זו תוסר מהכונן הקשיח המקומי, אך עדיין תהיה זמינה להפעלה מהרשת</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">תכונה זו תוסר לחלוטין, לא תוכל להפעיל אותה מהרשת</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">תכונה זו תשתנה ממצב הפעלה מהרשת להגדרה להתקנה לפי דרישה</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">תכונה זו תשתנה ממצב הפעלה מהרשת למצב התקנה בכונן הקשיח המקומי</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">תכונה זו תישאר במצב הפעלה מהרשת</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">תכונה זו מפנה [1] בכונן הקשיח. נבחרו [2] מתוך [3] תכונות המשנה שלה. תכונות המשנה מפנות [4] בכונן הקשיח.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">תכונה זו מפנה [1] בכונן הקשיח. נבחרו [2] מתוך [3] תכונות המשנה שלה. תכונות המשנה דורשות [4] בכונן הקשיח.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">תכונה זו דורשת [1] בכונן הקשיח. נבחרו [2] מתוך [3] תכונות המשנה שלה. תכונות המשנה מפנות [4] בכונן הקשיח.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">תכונה זו דורשת [1] בכונן הקשיח. נבחרו [2] מתוך [3] תכונות המשנה שלה. תכונות המשנה דורשות [4] בכונן הקשיח.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">זמן נותר: {[1] דקות }{[2] שניות}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">זמין</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">הבדל</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">דרוש</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">גודל דיסק</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">אמצעי אחסון</String>
+</WixLocalization>

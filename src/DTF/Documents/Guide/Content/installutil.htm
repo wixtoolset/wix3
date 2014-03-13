@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>About InstallUtil</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">About InstallUtil</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="managedcas.htm">Managed CAs</a> &gt;
+        <span class="nolink">InstallUtil</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+            <p>
+                InstallUtil is often considered as another option for executing MSI custom actions
+                written in managed code. But in most cases it is not the best solution, for a number
+                of reasons.</p>
+            <p>
+                InstallUtil (in either InstallUtil.exe or InstallUtilLib.dll form) is a .NET Framework
+                tool for executing the System.Configuration.Installer classes that are implemented
+                in an assembly. That way the assembly can contain any special code required to install
+                itself and uninstall itself. Essentially it is the .NET replacement for COM self-registration
+                aka DllRegisterServer.</p>
+            <p>
+                Self-reg or System.Configuration.Installer is convenient for development use in
+                order to test code without creating an actual setup package, or for an IDE which
+                wants to generate self-installing code. But experienced setup developers and the
+                <a href="MSI.chm::/setup/selfreg_table.htm">Windows Installer documentation</a>
+                all agree that self-reg is a bad practice for a
+                production-quality setup. The current theory of state-of-the-art setup is that it
+                should be as data-driven as possible. That is, the setup package describes as fully
+                as possible the desired state of the system, and then the installer engine calculates
+                the necessary actions to install, uninstall, patch, etc.</p>
+            <p>
+                S.C.I encourages developers to write code for things such as registering services
+                or registering COM classes or other things which are more appropriately done using
+                built-in MSI functionality (the ServiceInstall and Registry tables). The Visual
+                Studio .NET wizards also tend to generate this kind of install code. Again, that
+                is nice for development but not good for real installations. You end up with similar
+                but slightly different code in many places for doing the same thing. And that code
+                is a black-box to the installer engine.</p>
+            <p>
+                An ideal MSI custom action is a logical extension of the setup engine, meaning it
+                is data-driven and written in a very generic way to read from existing or custom
+                tables in the MSI database, following a very similar pattern to the built-in actions.
+                This makes the CA re-usable, and makes the installation more transparent. S.C.I
+                custom actions invoked by InstallUtil cannot be data-driven because they don't have
+                full access to the install session or database. They also cannot write to the install
+                session's regular MSI log, but instead use a separate log which is bad for supportability.</p>
+            <p>
+                InstallUtil also requires that the assembly be installed before the CA is able to
+                execute. This is a problem for CAs that need to execute during the UI phase, or
+                gather information before installation. For that purpose MSI allows custom action
+                binaries to be embedded as non-installed files, but InstallUtil cannot make use
+                of those.</p>
+            <p>
+                Custom actions developed with DTF have none of the limitations of InstallUtil,
+                giving a setup developer full capabilities to write well-designed custom actions,
+                only now in managed code.
+            </p>
+            
+            <p>&nbsp;</p>
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

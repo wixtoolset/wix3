@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Wix Test Product" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corporation" >
+    <Package InstallerVersion="200" />
+    <Upgrade Id ="d99fe599-c948-436a-829c-f8dd26ce1665">
+            <UpgradeVersion ExcludeLanguages="yes" IgnoreRemoveFailure="yes" IncludeMaximum="yes" IncludeMinimum="yes" Maximum ="12.1.1" Minimum ="2.1.0" Language="1033" MigrateFeatures="yes" OnlyDetect="no" RemoveFeatures="Test1"  Property ="UPGRADEID"/>
+    </Upgrade>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallInitialize"/>
+    </InstallExecuteSequence>
+    <Media Id="1" />
+  </Product>
+</Wix>

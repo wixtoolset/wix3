@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="FrostManifest.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Frost>
+  <Logger Level="2">
+    <StdOut></StdOut>
+    <FileOut>
+      <FileName Type="string">TestLogFile.log</FileName>
+      <Timestamp Type="string"></Timestamp>
+    </FileOut>
+  </Logger>
+  <TestCase ID="">
+    <Variables>
+      <Variable Name="MY_VARIABLE" Type="SETUP_ACTION">INSTALL</Variable>
+    </Variables>
+    <EngineValues>
+      <InitCommand>
+        <Action Type="SETUP_ACTION">INSTALL</Action>
+        <Display Type="SETUP_DISPLAY">FULL</Display>
+        <Restart Type="SETUP_RESTART">NEVER</Restart>
+        <Resume Type="SETUP_RESUME">NONE</Resume>
+        <Show Type="int">1</Show>
+      </InitCommand>
+      <Detect>
+        <DelegateReturnValue Sleep="0" Type="HRESULTS">OK</DelegateReturnValue>
+        <OnBegin Sleep="0"/>
+        <OnComplete Sleep="0" Type="HRESULTS">OK</OnComplete>
+      </Detect>
+      <Plan>
+        <DelegateReturnValue Sleep="0" Type="HRESULTS">OK</DelegateReturnValue>
+        <OnBegin Sleep="0"/>
+        <OnComplete Sleep="0" Type="HRESULTS">OK</OnComplete>
+      </Plan>
+      <Apply>
+        <DelegateReturnValue Sleep="0" Type="HRESULTS">OK</DelegateReturnValue>
+        <OnBegin Sleep="0"/>
+        <RegistrationBegin Sleep="0"/>
+        <RegistrationComplete Sleep="0" Type="HRESULTS">OK</RegistrationComplete>
+        <ExecuteBegin Sleep="0"/>
+        <ExecuteComplete Sleep="0" Type="HRESULTS">OK</ExecuteComplete>
+        <OnRestartRequired Type="bool">false</OnRestartRequired>
+        <OnComplete Sleep="0" Type="HRESULTS">OK</OnComplete>
+      </Apply>
+      <Elevate>
+        <DelegateReturnValue Sleep="0" Type="HRESULTS">OK</DelegateReturnValue>
+      </Elevate>
+      <GetPackageCount>
+        <DelegateReturnValue Sleep="0" Type="HRESULTS">OK</DelegateReturnValue>
+      </GetPackageCount>
+      <GetString>
+        <StringValue Type="String">FAKE STRING</StringValue>
+        <DelegateReturnValue Sleep="0" Type="HRESULTS">OK</DelegateReturnValue>
+      </GetString>
+    </EngineValues>
+    <Packages>
+      <Package ID="[TESTID]">
+        <CurrentState Type="CUR_PACKAGE_STATE">PRESENT</CurrentState>
+        <ExecuteState>
+          <Value Request="absent" Type="PKG_ACTION_STATE">INSTALL</Value>
+          <Value Request="cache" Type="PKG_ACTION_STATE">INSTALL</Value>
+          <Value Request="none" Type="PKG_ACTION_STATE">INSTALL</Value>
+          <Value Request="present" Type="PKG_ACTION_STATE">INSTALL</Value>
+          <Value Request="repair" Type="PKG_ACTION_STATE">INSTALL</Value>
+        </ExecuteState>
+        <RollbackState>
+          <Value Request="absent" Type="PKG_ACTION_STATE">UNINSTALL</Value>
+          <Value Request="cache" Type="PKG_ACTION_STATE">UNINSTALL</Value>
+          <Value Request="none" Type="PKG_ACTION_STATE">UNINSTALL</Value>
+          <Value Request="present" Type="PKG_ACTION_STATE">UNINSTALL</Value>
+          <Value Request="repair" Type="PKG_ACTION_STATE">UNINSTALL</Value>
+        </RollbackState>
+        <ProgressContribution Type="uint">100</ProgressContribution>
+        <RequiresRestart Type="bool">false</RequiresRestart>
+
+        <OnDetectBegin Sleep="0"/>
+        <OnDetectComplete Sleep="0" Type="HRESULTS">OK</OnDetectComplete>
+        <OnPlanBegin Sleep="0"/>
+        <OnPlanComplete Sleep="0" Type="HRESULTS">OK</OnPlanComplete>
+        <OnExecuteBeging Sleep="0"/>
+        <OnCacheComplete Sleep="0" Type="HRESULTS">OK</OnCacheComplete>
+        <OnExecuteComplete Sleep="0" Type="HRESULTS">OK</OnExecuteComplete>
+      </Package>
+    </Packages>
+  </TestCase>
+</Frost>

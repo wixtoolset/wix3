@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="dirs.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup>
+        <ProjectReference Include="applications\signal.csproj"/>
+        <ProjectReference Include="packages\provider.wixproj"/>
+        <ProjectReference Include="packages\wait.wixproj"/>
+        <ProjectReference Include="bundles\shutdown.wixproj"/>
+        <ProjectReference Include="bundles\various.wixproj"/>
+    </ItemGroup>
+    <Target Name="Build">
+        <MSBuild Projects="@(ProjectReference)" Targets="Build" />
+    </Target>
+    <Target Name="Clean">
+        <MSBuild Projects="@(ProjectReference)" Targets="Clean" />
+    </Target>
+    <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
+</Project>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="MsmqExtension.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include caerr.wxi ?>
+
+  <Fragment>
+    <UI>
+      <ProgressText Action="MessageQueuingExecuteInstall" Template="!(loc.MessageQueuingExecuteInstallTemplate)">!(loc.MessageQueuingExecuteInstall)</ProgressText>
+      <ProgressText Action="MessageQueuingExecuteUninstall" Template="!(loc.MessageQueuingExecuteUninstallTemplate)">!(loc.MessageQueuingExecuteUninstall)</ProgressText>
+    </UI>
+
+    <CustomAction Id="MessageQueuingInstall" BinaryKey="WixMsmqSched" DllEntry="MessageQueuingInstall" Execute="immediate" Return="check" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingUninstall" BinaryKey="WixMsmqSched" DllEntry="MessageQueuingUninstall" Execute="immediate" Return="check" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingExecuteInstall" BinaryKey="WixMsmqExec" DllEntry="MessageQueuingExecuteInstall" Execute="deferred" Return="check" Impersonate="no" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingRollbackInstall" BinaryKey="WixMsmqExec" DllEntry="MessageQueuingRollbackInstall" Execute="rollback" Return="check" Impersonate="no" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingExecuteUninstall" BinaryKey="WixMsmqExec" DllEntry="MessageQueuingExecuteUninstall" Execute="deferred" Return="check" Impersonate="no" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingRollbackUninstall" BinaryKey="WixMsmqExec" DllEntry="MessageQueuingRollbackUninstall" Execute="rollback" Return="check" Impersonate="no" SuppressModularization="yes"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="MessageQueuingUninstall" After="DeleteServices" Overridable="yes">VersionNT >= 500</Custom>
+      <Custom Action="MessageQueuingInstall" Before="InstallServices" Overridable="yes">VersionNT >= 500</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+
+  <Fragment>
+    <Binary Id="WixMsmqExec" SourceFile="mqexec.dll"/>
+    <Binary Id="WixMsmqSched" SourceFile="mqsched.dll"/>
+  </Fragment>
+</Wix>

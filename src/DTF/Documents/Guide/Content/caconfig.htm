@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Specifying the Runtime Version</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Specifying the Runtime Version</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="managedcas.htm">Managed CAs</a> &gt;
+        <a href="writingcas.htm">Writing CAs</a> &gt;
+        <span class="nolink">CustomAction.config</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+      
+			<p>Every managed custom action package should contain a CustomAction.config file, even though it is not required by the toolset.
+			Here is a sample:</p><pre><font face="Consolas, Courier New">
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;configuration&gt;
+    &lt;startup&gt;
+        &lt;supportedRuntime version=&quot;v2.0.50727&quot;/&gt;
+    &lt;/startup&gt;
+&lt;/configuration&gt;</font></pre><br />
+			<p>The configuration file follows the standard schema for .NET Framework
+			configuration files <a target=_blank href="http://msdn2.microsoft.com/en-us/library/9w519wzk(VS.80).aspx">documented on MSDN</a>.</p>
+		<p><br/></p>
+        <p><b>Supported Runtime Version</b></p>
+        <p>In the startup section, use <a target=_blank href="http://msdn2.microsoft.com/en-us/library/w4atty68(VS.80).aspx">supportedRuntime</a>
+        tags to explicitly specify the version(s) of the .NET Framework that the custom action should run on.
+        If no versions are specified, the chosen version of the .NET Framework will be
+		the "best" match to what Microsoft.Deployment.WindowsInstaller.dll was built against.</p>
+		<p><font color="red"><b>Warning: leaving the version unspecified is dangerous</b></font>
+		as it introduces a risk of compatibility problems with future versions of the .NET Framework.
+		It is highly recommended that you specify only the version(s)
+		of the .NET Framework that you have tested against.</p>	
+		<p><br/></p>
+		
+		<p><b>Other Configuration</b></p>
+		<p>Various other kinds of configuration settings may also be added to this file, as it is a standard
+		<a target=_blank href="http://msdn2.microsoft.com/en-us/library/kza1yk3a(VS.80).aspx">.NET Framework application config file</a>
+		for the custom action.</p>
+		<p><br/></p>
+		
+        <p><b>See also:</b></p>
+        <ul>
+            <li><a href="writingcas.htm">Writing Managed Custom Actions</a></li>
+            <li><a href="buildingcas.htm">Building Managed Custom Actions</a></li>
+            <li><a href="caproxy.htm">Proxy for Managed Custom Actions</a></li>
+        </ul>
+        <p><br/></p>
+
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

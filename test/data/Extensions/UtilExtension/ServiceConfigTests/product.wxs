@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="00000000-0000-0000-0005-000000000008" Name="ServiceConfig" Language="1033" Version="1.0.0.0" UpgradeCode="{D3C08DD4-A77E-43e8-8969-DB3D6CB0BEC2}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test from: ServiceConfig" Comments="Test from: ServiceConfig" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="WixTestFolder" Name="WixTestFolder">
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Property Id="MynewServiceUser" Value="NT AUTHORITY\LocalService"/>
+    
+    <DirectoryRef Id="TARGETDIR">
+     <Component Id="Component1" Guid="00030829-0000-0000-C000-570000000046">
+        <util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="reboot" ThirdFailureActionType="none" ResetPeriodInDays="1" ServiceName="W32Time"/>
+      </Component>
+      <Component Id="Component2" Guid="00030829-0000-0000-C000-570000000047">
+        <File Id="MynewService.exe" Source="$(env.WIX_ROOT)\test\data\Extensions\UtilExtension\ServiceConfigTests\MynewService.exe" DiskId="1" KeyPath="yes"/>
+        <ServiceInstall Id="MynewService.exe" Name="MynewService" DisplayName="MynewService" Type="ownProcess" Start="auto" ErrorControl="normal" Description="MynewService Service" Account="[MynewServiceUser]">
+          <util:ServiceConfig FirstFailureActionType="reboot" SecondFailureActionType="restart" ThirdFailureActionType="none" ResetPeriodInDays="3" />
+          <util:PermissionEx User="Everyone" ServiceChangeConfig="yes" ServiceQueryConfig="yes" ServiceEnumerateDependents="yes"/>
+        </ServiceInstall>
+        <ServiceControl Id="MynewService.exe" Name="MynewService" Remove="uninstall" />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="Component1" />
+      <ComponentRef Id="Component2" />
+    </Feature>
+
+  </Product>
+</Wix>

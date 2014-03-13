@@ -1,0 +1,36 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{1CDF4242-4C00-4744-BBCD-085128978FF3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Deployment.Samples.DDiff</RootNamespace>
+    <AssemblyName>DDiff</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CabDiffEngine.cs" />
+    <Compile Include="DDiff.cs" />
+    <Compile Include="DirectoryDiffEngine.cs" />
+    <Compile Include="FileDiffEngine.cs" />
+    <Compile Include="IDiffEngine.cs" />
+    <Compile Include="MsiDiffEngine.cs" />
+    <Compile Include="MspDiffEngine.cs" />
+    <Compile Include="TextFileDiffEngine.cs" />
+    <Compile Include="VersionedFileDiffEngine.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\Libraries\Compression.Cab\Compression.Cab.csproj" />
+    <ProjectReference Include="..\..\Libraries\Compression.Zip\Compression.Zip.csproj" />
+    <ProjectReference Include="..\..\Libraries\Compression\Compression.csproj" />
+    <ProjectReference Include="..\..\Libraries\WindowsInstaller.Package\WindowsInstaller.Package.csproj" />
+    <ProjectReference Include="..\..\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

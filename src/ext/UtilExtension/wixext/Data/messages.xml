@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Utility Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="UtilErrors" ContainerName="UtilErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="IllegalAttributeWithoutComponent" Number="5050">
+            <Instance>
+                The {0}/@{1} attribute cannot be specified unless the element has a Component as an ancestor. A {0} that does not have a Component ancestor is not installed.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+            </Instance>
+        </Message>
+        <Message Id="IllegalElementWithoutComponent" Number="5051">
+            <Instance>
+                The {0} element cannot be specified unless the element has a Component as an ancestor. A {0} that does not have a Component ancestor is not installed.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="DirectoryNotFound" Number="5052" SourceLineNumbers="no">
+            <Instance>The directory '{0}' could not be found.
+                <Parameter Type="System.String" Name="directory" />
+            </Instance>
+        </Message>
+        <Message Id="EmptyDirectory" Number="5053" SourceLineNumbers="no">
+            <Instance>
+                The directory '{0}' did not contain any files or sub-directories and since empty directories are not being kept, there was nothing to harvest.
+                <Parameter Type="System.String" Name="directory" />
+            </Instance>
+        </Message>
+        <Message Id="IllegalFileValueInPerfmonOrManifest" Number="5054" SourceLineNumbers="no">
+            <Instance>
+                The value '{0}' in the File column, {1} table is invalid. It should be in the form of '[#file]' or '[!file]'.
+                <Parameter Type="System.String" Name="file" />
+                <Parameter Type="System.String" Name="table" />
+            </Instance>
+        </Message>
+        <Message Id="ErrorTransformingHarvestedWiX" Number="5055" SourceLineNumbers="no">
+            <Instance>
+                Error applying transform {0} to harvested WiX: {1}
+                <Parameter Type="System.String" Name="transform" />
+                <Parameter Type="System.String" Name="message" />
+            </Instance>
+        </Message>
+        <Message Id="UnableToOpenRegistryKey" Number="5056" SourceLineNumbers="no">
+            <Instance>
+                Unable to open registry key '{0}'.
+                <Parameter Type="System.String" Name="key" />
+            </Instance>
+        </Message>
+        <Message Id="SpacesNotAllowedInArgumentValue" Number="5057" SourceLineNumbers="no">
+            <Instance>
+                The switch '{0}' does not allow the spaces from the value. Please remove the spaces in from the value: {1}
+                <Parameter Type="System.String" Name="switch" />
+                <Parameter Type="System.String" Name="value" />
+            </Instance>
+        </Message>
+        <Message Id="ArgumentRequiresValue" Number="5058" SourceLineNumbers="no">
+            <Instance>
+                The argument '{0}' does not have a value specified and it is required.
+                <Parameter Type="System.String" Name="argument" />
+            </Instance>
+        </Message>
+        <Message Id="FileNotFound" Number="5059" SourceLineNumbers="no">
+            <Instance>The file '{0}' cannot be found.
+              <Parameter Type="System.String" Name="file" />
+            </Instance>
+        </Message>
+        <Message Id="PerformanceCategoryNotFound" Number="5060" SourceLineNumbers="no">
+            <Instance>
+                Performance category '{0}' not found.
+                <Parameter Type="System.String" Name="key" />
+            </Instance>
+        </Message>
+        <Message Id="UnsupportedPerformanceCounterType" Number="5061" SourceLineNumbers="no">
+            <Instance>
+                Unsupported performance counter type '{0}'.
+                <Parameter Type="System.String" Name="key" />
+            </Instance>
+        </Message>
+        <Message Id="CircularSearchReference" Number="5062" SourceLineNumbers="no">
+            <Instance>
+                A circular reference of search ordering constraints was detected: {0}. Search ordering references must form a directed acyclic graph.
+                <Parameter Type="System.String" Name="chain" />
+            </Instance>
+        </Message>
+        <Message Id="InvalidRegistryObject" Number="5063" SourceLineNumbers="yes">
+            <Instance>
+                The {0} element has no id and cannot have its permissions set. If you want to set permissions on a 'placeholder' registry key, force its creation by setting the ForceCreateOnInstall attribute to yes.
+                <Parameter Type="System.String" Name="registryElementName" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="UtilWarnings" ContainerName="UtilWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+        <Message Id="SelfRegHarvestFailed" Number="5150" SourceLineNumbers="no">
+            <Instance>
+                Could not harvest data from a file that was expected to be a SelfReg DLL: {0}. If this file does not support SelfReg you can ignore this warning. Otherwise, this error detail may be helpful to diagnose the failure: {1}
+                <Parameter Type="System.String" Name="file" />
+                <Parameter Type="System.String" Name="message" />
+            </Instance>
+        </Message>
+        <Message Id="AssemblyHarvestFailed" Number="5151" SourceLineNumbers="no">
+            <Instance>
+                Could not harvest data from a file that was expected to be an assembly: {0}. If this file is not an assembly you can ignore this warning. Otherwise, this error detail may be helpful to diagnose the failure: {1}
+                <Parameter Type="System.String" Name="file" />
+                <Parameter Type="System.String" Name="message" />
+            </Instance>
+        </Message>
+        <Message Id="TypeLibLoadFailed" Number="5152" SourceLineNumbers="no">
+            <Instance>
+                Could not load file that was expected to be a type library based off of file extension: {0}. If this file is not a type library you can ignore this warning. Otherwise, this error detail may be helpful to diagnose the load failure: {1}
+                <Parameter Type="System.String" Name="file" />
+                <Parameter Type="System.String" Name="message" />
+            </Instance>
+        </Message>
+        <Message Id="DeprecatedPerfCounterElement" Number="5153">
+            <Instance>The PerfCounter element has been deprecated.  Please use the PerformanceCounter element instead.</Instance>
+        </Message>
+        <Message Id="RequiredAttributeForWindowsXP" Number="5154">
+            <Instance>
+                The {0}/@{1} attribute must be specified to successfully install on Windows XP.  You can ignore this warning if this installation does not install on Windows XP.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+            </Instance>
+        </Message>
+        <Message Id="DuplicateDllRegistryEntry" Number="5156" SourceLineNumbers="no">
+            <Instance>
+                Ignoring the registry key '{0}', it has already been added to the component '{1}'.
+                <Parameter Type="System.String" Name="registryKey" />
+                <Parameter Type="System.String" Name="componentId" />
+            </Instance>
+            <Instance>
+                Ignoring the registry key '{0}', it has already been added to the component '{2}'. The registry key value '{1}' will not be harvested.
+                <Parameter Type="System.String" Name="registryKey" />
+                <Parameter Type="System.String" Name="registryKeyValue" />
+                <Parameter Type="System.String" Name="componentId" />
+            </Instance>
+        </Message>
+        <Message Id="UnsupportedRegistryType" Number="5157" SourceLineNumbers="no">
+            <Instance>
+                Ignoring the registry value '{0}' found on line {1}, because it is of a type unsupported by Windows Installer ({2}).
+                <Parameter Type="System.String" Name="registryValue" />
+                <Parameter Type="System.Int32" Name="regFileLineNumber" />
+                <Parameter Type="System.String" Name="unsupportedType" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="UtilVerboses" ContainerName="UtilVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+      <Message Id="HarvestingAssembly" Number="5100" SourceLineNumbers="no">
+        <Instance>
+          Trying to harvest {0} as an assembly.
+          <Parameter Type="System.String" Name="fileName" />
+        </Instance>
+      </Message>
+      <Message Id="HarvestingSelfReg" Number="5101" SourceLineNumbers="no">
+        <Instance>
+          Trying to harvest self-registration information from native DLL {0}.
+          <Parameter Type="System.String" Name="fileName" />
+        </Instance>
+      </Message>
+      <Message Id="HarvestingTypeLib" Number="5102" SourceLineNumbers="no">
+        <Instance>
+          Trying to harvest type-library information from native DLL {0}.
+          <Parameter Type="System.String" Name="fileName" />
+        </Instance>
+      </Message>
+    </Class>
+</Messages>

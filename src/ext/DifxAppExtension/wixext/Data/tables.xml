@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Driver Install Frameworks for Applications Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="MsiDriverPackages">
+        <columnDefinition name="Component" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Name of the component that represents the driver package"/>
+        <columnDefinition name="Flags" type="number" length="4"
+                minValue="0" maxValue="31" description="Flags for installing and uninstalling driver packages"/>
+        <columnDefinition name="Sequence" type="number" length="4" nullable="yes"
+                minValue="0" description="Order in which the driver packages are processed"/>
+    </tableDefinition>
+</tableDefinitions>

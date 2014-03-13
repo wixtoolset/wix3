@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Building Managed Custom Actions</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Building Managed Custom Actions</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="managedcas.htm">Managed CAs</a> &gt;
+        <span class="nolink">Building</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+      
+			<p>The build process for managed CA DLLs is a little complicated becuase of the 
+			proxy-wrapper and dll-export requirements. Here's an overview:</p>
+			<ol>
+				<li>
+					<p>Compile your CA assembly, which references Microsoft.Deployment.WindowsInstaller.dll and 
+						marks exported custom actions with a CustomActionAttribute.</p>
+				<li>
+					<p>Package the CA assembly, CustomAction.config, Microsoft.Deployment.WindowsInstaller.dll, 
+						and any other dependencies using <b>MakeSfxCA.exe</b>. The filenames of CustomAction.config
+						and Microsoft.Deployment.WindowsInstaller.dll must not be changed, since
+						the custom action proxy specifically looks for those files.</p>
+			</ol>
+			<p><br>
+			</p>
+			<p><b>Compiling</b></p>
+			<pre><font face="Consolas, Courier New">
+    csc.exe
+        /target:library
+        /r:$(DTFbin)\Microsoft.Deployment.WindowsInstaller.dll
+        /out:SampleCAs.dll
+        *.cs
+            </font></pre>
+			<p><b>Wrapping</b><pre><font face="Consolas, Courier New">
+    MakeSfxCA.exe
+        $(OutDir)\SampleCAsPackage.dll
+        $(DTFbin)\SfxCA.dll
+        SampleCAs.dll
+        CustomAction.config
+        $(DTFbin)\Microsoft.Deployment.WindowsInstaller.dll
+            </font></pre>
+            </p>
+			<p>Now the resulting package, SampleCAsPackage.dll, is ready to be inserted
+			into the Binary table of the MSI.</p>
+			<p><br/>
+			</p>
+			<p>For a working example of building a managed custom action package
+			you can look at included sample ManagedCAs project.</p>
+			<p><br/>
+			</p>
+			
+		<p><br/></p>
+        <p><b>See also:</b></p>
+        <ul>
+            <li><a href="writingcas.htm">Writing Managed Custom Actions</a></li>
+            <li><a href="caconfig.htm">Specifying the Runtime Version</a></li>
+        </ul>
+        <p><br/></p>
+
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="FrostManifest.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<FakeEngineManifest>
+  <TestCase ID="">
+    <Variables>
+      <Variable Name="FF_InitCommandAction" Type="SETUP_ACTION"></Variable>
+      <Variable Name="FF_InitCommandDisplay" Type="SETUP_DISPLAY"></Variable>
+      <Variable Name="FF_InitCommandRestart" Type="SETUP_RESTART"></Variable>
+
+      <Variable Name="FF_DetectDelegateReturnValue" Type="HRESULTS"></Variable>
+      <Variable Name="FF_DetectInitSleep" Type="int"></Variable>
+      <Variable Name="FF_DetectBeginSleep" Type="int"></Variable>
+      <Variable Name="FF_DetectCompleteStatus" Type="HRESULTS"></Variable>
+      <Variable Name="FF_DetecteCompleteSleep" Type="int"></Variable>
+
+      <Variable Name="FF_PlanSetupAction" Type="SETUP_ACTION"></Variable>
+      <Variable Name="FF_PlanDelegateReturnValue" Type="HRESULTS"></Variable>
+      <Variable Name="FF_PlanInitSleep" Type="int"></Variable>
+      <Variable Name="FF_PlanBeginSleep" Type="int"></Variable>
+      <Variable Name="FF_PlanCompleteStatus" Type="HRESULTS"></Variable>
+      <Variable Name="FF_PlanCompleteSleep" Type="int"></Variable>
+
+      <Variable Name="FF_ApplyDelegateRetunValue" Type="HRESULTS"></Variable>
+      <Variable Name="FF_ApplyInitSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyBeginSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyRegisterBeginSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyRegisterCompleteResult" Type="HRESULTS"></Variable>
+      <Variable Name="FF_ApplyRegisterCompleteSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyUnregisterBeginSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyUnregisterCompleteResult" Type="HRESULTS"></Variable>
+      <Variable Name="FF_ApplyUnregisterCompleteSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyCacheCompleteResult" Type="HRESULTS"></Variable>
+      <Variable Name="FF_ApplyCacheCompleteSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyExecuteBeginSleep" Type="int"></Variable>
+      <Variable Name="FF_ApplyExecuteCompleteResult" Type="HRESULTS"></Variable>
+      <Variable Name="FF_ApplyExecuteCompleteSleep" Type="int"></Variable>
+
+      <Variable Name="FF_ElevateDelegateReturnValue" Type="HRESULTS"></Variable>
+      <Variable Name="FF_ElevateDelegateSleep" Type="int"></Variable>
+
+      <Variable Name="FF_GetPackageCountDelegateReturnValue" Type="HRESULTS"></Variable>
+      <Variable Name="FF_PackageCountSleep" Type="int"></Variable>
+
+      <Variable Name="FF_GetStringDelegateStringValue" Type="string"></Variable>
+      <Variable Name="FF_GetStringDelegateReturnValue" Type="HRESULTS"></Variable>
+      <Variable Name="FF_GetStringSleep" Type="int"></Variable>
+    </Variables>
+    <Packages>
+      <Package ID="">
+        <DetectionResult></DetectionResult>
+        <PlanResult></PlanResult>
+        <ApplyResult></ApplyResult>
+        <DetectionState></DetectionState>
+        <PlanCurrentState></PlanCurrentState>
+        <PlanRequestedState></PlanRequestedState>
+        <PlanExecuteState></PlanExecuteState>
+        <PlanRollbackState></PlanRollbackState>
+        <ProgressContribution></ProgressContribution>
+        <ApplyIsInstall></ApplyIsInstall>
+        <DetectBeginSleep></DetectBeginSleep>
+        <DetectCompleteSleep></DetectCompleteSleep>
+        <PlanBeginSleep></PlanBeginSleep>
+        <PlanCompleteSleep></PlanCompleteSleep>
+        <ApplyBeginSleep></ApplyBeginSleep>
+        <ApplyCompleteSleep></ApplyCompleteSleep>
+      </Package>
+    </Packages>
+  </TestCase>
+</FakeEngineManifest>

@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="NetFx4.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following location:
+
+           .NET Framework 4.0 full & client - http://msdn.microsoft.com/en-us/library/ee942965.aspx
+    -->
+
+  <?define NetFx40WebLink = http://go.microsoft.com/fwlink/?linkid=182805 ?>
+  <?define NetFx40RedistLink =  http://go.microsoft.com/fwlink/?LinkId=247729 ?>
+  <?define NetFx40ClientWebLink = http://go.microsoft.com/fwlink/?linkid=182804 ?>
+  <?define NetFx40ClientRedistLink =  http://go.microsoft.com/fwlink/?LinkId=247730 ?>
+  <?define NetFx40EulaLink =  http://go.microsoft.com/fwlink/?LinkID=188993 ?>
+
+  <Fragment>
+    <util:RegistrySearch
+        Id="NETFRAMEWORK40"
+        Variable="NETFRAMEWORK40"
+        Root="HKLM"
+        Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"
+        Value="Install"
+        Result="value" />
+  </Fragment>
+
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK40"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40Web" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+
+    <PackageGroup Id="NetFx40Web">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          PerMachine="yes"
+          DetectCondition="NETFRAMEWORK40"
+          Id="NetFx40Web"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx40WebLink)"
+          Compressed="no"
+          Name="redist\dotNetFx40_Full_setup.exe">
+        <RemotePayload
+            Size="889416"
+            Version="4.0.30319.1"
+            ProductName="Microsoft .NET Framework 4"
+            Description="Microsoft .NET Framework 4 Setup"
+            CertificatePublicKey="672605E36DD71EC6B8325B91C5FE6971390CB6B6"
+            CertificateThumbprint="9617094A1CFB59AE7C1F7DFDB6739E4E7C40508F"
+            Hash="06BECADB92A5FCCA2529C0B93687C2A0C6D0D610"/>
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK40"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40Redist" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+
+    <PackageGroup Id="NetFx40Redist">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          PerMachine="yes"
+          DetectCondition="NETFRAMEWORK40"
+          Id="NetFx40Redist"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx40RedistLink)"
+          Compressed="no"
+          Name="redist\dotNetFx40_Full_x86_x64.exe">
+        <RemotePayload
+            Size="50449456"
+            Version="4.0.30319.1"
+            ProductName="Microsoft .NET Framework 4"
+            Description="Microsoft .NET Framework 4 Setup"
+            CertificatePublicKey="672605E36DD71EC6B8325B91C5FE6971390CB6B6"
+            CertificateThumbprint="9617094A1CFB59AE7C1F7DFDB6739E4E7C40508F"
+            Hash="58DA3D74DB353AAD03588CBB5CEA8234166D8B99"/>
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+
+  <Fragment>
+    <util:RegistrySearch
+        Id="NETFRAMEWORK40CLIENT"
+        Variable="NETFRAMEWORK40CLIENT"
+        Root="HKLM"
+        Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client"
+        Value="Install"
+        Result="value" />
+  </Fragment>
+
+
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK40CLIENT"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40ClientWeb" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+
+    <PackageGroup Id="NetFx40ClientWeb">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          PerMachine="yes"
+          DetectCondition="NETFRAMEWORK40CLIENT"
+          Id="NetFx40ClientWeb"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx40ClientWebLink)"
+          Compressed="no"
+          Name="redist\dotNetFx40_Client_setup.exe">
+        <RemotePayload
+            Size="887896"
+            Version="4.0.30319.1"
+            ProductName="Microsoft .NET Framework 4 Client Profile"
+            Description="Microsoft .NET Framework 4 Client Profile Setup"
+            CertificatePublicKey="672605E36DD71EC6B8325B91C5FE6971390CB6B6"
+            CertificateThumbprint="9617094A1CFB59AE7C1F7DFDB6739E4E7C40508F"
+            Hash="E15AD80FC74277EF2048312E9A71AF56B2EBA622"/>
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK40CLIENT"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40ClientRedist" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+
+    <PackageGroup Id="NetFx40ClientRedist">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          PerMachine="yes"
+          DetectCondition="NETFRAMEWORK40CLIENT"
+          Id="NetFx40ClientRedist"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx40ClientRedistLink)"
+          Compressed="no"
+          Name="redist\dotNetFx40_Client_x86_x64.exe">
+        <RemotePayload
+            Size="43000680"
+            Version="4.0.30319.1"
+            ProductName="Microsoft .NET Framework 4 Client Profile"
+            Description="Microsoft .NET Framework 4 Client Profile Setup"
+            CertificatePublicKey="672605E36DD71EC6B8325B91C5FE6971390CB6B6"
+            CertificateThumbprint="9617094A1CFB59AE7C1F7DFDB6739E4E7C40508F"
+            Hash="4CD67F609F89D617D2B206341B8C211E1B88B287"/>
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 client is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT" Secure="yes">
+      <RegistrySearch Id="NetFramework40Client" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Indicates the servicing level for the .NET Framework 4.0 client.         -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_SERVICING_LEVEL" Secure="yes">
+      <RegistrySearch Id="NetFramework40ClientServicing" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client" Name="Servicing" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Location of .NET Framework 4.0 client redistributable install root directory -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENTINSTALLROOTDIR" Secure="yes">
+      <RegistrySearch Id="NetFxInstallRootForNetfx40Client" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client" Name="InstallPath" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Location of .NET Framework 4.0 client (64-bit) redistributable install root directory -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENTINSTALLROOTDIR64" Secure="yes">
+      <RegistrySearch Id="NetFxInstallRootForNetfx40Client64" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client" Name="InstallPath" Type="raw" Win64="yes" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 full is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL" Secure="yes">
+      <RegistrySearch Id="NetFramework40Full" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Indicates the servicing level for the .NET Framework 4.0 full.         -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_SERVICING_LEVEL" Secure="yes">
+      <RegistrySearch Id="NetFramework40FullServicing" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full" Name="Servicing" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Location of .NET Framework 4.0 full redistributable install root directory -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULLINSTALLROOTDIR" Secure="yes">
+      <RegistrySearch Id="NetFxInstallRootForNetfx40Full" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full" Name="InstallPath" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Location of .NET Framework 4.0 full (64-bit) redistributable install root directory -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULLINSTALLROOTDIR64" Secure="yes">
+      <RegistrySearch Id="NetFxInstallRootForNetfx40Full64" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full" Name="InstallPath" Type="raw" Win64="yes" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Arabic language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_AR_SA_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTArSaLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1025" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Chinese (Simplified) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_ZH_CN_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTZhCnLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\2052" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Chinese (Traditional) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_ZH_TW_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTZhTwLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1028" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Czech language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_CS_CZ_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTCsCzLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1029" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Danish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_DA_DK_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTDaDkLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1030" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Dutch language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_NL_NL_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTNlNlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1043" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Finnish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_FI_FI_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTFiFiLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1035" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client French language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_FR_FR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTFrFrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1036" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client German language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_DE_DE_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTDeDeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1031" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Greek language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_EL_GR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTElGrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1032" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Hebrew language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_HE_IL_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTHeIlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1037" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Hungarian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_HU_HU_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTHuHuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1038" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Italian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_IT_IT_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTItItLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1040" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Japanese language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_JA_JP_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTJaJpLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1041" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Korean language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_KO_KR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTKoKrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1042" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Norwegian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_NB_NO_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTNbNoLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1044" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Polish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_PL_PL_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTPlPlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1045" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Portuguese (Brazil) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_PT_BR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTPtBrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1046" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Portuguese (Portugal) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_PT_PT_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTPtPtLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\2070" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Russian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_RU_RU_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTRuRuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1049" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Spanish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_ES_ES_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTEsEsLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\3082" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Swedish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_SV_SE_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTSvSeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1053" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Client Turkish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40CLIENT_TR_TR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40CLIENTTrTrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Client\1055" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Arabic language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_AR_SA_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLArSaLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1025" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Chinese (Simplified) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_ZH_CN_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLZhCnLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\2052" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Chinese (Traditional) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_ZH_TW_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLZhTwLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1028" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Czech language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_CS_CZ_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLCsCzLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1029" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Danish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_DA_DK_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLDaDkLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1030" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Dutch language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_NL_NL_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLNlNlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1043" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Finnish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_FI_FI_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLFiFiLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1035" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full French language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_FR_FR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLFrFrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1036" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full German language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_DE_DE_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLDeDeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1031" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Greek language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_EL_GR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLElGrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1032" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Hebrew language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_HE_IL_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLHeIlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1037" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Hungarian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_HU_HU_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLHuHuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1038" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Italian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_IT_IT_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLItItLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1040" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Japanese language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_JA_JP_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLJaJpLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1041" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Korean language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_KO_KR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLKoKrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1042" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Norwegian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_NB_NO_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLNbNoLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1044" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Polish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_PL_PL_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLPlPlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1045" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Portuguese (Brazil) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_PT_BR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLPtBrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1046" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Portuguese (Portugal) language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_PT_PT_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLPtPtLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\2070" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Russian language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_RU_RU_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLRuRuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1049" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Spanish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_ES_ES_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLEsEsLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\3082" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Swedish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_SV_SE_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLSvSeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1053" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- set to #1 if the .NET Framework 4.0 Full Turkish language pack is installed (not set otherwise) -->
+  <Fragment>
+    <Property Id="NETFRAMEWORK40FULL_TR_TR_LANGPACK" Secure="yes">
+      <RegistrySearch Id="NETFRAMEWORK40FULLTrTrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v4\Full\1055" Name="Install" Type="raw" />
+    </Property>
+  </Fragment>
+
+</Wix>

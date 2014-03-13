@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product_64.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="00000000-0000-0000-0005-000000000011" Name="XmlFile" Language="1033" Version="1.0.0.0" UpgradeCode="{D3C08DD4-A77E-43e8-8969-DB3D6CB0BEC2}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test from: XmlFile" Comments="Test from: XmlFile" InstallerVersion="200" Compressed="yes"  Platform="x64"/>
+
+    <Property Id="LOGVERBOSE" Value="LOGVERBOSE"/>
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder" Name="PFiles">
+        <Directory Id="WixTestFolder" Name="WixTestFolder">
+        </Directory>
+      </Directory>
+    </Directory>
+
+
+    <?ifndef TargetFile?>
+    <?define TargetFile="[#TestXmlFile1]"?>
+    <?endif?>
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="Component1" Guid="*" Win64="yes">
+        <File Id="TestXmlFile1" Source="$(env.WIX_ROOT)\test\data\Extensions\UtilExtension\XmlFileTests\test.xml" KeyPath="yes" />
+        <!-- first matching attribute with that name is set to the value specified in Value -->
+        <util:XmlFile Id="NewAttribute1" File="$(var.TargetFile)" ElementPath="/Root" Name="New" Value="hello" Action="setValue" Permanent="yes"  />
+        <!-- the text values of the elements are set -->
+        <util:XmlFile Id="Text1" File="$(var.TargetFile)" ElementPath="/Root" Value="this is text" Action="setValue" />
+        <util:XmlFile Id="ChildAttribute1" File="$(var.TargetFile)" ElementPath="/Root/Child" Value="again" Action="setValue" />
+        <util:XmlFile Id="ChildSecondAttribute1" File="$(var.TargetFile)" ElementPath="/Root/Child[\[]1[\]]" Name="foo" Value="bar" Action="setValue" />
+        <util:XmlFile Id="SpecificAdd" File="$(var.TargetFile)" ElementPath='/Root/Config[\[]@key="ghi"[\]]' Name="value" Value="CN=Something Else" Action="setValue" />
+        <util:XmlFile Id="NewElement" File="$(var.TargetFile)" ElementPath="/Root/Child" Name="NewElement" Value="new element text" Action="createElement" Sequence="1" />
+        <util:XmlFile Id="Delete" File="$(var.TargetFile)" ElementPath='/Root/Config[\[]@key="abc"[\]]' Value="CN=Something Else" Action="deleteValue" />
+        <util:XmlFile Id="ChildAttribute3" File="$(var.TargetFile)" ElementPath="/Root/Child" Name="Long" Value="[LongValue]" Action="setValue" />
+        <util:XmlFile Id="NewElementChild" File="$(var.TargetFile)" ElementPath="/Root/Child/NewElement" Name="NewElementChild" Action="createElement" Sequence="2" />
+        <util:XmlFile Id="NewElementAttrib" File="$(var.TargetFile)" ElementPath="/Root/Child/NewElement" Name="EmptyAttr" Action="setValue" Sequence="3" />
+        <util:XmlFile Id="NewElement1" File="$(var.TargetFile)" ElementPath="/Root/Child/NewElement/NewElementChild" Name="test1"  Action="createElement" Sequence="4" />
+        <util:XmlFile Id="NewElement2" File="$(var.TargetFile)" ElementPath="/Root/Child/NewElement/NewElementChild" Name="test1"  Action="createElement" Sequence="4"/>
+        <util:XmlFile Id="NewElement3" File="$(var.TargetFile)" ElementPath="/Root/Child/NewElement/NewElementChild" Name="test1"  Action="createElement" Sequence="4" />
+        <util:XmlFile Id="ChildAttributes" File="$(var.TargetFile)" ElementPath="/Root/Child/NewElement/NewElementChild/test1"  Value="Allarethesame" Action="bulkSetValue" Sequence="5"/>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="Component1" />
+    </Feature>
+
+  </Product>
+</Wix>

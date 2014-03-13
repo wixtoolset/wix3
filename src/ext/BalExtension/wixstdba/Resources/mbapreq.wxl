@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" Language="1033" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] Setup</String>
+  <String Id="Title">Microsoft .NET Framework required for [WixBundleName] setup</String>
+  <String Id="ConfirmCancelMessage">Are you sure you want to cancel?</String>
+  <String Id="HelpHeader">Setup Help</String>
+  <String Id="HelpText">/passive | /quiet -  displays minimal UI with no prompts or displays no UI and
+   no prompts. By default UI and all prompts are displayed.
+
+/norestart   - suppress any attempts to restart. By default UI will prompt before restart.
+/log log.txt - logs to a specific file. By default a log file is created in %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Close</String>
+  <String Id="InstallLicenseTerms">Click the "Accept and Install" button to accept the Microsoft .NET Framework &lt;a href="#"&gt;license terms&lt;/a&gt;.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Accept and Install</String>
+  <String Id="InstallDeclineButton">&amp;Decline</String>
+  <String Id="ProgressHeader">Setup Progress</String>
+  <String Id="ProgressLabel">Processing:</String>
+  <String Id="ProgressCancelButton">&amp;Cancel</String>
+  <String Id="FailureHeader">Setup Failed</String>
+  <String Id="FailureLogLinkText">One or more issues caused the setup to fail. Please fix the issues and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">You must restart your computer to complete the rollback of the software.</String>
+  <String Id="FailureRestartButton">&amp;Restart</String>
+  <String Id="FailureCloseButton">&amp;Close</String>
+</WixLocalization>

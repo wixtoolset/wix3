@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="ClickThrough.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Feature Id="Feature_ClickThrough" Title="ClickThrough" Level="1">
+            <ComponentGroupRef Id="ClickThroughComponents" />
+            <ComponentGroupRef Id="ClickThroughExtensionComponents" />
+            <ComponentGroupRef Id="Extensions" />
+        </Feature>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="ClickThroughComponents">
+
+            <Component Directory="BinFolder">
+                <File Source="ct.exe" />
+                <File Source="ct.exe.config" />
+            </Component>
+
+            <Component Directory="BinFolder">
+                <File Source="ctui.exe" />
+                <File Source="ctui.exe.config" />
+
+                <Shortcut Id="ClickThroughShortcut" Directory="ShortcutFolder" Name="ClickThrough" Advertise="yes"/>
+            </Component>
+
+            <Component Directory="BinFolder">
+                <File Source="wui.dll" />
+            </Component>
+
+            <Component Directory="ShortcutFolder">
+                <RegistryKey Root="HKCU" Key="Software\WiX Toolset $(var.WixVersion)\ClickThrough">
+                    <RegistryValue Name="Installed" Value="[BinFolder]" Type="string"/>
+                </RegistryKey>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="ClickThroughExtensionComponents" Directory="BinFolder">
+            <Component>
+                <File Source="WixIsolatedAppExtension.dll" />
+            </Component>
+
+            <Component>
+                <File Source="WixOfficeExtension.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE HelpIndex>
+<HelpIndex 
+	DTDVersion = "1.0"
+	Name = "VsipccNamedUrls"
+	Id = "VsipccNamedUrls"	
+	Merge = "Yes"
+	Sort = "Yes"
+	Title = "VSIPCC NamedUrl Index"
+	Visible = "No"
+	LangId = "1033"
+	>
+</HelpIndex>

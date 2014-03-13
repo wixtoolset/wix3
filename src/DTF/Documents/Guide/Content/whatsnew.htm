@@ -1,0 +1,257 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>What's New?</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">What's New?</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="about.htm">Overview</a> &gt;
+        <span class="nolink">What's New?</span>
+      </span>
+      <span id="languageFilter">2007-07-03</span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+        
+        <h3>Highlights</h3>
+        <ul>
+            <li><p>New project name name "Deployment Tools Foundation", and
+            new namespaces <font face="Consolas, Courier New">Microsoft.Deployment.*</font></p></li>
+            <li><p>Added ZIP compression library</p></li>
+            <li><p>Added library for reading/writing Win32 resources including file versions</p></li>
+            <li><p>Managed custom action improvements:</p><ul>
+                <li><p>Simplified authoring and building -- new MakeSfxCA tool
+                automatically maps DLL entrypoints to CA methods.</p></li>
+                <li><p>Managed custom action DLLs now run in a separate process for
+                better reliability with respect to CLR versions, but still have
+                full access to the MSI session.</p></li>
+            </ul></li>
+            <li><p>Found and fixed many bugs with extensive unit test suite</p></li>
+            <li><p>LINQ to MSI ! (preview)</p></li>
+        </ul>
+        
+        <p>Unfortunately, all these changes do mean that migrating tools and applications from
+        the previous release can be a moderate amount of work.</p>
+        
+        <h3>Breaking Changes</h3>
+        <p>For the first time since v1.0, this release contains some major breaking
+        changes, due to a significant redesign and cleanup effort that has been a
+        long time coming. The overall purpose of the changes is to bring the class
+        libraries much closer to ship-quality.</p>
+        <ul>
+            <li><p>All libraries use a new namespace hierarchy
+            under <font face="Consolas, Courier New">Microsoft.Deployment</font>.
+            The new namespace aligns with the new project name, gives all the various
+            libraries an identity that makes them obviously related to the DTF project,
+            and mostly avoids "taking over" a namespace that might be rightfully owned
+            by the platform technology owner.</p></li>
+            
+            <li><p>Assemblies are also renamed to follow namespaces.</p></li>
+            
+            <li><p>A new unified compression framework forms the basis for the new ZIP
+            library and a redesigned CAB library. Additional archive formats can
+            be plugged into the framework. The stream-based compression APIs have
+            been redesigned to be more object-oriented and easier to use. The file-based
+            APIs are mostly unchanged from the old cabinet library, although some names
+            have changed in order to fit into the new unified framework.</p></li>
+            
+            <li><p>Large parts of the WindowsInstaller library have been redesigned
+            to be more object-oriented and to better follow .NET Framework design
+            guidelines. And various APIs throughout the library have naming or other
+            changes for better consistency and to follow conventions and best
+            pratices as enforced by FxCop.</p></li>
+            
+            <li><p>The WindowsInstaller APIs no longer make any attempt to mimic the
+            MSI COM automation interfaces. The naming and object patterns in the
+            automation interfaces often conflicted with with best practices for
+            .NET Framework class libraries. Since most people start using DTF
+            without having ever experienced MSI scripting, there is little
+            reason to match the scripting object model. Making the APIs more
+            consistent with .NET conventions will make them much easier to use
+            for people already experienced with the .NET Framework.</p></li>
+            
+            <li><p>APIs in all class libraries use generics where appropriate, especially
+            the generic collection interfaces. This means .NET Framework 2.0 or later
+            is required.</p></li>
+            
+            <li><p>The FilePatch library is missing from this release. An updated
+            and redesigned file-delta library is in development.</p></li>
+        </ul>
+        
+        <h3>Other Changes</h3>
+        <ul>
+            <li><p>New MakeSfxCA tool for building managed custom action packages: In addition to
+            packaging the CA DLL and dependencies, it automatically detects managed CA methods
+            and generates corresponding unmanaged DLL entrypoints in the CA host DLL (SfxCA.dll),
+            where they are called by MSI. Previously it was necessary to either provide this
+            mapping in a CustomAction.config file, or live with the generic "ManagedCustomActionN"
+            names when authoring the CustomAction table in the MSI. For more info, see the
+            help topic on building managed custom actions.</p></li>
+            
+            <li><p>Out-of-proc managed custom action DLLs:
+            When a managed custom action runs, it normally requests a specific major
+            version of the CLR via CustomAction.config. However in the previous implementation,
+            the request could be ignored if there was already a different version of the CLR
+            loaded into the MSI process, either from a previous custom action or by some other
+            means. (The CLR doesn't allow side-by-side versions within the same process.)
+            While there have been no reports of this issue causing setup failures in practice,
+            it may be only a matter of time, as new CLR versions keep coming out.</p>
+            
+            <p>The redesigned native host for managed custom actions, SfxCA.dll, re-launches
+            itself in a separate process before loading the CLR and invoking the managed CA.
+            This ensures that the desired CLR version is always loaded, assuming it is available
+            on the system. It also sets up a named-pipe remoting channel between the two processes.
+            All session-related MSI API calls are routed through that channel, so that the
+            custom action has full access to the installer session just as if it were
+            running in-process.</p></li>
+            
+            <li><p>The new zip compression library supports nearly all features of the zip
+            file format. This includes the ZIP64 extensions for archives greater than 4GB,
+            as well as disk-spanning capabilities. Zip encryption is not supported. The zip
+            library has been tested against a variety of third-party zip tools; please
+            report any issues with incompatible packages.</p>
+            
+            <p>Currently only the basic DEFLATE compression algorithm is supported
+            (via System.IO.Compression.DeflateStream), and the compression level is not adjustable
+            when packing an archive. The zip file format has a mechanism for plugging in arbitrary
+            compression algorithms, and that capability is exposed: you can provide a Stream object
+            capable of compressing and decompressing bytes as an alternative to DeflateStream.</p></li>
+            
+            <li><p>Added support for the few APIs new in MSI 4.0:</p>
+            <ul>
+                <li><font face="Consolas, Courier New">Installer.GetPatchFileList()</font></li>
+                <li><font face="Consolas, Courier New">InstallLogModes.RMFilesInUse</font></li>
+                <li><font face="Consolas, Courier New">ComponentAttributes.DisableRegistryReflection</font></li>
+                <li><font face="Consolas, Courier New">ControlAttributes.ElevationShield</font></li>
+            </ul>&nbsp;<br /></li>
+
+            <li><p>The documentation is now built with the
+            <a href="http://msdn2.microsoft.com/en-us/vstudio/bb608422.aspx" target="_blank">Sandcastle</a> doc build engine,
+            with help from the <a href="http://www.codeplex.com/SHFB" target="_blank">Sandcastle
+            Help File Builder</a>. (The old CHM was built with NDoc.)</p></li>
+
+            <li><p>The documentation includes detailed class diagrams for the
+            WindowsInstaller and Compression namespaces.</p></li>
+
+            <li><p>WindowsInstaller API doc topics now link straight to the corresponding
+            unmanaged MSI API topics in MSDN. If you know an unmanaged MSI API you want to
+            use but don't know the managed equivalent, you can search for it and find what
+            managed APIs link to it.</p></li>
+
+            <li><p>Unit tests cover about 90% of the Compression, Compression.Zip, and
+            Compression.Cab assemblies -- basically everything except some rare
+            error-handling cases.</p></li>
+            
+            <li><p>Unit tests along with samples cover over 50% of the WindowsInstaller and
+            WindowsInstaller.Package assemblies (including custom action functionality). More
+            test cases are still being added.</p></li>
+        </ul>
+        
+        <h3>Bugfixes</h3>
+        <p>In addition to the extensive cleanup due to redesigns and unit tests, the following
+        reported bugs have been fixed:</p>
+        <ul>
+          <li><p>Managed custom actions could in rare instances fail to load with error 183
+          (directory already exists)</p></li>
+          <li><p>Timestamps of files in a cabinet could be incorrectly offset based on the timezone.
+          (This was due to a behavior change in the DateTime class between .NET 1.1 and 2.0.)</p></li>
+          <li><p>Unicode file paths for cabbed files could be handled incorrectly in some cases</p></li>
+          <li><p>Installer.DetermineApplicablePatches just didn't work</p></li>
+          <li><p>InstallPackage.ApplyPatch couldn't handle applying multiple patches to the same layout</p></li>
+        </ul>
+
+        <h3>LINQ to MSI</h3>
+        <p><i>You'll never want to write MSI SQL again!</i></p>
+        <p>Language INtegrated Query is a new feature in .NET Framework 3.5 and C# 3.0. Through
+        a combination of intuitive language syntax and powerful query operations, LINQ provides
+        a whole new level of productivity for working with data in your code. While the .NET
+        Framework 3.5 provides LINQ capability for SQL databases and XML data, now you
+        can write LINQ queries to fetch and even update data in MSI databases!</p>
+        
+        <p>Look at the following example:<br />
+        
+<pre><font face="Consolas, Courier New">    <font color="blue">var</font> actions = <font color="blue">from</font> a <font color="blue">in</font> db.InstallExecuteSequences
+                  <font color="blue">join</font> ca <font color="blue">in</font> db.CustomActions <font color="blue">on</font> a.Action <font color="blue">equals</font> ca.Action
+                  <font color="blue">where</font> ca.Type == CustomActionTypes.Dll
+                  <font color="blue">orderby</font> a.Sequence
+                  <font color="blue">select new</font> {
+                      Name = a.Action,
+                      Target = ca.Target,
+                      Sequence = a.Sequence };
+          
+    <font color="blue">foreach</font> (<font color="blue">var</font> a <font color="blue">in</font> actions)
+    {
+        Console.WriteLine(a);
+    }
+    </font></pre>
+
+        The query above gets automatically translated to MSI SQL:</p>
+        
+        <p><font face="Consolas, Courier New">&nbsp;&nbsp;&nbsp;&nbsp;SELECT `InstallExecuteSequence`.`Action`,
+        `CustomAction`.`Target`, `InstallExecuteSequence`.`Sequence` FROM `InstallExecuteSequence`, `CustomAction`
+        WHERE `InstallExecuteSequence`.Action` = `CustomAction`.`Action` ORDER BY `InstallExecuteSequence`.`Sequence`</font></p>
+        
+        <p>But the query is not executed until the <font face="Consolas, Courier New">foreach</font>
+        enumeration. Then records are fetched from the results incrementally as the enumeration progresses.
+        The objects fetched are actually of an anonymous type created there in the query with exactly
+        the desired fields. So the result of this code will be to print the Action, Target, and Sequence
+        of all Type 1 custom actions.</p>
+        
+        <p>The query functionality is currently limited by the capabilities of the MSI SQL engine. For
+        example, a query can't use <font face="Consolas, Courier New">where (ca.Type &amp;
+        CustomActionTypes.Dll) != 0</font> because the bitwise-and operator is not supported by
+        MSI SQL. The preview version of LINQ to MSI will throw an exception for cases like that, but
+        the eventual goal is to have it automatically move the data and operation outside of MSI when
+        necessary, so that any arbitrary expressions are supported in the query.</p>
+        
+        <p>Note there are no MSI handles (or <font face="Consolas, Courier New">IDisposable</font>s)
+        to worry about! Handles are all managed internally and closed deterministically. Also,
+        with the entity object model for common tables, the compiler will tell you if you get a
+        column name wrong or misspelled. The entity objects even support easy inserting, updating,
+        and deleting (not shown here).</p>
+        
+        <p>For more examples, see the LinqTest project in the source. More documentation
+        is being written.</p>
+        
+        <p>Obviously, LINQ to MSI requires .NET Framework 3.5. Everything else
+        in DTF requires only .NET Framework 2.0.</p>
+        
+        <p><font color="red">Note: The LINQ functionality in this DTF release is of preview quality only
+        and should not be used in production. While there are unit tests covering a wide
+        variety of queries, using advanced queries outside what is covered by the tests
+        is likely to result in unexpected exceptions, and retrieved data might possibly be
+        incorrect or incomplete. An updated LINQ to MSI library is in development.</font></p>
+        
+        <p>&nbsp;</p>
+        
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

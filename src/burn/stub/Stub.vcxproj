@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="Stub.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C38373AA-882F-4F55-B03F-2AAB4BFBE3F1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <TargetName>burn</TargetName>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(ProjectDir)..\inc;$(ProjectDir)..\engine\inc</ProjectAdditionalIncludeDirectories>
+    <ProjectAdditionalLinkLibraries>cabinet.lib;crypt32.lib;msi.lib;rpcrt4.lib;shlwapi.lib;wininet.lib;wintrust.lib;Userenv.lib;Wtsapi32.lib;wuguid.lib;dutil.lib;deputil.lib;engine.lib;engine.res</ProjectAdditionalLinkLibraries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ClInclude Include="precomp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stub.cpp" />
+    <ClCompile Include="StubSection.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="stub.manifest" Condition=" '$(Platform)'!='arm' "/>
+    <Manifest Include="stub_arm.manifest" Condition=" '$(Platform)'=='arm' "/>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="stub.rc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\engine\engine.vcxproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+
+  <!---
+  CopyBurnExe
+
+    Copies burn.exe where light.exe expects to find it: output\$(Platform)\burn.exe
+  -->
+  <PropertyGroup>
+    <AfterBuildDependsOn>$(AfterBuildDependsOn);CopyBurnExe</AfterBuildDependsOn>
+  </PropertyGroup>
+  <Target Name="CopyBurnExe"
+          Inputs="$(TargetPath)"
+          Outputs="$(OutputPath)$(NormalizedPlatform)\$(TargetName).exe">
+
+    <MakeDir Directories="$(OutputPath)$(NormalizedPlatform)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(OutputPath)$(NormalizedPlatform)\" 
+          UseHardlinksIfPossible="true" />
+  </Target>
+</Project>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="ManagedSdkMsi.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.8</ProductVersion>
+    <ProjectGuid>{C2340ADC-D4C8-4A3E-BE85-CF97E3D1C615}</ProjectGuid>
+    <OutputName>msdk</OutputName>
+    <OutputType>Package</OutputType>
+    <Cultures>en-us</Cultures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="BurnSdk.wxs" />
+    <Compile Include="Dtf.wxs" />
+    <Compile Include="ExtensionSdk.wxs" />
+    <Compile Include="ManagedSdkMsi.wxs" />
+    <Compile Include="ProjectTemplates.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindInputPaths Include="$(MSBuildProjectDirectory)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLib\CommonLib.wixproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixTagExtension">
+      <HintPath>$(OutputPath_x86)WixTagExtension.dll</HintPath>
+    </WixExtension>
+    <WixExtension Include="WixVSExtension">
+      <HintPath>$(OutputPath_x86)WixVSExtension.dll</HintPath>
+    </WixExtension>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

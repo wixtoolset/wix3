@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="VS2003.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- Visual Studio 2003 .NET -->
+    <Fragment>
+        <Property Id="VS2003DEVENV" Secure="yes">
+            <RegistrySearch Id="VS2003DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\7.1\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2003Setup" Property="VS2003DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2003DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2003Setup" Before="InstallFinalize" Overridable="yes">VS2003DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether or not the J# redistributable package 1.1 is installed.              -->
+    <Fragment>
+        <Property Id="JSHARP_REDIST_11_INSTALLED" Secure="yes">
+            <RegistrySearch Id="JSharpRedist11RegKey" Root="HKLM" Key="Software\Microsoft\Visual JSharp Setup\Redist\v1.1.4322" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+</Wix>

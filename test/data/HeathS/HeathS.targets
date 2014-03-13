@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="HeathS.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <BuildPath>$(MSBuildThisFileDirectory)Build\</BuildPath>
+        <BindInputPaths>$(BuildPath)</BindInputPaths>
+        <OutDir>$(BuildPath)</OutDir>
+        <OutputPath>$(BuildPath)</OutputPath>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <SuppressValidation>True</SuppressValidation>
+    </PropertyGroup>
+    <Import Project="$(WIX_ROOT)\WixBuild.Common.targets" />
+    <ItemGroup>
+        <WixExtension Include="WixBalExtension">
+            <HintPath>$(OutputPath_x86)WixBalExtension.dll</HintPath>
+        </WixExtension>
+        <WixExtension Include="WixDependencyExtension">
+            <HintPath>$(OutputPath_x86)WixDependencyExtension.dll</HintPath>
+        </WixExtension>
+        <WixExtension Include="WixUtilExtension">
+            <HintPath>$(OutputPath_x86)WixUtilExtension.dll</HintPath>
+        </WixExtension>
+    </ItemGroup>
+</Project>

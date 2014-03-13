@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="ja-jp.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ja-jp" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="msierrComPlusCannotConnect" Overridable="yes">COM+ 管理カタログへ接続できません。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionReadFailed" Overridable="yes">COM+ パーティションの読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionRoleReadFailed" Overridable="yes">COM+ パーティション役割の読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusUserInPartitionRoleReadFailed" Overridable="yes">COM+ パーティション役割内ユーザーの読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionUserReadFailed" Overridable="yes">COM+ パーティション ユーザーの読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationReadFailed" Overridable="yes">COM+ アプリケーションの読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleReadFailed" Overridable="yes">COM+ アプリケーション役割の読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusUserInApplicationRoleReadFailed" Overridable="yes">COM+ アプリケーション役割内ユーザーの読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusAssembliesReadFailed" Overridable="yes">COM+ アセンブリの読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusSubscriptionReadFailed" Overridable="yes">COM+ イベント登録の読み込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionDependency" Overridable="yes">他のエンティティはインストールされない COM+ パーティションに依存します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionNotFound" Overridable="yes">COM+ パーティションは見つかりません  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionIdConflict" Overridable="yes">同一 ID を持つ COM+ パーティションが既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionNameConflict" Overridable="yes">同一名称を持つ COM+ パーティションが既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationDependency" Overridable="yes">他のエンティティはインストールされない COM+ アプリケーションに依存します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationNotFound" Overridable="yes">COM+ アプリケーションは見つかりません。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationIdConflict" Overridable="yes">同一 ID を持つ COM+ アプリケーションが既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationNameConflict" Overridable="yes">同一名称を持つ COM+ アプリケーションが既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleDependency" Overridable="yes">他のエンティティはインストールされない COM+ アプリケーション役割に依存します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleNotFound" Overridable="yes">COM+ アプリケーション役割は見つかりません。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleConflict" Overridable="yes">同一名称を持つ COM+ アプリケーション役割が既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusAssemblyDependency" Overridable="yes">他のエンティティはインストールされない COM+ アセンブリに依存します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusSubscriptionIdConflict" Overridable="yes">同一 ID を持つ COM+ コンポーネントのイベント登録が既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusSubscriptionNameConflict" Overridable="yes">同一名称を持つ COM+ コンポーネントのイベント登録が既に存在します。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusFailedLookupNames" Overridable="yes">ユーザー アカウント名の照合に失敗しました。  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="ComPlusInstallExecute" Overridable="yes">COM+ コンポーネントを登録しています</String>
+  <String Id="ComPlusUninstallExecute" Overridable="yes">COM+ コンポーネント登録を解除しています</String>
+
+  <String Id="CreateComPlusPartitions" Overridable="yes">COM+ パーティションを作成しています</String>
+  <String Id="CreateComPlusPartitionsTemplate" Overridable="yes">パーティション： [1]</String>
+  <String Id="RemoveComPlusPartitions" Overridable="yes">COM+ パーティションを削除しています</String>
+  <String Id="RemoveComPlusPartitionsTemplate" Overridable="yes">パーティション： [1]</String>
+  <String Id="AddUsersToComPlusPartitionRoles" Overridable="yes">ユーザーを COM+ パーティション役割に追加しています</String>
+  <String Id="AddUsersToComPlusPartitionRolesTemplate" Overridable="yes">役割： [1]</String>
+  <String Id="RemoveUsersFromComPlusPartitionRoles" Overridable="yes">ユーザを COM+ パーティション役割より削除しています</String>
+  <String Id="RemoveUsersFromComPlusPartitionRolesTemplate" Overridable="yes">役割： [1]</String>
+  <String Id="AddComPlusPartitionUsers" Overridable="yes">ユーザーのデフォルト COM+ 役割を設定しています</String>
+  <String Id="AddComPlusPartitionUsersTemplate" Overridable="yes">ユーザー： [1]</String>
+  <String Id="RemoveComPlusPartitionUsers" Overridable="yes">ユーザーのデフォルト COM+ パーティション役割を削除しています</String>
+  <String Id="RemoveComPlusPartitionUsersTemplate" Overridable="yes">ユーザー： [1]</String>
+  <String Id="CreateComPlusApplications" Overridable="yes">COM+ アプリケーションを作成しています</String>
+  <String Id="CreateComPlusApplicationsTemplate" Overridable="yes">アプリケーション： [1]</String>
+  <String Id="RemoveComPlusApplications" Overridable="yes">COM+ アプリケーションを削除しています</String>
+  <String Id="RemoveComPlusApplicationsTemplate" Overridable="yes">アプリケーション： [1]</String>
+  <String Id="CreateComPlusApplicationRoles" Overridable="yes">COM+ アプリケーション役割を作成しています</String>
+  <String Id="CreateComPlusApplicationRolesTemplate" Overridable="yes">役割： [1]</String>
+  <String Id="RemoveComPlusApplicationRoles" Overridable="yes">COM+ アプリケーション役割を削除しています</String>
+  <String Id="RemoveComPlusApplicationRolesTemplate" Overridable="yes">役割： [1]</String>
+  <String Id="AddUsersToComPlusApplicationRoles" Overridable="yes">ユーザーを COM+ アプリケーション役割に追加しています</String>
+  <String Id="AddUsersToComPlusApplicationRolesTemplate" Overridable="yes">ユーザー： [1]</String>
+  <String Id="RemoveUsersFromComPlusApplicationRoles" Overridable="yes">ユーザーを COM+ アプリケーション役割より削除しています</String>
+  <String Id="RemoveUsersFromComPlusApplicationRolesTemplate" Overridable="yes">ユーザー： [1]</String>
+  <String Id="RegisterComPlusAssemblies" Overridable="yes">COM+ コンポーネントを登録しています</String>
+  <String Id="RegisterComPlusAssembliesTemplate" Overridable="yes">DLL: [1]</String>
+  <String Id="UnregisterComPlusAssemblies" Overridable="yes">COM+ コンポーネント登録を解除しています</String>
+  <String Id="UnregisterComPlusAssembliesTemplate" Overridable="yes">DLL: [1]</String>
+  <String Id="AddComPlusRoleAssignments" Overridable="yes">COM+ コンポーネントへ役割を割り当てています</String>
+  <String Id="AddComPlusRoleAssignmentsTemplate" Overridable="yes">コンポーネント： [1]</String>
+  <String Id="RemoveComPlusRoleAssignments" Overridable="yes">COM+ コンポーネントより役割割当を削除しています</String>
+  <String Id="RemoveComPlusRoleAssignmentsTemplate" Overridable="yes">コンポーネント： [1]</String>
+  <String Id="CreateSubscriptionsComPlusComponents" Overridable="yes">COM+ コンポーネント用登録を作成しています</String>
+  <String Id="CreateSubscriptionsComPlusComponentsTemplate" Overridable="yes">登録： [1]</String>
+  <String Id="RemoveSubscriptionsComPlusComponents" Overridable="yes">COM+ コンポーネント用登録を削除しています</String>
+  <String Id="RemoveSubscriptionsComPlusComponentsTemplate" Overridable="yes">登録： [1]</String>
+</WixLocalization>

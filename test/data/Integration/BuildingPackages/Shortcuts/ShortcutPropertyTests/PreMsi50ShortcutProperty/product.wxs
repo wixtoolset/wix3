@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="{0158AA58-CFCE-40a1-AC0B-204A1A369473}" Name="Wix Test: PreMsi50" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{B16CB6DF-5FEE-46e8-820E-FB4880DD246B}">
+
+    <!--Set the InstallerVersion from a pre-processor variable that is set on the command line-->
+    <Package InstallerVersion="$(var.InstallerVersion)" />
+
+    <Media Id="1" />
+
+    <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\directories.wxi?>
+
+    <Property Id="KEY4" Value="Key4" />
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="Component1" Guid="*">
+        <File DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt">
+          <Shortcut Id="TextFile1" Name="TextFile1Shortcut" Directory="WixTestFolder">
+            <ShortcutProperty Id="ShortcutProperty1" Key="Key1" Value="Value1" />
+          </Shortcut>
+        </File>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="Component1" />
+    </Feature>
+
+  </Product>
+</Wix>

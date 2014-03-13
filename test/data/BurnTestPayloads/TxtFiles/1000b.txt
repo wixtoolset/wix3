@@ -1,0 +1,11 @@
+This is a text file used for testing the downloader.  It is 1000 bytes in size.
+-----------------
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234
+This line is 100 bytes in size (including the \crlf). 12345678901234567890123456789012345678901234

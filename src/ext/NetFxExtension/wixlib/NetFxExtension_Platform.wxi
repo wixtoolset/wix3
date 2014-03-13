@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+  <copyright file="NetFxExtension_Platform.wxi" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include caSuffix.wxi ?>
+  <Fragment>
+    <CustomAction Id="NetFxScheduleNativeImage$(var.Suffix)" BinaryKey="NetFxCA$(var.Suffix)" DllEntry="SchedNetFx" Execute="immediate" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="NetFxExecuteNativeImageInstall$(var.DeferredSuffix)" BinaryKey="NetFxCA$(var.Suffix)" DllEntry="ExecNetFx" Execute="deferred" Impersonate="no" Return="ignore" SuppressModularization="yes" />
+    <CustomAction Id="NetFxExecuteNativeImageCommitInstall$(var.DeferredSuffix)" BinaryKey="NetFxCA$(var.Suffix)" DllEntry="ExecNetFx" Execute="commit" Impersonate="no" Return="ignore" SuppressModularization="yes" />
+    <CustomAction Id="NetFxExecuteNativeImageUninstall$(var.DeferredSuffix)" BinaryKey="NetFxCA$(var.Suffix)" DllEntry="ExecNetFx" Execute="deferred" Impersonate="no" Return="ignore" SuppressModularization="yes" />
+    <CustomAction Id="NetFxExecuteNativeImageCommitUninstall$(var.DeferredSuffix)" BinaryKey="NetFxCA$(var.Suffix)" DllEntry="ExecNetFx" Execute="commit" Impersonate="no" Return="ignore" SuppressModularization="yes" />
+
+    <InstallExecuteSequence>
+      <Custom Action="NetFxScheduleNativeImage$(var.Suffix)" Before="InstallFiles" Overridable="yes" />
+      <Custom Action="NetFxExecuteNativeImageCommitUninstall$(var.DeferredSuffix)" After="MsiPublishAssemblies" Overridable="yes">RollbackDisabled &lt;&gt; 1</Custom>
+      <Custom Action="NetFxExecuteNativeImageUninstall$(var.DeferredSuffix)" After="NetFxExecuteNativeImageCommitUninstall$(var.DeferredSuffix)" Overridable="yes">RollbackDisabled = 1</Custom>
+      <Custom Action="NetFxExecuteNativeImageCommitInstall$(var.DeferredSuffix)" After="NetFxExecuteNativeImageUninstall$(var.DeferredSuffix)" Overridable="yes">RollbackDisabled &lt;&gt; 1</Custom>
+      <Custom Action="NetFxExecuteNativeImageInstall$(var.DeferredSuffix)" After="NetFxExecuteNativeImageCommitInstall$(var.DeferredSuffix)" Overridable="yes">RollbackDisabled = 1</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+
+  <!-- NetFx Custom Action DLL Definitions -->
+  <Fragment>
+    <Binary Id="NetFxCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))netfxca.dll" />
+  </Fragment>
+</Include>

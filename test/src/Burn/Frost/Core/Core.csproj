@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="Core.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4545CF90-3D80-463A-91F1-8373E5C72C15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Test.Frost</RootNamespace>
+    <AssemblyName>Microsoft.Tools.WindowsInstallerXml.Test.Frost.Core</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\inc\WixDistribution.cs">
+      <Link>Properties\WixDistribution.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\inc\wixver.cs">
+      <Link>Properties\wixver.cs</Link>
+    </Compile>
+    <Compile Include="Frost.cs" />
+    <Compile Include="FrostException.cs" />
+    <Compile Include="Package.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Variables.cs" />
+  </ItemGroup>
+  <Import Project="..\..\..\...\..\WixBuild.Common.targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Shim\Shim.vcproj">
+      <Project>{9268FB86-AF53-4A05-9FA9-5231FAC65055}</Project>
+      <Name>Shim</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\src\wix\Wix.csproj">
+      <Name>Wix</Name>
+      <Project>{9E03A94C-C70E-45C6-A269-E737BBD8B319}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <MsgGenSource Include="Data\messages.xml">
+      <ResourcesLogicalName>$(RootNamespace).Data.Messages.resources</ResourcesLogicalName>
+    </MsgGenSource>
+    <Content Include="Scenarios\FrostManifest.xml" />
+  </ItemGroup>
+</Project>

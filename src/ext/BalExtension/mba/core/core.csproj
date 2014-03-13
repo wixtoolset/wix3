@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="core.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{015AA197-3CEC-4B06-B635-953B1A9619CF}</ProjectGuid>
+    <AssemblyName>BootstrapperCore</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Bootstrapper</RootNamespace>
+    <NoWarn>0693;1591</NoWarn>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+
+    <CreateDocumentationFile>true</CreateDocumentationFile>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <FxCopEnabled>true</FxCopEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="BootstrapperApplication.cs" />
+    <Compile Include="BootstrapperApplicationAttribute.cs" />
+    <Compile Include="BootstrapperApplicationFactory.cs" />
+    <Compile Include="BootstrapperSectionGroup.cs" />
+    <Compile Include="SupportedFrameworkElementCollection.cs" />
+    <Compile Include="SupportedFrameworkElement.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="EventArgs.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HostSection.cs" />
+    <Compile Include="IBootstrapperApplication.cs" />
+    <Compile Include="IBootstrapperApplicationFactory.cs" />
+    <Compile Include="IBootstrapperEngine.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="BootstrapperCore.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <HeaderPath Include="$(IntermediateOutputPath)BootstrapperCore.h">
+      <Visible>False</Visible>
+    </HeaderPath>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+
+  <PropertyGroup>
+    <AfterBuildDependsOn>
+      $(AfterBuildDependsOn);
+      GenerateIdentityHeader
+    </AfterBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GenerateIdentityHeader" Inputs="$(TargetPath)" Outputs="@(HeaderPath)">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyIdentity" />
+    </GetAssemblyIdentity>
+
+    <ItemGroup>
+      <Line Include="#define MUX_ASSEMBLY_FULL_NAME L&quot;%(AssemblyIdentity.Identity)&quot;" />
+      <Line Include="#define MUX_ASSEMBLY_NAME L&quot;%(AssemblyIdentity.Name)&quot;" />
+      <Line Include="#define MUX_ASSEMBLY_VERSION L&quot;%(AssemblyIdentity.Version)&quot;" />
+      <Line Include="#define MUX_ASSEMBLY_CULTURE L&quot;%(AssemblyIdentity.Culture)&quot;" Condition="'%(AssemblyIdentity.Culture)'!=''" />
+      <Line Include="#define MUX_ASSEMBLY_CULTURE L&quot;neutral&quot;" Condition="'%(AssemblyIdentity.Culture)'==''" />
+      <Line Include="#define MUX_ASSEMBLY_PUBLICKEYTOKEN L&quot;%(AssemblyIdentity.PublicKeyToken)&quot;" />
+    </ItemGroup>
+
+    <Message Importance="normal" Text="Generating identity definitions into @(HeaderPath->'%(FullPath)')" />
+    <WriteLinesToFile File="@(HeaderPath)" Lines="@(Line)" Overwrite="True" />
+    <ItemGroup>
+        <FileWrites Include="@(HeaderPath)" />
+    </ItemGroup>
+  </Target>
+</Project>

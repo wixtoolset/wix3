@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  Product.MSI - example source code for Product from "Getting Started" in help
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Test WixShellExec" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{0DB5AF60-76D9-4355-8A69-1389A6C238B5}">
+    <Package Description="WixShellExec" Comments="WixShellExec" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="WixTestFolder" Name="WixTestFolder">
+          
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="MyComponent" Guid="12345678-1234-1234-1234-123456700012">
+        <File DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" />
+      </Component>
+    </DirectoryRef>
+
+    <Property Id="WixShellExecBinaryId" Value="CreateDummyTextFile.exe" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA"  DllEntry="WixShellExecBinary" Impersonate="yes" />
+
+    <InstallExecuteSequence >
+      <Custom Action="LaunchApplication" After="InstallFinalize">
+        <![CDATA[NOT REMOVE]]>
+      </Custom>
+    </InstallExecuteSequence>
+
+    <Feature Id="MyFeature" Title="My 1st Feature" Level="1">
+      <ComponentRef Id="MyComponent" />
+    </Feature>
+
+    <Binary Id="CreateDummyTextFile.exe" SourceFile="$(env.WIX_ROOT)\test\data\Extensions\UtilExtension\WixShellExecBinaryTests\CreateDummyTextFile.exe" />
+  </Product>
+</Wix>

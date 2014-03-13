@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="MissingComponentAncestor.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Product Codepage="932"  Id="3008BEEE-39C6-437c-91F1-D9E733E2A1A3" Name="TestWebSDirProduct" Language="1033" Version="0.0.0.0"  Manufacturer="Microsoft Corporation" UpgradeCode="{076650CE-FECC-44a6-8172-2237B1932F1F}">
+    <Package Description="Test Web dir Product" Comments="Test Web dir Product" InstallerVersion="200" Compressed="yes" />
+    <Property Id="PORT" Value="3062" />
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestWebSiteProductDirectory" ShortName="testassm" Name="Test File">
+          <Component Id="TestWebSiteProductComponent" Guid="6F224283-8218-45ea-A2E7-291FD40AA9C2" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <iis:WebSite Id="Test" Description="Test web server" Directory="TestWebSiteProductDirectory" AutoStart="yes" DirProperties="ReadAndExecute" ConfigureIfExists="no" >
+              <iis:WebAddress Id="TestAddress" Port="[PORT]" Secure="no" />
+              <iis:WebVirtualDir Id="vdir1" Alias="test1" Directory="TestWebSiteProductDirectory" DirProperties="ReadAndExecute">
+                <iis:WebApplication Id="VDirTestApp1" Name="Virtual Directory Test ASP Application" Isolation="high" />
+                <iis:HttpHeader Name="VDirHttpHeader" Value="Http Header For VDir" />
+                <iis:MimeMap Id="BBMimeMapTest1" Type="application/test1" Extension=".foo1" />
+              </iis:WebVirtualDir>
+            </iis:WebSite>
+
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+    </Directory>
+    <Feature Id="TestWebSiteProductFeature" Title="Test File Product Feature" Level="1">
+      <ComponentRef Id="TestWebSiteProductComponent" />
+    </Feature>
+    <iis:WebDirProperties Id="ReadAndExecute" Read="yes" Write="no" Script="yes" Execute="yes" AnonymousAccess="no" />
+    <iis:WebAppPool Id="tedt" Name="test" >
+      <iis:RecycleTime Value="1:10"/>
+    </iis:WebAppPool>
+
+
+  </Product>
+</Wix>

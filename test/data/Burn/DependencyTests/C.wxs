@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="C.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension">
+  <Product Id="*" Name="~$(var.TestName) - B" Language="1033" Version="$(var.Version)" Manufacturer="Microsoft Corporation" UpgradeCode="F840B646-4F22-4F22-B832-E640BB1084FE">
+    <Package Compressed="yes" InstallerVersion="300" InstallScope="perMachine"/>
+
+    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
+    <MediaTemplate/>
+
+    <Property Id="MsiLogging" Value="voicewarmup"/>
+    <PropertyRef Id="TestVersion"/>
+
+    <Feature Id="Complete" Level="1">
+      <ComponentRef Id="FileComponent"/>
+      <ComponentRef Id="RegistryComponent"/>
+    </Feature>
+
+    <InstallExecuteSequence>
+      <Custom Action="FailCA" Before="InstallFinalize"/>
+    </InstallExecuteSequence>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="WixDir" Name="~Test WiX">
+          <Directory Id="TestDir" Name="$(var.TestName)">
+            <Directory Id="INSTALLFOLDER" Name="B"/>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <Component Id="FileComponent" Guid="884CE7AA-C0CB-4517-9041-F66C76D8B46E" Directory="INSTALLFOLDER">
+      <File Source="$(sys.SOURCEFILEPATH)"/>
+      <dep:Provides>
+        <dep:Requires ProviderKey="Microsoft.WiX.$(var.TestName).A,v1.0" Minimum="1.0.0.0" IncludeMinimum="yes"/>
+      </dep:Provides>
+    </Component>
+  </Fragment>
+
+  <Fragment>
+    <Component Id="RegistryComponent" Directory="INSTALLFOLDER">
+      <RegistryValue Root="HKLM" Key="Software\WiX\Tests\$(var.TestName)" Name="B" Value="!(bind.property.TestVersion)" Type="string"/>
+    </Component>
+  </Fragment>
+
+  <Fragment>
+    <Property Id="TestVersion" Value="$(var.Version)"/>
+  </Fragment>
+
+  <Fragment>
+    <CustomAction Id="FailCA" Error="Failed."/>
+  </Fragment>
+</Wix>

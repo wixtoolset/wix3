@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.wixproj.props" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <OutputPath Condition=" '$(OutputType)'=='Package' ">$(OutputPath)data\</OutputPath>
+    <SignOutput Condition=" '$(OutputType)'=='Bundle' and '$(SignServiceUrl)'!='' ">true</SignOutput>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Cultures>neutral</Cultures>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);WixBundleCompressed=$(WixBundleCompressed)</DefineConstants>
+    <DefineConstants Condition="$(VS2008SdkAvailable)">$(DefineConstants);VS2008SdkAvailable=true</DefineConstants>
+    <DefineConstants Condition="$(VS2010Available)">$(DefineConstants);VS2010Available=true</DefineConstants>
+    <DefineConstants Condition="$(VS2010SdkAvailable)">$(DefineConstants);VS2010SdkAvailable=true</DefineConstants>
+    <DefineConstants Condition="$(VS2012Available)">$(DefineConstants);VS2012Available=true</DefineConstants>
+    <DefineConstants Condition="$(VS2012SdkAvailable)">$(DefineConstants);VS2012SdkAvailable=true</DefineConstants>
+    <DefineConstants Condition="$(VS2013Available)">$(DefineConstants);VS2013Available=true</DefineConstants>
+    <DefineConstants Condition="$(VS2013SdkAvailable)">$(DefineConstants);VS2013SdkAvailable=true</DefineConstants>
+    <DefineConstants Condition="$(BuildSandcastleDocumentation)">$(DefineConstants);BuildSandcastleDocumentation=$(BuildSandcastleDocumentation)</DefineConstants>
+    <DefineConstants Condition="$(VS2008Available)">$(DefineConstants);VS2008Available=true</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IncludeSearchPaths>$(IncludeSearchPaths);$(BuiltIncludePath);$(WixRoot)\src\ext\ca\inc;$(WixVersionPath)</IncludeSearchPaths>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(WixRoot)src\common\WixDistribution.wxl">
+      <Link>Properties\WixDistribution.wxl</Link>
+      <Visible>false</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindInputPaths Include="$(OutputPath)" />
+    <BindInputPaths Include="$(OutputPath_x86)">
+        <BindName>x86</BindName>
+    </BindInputPaths>
+    <BindInputPaths Include="$(OutputPath_x64)">
+        <BindName>x64</BindName>
+    </BindInputPaths>
+    <BindInputPaths Include="$(OutputPath_arm)">
+        <BindName>arm</BindName>
+    </BindInputPaths>
+    <BindInputPaths Include="$(BindInputPaths)" />
+  </ItemGroup>
+
+</Project>

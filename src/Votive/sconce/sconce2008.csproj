@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="sconce2008.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{8214FF8E-ACCB-4F5B-B7CB-FAAD7CAC3900}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>sconce2008</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <DefineConstants>VS2008</DefineConstants>
+    <!--
+    CA1725 has been disabled because of an error in the rule that we cannot work around.
+    https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=433705
+    -->
+    <CodeAnalysisRules>-!Microsoft.Naming#CA1725;</CodeAnalysisRules>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ProjectPublicAssembliesPath>$(VS2008PublicAssembliesPath)</ProjectPublicAssembliesPath>
+    <ProjectSdkVisualStudioIntegrationAssembliesPath>$(VS2008SdkVisualStudioIntegrationAssembliesPath)</ProjectSdkVisualStudioIntegrationAssembliesPath>
+    <ProjectBasePath>..\SDK_VS2008\Common\Source\CSharp\Project</ProjectBasePath>
+  </PropertyGroup>
+  <Import Project="sconce.common.targets" />
+
+  <ItemGroup>
+    <Compile Include="$(ProjectBasePath)\DontShowAgainDialog.cs">
+      <SubType>Form</SubType>
+      <Link>ProjectBase\DontShowAgainDialog.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\DontShowAgainDialog.Designer.cs">
+      <DependentUpon>DontShowAgainDialog.cs</DependentUpon>
+      <Link>ProjectBase\DontShowAgainDialog.Designer.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\FileOverwriteDialog.cs">
+      <SubType>Form</SubType>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\FileOverwriteDialog.Designer.cs">
+      <DependentUpon>FileOverwriteDialog.cs</DependentUpon>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\ProjectSecurityChecker.cs">
+      <Link>ProjectBase\ProjectSecurityChecker.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\SecurityWarningDialog.cs">
+      <SubType>Form</SubType>
+      <Link>ProjectBase\SecurityWarningDialog.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\SecurityWarningDialog.Designer.cs">
+      <DependentUpon>SecurityWarningDialog.cs</DependentUpon>
+      <Link>ProjectBase\SecurityWarningDialog.Designer.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\UpdateSolutionEventsListener.cs">
+      <Link>ProjectBase\UpdateSolutionEventsListener.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+    <Compile Include="$(ProjectBasePath)\UserProjectSecurityChecker.cs">
+      <Link>ProjectBase\UserProjectSecurityChecker.cs</Link>
+      <Visible>true</Visible>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(ProjectBasePath)\SecurityWarningDialog.resx">
+      <Link>ProjectBase\SecurityWarningDialog.resx</Link>
+      <Visible>true</Visible>
+      <SubType>Designer</SubType>
+      <DependentUpon>SecurityWarningDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(ProjectBasePath)\DontShowAgainDialog.resx">
+      <Link>ProjectBase\DontShowAgainDialog.resx</Link>
+      <Visible>true</Visible>
+      <SubType>Designer</SubType>
+      <DependentUpon>DontShowAgainDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(ProjectBasePath)\FileOverwriteDialog.resx">
+      <Link>ProjectBase\FileOverwriteDialog.resx</Link>
+      <Visible>true</Visible>
+      <SubType>Designer</SubType>
+      <DependentUpon>FileOverwriteDialog.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EnvDTE90">
+      <HintPath>$(ProjectSdkPath)EnvDTE90.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CommonIDE, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>$(ProjectPublicAssembliesPath)Microsoft.VisualStudio.CommonIDE.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Engine" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v3.5" />
+    <Reference Include="Microsoft.VisualStudio.Shell.9.0">
+      <HintPath>$(ProjectSdkPath)Microsoft.VisualStudio.Shell.9.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0">
+      <HintPath>$(ProjectSdkPath)Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

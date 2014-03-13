@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="zh-tw" Language="1028" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] 安裝程式</String>
+  <String Id="Title">[WixBundleName] 安裝程式需要 Microsoft .NET Framework</String>
+  <String Id="ConfirmCancelMessage">您確定要取消嗎?</String>
+  <String Id="HelpHeader">安裝程式說明</String>
+  <String Id="HelpText">/passive | /quiet -  顯示最基本的 UI 但不顯示提示，或者不顯示 UI 也
+   不顯示提示。預設會顯示 UI 和所有提示。
+
+/norestart   - 隱藏任何重新啟動嘗試。根據預設，UI 會在重新啟動之前提示。
+/log log.txt - 記錄至特定檔案。預設會在 %TEMP% 建立記錄檔。</String>
+  <String Id="HelpCloseButton">關閉(&amp;C)</String>
+  <String Id="InstallLicenseTerms">請按一下 「接受並安裝」5D; 按鈕，接受 Microsoft .NET Framework &lt;a href="#"&gt;授權合約&lt;/a&gt;。</String>
+  <String Id="InstallAcceptAndInstallButton">接受並安裝(&amp;A)</String>
+  <String Id="InstallDeclineButton">拒絕(&amp;D)</String>
+  <String Id="ProgressHeader">安裝進度</String>
+  <String Id="ProgressLabel">正在處理:</String>
+  <String Id="ProgressCancelButton">取消(&amp;)</String>
+  <String Id="FailureHeader">安裝失敗</String>
+  <String Id="FailureLogLinkText">一或多個問題導致安裝失敗。請修正這些問題，然後再重試安裝。如需詳細資訊，請查看&lt;a href="#"&gt;記錄檔&lt;/a&gt;。</String>
+  <String Id="FailureRestartText">必須重新啟動電腦，才能完成軟體的復原。</String>
+  <String Id="FailureRestartButton">重新啟動(&amp;R)</String>
+  <String Id="FailureCloseButton">關閉(&amp;C)</String>
+</WixLocalization>

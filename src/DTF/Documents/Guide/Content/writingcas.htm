@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Writing Managed Custom Actions</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Writing Managed Custom Actions</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="managedcas.htm">Managed CAs</a> &gt;
+        <span class="nolink">Writing CAs</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+		<p><b>Caveats</b></p>
+		<p>Before choosing to write a custom action in managed code instead of
+		traditional native C++ code, you should carefully consider the following:</p>
+		<ul>
+		    <li><p>Obviously, it introduces a dependency on the .NET Framework. Your
+		    MSI package should probably have a LaunchCondition to check for the presence
+		    of the correct version of the .NET Framework before anything else happens.</p></li>
+		    <li><p>If the custom action runs at uninstall time, then even the uninstall of
+		    your product may fail if the .NET Framework is not present. This means a
+		    user could run into a problem if they uninstall the .NET Framework before
+		    your product.</p></li>
+		    <li><p>A managed custom action should be configured to run against a specific
+		    version of the .NET Framework, and that version should match the version your
+		    actual product runs against. Allowing the version to "float" to the latest
+		    installed .NET Framework is likely to lead to compatibility problems with
+		    future versions. The .NET Framework provides side-by-side functionality for
+		    good reason -- use it.</p></li>
+
+		</ul>
+		<p><br/></p>
+		<p><b>How To</b></p>
+        <ul>
+        <li><p>A custom action function needs to be declared as 
+        <tt>public static</tt> (aka <tt>Public Shared</tt> in VB.NET). It takes one parameter which is 
+        a <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_Session.htm">Session</a> object, and returns a 
+        <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_ActionResult.htm">ActionResult</a> enumeration.</p>
+        <pre><font face="Consolas, Courier New">    [CustomAction]
+    <font color=blue>public</font> <font color=blue>static</font> ActionResult MyCustomAction(Session session)</font></pre><br />
+        <li><p>The function must have a 
+        <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_CustomActionAttribute.htm"
+        >CustomActionAttribute</a>, which enables it to be 
+        linked to a proxy function. The attribute can take an optional 
+        &quot;name&quot; parameter, which is the name of the entrypoint
+        that is exported from the custom action DLL.</p>
+        <li><p>Fill in MSI CustomAction table entries just like you 
+        would for a normal type 1 native-DLL CA. Managed CAs can also work just 
+        as well in deferred, rollback, and commit modes.</p>
+        <li><p>If the custom action function throws any kind of 
+        Exception that isn't handled internally, then it will be caught by the proxy 
+        function. The Exception message and stack trace will be printed to the 
+        MSI log if logging is enabled, and the CA will return a failure code.</p>
+        <li><p>To be technically correct, any MSI handles obtained should be 
+        closed before a custom action function exits -- otherwise a warning 
+        gets printed to the log. The handle classes in the managed library 
+        (<a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_Database.htm">Database</a>,
+        <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_View.htm">View</a>,
+        <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_Record.htm">Record</a>,
+        <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_SummaryInfo.htm">SummaryInfo</a>)
+        all implement the IDisposable interface, 
+        which makes them easily managed with C#'s <tt>using</tt> 
+        statement. Alternatively, they can be closed in a finally block. 
+        As a general rule, <i>methods</i> return new handle objects that should be 
+        managed and closed by the user code, while <i>properties</i> only return a reference
+        to a prexisting handle object.</p></li>
+        <li><p>Don't forget to use a <a href="caconfig.htm">CustomAction.config</a> file to
+        specify what version of the .NET Framework the custom action should run against.</p></li>
+        </ul>
+            
+        <p><br/></p>
+        <p><b>See also:</b></p>
+        <ul>
+            <li><a href="samplecas.htm">Sample C# Custom Actions</a></li>
+            <li><a href="caconfig.htm">Specifying the Runtime Version</a></li>
+            <li><a href="databases.htm">Working with MSI Databases</a></li>
+            <li><a href="buildingcas.htm">Building Managed Custom Actions</a></li>
+            <li><a href="debuggingcas.htm">Debugging Managed Custom Actions</a></li>
+        </ul>
+        <p><br/></p>
+        
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

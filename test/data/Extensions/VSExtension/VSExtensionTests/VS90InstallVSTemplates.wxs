@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="VS90InstallVSTemplates.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="TestInstallVSTemplate" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{0E500764-ACBE-46F5-A614-95B1B7D50A50}">
+    <Package Description="InstallVSTemplate" Comments="Test InstallVSTemplate" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="vs9" ShortName="9.0" Name="Microsoft Visual Studio 9.0">
+          <Directory Id="comon" ShortName="c7" Name="Common7">
+            <Directory Id="ide" ShortName="i" Name="IDE">
+              <Directory Id="pt" ShortName="tem" Name="ProjectTemplates">
+                <Directory Id="newtemp" ShortName="new" Name="VS80TEmplate">
+                  <Component Id="TestVSTemplate" Guid="00030829-0000-0000-C000-000000000046">
+                    <File KeyPath="yes" DiskId="1" Source="$(env.WIX_ROOT)\test\data\Extensions\VSExtension\VSExtensionTests\VS2008ProjectTemplate.txt" />
+                  </Component>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestFeature" Title="Test Driver Product Feature" Level="1">
+      <ComponentRef Id="TestVSTemplate" />
+    </Feature>
+
+    <CustomActionRef Id="VS90InstallVSTemplates" />
+
+  </Product>
+</Wix>
+

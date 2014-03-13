@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ManualTest name="Output.OutputTests" storage="c:\delivery\dev\wix35\test\src\tools\light\output.outputtests.mtx" id="90efc54e-fada-4731-a34b-321478065406" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <BodyText>This template provides a structure you can use to create a manual test. 
+
+** What is a manual test? **
+
+A manual test is a description of test steps that a tester performs. Typically, manual tests are used when the test steps are difficult or time-consuming to automate, or cannot be automated—-for example, to determine a component's behavior when network connectivity is lost. Visual Studio Team Test treats manual tests the same as automated tests. For example, it displays manual tests in the Team Test windows. It also tracks manual test results the same way it tracks automated test results, and displays them in the Test Results window. 
+
+
+** Test Target **
+
+Test the different ways for generating output from Light. This is mainly testing the -out switch.
+
+----------
+** Default Behavior **
+
+Test Title: 
+Output - Default for wixout
+
+Test Details: 
+Verify that Light creates a default output file name if the -out switch is not used.
+For a single input file, test.wixobj, the output file should be test.msi
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj
+Verify that test.msi is created
+
+----------
+Test Title: 
+Output - Default For wixlib
+
+Verify that Light creates a default output file name if the -out switch is not used.
+For a single input file, test.wixlib, the output file should be test.msi
+
+Test Steps: 
+Build a valid wixlib from source with Candle and Lit
+&gt;light test.wixlib
+Verify that test.msi is created
+
+----------
+Test Title: 
+Output - Default Multiple Inputs
+
+Test Details: 
+Verify a Light error for multiple input files but no -out switch
+
+Test Steps: 
+Build a 2 wixobjs from source with Candle
+&gt;light test1.wixobj test2.wixobj
+
+----------
+Test Title: 
+Output - Default for XML output
+
+Verify that Light creates a default output file name if the -out switch is not used
+For a single input file with the -xo swith, the default output file name should have a .wixout extension
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -xo
+Verify that test.wixout is created
+&gt;light test.wixout
+Verify that an msi is created
+
+----------
+** File Names **
+
+Test Title: 
+Output - Typical
+
+Test Details: 
+Verify a typical case where Light an MSI's file name can be defined
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -out out.msi
+Verify that out.msi is created
+
+----------
+Test Title: 
+Output - MSI named wixout
+
+Test Details: 
+Verify that an MSI can be named with a wixout extension
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -out out.wixout
+Verify that out.wixout is created
+
+----------
+Test Title: 
+Output - No extension
+
+Test Details: 
+Verify that an output file can be created that contains no extension
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -out outmsi
+Verify that outmsi is created
+
+----------
+Test Title: 
+Output - Invalid characters
+
+Test Details: 
+Verify a Light error when invalid file name characters are used
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -out out?.wixout
+
+----------
+Test Title: 
+Output - Not specified 1
+
+Test Details: 
+Verify a Light error when the -out switch is used but no file is specified
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -out
+
+----------
+Test Title: 
+Output - Not specified 2
+
+Test Details: 
+Verify a Light error when the -out switch is used but no file is specified
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj -out .
+
+----------
+** File System **
+
+Test Title: 
+Output - Network share
+
+Test Details: 
+Verify that can output a file to a share
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test1.wixobj -out \\share\out.msi
+
+----------
+Test Title: 
+Output - Read-only share
+
+Test Details: 
+Verify a light error when a file is saved to a read-only share
+
+Test Steps: 
+Build a wixboj from source with Candle
+&gt;light test.wixobj -out \\share\out.msi
+
+----------
+Test Title:
+Output  - Other drive
+
+Test Details: 
+Verify that Light can output a file to another drive, eg HDD, CD, USB Key
+
+Test Steps: 
+Build a wixboj from source with Candle
+&gt;light test.wixobj -out z:\out.msi
+
+----------
+Test Title: 
+Output - Read-only file
+
+Test Details: 
+Verify an error when Light tries to overwrite a read-only file
+
+Test Steps: 
+Build a wixobj from source with Candle
+Create a file out.msi with read-only permissions
+&gt;light test.wixobj -out out.msi
+
+----------
+Test Title: 
+Output - Relative path 1
+
+Test Details: 
+Verify that light can save a file to a relative path
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test.wixobj -out subdirectory\out.msi
+
+----------
+Test Title: 
+Output - Relative path 2
+
+Test Details: 
+Verify that light accepts relative file paths with '.' and '..'
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test.wixobj -out .\..\out.msi
+
+----------
+Test Title: 
+Output - Forward slash in path
+
+Test Details: 
+Verify that light accepts paths with forward slashes in the path
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test.wixobj -out subdirectory1\subdirectory2/out.msi
+
+----------
+Test Title: 
+Output - Multiple slashes in path
+
+Test Details: 
+Verify that light accepts paths with multiple consecutive slashes in the path
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test.wixobj -out  subdirectory1//subdirectory2\\\\\out.msi
+
+----------
+Test Title:
+Output - Path length limit 
+
+Test Details: 
+Verify that light accepts paths with a length at the defined path length limit
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test.wixobj -out [?]\out.msi
+
+----------
+Test Title:
+Output - Exceed path length limit 
+
+Test Details: 
+Verify a light error for paths with a  length over the defined path length limit
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test.wixobj -out [?]\out.msi
+
+----------
+Test Title: 
+Output - Environment Variables
+
+Test Details: 
+Verify that Light resolves environment variables in a file name
+
+Test Steps: 
+Build a wixobj from source with Candle called test.wixobj
+Set an environment variable with the name of the file, ie &gt;set OUTMSI=out.msi
+&gt;light test.wixobj -out %OUTMSI%
+
+----------
+** Quotes **
+
+Test Title: 
+Output - Single quotes
+
+Test Details: 
+Verify that light accepts single quotes around the file name
+
+Test Steps: 
+Build a wixboj from source with Candle.
+&gt;light test.wixobj -out 'out 1.msi'
+
+----------
+Test Title: 
+Output - Double quotes
+
+Test Details: 
+Verify that light accepts double quotes around the file name
+
+Test Steps: 
+Build a wixboj from source with Candle.
+&gt;light test.wixobj -out "out 1.msi"
+
+----------
+Test Title: 
+Inputs - Single and Double quotes
+
+Test Details: 
+Verify a light error when single and double quotes are used in a file name
+
+Test Steps: 
+Build a wixboj from source with Candle.
+&gt;light test.wixobj -out "out 1".'msi'
+
+----------
+Test Title: 
+
+Test Details: 
+
+Test Steps: 
+</BodyText>
+</ManualTest>

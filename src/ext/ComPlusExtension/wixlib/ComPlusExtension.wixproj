@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="ComPlusExtension.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{E191E61E-E098-4F71-888F-51A79F952022}</ProjectGuid>
+    <OutputName>complus</OutputName>
+    <OutputType>Library</OutputType>
+    <BindFiles>true</BindFiles>
+    <SuppressSpecificWarnings>1086</SuppressSpecificWarnings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ComPlusExtension.wxs" />
+    <EmbeddedResource Include="en-us.wxl" />
+    <EmbeddedResource Include="es-es.wxl" />
+    <EmbeddedResource Include="ja-jp.wxl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ca\complusca.proj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

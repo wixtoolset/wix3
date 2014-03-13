@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="BundleB.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="~$(var.TestName) - Bundle B" Version="$(var.Version)" UpgradeCode="93D23E51-ACA2-4BB7-8F3C-CD0F883B416D" dep:ProviderKey="Microsoft.WiX.$(var.TestName).B">
+    <Log Prefix="$(var.TestName)_BundleB"/>
+    <Variable Name="TestName" Value="$(var.TestName)" />
+    <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+      <Payload Name='BootstrapperCore.config' SourceFile='!(bindpath.build)\TestBA.BootstrapperCore.config' />
+      <Payload SourceFile='!(bindpath.build)\TestBA.dll' />
+    </BootstrapperApplicationRef>
+    <WixVariable Id='WixMbaPrereqPackageId' Value='ignored' />
+    <WixVariable Id='WixMbaPrereqLicenseUrl' Value='ignored' />
+    <util:RegistrySearch Root="HKLM" Key="Software\WiX\Tests\$(var.TestName)" Value="Version" Variable="ExeA_Version"/>
+    <Chain>
+      <MsiPackage Id="PackageA" Name="~$(var.TestName)_PackageA.msi" Compressed="yes" SourceFile="!(bindpath.packageA)" Vital="yes"/>
+      <MsiPackage Id="PackageB" Name="~$(var.TestName)_PackageB.msi" Compressed="yes" SourceFile="!(bindpath.PackageB)" Vital="yes"/>
+      <ExePackage Id="ExeA" Name="~$(var.TestName)_ExeA.exe" Compressed="yes" SourceFile="!(bindpath.data)\BurnTestPayloads\Products\TestExe\TestExe.exe" Vital="yes" PerMachine="yes"
+                  DetectCondition="ExeA_Version AND ExeA_Version &gt;= v$(var.Version)"
+                  InstallCommand="/regw &quot;HKLM\Software\WiX\Tests\$(var.TestName),Version,String,$(var.Version)&quot;"
+                  RepairCommand="/regw &quot;HKLM\Software\WiX\Tests\$(var.TestName),Version,String,$(var.Version)&quot;"
+                  UninstallCommand="/regd &quot;HKLM\Software\WiX\Tests\$(var.TestName),Version&quot;">
+        <dep:Provides Key="$(var.TestName)_ExeA,v1.0" Version="$(var.Version)"/>
+      </ExePackage>
+    </Chain>
+  </Bundle>
+</Wix>

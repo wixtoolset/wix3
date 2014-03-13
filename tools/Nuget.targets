@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Nuget.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project InitialTargets="PackageRestore" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <WixRoot Condition=" '$(WixRoot)'=='' " >$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\))</WixRoot>
+    <NugetExe>$(MSBuildThisFileDirectory)bin\NuGet.exe</NugetExe>
+    <NugetPackageFolder>$(WixRoot)packages\</NugetPackageFolder>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ExtensionPackPath>$(NugetPackageFolder)MSBuild.Extension.Pack.1.2.0\lib\net40\</ExtensionPackPath>
+    <MSBuildCommunityTasksPath>$(NugetPackageFolder)MSBuildTasks.1.4.0.61\tools\</MSBuildCommunityTasksPath>
+    <XunitPath>$(NugetPackageFolder)xunit.1.9.1\lib\net20\</XunitPath>
+  </PropertyGroup>
+
+  <!--
+  ================================================================================================
+  PackageRestore
+
+    Restores the required packages to build using nuget.exe.
+  ================================================================================================
+  -->
+  <ItemGroup>
+    <RestoreNugetPackage Include="MSBuild.Extension.Pack ">
+      <Version>1.2.0</Version>
+    </RestoreNugetPackage>
+    <RestoreNugetPackage Include="MSBuildTasks">
+      <Version>1.4.0.61</Version>
+    </RestoreNugetPackage>
+    <RestoreNugetPackage Include="xunit">
+      <Version>1.9.1</Version>
+    </RestoreNugetPackage>
+  </ItemGroup>
+  <Target Name="PackageRestore"
+          DependsOnTargets="FindMissingPackages">
+    <Exec Command="&quot;$(NugetExe)&quot; install" Condition=" '@(MissingNugetPackage)'!='' "
+          WorkingDirectory="$(MSBuildThisFileDirectory)" />
+  </Target>
+
+  <Target Name="FindMissingPackages">
+    <CreateItem Include="@(RestoreNugetPackage)" Condition=" !Exists('$(NugetPackageFolder)%(Identity).%(Version)') " PreserveExistingMetadata="true">
+      <Output TaskParameter="Include" ItemName="MissingNugetPackage"/>
+    </CreateItem>
+  </Target>
+
+  <!-- Sentinel value that indicates Nuget.targets has been initialized. -->
+  <PropertyGroup>
+    <WixBuildNugetPropertiesDefined>true</WixBuildNugetPropertiesDefined>
+  </PropertyGroup>
+</Project>

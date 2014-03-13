@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.vcxproj.props" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <!-- If VS2012 available and we're not explicitly setting the toolset, use VS2012. -->
+    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2012Available) ">v110_xp</PlatformToolset>
+    <ProjectSubSystem Condition=" '$(ProjectSubSystem)'=='' ">Windows</ProjectSubSystem>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <!-- Multi-target static libraries get a suffix to prevent collisions. -->
+  <PropertyGroup>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v90' ">2008</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v100' ">2010</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110_xp' ">2012</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120_xp' ">2013</MultiTargetDirSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IntDir>$(IntermediateOutputPath)</IntDir>
+    <IntDir Condition=" '$(MultiTargetLibrary)'=='true' ">$(IntDir)$(MultiTargetDirSuffix)\</IntDir>
+
+    <OutDir>$(OutputPath)$(OutputSubDirectory)</OutDir>
+    <OutDir Condition="!HasTrailingSlash('$(OutDir)')">$(OutDir)\</OutDir>
+    <OutDir Condition=" '$(MultiTargetLibrary)'=='true' ">$(OutDir)$(MultiTargetDirSuffix)\</OutDir>
+
+    <AdditionalMultiTargetLibraryPath Condition=" '$(MultiTargetLibrary)'!='true' ">$(OutputPath)$(MultiTargetDirSuffix)\</AdditionalMultiTargetLibraryPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ResourceOnlyDll Condition=" '$(ResourceOnlyDll)'=='' ">false</ResourceOnlyDll>
+    <GenerateManifest Condition="$(ResourceOnlyDll)">false</GenerateManifest>
+    <ArmPreprocessorDefinitions Condition=" '$(Platform)'=='arm' ">ARM</ArmPreprocessorDefinitions>
+    <UnicodePreprocessorDefinitions Condition=" '$(CharacterSet)'=='Unicode' ">UNICODE;_UNICODE</UnicodePreprocessorDefinitions>
+    <StaticLibPreprocessorDefinitions Condition=" '$(ConfigurationType)'=='StaticLibrary' ">_LIB</StaticLibPreprocessorDefinitions>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(CLRSupport)'=='true' ">
+    <DisableSpecificCompilerWarnings>4564;4800</DisableSpecificCompilerWarnings>
+    <LinkDelaySign>$(DelaySign)</LinkDelaySign>
+    <LinkKeyFile>$(AssemblyOriginatorKeyFile)</LinkKeyFile>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <DisableSpecificWarnings>$(DisableSpecificCompilerWarnings)</DisableSpecificWarnings>
+      <WarningLevel>Level4</WarningLevel>
+      <AdditionalIncludeDirectories>$(WixVersionPath);$(ProjectDir)inc;$(MSBuildProjectDirectory);$(IntDir);$(SqlCESdkIncludePath);$(ProjectAdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_WIN32_MSI=500;_WIN32_WINNT=0x0501;$(ArmPreprocessorDefinitions);$(UnicodePreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <CallingConvention>StdCall</CallingConvention>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <AdditionalOptions>-YlprecompDefine</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>$(ArmPreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WixVersionPath);$(WixRoot)src\common;$(ProjectAdditionalResourceIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(OutputPath);$(AdditionalMultiTargetLibraryPath);$(ProjectAdditionalLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Link>
+      <SubSystem>$(ProjectSubSystem)</SubSystem>
+      <ModuleDefinitionFile>$(ProjectModuleDefinitionFile)</ModuleDefinitionFile>
+      <NoEntryPoint>$(ResourceOnlyDll)</NoEntryPoint>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(ProjectAdditionalLinkLibraries);advapi32.lib;comdlg32.lib;user32.lib;oleaut32.lib;gdi32.lib;shell32.lib;ole32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutputPath);$(AdditionalMultiTargetLibraryPath);$(ProjectAdditionalLinkLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition=" '$(Plaform)'=='arm' ">
+    <ClCompile>
+      <CallingConvention>CDecl</CallingConvention>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(ConfigurationType)'=='StaticLibrary' ">
+    <ClCompile>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(Configuration)'=='Debug' ">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <PreprocessorDefinitions>_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(Configuration)'=='Debug' and '$(CLRSupport)'=='true' ">
+    <ClCompile>
+      <BasicRuntimeChecks></BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(Configuration)'=='Release' ">
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(Configuration)'=='Release' and '$(CLRSupport)'=='true' ">
+    <ClCompile>
+      <BasicRuntimeChecks></BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDll</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(CLRSupport)'=='true' ">
+    <Link>
+      <KeyFile>$(LinkKeyFile)</KeyFile>
+      <DelaySign>$(LinkDelaySign)</DelaySign>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup Condition="!$(ResourceOnlyDll)">
+    <ClCompile Include="$(WixRoot)src\common\precomp.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+</Project>

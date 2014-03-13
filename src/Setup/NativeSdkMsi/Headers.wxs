@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="Headers.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="HeaderComponents">
+            <ComponentGroupRef Id="BurnHeaderComponents" />
+            <ComponentGroupRef Id="DutilHeaderComponents" />
+            <ComponentGroupRef Id="WcautilHeaderComponents" />
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="BurnHeaderComponents" Directory="SdkIncFolder">
+            <Component>
+                <File Source="libs\balutil\inc\BalBaseBootstrapperApplication.h" />
+            </Component>
+
+            <Component>
+                <File Source="libs\balutil\inc\balcondition.h" />
+            </Component>
+
+            <Component>
+                <File Source="libs\balutil\inc\balinfo.h" />
+            </Component>
+
+            <Component>
+                <File Source="libs\balutil\inc\balretry.h" />
+            </Component>
+
+            <Component>
+                <File Source="libs\balutil\inc\balutil.h" />
+            </Component>
+
+            <Component>
+                <File Source="libs\balutil\inc\IBootstrapperBAFunction.h" />
+            </Component>
+
+            <Component>
+                <File Source="IBootstrapperApplication.h" />
+            </Component>
+
+            <Component>
+                <File Source="IBootstrapperEngine.h" />
+            </Component>
+
+            <Component>
+                <File Source="libs\deputil\inc\deputil.h" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="DutilHeaderComponents" Directory="SdkIncFolder">
+            <Component>
+                <File Source="aclutil.h" />
+            </Component>
+            <Component>
+                <File Source="apuputil.h" />
+            </Component>
+            <Component>
+                <File Source="atomutil.h" />
+            </Component>
+            <Component>
+                <File Source="buffutil.h" />
+            </Component>
+            <Component>
+                <File Source="cabcutil.h" />
+            </Component>
+            <Component>
+                <File Source="cabutil.h" />
+            </Component>
+            <Component>
+                <File Source="certutil.h" />
+            </Component>
+            <Component>
+                <File Source="conutil.h" />
+            </Component>
+            <Component>
+                <File Source="cryputil.h" />
+            </Component>
+            <Component>
+                <File Source="dictutil.h" />
+            </Component>
+            <Component>
+                <File Source="dirutil.h" />
+            </Component>
+            <Component>
+                <File Source="dutil.h" />
+            </Component>
+            <Component>
+                <File Source="eseutil.h" />
+            </Component>
+            <Component>
+                <File Source="fileutil.h" />
+            </Component>
+            <Component>
+                <File Source="gdiputil.h" />
+            </Component>
+            <Component>
+                <File Source="inetutil.h" />
+            </Component>
+            <Component>
+                <File Source="jsonutil.h" />
+            </Component>
+            <Component>
+                <File Source="locutil.h" />
+            </Component>
+            <Component>
+                <File Source="logutil.h" />
+            </Component>
+            <Component>
+                <File Source="memutil.h" />
+            </Component>
+            <Component>
+                <File Source="metautil.h" />
+            </Component>
+            <Component>
+                <File Source="osutil.h" />
+            </Component>
+            <Component>
+                <File Source="pathutil.h" />
+            </Component>
+            <Component>
+                <File Source="perfutil.h" />
+            </Component>
+            <Component>
+                <File Source="procutil.h" />
+            </Component>
+            <Component>
+                <File Source="regutil.h" />
+            </Component>
+            <Component>
+                <File Source="rexutil.h" />
+            </Component>
+            <Component>
+                <File Source="resrutil.h" />
+            </Component>
+            <Component>
+                <File Source="reswutil.h" />
+            </Component>
+            <Component>
+                <File Source="rssutil.h" />
+            </Component>
+            <Component>
+                <File Source="sceutil.h" />
+            </Component>
+            <Component>
+                <File Source="shelutil.h" />
+            </Component>
+            <Component>
+                <File Source="sqlutil.h" />
+            </Component>
+            <Component>
+                <File Source="strutil.h" />
+            </Component>
+            <Component>
+                <File Source="thmutil.h" />
+            </Component>
+            <Component>
+                <File Source="timeutil.h" />
+            </Component>
+            <Component>
+                <File Source="uriutil.h" />
+            </Component>
+            <Component>
+                <File Source="userutil.h" />
+            </Component>
+            <Component>
+                <File Source="wiutil.h" />
+            </Component>
+            <Component>
+                <File Source="xmlutil.h" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="WcautilHeaderComponents" Directory="SdkIncFolder">
+            <Component>
+                <File Source="wcautil.h" />
+            </Component>
+            <Component>
+                <File Source="wcawow64.h" />
+            </Component>
+            <Component>
+                <File Source="wcawrapquery.h" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

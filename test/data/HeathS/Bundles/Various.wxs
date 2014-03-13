@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Various.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension">
+    <Bundle Name="Various" Version="1.0.0.0" UpgradeCode="B6E3E73E-A337-4FC2-846E-8B2695B5F1EE" IconSourceFile="Setup.ico" Compressed="yes">
+        <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+            <Payload Name='BootstrapperCore.config' SourceFile='$(var.TestBA.TargetDir)\TestBA.BootstrapperCore.config' />
+            <Payload SourceFile="$(var.TestBA.TargetPath)"/>
+            <Payload SourceFile="NetfxLicense.rtf"/>
+        </BootstrapperApplicationRef>
+        <Chain>
+            <PackageGroupRef Id="Netfx4Full"/>
+            <MsiPackage SourceFile="Products\Hello_World\hello_world.msi" Vital="yes"/>
+            <MsiPackage SourceFile="$(var.Provider.TargetPath)"/>
+            <MsiPackage SourceFile="MSIsandMSPs\RtmProduct\product.msi" Vital="yes">
+                <MsiProperty Name="ARPSYSTEMCOMPONENT" Value="1"/>
+                <dep:Provides Key="Microsoft.WiX.Tests.RTM,v1"/>
+            </MsiPackage>
+            <MspPackage SourceFile="MSIsandMSPs\GDR1\gdr1.msp" Vital="yes" PerMachine="yes"/>
+            <MspPackage SourceFile="MSIsandMSPs\LDR2\ldr2.msp" Vital="yes" PerMachine="yes">
+                <dep:Provides Key="Microsoft.WiX.Tests.LDR2,v2" Version="1.0.1.2"/>
+            </MspPackage>
+            <ExePackage Id="TestExe1" SourceFile="Products\TestExe\TestExe.exe" InstallCommand="/s 5000" Vital="yes" PerMachine="yes"/>
+            <ExePackage Id="TestExe2" SourceFile="Products\TestExe\TestExe.exe" InstallCommand="/sr 5000-10000" Vital="yes" PerMachine="yes">
+                <dep:Provides Key="Microsoft.WiX.Tests.TestExe2,v1">
+                    <dep:Requires ProviderKey="Microsoft.WiX.Tests.RTM,v1"/>
+                </dep:Provides>
+            </ExePackage>
+        </Chain>
+        <Variable Name="TestName" Type="string" Value="HeathS_Various"/>
+    </Bundle>
+</Wix>

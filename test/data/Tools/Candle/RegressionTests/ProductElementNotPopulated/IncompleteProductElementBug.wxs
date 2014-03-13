@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="IncompleteProductElementBug.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product UpgradeCode="{A5F61AE4-DDF9-42e7-983D-B2DC6F913649}">
+
+        <Media Id="1" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="Wix" Name="Test Program">
+                        <Component Id="Component1" Guid="*">
+                            <File DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" /> 
+                        </Component>
+                 </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="Feature1" Level="1">
+            <ComponentRef Id="Component1" />
+         </Feature>
+   </Product>
+</Wix>

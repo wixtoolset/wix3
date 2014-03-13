@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?define TestDataDirectory="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\Bundle\Files"?>
+
+  <Bundle Name="Wix Test Bundle" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+
+    <UX Name="Setup.exe" SourceFile="$(var.TestDataDirectory)\Bootstrapper.exe">
+    </UX>
+
+    <Chain>
+      <MsiPackage SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi"/>
+    </Chain>
+
+    <!-- Valid String values -->
+
+    <Variable Name="VariableValueIsString" Value="stringValue" />    
+    <Variable Name="VariableValueHasSpecialCharacters" Value="_.(){}[]$@#!~.:,;?+=-*|" />    
+    <Variable Name="VariableValueIsFilePath" Value="%windir%\System32\initsrv\iis.dll" />    
+    <Variable Name="VariableValueIsHash" Value="7D7E1F2D7BE56300B51FFD1CDEB41FBFBEC6E7AB" /> 
+    <Variable Name="VariableValueIsAVariableName" Value="VariableValueIsAVariableName" />            
+
+    <!-- Valid Version values -->
+
+    <Variable Name="VariableValueIsVersion" Value="V10.3.0216.00" />    
+    <Variable Name="VariableValueIsAnotherVersion" Value="V1" />    
+    <Variable Name="VariableValueIsYetAnotherVersion" Value="V0.0" />    
+
+    <!-- Valid Integer values -->
+
+    <Variable Name="VariableValueIsInteger" Value="2677598087974754" />    
+    <Variable Name="VariableValueIsAnotherInteger" Value="0" />    
+    <Variable Name="VariableValueIsANegativeInteger" Value="-10" />            
+    <Variable Name="VariableValueIsALongMaxValue" Value="9223372036854775807" />    
+    <Variable Name="VariableValueIsALongMinValue" Value="-9223372036854775808" />    
+
+
+    <!-- More String Values -->
+    <Variable Name="VariableValueIsNotAVersion" Value="V10.foo" />       
+    <Variable Name="VariableValueAgainIsNotAVersion" Value="V1bar" />       
+    <Variable Name="VariableValueIsStillNotAVersion" Value="1.0.0.0" />  
+
+    <Variable Name="VariableValueIsNotAnInteger" Value="0.0" />          
+
+    <Variable Name="VariableValueIsLongMaxValuePlus1" Value="9223372036854775808" />    
+    <Variable Name="VariableValueIsLongMinValueMinus1" Value="-9223372036854775809" />    
+    <Variable Name="VariableValueIsTooLongForAnInteger" Value="012345678901234567890123456789012345678901234567890123456789" />    
+
+
+  </Bundle>
+</Wix>

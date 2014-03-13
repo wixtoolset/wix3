@@ -1,0 +1,29 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{DB9E5F02-8241-440A-9B60-980EB5B42B13}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Deployment.Samples.ManagedCA</RootNamespace>
+    <AssemblyName>Microsoft.Deployment.Samples.ManagedCA</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="SampleCAs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <ProjectReference Include="..\..\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+
+<!--
+  <PropertyGroup>
+    <PostBuildEvent>"$(TargetDir)..\x86\MakeSfxCA.exe" "$(TargetPath)" "$(TargetDir)SfxCA.dll" "$(IntermediateOutputPath)$(TargetFileName)" Microsoft.Deployment.WindowsInstaller.dll="$(TargetDir)Microsoft.Deployment.WindowsInstaller.dll" testsub\SampleCAs.cs="$(ProjectDir)\SampleCAs.cs"</PostBuildEvent>
+  </PropertyGroup>
+-->
+</Project>

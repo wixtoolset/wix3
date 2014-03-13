@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Dependency Extension.
+
+  Errors start at 5400.
+  Warnings start at 5430.
+  Verboses start at 5460.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="DependencyErrors" ContainerName="DependencyErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="IllegalCharactersInProvider" Number="5400">
+            <Instance>
+                The provider key authored into the {0} attribute contains an illegal character, '{1}'. Please author the provider key without any of the following characters: {2}
+                <Parameter Type="System.String" Name="attributeName" />
+                <Parameter Type="System.Char" Name="illegalChar" />
+                <Parameter Type="System.String" Name="illegalChars" />
+            </Instance>
+        </Message>
+        <Message Id="ReservedValue" Number="5401">
+            <Instance>
+                The {0}/@{1} attribute value '{2}' is reserved and cannot be used here. Please choose a different value.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+                <Parameter Type="System.String" Name="attributeValue" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="DependencyWarnings" ContainerName="DependencyWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+        <Message Id="ProvidesKeyNotFound" Number="5431">
+            <Instance>
+                The provider key with identifier {0} was not found in the WixDependencyProvider table. Related registry rows will not be removed from authoring.
+                <Parameter Type="System.String" Name="id" />
+            </Instance>
+        </Message>
+        <Message Id="RequiresKeyNotFound" Number="5432">
+            <Instance>
+                The dependency key with identifier {0} was not found in the WixDependency table. Related registry rows will not be removed from authoring.
+                <Parameter Type="System.String" Name="id" />
+            </Instance>
+        </Message>
+        <Message Id="PropertyRemoved" Number="5433" SourceLineNumbers="no">
+            <Instance>
+                The property {0} was authored in the package with a value and will be removed. The property should not be authored.
+                <Parameter Type="System.String" Name="name" />
+            </Instance>
+        </Message>
+        <Message Id="DiscouragedVersionAttribute" Number="5434">
+            <Instance>
+                The Provides/@Version attribute should not be specified in an MSI package. The ProductVersion will be used by default.
+            </Instance>
+            <Instance>
+                The Provides/@Version attribute should not be specified for MSI package {0}. The ProductVersion will be used by default.
+                <Parameter Type="System.String" Name="id" />
+            </Instance>
+        </Message>
+        <Message Id="Win64Component" Number="5435">
+            <Instance>
+                The Provides element should not be authored in the 64-bit component with identifier {0}. The dependency feature may not work if installing this package on 64-bit Windows operating systems prior to Windows 7 and Windows Server 2008 R2. Set the Component/@Win64 attribute to "no" to make sure the dependency feature works correctly on all supported operating systems.
+                <Parameter Type="System.String" Name="componentId" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="DependencyVerboses" ContainerName="DependencyVerboseEventArgs" BaseContainerName="WixVerboseEventArgs" />
+</Messages>

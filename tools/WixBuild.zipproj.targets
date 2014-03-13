@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.zipproj.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <UsingTask AssemblyFile="$(ExtensionPackPath)MSBuild.ExtensionPack.dll" TaskName="Zip" />
+
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildProjectFullPath)</MSBuildAllProjects>
+    <ZipName Condition=" '$(ZipName)'=='' ">$(OutputName)</ZipName>
+    <ZipRootPath Condition=" '$(ZipRootPath)'=='' ">$(MSBuildProjectDirectory)</ZipRootPath>
+
+    <TargetPath>$(OutputPath)$(ZipOutputSubDirectory)$(ZipName).zip</TargetPath>
+  </PropertyGroup>
+
+  <!--
+  ================================================================================================
+  Stage
+
+    Stages items then creates the .zip files.
+
+    [IN]
+    @(Stage) - Items to stage.
+
+    [OUT]
+    @(Zip) - The items to zip.
+  ================================================================================================
+  -->
+  <ItemDefinitionGroup>
+    <Stage>
+      <Hardlink>true</Hardlink>
+    </Stage>
+  </ItemDefinitionGroup>
+  <Target Name="Stage"
+          DependsOnTargets="_PrepareStageItems"
+          Inputs="@(_Stage)"
+          Outputs="$(TargetPath)"
+          Condition=" '@(Stage)'!='' ">
+
+    <Error Text="A .zipproj cannot have both Stage and Zip items. Remove one of the item types and rebuild." Condition=" '@(Zip)'!='' " />
+    <Message Importance="low" Text="Stage = %(_Stage.Identity) -> %(_Stage.TargetPath)"/>
+
+    <Copy SourceFiles="@(_Stage)" DestinationFiles="%(_Stage.TargetPath)"
+          SkipUnchangedFiles="true" UseHardlinksIfPossible="%(_Stage.Hardlink)">
+      <Output TaskParameter="CopiedFiles" ItemName="Zip"/>
+      <Output TaskParameter="CopiedFiles" ItemName="FileWrites"/>
+    </Copy>
+
+    <PropertyGroup>
+      <ZipRootPath>$(IntermediateOutputPath)</ZipRootPath>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="_PrepareStageItems"
+          Condition=" '@(Stage)'!='' ">
+    <ItemGroup>
+      <_Stage Include="@(Stage)" Condition=" '%(Stage.StageSubDirectory)'!='' ">
+        <TargetPath>$(IntermediateOutputPath)%(Stage.StageSubDirectory)\%(Stage.Filename)%(Stage.Extension)</TargetPath>
+        <Hardlink>%(Stage.Hardlink)</Hardlink>
+      </_Stage>
+      <_Stage Include="@(Stage)" Condition=" '%(Stage.StageSubDirectory)'=='' ">
+        <TargetPath>$(IntermediateOutputPath)$([MSBuild]::MakeRelative($(OutputPath), %(Identity)))</TargetPath>
+        <Hardlink>%(Stage.Hardlink)</Hardlink>
+      </_Stage>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="Zip"
+          Inputs="@(Zip)"
+          Outputs="$(TargetPath)">
+    <Message Importance="low" Text="(before) ZipRoot = $(ZipRootPath), Zip = @(Zip)" />
+
+    <Zip TaskAction="Create"
+         CompressFiles="@(Zip)"
+         RemoveRoot="$(ZipRootPath)"
+         ZipFileName="$(TargetPath)" />
+
+    <ItemGroup>
+      <FileWrites Include="$(TargetPath)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="Build"
+          DependsOnTargets="Stage;Zip"
+          Inputs="$(MSBuildAllProjects);$(MSBuildProjectFullPath);@(Stage);@(Zip)"
+          Outputs="$(TargetPath)" />
+</Project>

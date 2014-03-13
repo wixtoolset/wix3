@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instrumentationManifest xsi:schemaLocation="http://schemas.microsoft.com/win/2004/08/events eventman.xsd" xmlns="http://schemas.microsoft.com/win/2004/08/events" xmlns:win="http://manifests.microsoft.com/win/2004/08/windows/events" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:trace="http://schemas.microsoft.com/win/2004/08/events/trace">
+	<instrumentation>
+		<events>
+	 	   <provider name="Microsoft-Windows SharePoint-Windows SharePoint Services 4" guid="{6fb7e0cd-52e7-47dd-997a-241563931fc2}" symbol="WSSEvents" resourceFileName="%CommonProgramFiles%\Microsoft Shared Debug\Web Server Extensions\13\BIN\1033\Microsoft.SharePoint.Msg.dll" messageFileName="%CommonProgramFiles%\Microsoft Shared Debug\Web Server Extensions\13\BIN\1033\Microsoft.SharePoint.Msg.dll">
+	               <events>
+                           <event symbol="WSSGenericMessage" value="0" version="13" channel="WSSOperationalChannel" template="WSSGenericMessage" message="$(string.WSSEvents.event.WSSGenericMessage.message)"/>
+		       </events>
+		   </provider>
+		</events>
+		<counters xmlns:auto-ns1="http://schemas.microsoft.com/win/2004/08/events" xmlns="http://schemas.microsoft.com/win/2005/12/counters">
+			<provider providerName="ApServerPerfmon" applicationIdentity="Microsoft.AssistancePlatform.ULSTracing.dll" providerGuid="{42aaeb49-78e7-4d78-81a0-6f35bfde65bc}" resourceBase="0" providerType="userMode">
+				<counterSet name="$(string.Sample_Obj.name)" guid="{aa331029-890b-4d8f-a3e5-9118cf8777b0}" description="$(string.Sample_Obj.description)" uri="Sample_Obj" instances="globalAggregate">
+					<counter uri="Sample_Obj.Sample_Counter" type="perf_counter_rawcount" defaultScale="0" name="$(string.Sample_Obj.Sample_Counter.name)" description="$(string.Sample_Obj.Sample_Counter.description)" detailLevel="standard" aggregate="sum" id="0"/>
+				</counterSet>
+			</provider>
+		</counters>
+	</instrumentation>
+	<localization>
+		<resources culture="en-US">
+			<stringTable>
+				<string id="Sample_Obj.name" value="Sample"/>
+				<string id="Sample_Obj.description" value="Sample Description"/>
+				<string id="Sample_Obj.Sample_Counter.name" value="Sample Raw Count"/>
+				<string id="Sample_Obj.Sample_Counter.description" value="Sample Raw Count Description"/>
+			</stringTable>
+		</resources>
+	</localization>
+</instrumentationManifest>

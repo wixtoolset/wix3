@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="LuxLib.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <Binary Id="WixLuxCA" SourceFile="LuxCustomActions.CA.dll" />
+    <CustomAction Id="WixRunImmediateUnitTests" BinaryKey="WixLuxCA" DllEntry="WixRunImmediateUnitTests" />
+
+    <InstallExecuteSequence>
+      <Custom Action="WixRunImmediateUnitTests" Before="InstallFinalize" />
+    </InstallExecuteSequence>
+
+    <UI>
+      <!--Info-->
+      <Error Id="27110">Test [2] passed: Expression '[3]' evaluated to true.</Error>
+      <Error Id="27111">Test [2] passed: Property '[3]' matched expected value '[4]'.</Error>
+      <Error Id="27112">Test [2] skipped; condition '[3]' is false.</Error>
+
+      <!--Failures-->
+      <Error Id="27120">Test [2] failed with unknown result.</Error>
+      <Error Id="27121">Test [2] failed with unknown operation.</Error>
+      <Error Id="27122">Test [2] could not be created.</Error>
+      <Error Id="27123">Test [2] failed: Expression '[3]' evaluated to false.</Error>
+      <Error Id="27124">Test [2] failed: Syntax error in expression '[3]'.</Error>
+      <Error Id="27125">Test [2] failed: Property '[3]' expected value '[4]' but actual value was '[5]'.</Error>
+      <Error Id="27126">Test [2] could not be run: Index [3] is out of bounds for multi-value property: [4]</Error>
+      <Error Id="27127">Test [2] could not be run: Name/value property has an invalid content count: [4]</Error>
+      <Error Id="27128">Test [2] could not be run: Index [3] is unknown in multi-value property: [4]</Error>
+    </UI>
+
+    <Property Id="WIXLUXTESTPACKAGE" Value="1" />
+
+    <!--
+    To avoid errors and warnings when building test projects, provide a simple file/component/feature tree.
+    Won't actually be installed.
+    -->
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="DesktopFolder">
+        <Component Id="LuxComponent" Guid="{A3EB8550-43FC-42EC-A61E-AE4AFDC4B5AD}">
+          <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows Installer XML\Lux">
+            <RegistryValue Name="Test" Value="1" Type="integer" KeyPath="yes" />
+          </RegistryKey>
+        </Component>
+      </Directory>
+    </DirectoryRef>
+
+    <Feature Id="LuxFeature" Level="1">
+      <ComponentRef Id="LuxComponent" />
+    </Feature>
+  </Fragment>
+</Wix>

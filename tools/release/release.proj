@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="release.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="DoRelease" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <WixReleaseTarget Include="BuildRelease" Condition=" '$(Push)'=='' " />
+    <WixReleaseTarget Include="Release" Condition=" '$(NoPush)'=='' " />
+  </ItemGroup>
+
+  <Target Name="DoRelease">
+    <Error Text="Cannot locate project's private/public keypair at: $(OfficialBuildPrivateKeyPair). Ensure that the OfficialBuildPrivateKeyPair arguments are correct." Condition=" !Exists('$(OfficialBuildPrivateKeyPair)') " />
+    <Error Text="Release user name is not specified. Ensure that the ReleaseUsername argument is correct." Condition=" '$(ReleaseUsername)'=='' " />
+    <Error Text="Release password is not specified. Ensure that the ReleasePassword argument is correct." Condition=" '$(ReleasePassword)'=='' " />
+    <Error Text="Release FTP is not specified. Ensure that the ReleaseFtpUrl argument is correct." Condition=" '$(ReleaseFtpUrl)'=='' " />
+
+    <MSBuild Projects="WixBuildRelease.proj"
+             Properties="OfficialBuildPrivateKeyPair=$(OfficialBuildPrivateKeyPair);ReleaseUsername=$(ReleaseUsername);ReleasePassword=$(ReleasePassword);ReleaseFtpUrl=$(ReleaseFtpUrl)"
+             Targets="@(WixReleaseTarget)"
+             BuildInParallel="false"
+             StopOnFirstFailure="true"
+             UnloadProjectsOnCompletion="true" />
+  </Target>
+</Project>

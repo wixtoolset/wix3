@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  This product is for testing purposes.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product Id="{9F5C45A2-CC90-40c7-8F17-07673C18D4D8}" Name="WiX Test Product" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{0223D9CA-8E2B-45a0-81FE-28BE5BEF2881}">
+    <Package Description="This package is used for testing purposes" Manufacturer="Microsoft" InstallerVersion="200" />
+
+    <Media Id="1" />
+
+    <Feature Id="Feature1" Level="1">
+    </Feature>
+
+    <Property Id="QUX_PATH">
+      <DirectorySearch Depth='0' Id="foo" Path="C:\foo" >
+        <DirectorySearch Depth='4' Id="bar" Path="bar" >
+          <DirectorySearch Depth='0' Id="baz" Path="baz" >
+            <FileSearch Id="qux" Name="qux.txt" />
+          </DirectorySearch>
+        </DirectorySearch>
+      </DirectorySearch>
+    </Property>
+
+
+
+  </Product>
+
+</Wix>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="SfxCA.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{55D5BA28-D427-4F53-80C2-FE9EF23C1553}</ProjectGuid>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <TargetName>SfxCA</TargetName>
+    <CharacterSet>Unicode</CharacterSet>
+    <ProjectModuleDefinitionFile>EntryPoints.def</ProjectModuleDefinitionFile>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\dutil\inc</ProjectAdditionalIncludeDirectories>
+    <ProjectAdditionalLinkLibraries>msi.lib;cabinet.lib;shlwapi.lib;dutil.lib</ProjectAdditionalLinkLibraries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ClCompile Include="ClrHost.cpp" />
+    <ClCompile Include="Extract.cpp" />
+    <ClCompile Include="RemoteMsi.cpp" />
+    <ClCompile Include="SfxCA.cpp" />
+    <ClCompile Include="SfxUtil.cpp" />
+    <ClCompile Include="EmbeddedUI.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="EntryPoints.h" />
+    <ClInclude Include="RemoteMsiSession.h" />
+    <ClInclude Include="SfxUtil.h" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="EntryPoints.def" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ResourceCompile Include="SfxCA.rc" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

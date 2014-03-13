@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="BalExtension.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{3444D952-F21C-496F-AB6B-56435BFD0787}</ProjectGuid>
+    <OutputName>bal</OutputName>
+    <OutputType>Library</OutputType>
+    <BindFiles>true</BindFiles>
+    <Pedantic>true</Pedantic>
+    <Cultures>en-us</Cultures>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <IncludeSearchPaths>..\..\ca\inc</IncludeSearchPaths>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="BalExtension.wxs" />
+    <Compile Include="Mba.wxs" />
+    <Compile Include="wixstdba.wxs" />
+    <Compile Include="wixstdba_x86.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindInputPaths Include="$(OutputPath)WixstdbaResources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\mba\host\host.vcxproj" />
+    <ProjectReference Include="..\wixstdba\wixstdba.vcxproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

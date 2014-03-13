@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="ProjectTemplates.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="ProjectTemplates">
+          <?ifdef VS2008SdkAvailable?>
+          <ComponentGroupRef Id="ProjectTemplates2008Components" />
+          <?endif?>
+          <?ifdef VS2010SdkAvailable ?>
+          <ComponentGroupRef Id="ProjectTemplates2010Components" />
+          <ComponentGroupRef Id="ProjectTemplates2012Components" />
+          <ComponentGroupRef Id="ProjectTemplates2013Components" />
+          <?endif?>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <!--
+            VS2008
+        -->
+        <PropertyRef Id="VS90_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" />
+        <PropertyRef Id="VS90_IDE_VB_PROJECTSYSTEM_INSTALLED" />
+
+        <ComponentGroup Id="ProjectTemplates2008Components" Directory="VsProjectTemplatesWix2008Folder">
+            <Component Transitive="yes">
+                <Condition>VS90_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionCS_2008.zip" Name="CustomActionCS.zip" Source="votive2008\CustomActionCS.zip" />
+            </Component>
+
+            <Component Transitive="yes">
+                <Condition>VS90_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionVB_2008.zip" Name="CustomActionVB.zip" Source="votive2008\CustomActionVB.zip" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <!--
+            VS2010
+        -->
+        <PropertyRef Id="VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" />
+        <PropertyRef Id="VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED" />
+
+        <ComponentGroup Id="ProjectTemplates2010Components" Directory="VsProjectTemplatesWix2010Folder">
+            <Component Transitive="yes">
+                <Condition>VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionCS_2010.zip" Name="CustomActionCS.zip" Source="votive2010\CustomActionCS.zip" />
+            </Component>
+            <Component Transitive="yes">
+                <Condition>VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionVB_2010.zip" Name="CustomActionVB.zip" Source="votive2010\CustomActionVB.zip" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <!--
+            VS2012
+        -->
+        <PropertyRef Id="VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" />
+        <PropertyRef Id="VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED" />
+
+        <ComponentGroup Id="ProjectTemplates2012Components" Directory="VsProjectTemplatesWix2012Folder">
+            <Component Transitive="yes">
+                <Condition>VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionCS_2012.zip" Name="CustomActionCS.zip" Source="votive2010\CustomActionCS.zip" />
+            </Component>
+            <Component Transitive="yes">
+                <Condition>VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionVB_2012.zip" Name="CustomActionVB.zip" Source="votive2010\CustomActionVB.zip" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <!--
+            VS2013
+        -->
+        <PropertyRef Id="VS2013_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" />
+        <PropertyRef Id="VS2013_IDE_VB_PROJECTSYSTEM_INSTALLED" />
+
+        <ComponentGroup Id="ProjectTemplates2013Components" Directory="VsProjectTemplatesWix2013Folder">
+            <Component Transitive="yes">
+                <Condition>VS2013_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionCS_2013.zip" Name="CustomActionCS.zip" Source="votive2010\CustomActionCS.zip" />
+            </Component>
+            <Component Transitive="yes">
+                <Condition>VS2013_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionVB_2013.zip" Name="CustomActionVB.zip" Source="votive2010\CustomActionVB.zip" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

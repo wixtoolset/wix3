@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="File-based classes">
+    <Position X="2.35" Y="1.442" Height="0.408" Width="0.783" />
+  </Comment>
+  <Comment CommentText="Stream-based classes">
+    <Position X="9.649" Y="1.317" Height="0.4" Width="0.996" />
+  </Comment>
+  <Class Name="Microsoft.Deployment.Compression.ArchiveException" Collapsed="true">
+    <Position X="3" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ArchiveException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.ArchiveFileInfo">
+    <Position X="3" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="ArchiveFileInfo" Hidden="true" />
+      <Field Name="archiveInfo" Hidden="true" />
+      <Field Name="archiveNumber" Hidden="true" />
+      <Field Name="attributes" Hidden="true" />
+      <Field Name="exists" Hidden="true" />
+      <Method Name="GetObjectData" Hidden="true" />
+      <Field Name="initialized" Hidden="true" />
+      <Field Name="lastWriteTime" Hidden="true" />
+      <Field Name="length" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="path" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAIRJAAIMEAEACgARwAAEEEAAAASAAAAEAIAA=</HashCode>
+      <FileName>ArchiveFileInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.ArchiveInfo">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="ArchiveInfo" Hidden="true" />
+      <Method Name="CreateStringDictionary" Hidden="true" />
+      <Method Name="GetFile" Hidden="true" />
+      <Method Name="GetRelativeFilePathsInDirectoryTree" Hidden="true" />
+      <Method Name="InternalGetFiles" Hidden="true" />
+      <Method Name="RecursiveGetRelativeFilePathsInDirectoryTree" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAABAAIAAAAgQEAAgBAARAHAEJACAAAABEAAkAMAI=</HashCode>
+      <FileName>ArchiveInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.ArchiveFileStreamContext">
+    <Position X="12.75" Y="0.75" Width="2.25" />
+    <Members>
+      <Field Name="archiveFiles" Hidden="true" />
+      <Method Name="ArchiveFileStreamContext" Hidden="true" />
+      <Method Name="CloseArchiveReadStream" Hidden="true" />
+      <Method Name="CloseArchiveWriteStream" Hidden="true" />
+      <Method Name="CloseFileReadStream" Hidden="true" />
+      <Method Name="CloseFileWriteStream" Hidden="true" />
+      <Field Name="directory" Hidden="true" />
+      <Field Name="enableOffsetOpen" Hidden="true" />
+      <Field Name="extractOnlyNewerFiles" Hidden="true" />
+      <Field Name="files" Hidden="true" />
+      <Method Name="GetArchiveName" Hidden="true" />
+      <Method Name="GetOption" Hidden="true" />
+      <Method Name="OpenArchiveReadStream" Hidden="true" />
+      <Method Name="OpenArchiveWriteStream" Hidden="true" />
+      <Method Name="OpenFileReadStream" Hidden="true" />
+      <Method Name="OpenFileWriteStream" Hidden="true" />
+      <Method Name="TranslateFilePath" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEQAABgAAACQAACACACAAgAQAAIgAAAAACAMgAAEAKA=</HashCode>
+      <FileName>ArchiveFileStreamContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.ArchiveProgressEventArgs">
+    <Position X="5.25" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="ArchiveProgressEventArgs" Hidden="true" />
+      <Field Name="currentArchiveBytesProcessed" Hidden="true" />
+      <Field Name="currentArchiveName" Hidden="true" />
+      <Field Name="currentArchiveNumber" Hidden="true" />
+      <Field Name="currentArchiveTotalBytes" Hidden="true" />
+      <Field Name="currentFileBytesProcessed" Hidden="true" />
+      <Field Name="currentFileName" Hidden="true" />
+      <Field Name="currentFileNumber" Hidden="true" />
+      <Field Name="currentFileTotalBytes" Hidden="true" />
+      <Field Name="fileBytesProcessed" Hidden="true" />
+      <Field Name="progressType" Hidden="true" />
+      <Field Name="totalArchives" Hidden="true" />
+      <Field Name="totalFileBytes" Hidden="true" />
+      <Field Name="totalFiles" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAMCAQASACAAABBBAAASUAAAQBAAAMAAAAGQAAgBEAA=</HashCode>
+      <FileName>ArchiveProgressEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.BasicUnpackStreamContext">
+    <Position X="12.75" Y="3" Width="2.25" />
+    <Members>
+      <Field Name="archiveStream" Hidden="true" />
+      <Method Name="BasicUnpackStreamContext" Hidden="true" />
+      <Method Name="CloseArchiveReadStream" Hidden="true" />
+      <Method Name="CloseFileWriteStream" Hidden="true" />
+      <Field Name="fileStream" Hidden="true" />
+      <Method Name="OpenArchiveReadStream" Hidden="true" />
+      <Method Name="OpenFileWriteStream" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAACEAAAAAAAAAAAAAAAgAAAAIAAMAAAAAAA=</HashCode>
+      <FileName>BasicUnpackStreamContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.CompressionEngine">
+    <Position X="8" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="~CompressionEngine" Hidden="true" />
+      <Method Name="CompressionEngine" Hidden="true" />
+      <Field Name="compressionLevel" Hidden="true" />
+      <Field Name="dontUseTempFiles" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAEAAAABCBAACRgAAAAAAQAAEAAAAAAQAEAAAiAAAI=</HashCode>
+      <FileName>CompressionEngine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.DuplicateStream" Collapsed="true">
+    <Position X="10.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAgAAQAIgGAAAIABgAAAAAAAAAAAAAAGIACA=</HashCode>
+      <FileName>DuplicateStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.Compression.OffsetStream" Collapsed="true">
+    <Position X="8" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAQAIgGAAAAABgAAAAAEAgAAAAAAGIwCA=</HashCode>
+      <FileName>OffsetStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Microsoft.Deployment.Compression.IPackStreamContext">
+    <Position X="10.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAACAAAAQAAAgAAAAACAIAAAAAAA=</HashCode>
+      <FileName>IPackStreamContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Microsoft.Deployment.Compression.IUnpackStreamContext">
+    <Position X="10.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAACAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAA=</HashCode>
+      <FileName>IUnpackStreamContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Microsoft.Deployment.Compression.ArchiveProgressType" Collapsed="true">
+    <Position X="5.25" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAIAAgAAAAAAAAAQAAAAACIAAAAAAAAA=</HashCode>
+      <FileName>ArchiveProgressType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.Compression.CompressionLevel" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAEAAAAAAAAAAIAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>CompressionLevel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Verdana" Size="8" />
+</ClassDiagram>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="unitTests.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2006/WixUnit"
+              xmlns="http://schemas.microsoft.com/wix/2006/WixUnit">
+  <xs:annotation>
+    <xs:documentation>
+      Schema for WixUnit tests.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="Candle">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="SourceFile" minOccurs="0" maxOccurs="unbounded" />
+      </xs:choice>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+      <xs:attribute name="Extensions" type="xs:string" />
+      <xs:attribute name="OutputDirectory" type="xs:string" />
+      <xs:attribute name="SuppressWixCop" type="xs:boolean" />
+      <xs:attribute name="UsePreviousOutput" type="xs:boolean" default="true" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Compare">
+    <xs:complexType>
+      <xs:attribute name="File1" type="xs:string" use="required" />
+      <xs:attribute name="File2" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Dark">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Heat">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Insignia">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="SourceFile" minOccurs="0" maxOccurs="unbounded" />
+      </xs:choice>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Lit">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LibraryFile">
+    <xs:simpleType>
+      <xs:restriction base="xs:string" />
+    </xs:simpleType>
+  </xs:element>
+
+  <xs:element name="Light">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="LibraryFile" minOccurs="0" />
+        <xs:element ref="LocalizationFile" minOccurs="0" />
+      </xs:choice>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedResult" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+      <xs:attribute name="Extensions" type="xs:string" />
+      <xs:attribute name="ForceValidation" type="xs:boolean" default="false" />
+      <xs:attribute name="IntermediateOutputType">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="msi" />
+            <xs:enumeration value="msm" />
+            <xs:enumeration value="pcp" />
+            <xs:enumeration value="wixout" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="OutputFile" type="xs:string" />
+      <xs:attribute name="SuppressExtensions" type="xs:string" />
+      <xs:attribute name="UsePreviousOutput" type="xs:boolean" default="true" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LocalizationFile">
+    <xs:simpleType>
+      <xs:restriction base="xs:string" />
+    </xs:simpleType>
+  </xs:element>
+
+  <xs:element name="SourceFile">
+    <xs:simpleType>
+      <xs:restriction base="xs:string" />
+    </xs:simpleType>
+  </xs:element>
+
+  <xs:element name="Process">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="Executable" type="xs:string" use="required"/>
+      <xs:attribute name="ExpectedReturnCode" type="xs:integer" />
+      <xs:attribute name="WorkingDirectory" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Pyro">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="Transform" minOccurs="0" />
+      </xs:choice>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedResult" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+      <xs:attribute name="Extensions" type="xs:string" />
+      <xs:attribute name="InputFile" type="xs:string" use="required" />
+      <xs:attribute name="OutputFile" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Torch">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+      <xs:attribute name="Extensions" type="xs:string" />
+      <xs:attribute name="OutputFile" type="xs:string" />
+      <xs:attribute name="TargetDatabase" type="xs:string" use="required" />
+      <xs:attribute name="UpdatedDatabase" type="xs:string" use="required" />
+      <xs:attribute name="UsePreviousOutput" type="xs:boolean" default="true" />
+      <xs:attribute name="VerifyTransform" type="xs:boolean" default="true" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Transform">
+    <xs:complexType>
+      <xs:attribute name="File" type="xs:string" use="required" />
+      <xs:attribute name="Baseline" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Smoke">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="Extensions" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="UnitTest">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="Candle" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Compare" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Dark" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Heat" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="Insignia" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="Light" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Lit" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Process" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Torch" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Pyro" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="WixProj" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Smoke" minOccurs="0" maxOccurs="unbounded" />
+      </xs:choice>
+      <xs:attribute name="Extensions" type="xs:string" />
+      <xs:attribute name="Name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="UnitTests">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="UnitTest" maxOccurs="unbounded" />
+      </xs:choice>
+      <xs:attribute name="ToolsDirectory" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="WixProj">
+    <xs:complexType>
+      <xs:attribute name="Arguments" type="xs:string" />
+      <xs:attribute name="DefineSolutionProperties" type="xs:boolean" default="false" />
+      <xs:attribute name="ExpectedErrors" type="xs:string" />
+      <xs:attribute name="ExpectedResult" type="xs:string" />
+      <xs:attribute name="ExpectedWarnings" type="xs:string" />
+      <xs:attribute name="Extensions" type="xs:string" />
+      <xs:attribute name="NoOutputName" type="xs:boolean" default="false" />
+      <xs:attribute name="NoOutputPath" type="xs:boolean" default="false" />
+      <xs:attribute name="SourceFile" type="xs:string" use="required" />
+      <xs:attribute name="SuppressExtensions" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

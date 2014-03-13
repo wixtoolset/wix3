@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="es-es.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="es-es" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="msierrComPlusCannotConnect" Overridable="yes">No se puede conectar al catálogo de administración de COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionReadFailed" Overridable="yes">Falla al leer las particiones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionRoleReadFailed" Overridable="yes">Falla al leer los roles de las particiones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusUserInPartitionRoleReadFailed" Overridable="yes">Falla al leer los usuario en los roles de las particiones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionUserReadFailed" Overridable="yes">Falla al leer los usuario de las particiones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationReadFailed" Overridable="yes">Falla al leer las aplicaciones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleReadFailed" Overridable="yes">Falla al leer los roles de las aplicaciones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusUserInApplicationRoleReadFailed" Overridable="yes">Falla al leer los usuario de las aplicaciones COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusAssembliesReadFailed" Overridable="yes">Falla al leer los ensamblados COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusSubscriptionReadFailed" Overridable="yes">Falla al leer las suscripciones a eventos COM+.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionDependency" Overridable="yes">Otra entidad es dependiente de una partición COM+ que no está siendo instalada.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionNotFound" Overridable="yes">La partición COM+ no pudo ser encontrada.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionIdConflict" Overridable="yes">Ya existe otra partición COM+ con el mismo id.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusPartitionNameConflict" Overridable="yes">Ya existe otra partición COM+ con el mismo nombre.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationDependency" Overridable="yes">Otra entidad es dependiente de una aplicación COM+ que no está siendo instalada.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationNotFound" Overridable="yes">La aplicación COM+ no pudo ser encontrada.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationIdConflict" Overridable="yes">Ya existe otra aplicación COM+ con el mismo id.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationNameConflict" Overridable="yes">Ya existe otra aplicación COM+ con el mismo nombre.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleDependency" Overridable="yes">Otra entidad es dependiente de un rol de aplicación COM+ que no está siendo instalado.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleNotFound" Overridable="yes">El rol de aplicación COM+ no pudo ser encontrado.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusApplicationRoleConflict" Overridable="yes">Ya existe otro rol de aplicación COM+ con el mismo nombre.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusAssemblyDependency" Overridable="yes">Otra entidad es dependiente de un ensamblado COM+ que no está siendo instalado.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusSubscriptionIdConflict" Overridable="yes">Ya existe otra suscripción de evento al componente COM+ con el mismo id.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusSubscriptionNameConflict" Overridable="yes">Ya existe otra suscripción de evento al componente COM+ con el mismo nombre.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrComPlusFailedLookupNames" Overridable="yes">Falla el la búsqueda de los nombres de usuario.  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="ComPlusInstallExecute" Overridable="yes">Registrando componentes COM+</String>
+  <String Id="ComPlusUninstallExecute" Overridable="yes">Anular el registro de componentes COM+</String>
+
+  <String Id="CreateComPlusPartitions" Overridable="yes">Creando particiones COM+</String>
+  <String Id="CreateComPlusPartitionsTemplate" Overridable="yes">Particiones: [1]</String>
+  <String Id="RemoveComPlusPartitions" Overridable="yes">Borrando particiones COM+</String>
+  <String Id="RemoveComPlusPartitionsTemplate" Overridable="yes">Particiones: [1]</String>
+  <String Id="AddUsersToComPlusPartitionRoles" Overridable="yes">Agregando usuarios a los roles de las particiones COM+</String>
+  <String Id="AddUsersToComPlusPartitionRolesTemplate" Overridable="yes">Rol: [1]</String>
+  <String Id="RemoveUsersFromComPlusPartitionRoles" Overridable="yes">Borrando usuarios a los roles de las particiones COM+</String>
+  <String Id="RemoveUsersFromComPlusPartitionRolesTemplate" Overridable="yes">Rol: [1]</String>
+  <String Id="AddComPlusPartitionUsers" Overridable="yes">Ajustando partición COM+ por omisión para los usuarios</String>
+  <String Id="AddComPlusPartitionUsersTemplate" Overridable="yes">Usuario: [1]</String>
+  <String Id="RemoveComPlusPartitionUsers" Overridable="yes">Borrando partición COM+ por omisión para los usuarios</String>
+  <String Id="RemoveComPlusPartitionUsersTemplate" Overridable="yes">Usuario: [1]</String>
+  <String Id="CreateComPlusApplications" Overridable="yes">Creando aplicación COM+</String>
+  <String Id="CreateComPlusApplicationsTemplate" Overridable="yes">Aplicación: [1]</String>
+  <String Id="RemoveComPlusApplications" Overridable="yes">Borrando aplicación COM+</String>
+  <String Id="RemoveComPlusApplicationsTemplate" Overridable="yes">Aplicación: [1]</String>
+  <String Id="CreateComPlusApplicationRoles" Overridable="yes">Creando roles de aplicación COM+</String>
+  <String Id="CreateComPlusApplicationRolesTemplate" Overridable="yes">Rol: [1]</String>
+  <String Id="RemoveComPlusApplicationRoles" Overridable="yes">Borrando roles de aplicación COM+</String>
+  <String Id="RemoveComPlusApplicationRolesTemplate" Overridable="yes">Rol: [1]</String>
+  <String Id="AddUsersToComPlusApplicationRoles" Overridable="yes">Agregando usuarios a los roles de aplicación COM+</String>
+  <String Id="AddUsersToComPlusApplicationRolesTemplate" Overridable="yes">Usuario: [1]</String>
+  <String Id="RemoveUsersFromComPlusApplicationRoles" Overridable="yes">Borrando usuarios a los roles de aplicación COM</String>
+  <String Id="RemoveUsersFromComPlusApplicationRolesTemplate" Overridable="yes">Usuario: [1]</String>
+  <String Id="RegisterComPlusAssemblies" Overridable="yes">Registrando componente COM+</String>
+  <String Id="RegisterComPlusAssembliesTemplate" Overridable="yes">DLL: [1]</String>
+  <String Id="UnregisterComPlusAssemblies" Overridable="yes">Anulando el registro de componentes COM+</String>
+  <String Id="UnregisterComPlusAssembliesTemplate" Overridable="yes">DLL: [1]</String>
+  <String Id="AddComPlusRoleAssignments" Overridable="yes">Asignando roles a los componentes COM+</String>
+  <String Id="AddComPlusRoleAssignmentsTemplate" Overridable="yes">Componente: [1]</String>
+  <String Id="RemoveComPlusRoleAssignments" Overridable="yes">Borrando asignación de roles a los componentes COM+</String>
+  <String Id="RemoveComPlusRoleAssignmentsTemplate" Overridable="yes">Componente: [1]</String>
+  <String Id="CreateSubscriptionsComPlusComponents" Overridable="yes">Creando suscripción a componentes COM+</String>
+  <String Id="CreateSubscriptionsComPlusComponentsTemplate" Overridable="yes">Suscripción: [1]</String>
+  <String Id="RemoveSubscriptionsComPlusComponents" Overridable="yes">Borrando suscripción a componentes COM+</String>
+  <String Id="RemoveSubscriptionsComPlusComponentsTemplate" Overridable="yes">Suscripción: [1]</String>
+</WixLocalization>
+

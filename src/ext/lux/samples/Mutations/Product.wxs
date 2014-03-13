@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Mutations" Language="1033" Version="1.0.0.0" Manufacturer="Mutations" UpgradeCode="FC62A5CE-74FA-42AC-9B65-52DA008D5045">
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="*">
+        <File Source="Product.wxs" />
+      </Component>
+    </DirectoryRef>
+
+    <CustomActionRef Id="TestCustomActionSimple" />
+    <CustomActionRef Id="TestCustomActionMultiValue" />
+    <CustomActionRef Id="TestCustomActionNameValuePairs" />
+
+    <Feature Id="ProductFeature" Title="Mutations" Level="1">
+      <ComponentRef Id="ProductComponent" />
+    </Feature>
+  </Product>
+</Wix>

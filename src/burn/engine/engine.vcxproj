@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="engine.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8119537D-E1D9-6591-D51A-49768A2F9C37}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <TargetName>engine</TargetName>
+    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+  <PropertyGroup>
+    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\deputil\inc;$(ProjectDir)..\inc</ProjectAdditionalIncludeDirectories>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="apply.cpp" />
+    <ClCompile Include="bitsengine.cpp" />
+    <ClCompile Include="catalog.cpp" />
+    <ClCompile Include="detect.cpp" />
+    <ClCompile Include="embedded.cpp" />
+    <ClCompile Include="EngineForApplication.cpp" />
+    <ClCompile Include="cabextract.cpp" />
+    <ClCompile Include="cache.cpp" />
+    <ClCompile Include="condition.cpp" />
+    <ClCompile Include="container.cpp" />
+    <ClCompile Include="core.cpp" />
+    <ClCompile Include="dependency.cpp" />
+    <ClCompile Include="downloadengine.cpp" />
+    <ClCompile Include="elevation.cpp" />
+    <ClCompile Include="engine.cpp" />
+    <ClCompile Include="exeengine.cpp" />
+    <ClCompile Include="logging.cpp" />
+    <ClCompile Include="manifest.cpp" />
+    <ClCompile Include="msiengine.cpp" />
+    <ClCompile Include="mspengine.cpp" />
+    <ClCompile Include="msuengine.cpp" />
+    <ClCompile Include="NetFxChainer.cpp" />
+    <ClCompile Include="package.cpp" />
+    <ClCompile Include="payload.cpp" />
+    <ClCompile Include="pipe.cpp" />
+    <ClCompile Include="plan.cpp" />
+    <ClCompile Include="platform.cpp" />
+    <ClCompile Include="pseudobundle.cpp" />
+    <ClCompile Include="registration.cpp" />
+    <ClCompile Include="relatedbundle.cpp" />
+    <ClCompile Include="search.cpp" />
+    <ClCompile Include="section.cpp" />
+    <ClCompile Include="splashscreen.cpp" />
+    <ClCompile Include="uithread.cpp" />
+    <ClCompile Include="update.cpp" />
+    <ClCompile Include="userexperience.cpp" />
+    <ClCompile Include="variable.cpp" />
+    <ClCompile Include="variant.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\IBootstrapperEngine.h" />
+    <ClInclude Include="..\inc\IBootstrapperApplication.h" />
+    <ClInclude Include="apply.h" />
+    <ClInclude Include="bitsengine.h" />
+    <ClInclude Include="catalog.h" />
+    <ClInclude Include="detect.h" />
+    <ClInclude Include="embedded.h" />
+    <ClInclude Include="EngineForApplication.h" />
+    <ClInclude Include="dependency.h" />
+    <ClInclude Include="downloadengine.h" />
+    <ClInclude Include="cabextract.h" />
+    <ClInclude Include="cache.h" />
+    <ClInclude Include="condition.h" />
+    <ClInclude Include="container.h" />
+    <ClInclude Include="core.h" />
+    <ClInclude Include="elevation.h" />
+    <ClInclude Include="inc\engine.h" />
+    <ClInclude Include="exeengine.h" />
+    <ClInclude Include="manifest.h" />
+    <ClInclude Include="msiengine.h" />
+    <ClInclude Include="mspengine.h" />
+    <ClInclude Include="msuengine.h" />
+    <ClInclude Include="netfxchainer.h" />
+    <ClInclude Include="package.h" />
+    <ClInclude Include="payload.h" />
+    <ClInclude Include="pipe.h" />
+    <ClInclude Include="platform.h" />
+    <ClInclude Include="property.h" />
+    <ClInclude Include="pseudobundle.h" />
+    <ClInclude Include="registration.h" />
+    <ClInclude Include="relatedbundle.h" />
+    <ClInclude Include="search.h" />
+    <ClInclude Include="section.h" />
+    <ClInclude Include="splashscreen.h" />
+    <ClInclude Include="uithread.h" />
+    <ClInclude Include="update.h" />
+    <ClInclude Include="userexperience.h" />
+    <ClInclude Include="variable.h" />
+    <ClInclude Include="variant.h" />
+    <ClInclude Include="logging.h" />
+    <ClInclude Include="plan.h" />
+    <ClInclude Include="precomp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="engine.mc">
+      <Message>Compiling message file...</Message>
+      <Command>mc.exe -h "$(IntDir)." -r "$(IntDir)." -A -c -z engine.messages "$(InputDir)engine.mc"
+rc.exe -fo "$(OutDir)engine.res" "$(IntDir)engine.messages.rc"</Command>
+      <Outputs>$(IntDir)engine.messages.h;$(OutDir)engine.messages.rc</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

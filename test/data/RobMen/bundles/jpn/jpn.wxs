@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="jpn.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Bundle Name="~Bundle jpn"
+        Manufacturer="Microsoft Corporation"
+        Version="1.0.1.0"
+        UpgradeCode="B4A1F768-C74F-4E52-BF08-7C750FD61EFE"
+        Tag="jpn"
+        DisableRemove="yes">
+   <BootstrapperApplicationRef Id='WixStandardBootstrapperApplication.RtfLicense' />
+
+   <Chain>
+      <MsiPackage Vital='yes' SourceFile='Package5-ja-JP.msi' />
+   </Chain>
+</Bundle>
+</Wix>

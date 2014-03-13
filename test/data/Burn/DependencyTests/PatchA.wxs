@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="PatchA.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Patch AllowRemoval="yes" Classification="Update" ClientPatchId="$(var.TestName)_PatchA" Description="Patch A in test $(var.TestName)" DisplayName="$(var.TestName) - Patch A" Manufacturer="Microsoft Corporation" MinorUpdateTargetRTM="yes">
+        <Media Id="100" Cabinet="A" EmbedCab="yes">
+            <PatchBaseline Id="PatchA"/>
+        </Media>
+
+        <PatchFamily Id="A" Version="$(var.Version)" Supersede="yes">
+          <ComponentRef Id="RegistryComponent"/>
+          <PropertyRef Id="TestVersion"/>
+        </PatchFamily>
+    </Patch>
+</Wix>

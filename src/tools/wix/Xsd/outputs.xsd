@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="outputs.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2006/outputs"
+              xmlns="http://schemas.microsoft.com/wix/2006/outputs"
+         xmlns:objs="http://schemas.microsoft.com/wix/2006/objects"
+         xmlns:tbls="http://schemas.microsoft.com/wix/2006/tables">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing Windows Installer Xml Output files (.wixout).
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/objects" schemaLocation="objects.xsd" />
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/tables" schemaLocation="tables.xsd" />
+
+    <xs:element name="wixOutput">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="tbls:tableDefinitions" />
+                <xs:element ref="objs:table" maxOccurs="unbounded" />
+                <xs:element ref="subStorage" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="codepage" type="xs:unsignedInt">
+                <xs:annotation>
+                    <xs:documentation>Codepage of the output.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="type" use="required">
+                <xs:annotation>
+                    <xs:documentation>Type of the output.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="Bundle" />
+                        <xs:enumeration value="Module" />
+                        <xs:enumeration value="Patch" />
+                        <xs:enumeration value="PatchCreation" />
+                        <xs:enumeration value="Product" />
+                        <xs:enumeration value="Transform" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="version" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Version of WiX used to create this output file.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="subStorage">
+        <xs:complexType>
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element ref="wixOutput" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Name of the substorage.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

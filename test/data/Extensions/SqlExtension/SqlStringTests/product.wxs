@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
+  <Product Id="*" Name="TestSqlStringProduct1" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{B1A7F5A6-5708-44DB-B301-60816A4F1D3E}">
+    <Package Description="Test SqlString in a Product" Comments="Test from: wix\examples\test\sqlstring\product.wxs" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Property Id="FIRST" Value="Scott" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestSqlStringProductDirectory" ShortName="testsql" Name="Test Sql">
+          <Component Id="TestSqlStringProductComponent1" Guid="10030829-0041-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt"/>
+            
+            <sql:SqlDatabase Id="TestDB1" Database="BlankDB10" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)" CreateOnInstall="yes" DropOnUninstall="no" ConfirmOverwrite="yes" >
+              <sql:SqlFileSpec Id="TestFileSpec" Name="foo" Filename="[DBFILE]" Size="[DBFILESIZE]" MaxSize="[DBFILEMAXSIZE]" GrowthSize="[DBFILEGROWTHSIZE]" />
+              <sql:SqlLogFileSpec Id="TestLogFileSpec" Name="bar" Filename="[LOGFILE]" Size="[LOGFILESIZE]" MaxSize="[LOGFILEMAXSIZE]" GrowthSize="[LOGFILEGROWTHSIZE]" />
+              <sql:SqlString Id="TestString1" SQL="CREATE TABLE TestTable1(name varchar(20), value varchar(20))" ExecuteOnInstall="yes" ContinueOnError="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="2"  />
+            </sql:SqlDatabase>
+          </Component>
+          <Component Id="TestSqlStringProductComponent2" Guid="20030829-0042-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlString Id="TestString2" SqlDb="TestDB1" SQL="CREATE TABLE TestTable2(name varchar(20), value varchar(20))" ExecuteOnInstall="yes" />
+            <sql:SqlString Id="TestString3" SqlDb="TestDB1" SQL="INSERT INTO TestTable2(name, value) Values('[FIRST]', 'Kurtzeborn')" ExecuteOnInstall="yes" />
+          </Component>
+          <Component Id="TestSqlStringProductComponent3" Guid="40030829-0043-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlDatabase Id="TestDB2" Database="BlankDB22" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)" CreateOnInstall="yes" DropOnUninstall="yes" ConfirmOverwrite="yes" />
+          </Component>
+          <Component Id="TestSqlStringProductComponent4" Guid="10030829-0044-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlDatabase Id="TestDB3" Database="ScottDB22" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)" CreateOnInstall="yes" DropOnUninstall="yes" ConfirmOverwrite="yes">
+              <sql:SqlString Id="TestString4" SQL="CREATE TABLE TestTable1(name varchar(20), value varchar(20))" ExecuteOnInstall="yes" />
+              <sql:SqlString Id="TestString5" SQL="INSERT INTO TestTable1(name, value) Values('Scott', 'Kurtzeborn')" ExecuteOnInstall="yes" />
+            </sql:SqlDatabase>
+          </Component>
+          <Component Id="TestSqlStringProductComponent5" Guid="20030829-0049-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlString Id="TestString6" SqlDb="TestDB1" SQL="INSERT INTO TestTable2(name, value) Values('FIRST', 'Kurtzeborn')" ExecuteOnInstall="yes" />
+          </Component>
+          <Component Id="TestSqlStringProductComponent6" Guid="50030829-0043-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlDatabase Id="TestDB4" Database="BlankDB44" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)" CreateOnReinstall="yes" DropOnUninstall="yes" ConfirmOverwrite="yes" />
+          </Component>
+
+          <Component Id="TestSqlStringProductComponent7" Guid="70030829-0043-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <sql:SqlDatabase Id="TestDB7" Database="BlankDB15" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)"  CreateOnInstall="yes" DropOnUninstall="yes" ConfirmOverwrite="yes">
+              <sql:SqlString Id="TestString7" SQL="CREATE TABLE TestTable1(name varchar(20), value varchar(20))" ExecuteOnInstall="yes" />
+            </sql:SqlDatabase>
+            
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestSqlStringProductFeature" Title="Test SQL String Product Feature" Level="1">
+      <ComponentRef Id="TestSqlStringProductComponent1" />
+      <ComponentRef Id="TestSqlStringProductComponent2" />
+      <ComponentRef Id="TestSqlStringProductComponent3" />
+      <ComponentRef Id="TestSqlStringProductComponent4" />
+      <ComponentRef Id="TestSqlStringProductComponent5" />
+      <ComponentRef Id="TestSqlStringProductComponent6" />
+      <ComponentRef Id="TestSqlStringProductComponent7" />
+    </Feature>
+  </Product>
+</Wix>

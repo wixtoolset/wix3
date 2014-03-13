@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="patch.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Patch Id="E2A9F30E-75D5-457D-87D8-BA57EE95158E" AllowRemoval="yes" Classification="Update" ClientPatchId="KB3" Codepage="1252" Description="Update (KB3)" DisplayName="Update (KB3)" Manufacturer="My Company" MoreInfoURL="http://support.MyCompany.com/kb/3">
+
+        <Media Id="3" Cabinet="ldr1.cab" EmbedCab="yes">
+            <PatchBaseline Id="rtmldr" />
+        </Media>
+
+        <PatchFamily Id="Patch" Version="1.0.1.3" Supersede="yes">
+            <ComponentRef Id="C_Patch" />
+        </PatchFamily>
+    </Patch>
+</Wix>

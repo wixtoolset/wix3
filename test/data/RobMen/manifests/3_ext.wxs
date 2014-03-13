@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="3_ext.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Bundle Version="0.1.0.0">
+   <UX SourceFile="stdux.dll">
+       <Payload SourceFile="en-us.wxl" />
+       <Payload SourceFile="thm.xml" />
+   </UX>
+
+   <Chain>
+      <MsiPackage Vital='yes' SourceFile='Package1.msi' />
+
+      <RollbackBoundary/>
+      <MsiPackage Vital='yes' Name='Package2.msi'>
+         <MsiProperty Name="TARGETDIR" Value="[PACKAGE2TARGETDIR]" />
+      </MsiPackage>
+
+      <RollbackBoundary/>
+      <MsiPackage Id='Package3' Vital='yes' SourceFile='Package3.msi' />
+   </Chain>
+</Bundle>
+</Wix>

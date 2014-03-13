@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Product Id="A1F64055-146E-47a3-AF30-230B17CE96C0" Name="TestWebFilterProduct" Language="1033" Version="0.0.0.0"  Manufacturer="Microsoft Corporation" UpgradeCode="{ECB3BEF2-4584-44b1-B595-55EC61739B23}">
+    <Package Description="Test WebFilter in a Product" Comments="Test Web Filter " InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Property Id="PORT" Value="80" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestWebFilterProductDirectory" ShortName="filter" Name="Test Filter">
+          <Component Id="TestWebFilterProductComponent" Guid="B0580CC2-83FA-4061-98D2-8BCCB7523911" DiskId="1">
+            <iis:WebSite Id="Test" Description="Test web server" Directory="TestWebFilterProductDirectory" AutoStart="yes" DirProperties="ReadAndExecute" ConfigureIfExists="no">
+              <iis:WebAddress Id="TestAddress" Port="[PORT]" Secure="no" />
+              <iis:WebVirtualDir Id="vdir1" Alias="test1" Directory="TestWebFilterProductDirectory" DirProperties="ReadOnly">
+                <iis:WebApplication Id="VDirTestApp1" Name="Virtual Directory Test ASP Application" Isolation="high" />
+              </iis:WebVirtualDir>
+              <iis:WebFilter Id="TestFilter1" Name="Test Filter" Path="[#FILEID1]" LoadOrder="last" />
+            </iis:WebSite>
+            <File Id="FILEID1" Name="filter.dll" Source="$(env.WIX_ROOT)\test\data\Extensions\IISExtension\IISFilterTests\filter.dll" KeyPath="yes" />
+          </Component>
+          <Component Id="TestWebFilterProductComponent2" Guid="E4AE9437-9561-44a3-975A-FCA92083A55B" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <iis:WebFilter Id="TestGlobalFilter" Name="Global Filter" Path="[#FILEID1]" LoadOrder="last" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+    </Directory>
+
+    <Feature Id="TestWebFilterProductFeature" Title="Test WebFilter Product Feature" Level="1">
+      <ComponentRef Id="TestWebFilterProductComponent" />
+      <ComponentRef Id="TestWebFilterProductComponent2" />
+    </Feature>
+
+    <iis:WebDirProperties Id="ReadOnly" Read="yes" Write="no" Script="no" Execute="no" AnonymousAccess="no" />
+    <iis:WebDirProperties Id="ReadAndExecute" Read="yes" Write="no" Script="yes" Execute="yes" AnonymousAccess="no" />
+  </Product>
+</Wix>

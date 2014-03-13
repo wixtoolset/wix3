@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Common.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <BuildDirectory>$(MSBuildThisFileDirectory)build\</BuildDirectory>
+
+    <OutputPath Condition=" '$(OutputType)'=='Package' ">$(BuildDirectory)obj\packages\$(OutputSubFolder)</OutputPath>
+    <OutputPath Condition=" '$(OutputType)'!='Package' ">$(BuildDirectory)$(MSBuildProjectName)\$(OutputSubFolder)</OutputPath>
+    <BindInputPaths>$(BindInputPaths);$(MSBuildThisFileDirectory)data;$(BuildDirectory)obj\packages</BindInputPaths>
+    <Pedantic>true</Pedantic>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <SuppressValidation>true</SuppressValidation>
+    <SignOutput>true</SignOutput>
+    <SignToolPath>"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\signtool.exe"</SignToolPath>
+  </PropertyGroup>
+
+  <Import Project="$(WixTargetsPath)" />
+
+
+  <Target Name="SignCabs">
+    <Message Importance="high" Text="Actually SignCabs: @(SignCabs)" />
+    <Exec Command="$(SignToolPath) sign /a &quot;%(SignCabs.FullPath)&quot;" />
+  </Target>
+
+  <Target Name="SignMsi">
+    <Exec Command="$(SignToolPath) sign /a &quot;%(SignMsi.FullPath)&quot;" />
+  </Target>
+
+  <Target Name="SignContainers">
+    <Exec Command="$(SignToolPath) sign /a &quot;@(SignContainers)&quot;" />
+  </Target>
+
+  <Target Name="SignBundleEngine">
+    <Exec Command="$(SignToolPath) sign /a &quot;@(SignBundleEngine)&quot;" />
+  </Target>
+  <Target Name="SignBundle">
+    <Exec Command="$(SignToolPath) sign /a &quot;@(SignBundle)&quot;" />
+  </Target>
+</Project>

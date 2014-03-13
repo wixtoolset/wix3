@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="dirs.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ProjectReference Include="packages\Av1-PerMachine\Av1.wixproj"/>
+    <ProjectReference Include="packages\Av2-PerMachine-MajorUpgrade\Av2.wixproj" />
+    <ProjectReference Include="packages\Bv1-PerMachine\Bv1.wixproj" />
+    <ProjectReference Include="packages\Bv1.1-PerMachine-MinorUpdate\Bv1.1.wixproj" />
+    <ProjectReference Include="packages\Cv1-PerUser\Cv1.wixproj" />
+    <ProjectReference Include="packages\Dv1-PerMachine\Dv1.wixproj" />
+    <ProjectReference Include="packages\Dv1.0.1-PerMachine\Dv1.0.1.wixproj" />
+
+    <ProjectReference Include="bundles\enu\enu.wixproj" />
+    <ProjectReference Include="bundles\jpn\jpn.wixproj" />
+
+    <ProjectReference Include="packages\Package1\Package1.wixproj"/>
+    <ProjectReference Include="packages\Package3\Package3.wixproj"/>
+
+    <ProjectReference Include="bundles\teststdba\teststdba.wixproj" />
+    <ProjectReference Include="bundles\perUser\perUser.wixproj" />
+    <ProjectReference Include="bundles\v1\v1.wixproj" />
+    <ProjectReference Include="bundles\v1addon-PerMachine\v1addon.wixproj" />
+    <ProjectReference Include="bundles\v1addon-patch\v1addonpatch.wixproj" />
+    <ProjectReference Include="bundles\v2\v2.wixproj" />
+    <ProjectReference Include="tools\EmbedTest\EmbedTest.csproj" />
+  </ItemGroup>
+
+  <Target Name="Build">
+    <MSBuild Projects="@(ProjectReference)" />
+  </Target>
+
+  <Target Name="Clean">
+    <MSBuild Projects="@(ProjectReference)" Targets="Clean" />
+  </Target>
+</Project>

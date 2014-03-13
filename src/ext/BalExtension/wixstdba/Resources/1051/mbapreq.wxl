@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="sk-sk" Language="1051" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] – inštalácia</String>
+  <String Id="Title">Na inštaláciu aplikácie [WixBundleName] sa vyžaduje súčasť Microsoft .NET Framework</String>
+  <String Id="ConfirmCancelMessage">Naozaj chcete zrušiť operáciu?</String>
+  <String Id="HelpHeader">Pomocník pre inštaláciu</String>
+  <String Id="HelpText">/passive | /quiet – zobrazí minimálne používateľské rozhranie bez výziev alebo
+   nezobrazí žiadne používateľské rozhranie ani výzvy. Predvolene sa
+   zobrazuje používateľské rozhranie aj všetky výzvy.
+
+/norestart   – zruší všetky pokusy o reštart. Používateľské rozhranie
+   predvolene zobrazí pred reštartom výzvu.
+/log log.txt – urobí záznam do určeného súboru. Súbor denníka sa predvolene
+   vytvorí v priečinku %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Zavrieť</String>
+  <String Id="InstallLicenseTerms">Kliknutím na tlačidlo Súhlasiť a inštalovať vyjadrite svoj súhlas s &lt;a href="#"&gt;licenčnými podmienkami&lt;/a&gt; súčasti Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Súhlasiť a inštalovať</String>
+  <String Id="InstallDeclineButton">&amp;Odmietnuť</String>
+  <String Id="ProgressHeader">Priebeh inštalácie</String>
+  <String Id="ProgressLabel">Spracúva sa:</String>
+  <String Id="ProgressCancelButton">&amp;Zrušiť</String>
+  <String Id="FailureHeader">Inštalácia zlyhala</String>
+  <String Id="FailureLogLinkText">Inštalácia zlyhala pre jednu alebo viac príčin. Odstráňte problémy a skúste znova spustiť inštaláciu. Ďalšie informácie nájdete v &lt;a href="#"&gt;súbore denníka&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Dokončenie všetkých zmien softvéru vyžaduje reštart počítača.</String>
+  <String Id="FailureRestartButton">&amp;Reštartovať</String>
+  <String Id="FailureCloseButton">&amp;Zavrieť</String>
+</WixLocalization>

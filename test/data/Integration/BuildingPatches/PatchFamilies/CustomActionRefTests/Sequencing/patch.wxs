@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="patch.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Patch 
+        Id="CE9141E2-E628-4327-ACF7-72EF69860FA7"
+        AllowRemoval="yes"
+        Manufacturer="Microsoft" 
+        MinorUpdateTargetRTM="yes"
+        MoreInfoURL="http://www.microsoft.com/"
+        DisplayName="Minor Upgrade Patch" 
+        Description="Minor Upgrade Patch for Testing Purposes" 
+        Classification="Service Pack"
+        >
+
+        <Media Id="100" Cabinet="patch.cab" Source="?">
+            <PatchBaseline Id="rtm" />
+        </Media>
+
+        <PatchFamily Id='MyPatchFamily' Version='1.0.0.0' Supersede='yes'>
+            <CustomActionRef Id="CustomAction1"/>
+        </PatchFamily>
+
+    </Patch>
+</Wix>
+

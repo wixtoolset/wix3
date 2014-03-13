@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="teststdba.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OutputType>Bundle</OutputType>
+    <OutputName>b</OutputName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="teststdba.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixBalExtension" />
+    <WixExtension Include="WixUtilExtension"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\packages\ExePkg\ExePkg.csproj" />
+    <ProjectReference Include="..\..\packages\Package3\Package3.wixproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\Common.targets" />
+</Project>

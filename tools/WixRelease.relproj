@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixRelease.relproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration>Release</Configuration>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\wix.proj">
+      <Properties>Configuration=$(Configuration)</Properties>
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
+
+    <ProjectReference Include="..\src\setup\zip\binaries.zipproj">
+      <Properties>Configuration=$(Configuration)</Properties>
+    </ProjectReference>
+    <ProjectReference Include="..\src\setup\zip\debug.zipproj">
+      <Properties>Configuration=$(Configuration)</Properties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <!--
+  ================================================================================================
+  CalculateReleaseFiles
+
+    Determines what ReleaseFile items to create after the project references are built. This allows
+    the use of wildcards to include items that exist only when the build is complete.
+
+  ================================================================================================
+  -->
+  <Target Name="CalculateReleaseFiles">
+    <ItemGroup>
+      <ReleaseFile Include="$(OutputPath)wix$(MajorMinorVersionString).exe">
+        <Title>WiX v$(MajorMinorVersionDottedString) Toolset install.</Title>
+        <Promoted>true</Promoted>
+      </ReleaseFile>
+
+      <ReleaseFile Include="$(OutputPath)data\*.msi" Condition=" '$(WixBundleCompressed)'!='yes' ">
+        <RelativeFolder>data\</RelativeFolder>
+      </ReleaseFile>
+      <ReleaseFile Include="$(OutputPath)data\*.cab" Condition=" '$(WixBundleCompressed)'!='yes' ">
+        <RelativeFolder>data\</RelativeFolder>
+      </ReleaseFile>
+
+      <ReleaseFile Include="$(OutputPath)wix$(MajorMinorVersionString)-binaries.zip">
+        <Title>WiX v$(MajorMinorVersionDottedString) binaries for situations where install cannot be used.</Title>
+        <Protected>true</Protected>
+      </ReleaseFile>
+
+      <ReleaseFile Include="$(OutputPath)wix$(MajorMinorVersionString)-debug.zip">
+        <Title>WiX v$(MajorMinorVersionDottedString) source and symbols for debugging purposes.</Title>
+        <Protected>true</Protected>
+      </ReleaseFile>
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  CalculateReleaseDocuments
+
+    Determines what ReleaseDocuments items to create after the project references are built. This allows
+    the use of wildcards to include items that exist only when the build is complete.
+
+  ================================================================================================
+  -->
+  <Target Name="CalculateReleaseDocuments">
+    <ItemGroup>
+      <ReleaseDocuments Include="$(IntermediateDocumentsFolder)**" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

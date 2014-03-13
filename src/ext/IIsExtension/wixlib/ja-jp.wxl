@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="ja-jp.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ja-jp" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="msierrIISCannotConnect" Overridable="yes">IISへ接続できません。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadWebSite" Overridable="yes">ウェブ サイト処理中に失敗しました。   ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadWebDirs" Overridable="yes">ウェブ ディレクトリ処理中に失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadVDirs" Overridable="yes">ウェブ仮想ディレクトリ処理中に失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadFilters" Overridable="yes">ウェブ フィルタ処理中に失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadMimeMap" Overridable="yes">MIME マップ処理中に失敗しました。 ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadAppPool" Overridable="yes">ウェブ アプリケーション プール処理中に失敗しました。 ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadProp" Overridable="yes">ウェブ プロパティ処理中に失敗しました。 ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadWebSvcExt" Overridable="yes">ウェブ サービス拡張処理中に失敗しました。 ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadWebError" Overridable="yes">ウェブ エラー処理中に失敗しました。 ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedReadHttpHeader" Overridable="yes">HTTP ヘッダ処理中に失敗しました。 ([2]   [3]   [4]   [5])</String>
+
+  <String Id="msierrIISFailedSchedTransaction" Overridable="yes">IIS 変更トランザクションのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallWebs" Overridable="yes">IIS ウェブ サイト インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallWebDirs" Overridable="yes">IIS ウェブ ディレクトリ インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallVDirs" Overridable="yes">IIS 仮想ディレクトリ インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallFilters" Overridable="yes">IIS フィルタ インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallAppPool" Overridable="yes">IIS アプリケーション プール インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallProp" Overridable="yes">IIS プロパティ インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedInstallWebSvcExt" Overridable="yes">IIS ウェブ サービス拡張インストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="msierrIISFailedSchedUninstallWebs" Overridable="yes">IISウェブ サイト アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedUninstallWebDirs" Overridable="yes">IIS ウェブ ディレクトリ アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedUninstallVDirs" Overridable="yes">IIS 仮想ディレクトリ アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedUninstallFilters" Overridable="yes">IIS フィルタ アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedUninstallAppPool" Overridable="yes">IIS アプリケーション プール アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedUninstallProp" Overridable="yes">IIS プロパティ アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedSchedUninstallWebSvcExt" Overridable="yes">IIS ウェブ サービス拡張アンインストールのスケジューリングに失敗しました。  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="msierrIISFailedStartTransaction" Overridable="yes">IIS トランザクション開始に失敗しました。 ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedOpenKey" Overridable="yes">メタベース キーのオープンに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedCreateKey" Overridable="yes">メタベース キーの作成に失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedWriteData" Overridable="yes">メタベース キーの書き込みに失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedCreateApp" Overridable="yes">ウェブ アプリケーションの作成に失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedDeleteKey" Overridable="yes">メタベース キーの削除に失敗しました。  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrIISFailedDeleteValue" Overridable="yes">メタベース値の削除に失敗しました。  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="ConfigureIIs" Overridable="yes">IIS を構成しています</String>
+  <String Id="StartMetabaseTransaction" Overridable="yes">IIS メタベース トランザクションを開始しています</String>
+  <String Id="RollbackMetabaseTransaction" Overridable="yes">IIS メタベース トランザクションをロールバックしています</String>
+  <String Id="CommitMetabaseTransaction" Overridable="yes">IIS メタベース トランザクションを確定しています</String>
+  <String Id="WriteMetabaseChanges" Overridable="yes">IIS メタベース キーと値をインストールしています</String>
+</WixLocalization>

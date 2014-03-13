@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ru-ru" Language="1049" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">Установка [WixBundleName]</String>
+  <String Id="Title">Для установки [WixBundleName] требуется Microsoft .NET Framework</String>
+  <String Id="ConfirmCancelMessage">Вы действительно хотите отменить операцию?</String>
+  <String Id="HelpHeader">Справка по установке</String>
+  <String Id="HelpText">/passive | /quiet - отображение минимального ИП без запросов или работа без ИП 
+   и беззапросов. По умолчанию отображаются ИП и все запросы.
+
+/norestart   - отключение всех попыток перезагрузки. По умолчанию в ИП перед
+   перезагрузкой отображается запрос.
+/log log.txt - запись журнала в указанный файл. По умолчанию файл журнала
+   создается в папке %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Закрыть</String>
+  <String Id="InstallLicenseTerms">Нажмите кнопку "Принять и установить", чтобы принять &lt;a href="#"&gt;условия лицензии&lt;/a&gt; Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Принять и установить</String>
+  <String Id="InstallDeclineButton">&amp;Отклонить</String>
+  <String Id="ProgressHeader">Выполнение установки</String>
+  <String Id="ProgressLabel">Обработка:</String>
+  <String Id="ProgressCancelButton">&amp;Отмена</String>
+  <String Id="FailureHeader">Сбой установки</String>
+  <String Id="FailureLogLinkText">Не удалось выполнить установку из-за одной или нескольких проблем. Устраните эти проблемы, а затем снова запустите программу установки. Дополнительные сведения см. в &lt;a href="#"&gt;файле журнала&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Необходимо перезагрузить компьютер, чтобы завершить откат программного обеспечения.</String>
+  <String Id="FailureRestartButton">&amp;Перезагрузить</String>
+  <String Id="FailureCloseButton">&amp;Закрыть</String>
+</WixLocalization>

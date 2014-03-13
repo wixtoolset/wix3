@@ -1,0 +1,35 @@
+﻿<!--
+  <copyright file="SignalView.xaml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Window x:Class="Signal.SignalView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:Signal"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Signal" Height="300" Width="430" Icon="/Signal;component/Setup.ico" WindowStyle="ToolWindow" Topmost="{Binding Path=TopMost}" MinHeight="300" MinWidth="430">
+    <Window.DataContext>
+        <local:SignalViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Button Content="Succeed" Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" VerticalAlignment="Top" Width="75" Command="{Binding Path=SetSucceedEventCommand}" />
+        <Button Content="Fail" Height="23" HorizontalAlignment="Left" Margin="93,12,0,0" VerticalAlignment="Top" Width="75" Command="{Binding Path=SetFailEventCommand}" />
+        <CheckBox Content="Force others to wait" Height="16" HorizontalAlignment="Left" Margin="12,41,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=Wait, Mode=TwoWay, ValidatesOnExceptions=True}" Checked="OnCheckedChanged" Unchecked="OnCheckedChanged" ClickMode="Press" />
+        <CheckBox Content="Prevent shutting down or logging off" Height="16" HorizontalAlignment="Left" Margin="12,63,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=PreventShutdown}" />
+        <ListBox Margin="12,85,12,34" ItemsSource="{Binding Path=Messages}" Name="Messages">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=DateTime, StringFormat=\{0:dd HH:mm:ss.fff\}}" />
+                        <TextBlock Text=": "/>
+                        <TextBlock Text="{Binding Path=Text}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <CheckBox Content="Keep on top of other windows" Margin="12,0,0,12" HorizontalAlignment="Left" Height="16" VerticalAlignment="Bottom" IsChecked="{Binding Path=TopMost, Mode=TwoWay}" />
+    </Grid>
+</Window>

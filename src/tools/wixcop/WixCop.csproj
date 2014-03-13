@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixCop.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{93982760-E620-499A-9525-5763E813CB49}</ProjectGuid>
+    <AssemblyName>WixCop</AssemblyName>
+    <RootNamespace>Microsoft.Tools.WindowsInstaller.Tools</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ProductVersion>9.0.30729</ProductVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Inspector.cs" />
+    <Compile Include="LineInfoAttribute.cs" />
+    <Compile Include="LineInfoCData.cs" />
+    <Compile Include="LineInfoComment.cs" />
+    <Compile Include="LineInfoDeclaration.cs" />
+    <Compile Include="LineInfoDocument.cs" />
+    <Compile Include="LineInfoDocumentType.cs" />
+    <Compile Include="LineInfoElement.cs" />
+    <Compile Include="LineInfoEntityReference.cs" />
+    <Compile Include="LineInfoProcessingInstruction.cs" />
+    <Compile Include="LineInfoSignificantWhitespace.cs" />
+    <Compile Include="LineInfoText.cs" />
+    <Compile Include="LineInfoWhitespace.cs" />
+    <Compile Include="WixCop.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedNativeResource Include="wixcop.rc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\wconsole\wconsole.csproj" />
+    <ProjectReference Include="..\Wix\Wix.csproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

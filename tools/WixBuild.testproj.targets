@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.testproj.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project InitialTargets="VerifyXunitPresent" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+
+  <PropertyGroup>
+    <TestReportsFolder Condition=" '$(TestReportsFolder)'=='' ">$(OutputPath)tests\reports\</TestReportsFolder>
+    <TestName Condition=" '$(TestName)'=='' ">$(MSBuildProjectName)</TestName>
+
+    <TestHtmlReport>$(TestReportsFolder)$(TestName).html</TestHtmlReport>
+    <TestXmlReport>$(TestReportsFolder)$(TestName).xml</TestXmlReport>
+
+    <VerboseTests Condition=" '$(VerboseTests)'=='' ">false</VerboseTests>
+    <ShadowCopyTests Condition=" '$(ShadowCopyTests)'=='' ">false</ShadowCopyTests>
+    <XunitAssemblyPath>$(XunitPath)xunit.runner.msbuild.dll</XunitAssemblyPath>
+  </PropertyGroup>
+
+  <UsingTask TaskName="Xunit.Runner.MSBuild.xunit" AssemblyFile="$(XunitAssemblyPath)" />
+
+  <!--
+  ================================================================================================
+  VerifyXunitPresent
+
+    Provides a nice error message when xUnit is not installed.
+  ================================================================================================
+  -->
+  <Target Name="VerifyXunitPresent">
+    <Error Text="Cannot locate xUnit assemblies. Ensure xUnit is present at: $(XunitPath) and that the 'xunit.runner.msbuild.dll' exists. If not, run the following command from the root of the project: msbuild -t:PackageRestore" Condition=" !Exists('$(XunitAssemblyPath)') " />
+  </Target>
+
+  <!--
+  ================================================================================================
+  Test
+
+    Runs the tests in the specified assemblies
+
+    [IN]
+    @(TestAssembly) - Items to test.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <TestDependsOn>
+    </TestDependsOn>
+  </PropertyGroup>
+  <Target Name="Test"
+          DependsOnTargets="$(TestDependsOn)"
+          Condition=" '@(TestAssembly)'!='' ">
+
+    <Message Importance="high" Text="Result output: $(TestHtmlReport)" />
+
+    <MakeDir Directories="$(TestReportsFolder)" />
+
+    <xunit Assemblies="@(TestAssembly)"
+             ShadowCopy="$(ShadowCopyTests)"
+             Verbose="$(VerboseTests)"
+             Html="$(TestHtmlReport)"
+             Xml="$(TestXmlReport)"
+             />
+  </Target>
+
+  <!--
+  ================================================================================================
+  BuildReferencedProjects
+
+    Builds any projects that are referenced by the test project.
+
+    [IN]
+    @(ProjectReference) - Items to build.
+
+    [OUT]
+    @(TestAssembly) - The built assemblies that are test assemblies.
+  ================================================================================================
+  -->
+  <Target Name="BuildReferencedProjects">
+    <MSBuild Projects="@(ProjectReference)" BuildInParallel="true">
+      <Output TaskParameter="TargetOutputs" ItemName="OutputAssemblies" />
+    </MSBuild>
+
+    <ItemGroup>
+      <TestAssembly Include="@(OutputAssemblies)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="Build"
+          DependsOnTargets="BuildReferencedProjects;Test" />
+
+  <Target Name="Clean">
+   <DeleteFiles Files="$(TestHtmlReport);$(TestXmlReport)" />
+  </Target>
+
+  <Target Name="Rebuild"
+          DependsOnTargets="Clean;Build" />
+
+</Project>

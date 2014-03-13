@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="es-es.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="es-es" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="msierrSQLFailedCreateDatabase" Overridable="yes">Error [2]: falla al crear la base de datos SQL: [3], detalle del error: [4].</String>
+  <String Id="msierrSQLFailedDropDatabase" Overridable="yes">Error [2]: falla al poner la base de datos SQL: [3], detalle del error: [4].</String>
+  <String Id="msierrSQLFailedConnectDatabase" Overridable="yes">Falla al conectarse con la base de datos SQL.  ([2]   [3]   [4]   [5])</String>
+  <String Id="msierrSQLFailedExecString" Overridable="yes">Error [2]: falla al ejecutar la cadena SQL, detalle del error: [3], Clave SQL: [4] Cadena SQL: [5]</String>
+  <String Id="msierrSQLDatabaseAlreadyExists" Overridable="yes">La base de datos [3] ya existe. ¿Desea continuar?</String>
+
+  <String Id="ConfigureSql" Overridable="yes">Configurando SQL Server</String>
+  <String Id="CreateDatabase" Overridable="yes">Creando Bases de Datos</String>
+  <String Id="DropDatabase" Overridable="yes">Colocando Bases de Datos</String>
+  <String Id="ExecuteSqlStrings" Overridable="yes">Ejecutando cadenas SQL</String>
+  <String Id="RollbackExecuteSqlStrings" Overridable="yes">Revirtiendo cadenas SQL</String>
+</WixLocalization>
+

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="CoreMsi.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.8</ProductVersion>
+    <ProjectGuid>{FC691478-732D-4C2D-A19B-272898E83EE9}</ProjectGuid>
+    <OutputName>core</OutputName>
+    <OutputType>Package</OutputType>
+    <Cultures>en-us</Cultures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ClickThrough.wxs" />
+    <Compile Include="CoreMsi.wxs" />
+    <Compile Include="Doc.wxs" />
+    <Compile Include="Extensions.wxs" />
+    <Compile Include="Lux.wxs" />
+    <Compile Include="MSBuild.wxs" />
+    <Compile Include="Nant.wxs" />
+    <Compile Include="Toolset.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <BindInputPaths Include="$(MSBuildProjectDirectory)" />
+    <BindInputPaths Include="$(WixRoot)src" />
+    <BindInputPaths Include="$(WixRoot)bin" />
+    <BindInputPaths Include="$(WixRoot)" />
+    <BindInputPaths Include="$(WixRoot)src\libs" />
+    <BindInputPaths Include="$(WixRoot)src\ext" />
+    <BindInputPaths Include="$(WixRoot)src\tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Icons\setupicons.vcxproj" />
+    <ProjectReference Include="..\CommonLib\CommonLib.wixproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixTagExtension">
+      <HintPath>$(OutputPath_x86)WixTagExtension.dll</HintPath>
+    </WixExtension>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="v1.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
+<Bundle Name="~Bundle v1 &amp; v2"
+        Manufacturer="Microsoft Corporation"
+        Version="0.1.0.0"
+        Tag="v1"
+        DisableModify="yes"
+        Compressed="no"
+        UpgradeCode="85BDF55F-C789-4D0C-97AA-B844CD51035D"
+        Condition='Privileged'>
+
+   <swid:Tag Regid="regid.1991-06.microsoft.com" />
+
+   <BootstrapperApplicationRef Id='WixStandardBootstrapperApplication.HyperlinkLicense'>
+     <bal:WixStandardBootstrapperApplication LicenseUrl='http://robmensching.com/blog/' />
+   </BootstrapperApplicationRef>
+   <!-- <WixVariable Id="WixStdbaThemeWxl" Value="thm.wxl" /> -->
+   <!-- <bal:Condition Message='Read more &lt;a href="http://wixtoolset.org/news">for version: [WixBundleVersion]&lt;/a>.' >FALSE</bal:Condition> -->
+   <!-- <bal:Condition Message='Bad &amp;version: [VersionNT64] >= 600'>VersionNT64 >= 600</bal:Condition> -->
+
+   <Variable Name="o" Value="[Privileged]" />
+   <Variable Name="1" Value="[ProgramFilesFolder]" />
+   <Variable Name="2" Value="[ProgramFiles64Folder]" />
+   <Variable Name="3" Value="[ProgramFiles6432Folder]" />
+
+   <RelatedBundle Id="1BE14DA3-E26A-4C49-8D39-7B1017FFA071" Action="Upgrade"/>
+   <RelatedBundle Id="8C78F409-835E-46DD-A00F-5E5802FEA6D8" Action="Detect"/>
+
+   <Chain DisableSystemRestore='yes' ParallelCache='yes'>
+      <PackageGroupRef Id="Packages" />
+   </Chain>
+
+   <Container Name="foo.cab" DownloadUrl="http://localhost/{2}" Type="detached">
+      <PackageGroupRef Id="Packages" />
+   </Container>
+</Bundle>
+
+<Fragment>
+  <PackageGroup Id="Packages">
+      <MsiPackage Vital='yes' SourceFile='Av1.msi' Visible="yes" Compressed="yes" DisplayName="Package A" Description="Description for Package A" />
+      <MsiPackage Id='Bv1' Vital='yes' SourceFile='Bv1.msi' Name='Bv1.msi' Visible="yes" Compressed='yes' Description="Description for Package B" >
+         <MsiProperty Name="TARGETDIR" Value="[ProgramFiles64Folder]~Bv1 Folder\" />
+      </MsiPackage>
+  </PackageGroup>
+</Fragment>
+</Wix>

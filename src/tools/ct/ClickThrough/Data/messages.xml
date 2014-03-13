@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.ClickThrough" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="ClickThroughErrors" ContainerName="ClickThroughError" BaseContainerName="MessageEventArgs">
+        <Message Id="UnexpectedException" Number="5200" SourceLineNumbers="no">
+            <Instance>{0}&#13;&#10;&#13;&#10;Exception Type: {1}&#13;&#10;&#13;&#10;Stack Trace:&#13;&#10;{2}
+                <Parameter Type="System.String" Name="message" />
+                <Parameter Type="System.String" Name="type" />
+                <Parameter Type="System.String" Name="stackTrace" />
+            </Instance>
+        </Message>
+        <Message Id="WixError" Number="5201" SourceLineNumbers="no">
+            <Instance>Wix error: {0}.
+                <Parameter Type="System.String" Name="error" />
+            </Instance>
+        </Message>
+        <Message Id="UpgradeCodeChanged" Number="5202" SourceLineNumbers="no">
+            <Instance>Upgrade code changed from previous package.  Previous upgrade code "{0}", new upgrade code "{1}".  The upgrade codes must match or upgrades will not work correctly.
+                <Parameter Type="System.Guid" Name="previousGuid" />
+                <Parameter Type="System.Guid" Name="newGuid" />
+            </Instance>
+        </Message>
+        <Message Id="NewVersionIsNotGreater" Number="5203" SourceLineNumbers="no">
+            <Instance>New version is not higher than previous version.  Previous version "{0}", new version "{1}".  Ensure that your new package has a higher version or upgrades will not work correctly.
+                <Parameter Type="System.Version" Name="previousVersion" />
+                <Parameter Type="System.Version" Name="newVersion" />
+            </Instance>
+        </Message>
+        <Message Id="CannotLoadApplib" Number="5204" SourceLineNumbers="no">
+            <Instance>Cannot load the applib.wixlib file.  This file should be located next to the ClickThrough.exe at "{0}".  Ensure that the file is present and not corrupted.
+                <Parameter Type="System.String" Name="path" />
+            </Instance>
+        </Message>
+        <Message Id="FailedSetupExeCreation" Number="5205" SourceLineNumbers="no">
+            <Instance>Failed to create the setup.exe.  This is an internal error.
+                <Parameter Type="System.String" Name="inputPath" />
+                <Parameter Type="System.String" Name="outputPath" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="ClickThroughWarnings" ContainerName="ClickThroughWarning" BaseContainerName="MessageEventArgs">
+        <Message Id="WixWarning" Number="6000" SourceLineNumbers="no">
+            <Instance>Wix warning: {0}.
+                <Parameter Type="System.String" Name="warning" />
+            </Instance>
+        </Message>
+    </Class>
+</Messages>

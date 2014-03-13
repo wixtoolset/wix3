@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixTests.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{31FCC013-485E-487D-89D8-6C19EDCDD9A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>WixTest.Tests</RootNamespace>
+    <AssemblyName>WixTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BuilderBase.cs" />
+    <Compile Include="BundleBuilder.cs" />
+    <Compile Include="BundleInstaller.cs" />
+    <Compile Include="BundleRegistration.cs" />
+    <Compile Include="Burn\BurnTests.cs" />
+    <Compile Include="Burn\Burn.DependencyTests.cs" />
+    <Compile Include="Burn\Burn.FailureTests.cs" />
+    <Compile Include="Burn\Burn.FeatureTests.cs" />
+    <Compile Include="Burn\Burn.ForwardCompatibleTests.cs" />
+    <Compile Include="Burn\Burn.ParentTests.cs" />
+    <Compile Include="Burn\Burn.PatchTests.cs" />
+    <Compile Include="Burn\Burn.PermanentTests.cs" />
+    <Compile Include="Burn\Burn.RegistrationTests.cs" />
+    <Compile Include="Burn\Burn.RelatedBundleTests.cs" />
+    <Compile Include="Burn\Burn.SearchTests.cs" />
+    <Compile Include="Burn\Burn.SlipstreamTests.cs" />
+    <Compile Include="Burn\Burn.UpdateBundleTests.cs" />
+    <Compile Include="PackageBuilder.cs" />
+    <Compile Include="PatchBuilder.cs" />
+    <Compile Include="WixTests.cs" />
+    <Compile Include="Examples\ExampleTests.cs" />
+    <Compile Include="Extensions\DependencyExtension\DependencyExtension.DependencyExtensionTests.cs" />
+    <Compile Include="Extensions\NetFXExtension\NetFXExtension.NativeImageTests.cs" />
+    <Compile Include="Extensions\SqlExtension\SqlExtension.SqlScriptTests.cs" />
+    <Compile Include="Extensions\SqlExtension\SqlExtension.SqlStringTests.cs" />
+    <Compile Include="Extensions\SqlExtension\SqlExtension.SqlDatabaseTests.cs" />
+    <Compile Include="Extensions\SqlExtension\SqlExtension.RegressionTests.cs" />
+    <Compile Include="Extensions\UIExtension\UIExtension.AdvancedUITests.cs" />
+    <Compile Include="Extensions\UIExtension\UIExtension.FeatureTreeTests.cs" />
+    <Compile Include="Extensions\UIExtension\UIExtension.InstallDirTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.CAQuietExecTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.WixShellExecBinaryTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.WixShellExecTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.ServiceConfigTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.PermissionExTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.WixCloseApplicationTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.FileShareTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.UserTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.EventManifestTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.PerfCounterTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.PerfCounterManifestTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.PerformanceCategoryTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.PropertyTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.XmlConfigTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.XmlFileTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.WixInternetShortcutTests.cs" />
+    <Compile Include="Extensions\UtilExtension\UtilExtension.RegressionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Authoring.FragmentTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.BundleElementTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.ComponentTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.CreateFolderTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.EnvironmentTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.IsolateComponentTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.RefAndGroupTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.RemoveFolderTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.ReserveCostTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.ServiceControlTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.ServiceInstallTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.SFPCatalogTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.UXTests.cs" />
+    <Compile Include="Integration\BuildingPackages\BundleTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.PayloadTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.VariableTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.DirectorySearchTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.FileSearchTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.ChainTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.PackageTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.RegistrySearchTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.ProductSearchTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.ComponentSearchTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Bundle.LayoutTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Features.FeatureTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Features.RefAndGroupTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Files.CopyFileTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Files.FileTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Files.RemoveFileTests.cs" />
+    <Compile Include="Integration\BuildingPackages\InstallPackages.PackageTests.cs" />
+    <Compile Include="Integration\BuildingPackages\InstallPackages.ProductTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Shortcuts.ShortcutTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Authoring.IdentifierTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Binaries.BinaryTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Cabinets.CabinetTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Components.COMRegistrationTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Conditions.ComponentConditionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Conditions.ControlConditionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Conditions.FeatureConditionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\CustomActions.CustomActionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\CustomTables.CustomTableTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Directories.DirectoryTests.cs" />
+    <Compile Include="Integration\BuildingPackages\InstanceTransforms.InstanceTransformTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Media.MediaTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Permissions.PermissionExTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Registry.RegistryTests.cs" />
+    <Compile Include="Integration\BuildingPackages\RegressionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Sequencing.InstallExecuteSequenceTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Sequencing.SequencingTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Shortcuts.ShortcutPropertyTests.cs" />
+    <Compile Include="Integration\BuildingPackages\SmokeTests.cs" />
+    <Compile Include="Integration\BuildingPackages\SymbolPaths.SymbolPathTests.cs" />
+    <Compile Include="Integration\BuildingPackages\UI.HyperlinkTests.cs" />
+    <Compile Include="Integration\BuildingPackages\UI.UITests.cs" />
+    <Compile Include="Tools\Candle\HelpTests.cs" />
+    <Compile Include="Tools\Candle\Input.FileSystemTests.cs" />
+    <Compile Include="Tools\Candle\Input.InputTests.cs" />
+    <Compile Include="Tools\Candle\MultipleInputSwitchesTests.cs" />
+    <Compile Include="Tools\Candle\Output.FileSystemTests.cs" />
+    <Compile Include="Tools\Candle\Output.OutputTests.cs" />
+    <Compile Include="Tools\Candle\PedanticTests.cs" />
+    <Compile Include="Tools\Candle\PreProcessor.ErrorsAndWarningsTests.cs" />
+    <Compile Include="Tools\Candle\PreProcessor.IncludeFileTests.cs" />
+    <Compile Include="Tools\Candle\PreProcessor.StatementsTests.cs" />
+    <Compile Include="Tools\Candle\PreProcessor.VariableTests.cs" />
+    <Compile Include="Tools\Candle\RegressionTests.cs" />
+    <Compile Include="Tools\Candle\SuppressSchemaValidationTests.cs" />
+    <Compile Include="Tools\Candle\SuppressWarningsTests.cs" />
+    <Compile Include="Tools\Candle\TraceTests.cs" />
+    <Compile Include="Tools\Candle\TreatWarningsAsErrorsTests.cs" />
+    <Compile Include="Tools\Candle\VerboseOutputTests.cs" />
+    <Compile Include="Tools\Common\Logo.LogoTests.cs" />
+    <Compile Include="Tools\Dark\BinaryPath.BinaryPathTests.cs" />
+    <Compile Include="Tools\Dark\Extensions.ExtensionTests.cs" />
+    <Compile Include="Tools\Dark\Help.HelpTests.cs" />
+    <Compile Include="Tools\Dark\Output.FileSystemTests.cs" />
+    <Compile Include="Tools\Dark\RegressionTests.cs" />
+    <Compile Include="Tools\Light\BindPaths.BindPathTests.cs" />
+    <Compile Include="Tools\Light\BindFiles.BindFilesTests.cs" />
+    <Compile Include="Tools\Light\Cabs.CabCachingTests.cs" />
+    <Compile Include="Tools\Light\Cabs.ReuseCabTests.cs" />
+    <Compile Include="Tools\Light\Cultures.CultureTests.cs" />
+    <Compile Include="Tools\Light\Help.HelpTests.cs" />
+    <Compile Include="Tools\Light\ICEs.ICEsTests.cs" />
+    <Compile Include="Tools\Light\ICEs.SuppressICEsTests.cs" />
+    <Compile Include="Tools\Light\Input.WixlibTests.cs" />
+    <Compile Include="Tools\Light\Input.WixobjTests.cs" />
+    <Compile Include="Tools\Light\Localization.LocalizationTests.cs" />
+    <Compile Include="Tools\Light\Messages.PedanticTests.cs" />
+    <Compile Include="Tools\Light\Messages.VerboseTests.cs" />
+    <Compile Include="Tools\Light\Output.OutputTests.cs" />
+    <Compile Include="Tools\Light\RegressionTests.cs" />
+    <Compile Include="Integration\BuildingPackages\Conditions.LaunchConditionTests.cs" />
+    <Compile Include="Tools\Light\Warnings.SuppressWarningsTests.cs" />
+    <Compile Include="Tools\Light\Warnings.WarningsAsErrorsTests.cs" />
+    <Compile Include="Tools\Lit\BindPaths.BindPathTests.cs" />
+    <Compile Include="Tools\Lit\BindFiles.BindFilesTests.cs" />
+    <Compile Include="Tools\Lit\Localization.LocalizationTests.cs" />
+    <Compile Include="Tools\Lit\Help.HelpTests.cs" />
+    <Compile Include="Tools\Lit\Input.FileSystemTests.cs" />
+    <Compile Include="Tools\Lit\Input.InputTests.cs" />
+    <Compile Include="Tools\Lit\MultipleSwitches.MultipleSwitchesTests.cs" />
+    <Compile Include="Tools\Lit\Output.FileSystemTests.cs" />
+    <Compile Include="Tools\Lit\Output.OutputTests.cs" />
+    <Compile Include="Tools\Lit\Warnings.SuppressWarningsTests.cs" />
+    <Compile Include="Tools\Lit\Warnings.TreatWarningsAsErrorsTests.cs" />
+    <Compile Include="Wixproj\WixprojTests.cs" />
+    <Compile Include="Wixproj\WixTaskTests.cs" />
+    <Compile Include="Extensions\VSExtension\VSExtension.VSExtensionTests.cs" />
+    <None Include="..\..\data\Burn\DependencyTests\A.wxs">
+      <Link>Burn\DependencyTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\B.wxs">
+      <Link>Burn\DependencyTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\C.wxs">
+      <Link>Burn\DependencyTests\C.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\D.wxs">
+      <Link>Burn\DependencyTests\D.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\PatchA.wxs">
+      <Link>Burn\DependencyTests\PatchA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleA.wxs">
+      <Link>Burn\DependencyTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleB.wxs">
+      <Link>Burn\DependencyTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleC.wxs">
+      <Link>Burn\DependencyTests\BundleC.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleD.wxs">
+      <Link>Burn\DependencyTests\BundleD.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleE.wxs">
+      <Link>Burn\DependencyTests\BundleE.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleF.wxs">
+      <Link>Burn\DependencyTests\BundleF.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleG.wxs">
+      <Link>Burn\DependencyTests\BundleG.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\DependencyTests\BundleH.wxs">
+      <Link>Burn\DependencyTests\BundleH.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FailureTests\A.wxs">
+      <Link>Burn\FailureTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FailureTests\B.wxs">
+      <Link>Burn\FailureTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FailureTests\BundleA.wxs">
+      <Link>Burn\FailureTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FailureTests\BundleB.wxs">
+      <Link>Burn\FailureTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FailureTests\BundleC.wxs">
+      <Link>Burn\FailureTests\BundleC.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FeatureTests\A.wxs">
+      <Link>Burn\FeatureTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\FeatureTests\BundleA.wxs">
+      <Link>Burn\FeatureTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ForwardCompatibleTests\A.wxs">
+      <Link>Burn\ForwardCompatibleTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ForwardCompatibleTests\B.wxs">
+      <Link>Burn\ForwardCompatibleTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ForwardCompatibleTests\BundleA.wxs">
+      <Link>Burn\ForwardCompatibleTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ForwardCompatibleTests\BundleB.wxs">
+      <Link>Burn\ForwardCompatibleTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ForwardCompatibleTests\BundleC.wxs">
+      <Link>Burn\ForwardCompatibleTests\BundleC.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ForwardCompatibleTests\C.wxs">
+      <Link>Burn\ForwardCompatibleTests\C.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ParentTests\A.wxs">
+      <Link>Burn\ParentTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ParentTests\B.wxs">
+      <Link>Burn\ParentTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ParentTests\BundleA.wxs">
+      <Link>Burn\ParentTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\ParentTests\BundleB.wxs">
+      <Link>Burn\ParentTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\A.wxs">
+      <Link>Burn\PatchTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\B.wxs">
+      <Link>Burn\PatchTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\BundleA.wxs">
+      <Link>Burn\PatchTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\BundleB.wxs">
+      <Link>Burn\PatchTests\BundleB.wxs</Link>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchA.wxs">
+      <Link>Burn\PatchTests\PatchA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchA2.wxs">
+      <Link>Burn\PatchTests\PatchA2.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchBundleA.wxs">
+      <Link>Burn\PatchTests\PatchBundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchBundleA2.wxs">
+      <Link>Burn\PatchTests\PatchBundleA2.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PermanentTests\A.wxs">
+      <Link>Burn\PermanentTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PermanentTests\B.wxs">
+      <Link>Burn\PermanentTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PermanentTests\BundleA.wxs">
+      <Link>Burn\PermanentTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SearchTests\A.wxs">
+      <Link>Burn\SearchTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SearchTests\B.wxs">
+      <Link>Burn\SearchTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SearchTests\BundleA.wxs">
+      <Link>Burn\SearchTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SearchTests\BundleB.wxs">
+      <Link>Burn\SearchTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\A.wxs">
+      <Link>Burn\SlipstreamTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\B.wxs">
+      <Link>Burn\SlipstreamTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\BundleA.wxs">
+      <Link>Burn\SlipstreamTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\BundleAReverse.wxs">
+      <Link>Burn\SlipstreamTests\BundleAReverse.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\BundleB.wxs">
+      <Link>Burn\SlipstreamTests\BundleB.wxs</Link>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\BundleC.wxs">
+      <Link>Burn\SlipstreamTests\BundleC.wxs</Link>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\BundleOnlyA.wxs">
+      <Link>Burn\SlipstreamTests\BundleOnlyA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\PatchA.wxs">
+      <Link>Burn\SlipstreamTests\PatchA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\SlipstreamTests\PatchB.wxs">
+      <Link>Burn\SlipstreamTests\PatchB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RegistrationTests\BundleA.wxs">
+      <Link>Burn\RegistrationTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RegistrationTests\BundleB.wxs">
+      <Link>Burn\RegistrationTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RegistrationTests\BundleC.wxs">
+      <Link>Burn\RegistrationTests\BundleC.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RegistrationTests\BundleD.wxs">
+      <Link>Burn\RegistrationTests\BundleD.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RegistrationTests\TestExe.wxs">
+      <Link>Burn\RegistrationTests\TestExe.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\A.wxs">
+      <Link>Burn\RelatedBundleTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\B.wxs">
+      <Link>Burn\RelatedBundleTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\C.wxs">
+      <Link>Burn\RelatedBundleTests\C.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\D.wxs">
+      <Link>Burn\RelatedBundleTests\D.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\PatchA.wxs">
+      <Link>Burn\RelatedBundleTests\PatchA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\BundleA.wxs">
+      <Link>Burn\RelatedBundleTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\BundleB.wxs">
+      <Link>Burn\RelatedBundleTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\BundleC.wxs">
+      <Link>Burn\RelatedBundleTests\BundleC.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\BundleD.wxs">
+      <Link>Burn\RelatedBundleTests\BundleD.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\RelatedBundleTests\BundleE.wxs">
+      <Link>Burn\RelatedBundleTests\BundleE.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\UpdateBundleTests\A.wxs">
+      <Link>Burn\UpdateBundleTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\UpdateBundleTests\BundleA.wxs">
+      <Link>Burn\UpdateBundleTests\BundleA.wxs</Link>
+    </None>
+    <None Include="Tools\Light\Input.InputTests.mtx" />
+    <None Include="Tools\Light\Output.OutputTests.mtx" />
+  </ItemGroup>
+  <ItemGroup Condition=" Exists('$(windir)\system32\inetsrv\Microsoft.Web.Administration.dll') ">
+    <Compile Include="Extensions\IISExtension\IISVerifier.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISCertificateTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISFilterTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISVirtualDirTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISWebAppPoolTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISWebDirTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISWebErrorTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISWebPropertyTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISWebServiceExtensionTests.cs" />
+    <Compile Include="Extensions\IISExtension\IISExtension.IISWebSiteTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.dll" />
+    <Reference Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Package.dll" />
+    <Reference Include="$(OutputPath)wix.dll" />
+    <Reference Include="$(OutputPath)Microsoft.Deployment.Compression.dll" />
+    <Reference Include="$(OutputPath)Microsoft.Deployment.Compression.Cab.dll" />
+    <Reference Include="$(OutputPath)BootstrapperCore.dll" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml" />
+    <Reference Include="$(windir)\system32\inetsrv\Microsoft.Web.Administration.dll" Condition=" Exists('$(windir)\system32\inetsrv\Microsoft.Web.Administration.dll') " />
+    <ProjectReference Include="..\WixTestTools\WixTestTools.csproj">
+      <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
+      <Name>WixTestTools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\data\Burn\SlipstreamTests\BundleOnlyPatchA.wxs">
+      <Link>Burn\SlipstreamTests\BundleOnlyPatchA.wxs</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

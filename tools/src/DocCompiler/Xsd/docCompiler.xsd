@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="docCompiler.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2005/DocCompiler"
+              xmlns="http://schemas.microsoft.com/wix/2005/DocCompiler">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for the documentation compiler.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="DocCompiler">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="TableOfContents"/>
+                <xs:element ref="CopyDirectory" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="CopyFile" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CopyDirectory">
+        <xs:complexType>
+            <xs:attribute name="Destination" use="required"/>
+            <xs:attribute name="Source" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CopyFile">
+        <xs:complexType>
+            <xs:attribute name="Destination" use="required"/>
+            <xs:attribute name="Source" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TableOfContents">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="Topic"/>
+                <xs:element ref="XmlSchema"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Topic">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="Index"/>
+                <xs:element ref="Topic"/>
+                <xs:element ref="XmlSchema"/>
+            </xs:choice>
+            <xs:attribute name="SourceFile"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Index">
+        <xs:complexType>
+            <xs:attribute name="Title" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="XmlSchema">
+        <xs:complexType>
+            <xs:attribute name="Main" type="YesNoType"/>
+            <xs:attribute name="SourceFile" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="YesNoType">
+        <xs:annotation><xs:documentation>Values of this type will either be "yes" or "no".</xs:documentation></xs:annotation>
+        <xs:restriction base='xs:NMTOKEN'>
+            <xs:enumeration value="no"/>
+            <xs:enumeration value="yes"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

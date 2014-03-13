@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+  <copyright file="DependencyExtension_Platform.wxi" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caSuffix.wxi ?>
+    <Fragment>
+        <CustomAction Id="WixDependencyRequire$(var.Suffix)" BinaryKey="WixDepCA$(var.Suffix)" DllEntry="WixDependencyRequire" Execute="immediate" Return="check" SuppressModularization="yes"/>
+        <InstallExecuteSequence>
+            <Custom Action="WixDependencyRequire$(var.Suffix)" Before="WixDependencyCheck$(var.Suffix)" Overridable="yes"><![CDATA[NOT DISABLEDEPENDENCYCHECK]]></Custom>
+        </InstallExecuteSequence>
+        <UIRef Id="WixDependencyErrors"/>
+        <PropertyRef Id="DISABLEDEPENDENCYCHECK"/>
+    </Fragment>
+    <Fragment>
+        <CustomAction Id="WixDependencyCheck$(var.Suffix)" BinaryKey="WixDepCA$(var.Suffix)" DllEntry="WixDependencyCheck" Execute="immediate" Return="check" SuppressModularization="yes"/>
+        <InstallExecuteSequence>
+            <Custom Action="WixDependencyCheck$(var.Suffix)" Before="InstallInitialize" Overridable="yes"><![CDATA[(REMOVE OR MsiPatchRemovalList) AND NOT (UPGRADINGPRODUCTCODE OR IGNOREDEPENDENCIES="ALL")]]></Custom>
+        </InstallExecuteSequence>
+        <UIRef Id="WixDependencyErrors"/>
+        <PropertyRef Id="IGNOREDEPENDENCIES"/>
+    </Fragment>
+    <Fragment>
+        <Binary Id="WixDepCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))wixdepca.dll"/>
+    </Fragment>
+</Include>

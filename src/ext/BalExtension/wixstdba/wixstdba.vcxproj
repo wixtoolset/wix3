@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="wixstdba.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{41085A22-E6AA-4E8B-AB1B-DDEE0DC89DFA}</ProjectGuid>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <TargetName>WixStdBA</TargetName>
+    <ProjectModuleDefinitionFile>wixstdba.def</ProjectModuleDefinitionFile>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\burn\inc;$(WixRoot)src\libs\balutil\inc</ProjectAdditionalIncludeDirectories>
+    <ProjectAdditionalLinkLibraries>comctl32.lib;gdiplus.lib;msimg32.lib;shlwapi.lib;wininet.lib;dutil.lib;balutil.lib</ProjectAdditionalLinkLibraries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ClCompile Include="WixStandardBootstrapperApplication.cpp" />
+    <ClCompile Include="wixstdba.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.png">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\logoside.png">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\LoremIpsumLicense.rtf">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\HyperlinkTheme.wxl">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\HyperlinkTheme.xml">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\HyperlinkLargeTheme.xml">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\HyperlinkSidebarTheme.xml">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\mbapreq.png">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\mbapreq.thm">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\mbapreq.wxl">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\RtfTheme.wxl">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\RtfTheme.xml">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\RtfLargeTheme.xml">
+      <CopyToOutputSubDirectory>WixstdbaResources</CopyToOutputSubDirectory>
+    </None>
+    <None Include="Resources\*\mbapreq.wxl">
+      <CopyToOutputSubDirectory>Wixstdba%(RelativeDir)</CopyToOutputSubDirectory>
+    </None>
+    <None Include="wixstdba.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="wixstdba.rc" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

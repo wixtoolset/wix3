@@ -1,0 +1,943 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Database classes">
+    <Position X="3.433" Y="7.717" Height="0.26" Width="1.159" />
+  </Comment>
+  <Comment CommentText="Custom action classes">
+    <Position X="5.791" Y="1.774" Height="0.312" Width="1.465" />
+  </Comment>
+  <Comment CommentText="Inventory classes">
+    <Position X="12.323" Y="2.386" Height="0.292" Width="1.183" />
+  </Comment>
+  <Comment CommentText="Exceptions">
+    <Position X="11.75" Y="9.25" Height="0.285" Width="0.798" />
+  </Comment>
+  <Comment CommentText="Callback delegates">
+    <Position X="17.25" Y="8" Height="0.281" Width="1.25" />
+  </Comment>
+  <Comment CommentText="API enums">
+    <Position X="21.992" Y="0.5" Height="0.283" Width="2.008" />
+  </Comment>
+  <Comment CommentText="Database column enums">
+    <Position X="24.25" Y="0.5" Height="0.26" Width="1.983" />
+  </Comment>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.Database">
+    <Position X="0.5" Y="5" Width="2.25" />
+    <Members>
+      <Method Name="Database" Hidden="true" />
+      <Field Name="deleteOnClose" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Method Name="ExecutePropertyQuery" Hidden="true" />
+      <Field Name="filePath" Hidden="true" />
+      <Method Name="Open" Hidden="true" />
+      <Field Name="openMode" Hidden="true" />
+      <Field Name="summaryInfo" Hidden="true" />
+      <Field Name="tables" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerHandle" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.312" Y="2.119" />
+        <Point X="3.312" Y="2.689" />
+        <Point X="2.699" Y="2.689" />
+        <Point X="2.699" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="Tables" Type="Microsoft.Deployment.WindowsInstaller.TableInfo" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="8.125" />
+        <Point X="3.75" Y="8.125" />
+        <Point X="3.75" Y="8.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.293" Y="0.152" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="SummaryInfo" Type="Microsoft.Deployment.WindowsInstaller.SummaryInfo" FixedFromPoint="true">
+      <Path>
+        <Point X="1.318" Y="5" />
+        <Point X="1.318" Y="4.535" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.155" Y="0.279" Height="0.16" Width="1.095" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QABACUgAACAAIAVUIAgQREACAAIAk0ABAIhmoEAAAAA=</HashCode>
+      <FileName>Database.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SummaryInfo" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Tables" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.InstallerHandle">
+    <Position X="3" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="Dispose" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Method Name="GetHashCode" Hidden="true" />
+      <Field Name="handle" Hidden="true" />
+      <Method Name="InstallerHandle" Hidden="true" />
+      <Property Name="Sync" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAACAgAAAAAAAAAAAAMIAAAACAACAAAA=</HashCode>
+      <FileName>Handle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.Installer">
+    <Position X="19.25" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="CheckInstallResult" Hidden="true" />
+      <Field Name="errorResources" Hidden="true" />
+      <Property Name="ErrorResources" Hidden="true" />
+      <Field Name="externalUIHandlers" Hidden="true" />
+      <Method Name="GetMessageFromModule" Hidden="true" />
+      <Method Name="GetPatchStringDataType" Hidden="true" />
+      <Field Name="rebootInitiated" Hidden="true" />
+      <Field Name="rebootRequired" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAQBiIgAgAKAAAAELEAAPBgJAUAAYAAAAOQDagAgAQE=</HashCode>
+      <FileName>ExternalUIHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.Record">
+    <Position X="5.25" Y="3" Width="2" />
+    <Members>
+      <Method Name="CheckRange" Hidden="true" />
+      <Method Name="ExtractSubStorage" Hidden="true" />
+      <Method Name="FindColumn" Hidden="true" />
+      <Method Name="Record" Hidden="true" />
+      <Field Name="view" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerHandle" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.688" Y="2.119" />
+        <Point X="3.688" Y="2.672" />
+        <Point X="5.4" Y="2.672" />
+        <Point X="5.4" Y="3" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAIAEiEIAJAAAAQgIEIAIIQCAAABIAAA=</HashCode>
+      <FileName>Record.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.Session">
+    <Position X="7.5" Y="0.5" Width="2.25" />
+    <Members>
+      <Field Name="database" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+      <Method Name="IFormatProvider.GetFormat" Hidden="true" />
+      <Method Name="Session" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerHandle" FixedFromPoint="true">
+      <Path>
+        <Point X="3.875" Y="2.119" />
+        <Point X="3.875" Y="2.395" />
+        <Point X="7.5" Y="2.395" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="Database" Type="Microsoft.Deployment.WindowsInstaller.Database" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.562" Y="4.696" />
+        <Point X="7.562" Y="10.375" />
+        <Point X="2.75" Y="10.375" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="4.869" Y="5.46" Height="0.16" Width="0.806" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Components" Type="Microsoft.Deployment.WindowsInstaller.ComponentInfo" FixedFromPoint="true">
+      <Path>
+        <Point X="8.562" Y="4.696" />
+        <Point X="8.562" Y="5.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.021" Y="0.317" Height="0.16" Width="0.986" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Features" Type="Microsoft.Deployment.WindowsInstaller.FeatureInfo">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.016" Y="2.568" Height="0.16" Width="0.785" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAKGAAAoDADIBBAAAAAAgIEABBEIAAIAAACAA=</HashCode>
+      <FileName>Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Database" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Components" />
+      <Property Name="Features" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.SummaryInfo">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="MAX_PROPERTIES" Hidden="true" />
+      <Method Name="OpenSummaryInfo" Hidden="true" />
+      <Method Name="SummaryInfo" Hidden="true" />
+      <Property Name="this" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerHandle" FixedFromPoint="true">
+      <Path>
+        <Point X="3.125" Y="2.119" />
+        <Point X="3.125" Y="2.404" />
+        <Point X="2.5" Y="2.404" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAEAAAEAAjMgAAJIAAAEAAAAAAAAEhAAAoCI=</HashCode>
+      <FileName>SummaryInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.View">
+    <Position X="3" Y="3" Width="2" />
+    <Members>
+      <Field Name="columns" Hidden="true" />
+      <Field Name="database" Hidden="true" />
+      <Method Name="InternalValidate" Hidden="true" />
+      <Field Name="sql" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+      <Field Name="tables" Hidden="true" />
+      <Method Name="View" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerHandle" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.5" Y="2.119" />
+        <Point X="3.5" Y="3" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="Database" Type="Microsoft.Deployment.WindowsInstaller.Database" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="7.196" />
+        <Point X="3.75" Y="7.562" />
+        <Point X="2.75" Y="7.562" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.168" Y="0.16" Height="0.16" Width="0.831" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Columns" Type="Microsoft.Deployment.WindowsInstaller.ColumnInfo" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="7.196" />
+        <Point X="4.25" Y="7.562" />
+        <Point X="5.25" Y="7.562" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.168" Y="0.152" Height="0.16" Width="0.787" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ICQAIEQAAEDgABRACQEAQECBAAEAAQAACAAAAAgAACA=</HashCode>
+      <FileName>View.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Database" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Columns" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.638" />
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.TableInfo">
+    <Position X="3" Y="8.5" Width="2" />
+    <Members>
+      <Field Name="columns" Hidden="true" />
+      <Method Name="GetTablePrimaryKeys" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="primaryKeys" Hidden="true" />
+      <Method Name="TableInfo" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Columns" Type="Microsoft.Deployment.WindowsInstaller.ColumnInfo" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="8.5" />
+        <Point X="4.25" Y="8.125" />
+        <Point X="5.25" Y="8.125" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.143" Y="-0.338" Height="0.16" Width="0.787" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAEACAAAAQAQAAEAAAASAAAAAgAAAA=</HashCode>
+      <FileName>TableInfo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Columns" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.ColumnInfo">
+    <Position X="5.25" Y="7.25" Width="2" />
+    <Members>
+      <Method Name="ColumnInfo" Hidden="true" />
+      <Field Name="isLocalizable" Hidden="true" />
+      <Field Name="isRequired" Hidden="true" />
+      <Field Name="isTemporary" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="size" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+      <Field Name="type" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAgCAEEIAAABQgQAAFIAAAAQAAAAIAEAA=</HashCode>
+      <FileName>ColumnInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.CustomActionAttribute">
+    <Position X="5.25" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="CustomActionAttribute" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CustomActionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.Installation">
+    <Position X="12.5" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="context" Hidden="true" />
+      <Method Name="Installation" Hidden="true" />
+      <Field Name="installationCode" Hidden="true" />
+      <Property Name="InstallationCode" Hidden="true" />
+      <Property Name="InstallationType" Hidden="true" />
+      <Field Name="sourceList" Hidden="true" />
+      <Field Name="userSid" Hidden="true" />
+    </Members>
+    <AssociationLine Name="SourceList" Type="Microsoft.Deployment.WindowsInstaller.SourceList" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.75" Y="1.95" />
+        <Point X="13.75" Y="2.298" />
+        <Point X="14.75" Y="2.298" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.076" Y="0.114" Height="0.16" Width="0.868" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACIhAAAoAQAACACAAAAABAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Installation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SourceList" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.InstallationPart">
+    <Position X="17" Y="3" Width="2" />
+    <Members>
+      <Field Name="id" Hidden="true" />
+      <Property Name="Id" Hidden="true" />
+      <Method Name="InstallationPart" Hidden="true" />
+      <Field Name="productCode" Hidden="true" />
+      <Property Name="ProductCode" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Product" Type="Microsoft.Deployment.WindowsInstaller.ProductInstallation" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.611" Y="3.967" />
+        <Point X="17.611" Y="4.519" />
+        <Point X="14.76" Y="4.519" />
+        <Point X="14.76" Y="6.438" />
+        <Point X="12.25" Y="6.438" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="4.65" Y="2.262" Height="0.16" Width="0.703" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAIgA=</HashCode>
+      <FileName>InstallationPart.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Product" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.ProductInstallation">
+    <Position X="10" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="EnumFeatures" Hidden="true" />
+      <Method Name="EnumProducts" Hidden="true" />
+      <Method Name="EnumRelatedProducts" Hidden="true" />
+      <Property Name="InstallationType" Hidden="true" />
+      <Field Name="properties" Hidden="true" />
+      <Property Name="State" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.Installation" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.312" Y="1.95" />
+        <Point X="13.312" Y="2.312" />
+        <Point X="12.25" Y="2.312" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="AllProducts" Type="Microsoft.Deployment.WindowsInstaller.ProductInstallation" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.5" Y="7.273" />
+        <Point X="10.5" Y="7.523" />
+        <Point X="11.562" Y="7.523" />
+        <Point X="11.562" Y="7.273" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.068" Y="0.052" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Features" Type="Microsoft.Deployment.WindowsInstaller.FeatureInstallation" FixedToPoint="true">
+      <Path>
+        <Point X="12.25" Y="6.813" />
+        <Point X="15" Y="6.813" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.922" Y="0.05" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>UAIEYrAGAAAACQBAKEABAAoASA0ARQAASUIGBAAIIAA=</HashCode>
+      <FileName>ProductInstallation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AllProducts" />
+      <Property Name="Features" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.PatchInstallation">
+    <Position X="12.5" Y="2.75" Width="2" />
+    <Members>
+      <Method Name="EnumPatches" Hidden="true" />
+      <Property Name="InstallationType" Hidden="true" />
+      <Method Name="PatchInstallation" Hidden="true" />
+      <Field Name="productCode" Hidden="true" />
+      <Property Name="State" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.Installation" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.562" Y="1.95" />
+        <Point X="13.562" Y="2.75" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="AllPatches" Type="Microsoft.Deployment.WindowsInstaller.PatchInstallation" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.938" Y="5.98" />
+        <Point X="12.938" Y="6.23" />
+        <Point X="14" Y="6.23" />
+        <Point X="14" Y="5.98" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.093" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAgsgCACAAAAAAAKEAAAgAAAgAAAAAAAgIAFAAAIAA=</HashCode>
+      <FileName>PatchInstallation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AllPatches" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.ComponentInstallation">
+    <Position X="17" Y="5" Width="2" />
+    <Members>
+      <Method Name="ComponentInstallation" Hidden="true" />
+      <Method Name="EnumClients" Hidden="true" />
+      <Method Name="EnumComponents" Hidden="true" />
+      <Method Name="EnumQualifiers" Hidden="true" />
+      <Method Name="GetProductCode" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="Microsoft.Deployment.WindowsInstaller.ComponentInstallation.Qualifier" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ComponentInstallation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallationPart" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.111" Y="3.967" />
+        <Point X="18.111" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="AllComponents" Type="Microsoft.Deployment.WindowsInstaller.ComponentInstallation" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.375" Y="7.443" />
+        <Point X="17.375" Y="7.693" />
+        <Point X="18.625" Y="7.693" />
+        <Point X="18.625" Y="7.443" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.068" Y="0.052" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ClientProducts" Type="Microsoft.Deployment.WindowsInstaller.ProductInstallation" FixedFromPoint="true">
+      <Path>
+        <Point X="17" Y="7.188" />
+        <Point X="12.25" Y="7.188" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="3.658" Y="-0.195" Height="0.16" Width="1.087" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AUAAAAACAAAAAAIAEAgQAAQAAAAAAAAEAAAABAAAAAA=</HashCode>
+      <FileName>ComponentInstallation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AllComponents" />
+      <Property Name="ClientProducts" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.FeatureInstallation">
+    <Position X="15" Y="4.75" Width="1.75" />
+    <Members>
+      <Method Name="FeatureInstallation" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="Microsoft.Deployment.WindowsInstaller.FeatureInstallation.UsageData" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>FeatureInstallation.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallationPart" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.889" Y="3.967" />
+        <Point X="17.889" Y="4.804" />
+        <Point X="16.75" Y="4.804" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAACAAAAAABAAAAAA=</HashCode>
+      <FileName>FeatureInstallation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.SourceList">
+    <Position X="14.75" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="ClearSourceType" Hidden="true" />
+      <Method Name="Contains" Hidden="true" />
+      <Method Name="CopyTo" Hidden="true" />
+      <Method Name="EnumSources" Hidden="true" />
+      <Field Name="installation" Hidden="true" />
+      <Field Name="mediaList" Hidden="true" />
+      <Method Name="SourceList" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+    </Members>
+    <AssociationLine Name="MediaList" Type="Microsoft.Deployment.WindowsInstaller.MediaDisk" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="16.75" Y="2.375" />
+        <Point X="17.667" Y="2.375" />
+        <Point X="17.667" Y="1.789" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.029" Y="0.377" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BCIAAEAAEABAABgQCAAABIQAAFAQAAAAAAAABARwIgA=</HashCode>
+      <FileName>SourceList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="MediaList" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.ComponentInfo">
+    <Position X="8" Y="5.5" Width="1.5" />
+    <Members>
+      <Method Name="ComponentInfo" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="session" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAAAAIAAAAAAAAAAAEAACQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ComponentInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.FeatureInfo">
+    <Position X="8" Y="7.5" Width="1.75" />
+    <Members>
+      <Method Name="FeatureInfo" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="session" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAAAAIAAAggAEAAAAEAACQQAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FeatureInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.InstallerException">
+    <Position X="11.75" Y="7.5" Width="2.25" />
+    <Members>
+      <Method Name="Combine" Hidden="true" />
+      <Field Name="errorCode" Hidden="true" />
+      <Field Name="errorData" Hidden="true" />
+      <Method Name="ExceptionFromReturnCode" Hidden="true" />
+      <Method Name="GetObjectData" Hidden="true" />
+      <Method Name="GetSystemMessage" Hidden="true" />
+      <Method Name="InstallerException" Hidden="true" />
+      <Method Name="SaveErrorRecord" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>hAAAAAAAAAAAAAQAAAAAAAAgAAgIAAAIAAABIAAAQAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.BadQuerySyntaxException" Collapsed="true">
+    <Position X="11.75" Y="9.75" Width="2.25" />
+    <Members>
+      <Method Name="BadQuerySyntaxException" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerException" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.938" Y="9.119" />
+        <Point X="12.938" Y="9.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.InstallCanceledException" Collapsed="true">
+    <Position X="14.25" Y="9.75" Width="2.25" />
+    <Members>
+      <Method Name="InstallCanceledException" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerException" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.375" Y="9.119" />
+        <Point X="13.375" Y="9.631" />
+        <Point X="14.25" Y="9.631" />
+        <Point X="14.25" Y="9.813" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.InvalidHandleException" Collapsed="true">
+    <Position X="14.25" Y="9" Width="2.25" />
+    <Members>
+      <Method Name="InvalidHandleException" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerException" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.812" Y="9.119" />
+        <Point X="13.812" Y="9.375" />
+        <Point X="14.25" Y="9.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Microsoft.Deployment.WindowsInstaller.MergeException">
+    <Position X="14.25" Y="7.5" Width="2.25" />
+    <Members>
+      <Field Name="conflictCounts" Hidden="true" />
+      <Field Name="conflictTables" Hidden="true" />
+      <Method Name="GetObjectData" Hidden="true" />
+      <Method Name="MergeException" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Microsoft.Deployment.WindowsInstaller.InstallerException" FixedFromPoint="true">
+      <Path>
+        <Point X="14" Y="8.813" />
+        <Point X="14.25" Y="8.813" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAEABAABAgAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Microsoft.Deployment.WindowsInstaller.MediaDisk">
+    <Position X="17" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="diskId" Hidden="true" />
+      <Field Name="diskPrompt" Hidden="true" />
+      <Method Name="MediaDisk" Hidden="true" />
+      <Field Name="volumeLabel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAgAAIAAAACAAAAAEAAAABAAAAAA=</HashCode>
+      <FileName>MediaDisk.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Microsoft.Deployment.WindowsInstaller.InstallCost">
+    <Position X="10" Y="8" Width="1.25" />
+    <Members>
+      <Field Name="cost" Hidden="true" />
+      <Field Name="driveName" Hidden="true" />
+      <Method Name="InstallCost" Hidden="true" />
+      <Field Name="tempCost" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAIAAAAACBAAAAgQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InstallCost.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Microsoft.Deployment.WindowsInstaller.ShortcutTarget">
+    <Position X="19.5" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="componentCode" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Field Name="feature" Hidden="true" />
+      <Method Name="GetHashCode" Hidden="true" />
+      <Method Name="operator !=" Hidden="true" />
+      <Method Name="operator ==" Hidden="true" />
+      <Field Name="productCode" Hidden="true" />
+      <Method Name="ShortcutTarget" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAgAAACAAAAAAAAgAAAAAAAAAAAAIAIAAIACAAAIiA=</HashCode>
+      <FileName>ShortcutTarget.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ActionResult" Collapsed="true">
+    <Position X="22" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQgAAAAAAAAAgAAAACAAAAAAAACAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ControlAttributes" Collapsed="true">
+    <Position X="24.25" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AADAAlQAAAEgAoNFAAgAACAgAQAAAooMAAAAgCkCAkA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.CustomActionTypes" Collapsed="true">
+    <Position X="24.25" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABCCFAAAAAhJAAHAAAAAoAAAAAAAAABCAIEEQEAgAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.DatabaseOpenMode" Collapsed="true">
+    <Position X="22" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAYAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallLogModes" Collapsed="true">
+    <Position X="22" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABgEBAAIAAAQBAAAAAABEAAQAAABSAgAAEAEWQAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallMessage" Collapsed="true">
+    <Position X="22" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABgABAAAAAAQBAAAAAABEAAQAAABSAgAAEAECAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallMode" Collapsed="true">
+    <Position X="22" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAQAAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallRunMode" Collapsed="true">
+    <Position X="22" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAIEACAAQAAAQCAAAAAQAACEAABAQAgAECAAAAAgA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallState" Collapsed="true">
+    <Position X="22" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAgAAAFACgACQJAAAAABQAAQAAAAAAAAAABA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallType" Collapsed="true">
+    <Position X="22" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAIAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.InstallUIOptions" Collapsed="true">
+    <Position X="22" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIACAAAAAAQAAAIACEAAAAAAAAAgIAAAGAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.MessageResult" Collapsed="true">
+    <Position X="22" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAASAAQASBAAAAAAAAAACAAAAAAAAABAAEAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ReinstallModes" Collapsed="true">
+    <Position X="22" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAACAAAAAAAAQAAAQBAAAABAAAAEAAgAIABA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.TransformErrors" Collapsed="true">
+    <Position X="22" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAAAAAABAAAAAAAAAAQAAAAAAAACAAAgAAEAABA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.TransformValidations" Collapsed="true">
+    <Position X="22" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACAQIAAAAAAAAAAAAAEgAAAQAAIAQAQEAAAQ=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.UserContexts" Collapsed="true">
+    <Position X="22" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAEAAAAAAIAAAAAAAAAAIAAQAEAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ValidationError" Collapsed="true">
+    <Position X="22" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>oCMBAAABEAMAAAAAAAAQAAIASigAABKBABgCgEEAAA4=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ViewModifyMode" Collapsed="true">
+    <Position X="22" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAQAAEQAAADgAAAACAAAAACAAAEAAQAAAAAAAAAAACA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ComponentAttributes" Collapsed="true">
+    <Position X="24.25" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAIAAAAAAAEAAACAAAIAAAgQCAAAAgAAEAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.DialogAttributes" Collapsed="true">
+    <Position X="24.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAQAAAAAAQIEAAAAACAAEAAAAAAIgAAggAAAAgA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.FeatureAttributes" Collapsed="true">
+    <Position X="24.25" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAQEAAAEAAAAAAAAAAAAAAEAAAAAABABAAAAEAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.FileAttributes" Collapsed="true">
+    <Position X="24.25" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAIAIAAAAAAAAAgAAAAAEAAAAAAEIAAEEAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.IniFileAction" Collapsed="true">
+    <Position X="24.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AggAAAAAAAAAEAEAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.LocatorTypes" Collapsed="true">
+    <Position X="24.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.RegistryRoot" Collapsed="true">
+    <Position X="24.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACgACAAAIAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.RemoveFileModes" Collapsed="true">
+    <Position X="24.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAAAEAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ServiceAttributes" Collapsed="true">
+    <Position X="24.25" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQCAAAAAQAAAAAAAAACAAAgAAAAAAAAAAgAAABEAAAI=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.ServiceControlEvents" Collapsed="true">
+    <Position X="24.25" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAEAAAAAEAAgAAJAAAAAEAAAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.TextStyles" Collapsed="true">
+    <Position X="24.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAIAAAAAAAAACAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Microsoft.Deployment.WindowsInstaller.UpgradeAttributes" Collapsed="true">
+    <Position X="24.25" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAQAAAAAAAAAAgIAAAAABAAAAAAIAA=</HashCode>
+      <FileName>ColumnEnums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Microsoft.Deployment.WindowsInstaller.InapplicablePatchHandler" Collapsed="true">
+    <Position X="16.75" Y="9.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Installer.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Microsoft.Deployment.WindowsInstaller.ExternalUIHandler" Collapsed="true">
+    <Position X="16.75" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAABAAAAAABAAAAACBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExternalUIHandler.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Microsoft.Deployment.WindowsInstaller.ExternalUIRecordHandler" Collapsed="true">
+    <Position X="16.75" Y="9" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAABAAAAACBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExternalUIHandler.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Verdana" Size="8" />
+</ClassDiagram>

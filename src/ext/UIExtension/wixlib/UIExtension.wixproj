@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="UIExtension.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{2D4FF07B-26F8-4BEF-B41C-E4383F86DC32}</ProjectGuid>
+    <OutputName>ui</OutputName>
+    <OutputType>Library</OutputType>
+    <BindFiles>true</BindFiles>
+    <Pedantic>true</Pedantic>
+    <!-- Suppress ICE45 until we get a new darice.cub drop that properly supports the ElevationShield control attribute bit -->
+    <SuppressIces>ICE45</SuppressIces>
+    <Cultures>en-us</Cultures>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <IncludeSearchPaths>..\..\ca\inc</IncludeSearchPaths>
+    <DefineConstants>
+      $(DefineConstants);
+      bannerBmp=$(MSBuildProjectDirectory)\Bitmaps\bannrbmp.bmp;
+      dialogBmp=$(MSBuildProjectDirectory)\Bitmaps\dlgbmp.bmp;
+      exclamationIco=$(MSBuildProjectDirectory)\Bitmaps\exclamic.ico;
+      infoIco=$(MSBuildProjectDirectory)\Bitmaps\info.ico;
+      licenseRtf=$(MSBuildProjectDirectory)\license.rtf;
+      newIco=$(MSBuildProjectDirectory)\Bitmaps\new.ico;
+      upIco=$(MSBuildProjectDirectory)\Bitmaps\up.ico;
+    </DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="BrowseDlg.wxs" />
+    <Compile Include="CancelDlg.wxs" />
+    <Compile Include="Common.wxs" />
+    <Compile Include="Common_x86.wxs" />
+    <Compile Include="CustomizeDlg.wxs" />
+    <Compile Include="DiskCostDlg.wxs" />
+    <Compile Include="ErrorDlg.wxs" />
+    <Compile Include="ErrorProgressText.wxs" />
+    <Compile Include="ExitDialog.wxs" />
+    <Compile Include="FatalError.wxs" />
+    <Compile Include="FilesInUse.wxs" />
+    <Compile Include="InvalidDirDlg.wxs" />
+    <Compile Include="LicenseAgreementDlg.wxs" />
+    <Compile Include="MaintenanceTypeDlg.wxs" />
+    <Compile Include="MaintenanceWelcomeDlg.wxs" />
+    <Compile Include="MsiRMFilesInUse.wxs" />
+    <Compile Include="OutOfDiskDlg.wxs" />
+    <Compile Include="OutOfRbDiskDlg.wxs" />
+    <Compile Include="PrepareDlg.wxs" />
+    <Compile Include="ProgressDlg.wxs" />
+    <Compile Include="ResumeDlg.wxs" />
+    <Compile Include="SetupTypeDlg.wxs" />
+    <Compile Include="UserExit.wxs" />
+    <Compile Include="VerifyReadyDlg.wxs" />
+    <Compile Include="WaitForCostingDlg.wxs" />
+    <Compile Include="WelcomeDlg.wxs" />
+    <Compile Include="WixUI_FeatureTree.wxs" />
+    <Compile Include="InstallDirDlg.wxs" />
+    <Compile Include="WixUI_InstallDir.wxs" />
+    <Compile Include="WelcomeEulaDlg.wxs" />
+    <Compile Include="WixUI_Minimal.wxs" />
+    <Compile Include="WixUI_Mondo.wxs" />
+    <Compile Include="AdvancedWelcomeEulaDlg.wxs" />
+    <Compile Include="FeaturesDlg.wxs" />
+    <Compile Include="InstallScopeDlg.wxs" />
+    <Compile Include="WixUI_Advanced.wxs" />
+    <EmbeddedResource Include="WixUI_ar-SA.wxl" />
+    <EmbeddedResource Include="WixUI_bg-BG.wxl" />
+    <EmbeddedResource Include="WixUI_ca-ES.wxl" />
+    <EmbeddedResource Include="WixUI_cs-CZ.wxl" />
+    <EmbeddedResource Include="WixUI_da-DK.wxl" />
+    <EmbeddedResource Include="WixUI_de-DE.wxl" />
+    <EmbeddedResource Include="WixUI_el-GR.wxl" />
+    <EmbeddedResource Include="WixUI_en-US.wxl" />
+    <EmbeddedResource Include="WixUI_es-ES.wxl" />
+    <EmbeddedResource Include="WixUI_et-EE.wxl" />
+    <EmbeddedResource Include="WixUI_fi-FI.wxl" />
+    <EmbeddedResource Include="WixUI_fr-FR.wxl" />
+    <EmbeddedResource Include="WixUI_he-IL.wxl" />
+    <EmbeddedResource Include="WixUI_hi-IN.wxl" />
+    <EmbeddedResource Include="WixUI_hr-HR.wxl" />
+    <EmbeddedResource Include="WixUI_hu-HU.wxl" />
+    <EmbeddedResource Include="WixUI_it-IT.wxl" />
+    <EmbeddedResource Include="WixUI_ja-JP.wxl" />
+    <EmbeddedResource Include="WixUI_ko-KR.wxl" />
+    <EmbeddedResource Include="WixUI_kk-KZ.wxl" />
+    <EmbeddedResource Include="WixUI_lt-LT.wxl" />
+    <EmbeddedResource Include="WixUI_lv-LV.wxl" />
+    <EmbeddedResource Include="WixUI_nb-NO.wxl" />
+    <EmbeddedResource Include="WixUI_nl-NL.wxl" />
+    <EmbeddedResource Include="WixUI_pl-pl.wxl" />
+    <EmbeddedResource Include="WixUI_pt-BR.wxl" />
+    <EmbeddedResource Include="WixUI_pt-PT.wxl" />
+    <EmbeddedResource Include="WixUI_ro-RO.wxl" />
+    <EmbeddedResource Include="WixUI_ru-RU.wxl" />
+    <EmbeddedResource Include="WixUI_sk-SK.wxl" />
+    <EmbeddedResource Include="WixUI_sl-SI.wxl" />
+    <EmbeddedResource Include="WixUI_sr-Latn-CS.wxl" />
+    <EmbeddedResource Include="WixUI_sv-SE.wxl" />
+    <EmbeddedResource Include="WixUI_th-TH.wxl" />
+    <EmbeddedResource Include="WixUI_tr-TR.wxl" />
+    <EmbeddedResource Include="WixUI_uk-UA.wxl" />
+    <EmbeddedResource Include="WixUI_zh-CN.wxl" />
+    <EmbeddedResource Include="WixUI_zh-HK.wxl" />
+    <EmbeddedResource Include="WixUI_zh-TW.wxl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ca\uica.vcxproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

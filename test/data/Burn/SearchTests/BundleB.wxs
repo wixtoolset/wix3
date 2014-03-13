@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="BundleB.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="~$(var.TestName) - Bundle B" Version="$(var.Version)" UpgradeCode="4A4C2DBB-2E22-4FDB-A58A-5A3EF836D619">
+    <RelatedBundle Id="D321DBBF-0CD7-4FC4-978D-B90A72AE7581" Action="Addon" />
+    <Log Prefix="~$(var.TestName)_BundleB"/>
+
+    <Variable Name="TestName" Value="$(var.TestName)" />
+    <util:ComponentSearch Guid="BCA72DFD-3E25-4926-83A9-3B9887375B4E" Result="keyPath" Variable="ComponentKeyPath" />
+    <util:ComponentSearch Guid="BCA72DFD-3E25-4926-83A9-3B9887375B4E" Result="state" Variable="ComponentState" />
+    <util:ComponentSearch Guid="BCA72DFD-3E25-4926-83A9-3B9887375B4E" Result="directory" Variable="ComponentDirectory" />
+
+    <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+      <Payload Name='BootstrapperCore.config' SourceFile='!(bindpath.build)\TestBA.BootstrapperCore.config' />
+      <Payload SourceFile='!(bindpath.build)\TestBA.dll' />
+    </BootstrapperApplicationRef>
+
+    <WixVariable Id='WixMbaPrereqPackageId' Value='ignored' />
+    <WixVariable Id='WixMbaPrereqLicenseUrl' Value='ignored' />
+
+    <Chain DisableSystemRestore="yes">
+      <MsiPackage Id="PackageB" Name="~$(var.TestName)_PackageB.msi" Compressed="yes" SourceFile="!(bindpath.packageB)" Vital="yes" Visible="yes" InstallCondition="ComponentKeyPath AND ComponentState = 3 AND ComponentDirectory" />
+    </Chain>
+  </Bundle>
+</Wix>

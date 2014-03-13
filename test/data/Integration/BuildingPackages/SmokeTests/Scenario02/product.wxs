@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  This product is designed to exercise many of the often used features of Candle and Light.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product Id="{06E9B76F-E1E9-42ab-861A-97148EF9B755}" Name="WiX Test Product" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{06E9B76F-E1E9-42ab-861A-97148EF9B755}">
+    <Package Description="This package is used for testing purposes" Manufacturer="Microsoft" Compressed="no" InstallerVersion="200" />
+
+    <Media Id="1" />
+
+    <!--Test ?include? -->
+    <?include directories.wxi?>
+
+    <!--Test FeatureRef and FeatureGroupRef-->
+    <FeatureRef Id="Feature1" />
+    <FeatureGroupRef Id="FeatureGroup1" />
+
+    <!--Test Property and PropertyRef-->
+    <!--Test preprocessor variables-->
+    <?define Var1=1?>
+    <Property Id="Property1" Value="$(var.Var1).$(env.OS).$(sys.BUILDARCH)" />
+    <PropertyRef Id="Property2"/> 
+    
+    <!--Test CustomActionRef-->
+    <InstallExecuteSequence>
+      <Custom Action="Assembly2" After="InstallFiles" />
+    </InstallExecuteSequence>
+    
+  </Product>
+  
+</Wix>

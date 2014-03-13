@@ -1,0 +1,30 @@
+//--------------------------------------------------------------------------------------------------
+// <copyright file="shim.rc" company="Outercurve Foundation">
+//   Copyright (c) 2004, Outercurve Foundation.
+//   This software is released under Microsoft Reciprocal License (MS-RL).
+//   The license and further copyright text can be found in the file
+//   LICENSE.TXT at the root directory of the distribution.
+// </copyright>
+// 
+// <summary>
+// Shim to load managed code Office Add-ins resource file.
+// </summary>
+//--------------------------------------------------------------------------------------------------
+
+#define VER_APP
+#define VER_LANG_NEUTRAL
+#define VER_ORIGINAL_FILENAME "shim.dll"
+#define VER_INTERNAL_NAME "shim"
+#define VER_FILE_DESCRIPTION "WiX ClickThrough for Office Addins"
+#include "wix.rc"
+
+// Additional resources here
+#include "resource.h"
+
+STRINGTABLE
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+BEGIN
+IDS_CLRVERSION   "v1.1.4322"
+IDS_ASSEMBLYNAME "Assembly.Name.Goes.Here"
+IDS_CLASSNAME    "ClassNameGoesHere"
+END

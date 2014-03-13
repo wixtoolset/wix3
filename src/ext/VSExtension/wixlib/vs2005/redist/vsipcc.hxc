@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE HelpCollection>
+<HelpCollection 
+	DTDVersion = "1.0" 
+	Id = "vsipcc.8.0" 
+	FileVersion = "8.0.41025.0" 
+	LangId = "1033" 
+	Title = "Microsoft VSIP Combined Help Collection" 
+	Copyright = "Copyright (c) 2005 Microsoft Corporation. All Rights Reserved."
+	>
+	<TOCDef File = "vsipcc.HxT" Id = "InsertTOC:VSIPCC" />
+	<KeywordIndexDef File = "vsipccALinks.HxK"/>
+	<KeywordIndexDef File = "vsipccBLinks.HxK"/>
+	<KeywordIndexDef File = "vsipccCLinks.HxK"/>
+	<KeywordIndexDef File = "vsipccFLinks.HxK"/>
+	<KeywordIndexDef File = "vsipccKLinks.HxK"/>
+	<KeywordIndexDef File = "vsipccSLinks.HxK"/>
+	<KeywordIndexDef File = "vsipccNamedUrls.HxK"/>
+	<KeywordIndexDef File=	"VsipCCSamples.HxK" />
+
+	<ItemMoniker Name = "!DefaultNamedUrlIndex" ProgId = "HxDs.HxIndex" InitData = "VsccNamedUrls"/>
+	<ItemMoniker Name = "!SampleInfo" ProgId = "HxDs.HxSampleCollection" InitData = "Samples"/>
+	<ItemMoniker Name = "!DefaultTOC" ProgId = "HxDs.HxHierarchy" InitData = "TOC"/>
+	<ItemMoniker Name = "!DefaultFullTextSearch" ProgId = "HxDs.HxFullTextSearch" InitData = ""/>
+	<ItemMoniker Name = "!DefaultAssociativeIndex" ProgId = "HxDs.HxIndex" InitData = "A"/>
+	<ItemMoniker Name = "!DefaultDynamicLinkIndex" ProgId = "HxDs.HxIndex" InitData = "B"/>
+	<ItemMoniker Name = "!DefaultCodeIndex" ProgId = "HxDs.HxIndex" InitData = "C"/>
+	<ItemMoniker Name = "!DefaultContextWindowIndex" ProgId = "HxDs.HxIndex" InitData = "F"/>
+	<ItemMoniker Name = "!DefaultKeywordIndex" ProgId = "HxDs.HxIndex" InitData = "K"/>
+	<ItemMoniker Name = "!DefaultSearchWindowIndex" ProgId = "HxDs.HxIndex" InitData = "S"/>
+	<ItemMoniker Name = "!DefaultSampleIndex" ProgId="HxDs.HxIndex" InitData="Samples" />
+</HelpCollection>
+

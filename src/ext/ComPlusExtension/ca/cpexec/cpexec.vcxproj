@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="cpexec.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F72D34CA-48DA-4DFD-91A9-A0C78BEF6981}</ProjectGuid>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <TargetName>cpexec</TargetName>
+    <ProjectModuleDefinitionFile>cpexec.def</ProjectModuleDefinitionFile>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\wcautil</ProjectAdditionalIncludeDirectories>
+    <ProjectAdditionalLinkLibraries>msi.lib;dutil$(MultiTargetTargetNameSuffix).lib;wcautil$(MultiTargetTargetNameSuffix).lib</ProjectAdditionalLinkLibraries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ClCompile Include="cpappexec.cpp" />
+    <ClCompile Include="cpapproleexec.cpp" />
+    <ClCompile Include="cpasmexec.cpp" />
+    <ClCompile Include="cpexec.cpp" />
+    <ClCompile Include="cppartexec.cpp" />
+    <ClCompile Include="cppartroleexec.cpp" />
+    <ClCompile Include="cpsubsexec.cpp" />
+    <ClCompile Include="cputilexec.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cpappexec.h" />
+    <ClInclude Include="cpapproleexec.h" />
+    <ClInclude Include="cpasmexec.h" />
+    <ClInclude Include="cppartexec.h" />
+    <ClInclude Include="cppartroleexec.h" />
+    <ClInclude Include="cpsubsexec.h" />
+    <ClInclude Include="cputilexec.h" />
+    <ClInclude Include="precomp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpexec.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="cpexec.rc" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

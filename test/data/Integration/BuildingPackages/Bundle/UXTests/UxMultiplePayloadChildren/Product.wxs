@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?define TestDataDirectory="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\Bundle\Files"?>
+
+  <Bundle Name="Wix Test Bundle" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+
+    <UX Name="Setup.exe" SourceFile="$(var.TestDataDirectory)\Bootstrapper.exe">
+      	<Payload Name="PayloadFile1" SourceFile="$(var.MyVariable1)" />
+      	<Payload Name="PayloadFile2" SourceFile="$(var.MyVariable2)" />      
+	<Payload Name="PayloadFile3" SourceFile="$(var.MyVariable3)" />
+      	<Payload Name="PayloadFile4" SourceFile="$(var.MyVariable4)" />      
+	<Payload Name="PayloadFile5" SourceFile="$(var.MyVariable5)" />
+      	<Payload Name="PayloadFile6" SourceFile="$(var.MyVariable6)" />      
+	<Payload Name="PayloadFile7" SourceFile="$(var.MyVariable7)" />
+      	<Payload Name="PayloadFile8" SourceFile="$(var.MyVariable8)" />      
+	<Payload Name="PayloadFile9" SourceFile="$(var.MyVariable9)" />
+      	<Payload Name="PayloadFile10" SourceFile="$(var.MyVariable10)" />      
+	<Payload Name="PayloadFile11" SourceFile="$(var.MyVariable11)" />
+      	<Payload Name="PayloadFile12" SourceFile="$(var.MyVariable12)" />      
+	<Payload Name="PayloadFile13" SourceFile="$(var.MyVariable13)" />
+      	<Payload Name="PayloadFile14" SourceFile="$(var.MyVariable14)" />      
+	<Payload Name="PayloadFile15" SourceFile="$(var.MyVariable15)" />
+      	<Payload Name="PayloadFile16" SourceFile="$(var.MyVariable16)" />
+      	<Payload Name="PayloadFile17" SourceFile="$(var.MyVariable17)" />
+      	<Payload Name="PayloadFile18" SourceFile="$(var.MyVariable18)" />      
+	<Payload Name="PayloadFile19" SourceFile="$(var.MyVariable19)" />
+      	<Payload Name="PayloadFile20" SourceFile="$(var.MyVariable20)" />      
+	<Payload Name="PayloadFile21" SourceFile="$(var.MyVariable21)" />
+      	<Payload Name="PayloadFile22" SourceFile="$(var.MyVariable22)" />      
+	<Payload Name="PayloadFile23" SourceFile="$(var.MyVariable23)" />
+      	<Payload Name="PayloadFile24" SourceFile="$(var.MyVariable24)" />      
+	<Payload Name="PayloadFile25" SourceFile="$(var.MyVariable25)" />
+      	<Payload Name="PayloadFile26" SourceFile="$(var.MyVariable26)" />      
+	<Payload Name="PayloadFile27" SourceFile="$(var.MyVariable27)" />
+      	<Payload Name="PayloadFile28" SourceFile="$(var.MyVariable28)" />      
+	<Payload Name="PayloadFile29" SourceFile="$(var.MyVariable29)" />
+      	<Payload Name="PayloadFile30" SourceFile="$(var.MyVariable30)" />      
+	<Payload Name="PayloadFile31" SourceFile="$(var.MyVariable31)" />
+      	<Payload Name="PayloadFile32" SourceFile="$(var.MyVariable32)" />
+	<Payload Name="PayloadFile33" SourceFile="$(var.MyVariable33)" />
+      	<Payload Name="PayloadFile34" SourceFile="$(var.MyVariable34)" />      
+	<Payload Name="PayloadFile35" SourceFile="$(var.MyVariable35)" />
+      	<Payload Name="PayloadFile36" SourceFile="$(var.MyVariable36)" />      
+	<Payload Name="PayloadFile37" SourceFile="$(var.MyVariable37)" />
+      	<Payload Name="PayloadFile38" SourceFile="$(var.MyVariable38)" />      
+	<Payload Name="PayloadFile39" SourceFile="$(var.MyVariable39)" />
+      	<Payload Name="PayloadFile40" SourceFile="$(var.MyVariable40)" />
+      	<Payload Name="PayloadFile41" SourceFile="$(var.MyVariable41)" />
+      	<Payload Name="PayloadFile42" SourceFile="$(var.MyVariable42)" />      
+	<Payload Name="PayloadFile43" SourceFile="$(var.MyVariable43)" />
+      	<Payload Name="PayloadFile44" SourceFile="$(var.MyVariable44)" />      
+	<Payload Name="PayloadFile45" SourceFile="$(var.MyVariable45)" />
+      	<Payload Name="PayloadFile46" SourceFile="$(var.MyVariable46)" />      
+	<Payload Name="PayloadFile47" SourceFile="$(var.MyVariable47)" />
+      	<Payload Name="PayloadFile48" SourceFile="$(var.MyVariable48)" />      
+	<Payload Name="PayloadFile49" SourceFile="$(var.MyVariable49)" />
+      	<Payload Name="PayloadFile50" SourceFile="$(var.MyVariable50)" /> 
+    </UX>
+
+    <Chain>
+      <MsiPackage SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi"/>
+    </Chain>
+    
+  </Bundle>
+</Wix>

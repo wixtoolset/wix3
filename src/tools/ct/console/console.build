@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="console.build" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<project name="ct" default="ct.console.inc" xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd">
+  <description>
+    console.build - Builds the ct project (ct.exe).
+  </description>
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Properties
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Include the global build properties -->
+  <include buildfile="..\..\..\wix.include" unless="${property::exists('wix.properties.defined')}" />
+
+  <!-- ct-specific properties -->
+  <property name="dir.src.ct.console" value="${dir.src.ct}\console" readonly="true" />
+  <property name="ct.console.file.res.target" value="${dir.build.ct}\ct.res" readonly="true" />
+
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Targets
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Build -->
+  <target name="ct.console.build" description="Peforms a full rebuild (clean then build)" depends="ct.clean, ct.inc" />
+
+  <!-- Clean -->
+  <target name="ct.console.clean" description="Cleans the build">
+    <delete failonerror="false">
+      <fileset basedir="${dir.target.wix}">
+        <include name="ct.exe" />
+        <include name="ct.pdb" />
+      </fileset>
+    </delete>
+  </target>
+
+  <!-- Inc -->
+  <target name="ct.console.inc" description="Performs an incremental build" depends="makeDirs, createKeyFile">
+    <!-- Copy the ct.exe.config -->
+    <copy file="${dir.src.ct.console}\app.config" tofile="${dir.target.wix}\ct.exe.config" />
+
+    <!-- Compile the ct.rc file -->
+    <rc rcfile="${dir.src.ct.console}\ct.rc" langid="0" output="${ct.console.file.res.target}" options="${rc.standardOptions} ${cl.standardIncludes}" />
+
+    <csc
+      target="exe"
+      output="${dir.target.wix}\ct.exe"
+      debug="${csc.debug}"
+      optimize="${ship}"
+      define="${csc.defines}"
+      warnaserror="true"
+      warninglevel="4"
+      checked="true"
+    >
+      <sources basedir="${dir.src.ct.console}">
+        <include name="${file.wixver}" />
+        <include name="${file.wixdistribution}" />
+        <include name="${file.wixkey}" />
+        <include name="AssemblyInfo.cs" />
+        <include name="ct.cs" />
+      </sources>
+      <references basedir="${dir.target.wix}">
+        <include name="wix.dll" />
+        <include name="wconsole.dll" />
+      </references>
+      <arg value="-win32res:&quot;${ct.console.file.res.target}&quot;" />
+    </csc>
+  </target>
+
+</project>

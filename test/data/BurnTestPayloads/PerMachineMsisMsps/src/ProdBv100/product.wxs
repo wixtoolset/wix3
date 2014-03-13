@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<!-- ProdBv100 -->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="398B8855-E3B8-4559-9C2B-3ED457C5A889" Name="Burn Test Package B" Language="1033" Version="1.0.0.0" Manufacturer="My Company" UpgradeCode="77AE8779-8689-4DC9-BB1B-64B500078104">
+
+        <Package Description="A Test product that can be patched" Comments="A Test product that can be patched" InstallerVersion="300" Compressed="yes" />
+
+        <Property Id="ALLUSERS" Value="1" />
+
+        <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="Program Files">
+                <Directory Id="INSTALLDIR" Name="ProdB" />
+            </Directory>
+        </Directory>
+
+        <Feature Id="Complete" Title="Complete" Level="1" ConfigurableDirectory="INSTALLDIR" InstallDefault="local" TypicalDefault="install" AllowAdvertise="no">
+
+            <ComponentRef Id="C_Source" />
+        </Feature>
+
+    </Product>
+
+    <Fragment>
+        <DirectoryRef Id="INSTALLDIR">
+            <Component Id="C_Source" Guid="1041F408-A18C-4B77-B833-BDD48902DAA3" DiskId="1">
+
+                <File Id="F_Source" Name="product.wxs" Source="$(sys.SOURCEFILEPATH)" KeyPath="yes" />
+
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

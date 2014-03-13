@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Wix Test Product" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+    <Package InstallerVersion="200"/>
+    <Media Id="1" />
+
+    <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\directories.wxi?>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentGroupRef Id ="test"/>
+    </Feature>
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="Component1" DiskId="1" Guid="*" >
+        <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\file1.wxi?>
+      </Component>
+
+        <Component Id="Component2" DiskId="1" Guid="*" >
+         <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\file2.wxi?>
+        </Component>
+    </DirectoryRef>
+
+     <ComponentGroup Id="test">
+        <ComponentRef Id ="Component1"/>
+        <ComponentGroupRef Id="TEST1"/>
+    </ComponentGroup>
+
+    <ComponentGroup Id="TEST1">
+        <ComponentRef Id ="Component2"/>
+    </ComponentGroup>
+
+  </Product>
+</Wix>

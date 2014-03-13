@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="UserMissingParentComponent.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Codepage="932" Id="000C1109-0000-0000-C000-550000000046" Name="TestSecureObjProduct" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{1B2C1E1E-8559-4694-892D-F44E3FE03BEF}">
+    <Package Description="Test SecureObjects Custom Action" Comments="Test from: wix\examples\test\secureobjects\product.wxs" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Property Id="MynewServiceUser" Value="NT AUTHORITY\LocalService" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestSecureObjectsProductDirectory" ShortName="secobj" Name="Test Secure Objects">
+          <Component Id="TestSecureObjectsServiceComponent" Guid="00030829-0000-0000-C000-570000000046">
+            <File Id="MynewService.exe" Name="MynewService.exe" Source="c:\data\MynewService.exe" DiskId="1" KeyPath="yes">
+              <util:PermissionEx User="Guests" GenericAll="yes" />
+              <util:PermissionEx User="Everyone" GenericAll="yes" />
+              <util:PermissionEx User="LocalService" GenericAll="yes" />
+            </File>
+            
+           
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestSecureObjectsProductFeature" Title="Test SecureObjects Feature" Level="1">
+      <ComponentRef Id="TestSecureObjectsServiceComponent" />
+      <ComponentRef Id="TestSecureObjectsCreateFolderComponent" />
+    </Feature>
+
+    <util:User Id="testUser" Name="scotk" Domain="redmond" CanNotChangePassword="no" />
+    <util:User Id="every1" Name="Everyone" />
+    
+
+  </Product>
+</Wix>

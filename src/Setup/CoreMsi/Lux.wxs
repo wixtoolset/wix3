@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="Lux.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="LuxComponents" Directory="BinFolder">
+            <Component>
+                <File Source="lux.exe" />
+                <File Source="lux.exe.config" />
+            </Component>
+
+            <Component>
+              <File Source="LuxTasks.dll" />
+            </Component>
+
+            <Component>
+                <File Source="nit.exe" />
+                <File Source="nit.exe.config" />
+            </Component>
+
+            <Component>
+                <File Source="WixLuxExtension.dll" />
+            </Component>
+
+            <ComponentRef Id="lux.xsd" />
+            <ComponentGroupRef Id="LuxMsbuildComponents" />
+        </ComponentGroup>
+
+        <Component Directory="DocFolder">
+            <File Source="lux\wixext\Xsd\lux.xsd" />
+        </Component>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="LuxMsbuildComponents"  Directory="MSBuildMSWix3xFolder">
+            <Component>
+                <File Source="lux.targets" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

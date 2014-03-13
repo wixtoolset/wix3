@@ -1,0 +1,132 @@
+﻿<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Deployment Tools Foundation Overview">
+			<param name="Local" value="Content\about.htm">
+		</OBJECT>
+		<UL>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="What's New?">
+					<param name="Local" value="Content\whatsnew.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Change History">
+					<param name="Local" value="Content\history.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Dependencies">
+					<param name="Local" value="Content\dependencies.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Support/Bugs">
+					<param name="Local" value="Content\support.htm">
+				</OBJECT>
+			</LI>
+		</UL>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Deployment Tools Foundation Development Guide">
+			<param name="Local" value="Content\using.htm">
+		</OBJECT>
+		<UL>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Managed Custom Actions">
+					<param name="Local" value="Content\managedcas.htm">
+				</OBJECT>
+				<UL>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="Writing Managed Custom Actions">
+							<param name="Local" value="Content\writingcas.htm">
+						</OBJECT>
+						<UL>
+							<LI><OBJECT type="text/sitemap">
+									<param name="Name" value="Specifying the Runtime Version">
+										<param name="Local" value="Content\caconfig.htm">
+								</OBJECT>
+							</LI>
+							<LI><OBJECT type="text/sitemap">
+									<param name="Name" value="Sample C# Custom Actions">
+									<param name="Local" value="Content\samplecas.htm">
+								</OBJECT>
+							</LI>
+						</UL>
+					</LI>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="Building Managed Custom Actions">
+							<param name="Local" value="Content\buildingcas.htm">
+						</OBJECT>
+					</LI>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="Debugging Managed Custom Actions">
+							<param name="Local" value="Content\debuggingcas.htm">
+						</OBJECT>
+					</LI>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="InstallUtil Notes">
+							<param name="Local" value="Content\installutil.htm">
+						</OBJECT>
+					</LI>
+				</UL>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Working with MSI Databases">
+					<param name="Local" value="Content\databases.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Working with Cabinet Files">
+					<param name="Local" value="Content\cabs.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Working with Install Packages">
+					<param name="Local" value="Content\packages.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Sample Applications">
+					<param name="Local" value="Content\samples.htm">
+				</OBJECT>
+				<UL>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="MSI Inventory">
+							<param name="Local" value="Content\inventory.htm">
+						</OBJECT>
+					</LI>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="WiFile">
+							<param name="Local" value="Content\wifile.htm">
+						</OBJECT>
+					</LI>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="XPack">
+							<param name="Local" value="Content\cabpack.htm">
+						</OBJECT>
+					</LI>
+					<LI><OBJECT type="text/sitemap">
+							<param name="Name" value="DDiff">
+							<param name="Local" value="Content\powerdiff.htm">
+						</OBJECT>
+					</LI>
+				</UL>
+			</LI>
+		</UL>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Deployment Tools Foundation Reference">
+			<param name="Local" value="DTFAPI.chm::/html/R_Project.htm">
+		</OBJECT>
+		<OBJECT type="text/sitemap">
+			<param name="Merge" value="DTFAPI.chm::/DTFAPI.hhc">
+		</OBJECT>
+	</LI>
+</UL>
+</BODY>
+</HTML>

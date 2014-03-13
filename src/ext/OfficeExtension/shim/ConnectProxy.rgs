@@ -1,0 +1,86 @@
+HKCR
+{
+	CreativeCommonsAddin.Connect = s 'Connect Class'
+	{
+		CLSID = s '{24261016-bc91-4429-910d-ac5d3dba2a7f}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{24261016-bc91-4429-910d-ac5d3dba2a7f}' = s 'Connect Class'
+		{
+			ProgID = s 'CreativeCommonsAddin.Connect'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+		}
+	}
+}
+
+HKLM
+{
+	NoRemove Software
+	{
+		NoRemove Microsoft
+		{
+			NoRemove Office
+			{
+				NoRemove Excel
+				{
+					NoRemove Addins
+					{
+						ForceRemove CreativeCommonsAddin.Connect
+						{
+							val 'Description' = s 'Creative Commons License Add-in for Microsoft Office'
+							val 'FriendlyName' = s 'Creative Commons Add-in'
+							val 'LoadBehavior' = d 3
+						}
+					}
+				}
+				NoRemove PowerPoint
+				{
+					NoRemove Addins
+					{
+						ForceRemove CreativeCommonsAddin.Connect
+						{
+							val 'Description' = s 'Creative Commons License Add-in for Microsoft Office'
+							val 'FriendlyName' = s 'Creative Commons Add-in'
+							val 'LoadBehavior' = d 3
+						}
+					}
+				}
+				NoRemove Word
+				{
+					NoRemove Addins
+					{
+						ForceRemove CreativeCommonsAddin.Connect
+						{
+							val 'Description' = s 'Creative Commons License Add-in for Microsoft Office'
+							val 'FriendlyName' = s 'Creative Commons Add-in'
+							val 'LoadBehavior' = d 3
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="27610C70-7E02-41da-8E9D-3DBF9E9228F1" Name="TestAppPoolProduct" Language="1033" Version="0.0.0.0"  Manufacturer="Microsoft Corporation" UpgradeCode="{566663C7-4432-4e0f-8B0B-26C0D2BB26D2}">
+    <Package Description="Test AppPool Product" Comments="Test AppPool Product" InstallerVersion="200" Compressed="yes" />
+
+    <Property Id="PORT" Value="1024" />
+    <Property Id="AppPool1Name" Value="App Pool 1" />
+    <Property Id="WebSiteName" Value="Test web server 2" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestWebSiteProductDirectory" ShortName="testassm" Name="Test File">
+          <Component Id="TestAppPoolProductComponent" Guid="10030829-0000-0000-C000-000000000046" DiskId="1">
+            <File Id="TestFileProductFile" Name="test.txt" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" KeyPath="yes" />
+            <iis:WebSite Id="Test" Description="[WebSiteName]" Directory="TestWebSiteProductDirectory" AutoStart="yes" DirProperties="ReadAndExecute" ConfigureIfExists="no">
+              <iis:WebAddress Id="TestAddress" Port="[PORT]" Secure="no" />
+              <iis:WebVirtualDir Id="vdir1" Alias="test1" Directory="TestWebSiteProductDirectory" DirProperties="ReadOnly">
+                <iis:WebApplication Id="VDirTestApp1" Name="Virtual Directory Test ASP Application" Isolation="high" WebAppPool="AppPool1" />
+              </iis:WebVirtualDir>
+            </iis:WebSite>
+          </Component>
+          <Component Id="AppPool1Component" Guid="5A3AD6AA-B17E-4C73-9F29-47D94677715E" Location="local" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <iis:WebAppPool Id="AppPool1" Name="[AppPool1Name]" Identity="other" RecycleMinutes="61" RecycleRequests="61" MaxCpuUsage="61" QueueLimit="4444" MaxWorkerProcesses="5" VirtualMemory="196608" PrivateMemory="300608" User="AppPoolUser">
+              <iis:RecycleTime Value ="12:12"/>
+            </iis:WebAppPool>  
+            <util:User Id='AppPoolUser' Name='ddrelqa1' Password='mar08!DTG'/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestAppPoolProductFeature" Title="Test File Product Feature" Level="1">
+      <ComponentRef Id="TestAppPoolProductComponent" />
+      <ComponentRef Id="AppPool1Component" />
+    </Feature>
+    <iis:WebDirProperties Id="ReadOnly" Read="yes" Write="no" Script="no" Execute="no" AnonymousAccess="no" />
+    <iis:WebDirProperties Id="ReadAndExecute" Read="yes" Write="no" Script="yes" Execute="yes" AnonymousAccess="no" />
+  </Product>
+</Wix>

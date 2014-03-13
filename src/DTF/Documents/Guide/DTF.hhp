@@ -1,0 +1,49 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=DTF.chm
+Contents file=DTF.hhc
+Default Window=DTF
+Default topic=Content\about.htm
+Display compile progress=Yes
+Error log file=DTFhelp.log
+Full-text search=Yes
+Index file=DTF.hhk
+Language=0x409 English (United States)
+Title=Deployment Tools Foundation
+
+[WINDOWS]
+DTF="Deployment Tools Foundation","DTF.hhc","DTF.hhk","Content\about.htm","Content\about.htm",,,,,0x22520,,0x384e,[143,72,937,601],,,,,,,0
+
+
+[FILES]
+styles\presentation.css
+Content\about.htm
+Content\whatsnew.htm
+Content\dependencies.htm
+Content\using.htm
+DTF.hhc
+DTF.hhk
+Content\samples.htm
+Content\support.htm
+Content\history.htm
+Content\inventory.htm
+Content\wifile.htm
+Content\cabpack.htm
+Content\powerdiff.htm
+Content\cabs.htm
+Content\databases.htm
+Content\packages.htm
+Content\managedcas.htm
+Content\samplecas.htm
+Content\writingcas.htm
+Content\buildingcas.htm
+Content\debuggingcas.htm
+Content\caproxy.htm
+Content\caconfig.htm
+Content\installutil.htm
+
+[MERGE FILES]
+DTFAPI.chm
+
+[INFOTYPES]

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="components.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Fragment>
+    <DirectoryRef Id="Wix">
+      <!--Test an unversioned file-->
+      <Component Id="Component1" Guid="*">
+        <File Id="TextFile1" Name="TextFile1.txt" DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\shareddata\files\textfile1.txt" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="Wix">
+      <!--Test a versioned, unmanaged file-->
+      <Component Id="Component2" Guid="*">
+        <File Id="Assembly2.exe" Name="Assembly2.exe" DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TestBinaries\bin\Assembly2.exe" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="Wix">
+      <!--Test a versioned assembly-->
+      <!--Test multiple files-->
+      <Component Id="Component3" Guid="{64547AD8-BB99-4a5f-B3B7-80E3537796E4}">
+        <File Id="Assembly1.dll" Name="Assembly1.dll" AssemblyApplication="Assembly1.dll" DiskId="1" KeyPath="yes" Assembly=".net" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TestBinaries\bin\Assembly1.dll" />
+        <File Id="Assembly1.pdb" Name="Assembly1.pdb" DiskId="1" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TestBinaries\bin\Assembly1.pdb" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+
+    <!--Test registry keys-->
+    <!--Test floating component-->
+    <Component Id="Component4" Guid="*" Directory="Wix">
+      <RegistryKey Id="Wix.Test" Action="createAndRemoveOnUninstall" Root="HKCU" Key="Wix\Test ">
+        <RegistryKey Id="Key1" Action="createAndRemoveOnUninstall" Key="Key1">
+          <RegistryValue KeyPath="yes" Type="integer" Value="1"/>
+        </RegistryKey>
+        <RegistryValue Key="Key2" Type="string" Value="two" />
+      </RegistryKey>
+    </Component>
+  </Fragment>
+
+  <Fragment>
+    <!--Test a nested ComponentGroup-->
+    <ComponentGroup Id="ComponentGroup1">
+      <ComponentRef Id="Component2"/>
+      <ComponentGroupRef Id="ComponentGroup2"/>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <!--Test a ComponentGroup-->
+    <ComponentGroup Id="ComponentGroup2">
+      <ComponentRef Id="Component3"/>
+      <ComponentRef Id="Component4"/>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>

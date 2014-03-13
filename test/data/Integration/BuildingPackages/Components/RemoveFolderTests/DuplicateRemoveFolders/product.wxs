@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Wix Test Product" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+    <Package InstallerVersion="200"/>
+    <Media Id="1" />
+    <Feature Id="Feature1" Level="1" />
+    <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\directories.wxi?>
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="Component1" DiskId="1" Guid="{FBFFDA3F-DDF1-4651-BB4E-A01F0DDF66A1}" KeyPath="yes" Feature="Feature1">
+        <RemoveFolder Id ="RemoveFolder1" On="uninstall" />
+        <RemoveFolder Id ="RemoveFolder1" On="uninstall" />
+      </Component>
+    </DirectoryRef>
+  </Product>
+</Wix>

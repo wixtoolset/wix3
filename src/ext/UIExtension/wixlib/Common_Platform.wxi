@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+  <copyright file="Common_Platform.wxi" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include caSuffix.wxi ?>
+  <Fragment>
+    <!-- print EULA functionality -->
+    <CustomAction Id="WixUIPrintEula$(var.Suffix)" BinaryKey="WixUIWixca$(var.Suffix)" DllEntry="PrintEula" Return="ignore" Execute="immediate" />
+  </Fragment>
+
+  <Fragment>
+    <!-- Validate install directory -->
+    <CustomAction Id="WixUIValidatePath$(var.Suffix)" BinaryKey="WixUIWixca$(var.Suffix)" DllEntry="ValidatePath" Return="ignore" Execute="immediate" />
+  </Fragment>
+
+  <Fragment>
+    <Binary Id="WixUIWixca$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))uica.dll" />
+  </Fragment>
+</Include>

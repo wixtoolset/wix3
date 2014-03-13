@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="Mba.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+    <!--
+     Mba.wxs - Managed UX resources.
+    -->
+    <Fragment>
+        <BootstrapperApplication Id='ManagedBootstrapperApplicationHost' SourceFile='mbahost.dll'>
+            <PayloadGroupRef Id='Mba' />
+            <PayloadGroupRef Id='MbaPreqLicenseUrlMinimal' />
+            <PayloadGroupRef Id='MbaPreqStandard' />
+        </BootstrapperApplication>
+    </Fragment>
+    
+    <Fragment>
+        <BootstrapperApplication Id='ManagedBootstrapperApplicationHost.RtfLicense' SourceFile='mbahost.dll'>
+            <PayloadGroupRef Id='Mba' />
+            <PayloadGroupRef Id='MbaPreqLicenseFileMinimal' />
+            <PayloadGroupRef Id='MbaPreqStandard' />
+        </BootstrapperApplication>
+    </Fragment>
+
+    <Fragment>
+        <BootstrapperApplication Id='ManagedBootstrapperApplicationHost.Minimal' SourceFile='mbahost.dll'>
+            <PayloadGroupRef Id='Mba' />
+            <PayloadGroupRef Id='MbaPreqLicenseUrlMinimal' />
+        </BootstrapperApplication>
+    </Fragment>
+
+    <Fragment>
+        <BootstrapperApplication Id='ManagedBootstrapperApplicationHost.RtfLicense.Minimal' SourceFile='mbahost.dll'>
+            <PayloadGroupRef Id='Mba' />
+            <PayloadGroupRef Id='MbaPreqLicenseFileMinimal' />
+        </BootstrapperApplication>
+    </Fragment>
+
+    <Fragment>
+        <BootstrapperApplication Id='ManagedBootstrapperApplicationHost.Foundation' SourceFile='mbahost.dll'>
+            <PayloadGroupRef Id='Mba' />
+        </BootstrapperApplication>
+    </Fragment>
+
+    <Fragment>
+        <PayloadGroup Id='Mba'>
+            <Payload Compressed='yes' SourceFile='BootstrapperCore.dll' />
+        </PayloadGroup>
+    </Fragment>
+
+    <Fragment>
+        <PayloadGroup Id='MbaPreqLicenseUrlMinimal'>
+            <Payload Name='mbapreq.dll' Compressed='yes' SourceFile='wixstdba.dll' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixMbaPrereqInformation'>
+            <Row>
+                <Data Column='PackageId'>!(wix.WixMbaPrereqPackageId)</Data>
+                <Data Column='LicenseUrl'>!(wix.WixMbaPrereqLicenseUrl)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <Fragment>
+        <PayloadGroup Id='MbaPreqLicenseFileMinimal'>
+            <Payload Name='mbapreq.dll' Compressed='yes' SourceFile='wixstdba.dll' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixMbaPrereqInformation'>
+            <Row>
+                <Data Column='PackageId'>!(wix.WixMbaPrereqPackageId)</Data>
+                <Data Column='LicenseFile'>!(wix.WixMbaPrereqLicenseRtf)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <Fragment>
+        <PayloadGroup Id='MbaPreqStandard'>
+            <Payload Name='mbapreq.thm' Compressed='yes' SourceFile='!(wix.PreqbaThemeXml=SourceDir\WixstdbaResources\mbapreq.thm)' />
+            <Payload Name='mbapreq.png' Compressed='yes' SourceFile='!(wix.PreqbaLogo=SourceDir\WixstdbaResources\mbapreq.png)' />
+            <Payload Name='mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl=SourceDir\WixstdbaResources\mbapreq.wxl)' />
+            <Payload Name='1028\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1028=SourceDir\WixstdbaResources\1028\mbapreq.wxl)' />
+            <Payload Name='1029\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1029=SourceDir\WixstdbaResources\1029\mbapreq.wxl)' />
+            <Payload Name='1030\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1030=SourceDir\WixstdbaResources\1030\mbapreq.wxl)' />
+            <Payload Name='1031\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1031=SourceDir\WixstdbaResources\1031\mbapreq.wxl)' />
+            <Payload Name='1032\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1032=SourceDir\WixstdbaResources\1032\mbapreq.wxl)' />
+            <Payload Name='1035\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1035=SourceDir\WixstdbaResources\1035\mbapreq.wxl)' />
+            <Payload Name='1036\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1036=SourceDir\WixstdbaResources\1036\mbapreq.wxl)' />
+            <Payload Name='1038\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1038=SourceDir\WixstdbaResources\1038\mbapreq.wxl)' />
+            <Payload Name='1040\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1040=SourceDir\WixstdbaResources\1040\mbapreq.wxl)' />
+            <Payload Name='1041\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1041=SourceDir\WixstdbaResources\1041\mbapreq.wxl)' />
+            <Payload Name='1042\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1042=SourceDir\WixstdbaResources\1042\mbapreq.wxl)' />
+            <Payload Name='1043\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1043=SourceDir\WixstdbaResources\1043\mbapreq.wxl)' />
+            <Payload Name='1044\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1044=SourceDir\WixstdbaResources\1044\mbapreq.wxl)' />
+            <Payload Name='1045\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1045=SourceDir\WixstdbaResources\1045\mbapreq.wxl)' />
+            <Payload Name='1046\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1046=SourceDir\WixstdbaResources\1046\mbapreq.wxl)' />
+            <Payload Name='1049\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1049=SourceDir\WixstdbaResources\1049\mbapreq.wxl)' />
+            <Payload Name='1051\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1051=SourceDir\WixstdbaResources\1051\mbapreq.wxl)' />
+            <Payload Name='1053\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1053=SourceDir\WixstdbaResources\1053\mbapreq.wxl)' />
+            <Payload Name='1055\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1055=SourceDir\WixstdbaResources\1055\mbapreq.wxl)' />
+            <Payload Name='1060\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl1060=SourceDir\WixstdbaResources\1060\mbapreq.wxl)' />
+            <Payload Name='2052\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl2052=SourceDir\WixstdbaResources\2052\mbapreq.wxl)' />
+            <Payload Name='2070\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl2070=SourceDir\WixstdbaResources\2070\mbapreq.wxl)' />
+            <Payload Name='3082\mbapreq.wxl' Compressed='yes' SourceFile='!(wix.PreqbaThemeWxl3082=SourceDir\WixstdbaResources\3082\mbapreq.wxl)' />
+        </PayloadGroup>
+    </Fragment>
+    
+    <!-- BootstrapperApplicationData tables definition -->
+    <Fragment>
+        <CustomTable Id='WixMbaPrereqInformation' BootstrapperApplicationData='yes'>
+            <Column Id='PackageId' Category='Identifier' Type='string' Width='72' PrimaryKey ='yes'/>
+            <Column Id='LicenseUrl' Category='Formatted' Type='string' Width='0' Nullable='yes'/>
+            <Column Id='LicenseFile' Category='Formatted' Type='string' Width='0' Nullable='yes'/>
+        </CustomTable>
+    </Fragment>
+
+</Wix>

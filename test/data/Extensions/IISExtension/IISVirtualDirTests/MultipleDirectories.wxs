@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="MultipleDirectories.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Product Name='WebApp Test' Id='10D73FCA-A7CE-4D8D-8543-78161330D6A4'
+    Language='1033' Codepage='1252' Version='1.0.0' Manufacturer='Test Web dir Product' UpgradeCode='000C11F9-1234-4321-C000-220000000046'>
+
+    <Package Keywords='Installer'
+        Manufacturer='Test Web dir Product' InstallerVersion='200' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+
+    <Media Id='1' Cabinet='product.cab' EmbedCab='yes' />
+
+    <Property Id="SP_IISPORT" Value="88"/>
+
+    <iis:WebDirProperties Id="WebDir_Test" AnonymousAccess="no" WindowsAuthentication="yes" Read="yes" Script="yes" />
+
+
+
+    <iis:WebApplication Id="WebApp_Test_Low" Name="MyWebAppLow" Isolation="low" />
+    <iis:WebApplication Id="WebApp_Test_Medium" Name="MyWebAppMedium" Isolation="medium" />
+    <iis:WebApplication Id="WebApp_Test_High" Name="MyWebAppHigh" Isolation="high" />
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='INSTALLDIR' Name='WebApp Test 1.0'>
+        <Component Id='Component0' Guid='44D1407B-0281-0000-0000-C658F3E86DAA' KeyPath='yes'>
+          <iis:WebSite Id="WebSite_Default" Description="Default Web Site" Directory="INSTALLDIR">
+            <iis:WebAddress Id="WebAddress_Default" IP="*" Port="80" />
+          </iis:WebSite>
+        </Component>
+
+        <Component Id='Component1' Guid='44D1407B-0281-4EC0-BFF9-C658F3E86DAA'>
+          <File DiskId='1' Source='$(env.WIX_ROOT)\test\data\Extensions\IISExtension\IISVirtualDirTests\test1.htm' Vital='yes' />
+          <iis:WebVirtualDir Id="WebVDir_Test_Low" Alias="WebAppTest_Low" Directory="INSTALLDIR" DirProperties="WebDir_Test" WebApplication="WebApp_Test_Low" WebSite="WebSite_Default" />
+        </Component>
+
+        <Component Id='Component2' Guid='163801C4-A35A-4DB2-963F-C174F41B4EE3'>
+          <File DiskId='1' Source='$(env.WIX_ROOT)\test\data\Extensions\IISExtension\IISVirtualDirTests\test2.htm' Vital='yes' />
+          <iis:WebVirtualDir Id="WebVDir_Test_Medium" Alias="WebAppTest_Medium" Directory="INSTALLDIR"  DirProperties="WebDir_Test" WebApplication="WebApp_Test_Medium" WebSite="WebSite_Default" />
+        </Component>
+
+        <Component Id='Component3' Guid='46B6F853-9A9D-4313-BCE1-F51C43455435'>
+          <File DiskId='1' Source='$(env.WIX_ROOT)\test\data\Extensions\IISExtension\IISVirtualDirTests\test3.htm' Vital='yes' />
+          <iis:WebVirtualDir Id="WebVDir_Test_High" Alias="WebAppTest_High" Directory="INSTALLDIR"  DirProperties="WebDir_Test" WebApplication="WebApp_Test_High" WebSite="WebSite_Default" />
+        </Component>
+
+      </Directory>
+
+    </Directory>
+
+    <Feature Id='Complete' Level='1'>
+      <ComponentRef Id='Component1' />
+      <ComponentRef Id='Component2' />
+      <ComponentRef Id='Component3' />
+      <ComponentRef Id='Component0'/>
+    </Feature>
+
+  </Product>
+</Wix>

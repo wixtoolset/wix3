@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="de-de.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="de-de" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrUSRFailedUserCreate" Overridable="yes">Konnte den Benutzer nicht anlegen. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">Konnte den Benutzer auf Grund eines falschen Passwortes nicht anlegen. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">Konnte Benutzer nicht zur Gruppe hinzufügen. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreateExists" Overridable="yes">Konnte den Benutzer nicht anlegen, da er bereits existierte. ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSMBFailedCreate" Overridable="yes">Konnte Netzwerkfreigabe nicht anlegen. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrSMBFailedDrop" Overridable="yes">Konnte Netzwerkfreigabe nicht entfernen. ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">Konnte die DLL nicht für PerfMon registrieren. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">Konnte die DLL nicht für PerfMon deregistrieren. ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrInstallPerfCounterData" Overridable="yes">Konnte die Daten der Leistungsüberwachung (performance counters) nicht installieren. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUninstallPerfCounterData" Overridable="yes">Konnte die Daten der Leistungsüberwachung (performance counters) nicht deinstallieren. ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">Konnte keinen Security Descriptor für [3]\[4] erstellen, System Fehler: [2]</String>
+    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">Konnte keinen Security Descriptor für das Objekt [3] erstellen, System Fehler: [2]</String>
+    <String Id="msierrSecureObjectsUnknownType" Overridable="yes">Unbekannter Objekt Typ [3], System Fehler: [2]</String>
+
+    <String Id="msierrXmlFileFailedRead" Overridable="yes">Beim Lesen der XML Dateien trat ein Fehler auf.</String>
+    <String Id="msierrXmlFileFailedOpen" Overridable="yes">Konnte XML Datei [3] nicht öffnen, System Fehler: [2]</String>
+    <String Id="msierrXmlFileFailedSelect" Overridable="yes">Konnte Knoten [3] in der XML Datei [4] nicht finden, System Fehler: [2]</String>
+    <String Id="msierrXmlFileFailedSave" Overridable="yes">Beim Speichern der Änderungen an der XML Datei [3] trat ein Fehler auf, System Fehler: [2]</String>
+
+    <String Id="msierrXmlConfigFailedRead" Overridable="yes">Bei der Konfiguration der XML Dateien  trat ein Fehler auf.</String>
+    <String Id="msierrXmlConfigFailedOpen" Overridable="yes">Konnte XML Datei [3] nicht öffnen, System Fehler: [2]</String>
+    <String Id="msierrXmlConfigFailedSelect" Overridable="yes">Konnte Knoten [3] in der XML Datei [4] nicht finden, System Fehler: [2]</String>
+    <String Id="msierrXmlConfigFailedSave" Overridable="yes">Beim Speichern der Änderungen an der XML Datei [3] trat ein Fehler auf, System Fehler: [2]</String>
+</WixLocalization>

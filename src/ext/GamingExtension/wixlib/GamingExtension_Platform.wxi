@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="GamingExtension_Platform.wxi" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include caSuffix.wxi ?>
+  <Fragment>
+    <CustomAction Id="WixSchedGameExplorer$(var.Suffix)" BinaryKey="WixGamingCA$(var.Suffix)" DllEntry="SchedGameExplorerInstall" Execute="immediate" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="WixSchedGameExplorerUninstall$(var.Suffix)" BinaryKey="WixGamingCA$(var.Suffix)" DllEntry="SchedGameExplorerUninstall" Execute="immediate" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="WixExecGameExplorer$(var.DeferredSuffix)" BinaryKey="WixGamingCA$(var.Suffix)" DllEntry="ExecGameExplorer" Execute="deferred" Impersonate="no" Return="ignore" SuppressModularization="yes" />
+    <CustomAction Id="WixRollbackGameExplorer$(var.DeferredSuffix)" BinaryKey="WixGamingCA$(var.Suffix)" DllEntry="ExecGameExplorer" Execute="rollback" Impersonate="no" Return="ignore" SuppressModularization="yes" />
+
+    <InstallExecuteSequence>
+      <!-- Uninstall requires the game GDF resource file, make sure it happens before remove files -->
+      <Custom Action="WixSchedGameExplorerUninstall$(var.Suffix)" Before="RemoveFiles" Overridable="yes">VersionNT &gt;= 600 AND MsiNTProductType = 1</Custom>
+
+      <!-- Install requires the game GDF resource file, make sure it happens after install files -->
+      <Custom Action="WixSchedGameExplorer$(var.Suffix)" After="InstallFiles" Overridable="yes">VersionNT &gt;= 600 AND MsiNTProductType = 1</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+
+  <!-- Gaming Custom Action DLL Definitions -->
+    <Fragment>
+        <Binary Id="WixGamingCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))gaming.dll" />
+    </Fragment>
+</Include>

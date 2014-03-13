@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Codepage="1252" Name="!@#$%^*()_+-=" Language="1040" Version="255.255.65535.99999" Manufacturer="{}[]\|;:,./?`~  " UpgradeCode="{E186D51B-29BA-426f-881F-1EC3ACDA4282}">
+    <Package InstallerVersion="200" />
+    <Media Id="1" />
+  </Product>
+</Wix>

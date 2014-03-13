@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_pt-BR.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="pt-br" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Voltar</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Avançar</String>
+    <String Id="WixUICancel" Overridable="yes">Cancelar</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Concluir</String>
+    <String Id="WixUIRetry" Overridable="yes">Tenta&amp;r Novamente</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Ignorar</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Sim</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Não</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">Im&amp;primir</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Leia o Contrato de Licença do [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Aceito os termos do Contrato de Licença</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Clique em Instalar para instalar o produto com as opções padrão para todos os usuários. Clique em Avançado para alterar as opções de instalação.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Clique em Instalar para instalar o produto com as opções padrão apenas para você. Clique em Avançado para alterar as opções de instalação.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Instalar</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">A&amp;vançado</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Examinar:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Um nível acima</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Criar uma nova pasta</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Nome da pasta:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Procurar a pasta de destino</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Alterar pasta de destino</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="CancelDlgText" Overridable="yes">Tem certeza de que deseja cancelar a instalação do [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Ícone de informações</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Árvore de seleções</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">P&amp;rocurar...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">Re&amp;definir</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">&amp;Uso do Disco</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Clique nos ícones da árvore abaixo para alterar a forma como os recursos serão instalados.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Selecione de que forma os recursos devem ser instalados.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Instalação Personalizada</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Local:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Os volumes realçados não possuem espaço em disco suficiente disponível para os recursos selecionados. Você pode remover arquivos dos volumes realçados, instalar menos recursos ou selecionar unidades de destino diferentes.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Espaço em disco necessário para a instalação dos recursos selecionados.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Requisitos de Espaço em Disco</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Texto informativo</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Ícone de informações</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Clique no botão Concluir para sair do Assistente para Instalação.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Concluído o Assistente para Instalação do [ProductName]</String>
+
+    <String Id="FatalError_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}O Assistente para Instalação do [ProductName] foi encerrado prematuramente</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">O Assistente para Instalação do [ProductName] foi encerrado prematuramente devido a um erro. O sistema não foi modificado. Para instalar este programa mais tarde, execute novamente o Assistente para Instalação.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Clique no botão Concluir para sair do Assistente para Instalação.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Recursos do produto</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Selecione de que forma os recursos devem ser instalados.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Recursos do Produto</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Instalar</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Alterar</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes">Sai&amp;r</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Os aplicativos a seguir estão usando arquivos que precisam ser atualizados por esta instalação. Feche os aplicativos e clique em Tenta&amp;r Novamente para continuar a instalação ou em Sair para encerrá-la.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Alguns arquivos que precisam ser atualizados estão em uso.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Arquivos em Uso</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">A&amp;lterar...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Pasta de Destino</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Clique em Avançar para instalar na pasta padrão ou clique em Alterar para escolher outra.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Instalar o [ProductName] em:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Escolha o escopo e a pasta de instalação</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Escopo de Instalação</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalar ape&amp;nas para você ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">O [ProductName] será instalado em uma pasta por usuário e estará disponível apenas para a sua conta de usuário. Não é necessário ter privilégios de Administrador local.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">O [ProductName] não oferece suporte à instalação por usuário.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Instalar para todos os usuários deste co&amp;mputador</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">O [ProductName] será instalado em uma pasta por computador por padrão e estará disponível para todos os usuários. Você pode alterar a pasta de instalação padrão. É necessário ter privilégios de Administrador local.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Pa&amp;sta de instalação:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">A&amp;lterar...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">O diretório de instalação deve estar em um disco rígido local.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Ícone de informações</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Aceito os termos do Contrato de Licença</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Leia atenciosamente o contrato de licença a seguir</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Contrato de Licença de Usuário Final</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Alterar</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Alterar Instalação</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Re&amp;parar</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Reparar Instalação</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Remover</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Remover Instalação</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Selecione a operação que você deseja executar.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Alterar, reparar ou remover a instalação</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Permite que você altere a forma como os recursos são instalados.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">O [ProductName] não tem nenhum recurso que possa ser selecionado de maneira independente.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Remove o [ProductName] do computador.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">Não é possível remover o [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Repara erros da instalação mais recente, corrigindo arquivos, atalhos e entradas do Registro ausentes ou corrompidos.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">Não é possível reparar o [ProductName].</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">O Assistente para Instalação permite alterar a forma como os recursos do [ProductName] são instalados ou removê-lo do computador. Clique em Avançar para continuar ou em Cancelar para sair do Assistente para Instalação.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Bem-vindo ao Assistente para Instalação do [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Os aplicativos a seguir estão usando arquivos que precisam ser atualizados por esta instalação. Você pode permitir que o Assistente para Instalação feche esses aplicativos e tente reiniciá-los ou reinicializar o computador mais tarde.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Alguns arquivos que precisam ser atualizados estão em uso.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Arquivos em Uso</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Fechar os aplicativos e tentar reiniciá-los.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Não fechar os aplicativos. Será necessário reinicializar.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Os volumes realçados não têm espaço em disco suficiente disponível para os recursos selecionados. Você pode remover alguns arquivos dos volumes realçados, instalar menos recursos ou selecionar outra unidade de destino.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">O espaço em disco necessário para a instalação excede o espaço em disco disponível.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Espaço em Disco Insuficiente</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Os volumes realçados não têm espaço em disco suficiente disponível para os recursos selecionados. Você pode remover alguns arquivos dos volumes realçados, instalar menos recursos ou selecionar outra unidade de destino.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">O espaço em disco necessário para a instalação excede o espaço em disco disponível.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Espaço em Disco Insuficiente</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Alternativamente, é possível desabilitar a funcionalidade de reversão do instalador. Isso evita que o instalador restaure seu computador ao estado original quando a instalação é interrompida por qualquer motivo. Clique em Sim se quiser assumir o risco de desabilitar a reversão.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Aguarde enquanto o Assistente para Instalação se prepara para orientar você durante a instalação.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Bem-vindo ao Assistente para Instalação do [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Aguarde enquanto o Assistente para Instalação instala o [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Instalando o [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Aguarde enquanto o Assistente para Instalação altera o [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Alterando o [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Aguarde enquanto o Assistente para Instalação repara o [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Reparando o [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Aguarde enquanto o Assistente para Instalação remove o [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Removendo o [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Aguarde enquanto o Assistente para Instalação atualiza o [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}Atualizando o [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Andamento da operação</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Status:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Instalar</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">O Assistente para Instalação concluirá a instalação do [ProductName] no seu computador. Clique em Instalar para continuar ou em Cancelar para sair do Assistente para Instalação.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Continuando o Assistente para Instalação do [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Típica</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Instalação Típica</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">P&amp;ersonalizada</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Instalação Personalizada</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">C&amp;ompleta</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Instalação Completa</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Escolher o Tipo de Instalação</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Escolha o tipo de instalação mais adequado às suas necessidades</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Instala os recursos mais comuns do programa. Recomendável para a maioria dos usuários.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Permite que os usuários escolham os recursos a serem instalados e onde devem ser instalados. Recomendável para usuários avançados.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Todos os recursos do programa serão instalados. É necessário mais espaço em disco.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}O Assistente para Instalação do [ProductName] foi interrompido</String>
+    <String Id="UserExitDescription1" Overridable="yes">A instalação do [ProductName] foi interrompida. O sistema não foi modificado. Para instalar este programa mais tarde, execute a instalação novamente.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Clique no botão Concluir para sair do Assistente para Instalação.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Instalar</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Clique em Instalar para iniciar a instalação. Clique em Voltar para rever ou alterar as configurações de instalação. Clique em Cancelar para sair do assistente.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Pronto para instalar o [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Alterar</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Clique em Alterar para iniciar a instalação. Clique em Voltar para rever ou alterar as configurações de instalação. Clique em Cancelar para sair do assistente.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Pronto para alterar o [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">Re&amp;parar</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Clique em Reparar para reparar a instalação do [ProductName]. Clique em Voltar para rever ou alterar as configurações de instalação. Clique em Cancelar para sair do assistente.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Pronto para reparar o [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Remover</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Clique em Remover para remover o [ProductName] do seu computador. Clique em Voltar para rever ou alterar as configurações de instalação. Clique em Cancelar para sair do assistente.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Pronto para remover o [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">At&amp;ualizar</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Clique em Atualizar para atualizar o [ProductName] no seu computador. Clique em Voltar para rever ou alterar as configurações de instalação. Clique em Cancelar para sair do assistente.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Pronto para atualizar o [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Retornar</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Aguarde enquanto o instalador determina os requisitos de espaço em disco.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Ícone de exclamação</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">O Assistente para Instalação vai instalar o [ProductName] no seu computador. Clique em Avançar para continuar ou em Cancelar para sair do Assistente para Instalação.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">O Assistente para Instalação atualizará o [ProductName] no seu computador. Clique em Avançar para continuar ou em Cancelar para sair do Assistente para Instalação.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Bem-vindo ao Assistente para Instalação do [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Aceito os termos do Contrato de Licença</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Instalar</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">At&amp;ualizar</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Leia o Contrato de Licença do [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Validando a instalação</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Copiando novos arquivos</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Arquivo: [1],  Diretório: [9],  Tamanho: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Copiando arquivos de instalação de rede</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Arquivo: [1], Diretório: [9], Tamanho: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Calculando requisitos de espaço</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Calculando requisitos de espaço</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Calculando requisitos de espaço</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Criando atalhos</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Atalho: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Publicando Componentes Qualificados</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">ID do Componente: [1], Qualificador: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Publicando Recursos do Produto</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Recurso: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Publicando informações do produto</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Registrando servidores de Classes</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">ID da Classe: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Registrando servidores de extensão</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Extensão: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Registrando informações de MIME</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">Tipo de Conteúdo MIME: [1], Extensão: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Registrando identificadores de programas</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Alocando espaço no Registro</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Espaço livre: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Procurando aplicativos instalados</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Propriedade: [1], Assinatura: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Associando executáveis</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Arquivo: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Procurando produtos qualificados</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Criando pastas</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Pasta: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Excluindo serviços</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Serviço: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Criando arquivos duplicados</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Arquivo: [1],  Diretório: [9],  Tamanho: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Procurando aplicativos relacionados</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Aplicativo encontrado: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">Instalando componentes ODBC</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Instalando novos serviços</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Serviço: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Avaliando as condições de inicialização</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Migrando estados de recursos de aplicativos relacionados</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Aplicativo: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Movendo arquivos</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Arquivo: [1],  Diretório: [9],  Tamanho: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Corrigindo arquivos</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Arquivo: [1],  Diretório: [2],  Tamanho: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Atualizando registro do componente</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">Registrando Componentes e Aplicativos COM+</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2], Usuários: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Registrando fontes</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Fonte: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Registrando o produto</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Registrando bibliotecas de tipos</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Registrando o usuário</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Removendo arquivos duplicados</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Arquivo: [1], Diretório: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Atualizando cadeias de caracteres de ambiente</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Nome: [1], Valor: [2], Ação [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Removendo aplicativos</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Aplicativo: [1], Linha de comando: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Removendo arquivos</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Arquivo: [1], Diretório: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Removendo pastas</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Pasta: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">Removendo entradas de arquivos INI</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Arquivo: [1],  Seção: [2],  Chave: [3], Valor: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">Removendo componentes ODBC</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Removendo valores do Registro do sistema</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Chave: [1], Nome: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Removendo atalhos</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Atalho: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Procurando produtos qualificados</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Registrando módulos</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Arquivo: [1], Pasta: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Cancelando o registro de módulos</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Arquivo: [1], Pasta: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">Inicializando diretórios ODBC</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Iniciando serviços</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Serviço: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Interrompendo serviços</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Serviço: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Cancelando a Publicação de Componentes Qualificados</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">ID do Componente: [1], Qualificador: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Cancelando a Publicação de Recursos do Produto</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Recurso: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Cancelar o registro de servidores de Classes</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">ID da Classe: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Cancelando o Registro de Componentes e Aplicativos COM+</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Cancelando o registro de servidores de extensão</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Extensão: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Cancelando o registro de fontes</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Fonte: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">Cancelando o registro de informações de MIME</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">Tipo de Conteúdo MIME: [1], Extensão: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Cancelando o registro de identificadores de programas</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Cancelando o registro de bibliotecas de tipos</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Atualizando cadeias de caracteres de ambiente</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Nome: [1], Valor: [2], Ação [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">Gravando valores de arquivos INI</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Arquivo: [1],  Seção: [2],  Chave: [3], Valor: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Gravando valores do Registro do sistema</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Chave: [1], Nome: [2], Valor: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Anunciando aplicativo</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Gerando operações de script para a ação:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Instalando catálogo do sistema</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Arquivo: [1],  Dependências: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Publicando informações do assembly</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Contexto do Aplicativo:[1], Nome do Assembly:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Cancelando a publicação de informações do assembly</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Contexto do Aplicativo:[1], Nome do Assembly:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Revertendo ação:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Removendo arquivos de backup</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Arquivo: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Removendo arquivos movidos</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Arquivo: [1], Diretório: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Cancelando a publicação de informações do produto</String>
+
+    <String Id="Error0" Overridable="yes">{{Erro fatal: }}</String>
+    <String Id="Error1" Overridable="yes">{{Erro [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Aviso [1]. </String>
+    <String Id="Error4" Overridable="yes">Informações [1]. </String>
+    <String Id="Error5" Overridable="yes">O instalador encontrou um erro inesperado ao instalar este pacote. Isso pode indicar que há um problema com o pacote. Código de erro: [1]. {{Os argumentos são: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Disco cheio: }}</String>
+    <String Id="Error8" Overridable="yes">Ação [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Tipo de mensagem: [1], Argumento: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Início do registro em log: [Date]  [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Fim do registro em log: [Date]  [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Início da ação [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Término da ação [Time]: [1]. Valor de retorno [2].</String>
+    <String Id="Error16" Overridable="yes">Tempo restante: {[1] minutos }{[2] segundos}</String>
+    <String Id="Error17" Overridable="yes">Memória insuficiente. Desligue outros aplicativos antes de tentar novamente.</String>
+    <String Id="Error18" Overridable="yes">O instalador não está respondendo.</String>
+    <String Id="Error19" Overridable="yes">O instalador foi interrompido prematuramente.</String>
+    <String Id="Error20" Overridable="yes">Aguarde enquanto o Windows configura o [ProductName]</String>
+    <String Id="Error21" Overridable="yes">Coletando informações necessárias...</String>
+    <String Id="Error22" Overridable="yes">Removendo versões anteriores deste aplicativo...</String>
+    <String Id="Error23" Overridable="yes">Preparando para remover versões anteriores deste aplicativo...</String>
+    <String Id="Error32" Overridable="yes">A instalação do {[ProductName] }foi concluída com êxito.</String>
+    <String Id="Error33" Overridable="yes">Falha na instalação do {[ProductName] }.</String>
+    <String Id="Error1101" Overridable="yes">Erro ao ler do arquivo: [2]. {{ Erro do sistema [3].}} Verifique se o arquivo existe e se você pode acessá-lo.</String>
+    <String Id="Error1301" Overridable="yes">Não é possível criar o arquivo '[2]'. Já existe um diretório com este nome. Cancele a instalação e tente instalar em outro local.</String>
+    <String Id="Error1302" Overridable="yes">Insira o disco: [2]</String>
+    <String Id="Error1303" Overridable="yes">O instalador não tem privilégios suficientes para acessar este diretório: [2]. Não é possível dar continuidade à instalação. Faça logon como administrador ou contate o administrador do sistema.</String>
+    <String Id="Error1304" Overridable="yes">Erro ao gravar no arquivo: [2]. Verifique se você tem acesso a este diretório.</String>
+    <String Id="Error1305" Overridable="yes">Erro ao ler do arquivo [2]. {{ Erro do sistema [3].}} Verifique se o arquivo existe e se você pode acessá-lo.</String>
+    <String Id="Error1306" Overridable="yes">Outro aplicativo tem acesso exclusivo ao arquivo '[2]'. Desligue todos os outros aplicativos e clique em Tentar Novamente.</String>
+    <String Id="Error1307" Overridable="yes">Não há espaço em disco suficiente para instalar este arquivo: [2]. Libere algum espaço em disco e clique em Tentar Novamente, ou clique em Cancelar para sair.</String>
+    <String Id="Error1308" Overridable="yes">Arquivo de origem não encontrado: [2]. Verifique se o arquivo existe e se você pode acessá-lo.</String>
+    <String Id="Error1309" Overridable="yes">Erro ao ler do arquivo: [3]. {{ Erro do sistema [2].}} Verifique se o arquivo existe e se você pode acessá-lo.</String>
+    <String Id="Error1310" Overridable="yes">Erro ao gravar no arquivo: [3]. {{ Erro do sistema [2].}} Verifique se você tem acesso a esse diretório.</String>
+    <String Id="Error1311" Overridable="yes">Arquivo de origem não encontrado{{(gabinete)}}: [2]. Verifique se o arquivo existe e se você pode acessá-lo.</String>
+    <String Id="Error1312" Overridable="yes">Não é possível criar o diretório '[2]'. Já existe um arquivo com este nome. Forneça um novo nome ou remova o arquivo e clique em Tentar Novamente, ou clique em Cancelar para sair.</String>
+    <String Id="Error1313" Overridable="yes">O volume [2] não está disponível no momento. Selecione outro volume.</String>
+    <String Id="Error1314" Overridable="yes">O caminho especificado '[2]' não está disponível.</String>
+    <String Id="Error1315" Overridable="yes">Não é possível gravar na pasta especificada: [2].</String>
+    <String Id="Error1316" Overridable="yes">Erro de rede ao tentar ler do arquivo: [2]</String>
+    <String Id="Error1317" Overridable="yes">Erro ao tentar criar o diretório: [2]</String>
+    <String Id="Error1318" Overridable="yes">Erro de rede ao tentar criar o diretório: [2]</String>
+    <String Id="Error1319" Overridable="yes">Erro de rede ao tentar abrir o gabinete do arquivo de origem: [2]</String>
+    <String Id="Error1320" Overridable="yes">O caminho especificado é muito longo: [2]</String>
+    <String Id="Error1321" Overridable="yes">O Instalador não tem privilégios suficientes para modificar este arquivo: [2].</String>
+    <String Id="Error1322" Overridable="yes">Uma parte do caminho da pasta '[2]' não é válida. Essa parte está vazia ou excede o tamanho permitido pelo sistema.</String>
+    <String Id="Error1323" Overridable="yes">O caminho da pasta '[2]' contém palavras que não são válidas em caminhos de pastas.</String>
+    <String Id="Error1324" Overridable="yes">O caminho da pasta '[2]' contém um caractere inválido.</String>
+    <String Id="Error1325" Overridable="yes">'[2]' não é um nome de arquivo curto válido.</String>
+    <String Id="Error1326" Overridable="yes">Erro ao obter segurança do arquivo: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Unidade inválida: [2]</String>
+    <String Id="Error1328" Overridable="yes">Erro ao aplicar patch ao arquivo [2]. É provável que o arquivo tenha sido atualizado por outros meios e não possa mais ser modificado por esse patch. Para obter mais informações, contate o fornecedor do patch. {{Erro do Sistema: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Não é possível instalar um arquivo necessário porque o arquivo de gabinete [2] não está assinado digitalmente. Isso pode indicar que o arquivo de gabinete está corrompido.</String>
+    <String Id="Error1330" Overridable="yes">Não é possível instalar um arquivo necessário porque o arquivo de gabinete [2] tem uma assinatura digital inválida. Isso pode indicar que o arquivo de gabinete está corrompido.{{  Erro [3] retornado pelo WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes">Falha ao copiar corretamente o arquivo [2]: erro de CRC.</String>
+    <String Id="Error1332" Overridable="yes">Falha ao mover corretamente o arquivo [2]: erro de CRC.</String>
+    <String Id="Error1333" Overridable="yes">Falha ao corrigir corretamente o arquivo [2]: erro de CRC.</String>
+    <String Id="Error1334" Overridable="yes">O arquivo '[2]' não pode ser instalado porque não foi encontrado no arquivo de gabinete '[3]'. Isso pode indicar um erro de rede, um erro de leitura do CD-ROM ou um problema com este pacote.</String>
+    <String Id="Error1335" Overridable="yes">O arquivo de gabinete '[2]' necessário para esta instalação está corrompido e não pode ser usado. Isso pode indicar um erro de rede, um erro de leitura do CD-ROM ou um problema com este pacote.</String>
+    <String Id="Error1336" Overridable="yes">Erro ao criar um arquivo temporário necessário para concluir esta instalação.{{  Pasta: [3]. Código de erro do sistema: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Não foi possível criar a chave: [2]. {{ Erro do sistema [3].}}  Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte. </String>
+    <String Id="Error1402" Overridable="yes">Não foi possível abrir a chave: [2]. {{ Erro do sistema [3].}}  Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte. </String>
+    <String Id="Error1403" Overridable="yes">Não foi possível excluir o valor [2] da chave [3]. {{ Erro do sistema [4].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte. </String>
+    <String Id="Error1404" Overridable="yes">Não foi possível excluir a chave [2]. {{ Erro do sistema [3].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte. </String>
+    <String Id="Error1405" Overridable="yes">Não foi possível ler o valor [2] da chave [3]. {{ Erro do sistema [4].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte. </String>
+    <String Id="Error1406" Overridable="yes">Não foi possível gravar o valor [2] na chave [3]. {{ Erro do sistema [4].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte.</String>
+    <String Id="Error1407" Overridable="yes">Não foi possível obter nomes de valores para a chave [2]. {{ Erro do sistema [3].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte.</String>
+    <String Id="Error1408" Overridable="yes">Não foi possível obter nomes de subchaves para a chave [2]. {{ Erro do sistema [3].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte.</String>
+    <String Id="Error1409" Overridable="yes">Não foi possível ler informações de segurança para a chave [2]. {{ Erro do sistema [3].}} Verifique se você tem acesso suficiente a essa chave ou contate a equipe de suporte.</String>
+    <String Id="Error1410" Overridable="yes">Não foi possível aumentar o espaço disponível do Registro. São necessários [2] KB de espaço livre no Registro para a instalação deste aplicativo.</String>
+    <String Id="Error1500" Overridable="yes">Outra instalação está em andamento. Você deve concluir a instalação anterior antes de continuar a instalação atual.</String>
+    <String Id="Error1501" Overridable="yes">Erro ao acessar dados protegidos. Verifique se o Windows Installer está configurado corretamente e tente repetir a instalação.</String>
+    <String Id="Error1502" Overridable="yes">O usuário '[2]' já havia iniciado uma instalação do produto '[3]'. Esse usuário precisará executar novamente a instalação para poder usar o produto. A instalação atual continuará agora.</String>
+    <String Id="Error1503" Overridable="yes">O usuário '[2]' já havia iniciado uma instalação do produto '[3]'. Esse usuário precisará executar novamente a instalação para poder usar o produto.</String>
+    <String Id="Error1601" Overridable="yes">Espaço em disco insuficiente - Volume: '[2]'; espaço necessário: [3] KB; espaço disponível: [4] KB. Libere espaço em disco e tente novamente.</String>
+    <String Id="Error1602" Overridable="yes">Tem certeza de que deseja cancelar?</String>
+    <String Id="Error1603" Overridable="yes">O arquivo [2][3] está em uso{ pelo seguinte processo: Nome: [4], ID: [5], Título da Janela: '[6]'}. Feche o aplicativo e tente novamente.</String>
+    <String Id="Error1604" Overridable="yes">O produto '[2]' já foi instalado e isso impede a instalação deste produto. Os dois produtos são incompatíveis.</String>
+    <String Id="Error1605" Overridable="yes">Não há espaço suficiente em disco no volume '[2]' para continuar a instalação com recuperação habilitada. [3] KB são necessários, mas apenas [4] KB estão disponíveis. Clique em Ignorar para continuar a instalação sem salvar informações de recuperação, clique em Tentar Novamente para verificar o espaço disponível novamente ou clique em Cancelar para sair da instalação.</String>
+    <String Id="Error1606" Overridable="yes">Não foi possível acessar o local da rede [2].</String>
+    <String Id="Error1607" Overridable="yes">Os aplicativos a seguir devem ser fechados antes que a instalação continue:</String>
+    <String Id="Error1608" Overridable="yes">Não foi possível localizar os produtos compatíveis instalados previamente no computador para a instalação deste produto.</String>
+    <String Id="Error1609" Overridable="yes">Erro ao aplicar configurações de segurança. [2] não é um usuário ou grupo válido. Isso pode ser um problema com o pacote ou de conexão com um controlador de domínio na rede. Verifique sua conexão de rede e clique em Tentar Novamente ou em Cancelar para encerrar a instalação. {{Não é possível localizar o SID de usuário, erro do sistema [3]}}</String>
+    <String Id="Error1701" Overridable="yes">A chave [2] não é válida. Verifique se você digitou a chave correta.</String>
+    <String Id="Error1702" Overridable="yes">O instalador deve reiniciar o sistema para que a configuração do [2] possa continuar. Clique em Sim para reiniciar agora ou em Não se quiser reiniciar manualmente mais tarde.</String>
+    <String Id="Error1703" Overridable="yes">Você deve reiniciar o sistema para que as alterações da configuração do [2] tenham efeito. Clique em Sim para reiniciar agora ou em Não se desejar reiniciá-lo manualmente mais tarde.</String>
+    <String Id="Error1704" Overridable="yes">Uma instalação do [2] está suspensa no momento. Você precisa desfazer as alterações aplicadas por essa instalação para poder continuar. Deseja desfazer as alterações?</String>
+    <String Id="Error1705" Overridable="yes">Uma instalação anterior deste produto está em andamento. Você precisa desfazer as alterações aplicadas por essa instalação para poder continuar. Deseja desfazer as alterações?</String>
+    <String Id="Error1706" Overridable="yes">Não foi possível encontrar o pacote de instalação para o produto [2]. Tente instalar novamente usando uma cópia válida do pacote de instalação '[3]'.</String>
+    <String Id="Error1707" Overridable="yes">Instalação concluída com êxito.</String>
+    <String Id="Error1708" Overridable="yes">Falha na instalação.</String>
+    <String Id="Error1709" Overridable="yes">Produto: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Você pode restaurar o computador ao seu estado anterior ou continuar a instalação mais tarde. Deseja restaurá-lo?</String>
+    <String Id="Error1711" Overridable="yes">Erro ao gravar as informações de instalação no disco. Verifique se o espaço disponível em disco é suficiente e clique em Tentar Novamente, ou clique em Cancelar para finalizar a instalação.</String>
+    <String Id="Error1712" Overridable="yes">Não foi possível localizar um ou mais dos arquivos necessários para restaurar o computador ao estado anterior. A restauração não será realizada.</String>
+    <String Id="Error1713" Overridable="yes">[2] não pode instalar um dos produtos necessários. Contate o grupo de suporte técnico. {{Erro do sistema: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Não é possível remover a versão antiga do [2]. Contate o grupo de suporte técnico. {{Erro do sistema: [3].}}</String>
+    <String Id="Error1715" Overridable="yes">Instalado [2]</String>
+    <String Id="Error1716" Overridable="yes">Configurado [2]</String>
+    <String Id="Error1717" Overridable="yes">Removido [2]</String>
+    <String Id="Error1718" Overridable="yes">O arquivo [2] foi rejeitado pela política de assinatura digital.</String>
+    <String Id="Error1719" Overridable="yes">Não foi possível acessar o Serviço Windows Installer. Isso poderá ocorrer se você estiver executando o Windows no modo de segurança ou se o Windows Installer não estiver corretamente instalado. Contate a equipe de suporte para obter ajuda.</String>
+    <String Id="Error1720" Overridable="yes">Há um problema neste pacote do Windows Installer. Não foi possível executar um script necessário para concluir a instalação. Contate a equipe de suporte ou o fornecedor do pacote. {{Ação personalizada [2] erro de script [3], [4]:[5] Linha [6], Coluna [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Há um problema com este pacote do Windows Installer. Um programa necessário para que esta instalação seja concluída não pôde ser executado. Contate a equipe de suporte ou o fornecedor do pacote. {{Ação: [2], local: [3], comando: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Há um problema neste pacote do Windows Installer. A execução de um programa como parte da instalação não foi concluída conforme o esperado. Contate a equipe de suporte ou o fornecedor do pacote. {{Ação: [2], local: [3], comando: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Há um problema neste pacote do Windows Installer. Não foi possível executar uma DLL necessária  para concluir a instalação. Contate a equipe de suporte ou o fornecedor do pacote. {{Ação: [2], entrada: [3], biblioteca: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Remoção concluída com êxito.</String>
+    <String Id="Error1725" Overridable="yes">Falha de remoção.</String>
+    <String Id="Error1726" Overridable="yes">Anúncio concluído com êxito.</String>
+    <String Id="Error1727" Overridable="yes">Falha no anúncio.</String>
+    <String Id="Error1728" Overridable="yes">Configuração concluída com êxito.</String>
+    <String Id="Error1729" Overridable="yes">Falha na configuração.</String>
+    <String Id="Error1730" Overridable="yes">Você precisa ser um Administrador para remover este aplicativo. Para removê-lo, faça logon como Administrador ou contate a equipe de suporte técnico para obter ajuda.</String>
+    <String Id="Error1731" Overridable="yes">O pacote de instalação de origem do produto [2] não está sincronizado com o pacote cliente. Tente instalar novamente, usando uma cópia válida do pacote de instalação '[3]'.</String>
+    <String Id="Error1732" Overridable="yes">Para concluir a instalação do [2], reinicie o computador. No momento, outros usuários estão conectados ao computador e a reinicialização poderá fazer com que eles percam seus trabalhos. Deseja reiniciar agora?</String>
+    <String Id="Error1801" Overridable="yes">O caminho [2] não é válido. Especifique um caminho válido.</String>
+    <String Id="Error1802" Overridable="yes">Memória insuficiente. Desligue outros aplicativos antes de tentar novamente.</String>
+    <String Id="Error1803" Overridable="yes">Não há nenhum disco na unidade [2]. Insira um disco e clique em Tentar Novamente ou em Cancelar para voltar ao volume selecionado anteriormente.</String>
+    <String Id="Error1804" Overridable="yes">Não há nenhum disco na unidade [2]. Insira um disco e clique em Tentar Novamente ou em Cancelar para retornar à caixa de procura e selecione um volume diferente.</String>
+    <String Id="Error1805" Overridable="yes">A pasta [2] não existe. Especifique um caminho para uma pasta existente.</String>
+    <String Id="Error1806" Overridable="yes">Você não tem privilégios suficientes para ler esta pasta.</String>
+    <String Id="Error1807" Overridable="yes">Uma pasta de destino válida não pôde ser determinada para a instalação.</String>
+    <String Id="Error1901" Overridable="yes">Erro ao tentar ler do banco de dados de instalação de origem: [2].</String>
+    <String Id="Error1902" Overridable="yes">Agendando operação de reinicialização: renomeando o arquivo [2] para [3]. É preciso reinicializar o computador para concluir a operação.</String>
+    <String Id="Error1903" Overridable="yes">Agendando operação de reinicialização: excluindo o arquivo [2]. É preciso reinicializar o computador para concluir a operação.</String>
+    <String Id="Error1904" Overridable="yes">Falha ao registrar o módulo [2]. HRESULT [3]. Contate a equipe de suporte.</String>
+    <String Id="Error1905" Overridable="yes">Falha ao cancelar o registro do módulo [2]. HRESULT [3]. Contate a equipe de suporte.</String>
+    <String Id="Error1906" Overridable="yes">Falha ao armazenar em cache o pacote [2]. Erro: [3]. Contate a equipe de suporte.</String>
+    <String Id="Error1907" Overridable="yes">Não foi possível registrar a fonte [2]. Verifique se você tem permissões suficientes para instalar fontes e se o sistema oferece suporte para essa fonte.</String>
+    <String Id="Error1908" Overridable="yes">Não foi possível cancelar o registro da fonte [2]. Verifique se você tem permissões suficientes para remover fontes.</String>
+    <String Id="Error1909" Overridable="yes">Não foi possível criar o atalho [2]. Verifique se a pasta de destino existe e se você pode acessá-la.</String>
+    <String Id="Error1910" Overridable="yes">Não foi possível remover o atalho [2]. Verifique se o arquivo de atalho existe e se você pode acessá-lo.</String>
+    <String Id="Error1911" Overridable="yes">Não foi possível registrar a biblioteca de tipos para o arquivo [2]. Contate a equipe de suporte.</String>
+    <String Id="Error1912" Overridable="yes">Não foi possível cancelar o registro da biblioteca de tipos para o arquivo [2]. Contate a equipe de suporte.</String>
+    <String Id="Error1913" Overridable="yes">Não foi possível atualizar o arquivo ini [2][3]. Verifique se o arquivo existe e se você pode acessá-lo.</String>
+    <String Id="Error1914" Overridable="yes">Não foi possível agendar a substituição do arquivo [3] pelo [2] na reinicialização. Verifique se você tem permissões de gravação para o arquivo [3].</String>
+    <String Id="Error1915" Overridable="yes">Erro ao remover o gerenciador de driver ODBC; erro de ODBC [2]: [3]. Contate a equipe de suporte.</String>
+    <String Id="Error1916" Overridable="yes">Erro ao instalar o gerenciador de driver ODBC; erro de ODBC [2]: [3]. Contate a equipe de suporte.</String>
+    <String Id="Error1917" Overridable="yes">Erro ao remover o driver ODBC: [4]; erro de ODBC [2]: [3]. Verifique se você tem privilégios suficientes para remover drivers ODBC.</String>
+    <String Id="Error1918" Overridable="yes">Erro ao instalar o driver ODBC: [4]; erro de ODBC [2]: [3]. Verifique se o arquivo [4] existe e se você pode acessá-lo.</String>
+    <String Id="Error1919" Overridable="yes">Erro ao configurar fonte de dados ODBC: [4]; erro de ODBC [2]: [3]. Verifique se o arquivo [4] existe e se você pode acessá-lo.</String>
+    <String Id="Error1920" Overridable="yes">Falha ao iniciar o serviço '[2]' ([3]). Verifique se você tem privilégios suficientes para iniciar serviços do sistema.</String>
+    <String Id="Error1921" Overridable="yes">Não foi possível interromper o serviço '[2]' ([3]). Verifique se você tem privilégios suficientes para interromper serviços do sistema.</String>
+    <String Id="Error1922" Overridable="yes">Não foi possível excluir o serviço '[2]' ([3]). Verifique se você tem privilégios suficientes para remover serviços do sistema.</String>
+    <String Id="Error1923" Overridable="yes">Não foi possível instalar o serviço '[2]' ([3]). Verifique se você tem privilégios suficientes para instalar serviços do sistema.</String>
+    <String Id="Error1924" Overridable="yes">Não foi possível atualizar a variável de ambiente '[2]'. Verifique se você tem privilégios suficientes para modificar variáveis de ambiente.</String>
+    <String Id="Error1925" Overridable="yes">Você não tem privilégios suficientes para concluir esta instalação para todos os usuários do computador. Faça logon como administrador e tente instalar novamente.</String>
+    <String Id="Error1926" Overridable="yes">Não foi possível configurar a segurança para o arquivo '[3]'. Erro: [2]. Verifique se você tem privilégios suficientes para modificar as permissões de segurança desse arquivo.</String>
+    <String Id="Error1927" Overridable="yes">Os Serviços de Componentes (COM+ 1.0) não estão instalados neste computador. Esta instalação exige os Serviços de Componentes para ser concluída com êxito. Os Serviços de Componentes estão disponíveis no Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Erro ao registrar o Aplicativo COM+. Contate a equipe de suporte para obter mais informações.</String>
+    <String Id="Error1929" Overridable="yes">Erro ao cancelar o registro do Aplicativo COM+. Contate a equipe de suporte para obter mais informações.</String>
+    <String Id="Error1930" Overridable="yes">Não foi possível alterar a descrição do serviço '[2]' ([3]).</String>
+    <String Id="Error1931" Overridable="yes">O serviço Windows Installer não pode atualizar o arquivo do sistema [2] porque ele está protegido pelo Windows. Talvez você precise atualizar o sistema operacional para que o programa funcione corretamente. {{Versão do pacote: [3], Versão protegida do sistema operacional: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">O serviço Windows Installer não pode atualizar o arquivo protegido do Windows [2]. {{Versão do pacote: [3], Versão protegida do sistema operacional: [4], Erro da SFP: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">O serviço Windows Installer não pode atualizar um ou mais arquivos protegidos do Windows. {{Erro da SFP: [2]. Lista de arquivos protegidos:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">As instalações de usuários são desabilitadas através de políticas no computador.</String>
+    <String Id="Error1935" Overridable="yes">Erro durante a instalação do assembly '[6]'. Consulte a Ajuda e Suporte para obter mais informações. HRESULT: [3]. {{interface de assembly: [4]; função: [5]; componente: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Erro durante a instalação do assembly '[6]'. O assembly não possui um nome forte ou não foi assinado com o comprimento mínimo de chave. HRESULT: [3]. {{interface de assembly: [4], função: [5], componente: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Erro durante a instalação do assembly '[6]'. A assinatura ou o catálogo não puderam ser verificados ou não são válidos. HRESULT: [3]. {{interface de assembly: [4], função: [5], componente: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Erro durante a instalação do assembly '[6]'. Um ou mais módulos do assembly não puderam ser encontrados. HRESULT: [3]. {{interface de assembly: [4], função: [5], componente: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">bytes</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">KB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">O recurso inteiro estará indisponível</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">O recurso será instalado quando necessário</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">O recurso inteiro será instalado para ser executado do CD</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">O recurso inteiro será instalado no disco rígido local</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">O recurso inteiro será instalado para ser executado da rede</String>
+    <String Id="UITextMenuCD" Overridable="yes">Será instalado para ser executado do CD</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Será instalado no disco rígido local</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Será instalado para ser executado da rede</String>
+    <String Id="UITextNewFolder" Overridable="yes">Pasta|Nova Pasta</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Coletando informações necessárias...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Este recurso permanecerá desinstalado</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Este recurso será configurado para ser instalado quando necessário</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Este recurso será instalado para ser executado do CD</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Este recurso será instalado no disco rígido local</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Este recurso será instalado para ser executado da rede</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Este recurso ficará indisponível</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Será instalado quando necessário</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Este recurso estará disponível para ser executado do CD</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Este recurso será instalado no disco rígido local</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Este recurso ficará disponível para ser executado da rede</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Este recurso será totalmente desinstalado e você não poderá executá-lo do CD</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Este recurso deixará de ser executado do CD e será configurado para ser instalado quando necessário</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Este recurso continuará a ser executado do CD</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Este recurso deixará de ser executado do CD para ser instalado no disco rígido local</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Este recurso libera [1] no disco rígido.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Este recurso requer [1] no disco rígido.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Compilando custo para este recurso...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Este recurso será completamente removido</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Este recurso será removido do disco rígido local, mas será configurado para ser instalado quando necessário</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Este recurso será removido do disco rígido local, mas continuará disponível para ser executado do CD</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Este recurso permanecerá no disco rígido local</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Este recurso será removido do disco rígido local, mas ainda ficará disponível para ser executado da rede</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Este recurso será totalmente desinstalado e você não poderá executá-lo da rede</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Este recurso deixará de ser executado da rede e será configurado para ser instalado quando necessário</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Este recurso deixará de ser executado da rede e será instalado no disco rígido local</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Este recurso continuará a ser executado da rede</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Este recurso libera [1] no disco rígido. [2] de [3] sub-recursos estão selecionados. Os sub-recursos liberam [4] no disco rígido.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Este recurso libera [1] no disco rígido. [2] de [3] sub-recursos estão selecionados. Os sub-recursos requerem [4] no disco rígido.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Este recurso requer [1] no disco rígido. [2] de [3] sub-recursos estão selecionados. Os sub-recursos liberam [4] no disco rígido.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Este recurso requer [1] no disco rígido. [2] de [3] sub-recursos estão selecionados. Os sub-recursos requerem [4] no disco rígido.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Tempo restante: {[1] minutos }{[2] segundos}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Disponível(is)</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Diferença</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Necessário(s)</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Tamanho do Disco</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Volume</String>
+</WixLocalization>

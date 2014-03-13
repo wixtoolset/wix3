@@ -1,0 +1,98 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Internet Information Services Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="IIsErrors" ContainerName="IIsErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="MimeMapExtensionMissingPeriod" Number="5150">
+            <Instance>The {0}/@{1} attribute's value, '{2}', is not a valid mime map extension.  It must begin with a period.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+                <Parameter Type="System.String" Name="attributeValue" />
+            </Instance>
+        </Message>
+        <Message Id="IllegalAttributeWithoutComponent" Number="5151">
+            <Instance>The {0}/@{1} attribute cannot be specified unless the element has a Component as an ancestor. A {0} that does not have a Component ancestor is not installed.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+            </Instance>
+        </Message>
+        <Message Id="IllegalElementWithoutComponent" Number="5152">
+            <Instance>The {0} element cannot be specified unless the element has a Component as an ancestor. A {0} that does not have a Component ancestor is not installed.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="OneOfAttributesRequiredUnderComponent" Number="5153">
+            <Instance>When nested under a Component, the {0} element must have one of the following attributes specified: {1}, {2}, {3} or {4}.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName1" />
+                <Parameter Type="System.String" Name="attributeName2" />
+                <Parameter Type="System.String" Name="attributeName3" />
+                <Parameter Type="System.String" Name="attributeName4" />
+            </Instance>
+        </Message>
+        <Message Id="WebSiteAttributeUnderWebSite" Number="5154">
+            <Instance>The {0}/@WebSite attribute cannot be specified when the {0} element is nested under a WebSite element.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="WebApplicationAlreadySpecified" Number="5155">
+            <Instance>The {0} element can have at most a single WebApplication specified. This can be either through the WebApplication attribute, or through a nested WebApplication element, but not both.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="IllegalCharacterInAttributeValue" Number="5156">
+            <Instance>
+                The {0}/@{1} attribute's value, '{2}', is invalid.  It cannot contain the character '{3}'.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+                <Parameter Type="System.String" Name="value" />
+                <Parameter Type="System.Char" Name="illegalCharacter" />
+            </Instance>
+        </Message>
+        <Message Id="DeprecatedBinaryChildElement" Number="5157">
+            <Instance>The {0} element contains a deprecated child Binary element.  Please move the Binary element under a Fragment, Module, or Product element and set the {0}/@BinaryKey attribute to the value of the Binary/@Id attribute.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="WebSiteNotFound" Number="5158" SourceLineNumbers="no">
+            <Instance>
+                The web site '{0}' could not be found.  Please check that the web site exists, and that it is spelled correctly (please note, you must use the correct case).
+                <Parameter Type="System.String" Name="webSiteDescription" />
+            </Instance>
+        </Message>
+        <Message Id="InsufficientPermissionHarvestWebSite" Number="5159" SourceLineNumbers="no">
+            <Instance>
+                Not enough permissions to harvest website. On Windows Vista, you must run Heat elevated.
+            </Instance>
+        </Message>
+        <Message Id="CannotHarvestWebSite" Number="5160" SourceLineNumbers="no">
+            <Instance>
+                Cannot harvest website. On Windows Vista, you must install IIS 6 Management Compatibility.
+            </Instance>
+        </Message>
+        <Message Id="RequiredAttributeUnderComponent" Number="5161">
+            <Instance>The {0}/@{1} attribute must be specified when the element has a Component as an ancestor.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="IIsWarnings" ContainerName="IIsWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+      <Message Id="EncounteredNullDirectoryForWebSite" Number="5400" SourceLineNumbers="no">
+        <Instance>
+          Could not harvest website directory: {0}.  Please update the output with the appropriate directory ID before using.
+          <Parameter Type="System.String" Name="directory" />
+        </Instance>
+      </Message>
+    </Class>
+    <Class Name="IIsVerboses" ContainerName="IIsVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+    </Class>
+</Messages>

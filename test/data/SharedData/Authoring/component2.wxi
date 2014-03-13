@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="component2.wxi" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<!--Defines a component that is shared across several tests-->
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\directories.wxi?>
+  
+  <DirectoryRef Id="WixTestFolder">
+    <Component Id="Component2" Guid="*">
+      <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\file2.wxi?>
+    </Component>
+  </DirectoryRef>
+
+</Include>

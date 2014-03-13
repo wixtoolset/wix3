@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="VS2010.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="VS2010_EXTENSIONS_DIR" Secure="yes">
+            <RegistrySearch Id="VS2010DevEnvForExtensionsSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2010ExtensionsPathSearch" Path="Extensions" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2010_PROJECTTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS2010DevEnvForProjectTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2010ProjectTemplatesPathSearch" Path="ProjectTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2010_SCHEMAS_DIR" Secure="yes">
+            <RegistrySearch Id="VS2010ProductPathSearch" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="10.0" Type="raw">
+                <DirectorySearch Id="VS2010XmlPathSearch" Path="Xml" Depth="1">
+                    <DirectorySearch Id="VS2010XmlSchemasPathSearch" Path="Schemas" Depth="1" />
+                </DirectorySearch>
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2010_ITEMTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS2010DevEnvForItemTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2010ItemTemplatesPathSearch" Path="ItemTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2010_BOOTSTRAPPER_PACKAGE_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVs2010BootstrapperPackageFolder" Root="HKLM" Key="Software\Microsoft\GenericBootstrapper\4.0" Name="Path" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2010_ROOT_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVS2010RootPath" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="10.0" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2010DEVENV" Secure="yes">
+            <RegistrySearch Id="VS2010DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2010Setup" Property="VS2010DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2010DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2010Setup" Before="InstallFinalize" Overridable="yes">VS2010DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2010InstallVSTemplates" Property="VS2010DEVENV" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2010DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2010InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2010DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# 2010 Express IDE component is installed.  -->
+    <!-- If this property is set, that means Visual C# 2010 Express Edition is     -->
+    <!-- installed on the system.                                                  -->
+    <Fragment>
+        <Property Id="VCSHARP2010EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVcsExpressIde2010Component" Guid="A4945167-D8A4-4B10-9B78-99C2CDC243EC" Type="file" >
+                <FileSearch Id="VcsExpressIde2010" Name="vcsexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vcsexpress.exe /setup                     -->
+    <Fragment>
+        <CustomAction Id="VCSHARP2010Setup" Property="VCSHARP2010EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VCSHARP2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VCSHARP2010Setup" Before="InstallFinalize" Overridable="yes">VCSHARP2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vcsexpress.exe /InstallVSTemplates        -->
+    <Fragment>
+        <CustomAction Id="VCSHARP2010InstallVSTemplates" Property="VCSHARP2010EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VCSHARP2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VCSHARP2010InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VCSHARP2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# project system is installed as a part of  -->
+    <!-- Visual Studio 2010 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2010 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2010 setup.              -->
+    <Fragment>
+        <Property Id="VS2010_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVCS2010ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic 2010 Express IDE component is installed. -->
+    <!-- If this property is set, that means Visual Basic 2010 Express Edition is    -->
+    <!-- installed on the system.                                                    -->
+    <Fragment>
+        <Property Id="VB2010EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVbExpressIde2010Component" Guid="3EDEF607-9E3A-4A64-BFE1-104979CF2899" Type="file">
+                <FileSearch Id="VbExpressIde2010" Name="vbexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vbexpress.exe /setup                        -->
+    <Fragment>
+        <CustomAction Id="VB2010Setup" Property="VB2010EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VB2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VB2010Setup" Before="InstallFinalize" Overridable="yes">VB2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vbexpress.exe /InstallVSTemplates           -->
+    <Fragment>
+        <CustomAction Id="VB2010InstallVSTemplates" Property="VB2010EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VB2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VB2010InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VB2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic project system is installed as a part of -->
+    <!-- Visual Studio 2010 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2010 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2010 setup.             -->
+    <Fragment>
+        <Property Id="VS2010_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVB2010ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{F184B08F-C81C-45f6-A57F-5ABD9991F28F}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer 2010 Express IDE component is installed.  -->
+    <!-- If this property is set, that means Visual Web Developer 2010 Express Edition is     -->
+    <!-- installed on the system.                                                             -->
+    <Fragment>
+        <Property Id="VWD2010EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVwdExpressIde2010Component" Guid="771B6CF7-C8D2-4D85-BACD-ED01600256DC" Type="file">
+                <FileSearch Id="VwdExpressIde2010" Name="vwdexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vwdexpress.exe /setup                               -->
+    <Fragment>
+        <CustomAction Id="VWD2010Setup" Property="VWD2010EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VWD2010Setup" Before="InstallFinalize" Overridable="yes">VWD2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vwdexpress.exe /InstallVSTemplates                  -->
+    <Fragment>
+        <CustomAction Id="VWD2010InstallVSTemplates" Property="VWD2010EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VWD2010InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VWD2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
+    <!-- Visual Studio 2010 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2010 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2010 setup.             -->
+    <Fragment>
+        <Property Id="VS2010_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVWD2010ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{E24C65DC-7377-472B-9ABA-BC803B73C61A}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ 2010 Express IDE component is installed. -->
+    <!-- If this property is set, that means Visual C++ 2010 Express Edition is    -->
+    <!-- installed on the system.                                                  -->
+    <Fragment>
+        <Property Id="VC2010EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVcExpressIde2010Component" Guid="B455E8D3-90CB-47F6-AB7B-9B31E5DE6266" Type="file">
+                <FileSearch Id="VcExpressIde2010" Name="vcexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vcexpress.exe /setup                      -->
+    <Fragment>
+        <CustomAction Id="VC2010Setup" Property="VC2010EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VC2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VC2010Setup" Before="InstallFinalize" Overridable="yes">VC2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vcexpress.exe /InstallVSTemplates         -->
+    <Fragment>
+        <CustomAction Id="VC2010InstallVSTemplates" Property="VC2010EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VC2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VC2010InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VC2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ project system is installed as a part of -->
+    <!-- Visual Studio 2010 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2010 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2010 setup.             -->
+    <Fragment>
+        <Property Id="VS2010_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVC2010ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2010 Express for Windows Phone IDE component is  -->
+    <!-- installed. If this property is set, that means Visual Studio 2010 Express for        -->
+    <!-- Windows Phone is installed on the system.                                            -->
+    <Fragment>
+        <Property Id="VPD2010EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVpdExpressIde2010Component" Guid="80C81DB2-E95B-4C03-A559-C664E8411DDF" Type="file">
+                <FileSearch Id="VpdExpressIde2010" Name="vpdexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vpdexpress.exe /setup                                -->
+    <Fragment>
+        <CustomAction Id="VPD2010Setup" Property="VPD2010EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VPD2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VPD2010Setup" Before="InstallFinalize" Overridable="yes">VPD2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vpdexpress.exe /InstallVSTemplates                   -->
+    <Fragment>
+        <CustomAction Id="VPD2010InstallVSTemplates" Property="VPD2010EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VPD2010EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VPD2010InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VPD2010EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2010 Team Test project system is installed -->
+    <Fragment>
+        <Property Id="VS2010_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2010TestSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{3AC096D0-A1C2-E12C-1390-A8335801FDAB}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2010 Database project system is installed -->
+    <Fragment>
+        <Property Id="VS2010_IDE_DB_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2010DBSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{C8D11400-126E-41CD-887F-60BD40844F9E}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2010 Deployment project system (setup project) is installed -->
+    <Fragment>
+        <Property Id="VS2010_IDE_VSD_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2010VSDSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{54435603-DBB4-11D2-8724-00A0C9A8B90C}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Windows Installer XML project system is installed for VS2010 -->
+    <Fragment>
+        <Property Id="VS2010_IDE_WIX_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <!-- Component search for the .pkgdef file for VS2010 -->
+            <ComponentSearch Id="SearchForVS2010WixSystemUnderVSSetup" Guid="3C5BA30B-0713-5E28-8EEA-171E7A5E4864" Type="file" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Modeling project system is installed -->
+    <Fragment>
+        <Property Id="VS2010_IDE_MODELING_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2010ModelingSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{f088123c-0e9e-452a-89e6-6ba2f21d5cac}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio F# project system is installed -->
+    <Fragment>
+        <Property Id="VS2010_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2010FSharpSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\10.0\Projects\{f2a71f9b-5d33-465a-a702-920d77279786}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+</Wix>

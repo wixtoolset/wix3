@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="dutil.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Itanium">
+      <Configuration>Debug</Configuration>
+      <Platform>Itanium</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Itanium">
+      <Configuration>Release</Configuration>
+      <Platform>Itanium</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1244E671-F108-4334-BA52-8A7517F26ECD}</ProjectGuid>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <TargetName>dutil</TargetName>
+    <MultiTargetLibrary>true</MultiTargetLibrary>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ClCompile Include="aclutil.cpp" />
+    <ClCompile Include="apuputil.cpp" />
+    <ClCompile Include="atomutil.cpp" />
+    <ClCompile Include="buffutil.cpp" />
+    <ClCompile Include="cabcutil.cpp" />
+    <ClCompile Include="cabutil.cpp" />
+    <ClCompile Include="certutil.cpp" />
+    <ClCompile Include="conutil.cpp" />
+    <ClCompile Include="cryputil.cpp" />
+    <ClCompile Include="dictutil.cpp" />
+    <ClCompile Include="dirutil.cpp" />
+    <ClCompile Include="dutil.cpp" />
+    <ClCompile Include="eseutil.cpp" />
+    <ClCompile Include="fileutil.cpp" />
+    <ClCompile Include="gdiputil.cpp" />
+    <!-- IIS7 not supported by VS2008 -->
+    <ClCompile Include="iis7util.cpp" Condition=" '$(PlatformToolset)'!='v90' " />
+    <ClCompile Include="inetutil.cpp" />
+    <ClCompile Include="iniutil.cpp" />
+    <ClCompile Include="jsonutil.cpp" />
+    <ClCompile Include="locutil.cpp" />
+    <ClCompile Include="logutil.cpp" />
+    <ClCompile Include="memutil.cpp" />
+    <ClCompile Include="metautil.cpp" />
+    <ClCompile Include="osutil.cpp" />
+    <ClCompile Include="pathutil.cpp" />
+    <ClCompile Include="perfutil.cpp" />
+    <ClCompile Include="polcutil.cpp" />
+    <ClCompile Include="proc2utl.cpp" />
+    <ClCompile Include="proc3utl.cpp" />
+    <ClCompile Include="procutil.cpp" />
+    <ClCompile Include="regutil.cpp" />
+    <ClCompile Include="resrutil.cpp" />
+    <ClCompile Include="reswutil.cpp" />
+    <ClCompile Include="rexutil.cpp" />
+    <ClCompile Include="rmutil.cpp" />
+    <ClCompile Include="rssutil.cpp" />
+    <ClCompile Include="sceutil.cpp" />
+    <ClCompile Include="shelutil.cpp" />
+    <ClCompile Include="sqlutil.cpp" />
+    <ClCompile Include="srputil.cpp" />
+    <ClCompile Include="strutil.cpp" />
+    <ClCompile Include="svcutil.cpp" />
+    <ClCompile Include="thmutil.cpp" />
+    <ClCompile Include="timeutil.cpp" />
+    <ClCompile Include="uriutil.cpp" />
+    <ClCompile Include="userutil.cpp" />
+    <ClCompile Include="wiutil.cpp" />
+    <ClCompile Include="wuautil.cpp" />
+    <ClCompile Include="xmlutil.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="inc\aclutil.h" />
+    <ClInclude Include="inc\apuputil.h" />
+    <ClInclude Include="inc\atomutil.h" />
+    <ClInclude Include="inc\buffutil.h" />
+    <ClInclude Include="inc\cabcutil.h" />
+    <ClInclude Include="inc\cabutil.h" />
+    <ClInclude Include="inc\certutil.h" />
+    <ClInclude Include="inc\conutil.h" />
+    <ClInclude Include="inc\cryputil.h" />
+    <ClInclude Include="inc\dictutil.h" />
+    <ClInclude Include="inc\dirutil.h" />
+    <ClInclude Include="inc\dutil.h" />
+    <ClInclude Include="inc\eseutil.h" />
+    <ClInclude Include="inc\fileutil.h" />
+    <ClInclude Include="inc\gdiputil.h" />
+    <ClInclude Include="inc\inetutil.h" />
+    <ClInclude Include="inc\iniutil.h" />
+    <ClInclude Include="inc\jsonutil.h" />
+    <ClInclude Include="inc\locutil.h" />
+    <ClInclude Include="inc\logutil.h" />
+    <ClInclude Include="inc\memutil.h" />
+    <ClInclude Include="inc\metautil.h" />
+    <ClInclude Include="inc\osutil.h" />
+    <ClInclude Include="inc\pathutil.h" />
+    <ClInclude Include="inc\perfutil.h" />
+    <ClInclude Include="inc\polcutil.h" />
+    <ClInclude Include="inc\procutil.h" />
+    <ClInclude Include="inc\regutil.h" />
+    <ClInclude Include="inc\resrutil.h" />
+    <ClInclude Include="inc\reswutil.h" />
+    <ClInclude Include="inc\rexutil.h" />
+    <ClInclude Include="inc\rssutil.h" />
+    <ClInclude Include="inc\sceutil.h" />
+    <ClInclude Include="inc\shelutil.h" />
+    <ClInclude Include="inc\sqlutil.h" />
+    <ClInclude Include="inc\srputil.h" />
+    <ClInclude Include="inc\strutil.h" />
+    <ClInclude Include="inc\svcutil.h" />
+    <ClInclude Include="inc\thmutil.h" />
+    <ClInclude Include="inc\timeutil.h" />
+    <ClInclude Include="inc\uriutil.h" />
+    <ClInclude Include="inc\userutil.h" />
+    <ClInclude Include="inc\wiutil.h" />
+    <ClInclude Include="inc\wuautil.h" />
+    <ClInclude Include="inc\xmlutil.h" />
+    <ClInclude Include="precomp.h" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="xsd\thmutil.xsd" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

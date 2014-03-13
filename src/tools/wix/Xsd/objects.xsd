@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="objects.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2006/objects"
+              xmlns="http://schemas.microsoft.com/wix/2006/objects">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing Windows Installer Xml Object files (.wixobj).
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="wixObject">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="section" />
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Version of WiX used to create this object file.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="section">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="table" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Identifier for section (optional for Fragments)</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="type" type="SectionType" use="required">
+                <xs:annotation>
+                    <xs:documentation>Type of section</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="codepage" type="xs:integer" use="optional">
+                <xs:annotation>
+                    <xs:documentation>Codepage for output file, only valid on entry sections.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="table">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="row" />
+            </xs:sequence>
+            <xs:attribute name="name" type="TableNameType" use="required">
+                <xs:annotation>
+                    <xs:documentation>Name of table in Windows Installer database</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="op">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="add" />
+                        <xs:enumeration value="drop" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="row">
+        <xs:annotation>
+            <xs:documentation>Row in a table</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence maxOccurs="32">
+                <xs:element ref="field" />
+            </xs:sequence>
+            <xs:attribute name="op">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="add" />
+                        <xs:enumeration value="delete" />
+                        <xs:enumeration value="modify" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="sectionId" type="xs:string" />
+            <xs:attribute name="sourceLineNumber" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="field">
+        <xs:annotation>
+            <xs:documentation>Data for a particular field in a row.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="cabinetFileId" type="xs:string" />
+            <xs:attribute name="modified" type="YesNoType" />
+            <xs:attribute name="previousData" type="xs:string" />
+           <xs:attribute name="unresolvedData" type="xs:string" />
+           <xs:attribute name="unresolvedPreviousData" type="xs:string" />
+            <xs:attribute name="previousCabinetFileId" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="SectionType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="bundle"/>
+            <xs:enumeration value="fragment" />
+            <xs:enumeration value="module" />
+            <xs:enumeration value="product" />
+            <xs:enumeration value="patchCreation" />
+            <xs:enumeration value="patch" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TableNameType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="62" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="YesNoType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="yes" />
+            <xs:enumeration value="no" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

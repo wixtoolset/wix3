@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Compression.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{2D62850C-9F81-4BE9-BDF3-9379389C8F7B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Deployment.Compression</RootNamespace>
+    <AssemblyName>Microsoft.Deployment.Compression</AssemblyName>
+    <CreateDocumentationFile>true</CreateDocumentationFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FxCopEnabled>false</FxCopEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ArchiveException.cs" />
+    <Compile Include="ArchiveFileInfo.cs" />
+    <Compile Include="ArchiveInfo.cs" />
+    <Compile Include="ArchiveProgressEventArgs.cs" />
+    <Compile Include="ArchiveProgressType.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ArchiveFileStreamContext.cs" />
+    <Compile Include="BasicUnpackStreamContext.cs" />
+    <Compile Include="CompressionEngine.cs" />
+    <Compile Include="CompressionLevel.cs" />
+    <Compile Include="CargoStream.cs" />
+    <Compile Include="DuplicateStream.cs" />
+    <Compile Include="IPackStreamContext.cs" />
+    <Compile Include="IUnpackStreamContext.cs" />
+    <Compile Include="OffsetStream.cs" />
+    <Compile Include="SafeNativeMethods.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Compression.cd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="A.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension">
+  <Product Id="*" Name="~$(var.TestName) - A" Language="1033" Version="$(var.Version)" Manufacturer="Microsoft Corporation" UpgradeCode="D6C9B92A-4E76-4737-A68F-9CE1700B4ADC">
+    <Package Compressed="yes" InstallerVersion="300" InstallScope="perMachine"/>
+
+    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
+    <MediaTemplate/>
+
+    <Property Id="MsiLogging" Value="voicewarmup"/>
+    <PropertyRef Id="TestVersion"/>
+
+    <Feature Id="Complete" Level="1">
+      <ComponentRef Id="FileComponent"/>
+      <ComponentRef Id="RegistryComponent"/>
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="WixDir" Name="~Test WiX">
+          <Directory Id="TestDir" Name="$(var.TestName)">
+            <Directory Id="INSTALLFOLDER" Name="A"/>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <Component Id="FileComponent" Guid="BB609407-F2F4-458D-95F8-BF184D6E8496" Directory="INSTALLFOLDER">
+      <File Source="$(sys.SOURCEFILEPATH)"/>
+      <dep:Provides Key="Microsoft.WiX.$(var.TestName).A,v1.0"/>
+    </Component>
+  </Fragment>
+
+  <Fragment>
+    <Component Id="RegistryComponent" Directory="INSTALLFOLDER">
+      <RegistryValue Root="HKLM" Key="Software\WiX\Tests\$(var.TestName)" Name="A" Value="!(bind.property.TestVersion)" Type="string"/>
+    </Component>
+  </Fragment>
+
+  <Fragment>
+    <Property Id="TestVersion" Value="$(var.Version)"/>
+  </Fragment>
+</Wix>

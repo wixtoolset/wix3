@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_kk-KZ.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="kk-kz" Codepage="1251" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Артқа</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Келесі</String>
+    <String Id="WixUICancel" Overridable="yes">Болдырмау</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Аяқтау</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Қайталау</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Елемеу</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Иә</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Жоқ</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Басып шығару</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасының лицензиялық келісімін оқып шығыңыз</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Мен лицензиялық келісімнің шарттарын &amp;қабылдаймын</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Барлық пайдаланушыларға өнімді әдепкі параметрлерге орнату үшін "Орнату" түймешігін басыңыз. Орнату параметрлерін өзгерту үшін "Қосымша" түймешігін басыңыз.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Өзіңізге өнімді әдепкі параметрлерге орнату үшін "Орнату" түймешігін басыңыз. Орнату параметрлерін өзгерту үшін "Қосымша" түймешігін басыңыз.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Орнату</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">Қ&amp;осымша</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Іздеу:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Бір деңгей жоғары</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Жаңа қалта жасау</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Қалта атауы:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Тағайындалған қалтаны шолу</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Тағайындау қалтасын өзгерту</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="CancelDlgText" Overridable="yes">Шынымен [ProductName] бағдарламасын орнатудан бас тартқыңыз келе ме?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Ақпарат белгішесі</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Таңдаулар тармақтары</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">Ш&amp;олу...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">Ыс&amp;ыру</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">Дискіні &amp;пайдалану</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Мүмкіндіктер орнатылатын жолды өзгерту үшін төмендегі тармақтағы белгішелерді нұқыңыз.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Мүмкіндіктер орнатылатын жолды таңдаңыз.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Арнайы орнату</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Орналасу:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Бөлектелген мәндерде таңдалған мүмкіндіктер үшін дискіде жеткілікті бос орын жоқ. Бөлектелген мәндерден кейбір файлдарды жоюға, азырақ мүмкіндіктер орнатуға немесе басқа тағайындау дискілерін таңдауыңызға болады.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Таңдалған мүмкіндіктерді орнату үшін дискіде бос орын қажет етіледі.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Дискіде қажет етілетін бос орын</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Ақпараттық мәтін</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Ақпарат белгішесі</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Орнату шеберінен шығу үшін "Аяқтау" түймешігін басыңыз.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасының орнату шебері жұмысын аяқтады</String>
+
+    <String Id="FatalError_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасының орнату шебері жұмысын мерзімінен бұрын аяқтады</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">[ProductName] бағдарламасының орнату шебері қатеге байланысты жұмысын мерзімінен бұрын аяқтады. Жүйеңіз өзгертілген жоқ. Бұл бағдарламаны кейінірек орнату үшін, орнату шеберін қайтадан іске қосыңыз.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Орнату шеберінен шығу үшін "Аяқтау" түймешігін басыңыз.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Өнім мүмкіндіктері</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Мүмкіндіктер орнатылатын жолды таңдаңыз.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Өнім мүмкіндіктері</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Орнату</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Өзгерту</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="FilesInUseExit" Overridable="yes">Ш&amp;ығу</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Бұл орнату жаңартуы керек файлдарды келесі бағдарламалар пайдалануда. Бұл бағдарламаларды жабыңыз да, орнатуды жалғастыру үшін "Қ&amp;айталау" түймешігін немесе одан шығу үшін "Шығу" түймешігін басыңыз.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Жаңартылуы қажет кейбір файлдар қазір қолданыста.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Қолданыстағы файлдар</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Өзгерту...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Тағайындау қалтасы</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Әдепкі қалтаны орнату үшін "Келесі" түймешігін немесе басқасын таңдау үшін "Өзгерту" түймешігін басыңыз.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">[ProductName] бағдарламасын мұнда орнату:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Орнату ауқымын және қалтасын таңдау</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Орнату ауқымы</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}&amp;Тек өзіңіз үшін орнату ([USERNAME])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] бағдарламасы әрбір пайдаланушы қалтасына орнатылады және тек пайдаланушы тіркелгіңізге қол жетімді болады. Әкімші құқықтары қажет емес.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] бағдарламасы әрбір пайдаланушы орнатуын қолдамайды.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Осы &amp;компьютердің барлық пайдаланушылары үшін орнату</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">[ProductName] бағдарламасы әрбір компьютер қалтасына әдепкідей орнатылады және барлық пайдаланушылар үшін қол жетімді болады. Әдепкі орнату қалтасын өзгерте аласыз. Әкімші құқықтары болуы қажет.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Орнату &amp;қалтасы:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Өзгерту...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Орнату каталогы жергілікті қатты дискіде болуы керек.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Ақпарат белгішесі</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Мен лицензиялық келісімнің шарттарын &amp;қабылдаймын</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Төмендегі лицензиялық келісімнің шарттарын мұқият оқып шығыңыз</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}соңғы тұтынушысына арналған лицензиялық келісім</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Өзгерту</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Орнатуды өзгерту</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Қа&amp;лпына келтіру</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Орнатуды қалпына келтіру</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Жою</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Орнатуды жою</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Орындағыңыз келген әрекетті таңдаңыз.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Орнатуды өзгерту, қалпына келтіру немесе жою</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Сізге мүмкіндіктердің орнатылу жолын өзгертуге мүмкіндік береді.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">[ProductName] бағдарламасында бөлек таңдалатын мүмкіндіктер жоқ.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">[ProductName] бағдарламасын компьютеріңізден жояды.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">[ProductName] бағдарламасын жою мүмкін емес.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Жоқ және бұзылған файлдарды, ендер мен тізбе жазбаларын түзету арқылы ең соңғы орнатудағы қателерді қалпына келтіреді.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">[ProductName] бағдарламасын қалпына келтіру мүмкін емес.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Орнату шебері [ProductName] бағдарламасының мүмкіндіктері компьютеріңізге қалай орнатылатынын өзгертуге немесе оны компьютеріңізден жоюға мүмкіндік береді. Жалғастыру үшін "Келесі" түймешігін немесе орнату шеберінен шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасының орнату шеберіне қош келдіңіз</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Бұл орнату жаңартуы керек файлдарды келесі бағдарламалар пайдалануда. Орнату шеберіне оларды жауып, қайта қотаруға немесе компьютерді кейінірек қайта қотаруға мүмкіндік бере аласыз.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Жаңартылуы қажет кейбір файлдар қазір қолданыста.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Қолданыстағы файлдар</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Бағдарламаларды жауып, оларды қайта қотарып көріңіз.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Бағдарламаларды жаппаңыз. Компьютерді қайта қотару қажет болады.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Бөлектелген мәнедерде ағымдағы таңдалған мүмкіндіктер үшін дискте жеткілікті бос орын жоқ. Бөлектелген мәндерден кейбір файлдарды жоюға, азырақ мүмкіндіктер орнатуға немесе басқа тағайындау драйверін таңдауға болады.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Орнату үшін қажет етілетін дискідегі бос орын дискіде бар бос орыннан асады.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Дискіде бос орын жоқ</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Бөлектелген мәнедерде ағымдағы таңдалған мүмкіндіктер үшін дискте жеткілікті бос орын жоқ. Бөлектелген мәндерден кейбір файлдарды жоюға, азырақ мүмкіндіктер орнатуға немесе басқа тағайындау драйверін таңдауға болады.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Орнату үшін қажет етілетін дискідегі бос орын дискіде бар бос орыннан асады.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Дискіде бос орын жоқ</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Сонымен қатар, орнатушының қалпына келтіру функциясын ажыратуға болады. Қалпына келтіру функциясын ажырату орнату процесі қандай да бір жағдайда үзілген кезде орнатушы бағдарламаның компьютеріңізді бастапқы күйге келтіруіне мүмкіндік бермейді. Тәуекелге барып, қалпына келтіру функциясын ажырату үшін "Иә" түймешігін басыңыз.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Орнату шебері орнату барысында бағыт беруге дайын болғанша күтіңіз.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасының орнату шеберіне қош келдіңіз</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Орнату шебері [ProductName] бағдарламасын орнатқанға дейін күте тұрыңыз.</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасы орнатылуда</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Орнату шебері [ProductName] бағдарламасын өзгерткенге дейін күте тұрыңыз.</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасы өзгертілуде</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Орнату шебері [ProductName] бағдарламасын қалпына келтіргенге дейін күте тұрыңыз.</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасы қалпына келтірілуде</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Орнату шебері [ProductName] бағдарламасын жойғанға дейін күте тұрыңыз.</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасы жойылуда</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Орнату шебері [ProductName] бағдарламасын орнатқанға дейін күте тұрыңыз.</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title} [ProductName] бағдарламасын жаңартуда</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Орындалды</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Күйі:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Орнату</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Орнату шебері [ProductName] бағдарламасын компьютеріңізге орнатуды аяқтайды. Жалғастыру үшін "Орнату" түймешігін немесе орнату шеберінен шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасын орнату шебері жаңартылуда</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Әдеттегі</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Әдеттегі орнату</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">Т&amp;аңдамалы</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Таңдамалы орнату</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">А&amp;яқтау</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Орнатуды аяқтау</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Орнату түрін таңдау</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Қажеттіліктерге сәйкес келетін орнату түрін таңдау</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Көптеген жалпы бағдарлама мүмкіндіктерін орнатады. Көптеген пайдаланушыларға ұсынылады.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Пайдаланушыларға орнатылатын бағдарлама мүмкіндіктерін және олардың орнатылатын жерін таңдауға мүмкіндік береді. Тәжірибелі пайдаланушылар үшін ұсынылады.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Барлық бағдарлама мүмкіндіктері орнатылады. Дискіде қосымша бос орын қажет.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасының орнату шеберінің жұмысы үзілді</String>
+    <String Id="UserExitDescription1" Overridable="yes">[ProductName] бағдарламасын орнату үзілді. Жүйеңіз өзгертілген жоқ. Бұл бағдарламаны кейінірек орнату үшін, орнатуды қайтадан іске қосыңыз.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Орнату шеберінен шығу үшін "Аяқтау" түймешігін басыңыз.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Орнату</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Орнатуды бастау үшін "Орнату" түймешігін басыңыз. Сараптау немесе кез келген орнату параметрлерін өзгерту үшін "Артқа" түймешігін басыңыз. Шеберден шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасын орнатуға дайын</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Өзгерту</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Орнатуды бастау үшін "Өзгерту" түймешігін басыңыз. Сараптау немесе кез келген орнату параметрлерін өзгерту үшін "Артқа" түймешігін басыңыз. Шеберден шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасын өзгертуге дайын</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">Қа&amp;лпына келтіру</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">[ProductName] бағдарламасының орнатуын қалпына келтіру үшін "Қалпына келтіру" түймешігін басыңыз. Сараптау немесе кез келген орнату параметрлерін өзгерту үшін "Артқа" түймешігін басыңыз. Шеберден шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасын қалпына келтіруге дайын</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Жою</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">[ProductName] бағдарламасын компьютеріңізден жою үшін ”Жою” түймешігін басыңыз. Сараптау немесе кез келген орнату параметрлерін өзгерту үшін "Артқа" түймешігін басыңыз. Шеберден шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасын жоюға дайын</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Жаңарту</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">[ProductName] бағдарламасын компьютеріңізден жаңарту үшін "Жаңарту" түймешігін басыңыз. Сараптау немесе кез келген орнату параметрлерін өзгерту үшін "Артқа" түймешігін басыңыз. Шеберден шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасын жаңартуға дайын</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Қайтару</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Орнатушы дискідегі бос орын талаптарын анықтап болғанша күте тұрыңыз.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Леп белгішесі</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">Орнату шебері компьютеріңізге [ProductName] бағдарламасын орнатады. Жалғастыру үшін "Келесі" түймешігін немесе орнату шеберінен шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Орнату шебері компьютеріңіздегі [ProductName] бағдарламасын жаңартады. Жалғастыру үшін "Келесі" түймешігін немесе орнату шеберінен шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] бағдарламасының орнату шеберіне қош келдіңіз</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Мен лицензиялық келісімнің шарттарын &amp;қабылдаймын</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Орнату</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Жаңарту</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}[ProductName] бағдарламасының лицензиялық келісімін оқып шығыңыз</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Орнату тексерілуде</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Жаңа файлдар көшірілуде</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Файл: [1], каталог: [9], өлшем: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Желілік орнату файлдары көшірілуде</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Файл: [1], каталог: [9], өлшем: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Талап етілетін бос орын есептелуде</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Талап етілетін бос орын есептелуде</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Талап етілетін бос орын есептелуде</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Таңбашалар жасалуда</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Ен: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Сәйкес құрамдас бөліктер жариялануда</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Құрамдас бөлік коды: [1], жіктегіш: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Өнім мүмкіндіктері жариялануда</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Мүмкіндік: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Өнім туралы мәліметтер жариялануда</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Сынып серверлері тіркелуде</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Сынып коды: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Кеңейтім серверлері тіркелуде</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Кеңейтім: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">MIME мәліметтері тіркелуде</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME мазмұнының түрі: [1], кеңейтім: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Бағдарлама идентификаторлары тіркелуде</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Тізбе бос орны бөлектелуде</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Бос орын: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Орнатылған бағдарламалар ізделуде</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Сипат: [1], қолтаңба: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Атқарылатын файлдар біріктірілуде</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Файл: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Сәйкес өнімдер ізделуде</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Қалталар жасалуда</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Қалта: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Қызметтер жойылуда</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Қызмет: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Көшірме файлдары жасалуда</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Файл: [1], каталог: [9], өлшем: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Байланысқан бағдарламалар ізделуде</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Табылған бағдарлама: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">ODBC құрамдас бөліктері орнатылуда</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Жаңа қызметтер орнатылуда</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Қызмет: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Іске қосу шарттары бағаланып жатыр</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Қатысты бағдарламалардан мүмкіндіктердің күйлері өткізілуде</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Бағдарлама: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Файлдар жылжытылуда</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Файл: [1], каталог: [9], өлшем: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Файлдар жаңартылуда</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Файл: [1], каталог: [2], өлшем: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Құрамдас бөлік тіркемесі жаңартылуда</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">COM+ бағдарламалары мен құрамдас бөліктері тіркелуде</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2], пайдаланушылар: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Қаріптер тіркелуде</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Қаріп: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Өнім тіркелуде</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Түрлер кітапханалары тіркелуде</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Пайдаланушы тіркелуде</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Қайталанатын файлдар жойылуда</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Файл: [1], каталог: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Орта жолдары жаңартылуда</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Атау: [1], мән: [2], әрекет [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Бағдарламалар жойылуда</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Бағдарлама: [1], пәрмен жолы: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Файлдар жойылуда</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Файл: [1], каталог: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Қалталар жойылуда</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Қалта: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">INI файлдарының жазбалары жойылуда</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Файл: [1], бөлім: [2], перне: [3], мән: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">ODBC құрамдас бөліктері жойылуда</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Жүйелік тізбе мәндері жойылуда</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Перне: [1], атау: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Ендер жойылуда</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Ен: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Сәйкес өнімдер ізделуде</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Модульдер тіркелуде</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Файл: [1], қалта: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Модульдерді тіркеу болдырылмауда</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Файл: [1], қалта: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">ODBC каталогтары баптандырылуда</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Қызметтер іске қосылуда</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Қызмет: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Қызметтер тоқтатылуда</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Қызмет: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Жарамды құрамдас бөліктер жарияланбауда</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Құрамдас бөлік коды: [1], жіктегіш: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Өнім мүмкіндіктері жарияланбауда</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Мүмкіндік: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Сынып серверлерін тіркеуді болдырмау</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Сынып коды: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">COM+ бағдарламалары мен құрамдас бөліктерін тіркеу болдырылмауда</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Кеңейтім серверлерін тіркеу болдырылмауда</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Кеңейтім: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Қаріптерді тіркеу болдырылмауда</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Қаріп: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">MIME мәліметтерін тіркеу болдырылмауда</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME мазмұнының түрі: [1], кеңейтім: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Бағдарлама идентификаторларын тіркеуді болдырмау</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Түрлер кітапханаларын тіркеу болдырылмауда</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Орта жолдары жаңартылуда</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Атау: [1], мән: [2], әрекет [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">INI файлдарының мәндері жазылуда</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Файл: [1], бөлім: [2], перне: [3], мән: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Жүйелік тізбе мәндері жазылуда</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Перне: [1], атау: [2], мән: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Бағдарлама туралы мәлімет таратылуда</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Келесі әрекет үшін сценарий әрекеттері жасалуда:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Жүйе каталогы орнатылуда</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Файл: [1], тәуелділіктер: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Жиын туралы мәліметтер жариялануда</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Бағдарлама мәтінмәні:[1], жиын атауы:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Жиын туралы мәліметтер жарияланбауда</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Бағдарлама мәтінмәні:[1], жиын атауы:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Әрекет болдырылмауда:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Файлдардың сақтық көшірмелері жойылуда</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Файл: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Жылжытылған файлдар жойылуда</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Файл: [1], каталог: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Өнім туралы мәліметтер жарияланбауда</String>
+
+    <String Id="Error0" Overridable="yes">{{Түзетілмейтін қате: }}</String>
+    <String Id="Error1" Overridable="yes">{{[1]-қате. }}</String>
+    <String Id="Error2" Overridable="yes">Ескерту [1]. </String>
+    <String Id="Error4" Overridable="yes">Ақпарат [1]. </String>
+    <String Id="Error5" Overridable="yes">Орнатушы осы буманы орнату кезінде күтпеген қате тапты. Бұл бумада ақаулықтың бар екендігін білдіруі мүмкін. Қате коды: [1]. {{Дәлелдер: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Дискі толық: }}</String>
+    <String Id="Error8" Overridable="yes">Әрекет [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Хабар түрі: [1], дәлел: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Жұрнал жүргізу басталды: [күн] [уақыт] ===</String>
+    <String Id="Error13" Overridable="yes">=== Жұрнал жүргізу тоқтатылды: [күн] [уақыт] ===</String>
+    <String Id="Error14" Overridable="yes">Әрекеттің басталуы [уақыт]: [1].</String>
+    <String Id="Error15" Overridable="yes">Әрекеттің аяқталуы [уақыт]: [1]. Берілген мән: [2].</String>
+    <String Id="Error16" Overridable="yes">Қалған уақыт: {[1] минут }{[2] секунд}</String>
+    <String Id="Error17" Overridable="yes">Жад жеткіліксіз. Әрекетті қайталамастан бұрын, басқа бағдарламаларды жабыңыз.</String>
+    <String Id="Error18" Overridable="yes">Орнатушы енді жауап бермейді.</String>
+    <String Id="Error19" Overridable="yes">Орнатушы уақытынан бұрын тоқтады.</String>
+    <String Id="Error20" Overridable="yes">Windows жүйесі [ProductName] бағдарламасын теңшегенге дейін күте тұрыңыз</String>
+    <String Id="Error21" Overridable="yes">Қажетті мәліметтер жиналуда...</String>
+    <String Id="Error22" Overridable="yes">Осы бағдарламаның ескі нұсқалары жойылуда...</String>
+    <String Id="Error23" Overridable="yes">Осы бағдарламаның ескі нұсқалары жою үшін дайындалуда...</String>
+    <String Id="Error32" Overridable="yes">{[ProductName] }Орнату сәтті аяқталды.</String>
+    <String Id="Error33" Overridable="yes">{[ProductName] }Орнатылмады.</String>
+    <String Id="Error1101" Overridable="yes">Файлдан оқу кезіндегі қате: [2]. {{ [3]-жүйе қатесі.}} Файл бар екенін және онымен жұмыс жасай алатыныңызды тексеріңіз.</String>
+    <String Id="Error1301" Overridable="yes">'[2]' файлын жасау мүмкін болмады. Осы атпен каталог бар. Орнатуды болдырмаңыз да, басқа орынға орнатып көріңіз.</String>
+    <String Id="Error1302" Overridable="yes">Дискіні салыңыз: [2]</String>
+    <String Id="Error1303" Overridable="yes">Орнатушыда осы каталогқа кіру артықшылықтары жеткіліксіз: [2]. Орнату жалғастырылмайды. Әкімші ретінде кіріңіз немесе жүйе әкімшісімен хабарласыңыз.</String>
+    <String Id="Error1304" Overridable="yes">Файлға жазу кезіндегі қате: [2]. Сол каталогқа кіру мүмкіндігіңіз бар екенін тексеріңіз.</String>
+    <String Id="Error1305" Overridable="yes">[2] файлынан оқу кезіндегі қате. {{ [3]-жүйе қатесі.}} Файл бар екенін және онымен жұмыс жасай алатыныңызды тексеріңіз.</String>
+    <String Id="Error1306" Overridable="yes">'[2]' файлына басқа бағдарламаның жеке иелікпен кіру құқығы бар. Басқа бағдарламалардың барлығын жабыңыз да "Қайталау" түймешігін басыңыз.</String>
+    <String Id="Error1307" Overridable="yes">Бұл файлды орнатуға дискідегі бос орын жеткіліксіз: [2]. Біраз орын босатып, "Қайталау" түймешігін басыңыз немесе шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="Error1308" Overridable="yes">Бастапқы файл табылмады: [2]. Файл бар екенін және онымен жұмыс жасай алатыныңызды тексеріңіз.</String>
+    <String Id="Error1309" Overridable="yes">Файлдан оқу кезіндегі қате: [3]. {{ [2]-жүйе қатесі.}} Файл бар екенін және онымен жұмыс жасай алатыныңызды тексеріңіз.</String>
+    <String Id="Error1310" Overridable="yes">Файлға жазу кезіндегі қате: [3]. {{ [2]-жүйе қатесі.}}  Ол каталогқа рұқсатыңыздың бар екендігін тексеріңіз.</String>
+    <String Id="Error1311" Overridable="yes">Бастапқы файл табылмады{{(CAB файлы)}}: [2]. Файл бар екенін және онымен жұмыс жасай алатыныңызды тексеріңіз.</String>
+    <String Id="Error1312" Overridable="yes">'[2]' каталогын жасау мүмкін болмады. Мұндай атты файл бар. Файлдың атын ауыстырыңыз да немесе оны жойыңыз да, "Қайталау" түймешігін немесе шығу үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="Error1313" Overridable="yes">Қазір [2] мәні жоқ. Басқасын таңдаңыз.</String>
+    <String Id="Error1314" Overridable="yes">Көрсетілген '[2]' жолы жоқ.</String>
+    <String Id="Error1315" Overridable="yes">Көрсетілген қалтаға жазу мүмкін емес: [2].</String>
+    <String Id="Error1316" Overridable="yes">Файлдан оқу әрекеті кезінде желі қатесі орын алды: [2]</String>
+    <String Id="Error1317" Overridable="yes">Каталогты жасау әрекеті кезінде қате орын алды: [2]</String>
+    <String Id="Error1318" Overridable="yes">Каталогты жасау әрекеті кезінде желі қатесі орын алды: [2]</String>
+    <String Id="Error1319" Overridable="yes">Бастапқы CAB-файлын ашу әрекеті кезінде желі қатесі орын алды: [2]</String>
+    <String Id="Error1320" Overridable="yes">Көрсетілген жол тым ұзын: [2]</String>
+    <String Id="Error1321" Overridable="yes">Орнатушыда бұл файлды өзгерту үшін жеткілікті басымдылықтар жоқ: [2].</String>
+    <String Id="Error1322" Overridable="yes">'[2]' қалта жолының бөлігі жарамсыз. Ол бос немесе оның ұзындығы жүйеде рұқсат етілгеннен ұзынырақ.</String>
+    <String Id="Error1323" Overridable="yes">'[2]' қалтасының жолында қалта жолдарында жарамды болып табылмайтын сөздер бар.</String>
+    <String Id="Error1324" Overridable="yes">'[2]' қалтасының жолында жарамсыз таңба бар.</String>
+    <String Id="Error1325" Overridable="yes">'[2]' жарамды қысқа файл атауы емес.</String>
+    <String Id="Error1326" Overridable="yes">Файл қауіпсіздігін алу кезіндегі қате: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Жарамсыз дискі: [2]</String>
+    <String Id="Error1328" Overridable="yes">[2] файлына жаңартуды қолдану кезіндегі қате. Мүмкін ол басқа жолмен жаңартылған болар, бұл жаңартумен енді өзгертілмейді. Қосымша ақпарат алу үшін жаңартудың сатушысына хабарласыңыз. {{Жүйелік қате: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">[2] CAB файлына сандық қолтаңба қойылмағандықтан қажет файлды орнату мүмкін емес. Бұл CAB файлының бұзылғанын білдіруі мүмкін.</String>
+    <String Id="Error1330" Overridable="yes">Қажет файл орнатылмайды, себебі [2] кабинет файлындағы сандық қолтаңба жарамсыз. Бұл кабинет файлының бұзылғанын көрсетеді.{{ [3] қатесін WinVerifyTrust қайтарды.}}</String>
+    <String Id="Error1331" Overridable="yes">[2] файлы дұрыс көшірілмеді: CRC қатесі.</String>
+    <String Id="Error1332" Overridable="yes">[2] файлы дұрыс жылжытылмады: CRC қатесі.</String>
+    <String Id="Error1333" Overridable="yes">[2] файлын дұрыс жаңарту мүмкін болмады: CRC қатесі.</String>
+    <String Id="Error1334" Overridable="yes">'[2]' файлын орнату мүмкін емес, себебі файл '[3]' CAB-файлынан табылмайды. Бұл желі қатесін немесе CD-ROM ішінен оқу кезіндегі қатені, не болмаса бұл бумада ақаулықтың бар екендігін көрсетеді.</String>
+    <String Id="Error1335" Overridable="yes">Осы орнатым үшін қажет '[2]' CAB-файлы бүлінген және оны пайдалану мүмкін емес. Бұл желі қатесін немесе CD-ROM ішінен оқу кезіндегі қатені, не болмаса бұл бумада ақаулықтың бар екендігін көрсетеді.</String>
+    <String Id="Error1336" Overridable="yes">Осы орнатымды аяқтау үшін қажетті уақытша файлды жасау кезінде қате орын алды.{{ Қалта: [3]. Жүйелік қате коды: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Перне жасау мүмкін емес: [2]. {{ Жүйелік қате [3].}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1402" Overridable="yes">Пернені ашу мүмкін болмады: [2]. {{ Жүйелік қате [3].}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1403" Overridable="yes">[2] мәнін [3] пернесінен жою мүмкін болмады. {{ Жүйелік қате [4].}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1404" Overridable="yes">[2] пернесі жою мүмкін болмады. {{ Жүйелік қате [3].}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1405" Overridable="yes">[2] мәнін [3] пернесінен оқу мүмкін болмады. {{ Жүйелік қате [4].}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз. </String>
+    <String Id="Error1406" Overridable="yes">[3] бөліміне [2] мәнін жазу мүмкін болмады. {{ [4]-жүйелік қате.}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1407" Overridable="yes">[2] бөлімі үшін мән атауларын алу мүмкін болмады. {{ [3]-жүйелік қате.}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1408" Overridable="yes">[2] бөлімі үшін ішкі бөлім атауларын алу мүмкін болмады. {{ [3]-жүйелік қате.}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1409" Overridable="yes">[2] бөлімінің қауіпсіздік туралы мәліметтерін оқу мүмкін болмады. {{ [3]-жүйелік қате.}} Ол кілтке жеткілікті рұқсатыңыздың бар екенін тексеріңіз немесе қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1410" Overridable="yes">Қол жетімді тізбе орнын көбейту мүмкін болмады. Бұл бағдарламаны орнату үшін [2] Кбайт бос тізбе орны қажет.</String>
+    <String Id="Error1500" Overridable="yes">Басқа орнату орындалып жатыр. Бұл орнатуды жалғастырмастан бұрын, соны аяқтауыңыз керек.</String>
+    <String Id="Error1501" Overridable="yes">Қорғалған деректерге кіру кезіндегі қате. Windows орнатушысының дұрыс теңшелгендігін тексеріп, орнатуды қайталаңыз.</String>
+    <String Id="Error1502" Overridable="yes">'[2]' пайдаланушысы '[3]' өнімінің орнатылуын бұдан бұрын бастаған. Пайдаланушыға өнімді пайдалану үшін алдымен сол орнатқышты іске қосуы керек. Ал қазір ағымдағы орнатқыш жұмысы жалғасады.</String>
+    <String Id="Error1503" Overridable="yes">'[2]' пайдаланушысы '[3]' өнімінің орнатылуын бұдан бұрын бастаған. Өнімді пайдалану үшін сол пайдаланушы орнатуды қайта іске қосуы керек.</String>
+    <String Id="Error1601" Overridable="yes">Дискіде бос орын жоқ -- Бөлім: '[2]'; қажет етілетін бос орын: [3] Кбайт; бар бос орын: [4] Кбайт. Орын босатып, қайталаңыз.</String>
+    <String Id="Error1602" Overridable="yes">Шынымен бас тартқыңыз келе ме?</String>
+    <String Id="Error1603" Overridable="yes">[2][3] файлы пайдаланылуда { мына процесс бойынша: Атау: [4], идентификаторы: [5], терезе аты: '[6]'}. Ол қолданбаны жауып, қайта әрекеттеніңіз.</String>
+    <String Id="Error1604" Overridable="yes">Бұрын орнатылған '[2]' өнімі осы өнімнің орнатылуына бөгет болып отыр. Екі өнім бір-бірімен сыйыспайды.</String>
+    <String Id="Error1605" Overridable="yes">Қалпына келтіру мүмкіндігі қосылған орнатуды жалғастыру үшін "[2]" бөліміндегі дискіде жеткілікті бос орын жоқ. [3] Кбайт бос орын талап етіледі, бірақ тек [4] Кбайт бос орын бар. Қалпына келтіру мәліметтерін сақтаусыз орнатуды жалғастыру үшін, "Елемеу" түймешігін, бар бос орынды қайта тексеру үшін, "Қайталау" түймешігін, ал орнатуды тоқтату үшін, "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="Error1606" Overridable="yes">[2] желілік орналасуды ашу мүмкін болмады.</String>
+    <String Id="Error1607" Overridable="yes">Орнату жалғастырылмастан бұрын, келесі бағдарламалар жабылуы керек:</String>
+    <String Id="Error1608" Overridable="yes">Осы өнімді орнату үшін компьютерде алдыңғы орнатылған сәйкес өнімдерді табу мүмкін емес.</String>
+    <String Id="Error1609" Overridable="yes">Қауіпсіздік параметрлерін қолдану кезінде қате орын алды. [2] жарамды пайдаланушы немесе топ емес. Бұл бумада орын алған немесе желідегі домен контроллеріне қосылу проблемасы болуы мүмкін. Желі қосылымын тексеріп, орнатуды аяқтау үшін, "Қайталау" немесе "Болдырмау" түймешігін басыңыз. {{Пайдаланушының қауіпсіздік идентификаторын табу мүмкін емес, [3]-жүйе қатесі}}</String>
+    <String Id="Error1701" Overridable="yes">[2] кілт жарамсыз. Дұрыс кілт енгізілгенін тексеріңіз.</String>
+    <String Id="Error1702" Overridable="yes">[2] өнімін теңшеуді жалғастыру үшін орнатушы жүйеңізді қайта қотаруы тиіс. Қазір қайта іске қосу үшін "Иә" түймешігін немесе кейінірек қолмен қайта icке қосуды жоспарласаңыз, "Жоқ" түймешігін басыңыз.</String>
+    <String Id="Error1703" Overridable="yes">[2] ішіне жасалған теңшелім өзгертулері күшіне енуі үшін, жүйе қайта іске қосылуы тиіс. Қазір қайта іске қосу үшін "Иә" түймешігін немесе кейінірек қолмен қайта icке қосуды жоспарласаңыз, "Жоқ" түймешігін басыңыз.</String>
+    <String Id="Error1704" Overridable="yes">[2] орнатпасы қазір уақытша тоқтатылған. Орнатуды жалғастыру үшін жасалған өзгерістерді қайтару керек. Сол өзгерістер қайтарылсын ба?</String>
+    <String Id="Error1705" Overridable="yes">Бұл өнімнің алдыңғы орнатылуы жасалуда. Орнатуды жалғастыру үшін жасалған өзгерістерді қайтару керек. Сол өзгерістер қайтарылсын ба?</String>
+    <String Id="Error1706" Overridable="yes">[2] өніміне арналған орнатым бумасын табу мүмкін емес. '[3]' орнатым бумасының жарамды көшірмесін пайдаланып, орнатуды қайталаңыз.</String>
+    <String Id="Error1707" Overridable="yes">Орнату сәтті аяқталды.</String>
+    <String Id="Error1708" Overridable="yes">Орнатылмады.</String>
+    <String Id="Error1709" Overridable="yes">Өнім: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Компьютерді алдыңғы күйіне қалпына келтіруге немесе орнатуды кейінірек жалғастыруға болады. Қалпына келтірілсін бе?</String>
+    <String Id="Error1711" Overridable="yes">Орнату ақпаратын дискіге жазу кезінде қате орын алды. Жеткілікті бос орын бар болғанына көз жеткізіңіз де, "Қайталау" түймешігін немесе орнатуды аяқтау үшін "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="Error1712" Overridable="yes">Компьютерді алдыңғы күйіне қалпына келтіру үшін қажет бір немесе бірнеше файл табылмады. Қалпына келтіру мүмкін емес.</String>
+    <String Id="Error1713" Overridable="yes">[2] өнімі қажетті өнімдерінің біреуін орната алмайды. Техникалық қолдау көрсету тобыңызға хабарласыңыз. {{Жүйелік қате: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">[2] өнімінің алдыңғы нұсқасын жою мүмкін емес. Техникалық қолдау көрсету тобыңызға хабарласыңыз. {{[3] жүйелік қатесі.}}</String>
+    <String Id="Error1715" Overridable="yes">Орнатылған [2]</String>
+    <String Id="Error1716" Overridable="yes">Теңшелген [2]</String>
+    <String Id="Error1717" Overridable="yes">Жойылған [2]</String>
+    <String Id="Error1718" Overridable="yes">[2] файлын сандық қолтаңба саясаты қабылдамады.</String>
+    <String Id="Error1719" Overridable="yes">Windows орнатушысы қызметіне кіру мүмкін болмады. Бұл Windows жүйесі қауіпсіз күйде іске қосылса немесе Windows орнатушысы дұрыс орнатылмаса орын алады. Көмек алу үшін, қолдау көрсету орталығының қызметкеріне хабарласыңыз.</String>
+    <String Id="Error1720" Overridable="yes">Осы Windows орнатушы бумасында ақаулық бар. Орнатуды аяқтау үшін қажет сценарий іске қосылмайды. Қолдау көрсету қызметкерлеріне немесе буманың сатушысына хабарласыңыз. {{[2] таңдамалы әрекетінің сценарий қатесі [3], [4]: [5] [6], [7] бағаны, [8] бағаны}}</String>
+    <String Id="Error1721" Overridable="yes">Осы Windows орнатушы бумасында ақаулық бар. Осы орнатудың аяқталуы үшін қажетті бағдарламаны іске қосу мүмкін болмады. Қолдау көрсету қызметкерлеріне немесе буманың сатушысына хабарласыңыз. {{Әрекет: [2], орналасу: [3], пәрмен: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Осы Windows орнатушы бумасында ақаулық бар. Ақаулық осы орнатпа бөлігінін күткендегідей орнатылмағандығынан туындады. Қолдау көрсету қызметкерлеріне немесе буманың сатушысына хабарласыңыз. {{[2] әрекеті, орын: [3], пәрмен: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Осы Windows орнатушы бумасында ақаулық бар. Бұл орнатудың аяқталуы үшін қажет DLL файлы іске қосылмайды. Қолдау көрсету қызметкерлеріне немесе буманың сатушысына хабарласыңыз. {{Әрекет [2], жазба: [3], кітапхана: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Жою сәтті аяқталды.</String>
+    <String Id="Error1725" Overridable="yes">Жойылмады.</String>
+    <String Id="Error1726" Overridable="yes">Жариялау сәтті аяқталды.</String>
+    <String Id="Error1727" Overridable="yes">Хабарландыру сәтсіз аяқталды.</String>
+    <String Id="Error1728" Overridable="yes">Теңшелім сәтті аяқталды.</String>
+    <String Id="Error1729" Overridable="yes">Теңшелім орындалмады.</String>
+    <String Id="Error1730" Overridable="yes">Бұл бағдарламаны жою үшін, әкімші болуыңыз керек. Осы бағдарламаны жою үшін, әкімші ретінде жүйеге кіруіңізге немесе көмек алу үшін техникалық қолдау көрсету тобына хабарласуыңызға болады.</String>
+    <String Id="Error1731" Overridable="yes">[2] бағдарламасына арналған бастапқы орнату бумасы клиент бумасымен үндестірілмеген. '[3]' орнатым бумасының жарамды көшірмесін пайдаланып, орнатуды қайталаңыз.</String>
+    <String Id="Error1732" Overridable="yes">[2] бағдарламасын орнатуды аяқтау үшін, компьютерді қайта қосу керек. Қазір бұл компьютерге кірген басқа пайдаланушылар бар, ал қайта қосу олардың жұмысының жоғалуына себеп болуы мүмкін. Қазір қайта қосу керек пе?</String>
+    <String Id="Error1801" Overridable="yes">[2] жолы жарамсыз. Жарамды жолды көрсетіңіз.</String>
+    <String Id="Error1802" Overridable="yes">Жад жеткіліксіз. Әрекетті қайталамастан бұрын, басқа бағдарламаларды жабыңыз.</String>
+    <String Id="Error1803" Overridable="yes">[2] дискіенгізгісінде диск жоқ. Дискіні салып, "Қайталау" түймешігін, ал алдыңғы таңдалған бөлімге оралу үшін, "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="Error1804" Overridable="yes">[2] дискіенгізгісінде диск жоқ. Дискіні салып, "Қайталау" түймешігін, ал алдыңғы таңдалған бөлімге оралу үшін, "Болдырмау" түймешігін басыңыз.</String>
+    <String Id="Error1805" Overridable="yes">[2] қалтасы жоқ. Бар қалта жолын енгізіңіз.</String>
+    <String Id="Error1806" Overridable="yes">Бұл қалтаны оқу үшін сізде жеткілікті басымдылықтар жоқ.</String>
+    <String Id="Error1807" Overridable="yes">Орнатуға тағайындалған жарамды қалтаны анықтау мүмкін болмады.</String>
+    <String Id="Error1901" Overridable="yes">Бастапқы орнату дерекқорынан оқу әрекеті кезіндегі қате: [2].</String>
+    <String Id="Error1902" Overridable="yes">Қайта іске қосу әрекеті жоспарлануда: [2] файлы [3] ретінде қайта аталуда. Әрекетті аяқтау үшін қайта іске қосу қажет.</String>
+    <String Id="Error1903" Overridable="yes">Қайта іске қосу әрекеті жоспарлануда: [2] файлы жойылуда. Әрекетті аяқтау үшін қайта іске қосу қажет.</String>
+    <String Id="Error1904" Overridable="yes">[2] модулі тіркелмеді. HRESULT [3]. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1905" Overridable="yes">[2] модулі ажыратылмады. HRESULT [3]. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1906" Overridable="yes">[2] бумасы кэштелмеді. Қате: [3]. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1907" Overridable="yes">[2] қарпін тіркеу мүмкін болмады. Қаріптерді орнатуға жеткілікті рұқсаттардың болуын және жүйе бұл қаріпті қолдайтынын тексеріңіз.</String>
+    <String Id="Error1908" Overridable="yes">[2] қарпін тіркеуді болдырмау мүмкін болмады. Қаріптерді жою үшін жеткілікті рұқсаттарыңыздың бар екендігін тексеріңіз.</String>
+    <String Id="Error1909" Overridable="yes">[2] таңбашасын жасау мүмкін болмады. Тағайындалған қалтаның бар болуын және оны аша алатындығыңызды тексеріңіз.</String>
+    <String Id="Error1910" Overridable="yes">[2] таңбашасын жою мүмкін болмады. Таңбаша файлының бар болуын және оны аша алатындығыңызды тексеріңіз.</String>
+    <String Id="Error1911" Overridable="yes">[2] файлы үшін түр кітапханасын тіркеу мүмкін болмады. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1912" Overridable="yes">[2] файлы үшін түр кітапханасын ажырату мүмкін болмады. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1913" Overridable="yes">[2][3] ini файлын жаңарту мүмкін болмады. Файл бар екенін және онымен жұмыс жасай алатыныңызды тексеріңіз.</String>
+    <String Id="Error1914" Overridable="yes">Қайта қотарғанда [2] файлымен [3] файлын алмастыруды жоспарлау мүмкін болмады. [3] файлына жазу рұқсаттарыңыздың болуын тексеріңіз.</String>
+    <String Id="Error1915" Overridable="yes">ODBC драйверін реттеушіні жою кезіндегі қате, [2] -ODBC қатесі: [3]. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1916" Overridable="yes">ODBC драйверін реттеушіні орнату кезіндегі қате, [2]-ODBC қатесі: [3]. Қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1917" Overridable="yes">ODBC драйверін жою кезіндегі қате: [4], [2]-ODBC қатесі: [3]. ODBC драйверлерін жою үшін жеткілікті басымдылықтарыңыздың бар екендігін тексеріңіз.</String>
+    <String Id="Error1918" Overridable="yes">ODBC драйверін орнату кезіндегі қате: [4], [2]-ODBC қатесі: [3]. [4] файлының бар болуын және оны аша алатындығыңызды тексеріңіз.</String>
+    <String Id="Error1919" Overridable="yes">ODBC деректер көзін теңшеу кезіндегі қате: [4], [2]-ODBC қатесі: [3]. [4] файлының бар болуын және оны аша алатындығыңызды тексеріңіз.</String>
+    <String Id="Error1920" Overridable="yes">'[2]' ([3]) қызметі басталмады. Жүйелік қызметтерді бастауға жеткілікті құқықтың болуын тексеріңіз.</String>
+    <String Id="Error1921" Overridable="yes">'[2]' ([3]) қызметін тоқтату мүмкін болмады. Жүйелік қызметтерді тоқтатуға жеткілікті құқықтың болуын тексеріңіз.</String>
+    <String Id="Error1922" Overridable="yes">'[2]' ([3]) қызметін жою мүмкін болмады. Жүйелік қызметтерді жоюға жеткілікті құқықтың болуын тексеріңіз.</String>
+    <String Id="Error1923" Overridable="yes">'[2]' ([3]) қызметін орнату мүмкін болмады. Жүйелік қызметтерді орнатуға жеткілікті құқықтың болуын тексеріңіз.</String>
+    <String Id="Error1924" Overridable="yes">Ортаның '[2]' айнымалы мәнін жаңарту мүмкін болмады. Ортаның айнымалы мәндерін өзгертуге жеткілікті құқықтың болуын тексеріңіз.</String>
+    <String Id="Error1925" Overridable="yes">Бұл компьютердің пайдаланушыларының барлығы үшін орнатуды аяқтауға құқықтар жеткіліксіз. Жүйеге әкімші ретінде кіріңіз де, содан кейін бұл орнатуды қайтадан орындап көріңіз.</String>
+    <String Id="Error1926" Overridable="yes">'[3]' файлы үшін файл қауіпсіздігін қою мүмкін болмады. Қате: [2]. Осы файлдың қауіпсіздік рұқсаттарын өзгертуге құқықтардың жеткілікті екенін тексеріңіз.</String>
+    <String Id="Error1927" Overridable="yes">Құрамдас қызметтер (COM+ 1.0) бұл компьютерге орнатылмаған. Сәтті аяқталу үшін бұл орнату құрамдас қызметтерді қажет етеді. Құрамдас қызметтер Windows 2000 жүйесінде бар.</String>
+    <String Id="Error1928" Overridable="yes">COM+ бағдарламасын тіркеу қатесі. Қосымша ақпарат алу үшін қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1929" Overridable="yes">COM+ бағдарламасын ажырату қатесі. Қосымша ақпарат алу үшін қолдау көрсету қызметкерлеріне хабарласыңыз.</String>
+    <String Id="Error1930" Overridable="yes">'[2]' қызметінің сипаттамасын ([3]) өзгерту мүмкін болмады.</String>
+    <String Id="Error1931" Overridable="yes">Windows орнатушы қызметі [2] жүйелік файлын жаңарта алмайды, өйткені ол Windows жүйесімен қорғалады. Бұл бағдарлама дұрыс жұмыс істеуі үшін амалдық жүйені жаңарту керек болуы мүмкін. {{Бума нұсқасы: [3], амалдық жүйемен қорғалған нұсқа: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Windows орнатушысы қызметі қорғалған [2] Windows файлын жаңарта алмайды. {{Бума нұсқасы: [3], амалдық жүйемен қорғалған нұсқа: [4], SFP қатесі: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Windows орнатушы қызметі бір немесе бірнеше қорғалған Windows файлдарын жаңарта алмады. {{SFP Қате: [2]. Қорғалған файлдар тізімі:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Пайдаланушы орнатымдары компьютердегі саясат арқылы ажыратылған.</String>
+    <String Id="Error1935" Overridable="yes">'[6]' жиынын орнату кезінде қате орын алды. Қосымша ақпаратты Анықтама және қолдау орталығынан қарай аласыз. HRESULT: [3]. {{жиын интерфейсі: [4], функция: [5], құрамдас: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">'[6]' жиынын орнату кезінде қате орын алды. Жиынның аты күрделі емес немесе оған ең аз кілт ұзындығымен қол қойылмаған. HRESULT: [3]. {{жиын интерфейсі: [4], функция: [5], құрамдас: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">'[6]' жиынын орнату кезінде қате орын алды. Қолтаңба мен каталог расталмады немесе олар жарамсыз. HRESULT: [3]. {{жиын интерфейсі: [4], функция: [5], құрамдас: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">'[6]' жиынын орнату кезінде қате орын алды. Жиынның бір немесе бірнеше модульдері табылмады. HRESULT: [3]. {{жиын интерфейсі: [4], функция: [5], құрамдас: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">байт</String>
+    <String Id="UITextGB" Overridable="yes">Гбайт</String>
+    <String Id="UITextKB" Overridable="yes">Кбайт</String>
+    <String Id="UITextMB" Overridable="yes">Мбайт</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Толық мүмкіндік қол жетімді болмайды</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Мүмкіндік қажет болғанда орнатылады</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Ықшам дискіден іске қосылуы үшін толық мүмкіндік орнатылады</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Толық мүмкіндік жергілікті қатты дискіде орнатылады</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Толық мүмкіндік желіден іске қосылуы үшін орнатылады</String>
+    <String Id="UITextMenuCD" Overridable="yes">Ықшам дискіден іске қосылуы үшін орнатылады</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Жергілікті қатты дискіде орнатылады</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Желіден іске қосылуы үшін орнатылады</String>
+    <String Id="UITextNewFolder" Overridable="yes">Қалта|Жаңа қалта</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Қажетті мәліметтер жиналуда...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Бұл мүмкіндік жойылмаған күйі қалады</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Бұл мүмкіндік қажет болғанда орнатылуы үшін теңшеледі</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Бұл мүмкіндік ықшам дискіден іске қосылуы үшін орнатылады</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіде орнатылады</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Бұл мүмкіндік желіден іске қосылуы үшін орнатылады</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Бұл мүмкіндік қол жетімді емес болады</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Қажет болғанда орнатылады</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Бұл мүмкіндік ықшам дискіден іске қосылу үшін қол жетімді болады</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіде орнатылады</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Бұл мүмкіндік желіден іске қосылу үшін қол жетімді болады</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Бұл мүмкіндік толығымен жойылады, оны ықшам дискіден іске қосу мүмкін болмайды</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Бұл мүмкіндік қажет болғанда орнатылуға теңшелу үшін, ықшам дискі күйінен іске қосылудан өзгереді</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Бұл мүмкіндік ықшам дискіден іске қосылатын болып қалады</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіден орнатылу үшін, ықшам дискі күйінен іске қосылудан өзгереді</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Бұл мүмкіндік қатты дискіде [1] орынды босатады.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Бұл мүмкіндік үшін қатты дискіде [1] орын қажет.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Осы мүмкіндік құны есептелуде...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Бұл мүмкіндік толығымен жойылады</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіден жойылады, бірақ қажет болғанда орнатылатын етіп теңшеледі</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіден жойылады, бірақ әлі де ықшам дискіден іске қосылу үшін қол жетімді болады</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіде қалады</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіден жойылады, бірақ желіден іске қосылу үшін әлі де қол жетімді болады.</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Бұл мүмкіндік толығымен жойылады, оны желіден іске қосу мүмкін болмайды</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Бұл мүмкіндік қажет болғанда орнатылуға теңшелу үшін, желі күйінен іске қосылудан өзгереді</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Бұл мүмкіндік жергілікті қатты дискіде орнатылу үшін, желі күйінен іске қосылудан өзгереді</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Бұл мүмкіндік желіден іске қосылатын болып қалады</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Бұл мүмкіндік қатты дискіде [1] орынды босатады. Онда [2]/[3] таңдалған ішкі мүмкіндіктер бар. Ішкі мүмкіндіктер қатты дискіде [4] орынды босатады.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Бұл мүмкіндік қатты дискіде [1] орынды босатады. Онда [2]/[3] таңдалған ішкі мүмкіндіктер бар. Ішкі мүмкіндіктер үшін қатты дискіде [4] орын қажет.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Бұл мүмкіндік үшін қатты дискіде [1] орын қажет. Онда [2]/[3] таңдалған ішкі мүмкіндіктер бар. Ішкі мүмкіндіктер қатты дискіде [4] орынды босатады.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Бұл мүмкіндік үшін қатты дискіде [1] орын қажет. Онда [2]/[3] таңдалған ішкі мүмкіндіктер бар. Ішкі мүмкіндіктер үшін қатты дискіде [4] орын қажет.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Қалған уақыт: {[1] минут }{[2] секунд}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Бар</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Айырмашылық</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Талап етілген</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Дискі өлшемі</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Көлем</String>
+</WixLocalization>

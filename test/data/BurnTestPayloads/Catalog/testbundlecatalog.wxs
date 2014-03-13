@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="testbundlecatalog.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+    <Bundle Name='Burn Test Catalog Bundle' Version='0.1' UpgradeCode='0A190CA6-6D59-4F20-9BC3-B1021021F795'
+            IconSourceFile='$(env.WIX_ROOT)\src\Votive\votive2010\Templates\Projects\WixProject\WixProject.ico'
+            SplashScreenSourceFile='$(env.WIX_ROOT)\test\data\RobMen\data\logo.bmp'>
+        <Catalog Id='TestCatalog' SourceFile='$(env.WIX_ROOT)\test\data\BurnTestPayloads\Catalog\BurnTestCatalog.cat'/>
+        <BootstrapperApplicationRef Id='WixStandardBootstrapperApplication.RtfLicense' />
+
+        <Variable Name='BundleName' Value='WiX Standard Bootstrapper Test' />
+        <Variable Name='InstallFolder' Value='[ProgramFilesFolder]\[BundleName]' />
+
+        <Chain>
+            <ExePackage SourceFile="$(env.WIX_ROOT)\test\data\BurnTestPayloads\Products\TestExe\TestExe.exe" Compressed="no" Vital="yes" PerMachine="yes"
+                        InstallCommand="/ec 0 /s 5000 /Pinfo %TEMP%\BurnTestCatalogProcessInfo_Install.xml"
+                        UninstallCommand="/ec 0 /s 5000 /Pinfo %TEMP%\BurnTestCatalogProcessInfo_Uninstall.xml" />
+          <MsiPackage Id='Hello_World_Package' Vital='yes' Compressed='no' Cache='no'
+                      SourceFile='$(env.WIX_ROOT)\test\data\BurnTestPayloads\Products\Hello_World\hello_world.msi' />
+        </Chain>
+    </Bundle>
+
+</Wix>

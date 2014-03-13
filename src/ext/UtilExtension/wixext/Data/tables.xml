@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Utility Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="WixCloseApplication">
+        <columnDefinition name="WixCloseApplication" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token in table."/>
+        <columnDefinition name="Target" type="localized" length="0" modularize="property"
+                category="formatted" description="Name of executable to ensure is closed."/>
+        <columnDefinition name="Description" type="string" length="0" nullable="yes" localizable="yes" modularize="property"
+                category="formatted" description="Description string displayed to user when executable is in use."/>
+        <columnDefinition name="Condition" type="string" length="0" nullable="yes" localizable="yes" modularize="condition"
+                category="condition" description="Optional expression which skips the closing."/>
+        <columnDefinition name="Attributes" type="number" length="4"
+                minValue="0" maxValue="2147483647" description="A 32-bit word that specifies the attribute flags to be applied."/>
+        <columnDefinition name="Sequence" type="number" length="4" nullable="yes"
+                minValue="1" maxValue="2147483647" description="Sequence to order the closings by."/>
+        <columnDefinition name="Property" type="string" length="72" nullable="yes" localizable="yes" modularize="property"
+                category="identifier" description="Optional property that is set to the number of running instances of the app."/>
+        <columnDefinition name="TerminateExitCode" type="number" length="4" nullable="yes"
+                minValue="1" maxValue="2147483647" description="Exit code to return from a terminated application."/>
+        <columnDefinition name="Timeout" type="number" length="4" nullable="yes"
+                minValue="1" maxValue="2147483647" description="Timeout in milliseconds before scheduling restart or terminating application."/>
+    </tableDefinition>
+    <tableDefinition name="WixRemoveFolderEx" createSymbols="yes">
+        <columnDefinition name="WixRemoveFolderEx" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Identifier for the WixRemoveFolderEx row in the package."/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table used to determine install state"/>
+        <columnDefinition name="Property" type="string" length="72" modularize="property"
+                category="identifier" description="Name of Property that contains the root of the directory tree to remove."/>
+        <columnDefinition name="InstallMode" type="number" length="2"
+                minValue="1" maxValue="3" description="1 == Remove only when the associated component is being installed (msiInstallStateLocal or msiInstallStateSource), 2 == Remove only when the associated component is being removed (msiInstallStateAbsent), 3 = Remove in either of the above cases."/>
+    </tableDefinition>
+    <tableDefinition name="WixRestartResource">
+        <columnDefinition name="WixRestartResource" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized identifier."/>
+        <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table used to determine install state."/>
+        <columnDefinition name="Resource" type="string" length="0" modularize="property"
+                category="formatted" description="The resource to be registered with the Restart Manager."/>
+        <columnDefinition name="Attributes" type="number" length="4"
+                minValue="0" maxValue="2147483647" description="A 32-bit word that specifies the type of resource and flags used for processing."/>
+    </tableDefinition>
+    <tableDefinition name="FileShare" createSymbols="yes">
+        <columnDefinition name="FileShare" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized identifier"/>
+        <columnDefinition name="ShareName" type="string" length="255"
+                category="formatted" description="The actual share name used"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table used to determine install state"/>
+        <columnDefinition name="Description" type="string" length="255" nullable="yes"
+                category="text" description="Description string displayed for the file share"/>
+        <columnDefinition name="Directory_" type="string" length="72" modularize="column"
+                keyTable="Directory" keyColumn="1" category="identifier" description="Foreign key referencing directory that the share is created on"/>
+        <columnDefinition name="User_" type="string" length="72" modularize="column" nullable="yes"
+                keyTable="User" keyColumn="1" category="identifier" description="Foreign key, User to give access permissions to"/>
+        <columnDefinition name="Permissions" type="number" length="4" nullable="yes"
+                description="Permissions int, as on EXPLICIT_ACCESS.grfAccessPermissions in MSDN"/>
+    </tableDefinition>
+    <tableDefinition name="FileSharePermissions">
+        <columnDefinition name="FileShare_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="FileShare" keyColumn="1" category="identifier" description="FileShare that these premissions are to be applied to."/>
+        <columnDefinition name="User_" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="User that these premissions are to apply to."/>
+        <columnDefinition name="Permissions" type="number" length="4"
+                description="Permissions int, as on EXPLICIT_ACCESS.grfAccessPermissions in MSDN"/>
+    </tableDefinition>
+    <tableDefinition name="Group" createSymbols="yes">
+        <columnDefinition name="Group" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="text" description="Foreign key, Component used to determine install state"/>
+        <columnDefinition name="Name" type="string" length="255" modularize="property"
+                category="formatted" description="Group name"/>
+        <columnDefinition name="Domain" type="string" length="255" nullable="yes" modularize="property"
+                category="formatted" description="Group domain"/>
+    </tableDefinition>
+    <tableDefinition name="WixInternetShortcut" createSymbols="yes">
+        <columnDefinition name="WixInternetShortcut" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token in table."/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="text" description="Foreign key, Component used to determine install state"/>
+        <columnDefinition name="Directory_" type="string" length="72" modularize="column"
+                keyTable="Directory" keyColumn="1" category="identifier" description="Foreign key referencing directory that the shortcut is created in"/>
+        <columnDefinition name="Name" type="string" length="72" modularize="property"
+                category="text" description="Name used for shortcut."/>
+        <columnDefinition name="Target" type="localized" length="0" escapeIdtCharacters="yes"
+                category="text" description="URL target."/>
+        <columnDefinition name="Attributes" type="number" length="2"
+                description="Attribute flags that control how the shortcut is created."/>
+    </tableDefinition>
+    <tableDefinition name="PerformanceCategory">
+        <columnDefinition name="PerformanceCategory" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token in table."/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Component used to determine install state"/>
+        <columnDefinition name="Name" type="string" length="80"
+                category="text" description="Name of the performance counter category."/>
+        <columnDefinition name="IniData" type="localized" length="0" escapeIdtCharacters="yes"
+                category="text" description="Data that goes into the performance counter .ini file."/>
+        <columnDefinition name="ConstantData" type="localized" length="0" escapeIdtCharacters="yes"
+                category="text" description="Data that goes into the performance counter .h file."/>
+    </tableDefinition>
+    <tableDefinition name="Perfmon">
+        <columnDefinition name="Component_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Component used to determine install state"/>
+        <columnDefinition name="File" type="string" length="72" primaryKey="yes" modularize="property"
+                category="formatted" description="Name of .INI file"/>
+        <columnDefinition name="Name" type="string" length="72" primaryKey="yes"
+                category="text" description="Service name in registry"/>
+    </tableDefinition>
+    <tableDefinition name="PerfmonManifest">
+        <columnDefinition name="Component_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Component used to determine install state"/>
+        <columnDefinition name="File" type="string" length="72" primaryKey="yes" modularize="property"
+                category="formatted" description="Name of perfmon manifest file"/>
+        <columnDefinition name="ResourceFileDirectory" type="string" length="255" primaryKey="yes"
+                category="formatted" description="The path of the Resource File Directory"/>
+    </tableDefinition>
+    <tableDefinition name="EventManifest">
+        <columnDefinition name="Component_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Component used to determine install state"/>
+        <columnDefinition name="File" type="string" length="72" primaryKey="yes" modularize="property"
+                category="formatted" description="Name of event manifest file"/>
+    </tableDefinition>
+    <tableDefinition name="SecureObjects">
+        <columnDefinition name="SecureObject" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token in Table"/>
+        <columnDefinition name="Table" type="string" length="32" primaryKey="yes"
+                category="text" description="Table SecureObject should be securing"/>
+        <columnDefinition name="Domain" type="string" length="255" primaryKey="yes" nullable="yes" modularize="property"
+                category="text" description="Domain half of user account to secure"/>
+        <columnDefinition name="User" type="string" length="255" primaryKey="yes" modularize="property"
+                category="text" description="Username half of user account to secure"/>
+        <columnDefinition name="Permission" type="number" length="4" nullable="yes"
+                minValue="-2147483647" maxValue="2147483647" description="Permissions to grant to User"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table used to determine install state"/>
+    </tableDefinition>
+    <tableDefinition name="ServiceConfig">
+        <columnDefinition name="ServiceName" type="string" length="72" primaryKey="yes"
+                category="formatted" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key, Component used to determine install state "/>
+        <columnDefinition name="NewService" type="number" length="1"
+                minValue="0" maxValue="1" description="Whether the affected service is being installed or already exists."/>
+        <columnDefinition name="FirstFailureActionType" type="string" length="32"
+                category="text" description="First failure action type for configured service to take."/>
+        <columnDefinition name="SecondFailureActionType" type="string" length="32"
+                category="text" description="Second failure action type for configured service to take."/>
+        <columnDefinition name="ThirdFailureActionType" type="string" length="32"
+                category="text" description="Third failure action type for configured service to take."/>
+        <columnDefinition name="ResetPeriodInDays" type="number" length="4" nullable="yes"
+                category="integer" minValue="0" description="Period after which to reset the failure count for the service."/>
+        <columnDefinition name="RestartServiceDelayInSeconds" type="number" length="4" nullable="yes"
+                category="integer" minValue="0" description="Period after which to restart the service after a given failure."/>
+        <columnDefinition name="ProgramCommandLine" type="string" length="255" nullable="yes"
+                category="formatted" description="Command line for program to run if failure action is RUN_COMMAND."/>
+        <columnDefinition name="RebootMessage" type="string" length="255" nullable="yes"
+                category="text" description="Message to show to users when rebooting if failure action is REBOOT."/>
+    </tableDefinition>
+    <tableDefinition name="User" createSymbols="yes">
+        <columnDefinition name="User" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="text" description="Foreign key, Component used to determine install state"/>
+        <columnDefinition name="Name" type="string" length="255" modularize="property"
+                category="formatted" description="User name"/>
+        <columnDefinition name="Domain" type="string" length="255" nullable="yes" modularize="property"
+                category="formatted" description="User domain"/>
+        <columnDefinition name="Password" type="string" length="255" nullable="yes" modularize="property"
+                category="formatted" description="User password"/>
+        <columnDefinition name="Attributes" type="number" length="4" nullable="yes"
+                minValue="0" maxValue="65535" description="Attributes describing how to create the user"/>
+    </tableDefinition>
+    <tableDefinition name="UserGroup">
+        <columnDefinition name="User_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="User" keyColumn="1" category="identifier" description="User to be joined to a Group."/>
+        <columnDefinition name="Group_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="Group" keyColumn="1" category="identifier" description="User to be joined to a Group."/>
+    </tableDefinition>
+    <tableDefinition name="XmlFile">
+        <columnDefinition name="XmlFile" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token."/>
+        <columnDefinition name="File" type="localized" length="255" modularize="property"
+                category="formatted" description="The .XML file in which to write the information"/>
+        <columnDefinition name="ElementPath" type="localized" length="0" modularize="property"
+                category="formatted" description="The .XML file element to modify."/>
+        <columnDefinition name="Name" type="localized" length="255" modularize="property" nullable="yes"
+                category="formatted" description="The .XML file node to set/add in the element."/>
+        <columnDefinition name="Value" type="localized" length="0" modularize="property" nullable="yes"
+                category="formatted" description="The value to be written."/>
+        <columnDefinition name="Flags" type="number" length="4"
+                minValue="0" maxValue="70143" description="Flags"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table referencing component that controls the installing of the .XML value."/>
+        <columnDefinition name="Sequence" type="number" length="2" nullable="yes"
+                description="Order to execute the XML modifications."/>
+    </tableDefinition>
+    <tableDefinition name="XmlConfig" createSymbols="yes">
+        <columnDefinition name="XmlConfig" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token."/>
+        <columnDefinition name="File" type="localized" length="255" modularize="property"
+                category="formatted" description="The .XML file in which to write the information"/>
+        <columnDefinition name="ElementPath" type="localized" length="0" modularize="property"
+                category="formatted" description="The XPATH query for an element to modify or add children to.  Can also be a foreign key reference to another XmlConfig row if no attributes are set and the row referenced is a create element row."/>
+        <columnDefinition name="VerifyPath" type="localized" length="0" modularize="property" nullable="yes"
+                category="formatted" description="The XPATH query run from ElementPath to verify whether a repair is necessary.  Also used to uninstall."/>
+        <columnDefinition name="Name" type="localized" length="255" modularize="property" nullable="yes"
+                category="formatted" description="The .XML file node to set/add in the element."/>
+        <columnDefinition name="Value" type="localized" length="0" modularize="property" nullable="yes" escapeIdtCharacters="yes"
+                category="formatted" description="The value to be written."/>
+        <columnDefinition name="Flags" type="number" length="4"
+                minValue="0" maxValue="65536" description="Element=1,Value=2,Document=4,Create=16,Delete=32,Install=256,Uninstall=512"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table referencing component that controls the installing of the .XML value."/>
+        <columnDefinition name="Sequence" type="number" length="2" nullable="yes"
+                description="Order to execute the XML modifications."/>
+    </tableDefinition>
+</tableDefinitions>

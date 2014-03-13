@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  This product is for testing purposes.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product Id="{D99595A9-B9C3-4464-BE7E-C03968848560}" Name="WiX Test Product" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{1A646C99-D2CD-450f-ABBF-18F9AD36EC4C}">
+    <Package Description="This package is used for testing purposes" Manufacturer="Microsoft" InstallerVersion="200" />
+
+    <Media Id="1" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="Wix" Name="Wix" />
+      </Directory>
+    </Directory>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="Component1"/>
+      <ComponentRef Id="Component2"/>
+    </Feature>
+
+  </Product>
+
+  <!--Define a variable for the test directory-->
+  <?define TestDir="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\RegressionTests\SF1824809"?>
+
+  <!--
+  Before the bug fix, linking to Component1 gives the Invalid result:
+  error LGHT0083 : The file with id 'TextFile1.txt' and name 'v6wrl67k.txt|TextFile1.txt' could not be found with source path: 'C:\delivery\Dev\wix\test\data\Integration\CandleLightTests\SF1824809\f-mnxco5\TextFile1.txt'.
+  
+  Note that the shortname for SubDir1 (f-mnxco5)is used in the FileSource path instead of the long name (123456789) which is 9 chars long.
+  -->
+  <Fragment>
+    <DirectoryRef Id="Wix" FileSource="$(var.TestDir)">
+      <Directory Id="SubDir1" Name="123456789">
+        <Component Id="Component1" Guid="{BEFBD93A-E476-4b9e-9704-EA352DDE9C19}" KeyPath="yes">
+          <File Id="TextFile1.txt"/>
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <!--
+  Before the bug fix, linking to Component2 gives the Invalid result:
+  error LGHT0083 : The file with id 'TextFile2.txt' and name 'e_qoivb7.txt|TextFile2.txt' could not be found with source path: 'C:\delivery\Dev\wix\test\data\Integration\CandleLightTests\SF1824809\12345678\TextFile2.txt'.
+  
+  Note that the shortname for SubDir2 (12345678)is used in the FileSource path instead of the long name (123456789).
+  -->
+  <Fragment>
+    <DirectoryRef Id="Wix" FileSource="$(var.TestDir)">
+      <Directory Id="SubDir2" ShortName="12345678" Name="123456789">
+        <Component Id="Component2" Guid="{A299BC2B-7E73-4818-AFFF-75A50440BBF3}" KeyPath="yes">
+          <File Id="TextFile2.txt"/>
+        </Component>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+</Wix>

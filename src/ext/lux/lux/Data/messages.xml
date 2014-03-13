@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<!--
+    The messages for the Windows Installer XML Toolset Lux Test Builder.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Lux" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+  <Class Name="LuxBuildErrors" ContainerName="LuxErrorEventArgs" BaseContainerName="WixErrorEventArgs" Level="Error">
+    <Message Id="MalfunctionNeedInput" Number="8001" SourceLineNumbers="no">
+      <Instance>
+        Need one or more input files and one output file to be specified.
+      </Instance>
+    </Message>
+    <Message Id="CouldntLoadInput" Number="8002" SourceLineNumbers="no">
+      <Instance>
+        Failed to load input file '{0}'. Valid formats are WiX object (.wixobj) and WiX library (.wixlib) files.
+        <Parameter Type="System.String" Name="file" />
+      </Instance>
+    </Message>
+    <Message Id="NoUnitTests" Number="8003" SourceLineNumbers="no">
+      <Instance>
+        No unit tests were found in given input files.
+      </Instance>
+    </Message>
+  </Class>
+
+  <Class Name="LuxBuildWarnings" ContainerName="LuxWarningEventArgs" BaseContainerName="WixWarningEventArgs" Level="Warning">
+  </Class>
+
+  <Class Name="LuxBuildVerboses" ContainerName="LuxVerboseEventArgs" BaseContainerName="WixVerboseEventArgs" Level="Information">
+    <Message Id="GeneratingConsumer" Number="8201" SourceLineNumbers="no">
+      <Instance>
+        Generating project '{0}' to consume {1} tests.
+        <Parameter Type="System.String" Name="testSource" />
+        <Parameter Type="System.Int32" Name="testCount" />
+      </Instance>
+    </Message>
+  </Class>
+</Messages>

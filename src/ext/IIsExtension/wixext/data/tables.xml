@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Internet Information Services Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="Certificate" createSymbols="yes">
+        <columnDefinition name="Certificate" type="string" length="72" primaryKey="yes" modularize="column"
+                keyColumn="1" category="identifier" description="Identifier for the certificate in the package."/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                category="identifier" description="Foreign key into the Component table used to determine install state"/>
+        <columnDefinition name="Name" type="string" length="255"
+                category="formatted" description="Name to be used for the Certificate."/>
+        <columnDefinition name="StoreLocation" type="number" length="2"
+                minValue="1" maxValue="2" description="Location of the target certificate store (CurrentUser == 1, LocalMachine == 2)"/>
+        <columnDefinition name="StoreName" type="string" length="64"
+                category="formatted" description="Name of the target certificate store"/>
+        <columnDefinition name="Attributes" type="number" length="4"
+                minValue="0" maxValue="2147483647" description="Attributes of the certificate"/>
+        <columnDefinition name="Binary_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="Binary" keyColumn="1" category="identifier" description="Identifier to Binary table containing certificate."/>
+        <columnDefinition name="CertificatePath" type="string" length="0" nullable="yes" modularize="property"
+                category="formatted" description="Property to path of certificate."/>
+        <columnDefinition name="PFXPassword" type="string" length="0" nullable="yes" modularize="property"
+                category="formatted" description="Hidden property to a pfx password"/>
+    </tableDefinition>
+    <tableDefinition name="CertificateHash" createSymbols="yes">
+        <columnDefinition name="Certificate_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyColumn="1" category="identifier" description="Foreign key to certificate in Certificate table."/>
+        <columnDefinition name="Hash" type="string" length="0" nullable="yes"
+            category="text" description="Base64 encoded SHA1 hash of certificate populated at run-time."/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebSiteCertificates">
+        <columnDefinition name="Web_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="IIsWebSite" keyColumn="1" category="identifier" description="The index into the IIsWebSite table."/>
+        <columnDefinition name="Certificate_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="Certificate" keyColumn="1" category="text" description="The index into the Certificate table."/>
+    </tableDefinition>
+    <tableDefinition name="IIsAppPool" createSymbols="yes">
+        <columnDefinition name="AppPool" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token for apppool"/>
+        <columnDefinition name="Name" type="string" length="72"
+                category="formatted" description="Name to be used for the IIs AppPool."/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column" nullable="yes"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the app pool"/>
+        <columnDefinition name="Attributes" type="number" length="2"
+                description="Attributes of the AppPool"/>
+        <columnDefinition name="User_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="User" keyColumn="1" category="identifier" description="User account to run the app pool as"/>
+        <columnDefinition name="RecycleMinutes" type="number" length="2" nullable="yes"
+                description="Number of minutes between recycling app pool"/>
+        <columnDefinition name="RecycleRequests" type="number" length="2" nullable="yes"
+                description="Number of requests between recycling app pool"/>
+        <columnDefinition name="RecycleTimes" type="string" length="72" nullable="yes"
+                description="Times to recycle app pool (comma delimited - i.e. 1:45,13:30)"/>
+        <columnDefinition name="IdleTimeout" type="number" length="2" nullable="yes"
+                description="Amount of idle time before shutting down"/>
+        <columnDefinition name="QueueLimit" type="number" length="2" nullable="yes"
+                description="Reject requests after queue gets how large"/>
+        <columnDefinition name="CPUMon" type="string" length="72" nullable="yes"
+                description="CPUMon is a comma delimeted list of the following format: &lt;percent CPU usage&gt;,&lt;refress minutes&gt;,&lt;Action&gt;. The values for Action are 1 (Shutdown) and 0 (No Action)."/>
+        <columnDefinition name="MaxProc" type="number" length="2" nullable="yes"
+                description="Maximum number of processes to use"/>
+        <columnDefinition name="VirtualMemory" type="number" length="4" nullable="yes"
+                description="Amount of virtual memory (in KB) that a worker process can use before the worker process recycles. The maximum value supported for this field is 4,294,967 KB."/>
+        <columnDefinition name="PrivateMemory" type="number" length="4" nullable="yes"
+                description="Amount of private memory (in KB) that a worker process can use before the worker process recycles. The maximum value supported for this field is 4,294,967 KB."/>
+        <columnDefinition name="ManagedRuntimeVersion" type="string" length="72" nullable="yes"
+                description="Specifies the .NET Framework version to be used by the application pool."/>
+        <columnDefinition name="ManagedPipelineMode" type="string" length="72" nullable="yes"
+                description="Specifies the request-processing mode that is used to process requests for managed content."/>
+    </tableDefinition>
+    <tableDefinition name="IIsMimeMap">
+        <columnDefinition name="MimeMap" type="string" length="72" primaryKey="yes" modularize="column"
+            category="identifier" description="Primary key, non-localized token for Mime Map definitions"/>
+        <columnDefinition name="ParentType" type="number" length="2"
+            set="1;2" description="Type of parent: 1=vdir 2=website"/>
+        <columnDefinition name="ParentValue" type="string" length="72" modularize="column"
+            category="identifier" description="Name of the parent value."/>
+        <columnDefinition name="MimeType" type="string" length="72" 
+            category="text" description="Mime-type covered by the MimeMap."/>
+        <columnDefinition name="Extension" type="string" length="72"
+            category="text" description="Extension covered by the MimeMap."/>
+    </tableDefinition>
+    <tableDefinition name="IIsProperty">
+        <columnDefinition name="Property" type="string" length="72" primaryKey="yes"
+                category="identifier" description="Unique name of the IIsProperty"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Component that the property is linked to" />
+        <columnDefinition name="Attributes" type="number" length="2"
+                description="Attributes of the IIsProperty (unused)"/>
+        <columnDefinition name="Value" type="string" length="72" nullable="yes"
+                description="Value of the IIsProperty"/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebDirProperties" createSymbols="yes">
+        <columnDefinition name="DirProperties" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token for Web Properties"/>
+        <columnDefinition name="Access" type="number" length="2" nullable="yes"
+                description="Access rights to the web server"/>
+        <columnDefinition name="Authorization" type="number" length="2" nullable="yes"
+                description="Authorization policy to web server (anonymous access, NTLM, etc)"/>
+        <columnDefinition name="AnonymousUser_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="User" keyColumn="1" category="identifier" description="Foreign key, User used to log into database"/>
+        <columnDefinition name="IIsControlledPassword" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether IIs is allowed to set the AnonymousUser_ password"/>
+        <columnDefinition name="LogVisits" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether IIs tracks all access to the directory"/>
+        <columnDefinition name="Index" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether IIs searches the directory"/>
+        <columnDefinition name="DefaultDoc" type="string" length="255" nullable="yes"
+                category="text" description="Comma delimited list of file names to act as a default document"/>
+        <columnDefinition name="AspDetailedError" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether detailed ASP errors are sent to browser"/>
+        <columnDefinition name="HttpExpires" type="string" length="255" nullable="yes" escapeIdtCharacters="yes"
+                category="text" description="Value to set the HttpExpires attribute to for a Web Dir in the metabase"/>
+        <columnDefinition name="CacheControlMaxAge" type="number" length="4" nullable="yes"
+                description="Integer value specifying the cache control maximum age value."/>
+        <columnDefinition name="CacheControlCustom" type="string" length="255" nullable="yes" escapeIdtCharacters="yes"
+                category="text" description="Custom HTTP 1.1 cache control directives."/>
+        <columnDefinition name="NoCustomError" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether IIs will return custom errors for this directory."/>
+        <columnDefinition name="AccessSSLFlags" type="number" length="2" nullable="yes"
+                description="Specifies AccessSSLFlags IIS metabase property."/>
+        <columnDefinition name="AuthenticationProviders" type="string" length="255" nullable="yes"
+                category="text" description="Comma delimited list, in order of precedence, of Windows authentication providers that IIS will attempt to use: NTLM, Kerberos, Negotiate, and others."/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebAddress" createSymbols="yes">
+        <columnDefinition name="Address" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Web_" type="string" length="72" modularize="column"
+                keyTable="IIsWebSite" keyColumn="1" category="identifier" description="Foreign key referencing Web that uses the address."/>
+        <columnDefinition name="IP" type="string" length="255" nullable="yes" modularize="property"
+                category="text" description="String representing IP address (#.#.#.#) or NT machine name (fooserver)"/>
+        <columnDefinition name="Port" type="string" length="72" modularize="property"
+                category="formatted" description="Port web site listens on"/>
+        <columnDefinition name="Header" type="string" length="255" nullable="yes"
+                category="text" description="Special header information for the web site"/>
+        <columnDefinition name="Secure" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether SSL is used to communicate with web site"/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebSite" createSymbols="yes">
+        <columnDefinition name="Web" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the web site"/>
+        <columnDefinition name="Description" type="string" length="255" nullable="yes"
+                category="formatted" description="Description displayed in IIS MMC applet"/>
+        <columnDefinition name="ConnectionTimeout" type="number" length="2" nullable="yes"
+                description="Time connection is maintained without activity (in seconds)"/>
+        <columnDefinition name="Directory_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="Directory" keyColumn="1" category="identifier" description="Foreign key referencing directory that the web site points at"/>
+        <columnDefinition name="State" type="number" length="2" nullable="yes"
+                set="0;1;2" description="Sets intial state of web site"/>
+        <columnDefinition name="Attributes" type="number" length="2" nullable="yes"
+                set="2" description="Control the install behavior of web site"/>
+        <columnDefinition name="KeyAddress_" type="string" length="72" modularize="column"
+                keyTable="IIsWebAddress" keyColumn="1" category="identifier" description="Foreign key referencing primary address for the web site"/>
+        <columnDefinition name="DirProperties_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebDirProperties" keyColumn="1" category="identifier" description="Foreign key referencing possible security information for the web site"/>
+        <columnDefinition name="Application_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebApplication" keyColumn="1" category="identifier" description="Foreign key referencing possible ASP application for the web site."/>
+        <columnDefinition name="Sequence" type="number" length="2" nullable="yes"
+                description="Allows ordering of web site install"/>
+        <columnDefinition name="Log_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebLog" keyColumn="1" description="Foreign key reference to IIsWebLog data"/>
+        <columnDefinition name="Id" type="string" length="74" nullable="yes"
+                category="formatted" description="Optional number or formatted value that resolves to number that acts as the WebSite Id."/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebApplication" createSymbols="yes">
+        <columnDefinition name="Application" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token for ASP Application"/>
+        <columnDefinition name="Name" type="localized" length="255"
+                category="formatted" description="Name of application in IIS MMC applet"/>
+        <columnDefinition name="Isolation" type="number" length="2"
+                set="0;1;2" description="Isolation level for ASP Application: 0 == Low, 2 == Medium, 1 == High"/>
+        <columnDefinition name="AllowSessions" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether application may maintain session state"/>
+        <columnDefinition name="SessionTimeout" type="number" length="2" nullable="yes"
+                description="Time session state is maintained without user interaction"/>
+        <columnDefinition name="Buffer" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether application buffers its output"/>
+        <columnDefinition name="ParentPaths" type="number" length="2" nullable="yes"
+                set="0;1" description="What is this for anyway?"/>
+        <columnDefinition name="DefaultScript" type="string" length="26" nullable="yes"
+                category="text" set="VBScript;JScript" description="Default scripting language for ASP applications"/>
+        <columnDefinition name="ScriptTimeout" type="number" length="2" nullable="yes"
+                description="Time ASP application page is permitted to process"/>
+        <columnDefinition name="ServerDebugging" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether to allow ASP server-side script debugging"/>
+        <columnDefinition name="ClientDebugging" type="number" length="2" nullable="yes"
+                set="0;1" description="Specifies whether to allow ASP client-side script debugging"/>
+        <columnDefinition name="AppPool_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsAppPool" keyColumn="1" category="identifier" description="App Pool this application should run under"/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebApplicationExtension" createSymbols="yes">
+        <columnDefinition name="Application_" type="string" length="72" primaryKey="yes" modularize="column"
+                keyTable="IIsWebApplication" keyColumn="1" category="identifier" description="Foreign key referencing possible ASP application for the web site"/>
+        <columnDefinition name="Extension" type="string" length="255" primaryKey="yes" nullable="yes"
+                category="text" description="Primary key, Extension that should be registered for this ASP application"/>
+        <columnDefinition name="Verbs" type="string" length="255" nullable="yes"
+                category="text" description="Comma delimited list of HTTP verbs the extension should be registered with"/>
+        <columnDefinition name="Executable" type="string" length="255" modularize="property"
+                category="formatted" description="Path to extension (usually file property: [#file])"/>
+        <columnDefinition name="Attributes" type="number" length="2" nullable="yes"
+                set="1;4;5" description="Attributes for extension: 1 == Script, 4 == Check Path Info"/>
+    </tableDefinition>
+    <tableDefinition name="IIsFilter" createSymbols="yes">
+        <columnDefinition name="Filter" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Name" type="string" length="72"
+                description="Name of the ISAPI Filter in IIS"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the filter"/>
+        <columnDefinition name="Path" type="string" length="255" nullable="yes" modularize="property"
+                category="formatted" description="Path to filter (usually file property: [#file])"/>
+        <columnDefinition name="Web_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebSite" keyColumn="1" category="identifier" description="Foreign key referencing web site that loads the filter (NULL == global filter"/>
+        <columnDefinition name="Description" type="string" length="255" nullable="yes"
+                category="formatted" description="Description displayed in IIS MMC applet"/>
+        <columnDefinition name="Flags" type="number" length="4"
+                minValue="0" maxValue="2147483647" description="What do all these numbers mean?"/>
+        <columnDefinition name="LoadOrder" type="number" length="2" nullable="yes"
+                description="-1 == last in order, 0 == first in order, # == place in order"/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebDir" createSymbols="yes">
+        <columnDefinition name="WebDir" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the virtual directory"/>
+        <columnDefinition name="Web_" type="string" length="72" modularize="column"
+                keyTable="IIsWebSite" keyColumn="1" category="identifier" description="Foreign key referencing web site that controls the virtual directory"/>
+        <columnDefinition name="Path" type="string" length="255" modularize="property"
+                category="formatted" description="Name of web directory displayed in IIS MMC applet"/>
+        <columnDefinition name="DirProperties_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebDirProperties" keyColumn="1" category="identifier" description="Foreign key referencing possible security information for the virtual directory"/>
+        <columnDefinition name="Application_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebApplication" keyColumn="1" category="identifier" description="Foreign key referencing possible ASP application for the virtual directory. This column is currently unused, but maintained for compatibility reasons."/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebError">
+        <columnDefinition name="ErrorCode" type="number" length="2" primaryKey="yes"
+                minValue="400" maxValue="599" description="HTTP status code indicating error."/>
+        <columnDefinition name="SubCode" type="number" length="4" primaryKey="yes"
+                description="HTTP sub-status code indicating error."/>
+        <columnDefinition name="ParentType" type="number" length="2" primaryKey="yes"
+                set="1;2" description="Type of parent: 1=vdir, 2=web"/>
+        <columnDefinition name="ParentValue" type="string" length="72" modularize="column" primaryKey="yes"
+                category="identifier" description="Name of the parent value."/>
+        <columnDefinition name="File" type="string" length="255" nullable="yes"
+                category="formatted" description="Path to file for this custom error (usually file property: [#file]).  Must be null if URL is not null."/>
+        <columnDefinition name="URL" type="string" length="255" nullable="yes"
+                category="formatted" description="URL for this custom error.  Must be null if File is not null."/>
+    </tableDefinition>
+    <tableDefinition name="IIsHttpHeader" createSymbols="yes">
+        <columnDefinition name="HttpHeader" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="ParentType" type="number" length="2" primaryKey="yes"
+                set="1;2" description="Type of parent: 1=vdir, 2=web"/>
+        <columnDefinition name="ParentValue" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Name of the parent value."/>
+        <columnDefinition name="Name" type="string" length="255"
+                category="text" description="Name of the HTTP Header"/>
+        <columnDefinition name="Value" type="string" length="255" nullable="yes"
+                category="formatted" description="URL for this custom error.  Must be null if File is not null."/>
+        <columnDefinition name="Attributes" type="number" length="2"
+                minValue="0" maxValue="0" description="Attributes for HTTP Header: none"/>
+        <columnDefinition name="Sequence" type="number" length="2" nullable="yes"
+                description="Order to add the HTTP Headers."/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebServiceExtension" createSymbols="yes">
+        <columnDefinition name="WebServiceExtension" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the WebServiceExtension handler"/>
+        <columnDefinition name="File" type="string" length="255" modularize="property"
+                category="formatted" description="Path to handler (usually file property: [#file])"/>
+        <columnDefinition name="Description" type="localized" length="255" nullable="yes" modularize="property" escapeIdtCharacters="yes"
+                category="formatted" description="Description displayed in WebServiceExtension Wizard"/>
+        <columnDefinition name="Group" type="string" length="255" nullable="yes" modularize="property"
+                category="formatted" description="String used to identify groups of extensions."/>
+        <columnDefinition name="Attributes" type="number" length="1"
+                minValue="0" maxValue="3" description="Attributes for WebServiceExtension: 1 = Allow, 2 = UIDeletable"/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebVirtualDir" createSymbols="yes">
+        <columnDefinition name="VirtualDir" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the virtual directory"/>
+        <columnDefinition name="Web_" type="string" length="72" modularize="column"
+                keyTable="IIsWebSite" keyColumn="1" category="identifier" description="Foreign key referencing web site that controls the virtual directory"/>
+        <columnDefinition name="Alias" type="string" length="255" modularize="property"
+                category="formatted" description="Name of virtual directory displayed in IIS MMC applet"/>
+        <columnDefinition name="Directory_" type="string" length="72" modularize="column"
+                keyTable="Directory" keyColumn="1" category="identifier" description="Foreign key referencing directory that the virtual directory points at"/>
+        <columnDefinition name="DirProperties_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebDirProperties" keyColumn="1" category="identifier" description="Foreign key referencing possible security information for the virtual directory"/>
+        <columnDefinition name="Application_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="IIsWebApplication" keyColumn="1" category="identifier" description="Foreign key referencing possible ASP application for the virtual directory"/>
+    </tableDefinition>
+    <tableDefinition name="IIsWebLog" createSymbols="yes">
+        <columnDefinition name="Log" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Format" type="string" length="255"
+                category="text" description="Type of log format"/>
+    </tableDefinition>
+</tableDefinitions>

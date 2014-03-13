@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product_64.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="00000000-0000-0000-0005-000000000004" Name="PerformanceCategory" Language="1033" Version="1.0.0.0" UpgradeCode="{D3C08DD4-A77E-43e8-8969-DB3D6CB0BEC2}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test from: PerformanceCategory" Comments="Test from: PerformanceCategory" InstallerVersion="200" Compressed="yes"  Platform="x64"/>
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder" Name="PFiles">
+        <Directory Id="WixTestFolder" Name="WixTestFolder">
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="Component1" Guid="*" Win64="yes">
+        <File DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" />
+        
+        <util:PerformanceCategory Id="InstrumentationDemo" Help="Instrumentation Demo Counters" DefaultLanguage="english">
+          <util:PerformanceCounter Name="DemoCounter" Help="Just a simple numerical count." Type="numberOfItems64" Language="english" />
+          <util:PerformanceCounter Name="DemoCounter1" Help="Just a simple numerical count." Type="averageBase" Language="afrikaans" />
+          <util:PerformanceCounter Name="DemoCounter2" Help="Just a simple numerical count." Type="averageCount64" Language="albanian" />
+          <util:PerformanceCounter Name="DemoCounter3" Help="Just a simple numerical count." Type="averageTimer32" Language="danish" />
+        </util:PerformanceCategory>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="Component1" />
+    </Feature>
+
+  </Product>
+</Wix>

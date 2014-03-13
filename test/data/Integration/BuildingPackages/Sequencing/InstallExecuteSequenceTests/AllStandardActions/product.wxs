@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Wix Test Product" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{219228A2-35A4-4e0f-BAE3-6FF19FE582B5}">
+    <Package InstallerVersion="200" />
+    <Media Id="1" />
+
+    <InstallExecuteSequence>
+      <AllocateRegistrySpace />
+      <AppSearch />
+      <BindImage />
+      <CCPSearch />
+      <CostFinalize />
+      <CostInitialize />
+      <CreateFolders />
+      <CreateShortcuts />
+      <DeleteServices />
+      <DisableRollback After="InstallFiles" />
+      <DuplicateFiles />
+      <FileCost />
+      <FindRelatedProducts />
+      <ForceReboot After="InstallFiles" />
+      <InstallExecute After="InstallFiles" />
+      <InstallExecuteAgain After="InstallFiles" />
+      <InstallFiles />
+      <InstallFinalize />
+      <InstallInitialize />
+      <InstallODBC />
+      <InstallServices />
+      <InstallValidate />
+      <IsolateComponents />
+      <LaunchConditions />
+      <MigrateFeatureStates />
+      <MoveFiles />
+      <MsiPublishAssemblies />
+      <MsiUnpublishAssemblies />
+      <PatchFiles />
+      <ProcessComponents />
+      <PublishComponents />
+      <PublishFeatures />
+      <PublishProduct />
+      <RegisterClassInfo />
+      <RegisterComPlus />
+      <RegisterExtensionInfo />
+      <RegisterFonts />
+      <RegisterMIMEInfo />
+      <RegisterProduct />
+      <RegisterProgIdInfo />
+      <RegisterTypeLibraries />
+      <RegisterUser />
+      <RemoveDuplicateFiles />
+      <RemoveEnvironmentStrings />
+      <RemoveExistingProducts After="InstallFiles" />
+      <RemoveFiles />
+      <RemoveFolders />
+      <RemoveIniValues />
+      <RemoveODBC />
+      <RemoveRegistryValues />
+      <RemoveShortcuts />
+      <ResolveSource After="CostInitialize"/>
+      <RMCCPSearch />
+      <ScheduleReboot After="InstallFiles" />
+      <SelfRegModules />
+      <SelfUnregModules />
+      <SetODBCFolders />
+      <StartServices />
+      <StopServices />
+      <UnpublishComponents />
+      <UnpublishFeatures />
+      <UnregisterClassInfo />
+      <UnregisterComPlus />
+      <UnregisterExtensionInfo />
+      <UnregisterFonts />
+      <UnregisterMIMEInfo />
+      <UnregisterProgIdInfo />
+      <UnregisterTypeLibraries />
+      <ValidateProductID />
+      <WriteEnvironmentStrings />
+      <WriteIniValues />
+      <WriteRegistryValues />
+    </InstallExecuteSequence>
+
+  </Product>
+</Wix>

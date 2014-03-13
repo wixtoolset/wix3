@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset SQL Server Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="SqlErrors" ContainerName="SqlErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="IllegalAttributeWithoutComponent" Number="5100">
+            <Instance>
+                The {0}/@{1} attribute cannot be specified unless the element has a Component as an ancestor. A {0} that does not have a Component ancestor is not installed.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName" />
+            </Instance>
+        </Message>
+        <Message Id="IllegalElementWithoutComponent" Number="5101">
+            <Instance>
+                The {0} element cannot be specified unless the element has a Component as an ancestor. A {0} that does not have a Component ancestor is not installed.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="OneOfAttributesRequiredUnderComponent" Number="5102">
+            <Instance>
+                When nested under a Component, the {0} element must have one of the following attributes specified: {1}, {2}, {3} or {4}.
+                <Parameter Type="System.String" Name="elementName" />
+                <Parameter Type="System.String" Name="attributeName1" />
+                <Parameter Type="System.String" Name="attributeName2" />
+                <Parameter Type="System.String" Name="attributeName3" />
+                <Parameter Type="System.String" Name="attributeName4" />
+            </Instance>
+        </Message>
+        <Message Id="DeprecatedBinaryChildElement" Number="5103">
+            <Instance>
+                The {0} element contains a deprecated child Binary element.  Please move the Binary element under a Fragment, Module, or Product element and set the {0}/@BinaryKey attribute to the value of the Binary/@Id attribute.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="SqlWarnings" ContainerName="SqlWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+    </Class>
+    <Class Name="SqlVerboses" ContainerName="SqlVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+    </Class>
+</Messages>

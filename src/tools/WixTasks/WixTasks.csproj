@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixTasks.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{21E8F2D3-EF19-49C8-88CA-A22C5B91DFDC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>WixTasks</AssemblyName>
+    <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Build.Tasks</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <CreateDocumentationFile>true</CreateDocumentationFile>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\wconsole\CommandLineResponseFile.cs">
+      <Link>CommandLineResponseFile.cs</Link>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Candle.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="ConvertReferences.cs" />
+    <Compile Include="CreateItemAvoidingInference.cs" />
+    <Compile Include="CreateProjectReferenceDefineConstants.cs" />
+    <Compile Include="FileSearchHelperMethods.cs" />
+    <Compile Include="GenerateCompileWithObjectPath.cs" />
+    <Compile Include="GetCabList.cs" />
+    <Compile Include="GetLooseFileList.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Insignia.cs" />
+    <Compile Include="Light.cs" />
+    <Compile Include="Lit.cs" />
+    <Compile Include="heatdirectory.cs" />
+    <Compile Include="heatfile.cs" />
+    <Compile Include="heatproject.cs" />
+    <Compile Include="HeatTask.cs" />
+    <Compile Include="Pyro.cs" />
+    <Compile Include="RefreshBundleGeneratedFile.cs" />
+    <Compile Include="RefreshGeneratedFile.cs" />
+    <Compile Include="ReplaceString.cs" />
+    <Compile Include="ResolveWixReferences.cs" />
+    <Compile Include="ReadRegistry.cs" />
+    <Compile Include="RegistryBase.cs" />
+    <Compile Include="Torch.cs" />
+    <Compile Include="WixAssignCulture.cs" />
+    <Compile Include="WixCommandLineBuilder.cs" />
+    <Compile Include="WixToolTask.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wix.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wix200x.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wix2010.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wix.ca.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\dtf\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
+    <ProjectReference Include="..\Wix\Wix.csproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+<!--
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(TargetPath);$(OutDir)wix.targets;$(OutDir)wix200x.targets;$(OutDir)wix2010.targets" DestinationFolder="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <CreateItem Include="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\$(TargetFileName);$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix.targets;$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix200x.targets;$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix2010.targets">
+      <Output TaskParameter="Include" ItemName="FileWrites" />
+    </CreateItem>
+  </Target>
+-->
+</Project>

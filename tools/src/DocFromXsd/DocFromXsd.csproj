@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="DocFromXsd.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{8FA37EDB-594D-457A-97E4-37FB1C345E95}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>WixBuild.Tools.DocFromXsd</RootNamespace>
+    <AssemblyName>DocFromXsd</AssemblyName>
+    <FxCopEnabled>false</FxCopEnabled>
+    <NoWarn>618</NoWarn>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CommandLine.cs" />
+    <Compile Include="DocFromXsd.cs" />
+    <Compile Include="XmlSchemaCompiler.cs" />
+    <EmbeddedNativeResource Include="docfromxsd.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="docfromxsd.exe.manifest" />
+  </ItemGroup>
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

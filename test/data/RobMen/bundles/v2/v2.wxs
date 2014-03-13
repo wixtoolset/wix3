@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="v2.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Bundle Name="~Bundle v2" 
+        Manufacturer="Microsoft Corporation"
+        Version="0.2.0.0"
+        DisableModify="yes"
+        UpgradeCode='3594A1ED-FD19-4039-8DEA-611FC50C53B9'>
+   <BootstrapperApplicationRef Id='WixStandardBootstrapperApplication.RtfLicense' />
+
+   <RelatedBundle Id="1BE14DA3-E26A-4C49-8D39-7B1017FFA071" Action="Upgrade"/>
+
+   <Chain>
+      <MsiPackage Vital='yes' Name='Bv1.msi' SourceFile='Bv1.1-MinorUpdate\Bv1.msi' />
+   </Chain>
+</Bundle>
+</Wix>

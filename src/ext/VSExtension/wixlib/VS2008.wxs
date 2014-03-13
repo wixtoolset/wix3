@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="VS2008.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- Visual Studio 2008 -->
+    <Fragment>
+        <Property Id="VS90DEVENV" Secure="yes">
+            <RegistrySearch Id="VS90DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS90_ITEMTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS90DevEnvForItemTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Setup\VS" Name="EnvironmentPath" Type="raw">
+                <DirectorySearch Id="VS90ItemTemplatesPathSearch" Path="ItemTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS90_PROJECTTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS90DevEnvForProjectTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Setup\VS" Name="EnvironmentPath" Type="raw">
+                <DirectorySearch Id="VS90ProjectTemplatesPathSearch" Path="ProjectTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS90_SCHEMAS_DIR" Secure="yes">
+            <RegistrySearch Id="VS90ProductPathSearch" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="9.0" Type="raw">
+                <DirectorySearch Id="VS90XmlPathSearch" Path="Xml" Depth="1">
+                  <DirectorySearch Id="VS90XmlSchemasPathSearch" Path="Schemas" Depth="1" />
+                </DirectorySearch>
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS90Setup" Property="VS90DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS90DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS90Setup" Before="InstallFinalize" Overridable="yes">VS90DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS90InstallVSTemplates" Property="VS90DEVENV" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS90DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS90InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS90DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Location of the Visual Studio 2008 root installation directory. -->
+    <Fragment>
+        <Property Id="VS90_ROOT_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVS90RootPath" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="9.0" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# 2008 Express IDE component is installed.  -->
+    <!-- If this property is set, that means Visual C# 2008 Express Edition is     -->
+    <!-- installed on the system.                                                  -->
+    <Fragment>
+        <Property Id="VCSHARP90EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVcsExpressIde90Component" Guid="EF0BC34E-6AAE-47C0-8FEC-7E00C2638209" Type="file" >
+                <FileSearch Id="VcsExpressIde90" Name="vcsexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vcsexpress.exe /setup                     -->
+    <Fragment>
+        <CustomAction Id="VCSHARP90Setup" Property="VCSHARP90EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VCSHARP90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VCSHARP90Setup" Before="InstallFinalize" Overridable="yes">VCSHARP90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+  
+    <!-- Custom action definition to run vcsexpress.exe /InstallVSTemplates        -->
+    <Fragment>
+        <CustomAction Id="VCSHARP90InstallVSTemplates" Property="VCSHARP90EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VCSHARP90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VCSHARP90InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VCSHARP90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# project system is installed as a part of  -->
+    <!-- Visual Studio 2008 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2008 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2008 setup.              -->
+    <Fragment>
+        <Property Id="VS90_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVCS90ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Projects\{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic 2008 Express IDE component is installed. -->
+    <!-- If this property is set, that means Visual Basic 2008 Express Edition is    -->
+    <!-- installed on the system.                                                    -->
+    <Fragment>
+        <Property Id="VB90EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVbExpressIde90Component" Guid="010A50C6-8604-4BA2-8CA1-4EC3A5B861B2" Type="file">
+                <FileSearch Id="VbExpressIde90" Name="vbexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vbexpress.exe /setup                        -->
+    <Fragment>
+        <CustomAction Id="VB90Setup" Property="VB90EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VB90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VB90Setup" Before="InstallFinalize" Overridable="yes">VB90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vbexpress.exe /InstallVSTemplates           -->
+    <Fragment>
+        <CustomAction Id="VB90InstallVSTemplates" Property="VB90EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VB90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VB90InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VB90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic project system is installed as a part of -->
+    <!-- Visual Studio 2008 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2008 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2008 setup.             -->
+    <Fragment>
+        <Property Id="VS90_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVB90ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Projects\{F184B08F-C81C-45f6-A57F-5ABD9991F28F}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer 2008 Express IDE component is installed.  -->
+    <!-- If this property is set, that means Visual Web Developer 2008 Express Edition is     -->
+    <!-- installed on the system.                                                             -->
+    <Fragment>
+        <Property Id="VWD90EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVwdExpressIde90Component" Guid="C7F516CB-CB5C-41B7-9CB4-33927C4DD206" Type="file">
+                <FileSearch Id="VwdExpressIde90" Name="vwdexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vwdexpress.exe /setup                               -->
+    <Fragment>
+        <CustomAction Id="VWD90Setup" Property="VWD90EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VWD90Setup" Before="InstallFinalize" Overridable="yes">VWD90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vwdexpress.exe /InstallVSTemplates                  -->
+    <Fragment>
+        <CustomAction Id="VWD90InstallVSTemplates" Property="VWD90EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VWD90InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VWD90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
+    <!-- Visual Studio 2008 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2008 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2008 setup.             -->
+    <Fragment>
+        <Property Id="VS90_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVWD90ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Projects\{E24C65DC-7377-472B-9ABA-BC803B73C61A}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ 2008 Express IDE component is installed. -->
+    <!-- If this property is set, that means Visual C++ 2008 Express Edition is    -->
+    <!-- installed on the system.                                                  -->
+    <Fragment>
+        <Property Id="VC90EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVcExpressIde90Component" Guid="147EB31D-8042-4E8F-A3EC-D32C04ED652A" Type="file">
+                <FileSearch Id="VcExpressIde90" Name="vcexpress.exe"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Custom action definition to run vcexpress.exe /setup                      -->
+    <Fragment>
+        <CustomAction Id="VC90Setup" Property="VC90EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VC90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VC90Setup" Before="InstallFinalize" Overridable="yes">VC90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Custom action definition to run vcexpress.exe /InstallVSTemplates         -->
+    <Fragment>
+        <CustomAction Id="VC90InstallVSTemplates" Property="VC90EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VC90EXPRESS_IDE" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VC90InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VC90EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ project system is installed as a part of -->
+    <!-- Visual Studio 2008 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2008 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2008 setup.             -->
+    <Fragment>
+        <Property Id="VS90_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVC90ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Projects\{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}" Name="DefaultProjectExtension" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Team Test project system is installed -->
+    <Fragment>
+      <Property Id="VS90_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes">
+        <RegistrySearch Id="SearchForVSTS90TestSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Projects\{3AC096D0-A1C2-E12C-1390-A8335801FDAB}" Name="Package" Type="raw" />
+      </Property>
+    </Fragment>
+
+    <!-- Location of the Visual Studio 2008 bootstrapper package install location  -->
+    <Fragment>
+        <Property Id="VS90_BOOTSTRAPPER_PACKAGE_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVs90BootstrapperPackageFolder" Root="HKLM" Key="Software\Microsoft\GenericBootstrapper\3.5" Name="Path" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2008 SP1 version of devenv.exe is    -->
+    <!-- installed on the system.                                                 -->
+    <Fragment>
+        <Property Id="VS90_SP1" Secure="yes">
+            <RegistrySearch Id="VS90DevEnvDirectorySearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\9.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS90DevEnvFilePathSearch">
+                    <FileSearch Id="VS90DevEnvFileVersionSearch" Name="devenv.exe" MinVersion="9.0.30729.0"/>
+                </DirectorySearch>      
+            </RegistrySearch>      
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2008 SP1 version of vbexpress.exe is -->
+    <!-- installed on the system.                                                 -->
+    <Fragment>
+        <Property Id="VB90EXPRESS_SP1" Secure="yes">
+            <ComponentSearch Id="SearchForVbExpressIde90Component" Guid="010A50C6-8604-4BA2-8CA1-4EC3A5B861B2" Type="file">
+                <FileSearch Id="VB90ExpressFileVersionSearch" Name="vbexpress.exe" MinVersion="9.0.30729.0"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2008 SP1 version of vcexpress.exe is -->
+    <!-- installed on the system.                                                 -->
+    <Fragment>
+        <Property Id="VC90EXPRESS_SP1" Secure="yes">
+            <ComponentSearch Id="SearchForVcExpressIde90Component" Guid="147EB31D-8042-4E8F-A3EC-D32C04ED652A" Type="file">
+                <FileSearch Id="VC90ExpressFileVersionSearch" Name="vcexpress.exe" MinVersion="9.0.30729.0"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2008 SP1 version of vcsexpress.exe is -->
+    <!-- installed on the system.                                                  -->
+    <Fragment>
+        <Property Id="VCS90EXPRESS_SP1" Secure="yes">
+            <ComponentSearch Id="SearchForVcsExpressIde90Component" Guid="EF0BC34E-6AAE-47C0-8FEC-7E00C2638209" Type="file" >
+                <FileSearch Id="VCS90ExpressFileVersionSearch" Name="vcsexpress.exe" MinVersion="9.0.30729.0"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2008 SP1 version of vcsexpress.exe is -->
+    <!-- installed on the system.                                                  -->
+    <Fragment>
+        <Property Id="VWD90EXPRESS_SP1" Secure="yes">
+            <ComponentSearch Id="SearchForVwdExpressIde90Component" Guid="C7F516CB-CB5C-41B7-9CB4-33927C4DD206" Type="file">
+                <FileSearch Id="VWD90ExpressFileVersionSearch" Name="vwdexpress.exe" MinVersion="9.0.30729.0"/>
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether or not the Document Explorer 2008 runtime components are installed.  -->
+    <Fragment>
+        <Property Id="DEXPLORE_2008_INSTALLED" Secure="yes">
+            <RegistrySearch Id="Dexplore2008RegKey" Root="HKLM" Key="Software\Microsoft\DExplore\v9.0.21022\1033" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+</Wix>

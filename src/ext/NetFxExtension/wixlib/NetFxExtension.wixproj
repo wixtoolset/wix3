@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="NetFxExtension.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{45e4a6ac-3190-4e17-83f0-9935ffa5dc2b}</ProjectGuid>
+    <OutputName>netfx</OutputName>
+    <OutputType>Library</OutputType>
+    <BindFiles>true</BindFiles>
+    <Pedantic>true</Pedantic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="NetFxExtension.wxs" />
+    <Compile Include="NetFx1.wxs" />
+    <Compile Include="NetFx1.1.wxs" />
+    <Compile Include="NetFx2.wxs" />
+    <Compile Include="NetFx3.wxs" />
+    <Compile Include="NetFx3.5.wxs" />
+    <Compile Include="NetFx4.wxs" />
+    <Compile Include="NetFx4.5.wxs" />
+    <Compile Include="NetFx451.wxs" />
+    <Compile Include="NetFxExtension_x86.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ca\netfxca.vcxproj" />
+    <ProjectReference Include="..\..\UtilExtension\wixext\WixUtilExtension.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <Private>False</Private>
+      <HintPath>$(OutputPath_x86)WixUtilExtension.dll</HintPath>
+    </WixExtension>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

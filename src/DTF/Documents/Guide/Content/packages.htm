@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Working with Install Packages</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Working with Install Packages</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <span class="nolink">Install Packages</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+
+            <h3>Updating files in a product layout</h3>
+            <p>The InstallPackage class makes it easy to work with files and cabinets
+            in the context of a compressed or uncompressed product layout.</p>
+            <p>This hypothetical example takes an IDictionary 'files' which maps file keys to file paths. Each
+            file is to be updated in the package layout; cabinets are even recompressed if necessary to include the new files.</p>
+            <pre><font face="Consolas, Courier New">    <font color=blue>using</font> (InstallPackage pkg = <font color=blue>new</font> InstallPackage(<font color=purple>"d:\builds\product.msi"</font>,
+        DatabaseOpenMode.Transact))
+    {
+        pkg.WorkingDirectory = Path.Combine(Path.GetTempFolder(), <font color=purple>"pkgtmp"</font>);
+        <font color=blue>foreach</font> (string fileKey in files.Keys)
+        {
+            <font color=blue>string</font> sourceFilePath = files[fileKey];
+            <font color=blue>string</font> destFilePath = pkg.Files[fileKey].SourcePath;
+            destFilePath = Path.Combine(pkg.WorkingDirectory, destFilePath);
+            File.Copy(sourceFilePath, destFilePath, <font color=blue>true</font>);
+        }
+        pkg.UpdateFiles(<font color=blue>new</font> ArrayList(files.Keys));
+        pkg.Commit();
+        Directory.Delete(pkg.WorkingDirectory, <font color=blue>true</font>);
+    }</font></pre><br />
+            <p>1.&nbsp; Create a <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_Package_InstallPackage__ctor.htm">new InstallPackage</a>
+            instance referring to the location of the .msi. This is actually just a specialized subclass of a Database.</p>
+            <p>2.&nbsp; Set the <a href="DTFAPI.chm::/html/P_Microsoft_Deployment_WindowsInstaller_Package_InstallPackage_WorkingDirectory.htm">WorkingDirectory</a>.
+            This is the root directory where the package expects to find the new source files.</p>
+            <p>3.&nbsp; Copy each file to its proper location in the working directory. The
+            <a href="DTFAPI.chm::/html/P_Microsoft_Deployment_WindowsInstaller_Package_InstallPackage_Files.htm">InstallPackage.Files</a>
+            property is used to look up the relative source path of each file.</p>
+            <p>4.&nbsp; Call <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_Package_InstallPackage_UpdateFiles.htm">InstallPackage.UpdateFiles</a>
+            with the list of file keys. This will re-compress and package the files if necessary, and also update the
+	        following data: File.FileSize, File.Version, File.Language, MsiFileHash.HashPart*.</p>
+            <p>5.&nbsp; Commit the database changes and cleanup the working directory.</p>
+            </ul>
+            
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <ul>
+                <li><a href="wifile.htm">WiFile Sample Tool</a> - a more complete tool that expands on the above example.</li>
+                <li><a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_Package_InstallPackage.htm">InstallPackage Class</a></li>
+            </ul>
+            <p><br/></p>
+            
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

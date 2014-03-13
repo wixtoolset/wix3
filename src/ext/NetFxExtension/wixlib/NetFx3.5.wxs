@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="NetFx3.5.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+    <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following locations:
+
+           .NET Framework 3.5 - http://msdn.microsoft.com/library/cc160716.aspx
+           .NET Framework 3.5 client profile - http://download.microsoft.com/download/5/a/a/5aa86d6c-969b-42d8-bc6b-30e02bfeccf0/NETFXClientProfile_DeploymentGuide.htm
+    -->
+
+    <!-- Indicates the service pack level for the .NET Framework 3.5 (for bundles). -->
+    <Fragment>
+        <util:RegistrySearch
+            Id="NETFRAMEWORK35_SP_LEVEL"
+            Variable="NETFRAMEWORK35_SP_LEVEL"
+            Root="HKLM"
+            Key="Software\Microsoft\NET Framework Setup\NDP\v3.5"
+            Value="SP"
+            Result="value" />
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35" Secure="yes">
+            <RegistrySearch Id="NetFramework35" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates the service pack level for the .NET Framework 3.5.         -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_SP_LEVEL" Secure="yes">
+            <RegistrySearch Id="NetFramework35SP" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5" Name="SP" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Location of .NET Framework 3.5 redistributable install root directory -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35INSTALLROOTDIR" Secure="yes">
+            <RegistrySearch Id="NetFxInstallRootForNetfx35Search" Type="raw" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="InstallRoot">
+                <DirectorySearch Id="NetFx35InstallRootSearch" Path="v3.5" Depth="0" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <!-- Location of .NET Framework 3.5 (64-bit) redistributable install root directory -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35INSTALLROOTDIR64" Secure="yes">
+            <RegistrySearch Id="NetFxInstallRootForNetfx35Search64" Type="raw" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="InstallRoot" Win64="yes">
+                <DirectorySearch Id="NetFx35InstallRootSearch64" Path="v3.5" Depth="0" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Chinese (Simplified) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_ZH_CN_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35ZhCnLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\2052" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Chinese (Traditional) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_ZH_TW_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35ZhTwLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1028" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Czech language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_CS_CZ_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35CsCzLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1029" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Danish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_DA_DK_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35DaDkLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1030" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Dutch language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_NL_NL_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35NlNlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1043" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Finnish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_FI_FI_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35FiFiLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1035" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 French language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_FR_FR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35FrFrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1036" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 German language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_DE_DE_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35DeDeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1031" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Greek language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_EL_GR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35ElGrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1032" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Hungarian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_HU_HU_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35HuHuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1038" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Italian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_IT_IT_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35ItItLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1040" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Japanese language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_JA_JP_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35JaJpLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1041" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Korean language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_KO_KR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35KoKrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1042" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Norwegian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_NB_NO_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35NbNoLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1044" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Polish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_PL_PL_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35PlPlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1045" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Portuguese (Brazil) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_PT_BR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35PtBrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1046" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Portuguese (Portugal) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_PT_PT_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35PtPtLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\2070" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Russian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_RU_RU_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35RuRuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1049" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Spanish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_ES_ES_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35EsEsLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\3082" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Swedish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_SV_SE_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35SvSeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1053" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 Turkish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_TR_TR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35TrTrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5\1055" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 3.5 client profile is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_CLIENT" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35ClientSearch" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\DotNetClient\v3.5" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates the service pack level for the .NET Framework 3.5 client profile -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK35_CLIENT_SP_LEVEL" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK35ClientSpSearch" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\DotNetClient\v3.5" Name="SP" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- location of the Windows SDK 6.0a installation root -->
+    <Fragment>
+        <Property Id="WINDOWSSDK60ADIR" Secure="yes">
+            <RegistrySearch Id="WindowsSdk60aDir" Root="HKLM" Key="Software\Microsoft\Microsoft SDKs\Windows\v6.0A" Name="InstallationFolder" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- location of the Windows SDK 6.1 installation root -->
+    <Fragment>
+        <Property Id="WINDOWSSDK61DIR" Secure="yes">
+            <RegistrySearch Id="WindowsSdk61Dir" Root="HKLM" Key="Software\Microsoft\Microsoft SDKs\Windows\v6.1" Name="InstallationFolder" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- location of the Windows SDK 7.0 installation root -->
+    <Fragment>
+        <Property Id="WINDOWSSDK70ADIR" Secure="yes">
+            <RegistrySearch Id="WindowsSdk70aDir" Root="HKLM" Key="Software\Microsoft\Microsoft SDKs\Windows\v7.0A" Name="InstallationFolder" Type="raw" />
+        </Property>
+    </Fragment>
+
+</Wix>

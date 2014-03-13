@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+    The messages for the Windows Installer XML Toolset COM+ Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="ComPlusErrors" ContainerName="ComPlusErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+      <Message Id="IllegalAttributeWithoutComponent" Number="6000">
+        <Instance>
+          The {0}/@{1} attribute cannot be specified unless the element has a component as an ancestor. A {0} that does not have a component ancestor is not installed.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+        </Instance>
+      </Message>
+      <Message Id="IllegalElementWithoutComponent" Number="6001">
+        <Instance>
+          The {0} element cannot be specified unless the element has a component as an ancestor. A {0} that does not have a component ancestor is not installed.
+          <Parameter Type="System.String" Name="elementName" />
+        </Instance>
+      </Message>
+      <Message Id="UnexpectedAttributeWithOtherValue" Number="6002">
+        <Instance>
+          The {0}/@{1} attribute cannot coexist with the {2} attribute's value of '{3}'.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+          <Parameter Type="System.String" Name="otherAttributeName" />
+          <Parameter Type="System.String" Name="otherValue" />
+        </Instance>
+        <Instance>
+          The {0}/@{1} attribute's value, '{2}', cannot coexist with the {3} attribute's value of '{4}'.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+          <Parameter Type="System.String" Name="value" />
+          <Parameter Type="System.String" Name="otherAttributeName" />
+          <Parameter Type="System.String" Name="otherValue" />
+        </Instance>
+      </Message>
+      <Message Id="UnexpectedAttributeWithoutOtherValue" Number="6003">
+        <Instance>
+          The {0}/@{1} cannot be provided unless the {2} attribute is provided with a value of '{3}'.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+          <Parameter Type="System.String" Name="otherAttributeName" />
+          <Parameter Type="System.String" Name="otherValue" />
+        </Instance>
+      </Message>
+      <Message Id="RequiredAttributeUnderComponent" Number="6004">
+        <Instance>
+          The {0}/@{1} attribute must be provided when {0} element is nested under a component.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+        </Instance>
+      </Message>
+      <Message Id="RequiredAttribute" Number="6005">
+        <Instance>
+          A {0} element must have either a {1} attribute or a {2} attribute, or both set.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName1" />
+          <Parameter Type="System.String" Name="attributeName2" />
+        </Instance>
+      </Message>
+      <Message Id="RequiredAttributeNotUnderComponent" Number="6006">
+        <Instance>
+          A {0} element not nested under a component must have either a {1} attribute or a {2} attribute, or both set.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName1" />
+          <Parameter Type="System.String" Name="attributeName2" />
+        </Instance>
+      </Message>
+    </Class>
+    <Class Name="ComPlusWarnings" ContainerName="ComPlusWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+      <Message Id="MissingComponents" Number="6007">
+        <Instance>The ComPlusAssembly element has a Type attribute with a value of 'native', but the element does not contain any ComPlusComponent elements. All components contained in a native assembly must be listed, or they will not be correctly removed during uninstall.</Instance>
+      </Message>
+    </Class>
+    <Class Name="ComPlusVerboses" ContainerName="ComPlusVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+    </Class>
+</Messages>

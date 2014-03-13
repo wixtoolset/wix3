@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="B858BC76-AD11-45c3-A300-D1C6B73DFF56" Name="TestInstallDir" Language="1033" Version="0.0.0.0" UpgradeCode="{FA34F953-F659-4633-B8D2-893BF7A63642}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test WIXUI_INSTALLDIR" Comments="TestWIXUI_INSTALLDIR" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TESTFILEPRODUCTDIR" ShortName="WIXTEST" Name="Test File">
+          <Component Id="TestFileProductComponent" Guid="AD95D064-BB8F-4D98-9B4F-2FEEA5532531" DiskId="1">
+            <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestFileProductFeature" Title="Test File Product Feature" Level="1">
+      <ComponentRef Id="TestFileProductComponent" />
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="TESTFILEPRODUCTDIR" />
+    <UIRef Id="WixUI_InstallDir" />
+
+  </Product>
+</Wix>

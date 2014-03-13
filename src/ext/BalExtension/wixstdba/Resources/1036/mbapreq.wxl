@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="fr-fr" Language="1036" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">Installation de [WixBundleName]</String>
+  <String Id="Title">Microsoft .NET Framework requis pour l'installation de [WixBundleName]</String>
+  <String Id="ConfirmCancelMessage">Êtes-vous sûr de vouloir annuler ?</String>
+  <String Id="HelpHeader">Aide de l'installation</String>
+  <String Id="HelpText">/passive | /quiet -  affiche une interface minimale sans invites ou n'affiche
+   aucune interface ni aucune invite. Par défaut, l'interface et toutes les
+   invites sont affichées.
+
+/norestart   - annule toute tentative de redémarrage. Par défaut, l'interface
+   affiche une invite avant de redémarrer.
+/log journal.txt - consigne les entrées de journal dans un fichier spécifique.
+   Par défaut, un fichier journal est créé dans %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Fermer</String>
+  <String Id="InstallLicenseTerms">Cliquez sur le bouton « Accepter et installer » pour accepter les &lt;a href="#"&gt;termes du contrat de licence&lt;/a&gt; Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Accepter et installer</String>
+  <String Id="InstallDeclineButton">&amp;Refuser</String>
+  <String Id="ProgressHeader">Progression de l'installation</String>
+  <String Id="ProgressLabel">Traitement en cours :</String>
+  <String Id="ProgressCancelButton">&amp;Annuler</String>
+  <String Id="FailureHeader">L'installation a échoué</String>
+  <String Id="FailureLogLinkText">L'installation a échoué pour une ou plusieurs raisons. Corrigez les problèmes et recommencez l'installation. Pour plus d'informations, consultez le &lt;a href="#"&gt;fichier journal&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Vous devez redémarrer votre ordinateur pour effectuer la restauration du logiciel.</String>
+  <String Id="FailureRestartButton">&amp;Redémarrer</String>
+  <String Id="FailureCloseButton">&amp;Fermer</String>
+</WixLocalization>

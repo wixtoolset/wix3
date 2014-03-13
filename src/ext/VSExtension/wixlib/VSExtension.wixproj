@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="VSExtension.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{14345C9D-8AF8-435A-BB1B-E067CE7EB321}</ProjectGuid>
+    <OutputName>vs</OutputName>
+    <OutputType>Library</OutputType>
+    <BindFiles>true</BindFiles>
+    <Pedantic>true</Pedantic>
+    <Cultures>en-us</Cultures>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="HTML_Help_Registration__RTL_X86.wxs" />
+    <Compile Include="Vs2003.wxs" />
+    <Compile Include="Vs2005.wxs" />
+    <Compile Include="Vs2008.wxs" />
+    <Compile Include="Vs2010.wxs" />
+    <Compile Include="Vs11.wxs" />
+    <Compile Include="Vs2012.wxs" />
+    <Compile Include="Vs2013.wxs" />
+    <Compile Include="VsixPackage.wxs" />
+    <Compile Include="vs2005\vs2005_VSIPCC_Collection_Files_RTL.wxs" />
+    <Compile Include="vs2008\vs2008_VSIPCC_Collection_Files_RTL.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="vs2005\" />
+    <Folder Include="vs2008\" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

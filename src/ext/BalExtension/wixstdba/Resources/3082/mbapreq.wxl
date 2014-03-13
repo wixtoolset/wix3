@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="es-es" Language="3082" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">Instalación de [WixBundleName]</String>
+  <String Id="Title">La instalación de [WixBundleName] requiere Microsoft .NET Framework</String>
+  <String Id="ConfirmCancelMessage">¿Está seguro de que desea cancelar?</String>
+  <String Id="HelpHeader">Ayuda del programa de instalación</String>
+  <String Id="HelpText">/passive | /quiet -  muestra una interfaz de usuario mínima y no realiza
+   preguntas, o bien no muestra interfaz de usuario y no realiza preguntas.
+   De manera  predeterminada se muestra la interfaz de usuario completa y se
+   realizan todas las  preguntas necesarias.
+
+/norestart   - suprime cualquier intento de reinicio. De manera predeterminada,
+   la interfaz de usuario preguntará si se desea reiniciar.
+/log log.txt - registra los datos de instalación en un archivo específico.
+   De manera predeterminada se crea un archivo de registro en %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Cerrar</String>
+  <String Id="InstallLicenseTerms">Haga clic en el botón "Aceptar e instalar" para aceptar los &lt;a href="#"&gt;términos de licencia&lt;/a&gt; de Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Aceptar e instalar</String>
+  <String Id="InstallDeclineButton">&amp;Rechazar</String>
+  <String Id="ProgressHeader">Progreso de la instalación</String>
+  <String Id="ProgressLabel">Procesando:</String>
+  <String Id="ProgressCancelButton">&amp;Cancelar</String>
+  <String Id="FailureHeader">Error de la instalación</String>
+  <String Id="FailureLogLinkText">No se pudo completar la instalación a causa de uno o varios problemas. Corrija los problemas y vuelva a intentar la instalación. Para más información, vea el &lt;a href="#"&gt;archivo de registro&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Debe reiniciar el equipo para completar la reversión del software.</String>
+  <String Id="FailureRestartButton">&amp;Reiniciar</String>
+  <String Id="FailureCloseButton">&amp;Cerrar</String>
+</WixLocalization>

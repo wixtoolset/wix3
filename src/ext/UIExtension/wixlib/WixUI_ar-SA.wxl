@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_ar-SA.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ar-sa" Codepage="1256" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">ال&amp;سابق</String>
+    <String Id="WixUINext" Overridable="yes">التا&amp;لي</String>
+    <String Id="WixUICancel" Overridable="yes">إلغاء الأمر</String>
+    <String Id="WixUIFinish" Overridable="yes">إ&amp;نهاء</String>
+    <String Id="WixUIRetry" Overridable="yes">إ&amp;عادة المحاولة</String>
+    <String Id="WixUIIgnore" Overridable="yes">تجا&amp;هل</String>
+    <String Id="WixUIYes" Overridable="yes">ن&amp;عم</String>
+    <String Id="WixUINo" Overridable="yes">&amp;لا</String>
+    <String Id="WixUIOK" Overridable="yes">موافق</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;طباعة</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}الرجاء قراءة اتفاقية ترخيص [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">أوافق &amp;على الشروط الواردة في اتفاقية الترخيص</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">انقر فوق "تثبيت" لتثبيت المنتج بالخيارات الافتراضية لجميع المستخدمين. انقر فوق "‏‏خيارات متقدمة" لتغيير خيارات التثبيت.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">انقر فوق "تثبيت" لتثبيت المنتج بالخيارات الافتراضية لك فقط. انقر فوق "خيارات متقدمة" لتغيير خيارات التثبيت.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">ت&amp;ثبيت</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">خيارات &amp;متقدمة</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;البحث في:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">مستوى واحد لأعلى</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">إنشاء مجلد جديد</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;اسم المجلد:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">استعراض للوصول إلى المجلد الوجهة</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}تغيير المجلد الوجهة</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="CancelDlgText" Overridable="yes">هل تريد بالتأكيد إلغاء تثبيت [ProductName]؟</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">أيقونة المعلومات</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">شجرة التحديدات</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">ا&amp;ستعراض...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">إ&amp;عادة تعيين</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">ا&amp;ستخدام القرص</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">انقر فوق الأيقونات الموجودة في الشجرة أدناه لتغيير الطريقة التي سيتم بها تثبيت الميزات.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">حدد الطريقة التي تريد بها تثبيت الميزات.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}إعداد مخصص</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">الموقع:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">لا يتوفر في وحدات التخزين المميزة مساحة قرص كافية للميزات المحددة حاليًا. يمكنك إما إزالة بعض الملفات من وحدات التخزين المميزة، أو تثبيت ميزات أقل، أو تحديد محركات أقراص وجهة مختلفة.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">مساحة القرص المطلوبة لتثبيت الميزات المحددة.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}متطلبات مساحة القرص</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">نص المعلومات</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">أيقونة المعلومات</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">انقر فوق الزر "إنهاء" لإنهاء "معالج الإعداد".</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}اكتمل معالج إعداد [ProductName]</String>
+
+    <String Id="FatalError_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}انتهى معالج إعداد [ProductName] قبل الأوان</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">انتهى معالج إعداد [ProductName] قبل الأوان بسبب حدوث خطأ. لم يتم تعديل النظام الخاص بك. ولتثبيت هذا البرنامج في وقت لاحق، قم بتشغيل "معالج الإعداد" مرة أخرى.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">انقر فوق الزر "إنهاء" لإنهاء "معالج الإعداد".</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">ميزات المنتج</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">حدد الطريقة التي تريد بها تثبيت الميزات.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}ميزات المنتج</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">ت&amp;ثبيت</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;تغيير</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes">إ&amp;نهاء</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">تستخدم التطبيقات التالية ملفات يلزم تحديثها من خلال هذا الإعداد. أغلق التطبيقات، ثم انقر فوق "إ&amp;عادة المحاولة" لمتابعة التثبيت، أو انقر فوق "إنهاء" لإنهائه.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">بعض الملفات التي يلزم تحديثها قيد الاستخدام حاليًا.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}الملفات قيد الاستخدام</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;تغيير...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}المجلد الوجهة</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">انقر فوق "التالي" لتثبيت المجلد الافتراضي أو انقر فوق "تغيير" لاختيار مجلد آخر.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">تثبيت [ProductName] على:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">اختر نطاق التثبيت والمجلد</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}نطاق التثبيت</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}التثبيت لك &amp;فقط ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">سيتم تثبيت [ProductName] في مجلد لكل مستخدم ولن يكون متوفرًا سوى لحساب المستخدم الخاص بك. ولا تحتاج إلى امتيازات مسؤول محلي.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">لا يدعم [ProductName] التثبيت لكل مستخدم.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}التثبيت لجميع مستخدمي هذا &amp;الجهاز</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">سيتم تثبيت [ProductName] في مجلد لكل جهاز افتراضيًا ويكون متوفرًا لجميع المستخدمين. ويمكنك تغيير مجلد التثبيت الافتراضي. يجب أن تكون لديك امتيازات مسؤول محلي.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">مجلد ال&amp;تثبيت:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;تغيير...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">يجب أن يكون دليل التثبيت على محرك الأقراص الثابتة المحلي.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">أيقونة المعلومات</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">أوافق &amp;على الشروط الواردة في اتفاقية الترخيص</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">الرجاء قراءة اتفاقية الترخيص التالية بعناية</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}اتفاقية ترخيص المستخدم</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;تغيير</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">تغيير التثبيت</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">إ&amp;صلاح</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">إصلاح التثبيت</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">إزا&amp;لة</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">إزالة التثبيت</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">حدد العملية التي ترغب في تنفيذها.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}تغيير التثبيت أو إصلاحه أو إزالته</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">للسماح لك بتغيير طريقة تثبيت الميزات.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">لا يحتوي [ProductName] على ميزات انتقائية بشكل مستقل.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">لإزالة [ProductName] من الكمبيوتر.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">لا يمكن إزالة [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">لإصلاح الأخطاء في آخر تثبيت عن طريق إصلاح الملفات والاختصارات وإدخالات السجل المفقودة والتالفة.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">لا يمكن إصلاح [ProductName].</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">يتيح لك "معالج الإعداد" تغيير طريقة تثبيت ميزات [ProductName] على الكمبيوتر أو إزالتها من الكمبيوتر. انقر فوق "التالي" للمتابعة، أو انقر فوق "إلغاء الأمر" لإنهاء "معالج الإعداد".</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}مرحبًا بك في معالج إعداد [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">تستخدم التطبيقات التالية ملفات يلزم تحديثها من خلال هذا الإعداد. يمكن السماح لمعالج الإعداد بإغلاقها ومحاولة إعادة تشغيلها أو إعادة تشغيل الجهاز لاحقًا.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">بعض الملفات التي يلزم تحديثها قيد الاستخدام حاليًا.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}الملفات قيد الاستخدام</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">إ&amp;غلاق التطبيقات ومحاولة إعادة تشغيلها.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;عدم إغلاق التطبيقات. يلزم إعادة تشغيل الكمبيوتر لاحقًا.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">لا يتوفر في وحدات التخزين المميزة مساحة قرص كافية للميزات المحددة حاليًا. يمكنك إزالة بعض الملفات من وحدات التخزين المميزة أو تقليل عدد الميزات التي ترغب في تثبيتها أو تحديد محرك أقراص وجهة مختلف.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">تجاوزت مساحة القرص المطلوبة للتثبيت مساحة القرص المتوفرة.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}نفدت مساحة القرص</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">لا يتوفر في وحدات التخزين المميزة مساحة قرص كافية للميزات المحددة حاليًا. يمكنك إزالة بعض الملفات من وحدات التخزين المميزة أو تقليل عدد الميزات التي ترغب في تثبيتها أو تحديد محرك أقراص وجهة مختلف.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">تجاوزت مساحة القرص المطلوبة للتثبيت مساحة القرص المتوفرة.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}نفدت مساحة القرص</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">بدلاً من ذلك، قد تختار تعطيل وظيفة ‏‏العودة إلى الحالة السابقة الخاصة بالمثبت. حيث يعمل تعطيل ‏‏العودة إلى الحالة السابقة على منع المثبت من إعادة الكمبيوتر إلى حالته الأصلية في حالة مقاطعة التثبيت بطريقة أو بأخرى. انقر فوق " نعم" إذا كنت ترغب في المخاطرة بتعطيل وظيفة العودة إلى الحالة السابقة.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">الرجاء الانتظار أثناء قيام "معالج الإعداد" بالتمهيد لإرشادك خلال عملية التثبيت.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}مرحبًا بك في معالج إعداد [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">الرجاء الانتظار أثناء قيام "معالج الإعداد" بتثبيت [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}تثبيت [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">الرجاء الانتظار أثناء قيام "معالج الإعداد" بتغيير [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}تغيير [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">الرجاء الانتظار أثناء قيام "معالج الإعداد" بإصلاح [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}إصلاح [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">الرجاء الانتظار أثناء قيام "معالج الإعداد" بإزالة [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}إزالة [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">الرجاء الانتظار أثناء قيام معالج الإعداد بتحديث [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}تحديث [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">نسبة التقدم</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">الحالة:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">ت&amp;ثبيت</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">سيقوم "معالج الإعداد" بإكمال تثبيت [ProductName] على الكمبيوتر. انقر فوق "تثبيت" للمتابعة، أو انقر فوق "إلغاء الأمر" لإنهاء "معالج الإعداد".</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}استئناف معالج إعداد [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;نموذجي</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">تثبيت نموذجي</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">م&amp;خصص</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">تثبيت مخصص</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">&amp;كامل</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">تثبيت كامل</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}اختيار نوع الإعداد</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">اختر نوع الإعداد الأكثر ملاءمة لاحتياجاتك</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">تثبيت ميزات البرنامج الأكثر شيوعًا. مستحسن لمعظم المستخدمين.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">السماح للمستخدمين باختيار ميزات البرنامج التي سيتم تثبيتها وموقع تثبيتها. مستحسن للمستخدمين المتقدمين.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">سيتم تثبيت جميع ميزات البرنامج. وهذا يتطلب معظم مساحة القرص.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}تمت مقاطعة معالج إعداد [ProductName]</String>
+    <String Id="UserExitDescription1" Overridable="yes">تمت مقاطعة إعداد [ProductName]. لم يتم تعديل النظام الخاص بك. الرجاء تشغيل التثبيت مرة أخرى لتثبيت هذا البرنامج في وقت لاحق.</String>
+    <String Id="UserExitDescription2" Overridable="yes">انقر فوق الزر "إنهاء" لإنهاء "معالج الإعداد".</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">ت&amp;ثبيت</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">انقر فوق "تثبيت" لبدء التثبيت. وانقر فوق "السابق" لمراجعة أي من إعدادات التثبيت أو تغييرها. وانقر فوق "إلغاء الأمر" لإنهاء المعالج.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}جاهز لتثبيت [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;تغيير</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">انقر فوق "تغيير" لبدء التثبيت. وانقر فوق "السابق" لمراجعة أي من إعدادات التثبيت أو تغييرها. وانقر فوق "إلغاء الأمر" لإنهاء المعالج.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}جاهز لتغيير [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">إ&amp;صلاح</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">انقر فوق "إصلاح" لإصلاح تثبيت [ProductName]. وانقر فوق "السابق" لمراجعة أي من إعدادات التثبيت أو تغييرها. وانقر فوق "إلغاء الأمر" لإنهاء المعالج.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}جاهز لإصلاح [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">إزا&amp;لة</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">انقر فوق "إزالة" لإزالة [ProductName] من الكمبيوتر. وانقر فوق "السابق" لمراجعة أي من إعدادات التثبيت أو تغييرها. وانقر فوق "إلغاء الأمر" لإنهاء المعالج.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}جاهز لإزالة [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">ت&amp;حديث</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">انقر فوق "تحديث" لتحديث [ProductName] من الكمبيوتر الخاص بك. وانقر فوق "السابق" لمراجعة أي من إعدادات التثبيت أو تغييرها. وانقر فوق "إلغاء الأمر" لإنهاء المعالج.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}جاهز لتحديث [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;رجوع</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">الرجاء الانتظار حتى ينتهي المثبت من تحديد متطلبات مساحة القرص.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">أيقونة التعجب</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">سيقوم "معالج الإعداد" بتثبيت [ProductName] على الكمبيوتر. انقر فوق "التالي" للمتابعة، أو انقر فوق "إلغاء الأمر" لإنهاء "معالج الإعداد".</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">يتيح لك "معالج الإعداد" تغيير طريقة تثبيت ميزات [ProductName] على الكمبيوتر أو إزالتها من الكمبيوتر. انقر فوق "التالي" للمتابعة، أو انقر فوق "إلغاء الأمر" لإنهاء "معالج الإعداد".</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}مرحبًا بك في معالج إعداد [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">إعداد [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">أوافق &amp;على الشروط الواردة في اتفاقية الترخيص</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">ت&amp;ثبيت</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">ت&amp;حديث</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}الرجاء قراءة اتفاقية ترخيص [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">‏‏التحقق من صحة التثبيت</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">‏‏نسخ الملفات الجديدة</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">الملف: [1], الدليل: [9], الحجم: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">‏‏نسخ ملفات تثبيت الشبكة</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">الملف: [1], الدليل: [9], الحجم: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">‏‏حساب متطلبات المساحة</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">‏‏حساب متطلبات المساحة</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">‏‏حساب متطلبات المساحة</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">إنشاء الاختصارات</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">‏‏الاختصار: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">نشر المكونات المؤهلة</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">‏‏معرّف المكون: [1], المؤهل: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">نشر ميزات المنتج</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">‏‏الميزة: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">نشر معلومات المنتج</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">‏‏تسجيل خوادم الفئات</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">معرّف الفئة: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">تسجيل خوادم الملحقات</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">‏‏الملحق: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">تسجيل معلومات MIME</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">‏‏نوع محتويات MIME‏: [1], الملحق: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">تسجيل معرّفات البرامج</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">معرّف البرنامج: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">تخصيص مساحة السجل</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">مساحة حرة: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">‏‏البحث عن تطبيقات مثبتة</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">‏‏الخاصية: [1], التوقيع: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">‏‏عمليات الربط للملفات التنفيذية</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">الملف: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">‏‏البحث عن المنتجات المؤهلة</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">‏‏إنشاء المجلدات</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">‏‏المجلد: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">‏‏حذف الخدمات</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">الخدمة: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">‏‏إنشاء ملفات مكررة</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">الملف: [1], الدليل: [9], الحجم: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">البحث عن تطبيقات ذات صلة</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">‏‏العثور على التطبيق: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">‏‏تثبيت مكونات ODBC</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">تثبيت الخدمات الجديدة</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">الخدمة: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">تقييم شروط التشغيل</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">ترحيل حالات الميزات من التطبيقات المرتبطة</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">‏‏التطبيق: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">‏‏نقل الملفات</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">الملف: [1], الدليل: [9], الحجم: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">‏‏تصحيح الملفات</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">الملف: [1], الدليل: [2], الحجم: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">‏‏تحديث تسجيل المكونات</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">تسجيل تطبيقات ومكونات +COM</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">‏‏معرّف التطبيق: [1]{{, نوع التطبيق: [2], المستخدمون: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">تسجيل الخطوط</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">‏‏الخط: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">‏‏تسجيل المنتج</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">تسجيل مكتبات الأنواع</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">معرّف المكتبة: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">‏‏تسجيل المستخدم</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">‏‏إزالة الملفات المتكررة</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">‏‏الملف: [1]، الدليل: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">‏‏تحديث سلاسل البيئة</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">‏‏الاسم: [1], القيمة: [2], الإجراء [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">‏‏إزالة التطبيقات</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">‏‏التطبيق: [1], سطر الأوامر: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">‏‏إزالة الملفات</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">‏‏الملف: [1]، الدليل: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">‏‏إزالة المجلدات</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">‏‏المجلد: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">‏‏إزالة إدخالات ملفات INI</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">‏‏الملف: [1], المقطع: [2], المفتاح: [3], القيمة: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">‏‏إزالة مكونات ODBC</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">‏‏إزالة قيم تسجيل النظام</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">‏‏المفتاح: [1]، الاسم: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">‏‏إزالة الاختصارات</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">‏‏الاختصار: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">‏‏البحث عن المنتجات المؤهلة</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">تسجيل الوحدات النمطية</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">‏‏الملف: [1], المجلد: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">إلغاء تسجيل الوحدات النمطية</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">‏‏الملف: [1], المجلد: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">‏‏تهيئة أدلة ODBC</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">بدء تشغيل الخدمات</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">الخدمة: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">إيقاف الخدمات</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">الخدمة: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">‏‏إلغاء نشر المكونات المؤهلة</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">‏‏معرّف المكون: [1], المؤهل: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">‏‏إلغاء نشر ميزات المنتج</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">‏‏الميزة: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">إلغاء تسجيل خوادم الفئات</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">معرّف الفئة: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">إلغاء تسجيل تطبيقات ومكونات +COM</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">معرّف التطبيق: [1]{{، نوع التطبيق: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">إلغاء تسجيل خوادم الملحقات</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">‏‏الملحق: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">إلغاء تسجيل الخطوط</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">‏‏الخط: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">إلغاء تسجيل معلومات MIME</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">‏‏نوع محتويات MIME‏: [1], الملحق: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">إلغاء تسجيل معرّفات البرامج</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">معرّف البرنامج: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">إلغاء تسجيل مكتبات الأنواع</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">معرّف المكتبة: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">‏‏تحديث سلاسل البيئة</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">‏‏الاسم: [1], القيمة: [2], الإجراء [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">‏‏كتابة قيم ملفات INI</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">‏‏الملف: [1], المقطع: [2], المفتاح: [3], القيمة: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">‏‏كتابة قيم تسجيل النظام</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">‏‏المفتاح: [1], الاسم: [2], القيمة: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">الإ‏علان عن التطبيق</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">إنشاء عمليات برامج نصية للإجراء:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">‏‏تثبيت كتالوج النظام</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">الملف: [1], التبعيات: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">نشر معلومات التجميع</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">سياق التطبيق: [1], اسم التجميع: [2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">‏‏إلغاء نشر معلومات التجميع</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">سياق التطبيق: [1], اسم التجميع: [2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">‏‏إجراء العودة إلى الحالة السابقة:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">‏‏إزالة ملفات النسخ الاحتياطي</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">الملف: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">‏‏إزالة الملفات المنقولة</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">‏‏الملف: [1]، الدليل: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">‏‏إلغاء نشر معلومات المنتج</String>
+
+    <String Id="Error0" Overridable="yes">‏‏{{‏‏خطأ كبير: }}</String>
+    <String Id="Error1" Overridable="yes">‏‏{{خطأ [1]. }}</String>
+    <String Id="Error2" Overridable="yes">تحذير [1]. </String>
+    <String Id="Error4" Overridable="yes">معلومات [1]. </String>
+    <String Id="Error5" Overridable="yes">‏‏صادف المثبّت خطأ غير متوقع أثناء تثبيت هذه الحزمة. قد يشير هذا إلى وجود مشكلة تتعلق بهذه الحزمة. رمز الخطأ [1]. {{الوسيطات: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">‏‏{{القرص ممتلئ: }}</String>
+    <String Id="Error8" Overridable="yes">‏‏الإجراء [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">‏‏نوع الرسالة: [1]، الوسيطة: [2]</String>
+    <String Id="Error12" Overridable="yes">‏‏=== بدء تسجيل الدخول: [Date] [Time] ===</String>
+    <String Id="Error13" Overridable="yes">‏‏=== إيقاف تسجيل الدخول: [Date] [Time] ===</String>
+    <String Id="Error14" Overridable="yes">‏‏بدء الإجراء [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">‏‏انتهى الإجراء [Time]: [1]. القيمة المرجعة [2].</String>
+    <String Id="Error16" Overridable="yes">‏‏الوقت المتبقي: {[1] دقيقة }{[2] ثانية}</String>
+    <String Id="Error17" Overridable="yes">‏‏نفدت الذاكرة. أغلق التطبيقات الأخرى قبل إعادة المحاولة.</String>
+    <String Id="Error18" Overridable="yes">‏‏لم يعد المثبّت قادرًا على الاستجابة.</String>
+    <String Id="Error19" Overridable="yes">‏‏تم إيقاف المثبّت قبل الأوان.</String>
+    <String Id="Error20" Overridable="yes">‏‏الرجاء الانتظار ريثما يقوم Windows بتكوين [ProductName]</String>
+    <String Id="Error21" Overridable="yes">‏‏يتم الآن ‏‏جمع المعلومات المطلوبة...</String>
+    <String Id="Error22" Overridable="yes">‏‏يتم الآن إزالة الإصدارات القديمة من هذا التطبيق...</String>
+    <String Id="Error23" Overridable="yes">‏‏يتم الآن التحضير لإزالة الإصدارات القديمة من هذا التطبيق...</String>
+    <String Id="Error32" Overridable="yes">‏‏اكتمل إعداد {[ProductName]} بنجاح.</String>
+    <String Id="Error33" Overridable="yes">‏‏فشل إعداد {[ProductName]}.</String>
+    <String Id="Error1101" Overridable="yes">حدث خطأ أثناء القراءة من الملف: [2]. {{ خطأ في النظام [3].}} تحقق من وجود الملف وإمكانية الوصول إليه.</String>
+    <String Id="Error1301" Overridable="yes">لا يمكن إنشاء الملف '[2]'. يوجد دليل يحمل هذا الاسم بالفعل. قم بإلغاء التثبيت، ثم حاول إجراء التثبيت في موقع مختلف.</String>
+    <String Id="Error1302" Overridable="yes">‏‏الرجاء إدراج القرص: [2]</String>
+    <String Id="Error1303" Overridable="yes">المثبت ليست لديه امتيازات كافية للوصول إلى هذا الدليل: [2]. تتعذر متابعة التثبيت. قم بتسجيل الدخول كمسؤول أو اتصل بمسؤول النظام.</String>
+    <String Id="Error1304" Overridable="yes">حدث خطأ أثناء الكتابة على الملف: [2]. تحقق من إمكانية الوصول إلى ذلك الدليل.</String>
+    <String Id="Error1305" Overridable="yes">حدث خطأ أثناء القراءة من الملف [2]. {{ خطأ في النظام [3].}} تحقق من وجود الملف وإمكانية الوصول إليه.</String>
+    <String Id="Error1306" Overridable="yes">لدى تطبيق آخر وصول خاص للملف '[2]'. الرجاء إيقاف تشغيل كافة التطبيقات الأخرى ثم النقر فوق "إعادة المحاولة".</String>
+    <String Id="Error1307" Overridable="yes">لا توجد مساحة كافية على القرص لتثبيت هذا الملف: [2]. حرر بعض المساحة على القرص ثم انقر فوق " إعادة المحاولة"، أو انقر فوق " إلغاء الأمر" للإنهاء.</String>
+    <String Id="Error1308" Overridable="yes">لم يتم العثور على الملف المصدر: [2]. تحقق من وجود الملف وإمكانية الوصول إليه.</String>
+    <String Id="Error1309" Overridable="yes">حدث خطأ أثناء القراءة من الملف: [3]. {{ خطأ في النظام [2].}} تحقق من وجود الملف وإمكانية الوصول إليه.</String>
+    <String Id="Error1310" Overridable="yes">حدث ‏‏خطأ أثناء الكتابة إلى الملف: [3]. {{ خطأ في النظام [2].}} تحقق من امتلاكك لحق الوصول إلى ذلك الدليل.</String>
+    <String Id="Error1311" Overridable="yes">لم يتم العثور على الملف المصدر{{(cabinet)}}: [2]. تحقق من وجود الملف وإمكانية الوصول إليه.</String>
+    <String Id="Error1312" Overridable="yes">لا يمكن إنشاء الدليل '[2]'. يوجد ملف يحمل نفس الاسم بالفعل. الرجاء إعادة تسمية الملف أو إزالته ثم النقر فوق "إعادة المحاولة"، أو النقر فوق "إلغاء الأمر" للإنهاء.</String>
+    <String Id="Error1313" Overridable="yes">وحدة التخزين [2] غير متوفرة حاليًا. الرجاء تحديد وحدة تخزين أخرى.</String>
+    <String Id="Error1314" Overridable="yes">‏‏المسار المحدد '[2]' غير متوفر.</String>
+    <String Id="Error1315" Overridable="yes">غير قادر على الكتابة إلى المجلد المحدد [2].</String>
+    <String Id="Error1316" Overridable="yes">‏‏حدث خطأ في الشبكة أثناء محاولة القراءة من الملف: [2]</String>
+    <String Id="Error1317" Overridable="yes">حدث خطأ أثناء محاولة إنشاء الدليل: [2]</String>
+    <String Id="Error1318" Overridable="yes">حدث خطأ في الشبكة أثناء محاولة إنشاء الدليل: [2]</String>
+    <String Id="Error1319" Overridable="yes">‏‏حدث خطأ في الشبكة أثناء محاولة فتح خزانة ملف المصدر: [2]</String>
+    <String Id="Error1320" Overridable="yes">‏‏المسار المحدد طويل جدًا: [2]</String>
+    <String Id="Error1321" Overridable="yes">‏‏لا يمتلك المثبّت امتيازات كافية لتعديل هذا الملف: [2].</String>
+    <String Id="Error1322" Overridable="yes">جزء من مسار المجلد '[2]' غير صالح. إما أنه خالٍ أو يتجاوز الطول الذي يسمح به النظام.</String>
+    <String Id="Error1323" Overridable="yes">‏‏يحتوي مسار المجلد '[2]' على كلمات غير صالحة في مسارات المجلدات.</String>
+    <String Id="Error1324" Overridable="yes">‏‏يحتوي مسار المجلد '[2]' على حرف غير صالح.</String>
+    <String Id="Error1325" Overridable="yes">‏‏الاسم '[2]' ليس بالاسم القصير الصالح للملف.</String>
+    <String Id="Error1326" Overridable="yes">‏‏حدث خطأ أثناء الحصول على أمان الملف: [3] GetLastError: [2]‎</String>
+    <String Id="Error1327" Overridable="yes">‏‏محرك الأقراص غير صالح: [2]</String>
+    <String Id="Error1328" Overridable="yes">‏‏حدث خطأ أثناء تطبيق التصحيح على الملف [2]. ربما تم تحديثه باستخدام طرق أخرى، ولم يعد بالإمكان تعديله بواسطة هذا التصحيح. لمزيد من المعلومات، اتصل بمورّد ملفات التصحيح. {{خطأ في النظام: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">يتعذر تثبيت أحد الملفات المطلوبة، وذلك لأن ملف Cabinet [2] غير موقع رقميًا. قد يشير هذا إلى أن ملف Cabinet تالف.</String>
+    <String Id="Error1330" Overridable="yes">‏‏لا يمكن تثبيت أحد الملفات المطلوبة بسبب عدم صلاحية التوقيع الرقمي لملف Cabinet [2]. قد يشير هذا إلى أن ملف Cabinet تالف. {{ تم إرجاع الخطأ [3] بواسطة WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes">‏‏فشل نسخ الملف [2] بشكل صحيح: خطأ CRC.</String>
+    <String Id="Error1332" Overridable="yes">‏‏فشل نقل الملف [2] بشكل صحيح: خطأ CRC.</String>
+    <String Id="Error1333" Overridable="yes">‏‏فشل تصحيح الملف [2] بشكل صحيح: خطأ CRC.</String>
+    <String Id="Error1334" Overridable="yes">‏‏تعذر تثبيت الملف '[2]' بسبب عدم العثور عليه في ملف Cabinet '[3]'. قد يشير هذا إلى حدوث خطأ بالشبكة، أو خطأ أثناء القراءة من القرص المضغوط، أو مشكلة في هذه الحزمة.</String>
+    <String Id="Error1335" Overridable="yes">‏‏ملف Cabinet '[2]' المطلوب لعملية التثبيت هذه تالف ولا يصلح للاستخدام. قد يشير هذا إلى حدوث خطأ بالشبكة، أو خطأ أثناء القراءة من القرص المضغوط، أو مشكلة في هذه الحزمة.</String>
+    <String Id="Error1336" Overridable="yes">‏‏حدث خطأ أثناء إنشاء ملف مؤقت مطلوب لإتمام عملية التثبيت هذه. {{المجلد: [3]. رمز الخطأ في النظام: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">تعذر إنشاء المفتاح: [2]. {{خطأ في النظام [3].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم. </String>
+    <String Id="Error1402" Overridable="yes">‏‏تعذر فتح المفتاح: [2]. {{خطأ في النظام [3].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم. </String>
+    <String Id="Error1403" Overridable="yes">تعذر حذف القيمة [2] من المفتاح [3]. {{خطأ في النظام [4].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم. </String>
+    <String Id="Error1404" Overridable="yes">‏‏تعذر حذف المفتاح [2]. {{خطأ في النظام [3].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم. </String>
+    <String Id="Error1405" Overridable="yes">تعذرت قراءة القيمة [2] من المفتاح [3]. {{خطأ في النظام [4].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم. </String>
+    <String Id="Error1406" Overridable="yes">‏‏‏‏تعذرت كتابة القيمة [2] إلى المفتاح [3]. {{خطأ في النظام [4].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم.</String>
+    <String Id="Error1407" Overridable="yes">‏‏‏‏تعذر الحصول على أسماء القيم للمفتاح [2]. {{خطأ في النظام [3].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم.</String>
+    <String Id="Error1408" Overridable="yes">‏‏تعذر الحصول على أسماء المفاتيح الفرعية للمفتاح [2]. {{خطأ في النظام [3].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم.</String>
+    <String Id="Error1409" Overridable="yes">‏‏تعذرت قراءة معلومات الأمان للمفتاح [2]. {{خطأ في النظام [3].}} تحقق من امتلاكك لحق وصول كافٍ إلى هذا المفتاح، أو اتصل بموظفي الدعم.</String>
+    <String Id="Error1410" Overridable="yes">‏‏تعذرت زيادة مساحة السجل المتوفرة. يجب توفر [2] كيلوبايت من مساحة السجل كمساحة حرة لتثبيت هذا التطبيق.</String>
+    <String Id="Error1500" Overridable="yes">‏‏يوجد تثبيت آخر قيد التقدم. يجب إكمال التثبيت الآخر قبل متابعة هذا التثبيت.</String>
+    <String Id="Error1501" Overridable="yes">‏‏حدث خطأ أثناء الوصول إلى البيانات الآمنة. الرجاء التأكد من تكوين Windows Installer بشكل صحيح، ثم حاول التثبيت مرة أخرى.</String>
+    <String Id="Error1502" Overridable="yes">قام المستخدم '[2]' ببدء تثبيت منتج '[3]' مسبقًا.  على هذا المستخدم تشغيل ذلك التثبيت مرة أخرى قبل التمكن من استخدام ذلك المنتج. ستتم متابعة التثبيت الحالي الآن.</String>
+    <String Id="Error1503" Overridable="yes">قام المستخدم '[2]' ببدء تثبيت منتج '[3]' مسبقًا. يجب على هذا المستخدم تشغيل ذلك التثبيت مرة أخرى قبل التمكن من استخدام ذلك المنتج.</String>
+    <String Id="Error1601" Overridable="yes">نفدت مساحة القرص -- وحدة التخزين: '[2]'; المساحة المطلوبة: [3] كيلوبايت; المساحة المتوفرة: [4] كيلوبايت. حرر بعض المساحة على القرص، ثم أعد المحاولة.</String>
+    <String Id="Error1602" Overridable="yes">‏‏هل تريد بالتأكيد إلغاء الأمر؟</String>
+    <String Id="Error1603" Overridable="yes">‏‏الملف [2][3] قيد الاستخدام {بواسطة العملية التالية: الاسم: [4]، المعرّف: [5]، عنوان النافذة: '[6]'}. أغلق ذلك التطبيق، ثم أعد المحاولة.</String>
+    <String Id="Error1604" Overridable="yes">تم بالفعل تثبيت المنتج '[2]'، مما يمنع تثبيت هذا المنتج. المنتجان غير متوافقين.</String>
+    <String Id="Error1605" Overridable="yes">‏‏لا توجد مساحة على القرص بوحدة التخزين '[2]' تكفي للاستمرار في عملية التثبيت مع تمكين ميزة الاسترداد. المساحة المطلوبة هي [3] كيلوبايت ولا يتوفر حاليًا سوى [4] كيلوبايت. انقر فوق "تجاهل" للاستمرار في عملية التثبيت دون حفظ معلومات الاسترداد، أو انقر فوق "إعادة المحاولة" للبحث عن المساحة المتوفرة مرة أخرى، أو انقر فوق "إلغاء الأمر" لإنهاء عملية التثبيت.</String>
+    <String Id="Error1606" Overridable="yes">‏‏تعذر الوصول إلى موقع الشبكة [2].</String>
+    <String Id="Error1607" Overridable="yes">يجب إغلاق التطبيقات التالية قبل متابعة التثبيت:</String>
+    <String Id="Error1608" Overridable="yes">‏‏تعذر العثور على أية منتجات متوافقة مثبتة مسبقًا على الجهاز لتثبيت هذا المنتج.</String>
+    <String Id="Error1609" Overridable="yes">‏‏حدث خطأ أثناء تطبيق إعدادات الأمان. إن [2] ليس بمستخدم صالح أو مجموعة صالحة. قد توجد مشكلة في الحزمة، أو في الاتصال بوحدة التحكم بالمجال على الشبكة. تحقق من اتصالك بالشبكة وانقر فوق "إعادة المحاولة" أو "إلغاء الأمر" لإنهاء عملية التثبيت. {{يتعذر تحديد موقع SID الخاص بالمستخدم، خطأ في النظام [3]}}</String>
+    <String Id="Error1701" Overridable="yes">المفتاح [2] غير صالح. تأكد من إدخال المفتاح الصحيح.</String>
+    <String Id="Error1702" Overridable="yes">يجب على المثبت إعادة تشغيل النظام قبل متابعة تكوين [2]. انقر فوق "نعم" لإعادة التشغيل الآن، أو فوق "لا" إذا كنت تنوي القيام بإعادة التشغيل يدويًا في وقت لاحق.</String>
+    <String Id="Error1703" Overridable="yes">‏يجب إعادة تشغيل النظام حتى تسري تغييرات التكوين التي تمت على [2]. انقر فوق "نعم" لإعادة التشغيل الآن، أو فوق "لا" إذا كنت تنوي القيام بإعادة التشغيل يدويًا في وقت لاحق.</String>
+    <String Id="Error1704" Overridable="yes">‏‏تم تعليق تثبيت [2] في الوقت الحالي. يجب التراجع عن التغييرات التي أحدثها ذلك التثبيت حتى تتم المتابعة. هل ترغب في التراجع عن هذه التغييرات؟</String>
+    <String Id="Error1705" Overridable="yes">يوجد تثبيت سابق لهذا المنتج قيد التقدم الآن. يجب التراجع عن التغييرات التي أحدثها ذلك التثبيت حتى تتم المتابعة. هل ترغب في التراجع عن هذه التغييرات؟</String>
+    <String Id="Error1706" Overridable="yes">‏لا يمكن العثور على حزمة التثبيت للمنتج [2]. حاول إجراء التثبيت مرة أخرى باستخدام نسخة صالحة من حزمة التثبيت '[3]'.</String>
+    <String Id="Error1707" Overridable="yes">‏‏تمت عملية التثبيت بنجاح.</String>
+    <String Id="Error1708" Overridable="yes">‏‏فشلت عملية التثبيت.</String>
+    <String Id="Error1709" Overridable="yes">‏‏المنتج: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">‏‏يمكنك إما إعادة الكمبيوتر إلى حالته السابقة أو متابعة التثبيت فيما بعد. هل تريد الاستعادة؟</String>
+    <String Id="Error1711" Overridable="yes">‏‏حدث خطأ أثناء كتابة معلومات التثبيت على القرص. تأكّد من توفر مساحة قرص كافية، وانقر فوق "إعادة المحاولة"، أو انقر فوق "إلغاء الأمر" لإنهاء التثبيت.</String>
+    <String Id="Error1712" Overridable="yes">تعذر العثور على ملف واحد أو أكثر من الملفات المطلوبة لاستعادة الكمبيوتر لحالته السابقة. لا يمكن استعادة الكمبيوتر.</String>
+    <String Id="Error1713" Overridable="yes">لا يستطيع [2] تثبيت أحد منتجاته المطلوبة. اتصل بفريق الدعم الفني. {{خطأ في النظام: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">لا يمكن إزالة النسخة القديمة من [2]. اتصل بفريق الدعم الفني. {{خطأ في النظام [3].}}</String>
+    <String Id="Error1715" Overridable="yes">‏‏تم تثبيت [2]</String>
+    <String Id="Error1716" Overridable="yes">‏‏تم تكوين [2]</String>
+    <String Id="Error1717" Overridable="yes">‏‏تمت إزالة [2]</String>
+    <String Id="Error1718" Overridable="yes">‏‏تم رفض الملف [2] من قِبل نهج التوقيع الرقمي.</String>
+    <String Id="Error1719" Overridable="yes">‏‏تعذر الوصول إلى خدمة Windows Installer. قد يحدث هذا إذا كنت تقوم بتشغيل Windows في الوضع الآمن، أو إذا لم يتم تثبيت Windows Installer بشكل صحيح. قم بالاتصال بموظفي الدعم للحصول على المساعدة.</String>
+    <String Id="Error1720" Overridable="yes">توجد مشكلة في حزمة Windows Installer هذه. تعذر تشغيل برنامج نصي مطلوب لإكمال هذا التثبيت. اتصل بموظفي الدعم أو مورّد الحزمة. {{الإجراء المخصص [2] خطأ البرنامج النصي [3]، [4]: [5] السطر [6]، العمود [7]، [8] }}</String>
+    <String Id="Error1721" Overridable="yes">‏‏توجد مشكلة في حزمة Windows Installer هذه. تعذر تشغيل برنامج مطلوب لإتمام عملية التثبيت هذه. قم بالاتصال بموظفي الدعم أو مورّد الحزمة. {{الإجراء [2]، الموقع [3]، الأمر [4]}}</String>
+    <String Id="Error1722" Overridable="yes">توجد مشكلة في حزمة Windows Installer هذه. تعذر إنهاء برنامج يتم تشغيله كجزء من عملية الإعداد بالشكل المتوقع. اتصل بموظفي الدعم أو مورّد الحزمة. {{الإجراء: [2]، الموقع: [3]، الأمر: [4]}}</String>
+    <String Id="Error1723" Overridable="yes">توجد مشكلة في حزمة Windows Installer هذه. تعذر تشغيل DLL مطلوب لإكمال هذا التثبيت. اتصل بموظفي الدعم أو مورّد الحزمة. {{الإجراء: [2]، الإدخال: [3]، المكتبة: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">‏‏تمت عملية الإزالة بنجاح.</String>
+    <String Id="Error1725" Overridable="yes">‏‏فشلت عملية الإزالة.</String>
+    <String Id="Error1726" Overridable="yes">‏‏تمت عملية الإعلان بنجاح.</String>
+    <String Id="Error1727" Overridable="yes">‏‏فشلت عملية الإعلان.</String>
+    <String Id="Error1728" Overridable="yes">‏‏تمت عملية التكوين بنجاح.</String>
+    <String Id="Error1729" Overridable="yes">‏‏فشلت عملية التكوين.</String>
+    <String Id="Error1730" Overridable="yes">‏‏يجب أن تكون مسؤولاً لكي تتمكن من إزالة هذا التطبيق. لإزالة هذا التطبيق، يمكنك تسجيل الدخول كمسؤول، أو الاتصال بمجموعة الدعم التقني للحصول على المساعدة.</String>
+    <String Id="Error1731" Overridable="yes">حزمة التثبيت المصدر للمنتج [2] غير متزامنة مع حزمة العميل. حاول إجراء التثبيت مرة أخرى باستخدام نسخة صالحة من حزمة التثبيت '[3]'.</String>
+    <String Id="Error1732" Overridable="yes">لإكمال تثبيت [2]، يجب إعادة تشغيل الكمبيوتر. يوجد حاليًا مستخدمون آخرون قاموا بتسجيل الدخول إلى هذا الكمبيوتر، وقد ينتج عن إعادة التشغيل فقدانهم لعملهم. هل ترغب في إعادة التشغيل الآن؟</String>
+    <String Id="Error1801" Overridable="yes">المسار [2] غير صالح. الرجاء تحديد مسار صالح.</String>
+    <String Id="Error1802" Overridable="yes">‏‏نفدت الذاكرة. أغلق التطبيقات الأخرى قبل إعادة المحاولة.</String>
+    <String Id="Error1803" Overridable="yes">‏‏لا يوجد قرص داخل محرك الأقراص [2]. الرجاء إدراج قرص، ثم انقر فوق "إعادة المحاولة"، أو فوق "إلغاء الأمر" للرجوع إلى وحدة التخزين المحددة سابقًا.</String>
+    <String Id="Error1804" Overridable="yes">‏‏لا يوجد قرص داخل محرك الأقراص [2]. الرجاء إدراج قرص، ثم انقر فوق "إعادة المحاولة"، أو فوق "إلغاء الأمر" للرجوع إلى مربع حوار الاستعراض وتحديد وحدة تخزين أخرى.</String>
+    <String Id="Error1805" Overridable="yes">المجلد [2] غير موجود. الرجاء إدخال مسار لمجلد موجود.</String>
+    <String Id="Error1806" Overridable="yes">‏‏ليست لديك الامتيازات الكافية لقراءة هذا المجلد.</String>
+    <String Id="Error1807" Overridable="yes">‏‏تعذر تحديد مجلد وجهة صالح للتثبيت.</String>
+    <String Id="Error1901" Overridable="yes">‏‏حدث خطأ أثناء محاولة القراءة من قاعدة بيانات تثبيت المصدر: [2].</String>
+    <String Id="Error1902" Overridable="yes">‏‏جدولة عملية إعادة التمهيد: إعادة تسمية الملف [2] إلى [3]. يجب إعادة التمهيد لإتمام العملية.</String>
+    <String Id="Error1903" Overridable="yes">‏‏جدولة عملية إعادة التمهيد: حذف الملف [2]. يجب إعادة التمهيد لإتمام العملية.</String>
+    <String Id="Error1904" Overridable="yes">‏‏فشل تسجيل الوحدة النمطية [2]. HRESULT [3]‎. اتصل بموظفي الدعم.</String>
+    <String Id="Error1905" Overridable="yes">‏‏فشل إلغاء تسجيل الوحدة النمطية [2]. HRESULT [3]‎. اتصل بموظفي الدعم.</String>
+    <String Id="Error1906" Overridable="yes">‏‏فشل التخزين المؤقت للحزمة [2]. الخطأ: [3]. اتصل بموظفي الدعم.</String>
+    <String Id="Error1907" Overridable="yes">تعذر تسجيل الخط [2]. تحقق من توفر الأذونات الكافية لتثبيت الخطوط، وأن النظام يعتمد ذلك الخط.</String>
+    <String Id="Error1908" Overridable="yes">‏‏تعذر إلغاء تسجيل الخط [2]. تحقق من امتلاكك الأذونات الكافية لإزالة الخطوط.</String>
+    <String Id="Error1909" Overridable="yes">‏‏تعذر إنشاء الاختصار [2]. تحقق من وجود مجلد الوجهة وإمكانية الوصول إليه.</String>
+    <String Id="Error1910" Overridable="yes">‏‏تعذرت إزالة الاختصار [2]. تحقق من وجود ملف الاختصار وإمكانية الوصول إليه.</String>
+    <String Id="Error1911" Overridable="yes">‏‏تعذر تسجيل مكتبة الأنواع للملف [2]. اتصل بموظفي الدعم.</String>
+    <String Id="Error1912" Overridable="yes">‏‏تعذر إلغاء تسجيل مكتبة الأنواع للملف [2]. اتصل بموظفي الدعم.</String>
+    <String Id="Error1913" Overridable="yes">‏‏تعذر تحديث ملف ini ‏[2][3]. تحقق من وجود الملف وإمكانية الوصول إليه.</String>
+    <String Id="Error1914" Overridable="yes">تعذرت جدولة الملف [2] ليحل محل الملف [3] عند إعادة التشغيل. تحقق من توفر الأذونات اللازمة للكتابة إلى الملف [3].</String>
+    <String Id="Error1915" Overridable="yes">‏‏حدث خطأ أثناء إزالة إدارة برنامج تشغيل ODBC، خطأ ODBC‏ [2]: [3]. اتصل بموظفي الدعم.</String>
+    <String Id="Error1916" Overridable="yes">‏‏حدث خطأ أثناء تثبيت إدارة برنامج تشغيل ODBC، خطأ ODBC‏ [2]: [3]. اتصل بموظفي الدعم.</String>
+    <String Id="Error1917" Overridable="yes">‏‏حدث خطأ أثناء إزالة برنامج تشغيل ODBC:‏ [4]، خطأ ODBC [2]: [3]. تحقق من امتلاكك الامتيازات الكافية لإزالة برامج تشغيل ODBC.</String>
+    <String Id="Error1918" Overridable="yes">‏‏حدث خطأ أثناء تثبيت برنامج تشغيل ODBC:‏ [4]، خطأ ODBC [2]: [3]. تحقق من وجود الملف [4] وإمكانية الوصول إليه.</String>
+    <String Id="Error1919" Overridable="yes">‏‏حدث خطأ أثناء تكوين مصدر بيانات ODBC: [4]‎، خطأ ODBC [2]: [3]. تحقق من وجود الملف [4] وإمكانية الوصول إليه.</String>
+    <String Id="Error1920" Overridable="yes">فشل بدء الخدمة '[2]' ([3]). تحقق من توفر الامتيازات الكافية لبدء خدمات النظام.</String>
+    <String Id="Error1921" Overridable="yes">تعذر إيقاف الخدمة '[2]' ([3]). تحقق من توفر الامتيازات الكافية لإيقاف خدمات النظام.</String>
+    <String Id="Error1922" Overridable="yes">تعذر حذف الخدمة '[2]' ([3]). تحقق من توفر الامتيازات الكافية لإزالة خدمات النظام.</String>
+    <String Id="Error1923" Overridable="yes">تعذر تثبيت الخدمة '[2]' ([3]). تحقق من توفر الامتيازات الكافية لتثبيت خدمات النظام.</String>
+    <String Id="Error1924" Overridable="yes">تعذر تحديث متغير البيئة '[2]'. تحقق من توفر الامتيازات الكافية لتعديل متغيرات البيئة.</String>
+    <String Id="Error1925" Overridable="yes">‏‏ليست لديك امتيازات كافية لإكمال هذا التثبيت لكافة المستخدمين على هذا الجهاز. يجب تسجيل الدخول كمسؤول ثم إعادة محاولة إجراء هذا التثبيت.</String>
+    <String Id="Error1926" Overridable="yes">تعذر تعيين أمان الملف للملف '[3]'. الخطأ: [2]. تحقق من توفر الامتيازات الكافية لتعديل أذونات الأمان لهذا الملف.</String>
+    <String Id="Error1927" Overridable="yes">لم يتم تثبيت خدمات المكون (COM+ 1.0) على هذا الكمبيوتر. يتطلب هذا التثبيت خدمات المكون لكي يكتمل بنجاح. تتوفر خدمات المكون في نظام التشغيل Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">حدث خطأ أثناء تسجيل تطبيق +COM. اتصل بموظفي الدعم للحصول على المزيد من المعلومات.</String>
+    <String Id="Error1929" Overridable="yes">حدث خطأ أثناء إلغاء تسجيل تطبيق +COM. اتصل بموظفي الدعم للحصول على المزيد من المعلومات.</String>
+    <String Id="Error1930" Overridable="yes">‏‏تعذر تغيير وصف الخدمة '[2]' ([3]).</String>
+    <String Id="Error1931" Overridable="yes">لا يمكن لخدمة Windows Installer تحديث ملف النظام [2] لأن الملف محمي بواسطة Windows. قد تحتاج إلى تحديث نظام التشغيل لكي يعمل هذا البرنامج بشكل صحيح. {{إصدار الحزمة: [3]، إصدار نظام التشغيل المحمي: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">‏‏لا يمكن لخدمة Windows Installer تحديث ملف Windows المحمي [2]. {{إصدار الحزمة: [3], إصدار نظام التشغيل المحمي: [4]، خطأ SFP: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">لا يمكن لخدمة Windows Installer القيام بتحديث ملف واحد أو أكثر من ملفات Windows المحمية. {{خطأ SFP: [2]. قائمة الملفات المحمية:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">‏‏تم تعطيل عمليات تثبيت المستخدم بواسطة النهج الموجود على الجهاز.</String>
+    <String Id="Error1935" Overridable="yes">حدث خطأ أثناء تثبيت التجميع '[6]'. لمزيد من المعلومات، الرجاء الرجوع إلى "التعليمات والدعم". ‎HRESULT‏: [3]. {{واجهة التجميع: [4]، الوظيفة: [5]، المكون: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">حدث خطـأ أثناء تثبيت التجميع '[6]'. إما إنه لم تتم تسمية التجميع باسم مميز أو لم يتم التوقيع عليه بمفتاح يبلغ طوله الحد الأدنى. HRESULT: [3]. {{واجهة التجميع: [4], الوظيفة: [5], المكون: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">حدث خطـأ أثناء تثبيت التجميع '[6]'. تعذر التحقق من صحة التوقيع أو الكتالوج أو أنهما غير صالحين. HRESULT: [3]. {{واجهة التجميع: [4], الوظيفة: [5], المكون: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">حدث خطـأ أثناء تثبيت التجميع '[6]'. تعذر العثور على وحدة نمطية واحدة أو أكثر من وحدات التجميع النمطية. HRESULT: [3]. {{واجهة التجميع: [4], الوظيفة: [5], المكون: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">بايت</String>
+    <String Id="UITextGB" Overridable="yes">غيغابايت</String>
+    <String Id="UITextKB" Overridable="yes">كيلوبايت</String>
+    <String Id="UITextMB" Overridable="yes">ميغابايت</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">ستكون الميزة بأكملها غير متوفرة</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">سيتم تثبيت الميزة عند الحاجة</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">‏‏سيتم تثبيت الميزة بأكملها لتشغيلها من القرص المضغوط</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">‏‏سيتم تثبيت الميزة بأكملها على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">‏‏سيتم تثبيت الميزة بأكملها لتشغيلها من الشبكة</String>
+    <String Id="UITextMenuCD" Overridable="yes">‏‏سيتم تثبيتها لتشغيلها من القرص المضغوط</String>
+    <String Id="UITextMenuLocal" Overridable="yes">‏‏سيتم تثبيتها على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">سيتم تثبيتها لتشغيلها من الشبكة</String>
+    <String Id="UITextNewFolder" Overridable="yes">مجلد|مجلد جديد</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">‏‏يتم الآن ‏‏جمع المعلومات المطلوبة...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">ستبقى هذه الميزة غير مثبتة</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">سيتم تعيين هذه الميزة ليتم تثبيتها عند الحاجة</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">‏‏سيتم تثبيت هذه الميزة لتشغيلها من القرص المضغوط</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">سيتم تثبيت هذه الميزة على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">‏‏سيتم تثبيت هذه الميزة لتشغيلها من الشبكة</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">ستصبح هذه الميزة غير متوفرة</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">سيتم تثبيتها عند الحاجة</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">‏‏ستتوفر هذه الميزة لتشغيلها من القرص المضغوط</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">سيتم تثبيت هذه الميزة على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">‏‏ستتوفر هذه الميزة لتشغيلها من الشبكة</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">ستتم إزالة تثبيت هذه الميزة بشكل كامل، ولن تتمكن من تشغيلها من القرص المضغوط</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">سيتم تغيير تعيين هذه الميزة من حالة التشغيل من القرص المضغوط إلى التثبيت عند الطلب</String>
+    <String Id="UITextSelCDCD" Overridable="yes">‏‏ستبقى هذه الميزة ليتم تشغيلها من القرص المضغوط</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">‏‏ستتغير هذه الميزة من حالة التشغيل من القرص المضغوط إلى التثبيت على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">تحرر هذه الميزة [1] على محرك الأقراص الثابت.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">تتطلب هذه الميزة [1] على محرك الأقراص الثابت.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">جارٍ حساب تكلفة هذه الميزة...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">‏‏ستتم إزالة هذه الميزة بشكل كامل</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">‏‏ستتم إزالة هذه الميزة من محرك الأقراص الثابت المحلي، ولكن سيتم تعيينها ليتم تثبيتها عند الطلب</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">‏‏ستتم إزالة هذه الميزة من محرك الأقراص الثابت المحلي، ولكنها ستبقى متوفرةً ليتم تشغيلها من القرص المضغوط</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">ستبقى هذه الميزة على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">‏‏ستتم إزالة هذه الميزة من محرك الأقراص الثابت المحلي، ولكنها ستبقى متوفرةً ليتم تشغيلها من الشبكة</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">سيتم إزالة تثبيت هذه الميزة بشكل كامل، ولن تتمكن من تشغيلها من الشبكة</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">ستتغير هذه الميزة من حالة التشغيل من الشبكة إلى تعيينها بحيث يتم تثبيتها عند الطلب</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">ستتغير هذه الميزة من حالة التشغيل من الشبكة إلى التثبيت على محرك الأقراص الثابت المحلي</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">ستبقى هذه الميزة ليتم تشغيلها من الشبكة</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">تحرر هذه الميزة [1] على محرك الأقراص الثابت. لديها [2] من [3] من الميزات الفرعية المحددة. تحرر الميزات الفرعية [4] على محرك الأقراص الثابت.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">تحرر هذه الميزة [1] على محرك الأقراص الثابت. لديها [2] من [3] من الميزات الفرعية المحددة. تتطلب الميزات الفرعية [4] على محرك الأقراص الثابت.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">تتطلب هذه الميزة [1] على محرك الأقراص الثابت. لديها [2] من [3] من الميزات الفرعية المحددة. تحرر الميزات الفرعية [4] على محرك الأقراص الثابت.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">تتطلب هذه الميزة [1] على محرك الأقراص الثابت. لديها [2] من [3] من الميزات الفرعية المحددة. تتطلب الميزات الفرعية [4] على محرك الأقراص الثابت.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">‏‏الوقت المتبقي: {[1] دقيقة }{[2] ثانية}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">متوفر</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">الفرق</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">مطلوب</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">حجم القرص</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">وحدة تخزين</String>
+</WixLocalization>

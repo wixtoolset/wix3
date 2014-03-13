@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="Folders.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir" />
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="WiX Toolset v$(var.WixMajorMinor)" />
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR">
+            <Directory Id="ProgramFiles64Folder" />
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR">
+            <Directory Id="ProgramMenuFolder" Name="ProgMenu">
+                <Directory Id="ShortcutFolder" Name="WiX Toolset v$(var.WixMajorMinor)" />
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="BinFolder" Name="bin">
+                <Directory Id="BurnX86Folder" Name="x86" />
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="DocFolder" Name="doc" />
+        </DirectoryRef>
+    </Fragment>
+
+    <!--
+        MSBuild
+    -->
+    <Fragment>
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="MSBuildFolder" Name="MSBuild">
+                <Directory Id="MSBuildMSFolder" Name="Microsoft">
+                    <Directory Id="MSBuildMSWixFolder" Name="WiX">
+                        <Directory Id="MSBuildMSWix3xFolder" Name="v3.x"/>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <!--
+        SDK
+    -->
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="SdkFolder" Name="SDK" />
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="SdkFolder">
+            <Directory Id="SdkX86Folder" Name="x86" />
+            <Directory Id="SdkX64Folder" Name="x64" />
+        </DirectoryRef>
+    </Fragment>
+
+    <!--
+        VS2008
+    -->
+    <Fragment>
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="VisualStudio2008Folder" Name="Microsoft Visual Studio 9.0">
+                <Directory Id="Common7Vs2008" Name="Common7">
+                    <Directory Id="IDEVs2008" Name="IDE"/>
+                </Directory>
+                <Directory Id="XmlVs2008" Name="Xml"/>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS90_ITEMTEMPLATES_DIR" />
+
+        <DirectoryRef Id="IDEVs2008">
+            <Directory Id="VS90_ITEMTEMPLATES_DIR" Name="ItemTemplates">
+                <Directory Id="VsItemTemplatesWix2008Folder" Name="WiX" />
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    
+    <Fragment>
+        <PropertyRef Id="VS90_PROJECTTEMPLATES_DIR" />
+
+        <DirectoryRef Id="IDEVs2008">
+            <Directory Id="VS90_PROJECTTEMPLATES_DIR" Name="ProjectTemplates">
+                <Directory Id="VsProjectTemplatesWix2008Folder" Name="WiX" />
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS90_SCHEMAS_DIR" />
+
+        <DirectoryRef Id="XmlVs2008">
+            <Directory Id="VS90_SCHEMAS_DIR" Name="Schemas" />
+        </DirectoryRef>
+    </Fragment>
+
+    <!--
+        VS2010
+    -->
+    <Fragment>
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="VisualStudio2010Folder" Name="Microsoft Visual Studio 10.0">
+                <Directory Id="Common7Vs2010" Name="Common7">
+                    <Directory Id="IDEVs2010" Name="IDE"/>
+                </Directory>
+                <Directory Id="XmlVs2010" Name="Xml"/>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2010_EXTENSIONS_DIR" />
+
+        <DirectoryRef Id="IDEVs2010">
+            <Directory Id="VS2010_EXTENSIONS_DIR" Name="Extensions">
+                <Directory Id="VsExtensions2010Microsoft" Name="Microsoft">
+                    <Directory Id="VsExtensions2010MicrosoftWix" Name="WiX">
+                        <Directory Id="VsItemTemplatesWix2010Folder" Name="ItemTemplates" />
+                        <Directory Id="VsProjectTemplatesWix2010Folder" Name="ProjectTemplates" />
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2010_SCHEMAS_DIR" />
+
+        <DirectoryRef Id="XmlVs2010">
+            <Directory Id="VS2010_SCHEMAS_DIR" Name="Schemas" />
+        </DirectoryRef>
+    </Fragment>
+
+    <!--
+        VS2012
+    -->
+    <Fragment>
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="VisualStudio2012Folder" Name="Microsoft Visual Studio 11.0">
+                <Directory Id="Common7Vs2012" Name="Common7">
+                    <Directory Id="IDEVs2012" Name="IDE"/>
+                </Directory>
+                <Directory Id="XmlVs2012" Name="Xml"/>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2012_EXTENSIONS_DIR" />
+
+        <DirectoryRef Id="IDEVs2012">
+            <Directory Id="VS2012_EXTENSIONS_DIR" Name="Extensions">
+                <Directory Id="VsExtensions2012Microsoft" Name="Microsoft">
+                    <Directory Id="VsExtensions2012MicrosoftWix" Name="WiX">
+                        <Directory Id="VsItemTemplatesWix2012Folder" Name="ItemTemplates" />
+                        <Directory Id="VsProjectTemplatesWix2012Folder" Name="ProjectTemplates" />
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2012_SCHEMAS_DIR" />
+
+        <DirectoryRef Id="XmlVs2012">
+            <Directory Id="VS2012_SCHEMAS_DIR" Name="Schemas" />
+        </DirectoryRef>
+    </Fragment>
+
+    <!--
+        VS2013
+    -->
+    <Fragment>
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="VisualStudio2013Folder" Name="Microsoft Visual Studio 12.0">
+                <Directory Id="Common7Vs2013" Name="Common7">
+                    <Directory Id="IDEVs2013" Name="IDE"/>
+                </Directory>
+                <Directory Id="XmlVs2013" Name="Xml"/>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2013_EXTENSIONS_DIR" />
+
+        <DirectoryRef Id="IDEVs2013">
+            <Directory Id="VS2013_EXTENSIONS_DIR" Name="Extensions">
+                <Directory Id="VsExtensions2013Microsoft" Name="Microsoft">
+                    <Directory Id="VsExtensions2013MicrosoftWix" Name="WiX">
+                        <Directory Id="VsItemTemplatesWix2013Folder" Name="ItemTemplates" />
+                        <Directory Id="VsProjectTemplatesWix2013Folder" Name="ProjectTemplates" />
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2013_SCHEMAS_DIR" />
+
+        <DirectoryRef Id="XmlVs2013">
+            <Directory Id="VS2013_SCHEMAS_DIR" Name="Schemas" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>

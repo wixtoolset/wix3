@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="VS2012.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="VS2012_EXTENSIONS_DIR" Secure="yes">
+            <RegistrySearch Id="VS2012DevEnvForExtensionsSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2012ExtensionsPathSearch" Path="Extensions" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2012_PROJECTTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS2012DevEnvForProjectTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2012ProjectTemplatesPathSearch" Path="ProjectTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2012_SCHEMAS_DIR" Secure="yes">
+            <RegistrySearch Id="VS2012ProductPathSearch" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="11.0" Type="raw">
+                <DirectorySearch Id="VS2012XmlPathSearch" Path="Xml" Depth="1">
+                    <DirectorySearch Id="VS2012XmlSchemasPathSearch" Path="Schemas" Depth="1" />
+                </DirectorySearch>
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2012_ITEMTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS2012DevEnvForItemTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2012ItemTemplatesPathSearch" Path="ItemTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2012_BOOTSTRAPPER_PACKAGE_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVs2012BootstrapperPackageFolder" Root="HKLM" Key="Software\Microsoft\GenericBootstrapper\4.0" Name="Path" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2012_ROOT_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVS2012RootPath" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="11.0" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2012DEVENV" Secure="yes">
+            <RegistrySearch Id="VS2012DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2012Setup" Property="VS2012DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2012DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2012Setup" Before="InstallFinalize" Overridable="yes">VS2012DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2012InstallVSTemplates" Property="VS2012DEVENV" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2012DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2012InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2012DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# project system is installed as a part of  -->
+    <!-- Visual Studio 2012 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2012 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2012 setup.              -->
+    <Fragment>
+        <Property Id="VS2012_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVCS2012ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VC#" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic project system is installed as a part of -->
+    <!-- Visual Studio 2012 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2012 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2012 setup.             -->
+    <Fragment>
+        <Property Id="VS2012_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVB2012ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VB" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer 2012 Express IDE component is installed.  -->
+    <!-- If this property is set, that means Visual Web Developer 2012 Express Edition is     -->
+    <!-- installed on the system.                                                             -->
+    <Fragment>
+        <Property Id="VWD2012EXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVwdExpressIde2012Component" Guid="92A0CBA0-BF39-422D-87FA-AB64564CD136" Type="file">
+                <FileSearch Id="VwdExpressIde2012" Name="vwdexpress.exe" />
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+    <!-- Custom action definition to run vwdexpress.exe /setup                               -->
+    <Fragment>
+        <CustomAction Id="VWD2012Setup" Property="VWD2012EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD2012EXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VWD2012Setup" Before="InstallFinalize" Overridable="yes">VWD2012EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <!-- Custom action definition to run vwdexpress.exe /InstallVSTemplates                  -->
+    <Fragment>
+        <CustomAction Id="VWD2012InstallVSTemplates" Property="VWD2012EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD2012EXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VWD2012InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VWD2012EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2012 Express IDE for Phone component is installed.  -->
+    <Fragment>
+        <Property Id="VPD2012EXPRESS_IDE" Secure="yes">
+            <RegistrySearch Id="VPD2012ExpressForPhoneEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VPDExpress\11.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+    <!-- Custom action definition to run VPDexpress.exe /setup                               -->
+    <Fragment>
+        <CustomAction Id="VPD2012Setup" Property="VPD2012EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VPD2012EXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VPD2012Setup" Before="InstallFinalize" Overridable="yes">VPD2012EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <!-- Custom action definition to run VPDexpress.exe /InstallVSTemplates                  -->
+    <Fragment>
+        <CustomAction Id="VPD2012InstallVSTemplates" Property="VPD2012EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VPD2012EXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VPD2012InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VPD2012EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
+    <!-- Visual Studio 2012 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2012 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2012 setup.             -->
+    <Fragment>
+        <Property Id="VS2012_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <ComponentSearch Id="SearchForVWD2012ProjectSystemUnderVSSetup" Guid="03E73DF8-BED3-44BB-BE2E-BAC10FAE723E" />
+            <ComponentSearch Id="SearchForVWD2012ProjectSystemUnderVWDSetup" Guid="3D7D4A9F-E3D7-4F13-9907-AF4F3CD75D33" Type="directory" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ project system is installed as a part of -->
+    <!-- Visual Studio 2012 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2012 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2012 setup.             -->
+    <Fragment>
+        <Property Id="VS2012_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVC2012ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VC" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2012 Team Test project system is installed -->
+    <Fragment>
+        <Property Id="VS2012_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2012TestSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Projects\{3AC096D0-A1C2-E12C-1390-A8335801FDAB}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2012 Database project system is installed -->
+    <Fragment>
+        <Property Id="VS2012_IDE_DB_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <ComponentSearch Id="SearchForVS2012DBSystemUnderVSSetup" Guid="E781FFA7-55F5-4E8C-9275-7B7EF035B13B" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Windows Installer XML project system is installed for VS2012 -->
+    <Fragment>
+        <Property Id="VS2012_IDE_WIX_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <!-- Component search for the .pkgdef file for VS2012 -->
+            <ComponentSearch Id="SearchForVS2012WixSystemUnderVSSetup" Guid="55489E7A-7DCA-5228-975E-39C51BE332D9" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Modeling project system is installed -->
+    <Fragment>
+        <Property Id="VS2012_IDE_MODELING_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2012ModelingSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Projects\{f088123c-0e9e-452a-89e6-6ba2f21d5cac}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio F# project system is installed -->
+    <Fragment>
+        <Property Id="VS2012_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2012FSharpSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\11.0\Setup\F#" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Express for Windows IDE component is installed. -->
+    <!-- If this property is set, that means Visual Studio Express for Windows is installed  -->
+    <!-- on the system.                                                                      -->
+    <Fragment>
+        <Property Id="VS2012WINEXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVS2012WinExpressIdeComponent" Guid="A7A5FD99-1DFE-4AA8-A563-4DF5E0DD89E1" Type="file">
+                <FileSearch Id="VS2012WinExpressIde" Name="vswinexpress.exe" />
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+    <!-- Custom action definition to run vswinexpress.exe /setup                             -->
+    <Fragment>
+        <CustomAction Id="VS2012WinExpressSetup" Property="VS2012WINEXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2012WINEXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VS2012WinExpressSetup" Before="InstallFinalize" Overridable="yes">VS2012WINEXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <!-- Custom action definition to run vswinexpress.exe /InstallVSTemplates                -->
+    <Fragment>
+        <CustomAction Id="VS2012WinExpressInstallVSTemplates" Property="VS2012WINEXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2012WINEXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VS2012WinExpressInstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2012WINEXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    
+    <!-- Indicates whether the Visual Studio Express for Windows Desktop IDE component is installed. -->
+    <!-- If this property is set, that means Visual Studio Express for Windows Desktop is installed  -->
+    <!-- on the system.                                                                              -->
+    <Fragment>
+        <Property Id="VS2012WDEXPRESS_IDE" Secure="yes">
+            <ComponentSearch Id="SearchForVS2012WDExpressIdeComponent" Guid="{55C6B9D6-A824-4AFC-8D08-20E581B6F42C}" Type="file">
+                <FileSearch Id="VS2012WDExpressIde" Name="WDExpress.exe" />
+            </ComponentSearch>
+        </Property>
+    </Fragment>
+    <!-- Custom action definition to run WDExpress.exe /setup -->
+    <Fragment>
+        <CustomAction Id="VS2012WDExpressSetup" Property="VS2012WDEXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2012WDEXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VS2012WDExpressSetup" Before="InstallFinalize" Overridable="yes">VS2012WDEXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <!-- Custom action definition to run WDExpress.exe /InstallVSTemplates -->
+    <Fragment>
+        <CustomAction Id="VS2012WDExpressInstallVSTemplates" Property="VS2012WDEXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2012WDEXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VS2012WDExpressInstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2012WDEXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+</Wix>

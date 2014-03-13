@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="wixstdba.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+    <!-- RTF License Payload Group -->
+    <Fragment>
+        <PayloadGroup Id='WixStdbaRtfLicensePayloads'>
+            <Payload Name='thm.xml' Compressed='yes' SourceFile='!(wix.WixStdbaThemeXml=RtfTheme.xml)' />
+            <Payload Name='thm.wxl' Compressed='yes' SourceFile='!(wix.WixStdbaThemeWxl=RtfTheme.wxl)' />
+            <Payload Name='logo.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogo=logo.png)' />
+
+            <Payload Name='!(wix.WixStdbaLicenseRtfName=license.rtf)' Compressed='yes' SourceFile='!(wix.WixStdbaLicenseRtf=LoremIpsumLicense.rtf)' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixStdbaInformation'>
+            <Row>
+                <Data Column='LicenseFile'>!(wix.WixStdbaLicenseRtfName=license.rtf)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <!-- RTF Large License Payload Group -->
+    <Fragment>
+        <PayloadGroup Id='WixStdbaRtfLargeLicensePayloads'>
+            <Payload Name='thm.xml' Compressed='yes' SourceFile='!(wix.WixStdbaThemeXml=RtfLargeTheme.xml)' />
+            <Payload Name='thm.wxl' Compressed='yes' SourceFile='!(wix.WixStdbaThemeWxl=RtfTheme.wxl)' />
+            <Payload Name='logo.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogo=logo.png)' />
+
+            <Payload Name='!(wix.WixStdbaLicenseRtfName=license.rtf)' Compressed='yes' SourceFile='!(wix.WixStdbaLicenseRtf=LoremIpsumLicense.rtf)' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixStdbaInformation'>
+            <Row>
+                <Data Column='LicenseFile'>!(wix.WixStdbaLicenseRtfName=license.rtf)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <!-- Hyperlink License Payload Group -->
+    <Fragment>
+        <PayloadGroup Id='WixStdbaHyperlinkLicensePayloads'>
+            <Payload Name='thm.xml' Compressed='yes' SourceFile='!(wix.WixStdbaThemeXml=HyperlinkTheme.xml)' />
+            <Payload Name='thm.wxl' Compressed='yes' SourceFile='!(wix.WixStdbaThemeWxl=HyperlinkTheme.wxl)' />
+            <Payload Name='logo.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogo=logo.png)' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixStdbaInformation'>
+            <Row>
+                <Data Column='LicenseUrl'>!(wix.WixStdbaLicenseUrl)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <!-- Hyperlink Large License Payload Group -->
+    <Fragment>
+        <PayloadGroup Id='WixStdbaHyperlinkLargeLicensePayloads'>
+            <Payload Name='thm.xml' Compressed='yes' SourceFile='!(wix.WixStdbaThemeXml=HyperlinkLargeTheme.xml)' />
+            <Payload Name='thm.wxl' Compressed='yes' SourceFile='!(wix.WixStdbaThemeWxl=HyperlinkTheme.wxl)' />
+            <Payload Name='logo.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogo=logo.png)' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixStdbaInformation'>
+            <Row>
+                <Data Column='LicenseUrl'>!(wix.WixStdbaLicenseUrl)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <!-- HyperlinkSidebar License Payload Group -->
+    <Fragment>
+        <PayloadGroup Id='WixStdbaHyperlinkSidebarLicensePayloads'>
+            <Payload Name='thm.xml' Compressed='yes' SourceFile='!(wix.WixStdbaThemeXml=HyperlinkSidebarTheme.xml)' />
+            <Payload Name='thm.wxl' Compressed='yes' SourceFile='!(wix.WixStdbaThemeWxl=HyperlinkTheme.wxl)' />
+            <Payload Name='logo.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogo=logo.png)' />
+            <Payload Name='logoside.png' Compressed='yes' SourceFile='!(wix.WixStdbaLogoSide=logoside.png)' />
+        </PayloadGroup>
+
+        <CustomTable Id='WixStdbaInformation'>
+            <Row>
+                <Data Column='LicenseUrl'>!(wix.WixStdbaLicenseUrl)</Data>
+            </Row>
+        </CustomTable>
+    </Fragment>
+
+    <!-- BootstrapperApplicationData tables definition -->
+    <Fragment>
+        <CustomTable Id='WixStdbaInformation' BootstrapperApplicationData='yes'>
+            <Column Id='LicenseFile' Category='Text' Type='string' Width='0' Nullable='yes' PrimaryKey='yes' />
+            <Column Id='LicenseUrl' Category='Text' Type='string' Width='0' Nullable='yes' PrimaryKey='yes' />
+        </CustomTable>
+    </Fragment>
+</Wix>

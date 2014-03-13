@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="nl-nl" Language="1043" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] Installatie</String>
+  <String Id="Title">Microsoft .NET Framework is vereist voor installatie [WixBundleName]</String>
+  <String Id="ConfirmCancelMessage">Weet u zeker dat u de installatie wilt annuleren?</String>
+  <String Id="HelpHeader">Help bij Setup</String>
+  <String Id="HelpText">/passive | /quiet - geeft een minimale gebruikersinterface weer zonder prompts
+   of geeft geen gebruikersinterface en geen prompts weer. Gebruikersinterface
+   en alle prompts worden standaard weergegeven.
+
+/norestart   - pogingen tot opnieuw opstarten onderdrukken.
+   Gebruikersinterface vraagt standaard alvorens opnieuw op te starten.
+/log log.txt - registreert gegevens in een specifiek bestand. Een logbestand
+   wordt standaard in %TEMP% gemaakt.</String>
+  <String Id="HelpCloseButton">&amp;Sluiten</String>
+  <String Id="InstallLicenseTerms">Klik op de knop 'Accepteren en installeren' om de &lt;a href="#"&gt;licentievoorwaarden&lt;/a&gt; van het Microsoft .NET Framework te accepteren.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Accepteren en installeren</String>
+  <String Id="InstallDeclineButton">&amp;Weigeren</String>
+  <String Id="ProgressHeader">Voortgang van de installatie</String>
+  <String Id="ProgressLabel">Verwerken:</String>
+  <String Id="ProgressCancelButton">&amp;Annuleren</String>
+  <String Id="FailureHeader">Installatie mislukt</String>
+  <String Id="FailureLogLinkText">Er zijn een of meer fouten opgetreden waardoor de installatie is mislukt. Corrigeer de problemen en voer Setup opnieuw uit. Raadpleeg het &lt;a href="#"&gt;log boekbestand&lt;/a&gt; voor meer informatie.</String>
+  <String Id="FailureRestartText">U moet uw computer opnieuw opstarten om het terugdraaien van de software te voltooien.</String>
+  <String Id="FailureRestartButton">&amp;Opnieuw opstarten</String>
+  <String Id="FailureCloseButton">&amp;Sluiten</String>
+</WixLocalization>

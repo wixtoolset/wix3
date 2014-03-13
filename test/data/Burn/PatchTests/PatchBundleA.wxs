@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="PatchBundleA.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
+  <Bundle Name="~$(var.TestName) - Patch Bundle A" Version="$(var.Version)" UpgradeCode="8FD3B1A0-F988-42C9-B9C3-310BCFDFF5DC">
+    <Log Prefix="~$(var.TestName)_PatchBundleA"/>
+
+    <swid:Tag Regid="regid.1995-08.com.example" Type="patch" />
+
+    <Variable Name="TestName" Value="$(var.TestName)" />
+
+    <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+      <Payload Name='BootstrapperCore.config' SourceFile='!(bindpath.build)\TestBA.BootstrapperCore.config' />
+
+      <Payload SourceFile='!(bindpath.build)\TestBA.dll' />
+    </BootstrapperApplicationRef>
+    <WixVariable Id='WixMbaPrereqPackageId' Value='ignored' />
+    <WixVariable Id='WixMbaPrereqLicenseUrl' Value='ignored' />
+
+    <Chain>
+      <MspPackage Id="PatchA" Name="~$(var.TestName)_PatchA.msp" Compressed="yes" SourceFile="!(bindpath.patchA)" Vital="yes" PerMachine="yes" />
+    </Chain>
+  </Bundle>
+</Wix>

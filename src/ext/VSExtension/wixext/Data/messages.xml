@@ -1,0 +1,122 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Utility Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="VSErrors" ContainerName="VSErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="InvalidOutputGroup" Number="5301" SourceLineNumbers="no">
+            <Instance>
+                Invalid project output group: {0}.
+                <Parameter Type="System.String" Name="outputGroup" />
+            </Instance>
+        </Message>
+        <Message Id="NoOutputGroupSpecified" Number="5302" SourceLineNumbers="no">
+            <Instance>
+                No project output group specified.
+            </Instance>
+        </Message>
+        <Message Id="CannotLoadMSBuildAssembly" Number="5303" SourceLineNumbers="no">
+            <Instance>
+                Failed to load MSBuild assembly: {0}
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
+        <Message Id="CannotLoadMSBuildEngine" Number="5304" SourceLineNumbers="no">
+            <Instance>
+                Failed to load MSBuild engine: {0}
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
+        <Message Id="CannotLoadProject" Number="5305" SourceLineNumbers="no">
+            <Instance>
+                Failed to load project {0}: {1}
+                <Parameter Type="System.String" Name="projectFile" />
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
+        <Message Id="CannotBuildProject" Number="5306" SourceLineNumbers="no">
+            <Instance>
+                Failed to build project {0}: {1}
+                <Parameter Type="System.String" Name="projectFile" />
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
+        <Message Id="BuildFailed" Number="5307" SourceLineNumbers="no">
+            <Instance>
+                Build failed.
+            </Instance>
+        </Message>
+        <Message Id="MissingProjectOutputGroup" Number="5308" SourceLineNumbers="no">
+            <Instance>
+                Missing project output group '{1}' in project {0}.
+                <Parameter Type="System.String" Name="projectFile" />
+                <Parameter Type="System.String" Name="outputGroup" />
+            </Instance>
+        </Message>
+        <Message Id="DirectoryAttributeAccessorBadType" Number="5309" SourceLineNumbers="no">
+            <Instance>
+                DirectoryAttributeAccessor tried to access an invalid element type for attribute '{0'}.
+                <Parameter Type="System.String" Name="attributeName" />
+            </Instance>
+        </Message>
+        <Message Id="InvalidOutputType" Number="5310" SourceLineNumbers="no">
+            <Instance>
+                Invalid generated type: {0}. Must be one of: components, container, payloadgroup, layout.
+                <Parameter Type="System.String" Name="generateType" />
+            </Instance>
+        </Message>
+        <Message Id="InvalidDirectoryId" Number="5311" SourceLineNumbers="no">
+            <Instance>
+                Invalid directory ID: {0}. Check that it doesn't start with a hyphen or slash.
+                <Parameter Type="System.String" Name="generateType" />
+            </Instance>
+        </Message>
+        <Message Id="InvalidProjectName" Number="5312" SourceLineNumbers="no">
+            <Instance>
+                Invalid project name: {0}. Check that it doesn't start with a hyphen or slash.
+                <Parameter Type="System.String" Name="generateType" />
+            </Instance>
+        </Message>
+        <Message Id="BuildErrorDuringHarvesting" Number="5313" SourceLineNumbers="no">
+            <Instance>
+              Build error during harvesting: {0}
+              <Parameter Type="System.String" Name="buildError" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="VSWarnings" ContainerName="VSWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+      <Message Id="NoLogger" Number="5399" SourceLineNumbers="no">
+        <Instance>
+          Failed to set loggers: {0}
+          <Parameter Type="System.String" Name="exceptionMessage" />
+        </Instance>
+      </Message>
+      <Message Id="NoProjectConfiguration" Number="5398" SourceLineNumbers="no">
+        <Instance>
+          Failed to set project configuration and platform: {0}
+          <Parameter Type="System.String" Name="exceptionMessage" />
+        </Instance>
+      </Message>
+    </Class>
+    <Class Name="VSVerboses" ContainerName="VSVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+      <Message Id="FoundToolsVersion" Number="5379" SourceLineNumbers="no">
+        <Instance>
+          Found ToolsVersion {0} inside project file.
+          <Parameter Type="System.String" Name="toolsVersion" />
+        </Instance>
+      </Message>
+      <Message Id="LoadingProject" Number="5378" SourceLineNumbers="no">
+        <Instance>
+          Loading project using MSBuild version {0}.
+          <Parameter Type="System.String" Name="msbuildVersion" />
+        </Instance>
+      </Message>
+    </Class>
+</Messages>

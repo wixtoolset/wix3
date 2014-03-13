@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ManualTest name="Input.InputTests" storage="c:\delivery\dev\wix35\test\src\tools\light\input.inputtests.mtx" id="38d28249-a28d-4155-97b6-8a046cda714e" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <BodyText>This template provides a structure you can use to create a manual test. 
+
+** What is a manual test? **
+
+A manual test is a description of test steps that a tester performs. Typically, manual tests are used when the test steps are difficult or time-consuming to automate, or cannot be automated—-for example, to determine a component's behavior when network connectivity is lost. Visual Studio Team Test treats manual tests the same as automated tests. For example, it displays manual tests in the Team Test windows. It also tracks manual test results the same way it tracks automated test results, and displays them in the Test Results window. 
+
+
+** Test Target **
+
+Test the different ways for giving input files to Light
+
+----------
+
+** Inputs: wixobjs **
+
+Test Title: 
+SingleWixobj
+
+Test Details: 
+Verify that Light accepts a single wixobj as input
+
+Test Steps: 
+Build a valid wixobj from source with Candle
+&gt;light test.wixobj
+
+Automated: yes
+
+----------
+Test Title: 
+MultipleWixobjs
+
+Test Details: 
+Verify that Light accepts multiple wixobjs as input
+
+Test Steps: 
+Build 3 wixobjs from source with Candle
+&gt;light test1.wixobj test2.wixobj test3.wixobj -out out.msi
+
+Automated: yes
+
+----------
+Test Title: 
+UnreferencedWixobj
+
+Test Details: 
+Verify that Light accepts multiple wixobjs where at least one wixobj is not referenced
+
+Test Steps: 
+Build 2 wixobjs from source with Candle. The wixobj that contains the entry section should not reference the 2nd wixobj
+&gt;light test1.wixobj test2.wixobj -out out.msi
+
+Automated: yes
+
+----------
+Test Title: 
+SingleWixobjWithNoEntrySection
+
+Test Details: 
+Verify a Light error for a single wixobj with no entry section
+
+Test Steps: 
+Build a wixobj that does not contain an entry section from source with Candle.
+&gt;light test1.wixobj
+
+Automated: yes
+
+----------
+Test Title: 
+MultipleWixobjWithNoEntrySection
+
+Test Details: 
+Verify a Light error for a multiple wixobjs with no entry section
+
+Test Steps: 
+Build 3 wixobjs for source with Candle. None of the wixobjs should have an entry section.
+&gt;light test1.wixobj test2.wixobj test3.wixobj -out out.msi
+
+Automated: yes
+
+----------
+Test Title: 
+MultipleWixobjEntrySections
+
+Test Details: 
+Verify a Light error for a multiple wixobjs with multiple entry sections
+
+Test Steps: 
+Build 2 wixobjs for source with Candle. Both wixobjs should have an entry section.
+&gt;light test1.wixobj test2.wixobj -out out.msi
+
+Automated: yes
+
+----------
+** Inputs: wixlibs **
+
+Test Title: 
+Inputs - Single wixlib
+
+Test Details: 
+Verify that Light accepts a single wixlib as input
+
+Test Steps: 
+Build a valid wixlib from source with Candle and Lit
+&gt;light test.wixlib
+
+----------
+Test Title: 
+Inputs - Multpile wixlibs
+
+Test Details: 
+Verify that Light accepts multiple wixlibs as input
+
+Test Steps: 
+Build 3 wixlibs from source with Candle and Lit
+&gt;light test1.wixlib test2.wixlib test3.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - Wixlib without entry section
+
+Test Details: 
+Verify a Light error for a single wixlib with no entry section
+
+Test Steps: 
+Build a wixlib that does not contain an entry section from source with Candle and Lit
+&gt;light test1.wixlib
+
+----------
+Test Title: 
+Inputs - Multiple wixlibs without entry section
+
+Test Details: 
+Verify a Light error for a multiple wixlibs with no entry section
+
+Test Steps: 
+Build 3 wixlibs from source with Candle and Lit. None of the wixlibs should have an entry section.
+&gt;light test1.wixlib test2.wixlib test3.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - Multiple wixlib entry sections
+
+Test Details: 
+Verify a Light error for a multiple wixlibs with multiple entry sections
+
+Test Steps: 
+Build 2 wixlibs for source with Candle and Lit. Both wixlibs should have an entry section.
+&gt;light test1.wixlib test2.wixlib -out out.msi
+
+
+----------
+** Inputs: wixobjs and wixlibs **
+
+Test Title: 
+Inputs - wixobj and wixlib
+
+Test Details: 
+Verify that Light accepts a single wixobj with a single wixlib as input
+
+Test Steps: 
+Build a wixobj from source with Candle
+Build a wixlib from source with Candle and Lit
+&gt;light test1.wixobj test2.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - wixobjs and wixlib
+
+Test Details: 
+Verify that Light accepts multiple wixobjs with a single wixlib as input
+
+Test Steps: 
+Build a 2 wixobjs from source with Candle
+Build a wixlib from source with Candle and Lit
+&gt;light test1.wixobj test2.wixobj test3.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - wixobj and wixlibs
+
+Test Details: 
+Verify that Light accepts a single wixobj with multiple wixlibs as input
+
+Test Steps: 
+Build a wixobj from source with Candle
+Build 2 wixlibs from source with Candle and Lit
+&gt;light test1.wixobj test2.wixlib test3.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - wixobjs and wixlibs
+
+Test Details: 
+Verify that Light accepts multiple wixobjs with multiple wixlibs as input
+
+Test Steps: 
+Build 2 wixobjs from source with Candle
+Build 2 wixlibs from source with Candle and Lit
+&gt;light test1.wixobj test2.wixobj test3.wixlib test4.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - wixobj and wixlib without entry section
+
+Test Details: 
+Verify a Light error for a wixobj and a wixlib with no entry section
+
+Test Steps: 
+Build a wixobj from source with Candle that does not have an entry section
+Build a wixlib from source with Candle and Lit that does not contain an entry section
+&gt;light test1.wixobj test2.wixlib -out out.msi
+
+----------
+Test Title: 
+Inputs - wixobj and wixlib with 2 entry sections
+
+Test Details: 
+Verify a Light error for a wixobj and a wixlib that both contain entry sections
+
+Test Steps: 
+Build a wixobj from source with Candle that has an entry section
+Build a wixlib from source with Candle and Lit that has an entry section
+&gt;light test1.wixobj test2.wixlib -out out.msi
+
+
+----------
+** Inputs: wixouts **
+
+Test Title: 
+Inputs - wixout
+
+Test Details: 
+Verify that Light accepts a single wixout as input
+
+Test Steps: 
+Build a wixout from source with Candle and Light
+&gt;light test1.wixout
+
+----------
+Test Title: 
+Inputs - wixouts
+
+Test Details: 
+Verify a Light error for multiple wixouts
+
+Test Steps: 
+Build 2 wixouts from source with Candle and Light
+&gt;light test1.wixout test2.wixout -out out.msi
+
+----------
+Test Title: 
+Inputs - bound wixout
+
+Test Details: 
+Verify that Light accepts a bound wixout as input
+
+Test Steps: 
+Build a bound wixout from source with Candle and Light
+&gt;light test1.wixout
+
+
+----------
+** Inputs: Invalid **
+
+Test Title: 
+Inputs - No Input
+
+Test Details: 
+Verify a Light error when no input file is given
+
+Test Steps: 
+&gt;light -out out.msi
+
+----------
+Test Title: 
+Inputs - Binary File
+
+Test Details: 
+Verify a Light error when a binary file is given as input
+
+Test Steps: 
+&gt;light test.exe -out out.msi
+
+----------
+Test Title: 
+Inputs - Zero byte file
+
+Test Details: 
+Verify a Light error when a zero byte file is given as input
+
+Test Steps: 
+Create a zero byte text file
+&gt;light empty.txt -out out.msi
+
+----------
+Test Title: 
+Inputs - Malformed wixout 1
+
+Test Details: 
+Verify a Light error when a malformed wixout is given as input
+
+Test Steps: 
+Build a wixout from source with Candle and Light
+Remove a closing XML tag in the wixout
+&gt;light test.wixout
+
+----------
+Test Title: 
+Inputs - Malformed wixout 2
+
+Test Details: 
+Verify a Light error when a malformed wixout is given as input
+
+Test Steps: 
+Build a wixout from source with Candle and Light
+Add an undefined XML tag to the wixout, eg. &lt;bad&gt;&lt;/bad&gt;
+&gt;light test.wixout
+
+----------
+Test Title: 
+Inputs - Non-WiX XML
+
+Test Details: 
+Verify a Light error when an arbitrary XML file is given as input
+
+Test Steps: 
+Create an XML file that does not conform to any schema provided by WiX
+&gt;light test.xml
+
+----------
+Test Title: 
+Inputs - Non-existent file
+
+Test Details: 
+Verify a Light error when a path to non-existent file is given as input
+
+Test Steps: 
+Make sure that test.wixobj does not exist
+&gt;light test.wixobj
+
+----------
+Test Title: 
+Inputs - wixobj and binary
+
+Test Details: 
+Verify a Light error when a valid wixobj and an invalid binary are given as input
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test1.wixobj test2.exe -out out.msi
+
+----------
+Test Title: 
+Inputs - wixobj and non-existent file
+
+Test Details: 
+Verify a Light error when a valid wixobj and a non-existent file are given as input
+
+Test Steps: 
+Build a wixobj from source with Candle
+Make sure that test2.wixobj does not exist
+&gt;light test1.wixobj test2.wixobj -out out.msi
+
+----------
+Test Title: 
+Inputs - same file
+
+Test Details: 
+Verify a Light error when the same file is given twice as input
+
+Test Steps: 
+Build a wixobj from source with Candle
+&gt;light test1.wixobj test1.wixobj -out out.msi
+
+----------
+** Inputs: Wildcards **
+
+Test Title: 
+Inputs - wildcard wixobj
+
+Test Details: 
+Verify that light accepts the wildcard character * for wixobjs
+
+Test Steps: 
+Build 2 wixobjs from source with Candle
+&gt;light *.wixobj -out out.msi
+
+----------
+Test Title: 
+Inputs - wildcard wixlib with wixobj
+
+Test Details: 
+Verify that light accepts the wildcard character * with non-wildcard filenames
+
+Test Steps: 
+Build 2 wixlibs from source with Candle and Lit
+Build a wixobj from source with Candle
+&gt;light *.wixlib test.wixobj -out out.msi
+
+----------
+Test Title: 
+Inputs - wildcard
+
+Test Details: 
+Verify that Light accepts * but fails when an invalid input file meets the wildcard criteria
+
+Test Steps: 
+Build a wixlib in the current directory from source with Candle
+Create a binary file in the current directory
+&gt;light * -out out.msi
+
+
+----------
+** Inputs: File Extensions **
+
+----------
+Test Title: 
+Inputs - wixout as xml
+
+Test Details: 
+Verify that Light accepts a wixout with a .xml extension
+
+Test Steps: 
+Build a wixout from source with Candle and Light called test.xml
+&gt;light test.xml
+
+----------
+Test Title: 
+Inputs - wixout as wixobj
+
+Test Details: 
+Verify that Light accepts a wixout with a .wixobj extension
+
+Test Steps: 
+Build a wixout from source with Candle and Light called test.wixobj
+&gt;light test.wixobj
+
+----------
+Test Title: 
+Inputs - wixlib as exe
+
+Test Details: 
+Verify that Light accepts a wixlib with a .exe extension
+
+Test Steps: 
+Build a wixlib from source with Candle and Lit called test.exe
+&gt;light test.exe
+
+----------
+Test Title: 
+Inputs - wixobj as txt
+
+Test Details: 
+Verify that Light accepts a wixobj with a .txt extension
+
+Test Steps: 
+Build a wixobj from source with Candle called test.txt
+&gt;light test.txt
+
+----------
+Test Title: 
+Inputs - wixobj with unknown extension
+
+Test Details: 
+Verify that Light accepts a wixobj with a non standard extension
+
+Test Steps: 
+Build a wixobj from source with Candle called test.abc
+&gt;light test.abc
+
+----------
+Test Title: 
+Inputs - wixobj without extension 1
+
+Test Details: 
+Verify that Light accepts a wixobj with a trailing '.' and no extension
+
+Test Steps: 
+Build a wixobj from source with Candle called 'test.'
+&gt;light test.
+
+----------
+Test Title: 
+Inputs - wixobj without extension 2
+
+Test Details: 
+Verify that Light accepts a wixobj with no extension
+
+Test Steps: 
+Build a wixobj from source with Candle called 'test'
+&gt;light test
+
+
+----------
+** Inputs: File System **
+
+Test Title: 
+Inputs - Network share
+
+Test Details: 
+Verify that light accepts a file from a network share
+
+Test Steps: 
+Build 2 wixobjs from source with Candle
+Put the files on different network shares
+&gt;light \\share1\test1.wixobj \\share2\test2.wixob -out out.msi
+
+----------
+Test Title: 
+Inputs - Read-only share
+
+Test Details: 
+Verify that light accepts a file from a network share that is read-only
+
+Test Steps: 
+Build a wixboj from source with Candle
+Put the file on a share that has read-only permissions
+&gt;light \\share\test.wixobj
+
+----------
+Test Title: 
+Inputs - Inaccessible share
+
+Test Details: 
+Verify a light error for a file that is not accessible
+
+Test Steps: 
+Build a wixboj from source with Candle
+Put the file on a share that does not allow the current user to read from the share
+&gt;light \\share\test.wixobj
+
+----------
+Test Title: 
+Inputs - Other drive
+
+Test Details: 
+Verify that light accepts an input file from another drive, eg HDD, CD, USB Key
+
+Test Steps: 
+Build a wixboj from source with Candle
+Put the file on a drive other than the one that contains the WiX binaries
+&gt;light z:\test.wixobj
+
+----------
+Test Title: 
+Inputs - Read-only file
+
+Test Details: 
+Verify that light accepts a read-only file as input
+
+Test Steps: 
+Build a wixobj from source with Candle
+Set the wixobj file's properties to read-only
+&gt;light test.wixobj
+
+----------
+Test Title: 
+Inputs - Relative path 1
+
+Test Details: 
+Verify that light accepts relative file paths
+
+Test Steps: 
+Build a wixobj from source with Candle
+Put the file in a subdirectory of the current directory
+&gt;light subdirectory\test.wixobj
+
+----------
+Test Title: 
+Inputs - Relative path 2
+
+Test Details: 
+Verify that light accepts relative file paths with '.' and '..'
+
+Test Steps: 
+Build a wixobj from source with Candle
+Put the file in the parent directory of the current directory
+&gt;light .\..\test.wixobj
+
+----------
+Test Title: 
+Inputs - Forward slash in path
+
+Test Details: 
+Verify that light accepts paths with forward slashes in the path
+
+Test Steps: 
+Build a wixobj from source with Candle
+Put the file in a subdirectory two levels down from the current directory
+&gt;light subdirectory1\subdirectory2/test.wixobj
+
+----------
+Test Title: 
+Inputs - Multiple slashes in path
+
+Test Details: 
+Verify that light accepts paths with multiple consecutive slashes in the path
+
+Test Steps: 
+Build a wixobj from source with Candle
+Put the file in a subdirectory two levels down from the current directory
+&gt;light subdirectory1//subdirectory2\\\\\test.wixobj
+
+----------
+Test Title:
+Inputs - Path length limit 
+
+Test Details: 
+Verify that light accepts paths with a length at the defined path length limit
+
+Test Steps: 
+Build a wixobj from source with Candle
+Put the file in a path with a length of [?]
+&gt;light [path]\test.wixobj
+
+----------
+Test Title:
+Inputs - Exceed path length limit 
+
+Test Details: 
+Verify a light error for paths with a  length over the defined path length limit
+
+Test Steps: 
+Build a wixobj from source with Candle
+Put the file in a path with a length of [?]
+&gt;light [path]\test.wixobj
+
+----------
+Test Title: 
+Inputs - Environment Variables
+
+Test Details: 
+Verify that Light resolves environment variables in a file name
+
+Test Steps: 
+Build a wixobj from source with Candle called test.wixobj
+Set an environment variable with the name of the file, ie &gt;set TESTWIXOBJ=test.wixobj
+&gt;light %TESTWIXOBJ%
+
+----------
+** Inputs: Quotes **
+
+Test Title: 
+Inputs - Single quotes
+
+Test Details: 
+Verify that light accepts an input file with single quotes around the file name
+
+Test Steps: 
+Build a wixboj from source with Candle. The wixobj should have a space in the name.
+&gt;light 'test 1.wixobj'
+
+----------
+Test Title: 
+Inputs - Double quotes
+
+Test Details: 
+Verify that light accepts an input file with double quotes around the file name
+
+Test Steps: 
+Build a wixboj from source with Candle. The wixobj should have a space in the name.
+&gt;light "test 1.wixobj"
+
+----------
+Test Title: 
+Inputs - Unmatched quotes
+
+Test Details: 
+Verify a light error when there are unmatched quotes
+
+Test Steps: 
+Build a wixboj from source with Candle. The wixobj should have a space in the name.
+&gt;light "test 1".wixobj"
+
+----------
+Test Title: 
+
+Test Details: 
+
+Test Steps: 
+</BodyText>
+</ManualTest>

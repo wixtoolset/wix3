@@ -1,0 +1,60 @@
+; -------------------------------------------------------------------------------------------------
+; <copyright file="wixca.def" company="Outercurve Foundation">
+;   Copyright (c) 2004, Outercurve Foundation.
+;   This software is released under Microsoft Reciprocal License (MS-RL).
+;   The license and further copyright text can be found in the file
+;   LICENSE.TXT at the root directory of the distribution.
+; </copyright>
+; -------------------------------------------------------------------------------------------------
+
+LIBRARY      "wixca"
+
+EXPORTS
+; cacleanup.cpp
+    CommitCAScriptCleanup
+; checkreboot.cpp
+    WixCheckRebootRequired
+; closeapps.cpp
+    WixCloseApplications
+    WixCloseApplicationsDeferred
+; osinfo.cpp
+    WixQueryOsInfo
+    WixQueryOsDirs
+    WixQueryOsWellKnownSID
+    WixQueryOsDriverInfo
+; netshortcuts.cpp
+    WixSchedInternetShortcuts
+    WixCreateInternetShortcuts
+    WixRollbackInternetShortcuts
+; qtexecca.cpp
+    CAQuietExec
+    CAQuietExec64
+; RemoveFolders.cpp
+    WixRemoveFoldersEx
+; RestartManager.cpp
+    WixRegisterRestartResources
+; secureobjects.cpp
+    SchedSecureObjects
+    SchedSecureObjectsRollback
+    ExecSecureObjects
+    ExecSecureObjectsRollback
+; serviceconfig.cpp
+    SchedServiceConfig
+    ExecServiceConfig
+    RollbackServiceConfig
+; shellexecca.cpp
+    WixShellExec
+    WixShellExecBinary
+; test.cpp
+    WixFailWhenDeferred
+    WixWaitForEvent
+; exitearlywithsuccess.cpp
+    WixExitEarlyWithSuccess
+; xmlfile.cpp
+    SchedXmlFile
+    ExecXmlFile
+    ExecXmlFileRollback
+; xmlconfig.cpp
+    SchedXmlConfig
+    ExecXmlConfig
+    ExecXmlConfigRollback

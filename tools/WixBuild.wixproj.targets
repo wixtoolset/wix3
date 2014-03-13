@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.wixproj.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <SignToolExe>&quot;$(PlatformSdkBinPath)signtool.exe&quot;</SignToolExe>
+  </PropertyGroup>
+
+  <Import Project="$(WixTargetsPath)" />
+  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)bin\Outercurve.MSBuildTasks.dll" TaskName="SetSignature"/>
+
+  <!-- Signing overrides to actually do signing -->
+  <!--
+    We don't sign the Msi Packages or their cabinets because they are
+    always wrapped in a bundle that is signed.
+  -->
+  <Target Name="SignCabs">
+  <!--
+    <Exec Command="$(SignToolExe) sign /f &quot;$(SigningCertificate)&quot; /p &quot;$(SigningCertificatePassword)&quot; /t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;%(SignCabs.FullPath)&quot;" />
+  -->
+  </Target>
+
+  <Target Name="SignMsi">
+  <!--
+    <Exec Command="$(SignToolExe) sign /f &quot;$(SigningCertificate)&quot; /p &quot;$(SigningCertificatePassword)&quot; /t &quot;http://timestamp.verisign.com/scripts/timstamp.dll&quot; &quot;%(SignMsi.FullPath)&quot;" />
+  -->
+  </Target>
+
+  <Target Name="SignContainers">
+    <Message Importance='high' Text='SetSignature InputFiles="@(SignContainers)" OutputDir="%(RootDir)%(Directory)" ServiceUrl="$(SignServiceUrl)" UserName="$(SignUserName)" Password="$(SignPassword)"' />
+    <SetSignature InputFiles="@(SignContainers)" OutputDir="%(RootDir)%(Directory)" ServiceUrl="$(SignServiceUrl)" UserName="$(SignUserName)" Password="$(SignPassword)"/>
+  </Target>
+
+  <Target Name="SignBundleEngine">
+    <Message Importance='high' Text='SetSignature InputFiles="@(SignBundleEngine)" OutputDir="%(RootDir)%(Directory)" ServiceUrl="$(SignServiceUrl)" UserName="$(SignUserName)" Password="$(SignPassword)"' />
+    <SetSignature InputFiles="@(SignBundleEngine)" OutputDir="%(RootDir)%(Directory)" ServiceUrl="$(SignServiceUrl)" UserName="$(SignUserName)" Password="$(SignPassword)"/>
+  </Target>
+
+  <Target Name="SignBundle">
+    <Message Importance='high' Text='SetSignature InputFiles="@(SignBundle)" OutputDir="%(RootDir)%(Directory)" ServiceUrl="$(SignServiceUrl)" UserName="$(SignUserName)" Password="$(SignPassword)"' />
+    <SetSignature InputFiles="@(SignBundle)" OutputDir="%(RootDir)%(Directory)" ServiceUrl="$(SignServiceUrl)" UserName="$(SignUserName)" Password="$(SignPassword)"/>
+  </Target>
+
+  <PropertyGroup>
+    <PrepareForBuildDependsOn>
+      $(PrepareForBuildDependsOn);
+      WriteSetupVersionFile
+    </PrepareForBuildDependsOn>
+  </PropertyGroup>
+</Project>

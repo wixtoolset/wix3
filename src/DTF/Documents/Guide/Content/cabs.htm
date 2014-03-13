@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Working with Cabinet Files</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Working with Cabinet Files</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <span class="nolink">Cabinet Files</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+
+            <h3>Creating a cabinet</h3>
+            <pre><font face="Consolas, Courier New">    CabInfo cabInfo = <font color="blue">new</font> CabInfo(<font color="purple">"package.cab"</font>);
+    cabInfo.Pack(<font color="purple">"D:\\FilesToCompress"</font>);</font></pre><br />
+            <p>1.&nbsp; Create a <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_Compression_Cab_CabInfo__ctor_1.htm">new CabInfo</a> instance referring to the (future) location of the .cab file.</p>
+            <p>2.&nbsp; Compress files:</p><ul>
+                <li>Easily compress an entire directory with the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_ArchiveInfo_Pack.htm">Pack</a> method.</li>
+                <li>Compress a specific list of exernal and internal filenames with the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_ArchiveInfo_PackFiles.htm">PackFiles</a> method.</li>
+                <li>Compress a dictionary mapping of internal to external filenames with the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_ArchiveInfo_PackFileSet.htm">PackFileSet</a> method.</li>
+            </ul>
+            
+            <p><br/></p>
+            <h3>Listing a cabinet</h3>
+            <pre><font face="Consolas, Courier New">    CabInfo cabInfo = <font color="blue">new</font> CabInfo(<font color="purple">"package.cab"</font>);
+    <font color="blue">foreach</font> (CabFileInfo fileInfo <font color="blue">in</font> cabInfo.GetFiles())
+        Console.WriteLine(fileInfo.Name + <font color="purple">"\t"</font> + fileInfo.Length);</font></pre><br />
+            <p>1.&nbsp; Create a <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_Compression_Cab_CabInfo__ctor_1.htm">new CabInfo</a> instance referring to the location of the .cab file.</p>
+            <p>2.&nbsp; Enumerate files returned by the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_Cab_CabInfo_GetFiles.htm">GetFiles</a> method.</p><ul>
+                <li>Each <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_Compression_Cab_CabFileInfo.htm">CabFileInfo</a> instance contains metadata about one file.</li>
+            </ul>
+            
+            <p><br/></p>
+            <h3>Extracting a cabinet</h3>
+            <pre><font face="Consolas, Courier New">    CabInfo cabInfo = <font color="blue">new</font> CabInfo(<font color="purple">"package.cab"</font>);
+    cabInfo.Unpack(<font color="purple">"D:\\ExtractedFiles"</font>);</font></pre><br />
+            <p>1.&nbsp; Create a <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_Compression_Cab_CabInfo__ctor_1.htm">new CabInfo</a> instance referring to the location of the .cab file.</p>
+            <p>2.&nbsp; Extract files:</p><ul>
+                <li>Easily extract all files to a directory with the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_ArchiveInfo_Unpack.htm">Unpack</a> method.</li>
+                <li>Easily extract a single file with the <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_Compression_ArchiveInfo_UnpackFile.htm">UnpackFile</a> method.</li>
+                <li>Extract a specific list of filenames with the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_ArchiveInfo_UnpackFiles.htm">UnpackFiles</a> method.</li>
+                <li>Extract a dictionary mapping of internal to external filenames with the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_Compression_ArchiveInfo_UnpackFileSet.htm">UnpackFileSet</a> method.</li>
+            </ul>
+ 
+            <p><br/></p>
+            <h3>Getting progress</h3>
+            Most cabinet operation methods have an overload that allows you to specify a event handler
+            for receiving <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_Compression_ArchiveProgressEventArgs.htm">archive
+            progress events</a>. The <a href="cabpack.htm">XPack sample</a>
+            demonstrates use of the callback to report detailed progress to the console.
+           
+            <p><br/></p>
+            <h3>Stream-based compression</h3>
+            The CabEngine class contains static methods for performing compression/decompression operations directly
+            on any kind of Stream. However these methods are more difficult to use, since the caller must implement a
+            <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_Compression_ArchiveFileStreamContext.htm">stream context</a>
+            that provides the file metadata which would otherwise have been provided by the filesystem. The CabInfo class
+            uses the CabEngine class with FileStreams to provide the more traditional file-based interface.
+           
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <ul>
+                <li><a href="DTFAPI.chm::/html/T_Microsoft_Deployment_Compression_Cab_CabInfo.htm">CabInfo class</a></li>
+                <li><a href="DTFAPI.chm::/html/T_Microsoft_Deployment_Compression_Cab_CabEngine.htm">CabEngine class</a></li>
+                <li><a href="cabpack.htm">XPack Sample Tool</a></li>
+            </ul>
+            <p><br/></p>
+            
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

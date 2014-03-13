@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="InvaildAttribute.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
+  <Product Id="*" Name="TestSqlStringProduct1" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{B1A7F5A6-5708-44DB-B301-60816A4F1D3E}">
+    <Package Description="Test SqlString in a Product" Comments="Test from: wix\examples\test\sqlstring\product.wxs" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Property Id="FIRST" Value="Scott" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestSqlStringProductDirectory" ShortName="testsql" Name="Test Sql">
+          <Component Id="TestSqlStringProductComponent1" Guid="10030829-0041-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlDatabase Id="TestDB1" Database="BlankDB10" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)"  CreateOnInstall="yes" DropOnUninstall="no" ConfirmOverwrite="yes" >
+              <sql:SqlString Id="TestString1" SQL="CREATE TABLE TestTable1(name varchar(20), value varchar(20))" ExecuteOnInstall="yes" ContinueOnError="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" RollbackOnInstall="no" RollbackOnReinstall="no" RollbackOnUninstall="no" Sequence="2"  />
+            </sql:SqlDatabase>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestSqlStringProductFeature" Title="Test SQL String Product Feature" Level="1">
+      <ComponentRef Id="TestSqlStringProductComponent1" />
+    </Feature>
+  </Product>
+</Wix>

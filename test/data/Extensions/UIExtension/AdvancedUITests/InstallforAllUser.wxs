@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="InstallforAllUser.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="E195185C-68FB-4ebd-AC69-E58770EBC734" Name="TestAdvancedUI" Language="1033" Version="0.0.0.0" UpgradeCode="{955D321E-A24D-47aa-9652-ADACCB955EDB}" Manufacturer="Microsoft Corporation">
+    <Package Description="TestAdvancedUI" Comments="Test from: AdvancedUI" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="APPLICATIONFOLDER" Name="thisistheapfolder" />
+        <Component Id="TestFileProductComponent" Guid="BF9DD8A3-10F5-4736-9BC8-DD984D93E92D" DiskId="1">
+          <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt"/>
+        </Component>
+
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestFileProductFeature" Title="TestAdvancedUI" Description="TestAdvancedUI." Level="1">
+      <ComponentRef Id="TestFileProductComponent" />
+    </Feature>
+
+
+    <Property Id="ApplicationFolderName" Value="MohansAdvancedUi" />
+    <Property Id="ALLUSERS" Value="1" />
+    <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+
+    <UIRef Id="WixUI_Advanced" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+  </Product>
+</Wix>

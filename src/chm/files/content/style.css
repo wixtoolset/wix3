@@ -1,0 +1,274 @@
+﻿/* Style Sheet Last updated - 11/10/2000 */ 
+/* This style sheet is for IE 4.02 and up */ 
+
+/* BODY = default paragraph font */ 
+	body	{background-color: #ffffff; font-family: Calibri, Tahoma, Arial, Helvetica, sans-serif; margin:0; padding:0.75em;}
+
+/* HYPERLINKS */ 
+	a:link		{color: #0000cc; }
+	a:active	{color: #0000cc; }
+	a:visited	{color: #0000cc; }
+	.pop		{text-decoration: none; }
+
+/* LISTS */ 
+	ol, ul      {margin-top: .2em; margin-bottom: .2em;}
+	ol ul, ul ul{list-style: disc;}
+	li          {margin-bottom: .2em;}
+
+/* PREFORMATTING - CODE */ 
+	pre
+	{
+	 background : #EEEEEE;
+	 margin-top : 1em; margin-bottom:1em; margin-left:0px;
+	 padding : 5pt;
+	}
+
+	pre, code		{font-family: Consolas, "Courier New", courier;}
+
+	.highlight		{ color: #0000FF; }
+
+
+/* TABLES */
+	table   {margin-top: 1em; margin-top: .5em; margin-bottom: 0em;}
+	th		{text-align: left; background: #EEEEEE; margin: .25em; vertical-align: bottom;}
+	tr		{vertical-align: top;}
+	td		{margin: .25em; vertical-align: top; border-bottom: 1px solid #DDDDDD; }
+
+/* PARAGRAPH */
+	p		{margin-top: .6em; margin-bottom: .6em; }
+ 
+
+/* Heading styles---------------------------------------------------------------------------- */ 
+
+	h1		{font-size: 175%; margin-top: .4em; margin-bottom: .5em;}
+	h2		{font-size: 140%; margin-top: 2em; margin-bottom: .5em;}
+	h3		{font-size: 100%; margin-top: 1.2em; margin-bottom: .5em; font-weight: bold;}
+	h4		{font-size: 100%; margin-top: 1.2em; font-weight: bold;}
+	h5		{font-size: 100%; margin-top: 1.2em; font-weight: bold;}
+	.lproch		{font-weight: bold ;margin-top: 1.2em; }/* Heading 9,List Procedure Heading,lproch */ 
+
+/* Defined List styles ----------------------------------------------------------------------- */
+
+	dt		{font-weight: bold; }
+	dd		{margin-left: 2em; margin-bottom: .6em; }
+
+/* Paragraph styles--------------------------------------------------------------------------- */ 
+
+	.ac		{font-size: 90%; color: #7F7F7F;} 
+	.alpha		{font-size: 125%; font-weight: bold; }
+	.dt1		{text-indent: -2em; margin-left: 2em;}
+	.hang		{text-indent: -2em; margin-left: 2em;}
+	.ind		{margin-left: 2em;}
+/* MAYBE KEEP .LBR1 IN CASE WE CAN GET HANGING INDENT TO WORK IN IE5.0? */ 
+	.mt		{margin-top:  2em; font-weight: bold; }
+	.noborder	{border: none; }
+	.rtt		{text-align: right; font-size: 90%; }
+	.tableup	{margin-top: 0em; }
+	#footer		{color: #999999; font-style: italic; text-align: center; font-size: 75%; }
+/* overline */
+	.ov		{text-decoration: overline; }
+
+/* spacing styles */ 
+	.4		{line-height: 4pt;}
+	.6		{line-height: 6pt;}
+
+/* styles we no longer need */
+	.Highlight	{background-color: lightblue;}
+	.Normal 	{background-color: white;}
+	.fixp		{color: #00ff00;}	/* *fix this paragraph for incorrectly used styles / green */ 
+
+/* Language Reference styles --------------------------------------------------------------------------- */
+
+
+/* code comments */
+	.comment {color: darkgreen;
+		}
+
+/* Object model blue box */ 
+	.omblue { height: 16px;
+		width: 180px;
+		padding: 2px 2px 2px 2px;
+		background-color: #99FFFF;
+		border: 1px solid windowframe;
+		color: windowtext;
+		font-weight: bold;
+		text-decoration: none;
+		cursor: hand;
+		line-height: 9px;
+		}
+
+/* Object model blue dashed box */ 
+	.ombluedash { height: 16px;
+		width: 180px;
+		padding: 2px 2px 2px 2px;
+		background-color: #99FFFF;
+		border: 1px dashed windowframe;
+		color: windowtext;
+		text-decoration: none;
+		cursor: hand;
+		line-height: 9px;
+		}
+
+/* Object model yellow box */ 
+	.omyellow { height: 16px;
+		width: 180px;
+		padding: 2px 2px 2px 2px;
+		background-color: #FFFF99;
+		border: 1px solid windowframe;
+		color: windowtext;
+		font-weight: bold;
+		text-decoration: none;
+		cursor: hand;
+		line-height: 9px;
+		}
+
+/* Object model yellow dashed box */ 
+	.omyellowdash { height: 16px;
+		width: 180px;
+		padding: 2px 2px 2px 2px;
+		background-color: #FFFF99;
+		border: 1px dashed windowframe;
+		color: windowtext;
+		text-decoration: none;
+		cursor: hand;
+		line-height: 9px;
+		}
+
+/* Navigation hyperlink list container */
+	.ofvbaispan { position: absolute;
+		padding: 0px 0px 0px 0px;
+		border: 1px solid windowframe;
+		color: windowtext;
+		display: none;
+		z-index: +1;
+		}
+
+/* Navigation area */
+	.ofvbanav { padding: 0px 0px 10px 0px;
+		}
+
+/* Active navigation area jumps */
+	.ofvbanavreuse { width: 75px;
+		color: #0000cc;
+		cursor: hand;
+		}
+
+/* Inactive navigation area jump */
+	.ofvbanavunused { width: 75px;
+		color: graytext;
+		}
+
+/* Hidden navigation area jump */
+	.ofvbanavhidden { width: 75px;
+		display: none;
+		}
+
+/* Navigation hyperlink list topic description toggle */
+	.ofvbashowdesc { color:#0000cc;
+		cursor:hand;
+		font-size:smaller;
+		text-decoration:underline;
+		}
+
+/* Navigation hyperlink list topic description sections */
+	.ofvbadesc { color: windowtext;
+		display: none;
+		}
+
+/* Example navigation area jumps */
+	.ofvbanavex { text-decoration: none;
+		}
+
+/* Syntax box */
+	.ofvbasyn { width: 100%;
+		padding: 0px 8px 0px 8px;
+		background-color: #CCCCCC;
+		}
+
+
+	.signature { width: 100%;
+		padding: 0px 8px 0px 8px;
+		background-color: #CCCCCC;
+		}
+
+
+.ofvbalink		{text-decoration: none; }
+.ofvbalink:hover	{text-decoration: underline; }
+
+
+
+/* Dropdown styles --------------------------------------------------------------------------- */
+
+.DropDown	{text-decoration: none; font-weight: normal; top: 0pt;} 
+.DropDown:hover	{text-decoration: underline; }
+
+
+.HidePopUp 	{text-decoration: none; }
+.HidePopUp:hover{text-decoration: underline; }
+
+.Glossary	{text-decoration: none; }
+.glossary:hover	{text-decoration: underline; }
+				
+.Glossarydef	{color: #008C00; text-decoration: none;}
+
+.srcContent 	{ }
+
+.expfav		{font-size: 80%; text-align: Right; margin-top: -1em; margin-bottom: 0; }
+
+.expanded	{font-weight: normal; }
+
+.collapsed	{display: none;}
+
+.def		{margin-top: 40pt;}
+
+
+/* Language Specific Boilerplate Styles------------------------------------------------------- */
+	.BPhide 		{display: none }
+	.BPshow 		{  }
+	.BPHide4Bidi 	{  }
+	.BPHide4EA 		{  }
+	.BPHide4Thai 	{  }
+	.hide4ara 	{  }
+	.hide4arascript 	{  }
+	.hide4biditha	{  }
+	.hide4eabidi	{  }
+	.hide4easa	{  }
+	.hide4easabidi{  }
+	.hide4eng		{  }
+	.hide4enu		{  }
+	.hide4enucanfrndut{  }
+	.hide4heb		{  }
+	.hide4hindi	{  }
+	.hide4jamuiopt{  }
+	.hide4sa		{  }
+	.hide4sabidi	{  }
+	.somecontent	{  }
+
+.command	{background-color: #EEEEEE; border: 0;}
+
+/* SchemaToChm-specific ---------------------------------------------------------------------- */
+.extension              {color: #008000;}
+.elementHeader, .extensionHeader, .normalHeader, .simpleTypeHeader
+                        {width:100%; padding: 0.75em;}
+.elementHeader          {filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr='#9999FF', endColorstr='#FFFFFF', gradientType='0');}
+.extensionHeader        {filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr='#66CC66', endColorstr='#FFFFFF', gradientType='0');}
+.normalHeader           {filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr='#9999FF', endColorstr='#FFFFFF', gradientType='0');}
+.simpleTypeHeader       {filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FF9966', endColorstr='#FFFFFF', gradientType='0');}
+.schemaMain             {margin: 0.75em;}
+body.schema             {margin: 0em; padding:0;}
+table.schema th, table.schema td {padding: 0.25em;}
+a.extension:link        {color: #008000;}
+a.extension:active      {color: #008000;}
+a.extension:visited     {color: #008000;}
+dt.enumerationValue     {font-weight: normal;}
+
+/* random styles found in the manual */
+.style1
+{
+    color: #0000FF;
+}
+.style2
+{
+    color: #0000FF;
+    font-weight: bold;
+}

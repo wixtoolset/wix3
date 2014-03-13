@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="UtilExtension.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caerr.wxi ?>
+
+    <Fragment>
+        <UI Id="ConfigureUsersErrorText">
+            <Error Id="$(var.msierrUSRFailedUserCreate)">!(loc.msierrUSRFailedUserCreate)</Error>
+            <Error Id="$(var.msierrUSRFailedUserCreatePswd)">!(loc.msierrUSRFailedUserCreatePswd)</Error>
+            <Error Id="$(var.msierrUSRFailedUserGroupAdd)">!(loc.msierrUSRFailedUserGroupAdd)</Error>
+            <Error Id="$(var.msierrUSRFailedGrantLogonAsService)">Failed to grant 'logon as service' rights to user.  ([2]   [3]   [4]   [5])</Error>
+            <Error Id="$(var.msierrUSRFailedUserCreateExists)">!(loc.msierrUSRFailedUserCreateExists)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+        <UI Id="ConfigureSmbErrorsText">
+            <Error Id="$(var.msierrSMBFailedCreate)">!(loc.msierrSMBFailedCreate)</Error>
+            <Error Id="$(var.msierrSMBFailedDrop)">!(loc.msierrSMBFailedDrop)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+      <UI Id="PerCounterDataErrorsText">
+            <Error Id="$(var.msierrInstallPerfCounterData)">!(loc.msierrInstallPerfCounterData)</Error>
+            <Error Id="$(var.msierrUninstallPerfCounterData)">!(loc.msierrUninstallPerfCounterData)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+      <UI Id="ConfigurePerfmonErrorsText">
+            <Error Id="$(var.msierrPERFMONFailedRegisterDLL)">!(loc.msierrPERFMONFailedRegisterDLL)</Error>
+            <Error Id="$(var.msierrPERFMONFailedUnregisterDLL)">!(loc.msierrPERFMONFailedUnregisterDLL)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+        <UI Id="SecureObjectsErrors">
+            <Error Id="$(var.msierrSecureObjectsFailedCreateSD)">!(loc.msierrSecureObjectsFailedCreateSD)</Error>
+            <Error Id="$(var.msierrSecureObjectsFailedSet)">!(loc.msierrSecureObjectsFailedSet)</Error>
+            <Error Id="$(var.msierrSecureObjectsUnknownType)">!(loc.msierrSecureObjectsUnknownType)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+      <UI Id="XmlFileErrorsText">
+            <Error Id="$(var.msierrXmlFileFailedRead)">!(loc.msierrXmlFileFailedRead)</Error>
+            <Error Id="$(var.msierrXmlFileFailedOpen)">!(loc.msierrXmlFileFailedOpen)</Error>
+            <Error Id="$(var.msierrXmlFileFailedSelect)">!(loc.msierrXmlFileFailedSelect)</Error>
+            <Error Id="$(var.msierrXmlFileFailedSave)">!(loc.msierrXmlFileFailedSave)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+      <UI Id="XmlConfigErrorsText">
+            <Error Id="$(var.msierrXmlConfigFailedRead)">!(loc.msierrXmlConfigFailedRead)</Error>
+            <Error Id="$(var.msierrXmlConfigFailedOpen)">!(loc.msierrXmlConfigFailedOpen)</Error>
+            <Error Id="$(var.msierrXmlConfigFailedSelect)">!(loc.msierrXmlConfigFailedSelect)</Error>
+            <Error Id="$(var.msierrXmlConfigFailedSave)">!(loc.msierrXmlConfigFailedSave)</Error>
+        </UI>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixFailWhenDeferred" BinaryKey="WixCA" DllEntry="WixFailWhenDeferred" Execute="deferred" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixFailWhenDeferred" Before="InstallFinalize" Overridable="yes">WIXFAILWHENDEFERRED=1 AND VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixWaitForEvent" BinaryKey="WixCA" DllEntry="WixWaitForEvent" Execute="immediate" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixWaitForEvent" Before="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixWaitForEventDeferred" BinaryKey="WixCA" DllEntry="WixWaitForEvent" Execute="deferred" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixWaitForEventDeferred" After="InstallInitialize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixExitEarlyWithSuccess" BinaryKey="WixCA" DllEntry="WixExitEarlyWithSuccess" Execute="immediate" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixExitEarlyWithSuccess" After="FindRelatedProducts" Overridable="yes">NEWERVERSIONDETECTED AND VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixRemoveFoldersEx" BinaryKey="WixCA" DllEntry="WixRemoveFoldersEx" Execute="immediate" Return="ignore" />
+        
+        <InstallExecuteSequence>
+            <Custom Action="WixRemoveFoldersEx" Before="CostInitialize" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- WiX OS-detection properties and custom action -->
+    <Fragment>
+        <CustomAction Id="WixQueryOsInfo" BinaryKey="WixCA" DllEntry="WixQueryOsInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+        
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryOsInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallExecuteSequence>
+        
+        <InstallUISequence>
+            <Custom Action="WixQueryOsInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallUISequence>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="WIX_SUITE_BACKOFFICE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_BLADE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_COMMUNICATIONS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_COMPUTE_SERVER" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_DATACENTER" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_EMBEDDED_RESTRICTED" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_EMBEDDEDNT" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_ENTERPRISE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_MEDIACENTER" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_PERSONAL" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_SECURITY_APPLIANCE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_SERVERR2" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_SINGLEUSERTS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_SMALLBUSINESS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_SMALLBUSINESS_RESTRICTED" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_STARTER" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_STORAGE_SERVER" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_TABLETPC" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_TERMINAL" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_SUITE_WH_SERVER" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixQueryOsDirs" BinaryKey="WixCA" DllEntry="WixQueryOsDirs" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+        
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryOsDirs" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallExecuteSequence>
+        
+        <InstallUISequence>
+            <Custom Action="WixQueryOsDirs" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallUISequence>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="WIX_DIR_ADMINTOOLS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_ALTSTARTUP" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_CDBURN_AREA" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_ADMINTOOLS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_ALTSTARTUP" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_DOCUMENTS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_FAVORITES" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_MUSIC" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_PICTURES" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COMMON_VIDEO" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_COOKIES" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_DESKTOP" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_HISTORY" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_INTERNET_CACHE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_MYMUSIC" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_MYPICTURES" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_MYVIDEO" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_NETHOOD" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_PERSONAL" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_PRINTHOOD" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_PROFILE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_RECENT" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_DIR_RESOURCES" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsDirs" />
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixQueryOsWellKnownSID" BinaryKey="WixCA" DllEntry="WixQueryOsWellKnownSID" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryOsWellKnownSID" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <Custom Action="WixQueryOsWellKnownSID" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallUISequence>
+    </Fragment>
+  
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_LOCALSYSTEM" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_LOCALSERVICE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_NETWORKSERVICE" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_ADMINISTRATORS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_USERS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_GUESTS" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
+
+    <Fragment>
+      <CustomAction Id="WixQueryOsDriverInfo" BinaryKey="WixCA" DllEntry="WixQueryOsDriverInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+
+      <InstallExecuteSequence>
+        <Custom Action="WixQueryOsDriverInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+      </InstallExecuteSequence>
+
+      <InstallUISequence>
+        <Custom Action="WixQueryOsDriverInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+      </InstallUISequence>
+    </Fragment>
+
+    <Fragment>
+      <Property Id="WIX_WDDM_DRIVER_PRESENT" Secure="yes" />
+      <CustomActionRef Id="WixQueryOsDriverInfo" />
+    </Fragment>
+
+    <Fragment>
+      <Property Id="WIX_DWM_COMPOSITION_ENABLED" Secure="yes" />
+      <CustomActionRef Id="WixQueryOsDriverInfo" />
+    </Fragment>
+
+    <!-- ShellExec custom actions (for when only one is needed; multiple executions need their own IDs) --> 
+    <Fragment>
+        <PropertyRef Id="WixShellExecBinaryId" />
+        <CustomAction Id="WixShellExecBinary" BinaryKey="WixCA" DllEntry="WixShellExecBinary" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixShellExecTarget" />
+        <CustomAction Id="WixShellExec" BinaryKey="WixCA" DllEntry="WixShellExec" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="QtExecCmdLine" />
+        <CustomAction Id="QtExec" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="QtExec64CmdLine" />
+        <CustomAction Id="QtExec64" BinaryKey="WixCA" DllEntry="CAQuietExec64" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+</Wix>

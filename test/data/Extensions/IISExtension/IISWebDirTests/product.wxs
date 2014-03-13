@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+    <Product Id="7CD51CE1-EFD3-46CB-AF28-5B7356D9C7F8" Name="TestWebSiteProduct" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{833389DB-8EFE-4D62-AF81-C533266C63B4}">
+        <Package Description="Test Web dir Product" Comments="Test Web dir Product" InstallerVersion="200" Compressed="no" />
+
+        <Media Id="1" />
+
+	<Property Id="PORT" Value="1024" />
+
+          <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="PFiles">
+                <Directory Id="TestWebSiteProductDirectory" ShortName="testassm" Name="Test File">
+                    <Component Id="TestWebSiteProductComponent" Guid="00030829-0000-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+                        <CreateFolder />
+                        <iis:WebSite Id="Test" Description="Test web server" Directory="TestWebSiteProductDirectory" StartOnInstall="yes" DirProperties="ReadAndExecute" ConfigureIfExists="no">
+                            <iis:WebAddress Id="TestAddress" Port="[PORT]" Secure="no" />
+                        </iis:WebSite>
+			                  <iis:WebDir Id="testwebdir" Path="webdir" WebSite="Test" DirProperties="ReadAndExecute"/>
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+        </Directory>
+
+	       <Feature Id="TestWebSiteProductFeature" Title="Test File Product Feature" Level="1">
+            <ComponentRef Id="TestWebSiteProductComponent" />
+        </Feature>
+	
+	      <iis:WebDirProperties Id="ReadAndExecute" Read="yes" Write="no" Script="yes" Execute="yes" AnonymousAccess="no" />
+
+    </Product>
+</Wix>

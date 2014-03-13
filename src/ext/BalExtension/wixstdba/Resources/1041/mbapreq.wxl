@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ja-jp" Language="1041" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] セットアップ</String>
+  <String Id="Title">[WixBundleName] セットアップには Microsoft .NET Framework が必要です</String>
+  <String Id="ConfirmCancelMessage">取り消しますか?</String>
+  <String Id="HelpHeader">セットアップのヘルプ</String>
+  <String Id="HelpText">/passive | /quiet -  最小の UI だけを表示してプロンプトは表示しないか、UI
+   もプロンプトも表示しません。 既定では、UI とすべてのプロンプトが表示されます。
+
+/norestart   - 再起動の試みをすべて抑制します。既定では、再起動の前に UI によりプロンプトが表示されます。
+/log log.txt - 特定のファイルにログを記録します。既定では、%TEMP% にログ ファイルが作成されます。</String>
+  <String Id="HelpCloseButton">閉じる(&amp;C)</String>
+  <String Id="InstallLicenseTerms">Microsoft .NET Framework の&lt;a href="#"&gt;ライセンス条項&lt;/a&gt;に同意する場合は、［同意してインストール］5D; ボタンをクリックします。</String>
+  <String Id="InstallAcceptAndInstallButton">同意してインストール(&amp;A)</String>
+  <String Id="InstallDeclineButton">同意しない(&amp;)</String>
+  <String Id="ProgressHeader">セットアップの進行状況</String>
+  <String Id="ProgressLabel">処理中:</String>
+  <String Id="ProgressCancelButton">キャンセル(&amp;C)</String>
+  <String Id="FailureHeader">セットアップに失敗しました</String>
+  <String Id="FailureLogLinkText">1 つ以上の問題が原因でセットアップに失敗しました。問題を解決してからセットアップをやり直してください。詳細については、&lt;a href="#"&gt;ログ ファイル&lt;/a&gt;を参照してください。</String>
+  <String Id="FailureRestartText">ソフトウェアのロールバックを完了するには、コンピューターを再起動する必要があります。</String>
+  <String Id="FailureRestartButton">再起動(&amp;R)</String>
+  <String Id="FailureCloseButton">閉じる(&amp;C)</String>
+</WixLocalization>

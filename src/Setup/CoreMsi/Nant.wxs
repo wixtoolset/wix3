@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="Nant.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Feature Id="Feature_NAnt" Title="NAnt Support" Level="1">
+            <ComponentGroupRef Id="NAntTaskComponents" />
+        </Feature>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="NAntTaskComponents" Directory="BinFolder">
+            <Component>
+                <File Source="Microsoft.Tools.WindowsInstallerXml.NAntTasks.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

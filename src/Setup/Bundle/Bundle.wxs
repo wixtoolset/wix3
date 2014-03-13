@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="Bundle.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
+     xmlns:bal='http://schemas.microsoft.com/wix/BalExtension'
+     xmlns:swid="http://schemas.microsoft.com/wix/TagExtension"
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+
+    <Bundle Name='!(loc.ShortProduct) v$(var.WixVersion)' Manufacturer='!(loc.Company)'
+            Version='$(var.WixVersion)' UpgradeCode='65E893AD-EDD5-4E7D-80CA-F0F50F383532'
+            IconSourceFile='ProjectFile.ico' SplashScreenSourceFile='SplashScreen.bmp'
+            AboutUrl='!(loc.SupportUrl)' UpdateUrl='!(loc.UpdateUrl)'
+            Compressed='$(var.WixBundleCompressed)'>
+
+        <swid:Tag Regid="regid.2008-09.org.wixtoolset" />
+        <Update Location='!(loc.UpdateUrl)' />
+
+        <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+          <Payload Name='BootstrapperCore.config' SourceFile='WixBA.BootstrapperCore.config' />
+
+          <Payload SourceFile='WixBA.dll' />
+          <Payload SourceFile='License.htm' />
+        </BootstrapperApplicationRef>
+
+        <Variable Name='InstallFolder' Type='string' Value='[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)' />
+        <util:RegistrySearch Id="PreviousInstallFolderSearch" Root='HKLM' Key='SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajorMinor)' Value='InstallFolder' Variable='PreviousInstallFolder' />
+        <util:DirectorySearch Path='[PreviousInstallFolder]' Variable='InstallFolder' After='PreviousInstallFolderSearch' Condition='PreviousInstallFolder' />
+
+        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\9.0' Value='InstallDir' Variable='VS2008InstallFolder' />
+        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\10.0' Value='InstallDir' Variable='VS2010InstallFolder' />
+        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\11.0' Value='InstallDir' Variable='VS2012InstallFolder' />
+        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\12.0' Value='InstallDir' Variable='VS2013InstallFolder' />
+
+        <util:RegistrySearchRef Id="NETFRAMEWORK35_SP_LEVEL" />
+
+        <Chain>
+            <PackageGroupRef Id='NetFx40Web' />
+
+            <MsiPackage Id='Wix' Vital='yes' Name='data\core.msi' SourceFile='data\core.msi'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+
+            <MsiPackage Id='Wix64' Vital='yes' Name='data\wix64.msi' SourceFile='data\wix64.msi'
+                         
+                        InstallCondition='VersionNT64' />
+
+            <MsiPackage Vital='yes' Name='data\msdk.msi' SourceFile='data\msdk.msi'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+
+            <PackageGroupRef Id='NativeSdkPackages' />
+
+            <!-- Votive needs to be last as it runs devenv /setup -->
+            <MsiPackage Vital='yes' Name='data\votive.msi' SourceFile='data\votive.msi'
+                        InstallCondition='VS2008InstallFolder OR VS2010InstallFolder OR VS2012InstallFolder OR VS2013InstallFolder'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+        </Chain>
+    </Bundle>
+
+    <Fragment>
+        <PackageGroup Id='NativeSdkPackages'>
+            <?ifdef VS2008SdkAvailable ?>
+            <MsiPackage Vital='yes' Name='data\nsdk2008.msi' SourceFile='data\nsdk2008.msi'
+                        InstallCondition='VS2008InstallFolder'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2010SdkAvailable ?>
+            <MsiPackage Vital='yes' Name='data\nsdk2010.msi' SourceFile='data\nsdk2010.msi'
+                        InstallCondition='VS2010InstallFolder'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2012SdkAvailable ?>
+            <MsiPackage Vital='yes' Name='data\nsdk2012.msi' SourceFile='data\nsdk2012.msi'
+                        InstallCondition='VS2012InstallFolder'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2013SdkAvailable ?>
+            <MsiPackage Vital='yes' Name='data\nsdk2013.msi' SourceFile='data\nsdk2013.msi'
+                        InstallCondition='VS2013InstallFolder'
+                        >
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+        </PackageGroup>
+    </Fragment>
+</Wix>

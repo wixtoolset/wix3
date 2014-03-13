@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_ca-ES.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ca-es" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Endarrere</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Endavant</String>
+    <String Id="WixUICancel" Overridable="yes">Cancel·la</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Final</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Torna-ho a provar</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Ignora-ho</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Sí</String>
+    <String Id="WixUINo" Overridable="yes">&amp;No</String>
+    <String Id="WixUIOK" Overridable="yes">D'acord</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Imprimeix</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Llegiu el contracte de llicència del producte [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Accepto les condicions del contracte de llicència</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Feu clic a Instal·la per instal·lar el producte amb opcions predeterminades per a tots els usuaris. Feu clic a Avançades per canviar les opcions d'instal·lació.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Feu clic a Instal·la per instal·lar el producte amb opcions predeterminades només per al vostre usuari. Feu clic a Avançades per canviar les opcions d'instal·lació.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Instal·la</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">A&amp;vançades</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Mira a:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Un nivell amunt</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Crea una carpeta nova</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Nom de la carpeta:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Navega a la carpeta de destinació</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Canvia la carpeta de destinació</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="CancelDlgText" Overridable="yes">Esteu segur que voleu cancel·lar la instal·lació del producte [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Icona d'informació</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Arbre de seleccions</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">N&amp;avega...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">Re&amp;stableix</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">&amp;Ús de disc</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Feu clic a les icones de l'arbre que apareix a continuació per canviar la manera en què s'instal·laran les característiques.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Seleccioneu la manera en què voleu que s'instal·lin les característiques.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Configuració personalitzada</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Ubicació:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Els volums ressaltats no tenen prou espai disponible al disc per a les característiques seleccionades. Podeu suprimir alguns fitxers dels volums ressaltats, instal·lar menys característiques o seleccionar altres unitats de destinació.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">L'espai de disc necessari per a la instal·lació de les característiques seleccionades.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Requisits d'espai al disc</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Text informatiu</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Icona d'informació</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Feu clic al botó Final per sortir de l'auxiliar d'instal·lació.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}S'ha completat l'auxiliar d'instal·lació del producte [ProductName]</String>
+
+    <String Id="FatalError_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}L'auxiliar d'instal·lació del producte [ProductName] ha finalitzat abans d'hora</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">L'auxiliar d'instal·lació del producte [ProductName] ha finalitzat abans d'hora a causa d'un error. No s'ha modificat el sistema. Per instal·lar aquest programa en un altre moment, torneu a executar l'auxiliar d'instal·lació.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Feu clic al botó Final per sortir de l'auxiliar d'instal·lació.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Característiques del producte</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Seleccioneu la manera en què voleu que s'instal·lin les característiques.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Característiques del producte</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Instal·la</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Canvia</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes">&amp;Surt</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Les següents aplicacions fan servir fitxers que cal actualitzar en aquesta instal·lació. Tanqueu aquestes aplicacions i feu clic a &amp;Torna-ho a provar per continuar amb la instal·lació o bé a Surt per sortir-ne.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">S'estan utilitzant alguns fitxers que cal actualitzar.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Fitxers en ús</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Canvia...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Carpeta de destinació</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Feu clic a Endavant per instal·lar a la carpeta predeterminada o feu clic a Canvia per triar-ne una altra.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Instal·la el producte [ProductName] a:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Trieu l'àmbit d'instal·lació i la carpeta</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Àmbit d'instal·lació</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instal·la &amp;només per al vostre usuari ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">El producte [ProductName] s'instal·larà en una carpeta per usuari i estarà disponible només per al compte del vostre usuari. No necessiteu privilegis locals d'administrador.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">El producte [ProductName] no admet la instal·lació per usuari.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Instal·la per a tots els usuaris d'aquest &amp;ordinador</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">El producte [ProductName] s'instal·larà en una carpeta per ordinador de manera predeterminada i estarà disponible per a tots els usuaris. Podeu canviar la carpeta d'instal·lació predeterminada. Heu de tenir privilegis locals d'administrador.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Carpeta d'&amp;instal·lació:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Canvia...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">El directori d'instal·lació ha de trobar-se en una unitat de disc dur local.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Icona d'informació</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Accepto les condicions del contracte de llicència</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Llegiu el contracte de llicència següent atentament</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Contracte de llicència de l'usuari final</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Canvia</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Canvia la instal·lació</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Re&amp;para</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Repara la instal·lació</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Suprimeix</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Suprimeix la instal·lació</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Seleccioneu l'operació que voleu realitzar.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Canvi, reparació o supressió de la instal·lació</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Permet canviar la manera com s'instal·len les característiques.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">El producte [ProductName] no té cap característica que es pugui seleccionar de manera independent.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Suprimeix el producte [ProductName] de l'ordinador.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">No es pot suprimir el producte [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Repara els errors de la instal·lació més recent corregint fitxers, dreceres i entrades del registre perduts i malmesos.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">No es pot reparar el producte [ProductName].</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">L'auxiliar d'instal·lació us permet canviar la manera com s'instal·len les característiques del producte [ProductName] a l'ordinador o bé suprimir el producte. Feu clic a Endavant per continuar, o a Cancel·la, per sortir de l'auxiliar d'instal·lació.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Benvinguts a l'auxiliar d'instal·lació del producte [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Les següents aplicacions fan servir fitxers que cal actualitzar en aquesta instal·lació. Podeu deixar que l'auxiliar d'instal·lació les tanqui i intenti reiniciar-les o podeu reiniciar l'ordinador més tard.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">S'estan utilitzant alguns fitxers que cal actualitzar.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Fitxers en ús</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Tanca les aplicacions i intenta reiniciar-les.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;No tanquis les aplicacions. Caldrà reiniciar.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Els volums marcats no tenen prou espai al disc per a les característiques que heu seleccionat. Podeu suprimir alguns fitxers dels volums marcats, instal·lar menys característiques o seleccionar una altra unitat de destinació.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">L'espai de disc necessari per a la instal·lació supera l'espai disponible al disc.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}No hi ha prou espai al disc</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Els volums marcats no tenen prou espai al disc per a les característiques que heu seleccionat. Podeu suprimir alguns fitxers dels volums marcats, instal·lar menys característiques o seleccionar una altra unitat de destinació.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">L'espai de disc necessari per a la instal·lació supera l'espai disponible al disc.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}No hi ha prou espai al disc</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">També podeu inhabilitar la funcionalitat de reversió de l'instal·lador. D'aquesta manera, evitareu que l'instal·lador restauri l'estat original de l'ordinador si hi hagués qualsevol tipus d'interrupció durant la instal·lació. Feu clic a Sí si voleu assumir el risc d'inhabilitar la reversió.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Espereu mentre l'auxiliar d'instal·lació es prepara per guiar-vos pel procés d'instal·lació.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Benvinguts a l'auxiliar d'instal·lació del producte [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Espereu mentre l'auxiliar d'instal·lació instal·la el producte [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}S'està instal·lant el producte [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Espereu mentre l'auxiliar d'instal·lació canvia el producte [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}S'està canviant el producte [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Espereu mentre l'auxiliar d'instal·lació repara el producte [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}S'està reparant el producte [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Espereu mentre l'auxiliar d'instal·lació suprimeix el producte [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}S'està suprimint el producte [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Espereu mentre l'auxiliar d'instal·lació actualitza el producte [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}S'està actualitzant el producte [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Progrés</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Estat:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Instal·la</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">L'auxiliar d'instal·lació completarà la instal·lació del producte [ProductName] a l'ordinador. Feu clic a Instal·la per continuar o a Cancel·la per sortir de l'auxiliar d'instal·lació.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}S'està reprenent l'auxiliar d'instal·lació del producte [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Típica</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Instal·lació típica</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">P&amp;ersonalitzada</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Instal·lació personalitzada</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">C&amp;ompleta</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Instal·lació completa</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Trieu un tipus de configuració</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Trieu el tipus de configuració que més bé s'adapti a les vostres necessitats</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Instal·la les característiques del programa més comunes. Recomanat per a la majoria dels usuaris.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Permet que els usuaris triïn quines característiques del programa s'instal·laran i on s'instal·laran. Recomanat per a usuaris avançats.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">S'instal·laran totes les característiques del programa. Requereix la major part de l'espai al disc.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}S'ha interromput l'auxiliar d'instal·lació del producte [ProductName]</String>
+    <String Id="UserExitDescription1" Overridable="yes">S'ha interromput la configuració del producte [ProductName]. No s'ha modificat el sistema. Per instal·lar aquest programa en un altre moment, torneu a executar la instal·lació.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Feu clic al botó Final per sortir de l'auxiliar d'instal·lació.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Instal·la</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Feu clic a Instal·la per començar la instal·lació. Feu clic a Endarrere per revisar o canviar les opcions de configuració de la instal·lació. Feu clic a Cancel·la per sortir de l'auxiliar.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}A punt per instal·lar el producte [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Canvia</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Feu clic a Canvia per començar la instal·lació. Feu clic a Endarrere per revisar o canviar les opcions de configuració de la instal·lació. Feu clic a Cancel·la per sortir de l'auxiliar.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}A punt per canviar el producte [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">Re&amp;para</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Feu clic a Repara per reparar la instal·lació del producte [ProductName]. Feu clic a Endarrere per revisar o canviar les opcions de configuració de la instal·lació. Feu clic a Cancel·la per sortir de l'auxiliar.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}A punt per reparar el producte [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Suprimeix</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Feu clic a Suprimeix per suprimir el producte [ProductName] de l'ordinador. Feu clic a Endarrere per revisar o canviar les opcions de configuració de la instal·lació. Feu clic a Cancel·la per sortir de l'auxiliar.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}A punt per suprimir el producte [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Actualitza</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Feu clic a Actualitza per actualitzar el producte [ProductName] de l'ordinador. Feu clic a Endarrere per revisar o canviar les opcions de configuració de la instal·lació. Feu clic a Cancel·la per sortir de l'auxiliar.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}A punt per actualitzar el producte [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Torna</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Espereu mentre l'instal·lador determina els requisits d'espai al disc.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Icona d'exclamació</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">L'auxiliar d'instal·lació instal·larà el producte [ProductName] a l'ordinador. Feu clic a Endavant per continuar o a Cancel·la per sortir de l'auxiliar d'instal·lació.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">L'auxiliar d'instal·lació actualitzarà el producte [ProductName] a l'ordinador. Feu clic a Endavant per continuar o a Cancel·la per sortir de l'auxiliar d'instal·lació.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Benvinguts a l'auxiliar d'instal·lació del producte [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">Instal·lació del producte [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Accepto les condicions del contracte de llicència</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Instal·la</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Actualitza</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Llegiu el contracte de llicència del producte [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">S'està validant la instal·lació</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">S'estan copiant els fitxers nous</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Fitxer: [1], directori: [9], mida: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">S'estan copiant els fitxers d'instal·lació de xarxa</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Fitxer: [1], directori: [9], mida: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">S'estan calculant els requisits d'espai</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">S'estan calculant els requisits d'espai</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">S'estan calculant els requisits d'espai</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">S'estan creant les dreceres</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Drecera: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">S'estan publicant els components qualificats</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">ID de component: [1], qualificador: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">S'estan publicant les característiques del producte</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Característica: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">S'està publicant la informació del producte</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">S'estan registrant els servidors de classes</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">ID de classe: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">S'estan registrant els servidors d'extensions</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Extensió: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">S'està registrant la informació MIME</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">Tipus de contingut MIME: [1], extensió: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">S'estan registrant els identificadors de programa</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">Identificador del programa: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">S'està assignant l'espai del registre</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Espai lliure: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">S'estan cercant les aplicacions instal·lades</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Propietat: [1], signatura: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">S'estan vinculant els executables</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Fitxer: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">S'estan cercant els productes necessaris</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">S'estan creant les carpetes</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Carpeta: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">S'estan suprimint els serveis</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Servei: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">S'estan creant fitxers duplicats</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Fitxer: [1], directori: [9], mida: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">S'estan cercant les aplicacions relacionades</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">S'ha trobat una aplicació: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">S'estan instal·lant els components ODBC</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">S'estan instal·lant els serveis nous</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Servei: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">S'estan avaluant les condicions d'inici</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">S'estan migrant els estats de les característiques des d'aplicacions relacionades</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Aplicació: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">S'estan desplaçant els fitxers</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Fitxer: [1], directori: [9], mida: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">S'estan aplicant revisions als fitxers</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Fitxer: [1], directori: [2], mida: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">S'està actualitzant el registre de components</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">S'estan registrant les aplicacions i els components COM+</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">ID aplicació: [1]{{, tipus d'aplicació: [2], usuaris: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">S'estan registrant els tipus de lletra</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Tipus de lletra: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">S'està registrant el producte</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">S'estan registrant les biblioteques de tipus</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">Identificador de la biblioteca: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">S'està registrant l'usuari</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">S'estan suprimint els fitxers duplicats</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Fitxer: [1], directori: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">S'estan actualitzant les cadenes de l'entorn</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Nom: [1], valor: [2], acció: [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">S'estan suprimint les aplicacions</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Aplicació: [1], línia d'ordres: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">S'estan suprimint els fitxers</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Fitxer: [1], directori: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">S'estan suprimint les carpetes</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Carpeta: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">S'estan suprimint les entrades dels fitxers INI</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Fitxer: [1], secció: [2], clau: [3], valor: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">S'estan suprimint els components ODBC</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">S'estan suprimint els valors de registre del sistema</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Clau: [1], nom: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">S'estan suprimint les dreceres</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Drecera: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">S'estan cercant els productes necessaris</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">S'estan registrant els mòduls</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Fitxer: [1], carpeta: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">S'estan suprimint els mòduls del registre</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Fitxer: [1], carpeta: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">S'estan inicialitzant els directoris d'ODBC</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">S'estan iniciant els serveis</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Servei: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">S'estan aturant els serveis</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Servei: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">S'està suprimint la publicació dels components qualificats</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">ID de component: [1], qualificador: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">S'està suprimint la publicació de les característiques del producte</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Característica: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Suprimeix del registre els servidors de classes</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">ID de classe: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">S'estan suprimint del registre les aplicacions i els components COM+</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">Identificador de l'aplicació: [1]{{, tipus d'aplicació: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">S'estan suprimint del registre els servidors d'extensions</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Extensió: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">S'estan suprimint del registre els tipus de lletra</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Tipus de lletra: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">S'està suprimint del registre la informació MIME</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">Tipus de contingut MIME: [1], extensió: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">S'estan suprimint del registre els identificadors de programa</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">Identificador del programa: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">S'estan suprimint del registre les biblioteques de classes</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">Identificador de la biblioteca: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">S'estan actualitzant les cadenes de l'entorn</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Nom: [1], valor: [2], acció: [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">S'estan escrivint els valors dels fitxers INI</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Fitxer: [1], secció: [2], clau: [3], valor: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">S'estan escrivint els valors del registre del sistema</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Clau: [1], nom: [2], valor: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">S'està anunciant l'aplicació</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">S'estan generant les operacions de seqüència per a l'acció:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">S'està instal·lant el catàleg del sistema</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Fitxer: [1], dependències: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">S'està publicant la informació de l'assemblat</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Context d'aplicació: [1], nom de l'assemblat: [2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">S'està suprimint la publicació de la informació de l'assemblat</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Context d'aplicació: [1], nom de l'assemblat: [2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">S'està recuperant l'acció:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">S'estan suprimint els fitxers de còpia de seguretat</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Fitxer: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">S'estan suprimint els fitxers desplaçats</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Fitxer: [1], directori: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">S'està suprimint la publicació de la informació del producte</String>
+
+    <String Id="Error0" Overridable="yes">{{Error greu: }}</String>
+    <String Id="Error1" Overridable="yes">{{Error [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Advertiment [1]. </String>
+    <String Id="Error4" Overridable="yes">Informació [1]. </String>
+    <String Id="Error5" Overridable="yes">L'instal·lador ha detectat un error inesperat en instal·lar el paquet. Pot indicar un problema amb el paquet. El codi de l'error és: [1]. {{Els arguments són: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Disc ple: }}</String>
+    <String Id="Error8" Overridable="yes">Acció [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Tipus de missatge: [1], argument: [2]</String>
+    <String Id="Error12" Overridable="yes">=== El registre ha començat: [Date]  [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== El registre s'ha aturat: [Date]  [Time] ===</String>
+    <String Id="Error14" Overridable="yes">L'acció ha començat a les [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">L'acció ha finalitzat a les [Time]: [1]. Valor retornat: [2].</String>
+    <String Id="Error16" Overridable="yes">Temps restant: {[1] minuts }{[2] segons}</String>
+    <String Id="Error17" Overridable="yes">No hi ha prou memòria. Tanqueu altres aplicacions i torneu-ho a provar.</String>
+    <String Id="Error18" Overridable="yes">L'instal·lador ja no respon.</String>
+    <String Id="Error19" Overridable="yes">L'instal·lador s'ha aturat abans d'hora.</String>
+    <String Id="Error20" Overridable="yes">Espereu mentre el Windows configura el producte [ProductName]</String>
+    <String Id="Error21" Overridable="yes">S'està recopilant la informació necessària...</String>
+    <String Id="Error22" Overridable="yes">S'estan suprimint les versions anteriors d'aquesta aplicació...</String>
+    <String Id="Error23" Overridable="yes">S'està preparant la supressió de les versions anteriors de l'aplicació...</String>
+    <String Id="Error32" Overridable="yes">La instal·lació del producte {[ProductName] }s'ha completat correctament.</String>
+    <String Id="Error33" Overridable="yes">S'ha produït un error a la instal·lació del producte {[ProductName]}.</String>
+    <String Id="Error1101" Overridable="yes">S'ha produït un error en llegir el fitxer: [2]. {{ Error del sistema [3].}} Comproveu que existeix i que hi podeu accedir.</String>
+    <String Id="Error1301" Overridable="yes">No es pot crear el fitxer "[2]". Hi ha un directori que té el mateix nom. Cancel·leu la instal·lació i torneu-ho a provar en una altra ubicació.</String>
+    <String Id="Error1302" Overridable="yes">Inseriu el disc: [2]</String>
+    <String Id="Error1303" Overridable="yes">L'instal·lador no té prou privilegis per accedir a aquest directori: [2]. La instal·lació no pot continuar. Inicieu sessió com a administrador o poseu-vos en contacte amb l'administrador del sistema.</String>
+    <String Id="Error1304" Overridable="yes">S'ha produït un error en escriure al fitxer: [2]. Comproveu que teniu accés a aquest directori.</String>
+    <String Id="Error1305" Overridable="yes">S'ha produït un error en llegir el fitxer [2]. {{ Error del sistema [3].}} Comproveu que el fitxer existeix i que hi podeu accedir.</String>
+    <String Id="Error1306" Overridable="yes">Hi ha una altra aplicació que té accés exclusiu al fitxer "[2]". Tanqueu totes les altres aplicacions i feu clic a Torna-ho a provar.</String>
+    <String Id="Error1307" Overridable="yes">No hi ha prou espai al disc per instal·lar el fitxer: [2]. Allibereu espai al disc i feu clic a Torna-ho a provar, o bé feu clic a Cancel·la per sortir.</String>
+    <String Id="Error1308" Overridable="yes">No s'ha trobat el fitxer d'origen: [2]. Comproveu que el fitxer existeix i que hi podeu accedir.</String>
+    <String Id="Error1309" Overridable="yes">S'ha produït un error en llegir el fitxer: [3]. {{ Error del sistema [2].}} Comproveu que el fitxer existeix i que hi podeu accedir.</String>
+    <String Id="Error1310" Overridable="yes">S'ha produït un error en escriure al fitxer: [3]. {{ Error del sistema [2].}} Comproveu que teniu accés al directori.</String>
+    <String Id="Error1311" Overridable="yes">No s'ha trobat el fitxer d'origen{{(cabinet)}}: [2]. Comproveu que el fitxer existeix i que hi podeu accedir.</String>
+    <String Id="Error1312" Overridable="yes">No es pot crear el directori "[2]". Hi ha un fitxer que té el mateix nom. Canvieu el nom del fitxer o suprimiu-lo i feu clic a Torna-ho a provar, o bé feu clic a Cancel·la per sortir.</String>
+    <String Id="Error1313" Overridable="yes">El volum [2] no està disponible en aquest moment. Seleccioneu-ne un altre.</String>
+    <String Id="Error1314" Overridable="yes">El camí especificat, "[2]", no està disponible.</String>
+    <String Id="Error1315" Overridable="yes">No es pot escriure a la carpeta especificada: [2].</String>
+    <String Id="Error1316" Overridable="yes">S'ha produït un error de xarxa en intentar llegir el fitxer: [2]</String>
+    <String Id="Error1317" Overridable="yes">S'ha produït un error en intentar crear el directori: [2]</String>
+    <String Id="Error1318" Overridable="yes">S'ha produït un error de xarxa en intentar crear el directori: [2]</String>
+    <String Id="Error1319" Overridable="yes">S'ha produït un error de xarxa en intentar obrir el CAB del fitxer d'origen: [2]</String>
+    <String Id="Error1320" Overridable="yes">El camí especificat és massa llarg: [2]</String>
+    <String Id="Error1321" Overridable="yes">L'instal·lador no té prou privilegis per modificar aquest fitxer: [2].</String>
+    <String Id="Error1322" Overridable="yes">Part del camí de la carpeta "[2]" no és vàlid. El valor és buit o supera la longitud permesa pel sistema.</String>
+    <String Id="Error1323" Overridable="yes">El camí de la carpeta "[2]" conté paraules no vàlides en camins de carpetes.</String>
+    <String Id="Error1324" Overridable="yes">El camí de la carpeta "[2]" conté un caràcter no vàlid.</String>
+    <String Id="Error1325" Overridable="yes">"[2]" no és un nom de fitxer curt vàlid.</String>
+    <String Id="Error1326" Overridable="yes">S'ha produït un error en obtenir la seguretat del fitxer: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Unitat no vàlida: [2]</String>
+    <String Id="Error1328" Overridable="yes">S'ha produït un error en aplicar el pedaç al fitxer [2]. Pot ser que s'hagi actualitzat d'una altra manera i ja no es pot modificar amb aquest pedaç. Per obtenir més informació, poseu-vos en contacte amb el proveïdor del pedaç. {{Error del sistema: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">No es pot instal·lar un fitxer necessari perquè el fitxer cabinet [2] no està signat electrònicament. Això pot indicar que el fitxer cabinet està malmès.</String>
+    <String Id="Error1330" Overridable="yes">No es pot instal·lar un fitxer necessari perquè el fitxer cabinet [2] té una signatura electrònica no vàlida. Això pot indicar que el fitxer cabinet està malmès.{{  WinVerifyTrust ha retornat l'error [3].}}</String>
+    <String Id="Error1331" Overridable="yes">No s'ha pogut copiar correctament el fitxer [2]: error de CRC.</String>
+    <String Id="Error1332" Overridable="yes">No s'ha pogut desplaçar correctament el fitxer [2]: error de CRC.</String>
+    <String Id="Error1333" Overridable="yes">No s'ha pogut aplicar el pedaç correctament al fitxer [2]: error de CRC.</String>
+    <String Id="Error1334" Overridable="yes">El fitxer "[2]" no es pot instal·lar perquè no es troba al fitxer CAB "[3]". Això podria indicar un error de xarxa, un error en llegir del CD-ROM, o bé un problema amb el paquet.</String>
+    <String Id="Error1335" Overridable="yes">El fitxer CAB "[2]" necessari per a aquesta instal·lació està malmès i no es pot utilitzar. Això podria indicar un error de xarxa, un error en llegir del CD-ROM, o bé un problema amb el paquet.</String>
+    <String Id="Error1336" Overridable="yes">S'ha produït un error en crear un fitxer temporal necessari per completar la instal·lació. {{ Carpeta: [3]. Codi d'error del sistema: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">No s'ha pogut crear la clau: [2]. {{ Error del sistema [3].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic. </String>
+    <String Id="Error1402" Overridable="yes">No s'ha pogut obrir la clau: [2]. {{ Error del sistema [3].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic. </String>
+    <String Id="Error1403" Overridable="yes">No s'ha pogut suprimir el valor [2] de la clau [3]. {{ Error del sistema [4].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic. </String>
+    <String Id="Error1404" Overridable="yes">No s'ha pogut suprimir la clau [2]. {{ Error del sistema [3].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic. </String>
+    <String Id="Error1405" Overridable="yes">No s'ha pogut llegir el valor [2] de la clau [3]. {{ Error del sistema [4].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic. </String>
+    <String Id="Error1406" Overridable="yes">No s'ha pogut escriure el valor [2] a la clau [3]. {{ Error del sistema [4].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1407" Overridable="yes">No s'han pogut obtenir els noms dels valors de la clau [2]. {{ Error del sistema [3].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1408" Overridable="yes">No s'han pogut obtenir els noms de les subclaus de la clau [2]. {{ Error del sistema [3].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1409" Overridable="yes">No s'ha pogut llegir la informació de seguretat de la clau [2]. {{ Error del sistema [3].}} Comproveu que teniu l'accés necessari a la clau o poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1410" Overridable="yes">No s'ha pogut augmentar l'espai disponible al registre. Cal tenir [2] kB d'espai lliure al registre per instal·lar aquesta aplicació.</String>
+    <String Id="Error1500" Overridable="yes">Hi ha una altra instal·lació en curs. Completeu l'altra instal·lació abans de continuar amb aquesta.</String>
+    <String Id="Error1501" Overridable="yes">S'ha produït un error en accedir a dades protegides. Assegureu-vos que el Windows Installer està configurat correctament i torneu a intentar portar a terme la instal·lació.</String>
+    <String Id="Error1502" Overridable="yes">L'usuari "[2]" ja ha iniciat prèviament una instal·lació del producte "[3]", però haurà de tornar a executar-la per poder utilitzar el producte. La instal·lació actual d'aquest producte continuarà.</String>
+    <String Id="Error1503" Overridable="yes">L'usuari "[2]" ja ha iniciat prèviament una instal·lació del producte "[3]", però haurà de tornar a executar-la per poder utilitzar el producte.</String>
+    <String Id="Error1601" Overridable="yes">No hi ha prou espai al disc -- Volum: "[2]"; espai necessari: [3] kB; espai disponible: [4] KB. Augmenteu l'espai disponible del disc i torneu a provar-ho.</String>
+    <String Id="Error1602" Overridable="yes">Esteu segur que voleu cancel·lar-ho?</String>
+    <String Id="Error1603" Overridable="yes">El fitxer [2][3] està en ús{ pel procés següent: nom: [4], identificador: [5], títol de la finestra: "[6]"}. Tanqueu aquesta aplicació i torneu a provar-ho.</String>
+    <String Id="Error1604" Overridable="yes">El producte "[2]" ja està instal·lat, la qual cosa impedeix instal·lar aquest producte. Aquests dos productes són incompatibles.</String>
+    <String Id="Error1605" Overridable="yes">No hi ha prou espai de disc disponible al volum "[2]" per continuar la instal·lació amb la recuperació habilitada. Cal tenir [3] kB disponibles, però només hi ha [4] kB. Feu clic a Ignora per continuar la instal·lació sense desar la informació de recuperació, feu clic a Torna-ho a provar per tornar a comprovar l'espai disponible o feu clic a Cancel·la per sortir de la instal·lació.</String>
+    <String Id="Error1606" Overridable="yes">No s'ha pogut accedir a la ubicació de xarxa [2].</String>
+    <String Id="Error1607" Overridable="yes">Tanqueu les aplicacions següents abans de continuar la instal·lació:</String>
+    <String Id="Error1608" Overridable="yes">No s'ha trobat cap producte compatible instal·lat anteriorment a l'ordinador per instal·lar aquest producte.</String>
+    <String Id="Error1609" Overridable="yes">S'ha produït un error en aplicar la configuració de seguretat. [2] no és un usuari o grup vàlid. Podria tractar-se d'un problema del paquet o d'un problema de connexió a un controlador de domini a la xarxa. Comproveu la connexió de xarxa i feu clic a Torna-ho a provar o feu clic a Cancel·la per finalitzar la instal·lació. {{No es troba l'SID de l'usuari, error del sistema [3]}}</String>
+    <String Id="Error1701" Overridable="yes">La clau [2] no és vàlida. Comproveu que heu introduït la clau correcta.</String>
+    <String Id="Error1702" Overridable="yes">Cal que l'instal·lador reiniciï el sistema perquè pugui continuar la instal·lació del producte [2]. Feu clic a Sí per reiniciar-lo ara o a No si teniu previst reiniciar-lo manualment més tard.</String>
+    <String Id="Error1703" Overridable="yes">Heu de reiniciar el sistema perquè els canvis de configuració realitzats al [2] tinguin efecte. Feu clic a Sí per reiniciar-lo ara o a No si teniu previst reiniciar-lo manualment més tard.</String>
+    <String Id="Error1704" Overridable="yes">S'ha suspès la instal·lació del producte [2]. Heu de desfer els canvis que hagi fet la instal·lació per poder continuar. Voleu desfer-los?</String>
+    <String Id="Error1705" Overridable="yes">Ja hi ha una instal·lació anterior d'aquest producte en curs. Heu de desfer els canvis que hagi fet la instal·lació per poder continuar. Voleu desfer-los?</String>
+    <String Id="Error1706" Overridable="yes">No es troba un paquet d'instal·lació per al producte [2]. Torneu a intentar la instal·lació amb una còpia vàlida del paquet d'instal·lació "[3]".</String>
+    <String Id="Error1707" Overridable="yes">La instal·lació s'ha completat correctament.</String>
+    <String Id="Error1708" Overridable="yes">S'ha produït un error a la instal·lació.</String>
+    <String Id="Error1709" Overridable="yes">Producte: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Podeu restaurar l'ordinador a l'estat anterior o continuar amb la instal·lació més tard. Voleu restaurar-lo?</String>
+    <String Id="Error1711" Overridable="yes">S'ha produït un error en escriure la informació d'instal·lació al disc. Assegureu-vos que hi hagi prou espai al disc i feu clic a Torna-ho a provar, o feu clic a Cancel·la per finalitzar la instal·lació.</String>
+    <String Id="Error1712" Overridable="yes">No s'han trobat un o més dels fitxers necessaris per restaurar l'ordinador al seu estat anterior. No es podrà dur a terme la restauració.</String>
+    <String Id="Error1713" Overridable="yes">El producte [2] no pot instal·lar un dels seus productes relacionats. Poseu-vos en contacte amb el grup de suport tècnic. {{Error del sistema: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">No es pot suprimir la versió anterior del producte [2]. Poseu-vos en contacte amb el grup de suport tècnic. {{Error del sistema: [3].}}</String>
+    <String Id="Error1715" Overridable="yes">S'ha instal·lat el [2]</String>
+    <String Id="Error1716" Overridable="yes">S'ha configurat el [2]</String>
+    <String Id="Error1717" Overridable="yes">S'ha suprimit el [2]</String>
+    <String Id="Error1718" Overridable="yes">La norma de signatura digital ha rebutjat el fitxer [2].</String>
+    <String Id="Error1719" Overridable="yes">No s'ha pogut accedir al servei del Windows Installer. Això pot succeir si executeu el Windows en mode de protecció o si el Windows Installer no està instal·lat correctament. Poseu-vos en contacte amb el personal de suport tècnic per obtenir ajuda.</String>
+    <String Id="Error1720" Overridable="yes">Hi ha un problema amb aquest paquet del Windows Installer. No s'ha pogut executar una seqüència necessària perquè pugui completar-se aquesta instal·lació. Poseu-vos en contacte amb el personal de suport tècnic o amb el proveïdor del paquet. {{Acció personalitzada [2], error de la seqüència [3], [4]: [5] línia [6], columna [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Hi ha un problema amb aquest paquet del Windows Installer. No s'ha pogut executar un programa necessari perquè es completi la instal·lació. Poseu-vos en contacte amb el personal de suport tècnic o amb el proveïdor del paquet. {{Acció: [2], ubicació: [3], ordre: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Hi ha un problema amb aquest paquet del Windows Installer. Un programa que s'ha executat com a part de la instal·lació no ha finalitzat com s'esperava. Poseu-vos en contacte amb el personal de suport tècnic o amb el proveïdor del paquet. {{Acció [2], ubicació: [3], ordre: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Hi ha un problema amb aquest paquet del Windows Installer. No s'ha pogut executar una DLL necessària perquè pugui completar-se aquesta instal·lació. Poseu-vos en contacte amb el personal de suport tècnic o amb el proveïdor del paquet. {{Acció: [2], entrada: [3], biblioteca: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">S'ha suprimit correctament.</String>
+    <String Id="Error1725" Overridable="yes">S'ha produït un error a la supressió.</String>
+    <String Id="Error1726" Overridable="yes">L'anunci s'ha completat correctament.</String>
+    <String Id="Error1727" Overridable="yes">S'ha produït un error a l'anunci.</String>
+    <String Id="Error1728" Overridable="yes">La configuració s'ha completat correctament.</String>
+    <String Id="Error1729" Overridable="yes">S'ha produït un error a la configuració.</String>
+    <String Id="Error1730" Overridable="yes">Heu de ser administrador per suprimir aquesta aplicació. Per suprimir-la, podeu iniciar una sessió com a administrador o posar-vos en contacte amb el grup de suport tècnic per obtenir ajuda.</String>
+    <String Id="Error1731" Overridable="yes">El paquet d'instal·lació d'origen del producte [2] no està sincronitzat amb el paquet del client. Torneu a intentar la instal·lació amb una còpia vàlida del paquet d'instal·lació "[3]".</String>
+    <String Id="Error1732" Overridable="yes">Per poder completar la instal·lació del producte [2], cal que reinicieu l'ordinador. Hi ha altres usuaris amb una sessió iniciada en aquest ordinador i, si el reinicieu, pot ser que perdin la feina. Voleu reiniciar-lo ara?</String>
+    <String Id="Error1801" Overridable="yes">El camí [2] no és vàlid. Especifiqueu-ne un de vàlid.</String>
+    <String Id="Error1802" Overridable="yes">No hi ha prou memòria. Tanqueu altres aplicacions i torneu-ho a provar.</String>
+    <String Id="Error1803" Overridable="yes">No hi ha cap disc a la unitat [2]. Introduïu-ne un i feu clic a Torna-ho a provar o feu clic a Cancel·la per tornar al volum seleccionat anteriorment.</String>
+    <String Id="Error1804" Overridable="yes">No hi ha cap disc a la unitat [2]. Introduïu-ne un i feu clic a Torna-ho a provar o feu clic a Cancel·la per tornar al quadre de diàleg de navegació i seleccionar un volum diferent.</String>
+    <String Id="Error1805" Overridable="yes">La carpeta [2] no existeix. Especifiqueu un camí a una carpeta existent.</String>
+    <String Id="Error1806" Overridable="yes">No teniu prou privilegis per llegir aquesta carpeta.</String>
+    <String Id="Error1807" Overridable="yes">No s'ha pogut determinar una carpeta de destinació vàlida per a la instal·lació.</String>
+    <String Id="Error1901" Overridable="yes">S'ha produït un error en provar de llegir de la base de dades d'instal·lació d'origen: [2].</String>
+    <String Id="Error1902" Overridable="yes">S'està programant l'operació de reinici: s'està canviant el nom del fitxer [2] a [3]. Cal reiniciar per completar l'operació.</String>
+    <String Id="Error1903" Overridable="yes">S'està programant l'operació de reinici: s'està suprimint el fitxer [2]. Cal reiniciar per completar l'operació.</String>
+    <String Id="Error1904" Overridable="yes">No s'ha pogut registrar el mòdul [2]. HRESULT [3]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1905" Overridable="yes">No s'ha pogut suprimir el registre del mòdul [2]. HRESULT [3]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1906" Overridable="yes">No s'ha pogut emmagatzemar a la memòria cau el paquet [2]. Error: [3]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1907" Overridable="yes">No s'ha pogut registrar el tipus de lletra [2]. Comproveu que teniu els permisos necessaris per instal·lar tipus de lletra i que el sistema admet aquest tipus.</String>
+    <String Id="Error1908" Overridable="yes">No s'ha pogut suprimir del registre el tipus de lletra [2]. Comproveu que teniu els permisos necessaris per suprimir tipus de lletra.</String>
+    <String Id="Error1909" Overridable="yes">No s'ha pogut crear la drecera [2]. Comproveu que la carpeta de destinació existeix i que hi podeu accedir.</String>
+    <String Id="Error1910" Overridable="yes">No s'ha pogut suprimir la drecera [2]. Comproveu que el fitxer de drecera existeix i que hi podeu accedir.</String>
+    <String Id="Error1911" Overridable="yes">No s'ha pogut registrar la biblioteca de tipus del fitxer [2]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1912" Overridable="yes">No s'ha pogut suprimir el registre de la biblioteca de tipus del fitxer [2]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1913" Overridable="yes">No s'ha pogut actualitzar el fitxer INI [2][3]. Comproveu que el fitxer existeix i que hi podeu accedir.</String>
+    <String Id="Error1914" Overridable="yes">No s'ha pogut planificar el fitxer [2] perquè substitueixi el fitxer [3] en reiniciar el sistema. Comproveu que teniu permisos d'escriptura al fitxer [3].</String>
+    <String Id="Error1915" Overridable="yes">S'ha produït un error en suprimir l'administrador de controladors ODBC; error d'ODBC [2]: [3]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1916" Overridable="yes">S'ha produït un error en instal·lar l'administrador de controladors ODBC; error d'ODBC [2]: [3]. Poseu-vos en contacte amb el personal de suport tècnic.</String>
+    <String Id="Error1917" Overridable="yes">S'ha produït un error en suprimir el controlador ODBC: [4]; error d'ODBC [2]: [3]. Comproveu que teniu prou privilegis per suprimir controladors ODBC.</String>
+    <String Id="Error1918" Overridable="yes">S'ha produït un error en instal·lar el controlador ODBC: [4]; error d'ODBC [2]: [3]. Comproveu que el fitxer [4] existeix i que hi podeu accedir.</String>
+    <String Id="Error1919" Overridable="yes">S'ha produït un error en configurar l'origen de dades ODBC: [4]; error d'ODBC [2]: [3]. Comproveu que el fitxer [4] existeix i que hi podeu accedir.</String>
+    <String Id="Error1920" Overridable="yes">No s'ha pogut iniciar el servei "[2]" ([3]). Comproveu que teniu prou privilegis per iniciar els serveis del sistema.</String>
+    <String Id="Error1921" Overridable="yes">No s'ha pogut aturar el servei "[2]" ([3]). Comproveu que teniu prou privilegis per aturar els serveis del sistema.</String>
+    <String Id="Error1922" Overridable="yes">No s'ha pogut suprimir el servei "[2]" ([3]). Comproveu que teniu prou privilegis per suprimir els serveis del sistema.</String>
+    <String Id="Error1923" Overridable="yes">No s'ha pogut instal·lar el servei "[2]" ([3]). Comproveu que teniu prou privilegis per instal·lar els serveis del sistema.</String>
+    <String Id="Error1924" Overridable="yes">No s'ha pogut actualitzar la variable d'entorn "[2]". Comproveu que teniu prou privilegis per modificar variables d'entorn.</String>
+    <String Id="Error1925" Overridable="yes">No teniu prou privilegis per finalitzar aquesta instal·lació per a tots els usuaris de l'ordinador. Inicieu sessió com a administrador i torneu a intentar la instal·lació.</String>
+    <String Id="Error1926" Overridable="yes">No s'ha pogut definir la seguretat del fitxer "[3]". Error: [2]. Comproveu que teniu prou privilegis per modificar els permisos de seguretat d'aquest fitxer.</String>
+    <String Id="Error1927" Overridable="yes">Els Serveis de components (COM+ 1.0) no estan instal·lats en aquest ordinador. Aquesta instal·lació necessita els Serveis de components per completar-se correctament. Els Serveis de components estan disponibles al Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">S'ha produït un error en registrar l'aplicació COM+. Poseu-vos en contacte amb el personal de suport tècnic per obtenir més informació.</String>
+    <String Id="Error1929" Overridable="yes">S'ha produït un error en suprimir el registre de l'aplicació COM+. Poseu-vos en contacte amb el personal de suport tècnic per obtenir més informació.</String>
+    <String Id="Error1930" Overridable="yes">No s'ha pogut canviar la descripció del servei "[2]" ([3]).</String>
+    <String Id="Error1931" Overridable="yes">El servei Windows Installer no pot actualitzar el fitxer del sistema [2] perquè està protegit pel Windows. És possible que hàgiu d'actualitzar el sistema operatiu perquè aquest programa funcioni correctament. {{Versió del paquet: [3], versió protegida del sistema operatiu: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">El servei del Windows Installer no pot actualitzar el fitxer protegit del Windows [2]. {{Versió del paquet: [3], versió protegida del sistema operatiu: [4], error d'SFP: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">El servei del Windows Installer no pot actualitzar un o més fitxers protegits del Windows. {{Error d'SFP: [2]. Llista de fitxers protegits:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Les instal·lacions d'usuari estan inhabilitades per una norma de l'ordinador.</String>
+    <String Id="Error1935" Overridable="yes">S'ha produït un error durant la instal·lació de l'assemblat "[6]". Vegeu l'Ajuda i suport tècnic per obtenir més informació. HRESULT: [3]. {{Interfície de l'assemblat: [4], funció: [5], component: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">S'ha produït un error durant la instal·lació de l'assemblat "[6]". L'assemblat no té un nom segur o no està signat amb la longitud de clau mínima. HRESULT: [3]. {{Interfície de l'assemblat: [4], funció: [5], component: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">S'ha produït un error durant la instal·lació de l'assemblat "[6]". La signatura o el catàleg no s'han pogut comprovar o no són vàlids. HRESULT: [3]. {{Interfície de l'assemblat: [4], funció: [5], component: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">S'ha produït un error durant la instal·lació de l'assemblat "[6]". No s'ha pogut trobar un o més mòduls de l'assemblat. HRESULT: [3]. {{Interfície de l'assemblat: [4], funció: [5], component: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">bytes</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">kB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Aquesta característica no estarà disponible</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Aquesta característica s'instal·larà quan calgui</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Aquesta característica s'instal·larà en la seva totalitat per executar-se des del CD</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Aquesta característica s'instal·larà en la seva totalitat al disc dur local</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Aquesta característica s'instal·larà en la seva totalitat per executar-se des de la xarxa</String>
+    <String Id="UITextMenuCD" Overridable="yes">S'instal·larà per executar-se des del CD</String>
+    <String Id="UITextMenuLocal" Overridable="yes">S'instal·larà al disc dur local</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">S'instal·larà per executar-se des de la xarxa</String>
+    <String Id="UITextNewFolder" Overridable="yes">Carpeta|Crea una carpeta</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">S'està recopilant la informació necessària...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Aquesta característica no s'instal·larà</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Aquesta característica es definirà per instal·lar-se quan calgui</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Aquesta característica s'instal·larà per executar-se des del CD</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Aquesta característica s'instal·larà a la unitat de disc dur local</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Aquesta característica s'instal·larà per executar-se des de la xarxa</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Aquesta característica deixarà d'estar disponible</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">S'instal·larà quan calgui</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Aquesta característica estarà disponible per executar-se des del CD</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Aquesta característica s'instal·larà al disc dur local</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Aquesta característica estarà disponible per executar-se des de la xarxa</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Aquesta característica es desinstal·larà completament i no podreu executar-la des del CD</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Aquesta característica canviarà d'executar-se des del CD a definir-se per ésser instal·lada quan calgui</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Aquesta característica es podrà executar des del CD</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Aquesta característica deixarà d'executar-se des del CD i s'instal·larà a la unitat de disc dur local</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Aquesta característica allibera [1] al disc dur.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Aquesta característica necessita [1] al disc dur.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">S'està calculant el cost d'aquesta característica...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Aquesta característica se suprimirà completament</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Aquesta característica se suprimirà del disc dur local, però es definirà per instal·lar-se quan calgui</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Aquesta característica se suprimirà de la unitat de disc dur local, però encara es podrà executar des del CD</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Aquesta característica romandrà a la unitat de disc dur local</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Aquesta característica se suprimirà de la unitat de disc dur local, però encara es podrà executar des de la xarxa</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Aquesta característica es desinstal·larà completament i no podreu executar-la des de la xarxa</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Aquesta característica canviarà d'executar-se des de la xarxa a definir-se per instal·lar-se quan calgui</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Aquesta característica deixarà d'executar-se des de la xarxa i s'instal·larà a la unitat de disc dur local</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Aquesta característica podrà executar-se des de la xarxa</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Aquesta característica allibera [1] al disc dur. Té [2] de [3] subcaracterístiques seleccionades. Les subcaracterístiques alliberen [4] al disc dur.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Aquesta característica allibera [1] al disc dur. Té [2] de [3] subcaracterístiques seleccionades. Les subcaracterístiques necessiten [4] al disc dur.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Aquesta característica necessita [1] al disc dur. Té [2] de [3] subcaracterístiques seleccionades. Les subcaracterístiques alliberen [4] al disc dur.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Aquesta característica necessita [1] al disc dur. Té [2] de [3] subcaracterístiques seleccionades. Les subcaracterístiques necessiten [4] al disc dur.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Temps restant: {[1] minuts }{[2] segons}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Disponible</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Diferència</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Obligatori</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Mida del disc</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Volum</String>
+</WixLocalization>

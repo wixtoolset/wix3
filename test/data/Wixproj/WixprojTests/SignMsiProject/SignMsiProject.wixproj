@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="SignMsiProject.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+    <Import Project="..\..\..\..\..\WixBuild.Common.targets" />
+
+  <PropertyGroup>
+    <ProjectGuid>{17c63a77-1443-4871-bcc2-a6f28444b108}</ProjectGuid>
+    <OutputName>SignMsiProject</OutputName>
+    <OutputType>Package</OutputType>
+
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <Pedantic>True</Pedantic>
+    <SuppressValidation>true</SuppressValidation>
+    <SignOutput>true</SignOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="product.wxs" />
+    <EmbeddedResource Include="en-us.wxl" />
+    <EmbeddedResource Include="ja-jp.wxl" />
+  </ItemGroup>
+
+  <Import Project="$(WixTargetsPath)" />
+
+  <Target Name="SignCabs">
+    <Exec Command="Signtool.exe sign /a &quot;%(SignCabs.FullPath)&quot;" />
+  </Target>
+
+  <Target Name="SignMsi">
+    <Exec Command="signtool.exe sign /a &quot;%(SignMsi.FullPath)&quot;" />
+  </Target>
+</Project>

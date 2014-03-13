@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="NetFx1.1.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following location:
+
+           .NET Framework 1.1 - http://msdn.microsoft.com/library/ms994339.aspx
+    -->
+
+    <!-- set to #1 if the .NET Framework 1.1 is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11" Secure="yes">
+            <RegistrySearch Id="NetFramework11" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates the service pack level for the .NET Framework 1.1.         -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_SP_LEVEL" Secure="yes">
+            <RegistrySearch Id="NetFramework11SP" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322" Name="SP" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Location of .NET Framework 1.1 redistributable install root directory -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11INSTALLROOTDIR" Secure="yes">
+            <RegistrySearch Id="NetFxInstallRootForNetfx11Search" Type="raw" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="InstallRoot">
+                <DirectorySearch Id="NetFx11InstallRootSearch" Path="v1.1.4322" Depth="0" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Chinese (Simplified) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_ZH_CN_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11ZhCnLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\2052" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Chinese (Traditional) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_ZH_TW_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11ZhTwLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1028" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Czech language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_CS_CZ_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11CsCzLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1029" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Danish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_DA_DK_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11DaDkLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1030" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Dutch language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_NL_NL_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11NlNlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1043" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Finnish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_FI_FI_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11FiFiLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1035" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 French language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_FR_FR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11FrFrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1036" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 German language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_DE_DE_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11DeDeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1031" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Greek language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_EL_GR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11ElGrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1032" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Hungarian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_HU_HU_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11HuHuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1038" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Italian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_IT_IT_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11ItItLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1040" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Japanese language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_JA_JP_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11JaJpLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1041" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Korean language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_KO_KR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11KoKrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1042" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Norwegian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_NB_NO_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11NbNoLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1044" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Polish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_PL_PL_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11PlPlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1045" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Portuguese (Brazil) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_PT_BR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11PtBrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1046" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Portuguese (Portugal) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_PT_PT_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11PtPtLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\2070" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Russian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_RU_RU_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11RuRuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1049" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Spanish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_ES_ES_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11EsEsLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\3082" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Swedish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_SV_SE_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11SvSeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1053" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 1.1 Turkish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11_TR_TR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NetFramework11TrTrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v1.1.4322\1055" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- location of the .NET Framework 1.1 SDK installation root -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK11SDKDIR" Secure="yes">
+            <RegistrySearch Id="NetFramework11SDKDir" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="sdkInstallRootv1.1" Type="raw" />
+        </Property>
+    </Fragment>
+
+</Wix>

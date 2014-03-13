@@ -1,0 +1,43 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Utility Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+  <Class Name="FrostErrors" ContainerName="FrostErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+    <Message Id="UnhandledError" Number="7000">
+      <Instance>
+        An unhandle error has occured. {0}
+        <Parameter Type="System.String" Name="errorMessage" />
+      </Instance>
+    </Message>
+    <Message Id="FileNotFound" Number="7001">
+      <Instance>
+        The file '{0}' cannot be found.
+        <Parameter Type="System.String" Name="filePath" />
+      </Instance>
+    </Message>
+  </Class>
+ <Class Name="FrostWarnings" ContainerName="FrostWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+    <Message Id="UseDefaultFile" Number="7100" SourceLineNumbers="no">
+      <Instance>
+        Could not load file '{0}'. Using default file.
+        <Parameter Type="System.String" Name="file" />
+      </Instance>
+    </Message>
+  </Class>
+  <Class Name="FrostVerboses" ContainerName="FrostVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+    <Message Id="ChangedTestCase" Number="7150" SourceLineNumbers="no">
+      <Instance>
+        Changed to new test with ID '{0}'.
+        <Parameter Type="System.String" Name="testCaseId" />
+      </Instance>
+    </Message>
+  </Class>
+</Messages>

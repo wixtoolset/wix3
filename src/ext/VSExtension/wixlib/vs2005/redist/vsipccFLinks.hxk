@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE HelpIndex>
+<HelpIndex 
+	DTDVersion = "1.0"
+	Name = "F"
+	Id = "vsipcc8.0_FLinks"
+	AutoInclude = "Yes"
+	Merge = "Yes"
+	Sort = "Yes"
+	Title = "Dynamic Help and F1 Index"
+	Visible = "No"
+	LangId = "1033"
+	>
+</HelpIndex>

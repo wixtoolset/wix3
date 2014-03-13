@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset PowerShell Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="PSErrors" ContainerName="PSErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+    <Message Id="NeitherIdSpecified" Number="5301">
+        <Instance>Either the {0}/@FileId attribute must be specified if nested under a SnapIn element, or the {0}/@SnapIn attribute must be specified if nested under under a File element.
+            <Parameter Type="System.String" Name="element" />
+        </Instance>
+    </Message>
+    </Class>
+    <Class Name="PSWarnings" ContainerName="PSWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+    <Message Id="DeprecatedAssemblyNameAttribute" Number="5350">
+        <Instance>The SnapIn/@AssemblyName attribute is deprecated. It is assigned automatically.</Instance>
+    </Message>
+    </Class>
+    <Class Name="PSVerboses" ContainerName="PSVerboseEventArgs" BaseContainerName="WixVerboseEventArgs">
+    </Class>
+</Messages>

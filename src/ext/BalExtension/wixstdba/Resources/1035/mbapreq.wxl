@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="fi-fi" Language="1035" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] -asennus</String>
+  <String Id="Title">Microsoft .NET Framework tarvitaan [WixBundleName] -asennusta varten</String>
+  <String Id="ConfirmCancelMessage">Haluatko varmasti peruuttaa?</String>
+  <String Id="HelpHeader">Asennusohjelman ohje</String>
+  <String Id="HelpText">/passive | /quiet -  näyttää mahdollisimman vähän käyttöliittymästä; ei
+   kehotteita tai ei käyttöliittymää ja kehotteita. Oletusarvoisesti
+   käyttöliittymä ja kaikki kehotteet näytetään.
+
+/norestart   - estää uudelleenkäynnistysyritykset. Oletusarvoisesti
+   käyttöliittymä kysyy ennen uudelleenkäynnistystä.
+/log loki.txt - kirjaa lokitiedot erityiseen tiedostoon. Oletusarvoisesti
+   lokitiedosto luodaan %TEMP%-kansioon.</String>
+  <String Id="HelpCloseButton">&amp;Sulje</String>
+  <String Id="InstallLicenseTerms">Hyväksy Microsoft .NET Framework -ohjelman &lt;a href="#"&gt;käyttöoikeusehdot&lt;/a&gt; valitsemalla Hyväksy ja asenna.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Hyväksy ja asenna</String>
+  <String Id="InstallDeclineButton">&amp;Hylkää</String>
+  <String Id="ProgressHeader">Asennuksen edistyminen</String>
+  <String Id="ProgressLabel">Käsitellään:</String>
+  <String Id="ProgressCancelButton">&amp;Peruuta</String>
+  <String Id="FailureHeader">Asennus epäonnistui</String>
+  <String Id="FailureLogLinkText">Asennus epäonnistui yhdestä tai useammasta syystä. Korjaa ongelmat ja yritä suorittaa asennus sitten uudelleen. Lisätietoja on &lt;a href="#"&gt;lokitiedostossa&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Tietokone täytyy käynnistää uudelleen ohjelmiston palautuksen viimeistelemiseksi.</String>
+  <String Id="FailureRestartButton">&amp;Käynnistä uudelleen</String>
+  <String Id="FailureCloseButton">&amp;Sulje</String>
+</WixLocalization>

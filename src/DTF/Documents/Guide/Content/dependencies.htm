@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Dependencies</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Dependencies</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="about.htm">Overview</a> &gt;
+        <span class="nolink">Dependencies</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+        
+        <p>This page lists all the components that the DTF project depends on, at build time and at run-time.</p>
+        
+        <h3>Build-time Dependencies</h3>
+        <ul>
+          <li><p><b>Visual Studio / .NET Framework</b> - Most of DTF can be built with Visual Studio 2005 &
+          .NET Framework 2.0. However, the LINQ project requires VS 2008 & .NET Framework 3.5.</p></li>
+          
+          <li><p><b>Sandcastle</b> - .NET documentation build engine from Microsoft, used to process all the XML doc-comments
+          in DTF libraries into DTFAPI.chm.
+          <a href="http://www.codeplex.com/Sandcastle/" target="_blank">(official site)</a></p></li>
+          
+          <li><p><b>Sandcastle Builder</b> - Sandcastle by itself is complex and difficult to use; this free tool
+          from Codeplex provides an easy-to-use project system around it to automate the documentation build process.
+          <a href="http://www.codeplex.com/SHFB/" target="_blank">(project link)</a></p></li>
+          
+          <li><p><b>HTML Help Workshop</b> - Tools for building HTML Help 1.x (CHM files). Used to build DTF.chm.
+          <a href="http://msdn2.microsoft.com/en-us/library/ms669985.aspx" target="_blank">(download link)</a></p></li>
+        </ul>
+        
+        <h3>Run-time Dependencies</h3>
+        <ul>
+          <li><p><b>.NET Framework</b> - Most of DTF requires .NET Framework 2.0. (.NET 1.1 is no longer supported.)
+          The only exception is the LINQ assembly which requires .NET Framework 3.5.</p></li>
+          
+          <li><p><b>Windows Installer</b> - Windows Installer introduced new APIs and capabilities with each successive
+          version. Obviously, the corresponding functionality in the managed APIs is only available when the required
+          version of the Windows Instaler (msi.dll) is installed on the system. Use the Installer.Version property
+          to easily check the currently installed MSI version. Attempting to use an API not supported by the current
+          version will result in an EntryPointNotFoundException. To check what version is required for a particular API,
+          see the documentation link to the corresponding unmanaged API in MSI.chm.</p>
+          <p>In some instances when a newer version of MSI provides an "Ex" alternative to a function, only the "Ex"
+          function is used by the managed library. This may hide some functionality that would have otherwise been
+          available on a system with an older version of MSI.</p></li>
+          
+          <li><p><b>cabinet.dll</b> - The DTF cabinet compression library uses cabinet.dll to implement the
+          low-level cabinet compression and decompression. This DLL is part of all versions of Windows, 
+          located in the system directory.</p></li>
+          
+          <li><p><b>System.IO.Compression.DeflateStream</b> - The DTF zip compression library uses this class
+          to implement the low-level zip compression and decompression. This class is part of .NET Framework
+          2.0 and later.</p></li>
+        </ul>
+        
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

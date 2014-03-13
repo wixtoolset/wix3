@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product_64.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="00000000-0000-0000-0005-000000000007" Name="PermissionEx" Language="1033" Version="1.0.0.0" UpgradeCode="{D3C08DD4-A77E-43e8-8969-DB3D6CB0BEC2}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test from: PermissionEx" Comments="Test from: PermissionEx" InstallerVersion="200" Compressed="yes"  Platform="x64"/>
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder" Name="PFiles">
+        <Directory Id="WixTestFolder" Name="WixTestFolder">
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Property Id="MynewServiceUser" Value="NT AUTHORITY\LocalService"/>
+
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="TestComponent" Guid="*" Win64="yes">
+        <File Id="MynewService.exe" Name="MynewService.exe" Source="$(env.WIX_ROOT)\test\data\Extensions\UtilExtension\PermissionExTests\MynewService.exe" DiskId="1" KeyPath="yes">
+          <util:PermissionEx User="Guests" GenericAll="yes" />
+          <util:PermissionEx User="Everyone" GenericAll="yes" />
+          <util:PermissionEx User="LocalService" GenericAll="yes" />
+        </File>
+
+        <RegistryKey Id="MynewServiceCore" Root="HKLM" Key="SOFTWARE\Microsoft\MynewService" Action="createAndRemoveOnUninstall">
+          <util:PermissionEx User="Guests" Read="yes" Write="yes" CreateSubkeys="yes" EnumerateSubkeys="yes" Notify="yes" CreateLink="yes" />
+        </RegistryKey>
+
+        <ServiceInstall Id="MynewService.exe" Name="MynewService" DisplayName="MynewService" Type="ownProcess" Start="demand" ErrorControl="normal" Description="MynewService Service" Account="[MynewServiceUser]">
+          <!-- <util:PermissionEx User="Guests" ServiceStart="yes" ServiceStop="yes" ServiceQueryConfig="yes" ServiceEnumerateDependents="yes" ServiceUserDefinedControl="yes" />-->
+        </ServiceInstall>
+        <ServiceControl Id="MynewService.exe" Name="MynewService" Start="install" Stop="both" Remove="uninstall" />
+
+      </Component>
+      <Directory Id="TestCreateFolderDirectory" ShortName="cfolder" Name="Create Folder" >
+        <Component Id="TestCreateFolderComponent" Guid="00030829-0000-0000-C000-580000000046" KeyPath="yes" Win64="yes">
+          <CreateFolder>
+            <util:PermissionEx User="Everyone" WriteAttributes="yes"  ReadAttributes="yes" ChangePermission="yes" Synchronize="yes" />
+            <util:PermissionEx User="Guests" ReadAttributes="yes" />
+          </CreateFolder>
+        </Component>
+      </Directory>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="TestComponent" />
+      <ComponentRef Id="TestCreateFolderComponent" />
+    </Feature>
+
+  </Product>
+</Wix>

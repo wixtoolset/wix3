@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="ManagedSdkMsi.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
+    <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Managed SDK" Language="1033" Manufacturer="!(loc.Company)"
+             Version="$(var.WixVersion)" UpgradeCode="1BF98B34-B863-4AF7-956C-FEEB1938B2C8">
+        <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
+        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+
+        <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
+
+        <Media Id="1" Cabinet="msdk.cab" CompressionLevel="high" />
+
+        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+
+        <Feature Id="ManagedSdkFeature" Title="Managed SDK" Level="1">
+            <Component Directory="SdkFolder">
+                <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework\AssemblyFolders\WiX $(var.WixMajorMinor)">
+                    <RegistryValue Type="string" Value="[SdkFolder]" />
+                </RegistryKey>
+            </Component>
+
+            <Component Directory="SdkFolder">
+                <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework\v2.0.50727\AssemblyFoldersEx\WiX $(var.WixMajorMinor)">
+                    <RegistryValue Type="string" Value="[SdkFolder]" />
+                </RegistryKey>
+            </Component>
+
+            <ComponentGroupRef Id="BurnSdkComponents" />
+            <ComponentGroupRef Id="DtfComponents" />
+            <ComponentGroupRef Id="ExtensionSdkComponents" />
+            <ComponentGroupRef Id="ProjectTemplates" />
+        </Feature>
+    </Product>
+</Wix>

@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_sv-SE.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="sv-se" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Föregående</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Nästa</String>
+    <String Id="WixUICancel" Overridable="yes">Avbryt</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Slutför</String>
+    <String Id="WixUIRetry" Overridable="yes">F&amp;örsök igen</String>
+    <String Id="WixUIIgnore" Overridable="yes">Ign&amp;orera</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Ja</String>
+    <String Id="WixUINo" Overridable="yes">N&amp;ej</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Skriv ut</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Läs licensavtalet för [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Jag &amp;accepterar villkoren i licensavtalet</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Klicka på Installera om du vill installera produkten med standardalternativ för alla användare. Klicka på Avancerat om du vill ändra installationsalternativen.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Klicka på Installera om du vill installera produkten med standardalternativ bara för dig. Klicka på Avancerat om du vill ändra installationsalternativen.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Installera</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">Avan&amp;cerat</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Sök i:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Upp en nivå</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Skapa en ny mapp</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mappnamn:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Bläddra till målmappen</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Byt målmapp</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="CancelDlgText" Overridable="yes">Vill du avbryta installationen av [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Informationsikon</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Träd med installationsalternativ</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">&amp;Bläddra...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">&amp;Återställ</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">&amp;Diskanvändning</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Klicka på ikonerna i trädet nedan om du vill ändra hur funktionerna installeras.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Ange hur funktionerna ska installeras.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Anpassad installation</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Plats:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">De markerade volymerna har inte tillräckligt med diskutrymme för de valda funktionerna. Du kan antingen ta bort några filer från de markerade volymerna, installera färre funktioner eller välja andra målenheter.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Det hårddiskutrymme som krävs för att installera de valda funktionerna.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Diskutrymmeskrav</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Informationstext</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Informationsikon</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Klicka på Slutför om du vill avsluta installationsguiden.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Installationsguiden för [ProductName] slutfördes</String>
+
+    <String Id="FatalError_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}Installationsguiden för [ProductName] avslutades för tidigt</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">Installationsguiden för [ProductName] avslutades för tidigt på grund av ett fel. Systemet har inte ändrats. Om du vill installera programmet vid ett senare tillfälle kan du köra installationsguiden igen.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Klicka på Slutför om du vill avsluta installationsguiden.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Produktfunktioner</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Ange hur funktionerna ska installeras.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Produktfunktioner</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Installera</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Ändra</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes">A&amp;vsluta</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Följande program använder filer som behöver uppdateras under installationen. Stäng programmen och klicka på &amp;Försök igen om du vill fortsätta eller Avsluta om du vill avsluta installationen.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Några filer som måste uppdateras används just nu.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Filer som används</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Ändra...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Målmapp</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Klicka på Nästa om du vill installera i standardmappen eller klicka på Ändra om du vill byta mapp.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Installera [ProductName] i:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Välj installationsomfattning och mapp</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installationsomfattning</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installera &amp;bara för mig: ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] installeras i en mapp per användare och blir bara tillgängligt för ditt användarkonto. Du behöver inte lokala administratörsprivilegier.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] stöder inte installation per användare.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Installera för alla användare av den här &amp;datorn</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">[ProductName] installeras som en datorinstallation (standard) och blir tillgängligt för alla användare. Du kan ändra standardmappen för installationen. Du måste ha lokala administratörsprivilegier.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Installations&amp;mapp:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Ändra...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Installationskatalogen måste vara på den lokala hårddisken.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Informationsikon</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Jag &amp;accepterar villkoren i licensavtalet</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Läs följande licensavtal noggrant</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Licensavtal</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Ändra</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Ändra installationen</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Re&amp;parera</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Reparera installationen</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Ta bort</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Ta bort installationen</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Välj den åtgärd som du vill utföra.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Ändra, reparera eller ta bort installationen</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Här kan du ändra hur olika funktioner är installerade.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">Det finns inga funktioner som kan väljas separat i [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Tar bort [ProductName] från datorn.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">Det går inte att ta bort [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Reparerar fel i den senaste installationen genom att åtgärda saknade och skadade filer, genvägar och registerposter.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">Det går inte att reparera [ProductName].</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Med installationsguiden kan du ändra hur olika funktioner i [ProductName] installeras på datorn, eller ta bort det helt från datorn. Klicka på Nästa om du vill fortsätta eller på Avbryt om du vill avsluta installationsguiden.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Välkommen till installationsguiden för [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Följande program använder filer som behöver uppdateras under installationen. Du kan låta installationsguiden stänga dem och försöka starta om dem, eller starta om datorn senare.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Några filer som måste uppdateras används just nu.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Filer som används</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">St&amp;äng programmen och försök starta om dem.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">Stäng &amp;inte programmen. En omstart kommer att krävas.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">De markerade volymerna har inte tillräckligt med ledigt diskutrymme för de funktioner som valts. Du kan ta bort filer från de markerade volymerna, installera färre funktioner eller markera en annan målenhet.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Mängden diskutrymme som krävs överskrider mängden tillgängligt diskutrymme.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Slut på diskutrymme</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">De markerade volymerna har inte tillräckligt med ledigt diskutrymme för de funktioner som valts. Du kan ta bort filer från de markerade volymerna, installera färre funktioner eller markera en annan målenhet.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Mängden diskutrymme som krävs överskrider mängden tillgängligt diskutrymme.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Slut på diskutrymme</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Du kan även välja att stänga av installationsprogrammets återställningsfunktion. Återställningsfunktionen gör det möjligt för installationsprogrammet att återställa datorn om installationen avbryts. Klicka på Ja om du vill ta risken att stänga av återställningsfunktionen.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Vänta medan installationsguiden förbereder installationen.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Välkommen till installationsguiden för [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Vänta medan [ProductName] installeras.</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}[ProductName] installeras</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Vänta medan [ProductName] ändras av installationsguiden.</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Ändrar [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Vänta medan [ProductName] repareras.</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}[ProductName] repareras</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Vänta medan [ProductName] tas bort av installationsguiden.</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}[ProductName] tas bort</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Vänta medan [ProductName] uppdateras.</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}[ProductName] uppdateras</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Filöverföringen är klar</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Status:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Installera</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Installationsguiden slutför installationen av [ProductName] på datorn. Klicka på Installera om du vill fortsätta eller på Avbryt om du vill avsluta installationsguiden.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Installationen av [ProductName] återupptas</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">S&amp;tandard</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Standardinstallation</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">Anpassa&amp;d</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Anpassad installation</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">F&amp;ullständig</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Fullständig installation</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Välj installationstyp</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Välj den installationstyp som passar dig bäst</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Installerar de vanligaste programfunktionerna. Rekommenderas för de flesta användare.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Användaren kan välja vilka programfunktioner som ska installeras och var de ska installeras. Rekommenderas för avancerade användare.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Alla program installeras. Kräver mest diskutrymme.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}Installationsguiden för [ProductName] avbröts</String>
+    <String Id="UserExitDescription1" Overridable="yes">Installationen av [ProductName] avbröts. Systemet har inte ändrats. Om du vill installera programmet vid ett senare tillfälle kan du köra installationsprogrammet igen.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Klicka på Slutför om du vill avsluta installationsguiden.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Installera</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Klicka på Installera om du vill påbörja installationen. Klicka på Föregående om du vill granska eller ändra någon installationsinställning. Klicka på Avbryt om du vill avsluta guiden.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Klart för installation av [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Ändra</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Klicka på Ändra om du vill påbörja installationen. Klicka på Föregående om du vill granska eller ändra någon installationsinställning. Klicka på Avbryt om du vill avsluta guiden.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Klart för ändring av [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">Re&amp;parera</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Klicka på Reparera om du vill reparera installationen av [ProductName]. Klicka på Föregående om du vill granska eller ändra någon installationsinställning. Klicka på Avbryt om du vill avsluta guiden.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Klart för reparation av [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Ta bort</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Klicka på Ta bort om du vill ta bort [ProductName] från datorn. Klicka på Föregående om du vill granska eller ändra någon installationsinställning. Klicka på Avbryt om du vill avsluta guiden.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Klart för borttagning av [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Uppdatera</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Klicka på Uppdatera om du vill uppdatera [ProductName] på datorn. Klicka på Föregående om du vill granska eller ändra någon installationsinställning. Klicka på Avbryt om du vill avsluta guiden.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Klart för uppdatering av [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Återgå</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Vänta medan installationsprogrammet kontrollerar hur mycket diskutrymme som krävs.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Utropstecken</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">[ProductName] installeras på datorn. Klicka på Nästa om du vill fortsätta eller på Avbryt om du vill avsluta installationsguiden.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">[ProductName] uppdateras på datorn. Klicka på Nästa om du vill fortsätta eller på Avbryt om du vill avsluta installationsguiden.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Välkommen till installationsguiden för [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Jag &amp;accepterar villkoren i licensavtalet</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Installera</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Uppdatera</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Läs licensavtalet för [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Installationen kontrolleras</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Nya filer kopieras</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Fil: [1], katalog: [9], storlek: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Filer för nätverksinstallation kopieras</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Fil: [1], katalog: [9], storlek: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Utrymmeskrav beräknas</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Utrymmeskrav beräknas</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Utrymmeskrav beräknas</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Genvägar skapas</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Genväg: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Kvalificerade komponenter publiceras</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Komponent-ID: [1], kvalificerare: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Produktfunktioner publiceras</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Funktion: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Produktinformation publiceras</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Klasservrar registreras</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Klass-ID: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Tilläggsservrar registreras</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Tillägg: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">MIME-information registreras</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME-innehållstyp: [1], tillägg: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Programidentifierare registreras</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">Program-ID: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Registerutrymme allokeras</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Tillgängligt utrymme: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Sökning efter installerade program sker</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Egenskap: [1], signatur: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Körbara filer binds</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Fil: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Söker efter kvalificerande produkter</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Mappar skapas</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Mapp: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Tjänster tas bort</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Tjänst: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Dubblettfiler skapas</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Fil: [1], katalog: [9], storlek: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Söker efter relaterade program</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Följande program hittades: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">ODBC-komponenter installeras</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Nya tjänster installeras</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Tjänst: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Startförhållanden utvärderas</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Funktionstillstånd flyttas över från relaterade program</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Program: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Filer flyttas</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Fil: [1], katalog: [9], storlek: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Filer korrigeras</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Fil: [1], katalog: [2], storlek: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Komponentregistrering uppdateras</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">Program och komponenter för COM+ registreras</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">Program-ID: [1]{{, programtyp: [2], användare: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Teckensnitt registreras</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Teckensnitt: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Produkten registreras</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Typbibliotek registreras</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">Biblioteks-ID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Användare registreras</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Dubblettfiler tas bort</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Fil: [1], katalog: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Miljövariabler uppdateras</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Namn: [1], värde: [2], åtgärd: [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Program tas bort</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Program: [1], kommandorad: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Filer tas bort</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Fil: [1], katalog: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Mappar tas bort</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Mapp: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">INI-filsposter tas bort</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Fil: [1], avsnitt: [2], nyckel: [3], värde: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">ODBC-komponenter tas bort</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Systemregistervärden tas bort</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Nyckel: [1], namn: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Genvägar tas bort</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Genväg: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Söker efter kvalificerande produkter</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Moduler registreras</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Fil: [1], mapp: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Moduler avregistreras</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Fil: [1], mapp: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">ODBC-kataloger initieras</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Tjänster startas</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Tjänst: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Tjänster stoppas</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Tjänst: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Kvalificerade komponenter avpubliceras</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Komponent-ID: [1], kvalificerare: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Produktfunktioner avpubliceras</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Funktion: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Klasservrar avregistreras</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Klass-ID: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">COM+-program och -komponenter avregistreras</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">Program-Id: [1]{{, Programtyp: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Tilläggsservrar avregistreras</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Tillägg: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Teckensnitt avregistreras</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Teckensnitt: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">MIME-information avregistreras</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME-innehållstyp: [1], tillägg: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Programidentifierare avregistreras</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">Program-ID: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Typbibliotek avregistreras</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">Biblioteks-ID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Miljövariabler uppdateras</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Namn: [1], värde: [2], åtgärd: [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">Värden i INI-filer skrivs</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Fil: [1], avsnitt: [2], nyckel: [3], värde: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Värden skrivs till systemregistret</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Nyckel: [1], namn: [2], värde: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Programmet annonseras</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Skriptåtgärder skapas:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Installerar systemkatalog</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Fil: [1], Beroenden:[2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Sammansättningsinformation publiceras</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Programkontext:[1], sammansättningsnamn:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Sammansättningsinformation avpubliceras</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Programkontext:[1], sammansättningsnamn:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Följande åtgärd ångras:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Säkerhetskopierade filer tas bort</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Fil: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Flyttade filer tas bort</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Fil: [1], katalog: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Produktinformation avpubliceras</String>
+
+    <String Id="Error0" Overridable="yes">{{Oåterkalleligt fel: }}</String>
+    <String Id="Error1" Overridable="yes">{{Fel [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Varning [1]. </String>
+    <String Id="Error4" Overridable="yes">Information [1]. </String>
+    <String Id="Error5" Overridable="yes">Ett oväntat fel uppstod när det här paketet installerades. Detta kan tyda på ett problem med paketet. Felkod: [1]. {{Argument: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Disken är full: }}</String>
+    <String Id="Error8" Overridable="yes">Åtgärd [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Meddelandetyp: [1], Argument: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Loggningen startades: [Date] [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Loggningen avslutades: [Date] [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Åtgärden startades [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Åtgärden avslutades [Time]: [1]. Returvärde [2].</String>
+    <String Id="Error16" Overridable="yes">Återstående tid: {[1] minuter }{[2] sekunder}</String>
+    <String Id="Error17" Overridable="yes">Slut på minne. Stäng andra program innan du försöker igen.</String>
+    <String Id="Error18" Overridable="yes">Installationsprogrammet svarar inte.</String>
+    <String Id="Error19" Overridable="yes">Installationsprogrammet stoppades för tidigt.</String>
+    <String Id="Error20" Overridable="yes">Vänta medan [ProductName] konfigureras</String>
+    <String Id="Error21" Overridable="yes">Nödvändig information samlas in...</String>
+    <String Id="Error22" Overridable="yes">Äldre versioner av programmet tas bort...</String>
+    <String Id="Error23" Overridable="yes">Borttagning av äldre versioner av programmet förbereds...</String>
+    <String Id="Error32" Overridable="yes">Installationen av {[ProductName] } slutfördes.</String>
+    <String Id="Error33" Overridable="yes">Installationen av {[ProductName] } misslyckades.</String>
+    <String Id="Error1101" Overridable="yes">Det gick inte att läsa från filen: [2]. {{Systemfel [3].}} Kontrollera att filen finns och att du har behörighet till den.</String>
+    <String Id="Error1301" Overridable="yes">Det går inte att skapa filen [2]. Det finns redan en katalog med det namnet. Avbryt installationen och försök installera på en annan plats.</String>
+    <String Id="Error1302" Overridable="yes">Sätt i disken: [2]</String>
+    <String Id="Error1303" Overridable="yes">Användaren som installerar har otillräckliga privilegier till den här katalogen: [2]. Det går inte att fortsätta installationen. Logga in som administratör eller kontakta systemadministratören.</String>
+    <String Id="Error1304" Overridable="yes">Det gick inte att skriva till filen: [2]. Kontrollera att du har behörighet till katalogen.</String>
+    <String Id="Error1305" Overridable="yes">Det gick inte att läsa från filen: [2]. {{Systemfel [3].}} Kontrollera att filen finns och att du har behörighet till den.</String>
+    <String Id="Error1306" Overridable="yes">Ett annat program har exklusiv åtkomst till filen [2]. Stäng alla andra program och klicka sedan på Försök igen.</String>
+    <String Id="Error1307" Overridable="yes">Det finns inte tillräckligt med diskutrymme för att installera filen [2]. Frigör diskutrymme och klicka på Försök igen eller klicka på Avbryt om du vill avsluta.</String>
+    <String Id="Error1308" Overridable="yes">Det gick inte att hitta källfilen: [2]. Kontrollera att filen finns och att du har behörighet till den.</String>
+    <String Id="Error1309" Overridable="yes">Det gick inte att läsa från filen: [3]. {{Systemfel [2].}} Kontrollera att filen finns och att du har behörighet till den.</String>
+    <String Id="Error1310" Overridable="yes">Det gick inte att skriva till filen: [3]. {{Systemfel [2].}} Kontrollera att du har behörighet till den katalogen.</String>
+    <String Id="Error1311" Overridable="yes">Det gick inte att hitta källfilen{{(kabinett)}}: [2]. Kontrollera att filen finns och att du har behörighet till den.</String>
+    <String Id="Error1312" Overridable="yes">Det går inte att skapa katalogen [2]. En fil med det namnet finns redan. Byt namn eller ta bort filen och klicka på Försök igen eller klicka på Avbryt om du vill avsluta.</String>
+    <String Id="Error1313" Overridable="yes">Volymen [2] är inte tillgänglig. Välj en annan volym.</String>
+    <String Id="Error1314" Overridable="yes">Den angivna sökvägen [2] är inte tillgänglig.</String>
+    <String Id="Error1315" Overridable="yes">Det går inte att skriva till den angivna mappen: [2].</String>
+    <String Id="Error1316" Overridable="yes">Ett nätverksfel uppstod vid försök att läsa från följande fil: [2]</String>
+    <String Id="Error1317" Overridable="yes">Ett fel uppstod när följande katalog skulle skapas: [2]</String>
+    <String Id="Error1318" Overridable="yes">Ett nätverksfel uppstod vid försök att skapa följande katalog: [2]</String>
+    <String Id="Error1319" Overridable="yes">Ett nätverksfel uppstod vid försök att öppna följande källfilskabinett: [2]</String>
+    <String Id="Error1320" Overridable="yes">Den angivna sökvägen är för lång: [2]</String>
+    <String Id="Error1321" Overridable="yes">Den användare som installerar har inte privilegier att ändra den här filen: [2].</String>
+    <String Id="Error1322" Overridable="yes">En del av sökvägen [2] är ogiltig. Antingen så är den tom eller så överskrids den tillåtna maxlängden för systemet.</String>
+    <String Id="Error1323" Overridable="yes">Mappsökvägen [2] innehåller ord som är ogiltiga i mappsökvägar.</String>
+    <String Id="Error1324" Overridable="yes">Mappsökvägen [2] innehåller ett ogiltigt tecken.</String>
+    <String Id="Error1325" Overridable="yes">[2] är inte ett giltigt kort filnamn.</String>
+    <String Id="Error1326" Overridable="yes">Det gick inte att läsa filsäkerhet: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Ogiltig enhet: [2]</String>
+    <String Id="Error1328" Overridable="yes">Det gick inte att tillämpa en korrigering på filen [2]. Antagligen har den redan uppdaterats på annat sätt och kan därför inte längre uppdateras av den här snabbkorrigeringen. Kontakta utgivaren av korrigeringen för mer information. {{Systemfel: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">En fil som krävs kan inte installeras eftersom kabinettfilen [2] inte är digitalt signerad. Detta kan betyda att kabinettfilen är skadad.</String>
+    <String Id="Error1330" Overridable="yes">En fil som krävs kan inte installeras eftersom kabinettfilen [2] har en ogiltig digital signatur. Detta kan tyda på att kabinettfilen är skadad.{{ Fel [3] returnerades av WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes">Det gick inte att kopiera filen [2]: CRC-fel.</String>
+    <String Id="Error1332" Overridable="yes">Det gick inte att flytta filen [2]: CRC-fel.</String>
+    <String Id="Error1333" Overridable="yes">Det gick inte att korrigera filen [2]: CRC-fel.</String>
+    <String Id="Error1334" Overridable="yes">Filen [2] kan inte installeras eftersom filen inte kan hittas i kabinettfilen [3]. Detta kan tyda på ett nätverksfel, ett problem med att läsa från CD:n eller ett fel i paketet.</String>
+    <String Id="Error1335" Overridable="yes">Kabinettfilen [2] som krävs för installationen är skadad och kan inte användas. Detta kan tyda på ett nätverksfel, ett problem med att läsa från CD:n eller ett fel i paketet.</String>
+    <String Id="Error1336" Overridable="yes">Ett fel uppstod när en temporär fil som krävs för att slutföra installationen skulle skapas.{{ Mapp: [3]. Systemfel: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Det gick inte att skapa nyckeln [2]. {{Systemfel [3].}} Kontrollera att du har tillräcklig behörighet till nyckeln eller kontakta support. </String>
+    <String Id="Error1402" Overridable="yes">Det gick inte att öppna nyckeln: [2]. {{Systemfel [3].}} Kontrollera att du har behörighet till nyckeln eller kontakta support. </String>
+    <String Id="Error1403" Overridable="yes">Det gick inte att ta bort värdet [2] från nyckeln [3]. {{Systemfel [4].}} Kontrollera att du har behörighet till nyckeln eller kontakta support. </String>
+    <String Id="Error1404" Overridable="yes">Det gick inte att ta bort nyckeln [2]. {{Systemfel [3].}} Kontrollera att du har behörighet till nyckeln eller kontakta support. </String>
+    <String Id="Error1405" Overridable="yes">Det gick inte att läsa värdet [2] i nyckeln [3]. {{Systemfel [4].}} Kontrollera att du har behörighet till nyckeln eller kontakta support. </String>
+    <String Id="Error1406" Overridable="yes">Det gick inte att skriva värdet [2] till nyckeln [3]. {{Systemfel [4].}} Kontrollera att du har behörighet till nyckeln eller kontakta support.</String>
+    <String Id="Error1407" Overridable="yes">Det gick inte att hämta värdenamn för nyckeln [2]. {{Systemfel [3].}} Kontrollera att du har behörighet till nyckeln eller kontakta support.</String>
+    <String Id="Error1408" Overridable="yes">Det gick inte att hämta undernyckelnamn för nyckeln [2]. {{Systemfel [3].}} Kontrollera att du har behörighet till nyckeln eller kontakta support.</String>
+    <String Id="Error1409" Overridable="yes">Det gick inte att hämta säkerhetsinformation för nyckeln [2]. {{Systemfel [3].}} Kontrollera att du har behörighet till nyckeln eller kontakta support.</String>
+    <String Id="Error1410" Overridable="yes">Det gick inte att öka registerutrymmet. Det krävs [2] kB ledigt registerutrymme för att installera det här programmet.</String>
+    <String Id="Error1500" Overridable="yes">En annan installation pågår. Du måste slutföra den installationen innan du fortsätter med den här.</String>
+    <String Id="Error1501" Overridable="yes">Det gick inte att komma åt säkerställda data. Kontrollera att installationsprogrammet Windows Installer är korrekt konfigurerat och försök installera igen.</String>
+    <String Id="Error1502" Overridable="yes">Användaren [2] har tidigare påbörjat en installation av produkten [3]. Den användaren måste köra installationen igen för att kunna använda produkten. Den aktuella installationen fortsätter nu.</String>
+    <String Id="Error1503" Overridable="yes">Användaren [2] har tidigare påbörjat en installation av produkten [3]. Den användaren måste köra installationen igen för att kunna använda produkten.</String>
+    <String Id="Error1601" Overridable="yes">Slut på diskutrymme -- Volym: [2]; nödvändigt utrymme: [3] kB; tillgängligt utrymme: [4] kB. Frigör diskutrymme och försök igen.</String>
+    <String Id="Error1602" Overridable="yes">Vill du avbryta?</String>
+    <String Id="Error1603" Overridable="yes">Filen [2][3] används{ av följande process: Namn: [4], ID: [5], fönsternamn: [6]}. Stäng programmet och försök igen.</String>
+    <String Id="Error1604" Overridable="yes">Det går inte att installera den här produkten eftersom produkten [2] redan är installerad. De här två produkterna är inkompatibla.</String>
+    <String Id="Error1605" Overridable="yes">Det finns inte tillräckligt med diskutrymme på volymen [2] för att fortsätta installera med återställning aktiverat. [3] kB krävs men bara [4] kB är tillgängligt. Klicka på Ignorera om du vill fortsätta installera utan att spara återställningsinformation, klicka på Försök igen om du vill kontrollera nödvändigt diskutrymme igen eller klicka på Avbryt om du vill avbryta installationen.</String>
+    <String Id="Error1606" Overridable="yes">Det gick inte att komma åt nätverksplatsen [2].</String>
+    <String Id="Error1607" Overridable="yes">Du bör stänga följande program innan du fortsätter med installationen:</String>
+    <String Id="Error1608" Overridable="yes">Det går inte att hitta några tidigare installerade kompatibla produkter på datorn för installation av den här produkten.</String>
+    <String Id="Error1609" Overridable="yes">Ett fel uppstod när säkerhetsinställningar skulle tillämpas. [2] är inte en giltig användare eller grupp. Detta kan tyda på ett problem med paketet eller med att ansluta till en domänkontrollant i nätverket. Kontrollera att nätverksanslutningen fungerar och klicka därefter på Försök igen eller klicka på Avbryt om du vill avbryta installationen. {{Det gick inte att hitta användarens SID, systemfel [3]}}</String>
+    <String Id="Error1701" Overridable="yes">Nyckeln [2] är ogiltig. Kontrollera att rätt nyckel har angetts.</String>
+    <String Id="Error1702" Overridable="yes">Datorn måste startas om innan konfigurationen av [2] kan fortsätta. Klicka på Ja om du vill starta om nu, eller på Nej om du vill starta om manuellt senare.</String>
+    <String Id="Error1703" Overridable="yes">Du måste starta om systemet för att konfigurationsändringarna som gjorts för [2] ska börja gälla. Klicka på Ja om du vill starta om nu, eller på Nej om du vill starta om manuellt senare.</String>
+    <String Id="Error1704" Overridable="yes">Installationen av [2] är tillfälligt avbruten. Du måste återställa de ändringar som har gjorts under den installationen för att kunna fortsätta. Vill du återställa ändringarna?</String>
+    <String Id="Error1705" Overridable="yes">En tidigare installation av den här produkten pågår. Du måste återställa de ändringar som har gjorts under den installationen för att kunna fortsätta. Vill du återställa ändringarna?</String>
+    <String Id="Error1706" Overridable="yes">Det gick inte att hitta ett installationspaket för produkten [2]. Försök installera igen med ett giltigt exemplar av installationspaketet [3].</String>
+    <String Id="Error1707" Overridable="yes">Installationen har slutförts.</String>
+    <String Id="Error1708" Overridable="yes">Installationen misslyckades.</String>
+    <String Id="Error1709" Overridable="yes">Produkt: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Du kan antingen återställa datorn till dess tidigare tillstånd eller fortsätta installationen senare. Vill du återställa datorn?</String>
+    <String Id="Error1711" Overridable="yes">Ett fel uppstod när installationsinformation skrevs till disken. Kontrollera att det finns tillräckligt med diskutrymme och klicka på Försök igen eller klicka på Avbryt om du vill avsluta installationen.</String>
+    <String Id="Error1712" Overridable="yes">Det gick inte att hitta en eller flera av de filer som krävs för att återställa datorn. Det går inte att återställa.</String>
+    <String Id="Error1713" Overridable="yes">[2] kan inte installera en av de produkter som krävs. Kontakta teknisk support. {{Systemfel: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Den tidigare versionen av [2] kan inte tas bort. Kontakta teknisk support. {{Systemfel [3].}}</String>
+    <String Id="Error1715" Overridable="yes">[2] installerades</String>
+    <String Id="Error1716" Overridable="yes">[2] konfigurerades</String>
+    <String Id="Error1717" Overridable="yes">[2] togs bort</String>
+    <String Id="Error1718" Overridable="yes">Filen [2] nekades på grund av en princip för digitala signaturer.</String>
+    <String Id="Error1719" Overridable="yes">Tjänsten Windows Installer kunde inte användas. Detta kan ske om Windows körs i felsäkert läge eller om Windows Installer inte har installerats korrekt. Kontakta supportpersonal om du behöver hjälp.</String>
+    <String Id="Error1720" Overridable="yes">Ett problem har uppstått med det här Windows Installer-paketet. Ett skript som krävs för installationen kunde inte köras. Kontakta support eller paketleverantören. {{Egen åtgärd: [2], skriptfel: [3], [4]: [5] rad [6], kolumn [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Ett problem har uppstått med det här Windows Installer-paketet. Ett program som krävs för installationen kunde inte köras. Kontakta support eller paketets återförsäljare. {{Åtgärd: [2], plats: [3], kommando: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Ett problem har uppstått med det här Windows Installer-paketet. Ett program som körs under installationen slutfördes inte korrekt. Kontakta support eller paketleverantören. {{Åtgärd: [2], plats: [3], kommando: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Ett problem har uppstått med det här Windows Installer-paketet. En DLL-fil som krävs för installationen kunde inte köras. Kontakta support eller paketleverantören. {{Åtgärd: [2], plats: [3], bibliotek: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Borttagning har slutförts.</String>
+    <String Id="Error1725" Overridable="yes">Borttagning misslyckades.</String>
+    <String Id="Error1726" Overridable="yes">Annonsering har slutförts.</String>
+    <String Id="Error1727" Overridable="yes">Annonsering misslyckades.</String>
+    <String Id="Error1728" Overridable="yes">Konfigureringen har slutförts.</String>
+    <String Id="Error1729" Overridable="yes">Konfigureringen misslyckades.</String>
+    <String Id="Error1730" Overridable="yes">Du måste vara administratör för att kunna ta bort det här programmet. Logga in som administratör och försök igen eller kontakta teknisk support.</String>
+    <String Id="Error1731" Overridable="yes">Källinstallationspaketet för produkten [2] är inte synkroniserat med klientpaketet. Försök installera igen med ett giltigt exemplar av installationspaket [3].</String>
+    <String Id="Error1732" Overridable="yes">Du måste starta om datorn för att slutföra installationen av [2]. Andra användare är för tillfället inloggade på den här datorn. En omstart kan göra att hela eller delar av deras arbete går förlorat. Vill du starta om datorn nu?</String>
+    <String Id="Error1801" Overridable="yes">Sökvägen [2] är ogiltig. Ange en giltig sökväg.</String>
+    <String Id="Error1802" Overridable="yes">Slut på minne. Stäng andra program innan du försöker igen.</String>
+    <String Id="Error1803" Overridable="yes">Det finns ingen disk i enhet [2]. Sätt i en disk och klicka på Försök igen eller klicka på Avbryt om du vill gå tillbaka till den volym som angavs tidigare.</String>
+    <String Id="Error1804" Overridable="yes">Det finns ingen disk i enhet [2]. Sätt i en disk och klicka på Försök igen eller klicka på Avbryt om du vill gå tillbaka och välja en annan volym.</String>
+    <String Id="Error1805" Overridable="yes">Mappen [2] finns inte. Ange en sökväg till en befintlig mapp.</String>
+    <String Id="Error1806" Overridable="yes">Du har inte behörighet att läsa den här mappen.</String>
+    <String Id="Error1807" Overridable="yes">Det gick inte att bestämma en giltig målmapp för installationen.</String>
+    <String Id="Error1901" Overridable="yes">Det gick inte att läsa från källdatabasen för installation: [2].</String>
+    <String Id="Error1902" Overridable="yes">Omstart schemaläggs: ett filnamn ändras från [2] till [3]. En omstart krävs för att åtgärden ska slutföras.</String>
+    <String Id="Error1903" Overridable="yes">Omstart schemaläggs: filen [2] tas bort. En omstart krävs för att åtgärden ska slutföras.</String>
+    <String Id="Error1904" Overridable="yes">Det gick inte att registrera modulen [2]. HRESULT [3]. Kontakta support.</String>
+    <String Id="Error1905" Overridable="yes">Det gick inte att avregistrera modulen [2]. HRESULT [3]. Kontakta support.</String>
+    <String Id="Error1906" Overridable="yes">Det gick inte att cachelagra paketet [2]. Fel: [3]. Kontakta support.</String>
+    <String Id="Error1907" Overridable="yes">Det gick inte att registrera teckensnittet [2]. Kontrollera att du har behörighet att installera teckensnitt och att datorn stöder det här teckensnittet.</String>
+    <String Id="Error1908" Overridable="yes">Det gick inte att avregistrera teckensnittet [2]. Kontrollera att du har behörighet att ta bort teckensnitt.</String>
+    <String Id="Error1909" Overridable="yes">Det gick inte att skapa genvägen [2]. Kontrollera att målmappen finns och att du har behörighet till den.</String>
+    <String Id="Error1910" Overridable="yes">Det gick inte att ta bort genvägen [2]. Kontrollera att genvägsfilen finns och att du kan komma åt den.</String>
+    <String Id="Error1911" Overridable="yes">Det gick inte att registrera typbiblioteket för filen [2]. Kontakta support.</String>
+    <String Id="Error1912" Overridable="yes">Det gick inte att avregistrera typbiblioteket för filen [2]. Kontakta support.</String>
+    <String Id="Error1913" Overridable="yes">Det gick inte att uppdatera INI-filen [2][3]. Kontrollera att filen finns och att du har behörighet till den.</String>
+    <String Id="Error1914" Overridable="yes">Det gick inte att schemalägga att filen [2] ska ersätta filen [3] vid omstart. Kontrollera att du har behörighet att skriva till filen [3].</String>
+    <String Id="Error1915" Overridable="yes">Det gick inte att ta bort ODBC-drivrutinshanteraren, ODBC-fel [2]: [3]. Kontakta support.</String>
+    <String Id="Error1916" Overridable="yes">Det gick inte att installera ODBC-drivrutinshanteraren, ODBC-fel [2]: [3]. Kontakta support.</String>
+    <String Id="Error1917" Overridable="yes">Det gick inte att ta bort ODBC-drivrutinen [4], ODBC-fel [2]: [3]. Kontrollera att du har behörighet att ta bort ODBC-drivrutiner.</String>
+    <String Id="Error1918" Overridable="yes">Det gick inte att installera ODBC-drivrutinen [4], ODBC-fel [2]: [3]. Kontrollera att filen [4] finns och att du har behörighet till den.</String>
+    <String Id="Error1919" Overridable="yes">Det gick inte att konfigurera ODBC-datakällan [4], ODBC-fel [2]: [3]. Kontrollera att filen [4] finns och att du har behörighet till den.</String>
+    <String Id="Error1920" Overridable="yes">Det gick inte att starta tjänsten [2] ([3]). Kontrollera att du har tillräckliga privilegier för att starta systemtjänster.</String>
+    <String Id="Error1921" Overridable="yes">Det gick inte att stoppa tjänsten [2] ([3]). Kontrollera att du har tillräckliga privilegier för att stoppa systemtjänster.</String>
+    <String Id="Error1922" Overridable="yes">Det gick inte att ta bort tjänsten [2] ([3]). Kontrollera att du har tillräckliga privilegier för att ta bort systemtjänster.</String>
+    <String Id="Error1923" Overridable="yes">Det gick inte att installera tjänsten [2] ([3]). Kontrollera att du har tillräckliga privilegier för att installera systemtjänster.</String>
+    <String Id="Error1924" Overridable="yes">Det gick inte att uppdatera miljövariabeln [2]. Kontrollera att du har tillräckliga privilegier för att ändra miljövariabler.</String>
+    <String Id="Error1925" Overridable="yes">Du har inte tillräckliga privilegier för att slutföra installationen för alla användare på datorn. Logga in som administratör och försök installera igen.</String>
+    <String Id="Error1926" Overridable="yes">Det gick inte att ange filsäkerhet för filen [3]. Fel: [2]. Kontrollera att du har tillräckliga privilegier för att ändra säkerhetsbehörigheten för den här filen.</String>
+    <String Id="Error1927" Overridable="yes">Komponenttjänsterna (COM+ 1.0) har inte installerats på datorn. Den här installationen kan inte slutföras utan komponenttjänsterna. Komponenttjänsterna ingår i Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Fel uppstod när COM+-programmet skulle registreras. Kontakta support för mer information.</String>
+    <String Id="Error1929" Overridable="yes">Fel uppstod när COM+-programmet skulle avregistreras. Kontakta support för mer information.</String>
+    <String Id="Error1930" Overridable="yes">Beskrivningen för tjänsten [2] ([3]) kunde inte ändras.</String>
+    <String Id="Error1931" Overridable="yes">Tjänsten Windows Installer kan inte uppdatera systemfilen [2] eftersom den skyddas av Windows. Du kanske måste uppdatera operativsystemet för att det här programmet ska fungera korrekt. {{Paketversion: [3], OS-skyddad version: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Tjänsten Windows Installer kan inte uppdatera den skyddade Windows-filen [2]. {{Paketversion: [3], OS-skyddad version: [4], SFP-fel: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Tjänsten Windows Installer kunde inte uppdatera en eller fler skyddade Windows-filer. {{SFP-fel: [2]. Skyddade filer:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Användarinstallationer har inaktiverats av en princip på datorn.</String>
+    <String Id="Error1935" Overridable="yes">Ett fel uppstod när paketet [6] skulle installeras. Se Hjälp och support för mer information. HRESULT: [3]. {{paketets gränssnitt: [4], funktion: [5], komponent: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Ett fel uppstod när paketet [6] skulle installeras. Paketet har inte ett starkt namn eller är inte signerad med minsta nyckellängd. HRESULT: [3]. {{paketets gränssnitt: [4], funktion: [5], komponent: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Ett fel uppstod när paketet [6] skulle installeras. Signaturen och/eller katalogen kunde inte bekräftas eller är inte giltiga. HRESULT: [3]. {{paketets gränssnitt: [4], funktion: [5], komponent: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Ett fel uppstod när paketet [6] skulle installeras. Det gick inte att hitta en eller flera moduler. HRESULT: [3]. {{paketets gränssnitt: [4], funktion: [5], komponent: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">byte</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">kB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Hela funktionen kommer att vara otillgänglig</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Funktionen installeras vid behov</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Hela funktionen installeras för att köras från CD:n</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Hela funktionen installeras på den lokala hårddisken</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Hela funktionen installeras för att köras från nätverket</String>
+    <String Id="UITextMenuCD" Overridable="yes">Installeras för att köras från CD:n</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Installeras på den lokala hårddisken</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Installeras för att köras från nätverket</String>
+    <String Id="UITextNewFolder" Overridable="yes">Mapp|Ny mapp</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Nödvändig information samlas in...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Funktionen installeras inte</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Funktionen installeras vid behov</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Funktionen installeras för att köras från CD:n</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Funktionen installeras på den lokala hårddisken</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Funktionen installeras för att köras från nätverket</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Funktionen kommer inte att vara tillgänglig</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Installeras vid behov</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Funktionen kommer att kunna köras från CD:n</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Funktionen installeras på den lokala hårddisken</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Funktionen kommer att kunna köras från nätverket</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Funktionen avinstalleras fullständigt och du kommer inte att kunna köra den från CD:n</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Funktionen ändras från att kunna köras från CD:n till att installeras vid behov</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Funktionen kommer även fortsättningsvis att köras från CD:n</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Funktionen ändras från att kunna köras från CD:n till att installeras på den lokala hårddisken</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Funktionen frigör [1] på hårddisken.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Funktionen kräver [1] på hårddisken.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Kostnaderna för funktionen kompileras...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Funktionen tas bort helt</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Funktionen tas bort från den lokala hårddisken men kommer att installeras vid behov</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Funktionen tas bort från den lokala hårddisken men kan även fortsättningsvis köras från CD:n</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Funktionen kommer även fortsättningsvis att finnas på den lokala hårddisken</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Funktionen tas bort från den lokala hårddisken men kan även fortsättningsvis köras från nätverket</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Funktionen avinstalleras helt och kan inte köras från nätverket</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Funktionen ändras från att kunna köras från nätverket till att installeras vid behov</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Funktionen ändras från att kunna köras från nätverket till att installeras på den lokala hårddisken</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Funktionen kommer även fortsättningsvis att köras från nätverket</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Funktionen frigör [1] på den lokala hårddisken. [2] av [3] underfunktioner har valts. Underfunktionerna frigör [4] på hårddisken.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Funktionen frigör [1] på den lokala hårddisken. [2] av [3] underfunktioner har valts. Underfunktionerna kräver [4] på hårddisken.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Funktionen kräver [1] på den lokala hårddisken. [2] av [3] underfunktioner har valts. Underfunktionerna frigör [4] på hårddisken.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Funktionen kräver [1] på den lokala hårddisken. [2] av [3] underfunktioner har valts. Underfunktionerna kräver [4] på hårddisken.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Återstående tid: {[1] minuter }{[2] sekunder}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Tillgängligt</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Skillnad</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Nödvändigt</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Diskstorlek</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Volym</String>
+</WixLocalization>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Gaming Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="WixGameExplorer">
+        <columnDefinition name="InstanceId" type="string" length="38" primaryKey="yes"
+                category="guid" description="The instance ID of the game executable to be registered in Game Explorer."/>
+        <columnDefinition name="File_" type="string" length="72" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="The file representing the game executable."/>
+    </tableDefinition>
+</tableDefinitions>

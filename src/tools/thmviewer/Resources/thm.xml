@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="thm.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Theme>
+    <Window Width="220" Height="200" FontId="0">Theme Viewer</Window>
+    <Font id="0" Height="-48" Weight="700" Foreground="0">Consolas</Font>
+    <Font id="1" Height="-12" Weight="700" Foreground="0" Background="ffffff">Consolas</Font>
+    <Treeview Name="Tree" X="0" Y="0" Width="0" Height="0" FontId="1" Visible="yes" FullRowSelect="yes" HasButtons="yes" AlwaysShowSelect="yes" HasLines="yes" LinesAtRoot="yes"/>
+</Theme>

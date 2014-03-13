@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="updateexe.build" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<project name="updateexe" default="updateexe.inc" xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd">
+  <description>
+    updateexe.build - Builds the WiX update executable (update.exe).
+  </description>
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Properties
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Include the global build properties -->
+  <include buildfile="..\..\wix.include" unless="${property::exists('wix.properties.defined')}" />
+
+  <property name="dir.src.updateexe" value="${dir.wixroot.src}\updateexe" readonly="true" />
+
+  <!-- updateexe-specific properties -->
+  <property name="updateexe.file.target" value="${dir.target.wix}\update.exe" readonly="true" />
+  <property name="updateexe.file.targetpdb" value="${dir.target.wix}\update.pdb" readonly="true" />
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Targets
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Build -->
+  <target name="updateexe.build" description="Peforms a full rebuild (clean then build)" depends="updateexe.clean, updateexe.inc" />
+  
+  <!-- Clean -->
+  <target name="updateexe.clean" description="Cleans the build">
+    <delete dir="${dir.build.updateexe}" failonerror="false" if="${directory::exists(dir.build.updateexe)}" />
+    <delete file="${updateexe.file.target}" failonerror="false" if="${file::exists(updateexe.file.target)}" />
+    <delete file="${updateexe.file.targetpdb}" failonerror="false" if="${file::exists(updateexe.file.targetpdb)}" />
+  </target>
+
+  <!-- Inc -->
+  <target name="updateexe.inc" description="Performs an incremental build" depends="makeDirs">
+    <mkdir dir="${dir.build.updateexe}" />
+
+    <fileset id="compileCpp.fileset.sources" basedir="${dir.src.updateexe}">
+      <include name="updateexe.cpp" />
+    </fileset>
+    <property name="compileCpp.dir.build" value="${dir.build.updateexe}" />
+    <property name="compileCpp.file.precomp.h" value="${dir.src.updateexe}\precomp.h" />
+    <property name="compileCpp.file.rc" value="${dir.src.updateexe}\update.rc" />
+    <property name="cl.standardIncludes" value="${cl.standardIncludes} -I&quot;${dir.src.ambient}\appsynup\inc&quot;" />
+    <property name="makeNativeExe.file.target" value="${updateexe.file.target}" />
+    <property name="makeNativeExe.additionalLibs" value="-entry:wmainCRTStartup &quot;${file.target.dutil}&quot; &quot;${dir.platformsdk.lib}\comctl32.lib&quot; &quot;${dir.platformsdk.lib}\msi.lib&quot; &quot;${dir.platformsdk.lib}\shell32.lib&quot; &quot;${dir.platformsdk.lib}\wininet.lib &quot; &quot;${file.target.appsynup}&quot;" dynamic="true" />
+
+    <!-- Make setupbld.exe -->
+    <call target="makeNativeExe" />
+  </target>
+  
+</project>

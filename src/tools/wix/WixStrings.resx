@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EXP_CannotIndexIntoFileRowCollection" xml:space="preserve">
+    <value>Cannot index into a FileRowCollection that allows duplicate FileIds</value>
+  </data>
+  <data name="EXP_CannotModularizeIllegalID" xml:space="preserve">
+    <value>The value '{0}' is not a legal identifier and therefore cannot be modularized.</value>
+  </data>
+  <data name="EXP_CannotSetColumnWithValueGreaterThanMaxValue" xml:space="preserve">
+    <value>Cannot set column '{0}' with value {1} because it is greater than the maximum allowed value for this column, {2}.</value>
+  </data>
+  <data name="EXP_CannotSetColumnWithValueLessThanMinValue" xml:space="preserve">
+    <value>Cannot set column '{0}' with value {1} because it is less than the minimum allowed value for this column, {2}.</value>
+  </data>
+  <data name="EXP_CannotSetMergeTableFileCompressionColumnToInvalidValue" xml:space="preserve">
+    <value>A Merge table FileCompression column cannot be set to the invalid value '{0}'.</value>
+  </data>
+  <data name="EXP_CannotSetNullOnRequiredField" xml:space="preserve">
+    <value>Cannot set column '{0}' with a null value because this is a required field.</value>
+  </data>
+  <data name="EXP_CannotSetNumberColumnWithValueOfType" xml:space="preserve">
+    <value>Cannot set number column '{0}' with a value of type '{1}'.</value>
+  </data>
+  <data name="EXP_CannotSetStringColumnWithValueOfType" xml:space="preserve">
+    <value>Cannot set string column '{0}' with a value of type '{1}'.</value>
+  </data>
+  <data name="EXP_CollectionMustHaveAtLeastOneElement" xml:space="preserve">
+    <value>Collection has {0} elements. Must have at least one.</value>
+  </data>
+  <data name="EXP_CouldnotDetermineProductCodeFromTransformSummaryInfo" xml:space="preserve">
+    <value>Could not determine ProductCode from transform summary information</value>
+  </data>
+  <data name="EXP_CouldnotFileUniqueIDForResourceName" xml:space="preserve">
+    <value>Could not find a unique identifier for the given resource name.</value>
+  </data>
+  <data name="EXP_DidnotFindDuplicateSymbol" xml:space="preserve">
+    <value>Didn't find duplicated symbol.</value>
+  </data>
+  <data name="EXP_ElementIsSubclassOfDifferentType" xml:space="preserve">
+    <value>Element must be a subclass of {0}, but was of type {1}.</value>
+  </data>
+  <data name="EXP_ElementMustBeChoiceItemOrSequenceItem" xml:space="preserve">
+    <value>Element of type {0} found in enumerator. Must be ChoiceItem or SequenceItem.</value>
+  </data>
+  <data name="EXP_ElementOfTypeIsNotValidForThisCollection" xml:space="preserve">
+    <value>Element of type {0} is not valid for this collection.</value>
+  </data>
+  <data name="EXP_ExpectedComplexReferenceType" xml:space="preserve">
+    <value>Expected ComplexReference type.</value>
+  </data>
+  <data name="EXP_FoundActionRowWinNonExistentAction" xml:space="preserve">
+    <value>Found an ActionRow with a non-existent {0} action: {1}.</value>
+  </data>
+  <data name="EXP_FoundActionRowWithNoSequenceBeforeOrAfterColumnSet" xml:space="preserve">
+    <value>Found an ActionRow with no Sequence, Before, or After column set.</value>
+  </data>
+  <data name="EXP_IllegalArgumentsPassed" xml:space="preserve">
+    <value>Illegal arguments passed.</value>
+  </data>
+  <data name="EXP_InvalidTableNamePassed" xml:space="preserve">
+    <value>Invalid table name passed into GenerateIdentifier.</value>
+  </data>
+  <data name="EXP_ISchemaElementDoesnotImplementICreateChildren" xml:space="preserve">
+    <value>ISchemaElement with name {0} does not implement ICreateChildren.</value>
+  </data>
+  <data name="EXP_ISchemaElementDoesnotImplementISetAttribute" xml:space="preserve">
+    <value>ISchemaElement with name {0} does not implement ISetAttributes.</value>
+  </data>
+  <data name="EXP_MergeTableFileCompressionColumnContainsInvalidValue" xml:space="preserve">
+    <value>A Merge table FileCompression column contains an invalid value '{0}'.</value>
+  </data>
+  <data name="EXP_MultipleHarvesterExtensionsSpecified" xml:space="preserve">
+    <value>Multiple harvester extensions specified.</value>
+  </data>
+  <data name="EXP_MultipleRootElementsFoundInFile" xml:space="preserve">
+    <value>Multiple root elements found in file.</value>
+  </data>
+  <data name="EXP_OtherObjectIsNotFileRow" xml:space="preserve">
+    <value>The other object is not a FileRow.</value>
+  </data>
+  <data name="EXP_TransformAuthoredIntoMultipleMedia" xml:space="preserve">
+    <value>Transform authored into multiple Media '{0}' and '{1}'.</value>
+  </data>
+  <data name="EXP_TypeIsNotValidForThisCollection" xml:space="preserve">
+    <value>Type {0} is not valid for this collection.</value>
+  </data>
+  <data name="EXP_UnexpectedComplexReferenceChildType" xml:space="preserve">
+    <value>Unexpected complex reference child type: {0}</value>
+  </data>
+  <data name="EXP_UnexpectedEntrySectionType" xml:space="preserve">
+    <value>Unexpected entry section type: {0}</value>
+  </data>
+  <data name="EXP_UnexpectedMergerErrorInSourceFile" xml:space="preserve">
+    <value>Encountered an unexpected error while merging '{0}'. More information about the merge and the failure can be found in the merge log: '{1}'</value>
+  </data>
+  <data name="EXP_UnexpectedMergerErrorWithType" xml:space="preserve">
+    <value>Encountered an unexpected merge error of type '{0}' for which there is currently no error message to display.  More information about the merge and the failure can be found in the merge log: '{1}'</value>
+  </data>
+  <data name="EXP_UnknowControlAttribute" xml:space="preserve">
+    <value>Unknown control attribute: '{0}'.</value>
+  </data>
+  <data name="EXP_UnknownColumnType" xml:space="preserve">
+    <value>Unknown column type: {0}</value>
+  </data>
+  <data name="EXP_UnknownCompressionLevelType" xml:space="preserve">
+    <value>Unknown compression level type: {0}</value>
+  </data>
+  <data name="EXP_UnknownCustomColumnCategory" xml:space="preserve">
+    <value>Unknown custom column category '{0}'.</value>
+  </data>
+  <data name="EXP_UnknownCustomColumnModularizationType" xml:space="preserve">
+    <value>Unknown custom column modularization type '{0}'.</value>
+  </data>
+  <data name="EXP_UnknownCustomColumnType" xml:space="preserve">
+    <value>Unknown custom column type '{0}'.</value>
+  </data>
+  <data name="EXP_UnknownOutputType" xml:space="preserve">
+    <value>Unknown output type.</value>
+  </data>
+  <data name="EXP_UnknownPermissionAttribute" xml:space="preserve">
+    <value>Unknown permission attribute '{0}'.</value>
+  </data>
+  <data name="EXP_UnknowSequenceTable" xml:space="preserve">
+    <value>Unknown sequence table.</value>
+  </data>
+  <data name="EXP_UnknownPlatformEnum" xml:space="preserve">
+    <value>Unknown platform enumeration '{0}' encountered.</value>
+  </data>
+  <data name="EXP_UnsupportedTable" xml:space="preserve">
+    <value>The table {0} is not supported.</value>
+  </data>
+  <data name="EXP_XmlElementDoesnotHaveISchemaElement" xml:space="preserve">
+    <value>XmlElement with name {0} does not have a corresponding ISchemaElement.</value>
+  </data>
+  <data name="Format_FirstLineNumber" xml:space="preserve">
+    <value>{0}({1})</value>
+  </data>
+  <data name="Format_InfoMessage" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="Format_LineNumber" xml:space="preserve">
+    <value>{0}: line {1}</value>
+  </data>
+  <data name="Format_NonInfoMessage" xml:space="preserve">
+    <value>{0} : {1} {2}{3:0000} : {4}</value>
+  </data>
+  <data name="INF_SourceTrace" xml:space="preserve">
+    <value>Source trace:{0}</value>
+  </data>
+  <data name="INF_SourceTraceLocation" xml:space="preserve">
+    <value>at {0}{1}</value>
+  </data>
+  <data name="INF_SourceTraceUnavailable" xml:space="preserve">
+    <value>Source trace unavailable.{0}</value>
+  </data>
+  <data name="MessageType_Error" xml:space="preserve">
+    <value>error</value>
+  </data>
+  <data name="MessageType_Warning" xml:space="preserve">
+    <value>warning</value>
+  </data>
+  <data name="BinderArguments" xml:space="preserve">
+    <value>   -bcgg      use backwards compatible guid generation algorithm
+              (almost never needed)
+   -cc &lt;path&gt; path to cache built cabinets (will not be deleted after linking)
+   -ct &lt;N&gt;    number of threads to use when creating cabinets
+              (default: %NUMBER_OF_PROCESSORS%)
+   -cub &lt;file.cub&gt; additional .cub file containing ICEs to run
+   -dcl:level set default cabinet compression level
+              (low, medium, high, none, mszip; mszip default)
+   -eav       exact assembly versions (breaks .NET 1.1 RTM compatibility)
+   -fv        add a 'fileVersion' entry to the MsiAssemblyName table
+              (rarely needed)
+   -ice:&lt;ICE&gt;   run a specific internal consistency evaluator (ICE)
+   -O1        optimize smart cabbing for smallest cabinets (deprecated)
+   -O2        optimize smart cabbing for faster install time (deprecated)
+   -pdbout &lt;output.wixpdb&gt;  save the WixPdb to a specific file
+              (default: same name as output with wixpdb extension)
+   -reusecab  reuse cabinets from cabinet cache
+   -sa        suppress assemblies: do not get assembly name information
+              for assemblies
+   -sacl      suppress resetting ACLs
+              (useful when laying out image to a network share)
+   -sf        suppress files: do not get any file information
+              (equivalent to -sa and -sh)
+   -sh        suppress file info: do not get hash, version, language, etc
+   -sice:&lt;ICE&gt;  suppress an internal consistency evaluator (ICE)
+   -sl        suppress layout
+   -spdb      suppress outputting the WixPdb
+   -sval      suppress MSI/MSM validation</value>
+  </data>
+</root>

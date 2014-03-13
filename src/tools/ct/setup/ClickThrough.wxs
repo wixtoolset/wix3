@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="ClickThrough.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?include WixVer.wxi ?>
+
+<?define ProductCode = "A5660BB8-7926-4018-BFC9-847F996F2FFD" ?>
+<?define UpgradeCode = "A5660BB9-7926-4018-BFC9-847F996F2FFD" ?>
+
+<?if $(var.Flavor) = "debug" ?>
+  <?define DebugLetter = "D" ?>
+  <?define SpaceParenDebug = " (Debug)" ?>
+<?else ?>
+  <?define DebugLetter = "" ?>
+  <?define SpaceParenDebug = "" ?>
+<?endif ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="$(var.ProductCode)" Name="!(wix.ProductName)" Language="1033" Manufacturer="Outercurve Foundation" Version="!(wix.ProductVersion)" UpgradeCode="$(var.UpgradeCode)">
+        <Package Manufacturer="Outercurve Foundation" Description="Windows Installer XML Toolset ClickThrough$(var.SpaceParenDebug)" Comments="Windows Installer XML Toolset ClickThrough$(var.SpaceParenDebug)" Compressed="yes" InstallerVersion="200" Languages="1033" Keywords="Database, Installer" ShortNames="no" SummaryCodepage="1252" />
+
+        <WixVariable Id="ProductName" Value="Windows Installer XML Toolset ClickThrough$(var.SpaceParenDebug)"/>
+        <WixVariable Id="ProductVersion" Value="$(var.WixVersion)"/>
+        <WixVariable Id="ProductCode" Value="$(var.ProductCode)"/>
+        <WixVariable Id="ShortcutFileId" Value="ThisApplicationFile"/>
+
+        <!-- Major upgrade -->
+        <Upgrade Id="$(var.UpgradeCode)">
+            <UpgradeVersion Minimum="$(var.WixVersion)" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+            <UpgradeVersion Minimum="1.0.0.0" IncludeMinimum="yes" Maximum="$(var.WixVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
+        </Upgrade>
+
+        <!-- Icons -->
+        <!-- Icon Id="ClickThroughIcon" Source="ClickThrough.ico" / -->
+
+        <!-- Properties -->
+        <Property Id="ARPHELPLINK" Value="http://sourceforge.net/support/getsupport.php?group_id=105970" />
+        <!-- Property Id="ARPPRODUCTICON" Value="ClickThroughIcon" / -->
+        <Property Id="ARPURLINFOABOUT" Value="http://wix.sourceforge.net" />
+        <Property Id="ARPURLUPDATEINFO" Value="http://wix.sourceforge.net" />
+
+        <!-- Directories -->
+        <DirectoryRef Id="ApplicationsFolder">
+            <Directory Id="ClickThroughFolder" Name="$(var.UpgradeCode)">
+
+                <Component Id="ClickThroughBinaries" DiskId="1" Guid="4CC16CF5-837F-44e5-9579-0B9CF03E40D0">
+                    <File Id="ThisApplicationFile" Name="ClickThrough.exe" Source="$(var.ClickThroughDir)\ClickThrough.exe" Checksum="yes" KeyPath="yes" Vital="yes" />
+                    <File Id="ThisApplicationConfigFile" Name="ClickThrough.exe.config" Source="$(var.ClickThroughDir)\ClickThrough.exe.config" Vital="yes" />
+                </Component>
+
+                <Component Id="AmbientBinaries" DiskId="1" Guid="639F8D92-CE42-4453-A5F6-52AC545F0243">
+                    <File Id="ambient.dll" Name="ambient.dll" Source="$(var.ClickThroughDir)\ambient.dll" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+
+                <Component Id="ApplibBinaries" DiskId="1" Guid="488689AF-6CF2-4407-AAB8-A5E4EBB7719B">
+                    <File Id="Applib.wixlib" Name="applib.wixlib" Source="$(var.ClickThroughDir)\applib.wixlib" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+                <Component Id="UpdateBinaries" DiskId="1" Guid="E620C479-2BFF-4c7f-B6C8-A47E9FC02A62">
+                    <File Id="Update.exe" Name="update.exe" Source="$(var.ClickThroughDir)\update.exe" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+
+                <Component Id="BootstrapperBinaries" DiskId="1" Guid="04867F11-D8F5-4b08-84D3-7B154BF2D4C2">
+                    <File Id="Setup.exe" Name="setup.exe" Source="$(var.ClickThroughDir)\setup.exe" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+                <Component Id="SetupBuilderBinaries" DiskId="1" Guid="ABC668D9-EBC2-42f2-93D9-B9B8235C5F9F">
+                    <File Id="SetupBuilder.dll" Name="SetupBuilder.dll" Source="$(var.ClickThroughDir)\SetupBuilder.dll" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+
+                <Component Id="WixBinaries" DiskId="1" Guid="A77D13A3-81BE-4434-ADD4-25FB9FE441F8">
+                    <File Id="wix.dll" Name="wix.dll" Source="$(var.ToolsDir)\wix.dll" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+                <Component Id="WixInteropBinaries" DiskId="1" Guid="23A7AF06-BFA0-451D-8E72-F089C3ED7B6D">
+                    <File Id="winterop.dll" Name="winterop.dll" Source="$(var.ToolsDir)\winterop.dll" Checksum="yes" KeyPath="yes" Vital="yes" />
+                </Component>
+
+                <Component Id="Licensing" DiskId="1" Guid="C5C92DD1-D0DE-454d-BD0B-47B95F9A1E17">
+                    <File Id="CPL.TXT" Name="CPL.TXT" Source="$(var.SourceDir)\CPL.TXT" Vital="yes" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+
+        <!-- Features -->
+        <FeatureRef Id="ApplicationFeature" >
+            <ComponentRef Id="Licensing" />
+            <ComponentRef Id="ClickThroughBinaries" />
+            <ComponentRef Id="AmbientBinaries" />
+            <ComponentRef Id="ApplibBinaries" />
+            <ComponentRef Id="UpdateBinaries" />
+            <ComponentRef Id="BootstrapperBinaries" />
+            <ComponentRef Id="SetupBuilderBinaries" />
+            <ComponentRef Id="WixBinaries" />
+            <ComponentRef Id="WixInteropBinaries" />
+        </FeatureRef>
+    </Product>
+</Wix>

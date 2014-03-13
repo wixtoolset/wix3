@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="B.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension">
+    <Product Id="*" Name="~$(var.TestName) - B" Language="1033" Version="$(var.Version)" Manufacturer="Microsoft Corporation" UpgradeCode="B8117EC4-D29D-45AB-8CBD-B0B6121886B1">
+        <Package Description="Dependency B" Comments="Test from: wix\test\data\Extensions\DependencyExtension\DependencyExtensionTests\B.wxs" Compressed="yes" InstallerVersion="300" InstallScope="perMachine"/>
+        <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder" Name="Program Files">
+                <Directory Id="WixDir" Name="WiX">
+                    <Directory Id="TestDir" Name="$(var.TestName)">
+                        <Directory Id="INSTALLDIR" Name="B"/>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+        <Feature Id="Complete" Level="1">
+            <ComponentRef Id="Main"/>
+        </Feature>
+        <Property Id="MsiLogging" Value="voicewarmup"/>
+    </Product>
+    <Fragment>
+        <DirectoryRef Id="INSTALLDIR">
+            <Component Id="Main" Guid="F97196C5-C144-4BB0-A8A5-C00835828929">
+                <File Source="$(sys.SOURCEFILEPATH)"/>
+                <!-- Use default provider ID -->
+                <dep:Provides>
+                    <dep:Requires ProviderKey="Microsoft.WiX.$(var.TestName).A,v1.0" Minimum="1.0.0.0" IncludeMinimum="yes"/>
+                </dep:Provides>
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

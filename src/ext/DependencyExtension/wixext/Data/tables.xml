@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Dependency Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="WixDependencyProvider" createSymbols="yes">
+        <columnDefinition name="WixDependencyProvider" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="The non-localized primary key for the table."/>
+        <columnDefinition name="Component_" type="string" length="72" keyTable="Component" keyColumn="1" modularize="column"
+                category="identifier" description="The foreign key into the Component table used to determine install state."/>
+        <columnDefinition name="ProviderKey" type="string" length="255"
+                category="text" description="The name of the registry key that holds the provider identity."/>
+        <columnDefinition name="Version" type="string" length="72" nullable="yes"
+                category="version" description="The version of the package."/>
+        <columnDefinition name="DisplayName" type="string" length="255" nullable="yes"
+                category="text" description="The display name of the package."/>
+        <columnDefinition name="Attributes" type="number" length="4" nullable="yes"
+                minValue="0" maxValue="2147483647" description="A 32-bit word that specifies the attribute flags to be applied."/>
+    </tableDefinition>
+    <tableDefinition name="WixDependency" createSymbols="yes">
+        <columnDefinition name="WixDependency" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="The non-localized primary key for the table."/>
+        <columnDefinition name="ProviderKey" type="string" length="255"
+                category="text" description="The name of the registry key that holds the provider identity."/>
+        <columnDefinition name="MinVersion" type="string" length="72" nullable="yes"
+                category="version" description="The minimum version of the provider supported."/>
+        <columnDefinition name="MaxVersion" type="string" length="72" nullable="yes"
+                category="version" description="The maximum version of the provider supported."/>
+        <columnDefinition name="Attributes" type="number" length="4" nullable="yes"
+                minValue="0" maxValue="2147483647" description="A 32-bit word that specifies the attribute flags to be applied."/>
+    </tableDefinition>
+    <tableDefinition name="WixDependencyRef" createSymbols="yes">
+        <columnDefinition name="WixDependencyProvider_" type="string" length="72" primaryKey="yes" keyTable="WixDependencyProvider" keyColumn="1" modularize="column"
+                category="identifier" description="Foreign key into the Component table." />
+        <columnDefinition name="WixDependency_" type="string" length="72" primaryKey="yes" keyTable="WixDependency" keyColumn="1" modularize="column"
+                category="identifier" description="Foreign key into the WixDependency table." />
+    </tableDefinition>
+</tableDefinitions>

@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_lv-LV.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="lv-lv" Codepage="1257" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Atpakaļ</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Tālāk</String>
+    <String Id="WixUICancel" Overridable="yes">Atcelt</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Pabeigt</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Mēģināt vēlreiz</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Ignorēt</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Jā</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Nē</String>
+    <String Id="WixUIOK" Overridable="yes">Labi</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Drukāt</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lūdzu, izlasiet [ProductName] licences līgumu</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Es &amp;piekrītu licences līguma nosacījumiem</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Noklikšķiniet uz Instalēt, lai instalētu produktu, visiem lietotājiem izmantojot noklusējuma opcijas. Noklikšķiniet uz Papildu, lai mainītu instalēšanas opcijas.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Noklikšķiniet uz Instalēt, lai instalētu produktu, izmantojot noklusējuma opcijas tikai savam kontam. Noklikšķiniet uz Papildu, lai mainītu instalēšanas opcijas.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Instalēt</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">P&amp;apildu</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Skatīt šeit:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Vienu līmeni augstāk</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Izveidot jaunu mapi</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mapes nosaukums:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Meklēt mērķa mapi</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Mērķa mapes maiņa</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="CancelDlgText" Overridable="yes">Vai tiešām vēlaties atcelt [ProductName] instalēšanu?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Informācijas ikona</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Atlases iespēju koks</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">Pā&amp;rlūkot...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">Atie&amp;statīt</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">Diska lietoj&amp;ums</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Noklikšķiniet uz ikonām kokā, lai mainītu līdzekļu instalēšanas veidu.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Atlasiet vajadzīgo līdzekļu instalēšanas veidu.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Pielāgota uzstādīšana</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Atrašanās vieta:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Iezīmētajiem sējumiem nepietiek vietas diskā, lai instalētu atlasītos līdzekļus. Varat noņemt dažus failus no iezīmētajiem sējumiem, instalēt mazāk līdzekļu vai atlasīt citus mērķa diskdziņus.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Atlasīto līdzekļu instalēšanai nepieciešamā vieta diskā.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nepieciešamā vieta diskā</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Informācijas teksts</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Informācijas ikona</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Noklikšķiniet uz pogas Pabeigt, lai izietu no Uzstādīšanas vedņa.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] uzstādīšanas vednis ir pabeigts</String>
+
+    <String Id="FatalError_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] uzstādīšanas vednis darbību beidza priekšlaikus</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">[ProductName] uzstādīšanas vednis darbību pabeidza priekšlaikus kļūdas dēļ. Sistēma nav modificēta. Lai šo programmu instalētu vēlāk, vēlreiz palaidiet Uzstādīšanas vedni.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Noklikšķiniet uz pogas Pabeigt, lai izietu no Uzstādīšanas vedņa.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Produkta līdzekļi</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Atlasiet vajadzīgo līdzekļu instalēšanas veidu.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Produkta līdzekļi</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Instalēt</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Mainīt</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="FilesInUseExit" Overridable="yes">I&amp;ziet</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Tālāk norādītās lietojumprogrammas izmanto failus, kas ir jāatjaunina uzstādīšanas laikā. Aizveriet šīs lietojumprogrammas un pēc tam noklikšķiniet uz &amp;Mēģināt vēlreiz, lai turpinātu instalēšanu, vai uz Iziet, lai izietu no tās.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Daži no failiem, kas jāatjaunina, pašlaik tiek lietoti.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Faili, kas tiek lietoti</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Mainīt...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Mērķa mape</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Noklikšķiniet uz Tālāk, lai instalētu noklusējuma mapi, vai noklikšķiniet uz Mainīt, lai izvēlētos citu mapi.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Instalēt [ProductName] šeit:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Izvēlieties instalēšanas tvērumu un mapi</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Instalēšanas tvērums</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalēt &amp;tikai sev ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] tiks instalēts lietotājam paredzētā mapē un būs pieejams tikai jūsu lietotāja kontam. Nav nepieciešamas lokālā administratora atļaujas.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] neatbalsta lietotājam paredzētu instalēšanu.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Instalēt visiem šī &amp;datora lietotājiem</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">Pēc noklusējuma [ProductName] tiks instalēts datoram paredzētā mapē un būs pieejams visiem lietotājiem. Noklusējuma instalācijas mapi var mainīt. Jums ir nepieciešamas lokālā administratora atļaujas.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Instalācijas &amp;mape:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Mainīt...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Instalācijas direktorijam ir jāatrodas lokālajā cietajā diskā.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Informācijas ikona</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Es &amp;piekrītu licences līguma nosacījumiem</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lūdzu, uzmanīgi izlasiet šo licences līgumu</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lietotāja licences līgums</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Mainīt</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Mainīt instalāciju</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">La&amp;bot</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Labot instalāciju</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Noņemt</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Noņemt instalāciju</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Atlasiet veicamo darbību.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Instalācijas maiņa, labošana vai noņemšana</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Ļauj mainīt līdzekļu instalēšanas veidu.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">Produktam [ProductName] nav neatkarīgi atlasāmu līdzekļu.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Noņem produktu [ProductName] no datora.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">Nevar noņemt [ProductName].</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Jaunākajā instalācijā labo kļūdas, labojot trūkstošos un bojātos failus, saīsnes un reģistra ierakstus.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">Nevar labot [ProductName].</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Izmantojot uzstādīšanas vedni, varat mainīt veidu, kā [ProductName] līdzekļi tiek instalēti datorā, vai noņemt to no datora. Noklikšķiniet uz Tālāk, lai turpinātu, vai uz Atcelt, lai izietu no uzstādīšanas vedņa.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Esiet sveicināts [ProductName] uzstādīšanas vednī!</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Tālāk norādītās lietojumprogrammas izmanto failus, kas ir jāatjaunina uzstādīšanas laikā. Varat ļaut uzstādīšanas vednim tās aizvērt un mēģināt restartēt vai vēlāk atkārtoti sāknēt ierīci.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Daži no failiem, kas jāatjaunina, pašlaik tiek lietoti.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Faili, kas tiek lietoti</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Aizveriet lietojumprogrammas un mēģiniet tās restartēt.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Neaizveriet lietojumprogrammas. Būs jāveic atkārtota sāknēšana.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Iezīmētajiem sējumiem nepietiek vietas diskā, lai instalētu pašreiz atlasītos līdzekļus. Varat noņemt dažus failus no iezīmētajiem sējumiem, instalēt mazāk līdzekļu vai norādīt citu mērķa diskdzini.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Instalēšanai nepieciešamā vieta diskā pārsniedz diskā pieejamo vietu.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nepietiek vietas diskā</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Iezīmētajiem sējumiem nepietiek vietas diskā, lai instalētu pašreiz atlasītos līdzekļus. Varat noņemt dažus failus no iezīmētajiem sējumiem, instalēt mazāk līdzekļu vai norādīt citu mērķa diskdzini.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Instalēšanai nepieciešamā vieta diskā pārsniedz diskā pieejamo vietu.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nepietiek vietas diskā</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Vai arī varat izvēlēties instalēšanas programmas atrites funkcionalitātes atspējošanu. Izvēloties atrites atspējošanu, tiek novērsts, ka jebkādā instalēšanas pārtraukšanas gadījumā instalēšanas programma atjauno datora sākotnējo stāvokli. Noklikšķiniet uz Jā, ja vēlaties riskēt un atspējot atriti.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Uzgaidiet, līdz Uzstādīšanas vednī tiek sagatavoti instalēšanas norādījumi.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Esiet sveicināts [ProductName] uzstādīšanas vednī!</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Lūdzu, uzgaidiet, kamēr uzstādīšanas vednis instalē [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Notiek [ProductName] instalēšana</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Lūdzu, uzgaidiet, kamēr uzstādīšanas vednis maina [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Notiek [ProductName] maiņa</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Lūdzu, uzgaidiet, kamēr uzstādīšanas vednis labo [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Notiek [ProductName] labošana</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Lūdzu, uzgaidiet, kamēr uzstādīšanas vednis noņem [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Notiek [ProductName] noņemšana</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Lūdzu, uzgaidiet, kamēr uzstādīšanas vednis atjaunina produktu [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}Notiek [ProductName] atjaunināšana</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Norises progress</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Statuss:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Instalēt</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Izmantojot uzstādīšanas vedni, datorā tiks pabeigta [ProductName] instalēšana. Noklikšķiniet uz Instalēt, lai turpinātu, vai uz Atcelt, lai izietu no uzstādīšanas vedņa.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Notiek [ProductName] uzstādīšanas vedņa atsākšana</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Parasta</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Parasta instalācija</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">P&amp;ielāgota</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Pielāgota instalācija</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">&amp;Pilna</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Pilna instalācija</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Uzstādīšanas tipa izvēle</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Izvēlieties savām vajadzībām visatbilstošāko uzstādīšanas tipu</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Tiek instalēti visbiežāk lietotie programmas līdzekļi. Ieteicams lielākajai daļai lietotāju.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Lietotāji var izvēlēties instalēšanas vietu un instalējamos programmas līdzekļus. Ieteicams pieredzējušiem lietotājiem.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Tiks instalēti visi programmas līdzekļi. Aizņem visvairāk vietas diskā.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}[ProductName] uzstādīšanas vedņa darbība tika pārtraukta</String>
+    <String Id="UserExitDescription1" Overridable="yes">[ProductName] uzstādīšana tika pārtraukta. Sistēma netika modificēta. Lai instalētu šo programmu vēlāk, atkārtoti palaidiet instalēšanu.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Noklikšķiniet uz pogas Pabeigt, lai izietu no Uzstādīšanas vedņa.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Instalēt</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Noklikšķiniet uz Instalēt, lai sāktu instalēšanu. Noklikšķiniet uz Atpakaļ, lai pārskatītu vai mainītu jebkuru instalēšanas iestatījumu. Noklikšķiniet uz Atcelt, lai izietu no vedņa.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Gatavs [ProductName] instalēšanai</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Mainīt</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Noklikšķiniet uz Mainīt, lai sāktu instalēšanu. Noklikšķiniet uz Atpakaļ, lai pārskatītu vai mainītu jebkuru instalēšanas iestatījumu. Noklikšķiniet uz Atcelt, lai izietu no vedņa.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Gatavs [ProductName] mainīšanai</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">La&amp;bot</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Noklikšķiniet uz Labot, lai labotu [ProductName] instalāciju. Noklikšķiniet uz Atpakaļ, lai pārskatītu vai mainītu jebkuru instalēšanas iestatījumu. Noklikšķiniet uz Atcelt, lai izietu no vedņa.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Gatavs [ProductName] labošanai</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Noņemt</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Noklikšķiniet uz Noņemt, lai noņemtu produktu [ProductName] no datora. Noklikšķiniet uz Atpakaļ, lai pārskatītu vai mainītu jebkuru instalēšanas iestatījumu. Noklikšķiniet uz Atcelt, lai izietu no vedņa.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Gatavs [ProductName] noņemšanai</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">Atja&amp;unināt</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Noklikšķiniet uz Atjaunināt, lai atjauninātu [ProductName] no datora. Noklikšķiniet uz Atpakaļ, lai pārskatītu vai mainītu jebkuru instalēšanas iestatījumu. Noklikšķiniet uz Atcelt, lai izietu no vedņa.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Gatavs [ProductName] atjaunināšanai</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Atgriezt</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Lūdzu, uzgaidiet, kamēr instalēšanas programma pabeidz noteikt nepieciešamo vietu diskā.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Izsaukuma zīmes ikona</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">Izmantojot uzstādīšanas vedni, datorā tiks instalēts [ProductName]. Noklikšķiniet uz Tālāk, lai turpinātu, vai uz Atcelt, lai izietu no uzstādīšanas vedņa.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Izmantojot uzstādīšanas vedni, datorā tiks atjaunināts [ProductName]. Noklikšķiniet uz Tālāk, lai turpinātu, vai uz Atcelt, lai izietu no uzstādīšanas vedņa.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Esiet sveicināts [ProductName] uzstādīšanas vednī!</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Es &amp;piekrītu licences līguma nosacījumiem</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Instalēt</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">Atja&amp;unināt</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lūdzu, izlasiet [ProductName] licences līgumu</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Notiek instalācijas validācija</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Notiek jauno failu kopēšana</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [9], lielums: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Notiek tīkla instalācijas failu kopēšana</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Fails: [1], direktorijs: [9], lielums: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Notiek nepieciešamās vietas aprēķināšana</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Notiek nepieciešamās vietas aprēķināšana</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Notiek nepieciešamās vietas aprēķināšana</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Notiek saīšņu izveide</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Saīsne: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Notiek atbilstošo komponentu publicēšana</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Komponenta ID: [1], kvalifikators: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Notiek produkta līdzekļu publicēšana</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Līdzeklis: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Notiek produkta informācijas publicēšana</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Notiek klašu serveru reģistrēšana</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Klases ID: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Notiek paplašinājumu serveru reģistrēšana</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Paplašinājums: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Notiek MIME informācijas reģistrēšana</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME satura tips: [1], paplašinājums: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Notiek programmu identifikatoru reģistrēšana</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Notiek reģistra vietas piešķiršana</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Brīva vieta: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Notiek instalēto lietojumprogrammu meklēšana</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Rekvizīts: [1], paraksts: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Notiek izpildāmo failu saistīšana</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Fails: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Notiek atbilstošu produktu meklēšana</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Notiek mapju izveide</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Mape: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Notiek pakalpojumu dzēšana</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Pakalpojums: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Notiek failu dublikātu izveide</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [9], lielums: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Notiek saistīto lietojumprogrammu meklēšana</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Atrasta lietojumprogramma: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">Notiek ODBC komponentu instalēšana</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Notiek jauno pakalpojumu instalēšana</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Pakalpojums: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Notiek palaišanas nosacījumu novērtēšana</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Notiek līdzekļu stāvokļu migrēšana no saistītajām lietojumprogrammām</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Lietojumprogramma: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Notiek failu pārvietošana</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [9], lielums: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Notiek failu pielabošana</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [2], lielums: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Notiek komponentu reģistrācijas atjaunināšana</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">Notiek COM+ lietojumprogrammu un komponentu reģistrēšana</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2], lietotāji: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Notiek fontu reģistrēšana</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Fonts: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Notiek produkta reģistrēšana</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Notiek tipu bibliotēku reģistrēšana</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Notiek lietotāja reģistrēšana</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Notiek failu dublikātu noņemšana</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Notiek vides virkņu atjaunināšana</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Nosaukums: [1], vērtība: [2], darbība [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Notiek lietojumprogrammu noņemšana</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Lietojumprogramma: [1], komandrinda: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Notiek failu noņemšana</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Notiek mapju noņemšana</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Mape: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">Notiek INI failu ierakstu noņemšana</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Fails: [1], sadaļa: [2], atslēga: [3], vērtība: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">Notiek ODBC komponentu noņemšana</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Notiek sistēmas reģistra vērtību noņemšana</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Atslēga: [1], nosaukums: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Notiek saīšņu noņemšana</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Saīsne: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Notiek atbilstošu produktu meklēšana</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Notiek moduļu reģistrēšana</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Fails: [1], mape: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Notiek moduļu reģistrācijas noņemšana</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Fails: [1], mape: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">Notiek ODBC direktoriju inicializēšana</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Notiek pakalpojumu startēšana</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Pakalpojums: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Notiek pakalpojumu apturēšana</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Pakalpojums: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Notiek atbilstošo komponentu publicēšanas atcelšana</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Komponenta ID: [1], kvalifikators: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Notiek produkta līdzekļu publicēšanas atcelšana</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Līdzeklis: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Notiek klašu serveru reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Klases ID: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Notiek COM+ lietojumprogrammu un komponentu reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Notiek paplašinājumu serveru reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Paplašinājums: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Notiek fontu reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Fonts: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">Notiek MIME informācijas reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME satura tips: [1], paplašinājums: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Notiek programmu identifikatoru reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Notiek tipu bibliotēku reģistrācijas noņemšana</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Notiek vides virkņu atjaunināšana</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Nosaukums: [1], vērtība: [2], darbība [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">Notiek INI failu vērtību rakstīšana</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Fails: [1], sadaļa: [2], atslēga: [3], vērtība: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Notiek sistēmas reģistra vērtību rakstīšana</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Atslēga [1], nosaukums: [2], vērtība: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Notiek lietojumprogrammas reklamēšana</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Notiek skriptu operāciju ģenerēšana darbībai:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Notiek sistēmas kataloga instalēšana</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Fails: [1], atkarības: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Notiek montāžas informācijas publicēšana</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Lietojumprogrammas konteksts:[1], montāžas nosaukums:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Notiek montāžas informācijas publicēšanas atcelšana</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Lietojumprogrammas konteksts:[1], montāžas nosaukums:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Notiek darbības atrite:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Notiek dublējuma failu noņemšana</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Fails: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Notiek pārvietoto failu noņemšana</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Fails: [1], direktorijs: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Notiek produkta informācijas publicēšanas atcelšana</String>
+
+    <String Id="Error0" Overridable="yes">{{Fatāla kļūda: }}</String>
+    <String Id="Error1" Overridable="yes">{{Kļūda [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Brīdinājums [1]. </String>
+    <String Id="Error4" Overridable="yes">Informācija [1]. </String>
+    <String Id="Error5" Overridable="yes">Instalējot šo pakotni, instalēšanas programmā radās neparedzēta kļūda. Tas var norādīt uz problēmu, kas saistīta ar šo pakotni. Kļūdas kods ir [1]. {{Argumenti ir šādi: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Disks ir pilns: }}</String>
+    <String Id="Error8" Overridable="yes">Darbība [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Ziņojuma tips: [1], arguments: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Reģistrēšana sākta: [Date]  [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Reģistrēšana apturēta: [Date]  [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Darbība sākta [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Darbība pabeigta [Time]: [1]. Atgrieztā vērtība [2].</String>
+    <String Id="Error16" Overridable="yes">Atlikušais laiks: {[1] minūtes }{[2] sekundes}</String>
+    <String Id="Error17" Overridable="yes">Nepietiek atmiņas. Pirms mēģināt vēlreiz, aizveriet pārējās lietojumprogrammas.</String>
+    <String Id="Error18" Overridable="yes">Instalēšanas programma vairs nereaģē.</String>
+    <String Id="Error19" Overridable="yes">Instalēšanas programma tika priekšlaikus apturēta.</String>
+    <String Id="Error20" Overridable="yes">Lūdzu, gaidiet, kamēr sistēma Windows konfigurē produktu [ProductName].</String>
+    <String Id="Error21" Overridable="yes">Notiek nepieciešamās informācijas apkopošana...</String>
+    <String Id="Error22" Overridable="yes">Notiek vecāku šīs lietojumprogrammas versiju noņemšana...</String>
+    <String Id="Error23" Overridable="yes">Notiek gatavošanās noņemt vecākas šīs lietojumprogrammas versijas...</String>
+    <String Id="Error32" Overridable="yes">Produkta {[ProductName] }uzstādīšana ir sekmīgi pabeigta.</String>
+    <String Id="Error33" Overridable="yes">Produkta {[ProductName] } uzstādīšana neizdevās.</String>
+    <String Id="Error1101" Overridable="yes">Lasot no faila, radās kļūda: [2]. {{ Sistēmas kļūda [3].}}  Pārbaudiet, vai šis fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1301" Overridable="yes">Nevarēja izveidot failu '[2]'. Direktorijs ar šādu nosaukumu jau pastāv. Atceliet instalēšanu un mēģiniet instalēt citā atrašanās vietā.</String>
+    <String Id="Error1302" Overridable="yes">Lūdzu, ievietojiet disku: [2]</String>
+    <String Id="Error1303" Overridable="yes">Instalēšanas programmai nav vajadzīgo atļauju, lai piekļūtu šim direktorijam: [2]. Instalēšanu nevar turpināt. Piesakieties kā administrators vai arī sazinieties ar sistēmas administratoru.</String>
+    <String Id="Error1304" Overridable="yes">Rakstot failā, radās kļūda: [2]. Pārbaudiet, vai jums ir piekļuve šim direktorijam.</String>
+    <String Id="Error1305" Overridable="yes">Lasot no faila, radās kļūda: [2]. {{ Sistēmas kļūda [3].}} Pārbaudiet, vai šis fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1306" Overridable="yes">Citai lietojumprogrammai ir ekskluzīvas tiesības piekļūt failam '[2]'. Aizveriet visas pārējās lietojumprogrammas un pēc tam noklikšķiniet uz Mēģināt vēlreiz.</String>
+    <String Id="Error1307" Overridable="yes">Faila [2] instalēšanai nepietiek vietas diskā. Atbrīvojiet vietu diskā un noklikšķiniet uz Mēģināt vēlreiz, vai noklikšķiniet uz Atcelt, lai izietu.</String>
+    <String Id="Error1308" Overridable="yes">Avota fails netika atrasts: [2]. Pārbaudiet, vai šis fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1309" Overridable="yes">Lasot no faila, radās kļūda: [3]. {{ Sistēmas kļūda [2].}}  Pārbaudiet, vai šis fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1310" Overridable="yes">Rakstot failā, radās kļūda: [3]. {{ Sistēmas kļūda [2].}}  Pārbaudiet, vai jums ir piekļuve šim direktorijam.</String>
+    <String Id="Error1311" Overridable="yes">Avota fails netika atrasts{{(kabinetfails)}}: [2]. Pārbaudiet, vai šis fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1312" Overridable="yes">Nevar izveidot direktoriju [2]. Jau pastāv fails ar tādu pašu nosaukumu. Pārdēvējiet vai izdzēsiet failu un noklikšķiniet uz Mēģināt vēlreiz vai noklikšķiniet uz Atcelt, lai izietu.</String>
+    <String Id="Error1313" Overridable="yes">Sējums [2] pašlaik nav pieejams. Atlasiet citu.</String>
+    <String Id="Error1314" Overridable="yes">Norādītais ceļš '[2]' nav pieejams.</String>
+    <String Id="Error1315" Overridable="yes">Nevar rakstīt norādītajā mapē: [2].</String>
+    <String Id="Error1316" Overridable="yes">Mēģinot lasīt šo failu, radās tīkla kļūda: [2]</String>
+    <String Id="Error1317" Overridable="yes">Mēģinot izveidot direktoriju, radās kļūda: [2]</String>
+    <String Id="Error1318" Overridable="yes">Mēģinot izveidot direktoriju, radās tīkla kļūda: [2]</String>
+    <String Id="Error1319" Overridable="yes">Mēģinot atvērt avota faila kabinetfailu, radās tīkla kļūda: [2]</String>
+    <String Id="Error1320" Overridable="yes">Norādītais ceļš ir pārāk garš: [2]</String>
+    <String Id="Error1321" Overridable="yes">Instalēšanas programmai nav vajadzīgo atļauju, lai modificētu šo failu: [2].</String>
+    <String Id="Error1322" Overridable="yes">Mapes ceļa '[2]' daļa nav derīga. Tā ir tukša vai arī pārsniedz sistēmas atļauto garumu.</String>
+    <String Id="Error1323" Overridable="yes">Mapes ceļā '[2]' ir ietverti vārdi, kas nav derīgi izmantošanai mapes ceļā.</String>
+    <String Id="Error1324" Overridable="yes">Mapes ceļā '[2]' ir ietverta nederīga rakstzīme.</String>
+    <String Id="Error1325" Overridable="yes">'[2]' nav derīgs īsais faila nosaukums.</String>
+    <String Id="Error1326" Overridable="yes">Iegūstot faila drošību, radās kļūda: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Nederīgs diskdzinis: [2]</String>
+    <String Id="Error1328" Overridable="yes">Lietojot ielāpu failam [2], radās kļūda. Iespējams, ka šis fails ir atjaunināts citā veidā un to vairs nevar modificēt, lietojot šo ielāpu. Lai iegūtu papildinformāciju, sazinieties ar ielāpa piegādātāju. {{Sistēmas kļūda: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Nepieciešamo failu nevar instalēt, jo kabinetfailam [2] nav ciparparaksta. Tas var norādīt, ka kabinetfails ir bojāts.</String>
+    <String Id="Error1330" Overridable="yes">Nevar instalēt nepieciešamu failu, jo kabinetfaila [2] ciparparaksts nav derīgs. Tas var norādīt, ka kabinetfails ir bojāts.{{ Kļūdu [3] atgrieza WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes">Neizdevās pareizi kopēt [2] failu: CRC kļūda.</String>
+    <String Id="Error1332" Overridable="yes">Neizdevās pareizi pārvietot [2] failu: CRC kļūda.</String>
+    <String Id="Error1333" Overridable="yes">Neizdevās pareizi pielabot [2] failu: CRC kļūda.</String>
+    <String Id="Error1334" Overridable="yes">Failu '[2]' nevar instalēt, jo tas nav atrodams kabinetfailā '[3]'. Tas var norādīt, ka ir radusies tīkla kļūda, CD-ROM lasīšanas kļūda vai ar šo pakotni saistīta problēma.</String>
+    <String Id="Error1335" Overridable="yes">Šai instalācijai nepieciešamais kabinetfails '[2]' ir bojāts, un to nevar izmantot. Tas var norādīt, ka ir radusies tīkla kļūda, kompaktdiska lasīšanas kļūda vai ar šo pakotni saistīta problēma.</String>
+    <String Id="Error1336" Overridable="yes">Veidojot pagaidu failu, kas nepieciešams šīs instalācijas pabeigšanai, radās kļūda.{{ Mape: [3]. Sistēmas kļūdas kods: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Nevarēja izveidot atslēgu: [2].{{ Sistēmas kļūda [3].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu. </String>
+    <String Id="Error1402" Overridable="yes">Nevarēja atvērt atslēgu: [2].{{ Sistēmas kļūda [3].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu. </String>
+    <String Id="Error1403" Overridable="yes">Nevarēja dzēst atslēgas [3] vērtību [2]. {{ Sistēmas kļūda [4].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu. </String>
+    <String Id="Error1404" Overridable="yes">Nevarēja dzēst atslēgu [2].{{ Sistēmas kļūda [3].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu. </String>
+    <String Id="Error1405" Overridable="yes">Nevarēja nolasīt atslēgas [3] vērtību [2].{{ Sistēmas kļūda [4].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu. </String>
+    <String Id="Error1406" Overridable="yes">Atslēgā [3] nevarēja ierakstīt vērtību [2].{{ Sistēmas kļūda [4].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1407" Overridable="yes">Nevarēja iegūt atslēgas [2] vērtību nosaukumus.{{ Sistēmas kļūda [3].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1408" Overridable="yes">Nevarēja iegūt atslēgas [2] apakšatslēgu nosaukumus.{{ Sistēmas kļūda [3].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1409" Overridable="yes">Nevarēja izlasīt atslēgas [2] drošības informāciju.{{ Sistēmas kļūda [3].}} Pārbaudiet, vai jums ir nepieciešamā piekļuve šai atslēgai, vai sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1410" Overridable="yes">Nevarēja palielināt pieejamo reģistra vietu. Lai instalētu šo lietojumprogrammu, ir nepieciešami [2] KB brīvas reģistra vietas.</String>
+    <String Id="Error1500" Overridable="yes">Notiek cits instalēšanas process. Tas ir jāpabeidz, pirms turpināt šo instalēšanu.</String>
+    <String Id="Error1501" Overridable="yes">Piekļūstot drošiem datiem, radās kļūda. Pārliecinieties, vai līdzeklis Windows Installer ir konfigurēts pareizi, un mēģiniet to instalēt vēlreiz.</String>
+    <String Id="Error1502" Overridable="yes">Lietotājs '[2]' iepriekš uzsāka produkta [3] instalēšanu. Lai produktu varētu izmantot, šim lietotājam ir vēlreiz jāpalaiž norādītā instalēšana. Tūlīt tiks turpināta pašreizējā instalēšana.</String>
+    <String Id="Error1503" Overridable="yes">Lietotājs '[2]' iepriekš uzsāka produkta [3] instalēšanu. Lai produktu varētu izmantot, šim lietotājam ir vēlreiz jāpalaiž norādītā instalēšana.</String>
+    <String Id="Error1601" Overridable="yes">Nepietiek vietas diskā -- sējums: '[2]'; nepieciešamā vieta: [3] KB; pieejamā vieta: [4] KB. Atbrīvojiet vietu diskā un mēģiniet vēlreiz.</String>
+    <String Id="Error1602" Overridable="yes">Vai tiešām vēlaties atcelt?</String>
+    <String Id="Error1603" Overridable="yes">Failu [2][3] jau izmanto{ šāds process: nosaukums: [4], ID: [5], loga nosaukums: [6]}. Aizveriet šo lietojumprogrammu un mēģiniet vēlreiz.</String>
+    <String Id="Error1604" Overridable="yes">Produkts [2] jau ir instalēts, un tas neļauj instalēt šo produktu. Šie divi produkti nav saderīgi.</String>
+    <String Id="Error1605" Overridable="yes">Sējumā '[2]' nepietiek vietas diskā, lai turpinātu instalēšanu ar iespējotu atkopšanu. Nepieciešami [3] KB, bet ir pieejami tikai [4] KB. Noklikšķiniet uz Ignorēt, lai turpinātu instalēšanu, nesaglabājot atkopšanas informāciju, noklikšķiniet uz Mēģināt vēlreiz, lai vēlreiz pārbaudītu vietas pieejamību, vai noklikšķiniet uz Atcelt, lai beigtu instalēšanu.</String>
+    <String Id="Error1606" Overridable="yes">Nevarēja piekļūt tīkla vietai [2].</String>
+    <String Id="Error1607" Overridable="yes">Lai varētu turpināt instalēšanu, ir jāaizver šīs lietojumprogrammas:</String>
+    <String Id="Error1608" Overridable="yes">Datorā, kurā paredzēta šī produkta instalēšana, nevarēja atrast nevienu agrāk instalētu atbilstošu produktu.</String>
+    <String Id="Error1609" Overridable="yes">Lietojot drošības iestatījumus, radās kļūda. [2] nav derīgs lietotājs vai grupa. Iespējams, ka problēma saistīta ar šo pakotni vai savienojuma izveidi ar domēna kontrolleri tīklā. Pārbaudiet tīkla savienojumu un noklikšķiniet uz Mēģināt vēlreiz vai noklikšķiniet uz Atcelt, lai beigtu instalēšanu. {{Nevar atrast lietotāja SID, sistēmas kļūda [3]}}</String>
+    <String Id="Error1701" Overridable="yes">Atslēga [2] nav derīga. Pārbaudiet, vai ievadījāt pareizo atslēgu.</String>
+    <String Id="Error1702" Overridable="yes">Lai varētu tupināt [2] konfigurēšanu, instalēšanas programmai  ir jārestartē sistēma. Noklikšķiniet uz Jā, lai restartētu tūlīt, vai uz Nē, ja vēlaties manuāli restartēt vēlāk.</String>
+    <String Id="Error1703" Overridable="yes">Lai [2] konfigurācijas izmaiņas stātos spēkā, ir jārestartē sistēma. Noklikšķiniet uz Jā, lai restartētu tūlīt, vai uz Nē, ja vēlaties manuāli restartēt vēlāk.</String>
+    <String Id="Error1704" Overridable="yes">Produkta [2] instalēšana pašlaik ir aizturēta. Lai turpinātu, ir jāatsauc šīs instalēšanas laikā veiktās izmaiņas. Vai vēlaties atsaukt šīs izmaiņas?</String>
+    <String Id="Error1705" Overridable="yes">Notiek iepriekš uzsākta šī produkta instalēšana. Lai turpinātu, ir jāatsauc šīs instalēšanas laikā veiktās izmaiņas. Vai vēlaties atsaukt šīs izmaiņas?</String>
+    <String Id="Error1706" Overridable="yes">Nevar atrast produkta [2] instalācijas pakotni. Mēģiniet to instalēt vēlreiz, izmantojot derīgu instalācijas pakotnes '[3]' kopiju.</String>
+    <String Id="Error1707" Overridable="yes">Instalēšana ir sekmīgi pabeigta.</String>
+    <String Id="Error1708" Overridable="yes">Instalēšana neizdevās.</String>
+    <String Id="Error1709" Overridable="yes">Produkts: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Varat atjaunot datora iepriekšējo stāvokli vai turpināt instalēšanu vēlāk. Vai vēlaties veikt atjaunošanu?</String>
+    <String Id="Error1711" Overridable="yes">Rakstot diskā instalācijas informāciju, radās kļūda. Pārbaudiet, vai diskā ir pietiekami daudz vietas, un noklikšķiniet uz Mēģināt vēlreiz vai noklikšķiniet uz Atcelt, lai beigtu instalēšanu.</String>
+    <String Id="Error1712" Overridable="yes">Nevarēja atrast vienu vai vairākus failus, kas nepieciešami datora iepriekšējā stāvokļa atjaunošanai. Atjaunošana nav iespējama.</String>
+    <String Id="Error1713" Overridable="yes">[2] nevarēja instalēt vienu no nepieciešamajiem produktiem. Sazinieties ar tehniskā atbalsta grupu. {{Sistēmas kļūda: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Nevarēja noņemt produkta [2] iepriekšējo versiju. Sazinieties ar tehniskā atbalsta grupu. {{Sistēmas kļūda [3].}}</String>
+    <String Id="Error1715" Overridable="yes">[2] ir instalēts</String>
+    <String Id="Error1716" Overridable="yes">[2] ir konfigurēts</String>
+    <String Id="Error1717" Overridable="yes">[2] ir noņemts</String>
+    <String Id="Error1718" Overridable="yes">Saskaņā ar ciparparakstu politiku fails [2] tika noraidīts.</String>
+    <String Id="Error1719" Overridable="yes">Nevarēja piekļūt pakalpojumam Windows Installer. Tā var notikt, ja Windows darbojas drošajā režīmā vai arī pakalpojums Windows Installer nav pareizi instalēts. Lai iegūtu papildinformāciju, sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1720" Overridable="yes">Pastāv ar šo Windows Installer pakotni saistīta problēma. Nevarēja palaist šīs instalēšanas pabeigšanai nepieciešamo skriptu. Sazinieties ar atbalsta dienestu vai pakotnes piegādātāju. {{Pielāgotas darbības [2] skripta kļūda [3], [4]: [5] rinda [6], kolonna [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Pastāv ar šo Windows Installer pakotni saistīta problēma. Nevarēja palaist šīs instalācijas pabeigšanai nepieciešamo programmu. Sazinieties ar atbalsta dienestu vai pakotnes piegādātāju. {{Darbība: [2], atrašanās vieta: [3], komanda: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Pastāv ar šo Windows Installer pakotni saistīta problēma. Programma, kas tika palaista kā uzstādīšanas daļa, netika pabeigta, kā paredzēts. Sazinieties ar atbalsta dienestu vai pakotnes piegādātāju. {{Darbība [2], atrašanās vieta: [3], komanda: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Pastāv ar šo Windows Installer pakotni saistīta problēma. Nevar palaist šīs instalēšanas pabeigšanai nepieciešamo DDL. Sazinieties ar atbalsta dienestu vai pakotnes piegādātāju. {{Darbība: [2], atrašanās vieta: [3], komanda: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Noņemšana ir sekmīgi pabeigta.</String>
+    <String Id="Error1725" Overridable="yes">Noņemšana neizdevās.</String>
+    <String Id="Error1726" Overridable="yes">Reklamēšana ir sekmīgi pabeigta.</String>
+    <String Id="Error1727" Overridable="yes">Reklamēšana neizdevās.</String>
+    <String Id="Error1728" Overridable="yes">Konfigurēšana ir sekmīgi pabeigta.</String>
+    <String Id="Error1729" Overridable="yes">Konfigurēšana neizdevās.</String>
+    <String Id="Error1730" Overridable="yes">Lai noņemtu šo lietojumprogrammu, jums ir jābūt administratora tiesībām. Lai noņemtu šo lietojumprogrammu, piesakieties kā administrators vai sazinieties ar tehniskā atbalsta grupu, lai saņemtu palīdzību.</String>
+    <String Id="Error1731" Overridable="yes">Produkta [2] avota instalācijas pakotne nav sinhronizēta ar klienta pakotni. Mēģiniet instalēt vēlreiz, izmantojot derīgu instalācijas pakotnes '[3]' kopiju.</String>
+    <String Id="Error1732" Overridable="yes">Lai pabeigtu produkta [2] instalēšanu, ir jārestartē dators. Šajā datorā pašlaik ir pieteikušies citi lietotāji, un restartējot, iespējams, zudīs viņu padarītais. Vai vēlaties restartēt tūlīt?</String>
+    <String Id="Error1801" Overridable="yes">Ceļš [2] nav derīgs. Norādiet derīgu ceļu.</String>
+    <String Id="Error1802" Overridable="yes">Nepietiek atmiņas. Pirms mēģināt vēlreiz, aizveriet pārējās lietojumprogrammas.</String>
+    <String Id="Error1803" Overridable="yes">Diskdzinī [2] nav diska. Lūdzu, ievietojiet disku un noklikšķiniet uz Mēģināt vēlreiz vai noklikšķiniet uz Atcelt, lai atgrieztos pie iepriekš atlasītā sējuma.</String>
+    <String Id="Error1804" Overridable="yes">Diskdzinī [2] nav diska. Lūdzu, ievietojiet disku un noklikšķiniet uz Mēģināt vēlreiz vai noklikšķiniet uz Atcelt, lai atgrieztos pārlūkošanas dialoglodziņā un atlasītu citu sējumu.</String>
+    <String Id="Error1805" Overridable="yes">Mape [2] nepastāv. Lūdzu, ievadiet ceļu uz esošu mapi.</String>
+    <String Id="Error1806" Overridable="yes">Jums nav vajadzīgo atļauju, lai lasītu šo mapi.</String>
+    <String Id="Error1807" Overridable="yes">Nevarēja noteikt derīgu instalācijas mērķa mapi.</String>
+    <String Id="Error1901" Overridable="yes">Mēģinot lasīt no avota instalācijas datu bāzes, radās kļūda: [2].</String>
+    <String Id="Error1902" Overridable="yes">Notiek atsāknēšanas operācijas plānošana: fails [2] tiek pārdēvēts par [3]. Lai pabeigtu operāciju, ir jāveic atkārtota sāknēšana.</String>
+    <String Id="Error1903" Overridable="yes">Notiek atsāknēšanas operācijas plānošana: tiek dzēsts fails [2]. Lai pabeigtu operāciju, ir jāveic atkārtota sāknēšana.</String>
+    <String Id="Error1904" Overridable="yes">Neizdevās reģistrēt moduli [2]. HRESULT [3]. Sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1905" Overridable="yes">Neizdevās noņemt moduļa [2] reģistrāciju. HRESULT [3]. Sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1906" Overridable="yes">Pakotni [2] neizdevās ierakstīt kešatmiņā. Kļūda: [3]. Sazinieties ar tehniskā atbalsta dienestu.</String>
+    <String Id="Error1907" Overridable="yes">Nevarēja reģistrēt fontu [2]. Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai instalētu fontus, un vai sistēma atbalsta šo fontu.</String>
+    <String Id="Error1908" Overridable="yes">Nevarēja noņemt fonta [2] reģistrāciju. Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai noņemtu fontus.</String>
+    <String Id="Error1909" Overridable="yes">Nevarēja izveidot saīsni [2]. Pārbaudiet, vai adresāta mape pastāv un vai varat tai piekļūt.</String>
+    <String Id="Error1910" Overridable="yes">Nevarēja noņemt saīsni [2]. Pārbaudiet, vai šīs saīsnes fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1911" Overridable="yes">Nevarēja reģistrēt faila [2] tipu bibliotēku. Sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1912" Overridable="yes">Nevarēja noņemt faila [2] tipu bibliotēkas reģistrāciju. Sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1913" Overridable="yes">Nevarēja atjaunināt INI failu [2][3]. Pārbaudiet, vai šis fails pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1914" Overridable="yes">Nevarēja ieplānot, lai atkārtotas sāknēšanas laikā fails [3] tiktu aizstāts ar failu [2]. Pārbaudiet, vai jums ir atļauja rakstīt failā [3].</String>
+    <String Id="Error1915" Overridable="yes">Noņemot ODBC draivera pārvaldnieku, radās ODBC kļūda [2]: [3]. Sazinieties ar tehniskā atbalsta dienestu.</String>
+    <String Id="Error1916" Overridable="yes">Instalējot ODBC draivera pārvaldnieku, radās ODBC kļūda [2]: [3]. Sazinieties ar tehniskā atbalsta dienestu.</String>
+    <String Id="Error1917" Overridable="yes">Noņemot ODBC draiveri [4], radās kļūda; ODBC kļūda [2]: [3]. Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai noņemtu ODBC draiverus.</String>
+    <String Id="Error1918" Overridable="yes">Instalējot ODBC draiveri [4], radās kļūda; ODBC kļūda [2]: [3]. Pārbaudiet, vai fails [4] pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1919" Overridable="yes">Konfigurējot ODBC datu avotu [4], radās kļūda; ODBC kļūda [2]: [3]. Pārbaudiet, vai fails [4] pastāv un vai varat tam piekļūt.</String>
+    <String Id="Error1920" Overridable="yes">Neizdevās startēt pakalpojumu '[2]' ([3]). Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai startētu sistēmas pakalpojumus.</String>
+    <String Id="Error1921" Overridable="yes">Nevarēja apturēt pakalpojumu '[2]' ([3]). Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai apturētu sistēmas pakalpojumus.</String>
+    <String Id="Error1922" Overridable="yes">Nevarēja izdzēst pakalpojumu '[2]' ([3]). Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai noņemtu sistēmas pakalpojumus.</String>
+    <String Id="Error1923" Overridable="yes">Nevarēja instalēt pakalpojumu '[2]' ([3]). Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai instalētu sistēmas pakalpojumus.</String>
+    <String Id="Error1924" Overridable="yes">Nevarēja atjaunināt vides mainīgo '[2]'. Pārbaudiet, vai jums ir nepieciešamās atļaujas, lai modificētu vides mainīgos.</String>
+    <String Id="Error1925" Overridable="yes">Jums nav vajadzīgo atļauju, lai pabeigtu visiem datora lietotājiem paredzēto instalēšanu. Piesakieties sistēmā kā administrators un mēģiniet instalēt vēlreiz.</String>
+    <String Id="Error1926" Overridable="yes">Failam '[3]' nevarēja iestatīt faila drošību. Kļūda: [2]. Pārbaudiet, vai jums ir vajadzīgās atļaujas, lai modificētu šī faila drošības atļaujas.</String>
+    <String Id="Error1927" Overridable="yes">Šajā datorā nav instalēti komponentu pakalpojumi (COM+ 1.0). Lai veiksmīgi pabeigtu šo instalēšanu, ir nepieciešami komponentu pakalpojumi. Komponentu pakalpojumi ir pieejami sistēmā Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Reģistrējot COM+ lietojumprogrammu, radās kļūda. Lai iegūtu papildinformāciju, sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1929" Overridable="yes">Noņemot COM+ lietojumprogrammas reģistrāciju, radās kļūda. Lai iegūtu papildinformāciju, sazinieties ar atbalsta dienestu.</String>
+    <String Id="Error1930" Overridable="yes">Nevarēja mainīt pakalpojuma '[2]' ([3]) aprakstu.</String>
+    <String Id="Error1931" Overridable="yes">Pakalpojums Windows Installer nevar atjaunināt sistēmas failu [2], jo šo failu aizsargā sistēma Windows. Lai šī programma darbotos pareizi, iespējams, ir jāatjaunina operētājsistēma. {{Pakotnes versija: [3], operētājsistēmas aizsargātā versija: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Pakalpojums Windows Installer nevar atjaunināt aizsargātu sistēmas Windows failu [2]. {{Pakotnes versija: [3], OS aizsargātā faila versija: [4], SFP kļūda: [5].}}</String>
+    <String Id="Error1933" Overridable="yes">Pakalpojums Windows Installer nevar atjaunināt vienu vai vairākus aizsargātos Windows failus. {{SFP kļūda: [2]. Aizsargāto failu saraksts:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Izmantojot politiku, datorā ir atspējotas lietotāja instalācijas.</String>
+    <String Id="Error1935" Overridable="yes">Instalējot montāžu '[6]', radās kļūda. Papildinformāciju skatiet palīdzības un atbalsta centrā. HRESULT: [3]. {{montāžas interfeiss: [4], funkcija: [5], komponents: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Instalējot montāžu '[6]', radās kļūda. Montāžai nav spēcīga nosaukuma, vai tā nav parakstīta, izmantojot minimālo atslēgas garumu. HRESULT: [3]. {{montāžas interfeiss: [4], funkcija: [5], komponents: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Instalējot montāžu '[6]', radās kļūda. Nevarēja pārbaudīt parakstu vai katalogu, vai tas nav derīgs. HRESULT: [3]. {{montāžas interfeiss: [4], funkcija: [5], komponents: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Instalējot montāžu '[6]', radās kļūda. Nevarēja atrast vienu vai vairākus montāžas moduļus. HRESULT: [3]. {{montāžas interfeiss: [4], funkcija: [5], komponents: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">baiti</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">KB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Viss līdzeklis nebūs pieejams</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Šis līdzeklis tiks instalēts nepieciešamības gadījumā</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Tiks instalēts viss līdzeklis, un to varēs palaist no kompaktdiska</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Viss līdzeklis tiks instalēts lokālajā cietajā diskā</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Tiks instalēts viss līdzeklis, un to varēs palaist no tīkla</String>
+    <String Id="UITextMenuCD" Overridable="yes">Tiks instalēts, lai varētu palaist no kompaktdiska</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Tiks instalēts lokālajā cietajā diskā</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Tiks instalēts, lai varētu palaist no tīkla</String>
+    <String Id="UITextNewFolder" Overridable="yes">Mape|Jauna mape</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Notiek nepieciešamās informācijas apkopošana...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Šis līdzeklis netiks instalēts</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Šis līdzeklis tiks iestatīts, lai to varētu instalēt nepieciešamības gadījumā</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Šis līdzeklis tiks instalēts, lai to varētu palaist no kompaktdiska</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Šis līdzeklis tiks instalēts lokālajā cietajā diskā</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Šis līdzeklis tiks instalēts, lai to varētu palaist no tīkla</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Šis līdzeklis kļūs nepieejams</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Tiks instalēts nepieciešamības gadījumā</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Šo līdzekli varēs palaist no kompaktdiska</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Šis līdzeklis tiks instalēts lokālajā cietajā diskā</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Šo līdzekli varēs palaist no tīkla</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Šis līdzeklis tiks pilnībā atinstalēts, un to nevarēs palaist no kompaktdiska</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Šī līdzekļa iestatījums tiks mainīts no iespējas palaist no kompaktdiska uz iespēju instalēt nepieciešamības gadījumā</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Šo līdzekli joprojām varēs palaist no kompaktdiska</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Šī līdzekļa iestatījums tiks mainīts no iespējas palaist no kompaktdiska uz iespēju instalēt lokālajā cietajā diskā</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Šis līdzeklis cietajā diskā atbrīvo [1].</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Šim līdzeklim cietajā diskā nepieciešams: [1].</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Notiek šī līdzekļa maksas aprēķināšana...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Šis līdzeklis tiks pilnībā noņemts</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Šis līdzeklis tiks noņemts no lokālā cietā diska, taču tiks iestatīts, lai to varētu instalēt nepieciešamības gadījumā</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Šis līdzeklis tiks noņemts no lokālā cietā diska, taču to joprojām varēs palaist no kompaktdiska</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Šis līdzeklis joprojām atradīsies lokālajā cietajā diskā</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Šis līdzeklis tiks noņemts no lokālā cietā diska, taču to joprojām varēs palaist no tīkla</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Šis līdzeklis tiks pilnībā atinstalēts, un to nevarēs palaist no tīkla</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Šī līdzekļa iestatījums tiks mainīts no iespējas palaist no tīkla uz iespēju instalēt nepieciešamības gadījumā</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Šī līdzekļa iestatījums tiks mainīts no iespējas palaist no tīkla uz instalēšanu lokālajā cietajā diskā</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Šo līdzekli joprojām varēs palaist no tīkla</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Šis līdzeklis cietajā diskā atbrīvo [1]. Tajā ir atlasīti [2] no [3] apakšlīdzekļiem. Šie apakšlīdzekļi cietajā diskā atbrīvo [4].</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Šis līdzeklis cietajā diskā atbrīvo [1]. Tajā ir atlasīti [2] no [3] apakšlīdzekļiem. Šiem apakšlīdzekļiem cietajā diskā ir nepieciešams: [4].</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Šim līdzeklim cietajā diskā ir nepieciešams: [1]. Tajā ir atlasīti [2] no [3] apakšlīdzekļiem. Šie apakšlīdzekļi cietajā diskā atbrīvo [4].</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Šim līdzeklim cietajā diskā ir nepieciešams: [1]. Tajā ir atlasīti [2] no [3] apakšlīdzekļiem. Šiem apakšlīdzekļiem cietajā diskā ir nepieciešams: [4].</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Atlikušais laiks: {[1] minūtes }{[2] sekundes}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Pieejams</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Atšķirība</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Obligāts</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Diska lielums</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Apjoms</String>
+</WixLocalization>

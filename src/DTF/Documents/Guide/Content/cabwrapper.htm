@@ -1,0 +1,63 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
+	<head>
+		<title>Managed Wrapper Library for Cabinet APIs</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+		<link rel="stylesheet" type="text/css" href="MSDN.css">
+	</head>
+	<body id="bodyID" class="dtBODY">
+		<div id="nsbanner">
+			<div id="bannerrow1">
+				<table class="bannerparthead" cellspacing="0" id="Table1">
+					<tr id="hdr">
+						<td class="runninghead">Managed Libraries for Windows Installer</td>
+						<td class="product"></td>
+					</tr>
+				</table>
+			</div>
+			<div id="TitleRow">
+				<h1 class="dtH1">Managed Wrapper Library for Cabinet APIs</h1>
+			</div>
+		</div>
+		<div id="nstext">
+            <p>This is a managed library that provides the ability to 
+            create and extract cabinet files. It uses cabinet.dll (present on all versions of Windows) 
+            to do the actual compression/decompression. It provides access to nearly all 
+            cabinet capabilities, including spanning of multiple cab files. It even has support for
+            preserving directory structures and UTF8 paths.</p>
+            <p>There are two ways to use the library. <a href="ms-its:MMLRef.chm::/Microsoft.Cab.CabinetInfo.html">CabinetInfo</a> 
+            and <a href="ms-its:MMLRef.chm::/Microsoft.Cab.CabinetFileInfo.html">CabinetFileInfo</a>
+            (similar to DirectoryInfo and FileInfo respectively) 
+            provide high-level object-oriented methods for doing common file-based cabinet creation and 
+            extraction tasks. On the other hand, the <a href="ms-its:MMLRef.chm::/Microsoft.Cab.Cabinet.html">Cabinet</a>
+            class provides low-level access to all
+            functionality, and operates completely in terms of .NET Streams. The previous two classes use
+            the Cabinet class to do all the actual work.</p>
+            <p>There are also two ways to build the library. 
+            Compiling it normally will produce the fully functional 
+            library in the <a href="ms-its:MMLRef.chm::/Microsoft.Cab.html">Microsoft.Cab</a>
+            namespace, while compiling it with the <tt>/D:CABMINIMAL 
+            /D:CABEXTRACTONLY</tt> flags will create a compact assembly with only the core extraction 
+            functionality, in the <a href="ms-its:MMLRef.chm::/Microsoft.Cab.MiniExtract.html">Microsoft.Cab.MiniExtract</a>
+            namespace.</p>
+            <p>The cabinet library interops with native cabinet APIs which use the 'cdecl'
+            calling-convention. When building against .NET Framework versions before 2.0,
+            this library requires a special post-build step to process the UnmanagedFunctionPointerAttribute.
+            If you use this code in another assembly, don't forget to run <a href="augmentil.htm">AugmentIL</a>
+            on it to fix the delegate calling-conventions, otherwise you will encounter a
+            NullReferenceException when attempting to call the cabinet APIs. When building against
+            .NET Framework version 2.0 or later, the UnmanagedFunctionPointerAttribute.cs source file
+            should be omitted.</p>
+            
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <ul>
+                <li><a href="cabs.htm">Working with Cabinet Files</a></li>
+                <li><a href="ms-its:MMLRef.chm::/Microsoft.Cab.CabinetInfoMethods.html">CabinetInfo Methods</a></li>
+                <li><a href="ms-its:MMLRef.chm::/Microsoft.Cab.CabinetMethods.html">Cabinet Methods</a></li>
+                <li><a href="cabpack.htm">CabPack Sample Tool</a></li>
+            </ul>
+            <p><br/></p>
+		</div>
+	</body>
+</html>

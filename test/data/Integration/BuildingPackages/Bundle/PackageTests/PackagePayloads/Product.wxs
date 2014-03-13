@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <?define TestDataDirectory="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\Bundle\Files"?>
+
+  <Bundle Name="Wix Test Bundle" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+
+    <UX Name="Setup.exe" SourceFile="$(var.TestDataDirectory)\Bootstrapper.exe"/>
+
+    <Chain>
+
+      <MsiPackage Id="MsiPackage1" Name="MsiPackage1.msi" SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi">
+          <PayloadGroupRef Id="PayloadGroup1"/>
+      </MsiPackage>
+
+    
+      <MsuPackage Id="MsuPackage2" Name="MsuPackage2.msu" SourceFile="$(var.TestDataDirectory)\Packages\MsuPackage.msu">
+          <PayloadGroupRef Id="PayloadGroup2"/>
+      </MsuPackage>
+
+      <MspPackage Id="MspPackage3" Name="MspPackage3.msp" SourceFile="$(var.TestDataDirectory)\Packages\MspPackage.msp">  
+          <PayloadGroupRef Id="PayloadGroup3"/>
+	  <Payload SourceFile="$(var.TestDataDirectory)\UXPayload\PayloadFile4.txt" DownloadUrl="http://go.microsoft.com/fwlink/?linkid=164202"/>
+      </MspPackage>
+
+      <ExePackage Id="ExePackage4" Name="ExePackage4.exe" SourceFile="$(var.TestDataDirectory)\Packages\ExePackage.exe" DownloadUrl="\\wixbuild\releases\wix\">
+	  <Payload SourceFile="$(var.TestDataDirectory)\UXPayload\PayloadFile5.txt"/>
+      </ExePackage>
+
+    </Chain>
+
+  </Bundle>
+
+  <Fragment>
+    <PayloadGroup Id="PayloadGroup1">
+      <Payload SourceFile="$(var.TestDataDirectory)\UXPayload\PayloadFile1.txt"/>
+    </PayloadGroup>
+
+    <PayloadGroup Id="PayloadGroup2">
+      <Payload SourceFile="$(var.TestDataDirectory)\UXPayload\PayloadFile2.txt"/>
+    </PayloadGroup>
+
+    <PayloadGroup Id="PayloadGroup3">
+      <Payload SourceFile="$(var.TestDataDirectory)\UXPayload\PayloadFile3.txt"/>
+    </PayloadGroup>
+  </Fragment>
+</Wix>

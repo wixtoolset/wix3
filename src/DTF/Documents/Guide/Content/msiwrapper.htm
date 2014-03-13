@@ -1,0 +1,80 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
+	<head>
+		<title>Included Components</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+		<link rel="stylesheet" type="text/css" href="MSDN.css">
+	</head>
+	<body id="bodyID" class="dtBODY">
+		<div id="nsbanner">
+			<div id="bannerrow1">
+				<table class="bannerparthead" cellspacing="0" id="Table1">
+					<tr id="hdr">
+						<td class="runninghead">Managed Libraries for Windows Installer</td>
+						<td class="product"></td>
+					</tr>
+				</table>
+			</div>
+			<div id="TitleRow">
+				<h1 class="dtH1">Managed wrapper library for Windows Installer APIs</h1>
+			</div>
+		</div>
+		<div id="nstext">
+		    <p>Microsoft.WindowsInstaller.dll is a complete .NET wrapper for the
+		    Windows Installer APIs. It provides a convenient object model that is
+		    comfortable to .NET developers and still familiar to anyone who has used
+		    the MSI scripting object model.</p>
+            <h3>Notes</h3>
+            <ul>
+            <li><p>All published MSI APIs are wrapped, with the exception of four:
+            MsiGetFileSignatureInformation (because I don't know of a .NET analog for the
+            returned certificate structure), and three APIs for previewing UI dialogs.
+            Other than that, you should be able to do everything that you can
+            do via the C APIs or the COM automation interface.</p>
+            <li><p>Some parts of this code have never had a formal test 
+            pass, so use at your own risk. But much of the code is exercised daily, used 
+            by the Developer Division Sustaining Engineering team's BRIQS system to build
+            and test patches. And it has been in use by many other teams for over two
+            years now with only a few minor fixes, so it can be considered very stable.</p>
+            <li><p>Despite its official-sounding namespace, this assembly is not officially 
+            sanctioned by the Windows Installer team. But currently there are not any
+            plans for an official set of managed even in Longhorn, so I don't see a
+            conflict for now.</p></li>
+            </ul>
+            <h3>Why rewrite it?</h3>
+            <p>It is possible to access MSI's COM Automation interfaces via C# and VB.NET.
+            So why create yet another wrapper? Here are some of my reasons:</p>
+            <ul>
+            <li><p>One of the primary things I wanted to be able to do 
+            was write custom actions in C#. The automation interface was not usable in 
+            that case, because there is no way to convert the integer session handle 
+            (received as a parameter to the type 1 custom action function) into a Session 
+            automation object.</p>
+            <li><p>The automation interface does not provide a way to 
+            specify an external UI handler. Besides external UI, this is also needed 
+            to do validation.</p>
+            <li><p>The automation interface does not provide a way to 
+            explicitly close handles (other than Views). I ran into this problem when I 
+            wanted to programmatically delete a database that I'd just finished using, but 
+            couldn't because it was still open!</p>
+            <li><p>Finally, COM Automation is somewhat slower than invoking 
+            the APIs directly.</p></li>
+            </ul>
+            
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <ul>
+                <li><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.html">Microsoft.WindowsInstaller Namespace</a></li>
+                <ul>
+                    <li><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.Installer.html">Installer Class</a></li>
+                    <li><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.Database.html">Database Class</a></li>
+                    <li><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.Session.html">Session Class</a></li>
+                </ul>
+                <li><a href="msihelper.htm">Helper Classes for Windows Installer Packages</a></li>
+                <li><a href="writingcas.htm">Writing Managed Custom Actions</a></li>
+                <li><a href="databases.htm">Working with MSI Databases</a></li>
+            </ul>
+            <p><br/></p>
+		</div>
+	</body>
+</html>

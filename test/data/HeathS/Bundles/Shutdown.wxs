@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Shutdown.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension">
+    <Bundle Name="Shutdown" Version="1.0.0.0" UpgradeCode="934919A8-1DE5-4E73-BFCB-A6FEDAA4CD6F" IconSourceFile="Setup.ico">
+        <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+            <Payload Name='BootstrapperCore.config' SourceFile='$(var.TestBA.TargetDir)\TestBA.BootstrapperCore.config' />
+            <Payload SourceFile="$(var.TestBA.TargetPath)"/>
+            <Payload SourceFile="NetfxLicense.rtf"/>
+        </BootstrapperApplicationRef>
+        <Chain>
+            <PackageGroupRef Id="Netfx4Full"/>
+            <MsiPackage Compressed="yes" SourceFile="$(var.Wait.TargetPath)" Vital="yes">
+                <MsiProperty Name="ARPSYSTEMCOMPONENT" Value="1"/>
+            </MsiPackage>
+        </Chain>
+        <Variable Name="TestName" Type="string" Value="HeathS_Shutdown"/>
+    </Bundle>
+</Wix>

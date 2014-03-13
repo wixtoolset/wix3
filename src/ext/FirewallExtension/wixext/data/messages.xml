@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Firewall Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="FirewallErrors" ContainerName="FirewallErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="IllegalRemoteAddressWithScopeAttribute" Number="6401">
+            <Instance>
+                The RemoteAddress element cannot be specified because its parent FirewallException already specified the Scope attribute. To use RemoteAddress elements, omit the Scope attribute.
+            </Instance>
+        </Message>
+        <Message Id="IllegalEmptyRemoteAddress" Number="6402">
+            <Instance>
+                The RemoteAddress element's inner text cannot be an empty string or completely whitespace.
+            </Instance>
+        </Message>
+        <Message Id="NoExceptionSpecified" Number="6403">
+            <Instance>
+                The FirewallException element doesn't identify the target of the firewall exception. To create an application exception, nest the FirewallException element under a File element or provide a value for the File or Program attributes. To create a port exception, provide a value for the Port attribute.
+            </Instance>
+        </Message>
+    </Class>
+</Messages>

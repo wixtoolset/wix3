@@ -1,0 +1,437 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Change History</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Change History</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="about.htm">Overview</a> &gt;
+        <span class="nolink">Change History</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+
+<h3><b>2007-07-03</b></h3>
+<i>See <a href="whatsnew.htm">What's New?</a></i><br />&nbsp;<br />&nbsp;<br />
+<hr size="2"/>
+<h3><b>2005-03-30</b></h3>
+
+<ul>
+<li>New custom action proxy<ul>
+    <li><b>Managed custom actions use an XML config file to specify the CLR version.</b></li>
+    <li>New CAPack module is an unmanaged self-extracting CA DLL that can wrap both
+    managed and unmanaged custom actions. (The old managed CAProxy module is obsolete.)</li>
+    <li>Custom action build process is different but still complicated --
+    see documentation for details.</li>
+    <li>CustomActionAttribute no longer accepts the optional NativeDependencies
+    parameter since it does not apply to the new proxy (all packaged files
+    are always extracted and available when the CA executes). </li>
+</ul></li>
+
+<li>64bit support<ul>
+    <li>Various code fixes to pointer/handle types and structure alignments.</li>
+    <li>Cabinet and MSI libraries tested on AMD64 CLR.</li>
+    <li>Unmanaged and managed parts of custom action proxy tested on AMD64.</li>
+</ul></li>
+
+<li>MSI 3.1 APIs added:<ul>
+    <li>Installer.SetExternalUI(ExternalUIRecordHandler)</li>
+    <li>Installer.NotifySidChange</li>
+</ul></li>
+
+<li>Code builds easier with .NET Famework 2.0<ul>
+    <li>AugmentIL post-build step is no longer necessary when compiling the cabinet code
+    against .NET Framework 2.0, which has builtin support for cdecl delegates.</li>
+    <li>All C# code compiles against .NET Framework 2.0 without obsolete warnings,
+    when setting the NETFX2 preprocessor define.</li>
+    <li>Same code is still compatible with .NET Framework 1.0 + AugmentIL.</li>
+</ul></li>
+
+<li>Miscellaneous bugfixes/changes:<ul>
+    <li>InstallPackage.ExtractFiles could fail in some cominations of
+    compressed/uncompressed files - fixed.</li>
+    <li>Installer.DeterminePatchSequence was broken due to an incorrect interop struct - fixed.</li>
+    <li>CabinetInfo and CabinetFileInfo classes made serializable.</li>
+    <li>Added Session.FormatString method to simplify formatting a string with
+    property substitutions.</li>
+</ul></li>
+<li>Documentation updates:<ul>
+    <li>Updated all documentation for new CA proxy.</li>
+    <li>Added new topic discussing InstallUtil.</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2004-04-13</b></h3>
+
+<ul>
+<li>Documentation<ul>
+  <li>Consolidated all documentation into a single CHM file.</li>
+  <li>Added new topics about working with MSI databases & cabinet files,
+  to help new users get oriented more easily.</li>
+</ul></li>
+
+<li>WindowsInstaller<ul>
+    <li>Removed [Beta] tags from MSI 3.0 APIs, but otherwise there
+    have been no changes since 3.0 Beta 1.<ul>
+        <li>Be warned these are still the least-tested parts of
+        the library, so early users may encounter bugs.</li>
+    </ul></li>
+</ul></li>
+
+<li>InstallPackage<ul>
+  <li>Fixed InstallPackage.ExtractFiles() bug when directory doesn't exist.</li>
+  <li>Added ability to handle uncompressed files in a package marked as compressed.</li>
+</ul></li>
+
+<li>Cabinet<ul>
+    <li>Fixed improper handling of file attributes.<ul>
+        <li>This bug caused some packages to not be extractable by other tools.</li>
+    </ul></li>
+    <li>Added support for UTF filenames.<ul>
+        <li>Non-ASCII filenames will automatically be stored as UTF-8.
+        (But note most other tools don't know how to extract them.)</li>
+    </ul></li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-10-13</b></h3>
+
+<ul>
+<li>Cab<ul>
+  <li>Fixed a bug introduced in v2.4.0 that caused files to be left in the %TEMP%
+  directory after creating a cab.</li>
+  <li>Unsealed the CabinetInfo, CabinetFileInfo, CabinetStatus classes and made a few methods
+  protected and virtual.</li>
+</ul></li>
+
+<li>AugmentIL<ul>
+  <li>Fixed a bug that sometimes caused a crash when specifying a relative output path
+  on the command-line.</li>
+  <li>Fixed a bug that sometimes caused the Win32 version to be missing from the output file.</li>
+</ul></li>
+
+<li>Samples\Diff: added new sample tool<ul>
+    <li>Recursively diffs directories, MSIs, MSPs, CABs, other files.</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-09-23</b></h3>
+
+<ul>
+<li>Cab<ul>
+  <li>Fixed a bug that caused compressing very large files/file sets to use way too 
+  much memory. Performance on large inputs is now within a few % of native cab tools
+  (sometimes even a little faster!) for the same compression level.</li>
+</ul></li>
+
+<li>WindowsInstaller<ul>
+  <li>All the new MSI 3.0 beta APIs are wrapped, resulting in the following additions:<ul>
+    <li>New classes - Product, Patch (for accessing sourcelist and other config)</li>
+    <li>New methods on Install class - GetProducts, GetPatches, RemovePatches,
+    ApplyMultiplePatches, DetermineApplicablePatches, ExtractPatchXmlData</li>
+    <li>New enumerations - InstallContext, PatchStates, SourceType</li>
+    <li>Additional InstallProperty values</li>
+  </ul></li>
+  <li>Note, MSI 3.0 support should be considered preliminary for now,
+        as APIs (both native and managed) are subject to change.</li>
+  <li>For MSI 2.0 compatibility, developers should not use any classes or
+        methods that are marked as [MSI 3.0 beta] in the documentation.</li>
+  <li>And unrelated to 3.0, a few additional enums have been added:
+        DialogAttributes, ControlAttributes, CustomActionTypes,
+        IniFileAction, RegistryRoot, RemoveFileInstallMode,
+        ServiceControlEvents, ServiceInstallFlags, TextStyles,
+        UpgradeAttributes, LocatorType</li>
+  <li>Also made a few minor non-breaking changes to keep the library FxCop-clean.</li>
+</ul></li>
+
+<li>AugmentIL<ul>
+  <li>Added support for strongname signing and delay-signing.  AugmentIL tries to
+  locate the keyfile using the AssemblyKeyFileAttribute, or you may specify the
+  path with the new /key option.</li>
+  <li>All &quot;released&quot; assemblies will now be strongname-signed
+  (with an unofficial key).</li>
+</ul></li>
+
+<li>CAProxy<ul>
+  <li>Added support for NativeDependencies property on CustomActionAttribute.  This enables
+  custom actions to P/Invoke into native DLLs that are carried with them.</li>
+</ul></li>
+
+<li>Samples\SampleCAs<ul>
+  <li>In SampleCA2, changed MessageBox.Show(&quot;&quot;) to session.Message(User,&quot;&quot;),
+  because generally it is a bad practice for CAs to show independent UI.</li>
+  <li>Added test of CustomActionAttribute.NativeDependencies functionality.</li>
+</ul></li>
+
+<li>Samples\CabPack: added new sample<ul>
+    <li>Demonstrates &amp; tests the cab library by creating self-extracting packages</li>
+</ul></li>
+
+<li>Samples\Inventory: added new sample<ul>
+    <li>Shows a hierarchical, relational, searchable view of all of the product,
+    feature, component, file, and patch data managed by MSI, for all products
+    installed on the system.</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-09-12</b></h3>
+
+<ul>
+<li>Cab:<ul>
+    <li>Added CabinetInfo.CompressDirectory method, capable of compressing an
+        entire directory tree structure.</li>
+    <li>Updated documentation of various methods concerning support of directory
+        structure inside cabs.</li>
+    <li>CabinetInfo case-sensitivity was inconsistent - 
+        now it is case-insensitive by default, though case is still preserved</li>
+    <li>Separated assembly attributes into assembly.cs</li>
+</ul></li>
+<li>Msi:<ul>
+    <li>InstallerException and subclasses automatically get extended error data
+        from MSI's last-error-record when available.  The data is stored
+        in the exception and made available through the GetErrorRecord()
+        method, and the exception's Message includes the formatted error
+        message and data.  This makes most exceptions extremely informative!</li>
+    <li>Added View.GetValidationErrors() method, and supporting ValidationErrorInfo
+        struct and ValidationError enum.  This wrapper for the MsiViewGetError
+        API had been accidentally left out.</li>
+    <li>Session.Message() now supports message-box flags to specify buttons &amp; icon</li>
+    <li>Added doc remarks to various methods about closing handles.</li>
+    <li>Separated assembly attributes into assembly.cs</li>
+</ul></li>
+<li>AugmentIL:<ul>
+    <li>Recent builds of ildasm v2.0.* have a slightly different output format,
+        which could break AugmentIL in some cases - fixed</li>
+</ul></li>
+<li>SampleCAs:<ul>
+    <li>Removed 'using' clause from SampleCA1 -- there's no need to close the session's active database handle</li>
+</ul></li>
+<li>Documentation:<ul>
+    <li>Added note to ReadMe about compiling the cab source into another assembly</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-08-07</b></h3>
+
+<ul>
+<li>Cab:<ul>
+    <li>CabinetInfo.IsValid() usually returned false even for valid cabs - fixed</li>
+    <li>Extracting cab files with null timestamps generated exception - fixed</li>
+</ul></li>
+<li>Msi:<ul>
+    <li>Added InstallCanceledException, subclass of InstallerException;
+        Methods which may be canceled by the user can throw this exception</li>
+    <li>Added MessageResult enumeration;
+        Used by Session.Message() and ExternalUIHandler delegate</li>
+    <li>Installer.EnableLog() now supports extended attributes correctly:
+        Append mode and flush-every-line</li>
+    <li>Added Session.DoActionSequence() -
+        This wrapper for the MsiSequence API had been accidentally left out</li>
+</ul></li>
+<li>CAProxy:<ul>
+    <li>Catches InstallCanceledException, returns ERROR_INSTALL_USEREXIT
+        so CA developer doesn't necessarily have to handle the exception</li>
+</ul></li>
+<li>Msi\Package:<ul>
+    <li>Added TransformInfo class: metadata about an individual patch transform</li>
+    <li>Added PatchPackage.GetTransform*() methods which return TransformInfo</li>
+</ul></li>
+<li>Documentation:<ul>
+    <li>Added section to ReadMe.htm about building managed custom actions</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-06-02</b></h3>
+
+<ul>
+<li>Msi:<ul>
+    <li>Validation didn't work on merge modules - fixed</li>
+</ul></li>
+<li>CAProxy:<ul>
+    <li>Was broken in 2.1 - fixed</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-05-14</b></h3>
+
+<ul>
+<li>Msi:<ul>
+    <li>External UI handler didn't survive a garbage collection - fixed</li>
+    <li>Validation engine was completely broken - now it should work
+        at least for MSIs which are already mostly valid</li>
+    <li>Added DynamicLoad property to CustomActionAttribute<br />
+        Usage: set DynamicLoad=false when using XmlSerialization; default is true</li>
+</ul></li>
+<li>Msi\Package:<ul>
+    <li>File extraction and update methods didn't work on merge modules - fixed</li>
+    <li>Made file update code slightly more robust</li>
+    <li>Removed hard-reference to the FilePatch assembly - now it is only
+        loaded if working with binary file patches</li>
+</ul></li>
+<li>AugmentIL:<ul>
+    <li>AugmentIL would crash if some input files had read-only attr - fixed</li>
+    <li>Made /verbose switch slightly more verbose</li>
+</ul></li>
+<li>CAProxy:<ul>
+    <li>Added support for the DynamicLoad property of CustomActionAttribute</li>
+    <li>Added MMsiBreak debugging functionality - see doc</li>
+</ul></li>
+<li>Samples\WiFile:<ul>
+    <li>Added /l (list files) switch</li>
+</ul></li>
+<li>Samples\SampleCAs:<ul>
+    <li>In the makefile the comments about debug builds had an error;
+        Now the sample builds debug packages (correctly) by default.</li>
+</ul></li>
+<li>Documentation:<ul>
+    <li>Wrote AugmentIL.htm describing the AugmentIL tool and its options.</li>
+    <li>Wrote WiFile.htm describing the WiFile sample tool.</li>
+    <li>Added section to ReadMe.htm about debugging managed custom actions.</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-03-31</b></h3>
+
+<ul>
+<li>Msi: Implemented the remaining APIs, also minor improvements and bugfixes<ul>
+    <li>All published APIs are wrapped, with the exception of four:
+        MsiGetFileSignatureInformation (because I don't know of a .NET analog
+        for the returned certificate structure), and 3 APIs for previewing UI</li>
+    <li>Database.OpenView and Database.Execute* now take String.Format style params</li>
+    <li>Database.ApplyTransform can optionally use the error-suppression flags
+        stored in the transform summary info</li>
+    <li>Added a few supporting enumerations and structures for the remaining APIs</li>
+    <li>InstallerException gets a descriptive message for any MSI or system error</li>
+    <li>Fixed a bug in InstallerException which would usually report &quot;error 0&quot;</li>
+    <li>Added optimization for setting a Record field to a MemoryStream</li>
+    <li>Record.GetStream is capable of extracting substorages</li>
+    <li>Moved InstallPath class to Microsoft.WindowsInstaller.Package assembly</li>
+</ul></li>
+<li>Msi\FilePatch: added new project<ul>
+    <li>Binary file patch API wrapper</li>
+</ul></li>
+<li>Msi\Package: added new project<ul>
+    <li>Helper classes for working with MSI and MSP packages</li>
+</ul></li>
+<li>Cab: some minor bugfixes<ul>
+    <li>Cabinet.Extract(stream, name) threw a NullReferenceException if the file
+        didn't exist in the cab -- now it returns null</li>
+    <li>CabinetInfo.CompressFileSet() was broken -- fixed</li>
+    <li>If a Cabinet callback throws an exception, it is propogated as the
+        inner-exception of the CabinetException</li>
+</ul></li>
+<li>Samples\WiFile: added new sample<ul>
+    <li>Demonstrates some features of InstallPackage class in Msi\Package project</li>
+</ul></li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-03-20</b></h3>
+
+Documentation!<ul>
+    <li>Msi and Cab sources include complete C# XML documentation.</li>
+    <li>Msi and Cab makefiles generate XML documentation files.</li>
+    <li>Reference CHM compiled from XML documentation with NDoc.</li>
+</ul>
+
+<p>I am aware that exceptions are still not documented in most areas.
+        Other than that, feel free to send me a note if it's still not clear
+        how to use parts of the API after reading the documentation.</p>
+
+<p>Version is still 1.1 because there are no code changes in this release.</p>
+
+<hr size="2"/>
+<h3><b>2003-03-13</b></h3>
+
+<ul>
+<li>Msi: lots of small improvements for usability and consistency<ul>
+    <li>Reworked ExternalUIHandler support</li>
+    <li>Added Installer properties/methods:<ul>
+        <li>Components</li>
+        <li>ComponentClients()</li>
+        <li>ComponentState()</li>
+        <li>ComponentPath()</li>
+        <li>EnableLog()</li>
+        </ul></li>
+    <li>Added Session.EvaluateCondition() method</li>
+    <li>Improved exception-handling in many methods in Installer, Database,
+        &amp; Session classes</li>
+    <li>Added extensive XML doc-comments to Installer, Database, View,
+        &amp; Session classes</li>
+    <li>A few breaking changes:<ul>
+        <li>View.ModifyMode enumeration moved outside View and
+            renamed ViewModifyMode</li>
+        <li>InstallLogMode enumeration renamed to InstallLogModes
+            (naming convention for bitfields)</li>
+        <li>Record constructor takes arbitrary number of parameters</li>
+        </ul></li>
+</ul></li>
+<li>AugmentIL: almost completely rewritten<ul>
+    <li>Ildasm/ilasm steps are built-in<ul>
+        <li>The round-trip can be done in one step</li>
+        <li>IL source input/output is still supported</li>
+        </ul></li>
+    <li>Never throws an unhandled exception</li>
+    <li>Organized command-line options, consistent with other .NET tools</li>
+    <li>Uses a plugin architecture to allow additional augmentations</li>
+</ul></li>
+<li>CAProxy: Added AIL_CAProxy.cs - AugmentIL plugin generates CA proxy methods</li>
+
+<li>SampleCAs: Updated makefile for new AugmentIL usage</li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-01-16</b></h3>
+
+<ul>
+<li>ReadMe.htm: Added section on writing managed CAs</li>
+<li>SampleCAs: Added missing reference to System.Windows.Forms.dll to the makefile</li>
+<li>AugmentIL: Added specific warning messages for when CA method has wrong signature</li>
+<li>Put sources in Toolbox-hosted Source Depot.</li>
+</ul>
+
+<hr size="2"/>
+<h3><b>2003-01-14</b></h3>
+Initial posting to http://toolbox
+
+<p>&nbsp;</p>
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

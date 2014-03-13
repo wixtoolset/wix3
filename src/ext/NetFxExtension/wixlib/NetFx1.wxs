@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="NetFx1.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following location:
+
+           .NET Framework 1.0 - http://msdn.microsoft.com/library/ms994349.aspx
+    -->
+
+    <!-- set to 3321-3705 if the .NET Framework 1.0 is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK10" Secure="yes">
+            <RegistrySearch Id="NetFramework10" Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework\policy\v1.0" Name="3705" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Location of .NET Framework 1.0 redistributable install root directory -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK10INSTALLROOTDIR" Secure="yes">
+            <RegistrySearch Id="NetFxInstallRootForNetfx10Search" Type="raw" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="InstallRoot">
+                <DirectorySearch Id="NetFx10InstallRootSearch" Path="v1.0.3705" Depth="0" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+</Wix>

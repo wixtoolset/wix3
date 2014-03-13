@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="ClickThrough.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{5EB7B5FD-0B3D-4FDF-8BAD-E4825FF874EC}</ProjectGuid>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyName>ClickThrough</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Microsoft.Tools.WindowsInstallerXml.ClickThrough</RootNamespace>
+    <FxCopEnabled>false</FxCopEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\ambient\dll\ambient.csproj">
+      <Name>ambient</Name>
+      <Project>{0C1C20B7-92DD-4B84-B031-029D921FB669}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Wix\Wix.csproj">
+      <Name>Wix</Name>
+      <Project>{9E03A94C-C70E-45C6-A269-E737BBD8B319}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Content Include="Data\messages.xml" />
+    <Content Include="Xsd\ClickThrough.xsd" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ClickThroughForm.cs" />
+    <Compile Include="FilesControl.cs" />
+    <Compile Include="Generated\ClickThrough.cs" />
+    <Compile Include="Generated\Messages.cs" />
+    <Compile Include="Header.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="PackageBuilder.cs" />
+    <Compile Include="PickIconDialog.cs" />
+    <Compile Include="ProgressDialog.cs" />
+    <Compile Include="ProgressEventArgs.cs" />
+    <Compile Include="RegistryControl.cs" />
+    <Compile Include="Serialize\CodeDomInterfaces.cs" />
+    <Compile Include="Serialize\ElementCollection.cs" />
+    <Compile Include="StatusChangingEventArgs.cs" />
+    <Compile Include="SummaryControl.cs" />
+    <Compile Include="WixFolderBrowserDialog.cs" />
+    <None Include="ClickThrough.exe.manifest" />
+    <EmbeddedResource Include="ClickThroughForm.resx">
+      <DependentUpon>ClickThroughForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\messages.resources" />
+    <EmbeddedResource Include="FilesControl.resx">
+      <DependentUpon>FilesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Header.resx">
+      <DependentUpon>Header.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PickIconDialog.resx">
+      <DependentUpon>PickIconDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistryControl.resx">
+      <DependentUpon>RegistryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SummaryControl.resx">
+      <DependentUpon>SummaryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WixFolderBrowserDialog.resx">
+      <DependentUpon>WixFolderBrowserDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <MsgGenSource Include="Data\messages.xml">
+      <ResourcesLogicalName>$(RootNamespace).Data.messages.resources</ResourcesLogicalName>
+    </MsgGenSource>
+    <XsdGenSource Include="Xsd\ClickThrough.xsd">
+      <Namespace>Microsoft.Tools.WindowsInstallerXml.ClickThrough.Serialize</Namespace>
+    </XsdGenSource>
+  </ItemGroup>
+  <Import Project="..\..\..\WixBuild.Common.targets" />
+</Project>

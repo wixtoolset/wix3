@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset .NET Framework Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="NetFxNativeImage">
+        <columnDefinition name="NetFxNativeImage" type="string" length="72" primaryKey="yes"  modularize="column"
+            category="identifier" description="The primary key, a non-localized token."/>
+        <columnDefinition name="File_" type="string" length="72" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="The assembly for which a native image will be generated."/>
+        <columnDefinition name="Priority" type="number" length="2"
+            minValue="0" maxValue="3" description="The priority for generating this native image: 0 is syncronous, 1-3 represent various levels of queued generation."/>
+        <columnDefinition name="Attributes" type="number" length="4"
+            minValue="0" maxValue="2147483647" description="Integer containing bit flags representing native image attributes."/>
+        <columnDefinition name="File_Application" type="string" length="72" modularize="column" nullable="yes"
+            category="formatted" description="The application which loads this assembly."/>
+        <columnDefinition name="Directory_ApplicationBase" type="string" length="72" modularize="column" nullable="yes"
+            category="formatted" description="The directory containing the application which loads this assembly."/>
+    </tableDefinition>
+</tableDefinitions>

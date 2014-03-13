@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="wixarm.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <BuildInParallel>false</BuildInParallel>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ProjectReference>
+      <Properties>VisualStudioVersion=11.0;PlatformToolset=v110;Platform=ARM</Properties>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+
+  <ItemGroup Condition=" $(BuildARM) ">
+    <ProjectReference Include="dutil\dutil.vcxproj" />
+    <ProjectReference Include="ca\wcautil\wcautil.vcxproj" />
+    <ProjectReference Include="ca\serverca\scasched\scasched.vcxproj" />
+    <ProjectReference Include="ca\serverca\scaexec\scaexec.vcxproj" />
+    <ProjectReference Include="ca\wixca\dll\wixca.vcxproj" />
+    <ProjectReference Include="ext\DependencyExtension\lib\deputil.vcxproj" />
+    <ProjectReference Include="ext\DependencyExtension\ca\wixdepca.vcxproj" />
+    <ProjectReference Include="ext\FirewallExtension\ca\firewall.vcxproj" />
+    <ProjectReference Include="ext\UIExtension\ca\uica.vcxproj" />
+    <ProjectReference Include="burn\engine\engine.vcxproj" />
+    <ProjectReference Include="burn\stub\stub.vcxproj" />
+    <ProjectReference Include="ext\BalExtension\balutil\balutil.vcxproj" />
+    <ProjectReference Include="ext\BalExtension\wixstdba\wixstdba.vcxproj" />
+
+    <ProjectReference Include="ext\BalExtension\wixlib_arm\BalExtension_ARM.wixproj" />
+    <ProjectReference Include="ext\DependencyExtension\wixlib_arm\DependencyExtension_ARM.wixproj" />
+    <ProjectReference Include="ext\FirewallExtension\wixlib_arm\FirewallExtension_ARM.wixproj" />
+    <ProjectReference Include="ext\UIExtension\wixlib_arm\UIExtension_ARM.wixproj" />
+    <ProjectReference Include="ext\UtilExtension\wixlib_arm\UtilExtension_ARM.wixproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
+</Project>

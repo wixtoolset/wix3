@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="pt-br.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="pt-br" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrIISCannotConnect" Overridable="yes">Não foi possível conectar no Internet Information Server.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadWebSite" Overridable="yes">Erro ao processar WebSites.   ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadWebDirs" Overridable="yes">Erro ao processar WebDirs.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadVDirs" Overridable="yes">Erro ao processar WebVirtualDirs.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadFilters" Overridable="yes">Erro ao processar WebFilters.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadMimeMap" Overridable="yes">Erro ao processar MimeMaps. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadAppPool" Overridable="yes">Erro ao processar WebAppPools. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadProp" Overridable="yes">Erro ao processar WebProperties. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadWebSvcExt" Overridable="yes">Erro ao processar WebServiceExtensions. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadWebError" Overridable="yes">Erro ao processar WebErrors. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedReadHttpHeader" Overridable="yes">Erro ao processar HttpHeaders. ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedTransaction" Overridable="yes">Erro ao agendar transação para alterações no IIS.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallWebs" Overridable="yes">Erro ao agendar instalação de IIS Web Sites.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallWebDirs" Overridable="yes">Erro ao agendar instalação de IIS Web Directories.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallVDirs" Overridable="yes">Erro ao agendar instalação de IIS Virtual Directories.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallFilters" Overridable="yes">Erro ao agendar instalação de IIS Filters.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallAppPool" Overridable="yes">Erro ao agendar instalação de IIS AppPools.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallProp" Overridable="yes">Erro ao agendar instalação de IIS Properties.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedInstallWebSvcExt" Overridable="yes">Erro ao agendar instalação de IIS Web Service Extensions.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallWebs" Overridable="yes">Erro ao agendar desinstalação de IIS Web Sites.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallWebDirs" Overridable="yes">Erro ao agendar desinstalação de IIS Web Directories.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallVDirs" Overridable="yes">Erro ao agendar desinstalação de IIS Virtual Directories.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallFilters" Overridable="yes">Erro ao agendar desinstalação de IIS Filters.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallAppPool" Overridable="yes">Erro ao agendar desinstalação de IIS AppPools.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallProp" Overridable="yes">Erro ao agendar desinstalação de IIS Properties.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedSchedUninstallWebSvcExt" Overridable="yes">Erro ao agendar desinstalação de IIS Web Service Extensions.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedStartTransaction" Overridable="yes">Erro ao iniciar transação do IIS . ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedOpenKey" Overridable="yes">Erro ao abrir metabase key.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedCreateKey" Overridable="yes">Erro ao criar metabase key.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedWriteData" Overridable="yes">Erro ao escrever dados na metabase key.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedCreateApp" Overridable="yes">Erro ao criar aplicação Web.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedDeleteKey" Overridable="yes">Erro ao excluir metabase key.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedDeleteValue" Overridable="yes">Erro ao excluir valor da metabase.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrIISFailedCommitInUse" Overridable="yes">Erro ao fazer commit de transação IIS por violação de compartilhamento. Alguma outra aplicação pode estar tentando configurar o ISS ao mesmo tempo.</String>
+    <String Id="ConfigureIIs" Overridable="yes">Configurando IIS</String>
+    <String Id="ConfigureIIsExec" Overridable="yes">Executando Configurações do IIS</String>
+    <String Id="StartMetabaseTransaction" Overridable="yes">Iniciando Transação de Metabase do IIS</String>
+    <String Id="RollbackMetabaseTransaction" Overridable="yes">Cancelando Transação de Metabase do IIS</String>
+    <String Id="CommitMetabaseTransaction" Overridable="yes">Efetivando Transação de Metabase do IIS</String>
+    <String Id="WriteMetabaseChanges" Overridable="yes">Instalando Chaves e Valores de Metabase do IIS</String>
+    <String Id="ConfigureIIs7Exec" Overridable="yes">Configurando IIS</String>
+    <String Id="StartIIS7ConfigTransaction" Overridable="yes">Iniciando Transação de Configuração do IIS</String>
+    <String Id="RollbackIIS7ConfigTransaction" Overridable="yes">Cancelando Transação de Configuração do IIS</String>
+    <String Id="CommitIIS7ConfigTransaction" Overridable="yes">Efetivando Transação de Configuração do IIS</String>
+    <String Id="WriteIIS7ConfigChanges" Overridable="yes">Instalando Chaves e Valores de Configurações do IIS</String>
+</WixLocalization>

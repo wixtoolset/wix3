@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Shutdown.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="..\HeathS.targets" />
+    <PropertyGroup>
+        <OutputName>Shutdown</OutputName>
+        <OutputType>Bundle</OutputType>
+        <TestDir Condition=" '$(TestDir)' == '' ">$(WIX_ROOT)\test</TestDir>
+    </PropertyGroup>
+    <ItemGroup>
+        <BindInputPaths Include="$(WIX_ROOT)external\Netfx4\" />
+        <Compile Include="Shutdown.wxs"/>
+        <Compile Include="Netfx.wxs"/>
+        <None Include="NetfxLicense.rtf">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="Setup.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <ProjectReference Include="..\Packages\Wait.wixproj">
+            <Name>Wait</Name>
+        </ProjectReference>
+        <ProjectReference Include="$(TestDir)\src\Burn\TestBA\TestBA.csproj">
+            <Name>TestBA</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <Import Project="$(WixTargetsPath)" Condition="Exists('$(WixTargetsPath)')"/>
+</Project>

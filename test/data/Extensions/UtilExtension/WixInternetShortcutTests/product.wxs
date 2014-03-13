@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="*" Name="WiX Util Internet Shortcuts Example Product" Language="1033" Version="1.0.0" Manufacturer="Dynamo Corporation" UpgradeCode="3A7130B4-AC93-4F34-86B6-114068C556F1">
+    <Package InstallScope="perMachine" Description="Package with Internet shortcuts." Comments="This Product does not install any executables" InstallerVersion="200" Compressed="yes" Platform="x86" />
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+    
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramMenuFolder" />
+      <Directory Id="DesktopFolder" />
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="SampleProductDirectory" Name="WiX Sample">
+          <Directory Id="SecretLinksDirectory" Name="Secret Links" />
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="SampleProductDirectory">
+      <Component Id="SampleComponent" Guid="47DC3164-8C09-40D5-975B-951939DA5EF6">
+        <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt"/>
+        <util:InternetShortcut Id="A" Directory="DesktopFolder" Name="Joy of Setup" Target="http://joyofsetup.com" />
+        <util:InternetShortcut Id="A1" Directory="SecretLinksDirectory" Name="InternetShortcuts announcement" Target="http://www.joyofsetup.com/2008/03/18/new-wix-feature-internet-shortcuts/" />
+        <util:InternetShortcut Id="B" Directory="ProgramMenuFolder" Name="Aaron Stebner WebLog" Target="http://blogs.msdn.com/astebner/default.aspx" />
+        <util:InternetShortcut Id="C" Directory="ProgramMenuFolder" Name="Heath Stewart's Blog" Target="http://blogs.msdn.com/heaths/default.aspx" />
+        <util:InternetShortcut Id="D" Directory="ProgramMenuFolder" Name="Peter Marcu's Blog" Target="http://blogs.msdn.com/pmarcu/" />
+        <util:InternetShortcut Id="E" Directory="ProgramMenuFolder" Name="Rob Mensching Openly Uninstalled" Target="http://robmensching.com/blog/" />
+        <util:InternetShortcut Id="F" Directory="ProgramMenuFolder" Name="Setup Sense and Sensibility" Target="http://blogs.msdn.com/rflaming/" />
+        <util:InternetShortcut Id="G" Directory="ProgramMenuFolder" Name="votive, wix, vsip, and all things microsoft" Target="http://blogs.msdn.com/jrock/" />
+        <util:InternetShortcut Id="H" Directory="ProgramMenuFolder" Type="url" Name="Windows Installer Team Blog" Target="http://blogs.msdn.com/windows_installer_team/default.aspx" />
+        <util:InternetShortcut Id="Z" Directory="ProgramMenuFolder" Type="url" Name="ARP" Target="file://[%WINDIR]\Help\addremov.chm" />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="SampleProductFeature" Title="Sample Product Feature" Level="1">
+      <ComponentRef Id="SampleComponent" />
+    </Feature>
+
+  </Product>
+
+</Wix>

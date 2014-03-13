@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{3920ADCE-51FA-496B-8BA8-F4F35C788BC9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Wix.Samples</RootNamespace>
+    <AssemblyName>ManagedBundleRunner</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BundleErrorEventArgs.cs" />
+    <Compile Include="BundleProgressEventArgs.cs" />
+    <Compile Include="BundleRunner.cs" />
+    <Compile Include="BundleResult.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

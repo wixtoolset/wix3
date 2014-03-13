@@ -1,0 +1,17 @@
+//-------------------------------------------------------------------------------------------------
+// <copyright file="wixunit.rc" company="Outercurve Foundation">
+//   Copyright (c) 2004, Outercurve Foundation.
+//   This software is released under Microsoft Reciprocal License (MS-RL).
+//   The license and further copyright text can be found in the file
+//   LICENSE.TXT at the root directory of the distribution.
+// </copyright>
+//-------------------------------------------------------------------------------------------------
+
+#define VER_APP
+#define VER_ORIGINAL_FILENAME "WixUnit.exe"
+#define VER_INTERNAL_NAME "WixUnit"
+#define VER_FILE_DESCRIPTION "WiX Toolset Unit Tester"
+#include "wix.rc"
+
+#define MANIFEST_RESOURCE_ID 1
+MANIFEST_RESOURCE_ID RT_MANIFEST "wixunit.exe.manifest"

@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Windows Installer System Inventory Viewer</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Windows Installer System Inventory Viewer</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="samples.htm">Samples</a> &gt;
+        <span class="nolink">Inventory</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+            <p>This application shows a hierarchical, relational, searchable
+            view of all of the product, feature, component, file, and patch
+            data managed by MSI, for all products installed on the system.</p>
+            <p><br/></p>
+
+            <h4>Navigation</h4>
+            <ol>
+            <li><p>The tree on the left is self-explanatory.</p></li>
+            <li><p>Click on a row-header (grey box on the left side of the
+            grid) to jump to a table with more details about the item referred
+            to by that row. For example, clicking on a row-header of a
+            table that lists components will take you to a table that lists
+            the files in that component. Not every table has this ability,
+            but the cursor will turn to a hand shape to indicate when this is
+            possible.</p></li>
+            <li><p>Also you can navigate back and forward through your history
+            using the buttons in the application or mouse buttons 4 and 5.</p></li>
+            </ol>
+            <p><br/></p>
+
+            <h4>Searching</h4>
+            <p>The search feature is not hard to find. By default, searches
+            are limited to the current table. However, if you choose to find
+            &quot;In Subtree&quot; by checking the box, the search will include
+            the current table as well as all tables under the current location in
+            the tree. While this can take a long time if there is a lot of
+            data under the current node, you can stop the search at any time with
+            the stop button. The search pauses when a match is found, but
+            clicking &quot;Find&quot; again will continue the same search from that
+            point (unless you uncheck the &quot;Continue&quot; checkbox or change
+            the search string).</p>
+
+            <p><br/></p>
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

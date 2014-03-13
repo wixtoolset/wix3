@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="ko-kr" Language="1042" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] 설치</String>
+  <String Id="Title">[WixBundleName] 설치에 필요한 Microsoft .NET Framework</String>
+  <String Id="ConfirmCancelMessage">취소하시겠습니까?</String>
+  <String Id="HelpHeader">설치 도움말</String>
+  <String Id="HelpText">/passive | /quiet -  메시지 없이 최소 UI를 표시하거나 UI와 메시지를 전혀
+   표시하지 않습니다. 기본적으로 UI 및 모든 메시지는 표시됩니다.
+
+/norestart   - 다시 시작하려는 시도를 무시합니다. 기본적으로 UI는 다시 시작하기 전에 메시지를 표시합니다.
+/log log.txt - 특정 파일에 기록합니다. 기본적으로 로그 파일이 %TEMP%에 생성됩니다.</String>
+  <String Id="HelpCloseButton">닫기(&amp;C)</String>
+  <String Id="InstallLicenseTerms">Microsoft .NET Framework &lt;a href="#"&gt;사용 조건&lt;/a&gt;에 동의하려면 "동의 및 설치"를 클릭하십시오.</String>
+  <String Id="InstallAcceptAndInstallButton">동의 및 설치(&amp;A)</String>
+  <String Id="InstallDeclineButton">동의 안 함(&amp;D)</String>
+  <String Id="ProgressHeader">설치 진행률</String>
+  <String Id="ProgressLabel">처리 중:</String>
+  <String Id="ProgressCancelButton">취소(&amp;C)</String>
+  <String Id="FailureHeader">설치 실패</String>
+  <String Id="FailureLogLinkText">하나 이상의 문제로 인해 설치에 실패했습니다. 문제를 수정하고 설치를 다시 시도하십시오. 자세한 내용은 &lt;a href="#"&gt;로그 파일&lt;/a&gt;을 참조하십시오.</String>
+  <String Id="FailureRestartText">소프트웨어의 롤백을 완료하려면 컴퓨터를 다시 시작해야 합니다.</String>
+  <String Id="FailureRestartButton">다시 시작(&amp;R)</String>
+  <String Id="FailureCloseButton">닫기(&amp;C)</String>
+</WixLocalization>

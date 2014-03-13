@@ -1,0 +1,74 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
+	<head>
+		<title>Proxy Class for Managed Custom Actions</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+		<link rel="stylesheet" type="text/css" href="MSDN.css">
+	</head>
+	<body id="bodyID" class="dtBODY">
+		<div id="nsbanner">
+			<div id="bannerrow1">
+				<table class="bannerparthead" cellspacing="0" id="Table1">
+					<tr id="hdr">
+						<td class="runninghead">Managed Libraries for Windows Installer</td>
+						<td class="product"></td>
+					</tr>
+				</table>
+			</div>
+			<div id="TitleRow">
+				<h1 class="dtH1">Proxy for Managed Custom Actions</h1>
+			</div>
+		</div>
+		<div id="nstext">
+            <p>The custom action proxy allows an MSI developer to write
+            custom actions in managed code, while maintaing all the advantages of type 1
+            DLL custom actions including full access to installer state, properties,
+            and the session database.</p>
+            <p>There are generally four problems that needed to be 
+            solved in order to create a type 1 custom action in managed code:</p>
+            <ol>
+            <li><p><strong>Exporting the CA function as a native entry point callable by 
+            MSI:</strong> The Windows Installer engine expects to call a LoadLibrary and
+            GetProcAddress on the custom action DLL, so an unmanaged DLL needs to implement
+            the function that is initially called by MSI and ultimately returns the result.
+            This function acts as a proxy to relay the custom action call into the
+            managed custom action assembly, and relay the result back to the caller. </p>
+            <li><strong>Providing supporting assemblies without 
+            requiring them to be installed as files:</strong> If a DLL custom 
+            action runs before the product's files are installed, then it is difficult 
+            to provide any supporting files, because of the way the CA DLL is singly 
+            extracted and executed from a temp file. (This can be a problem for
+            unmanaged CAs as well.) With managed custom actions we have already hit
+            that problem since both the CA assembly  and the MSI wrapper assembly
+            need to be loaded. To solve this, the proxy DLL carries an appended
+            cab package. When invoked, it will extract all contents of the
+            cab package to a temporary working directory. This way the cab package can
+            carry any arbitrary dependencies the custom action may require.</li>
+            <li><p><strong>Hosting and configuring the Common Language Runtime:</strong>
+            In order to invoke a method in a managed assembly from a previously
+            unmanaged process, the CLR needs to be "hosted". This involves choosing
+            the correct version of the .NET Framework to use out of the available
+            version(s) on the system, binding that version to the current process, and
+            configuring it to load assemblies from the temporary working directory.</p>
+            <li><p><strong>Converting the integer session handle into a 
+            Session object:</strong> The <a href="">Session</a> class in the managed
+            wrapper library has a constructor which takes an integer session handle as 
+            its parameter. So the proxy simply instantiates this object before
+            calling the real CA function.</p>
+            </ol>
+            <p>The unmanaged CAPack module, when used in combination with the managed proxy in
+                the
+            Microsoft.WindowsInstaller assembly, accomplishes the tasks above to enable
+            fully-functional managed DLL custom actions.</p>
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <ul>
+                <li><a href="writingcas.htm">Writing Managed Custom Actions</a></li>
+                <li><a href="caconfig.htm">Writing the CustomAction.config file</a></li>
+                <li><a href="samplecas.htm">Sample C# Custom Actions</a></li>
+                <li><a href="buildingcas.htm">Building Managed Custom Actions</a></li>
+            </ul>
+            <p><br/></p>
+		</div>
+	</body>
+</html>

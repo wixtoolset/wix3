@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="messages.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/genmsgs/2004/07/messages"
+              xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing any kind of messages.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="Messages">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element ref="Class"/>
+            </xs:sequence>
+            <xs:attribute name="Namespace" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Namespace of the generated class.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Resources" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Resources stream for messages. Will get namespace prepended to it.</xs:documentation></xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Class">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="Message"/>
+            </xs:sequence>
+            <xs:attribute name="Name" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Name of the generated class.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="ContainerName" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Name of the generated container class.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="BaseContainerName" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Name of the base container class.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Level" type="MessageLevelType">
+                <xs:annotation><xs:documentation>Optional message level for this container class and derivative classes.</xs:documentation></xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Message">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element ref="Instance"/>
+            </xs:sequence>
+            <xs:attribute name="Id" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Name of the message type.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Number" type="xs:integer" use="required">
+                <xs:annotation><xs:documentation>Override the number for this message type.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="SourceLineNumbers" type="YesNoType">
+                <xs:annotation><xs:documentation>Associate SourceLineNumbers with this message.  The default value is "yes".</xs:documentation></xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Instance">
+        <xs:complexType mixed="true">
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="Parameter"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Parameter">
+        <xs:complexType>
+            <xs:attribute name="Type" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Type of the parameter.</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Name" type="xs:string" use="required">
+                <xs:annotation><xs:documentation>Name of the parameter.</xs:documentation></xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="YesNoType">
+        <xs:annotation><xs:documentation>Values of this type will either be "yes" or "no".</xs:documentation></xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="no"/>
+            <xs:enumeration value="yes"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="MessageLevelType">
+        <xs:annotation><xs:documentation>The message level for this message which corresponds to the Microsoft.Tools.WindowsInstallerXml.MessageLevel enumeration.</xs:documentation></xs:annotation>
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Information"/>
+            <xs:enumeration value="Warning"/>
+            <xs:enumeration value="Error"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_fi-FI.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="fi-fi" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <UI Dialog="ErrorDlg" Control="R" Width="64" />
+    <UI Dialog="FilesInUse" Control="Retry" X="296" Width="64" />
+    <UI Dialog="FilesInUse" Control="Ignore" X="227" />
+    <UI Dialog="FilesInUse" Control="Exit" X="158" />
+
+    <String Id="WixUIBack" Overridable="yes">&amp;Edellinen</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Seuraava</String>
+    <String Id="WixUICancel" Overridable="yes">Peruuta</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Valmis</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Yritä uudelleen</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Ohita</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Kyllä</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Ei</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Tulosta</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lue tuotteen [ProductName] käyttöoikeussopimus</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Hyväksyn käyttöoikeussopimuksen ehdot</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Valitse Asenna, jos haluat asentaa tuotteen käyttäen oletusasetuksia kaikille käyttäjille. Valitse Lisäasetukset, jos haluat muuttaa asennuksen asetuksia.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Valitse Asenna, jos haluat asentaa tuotteen käyttäen oletusasetuksia vain nykyiselle käyttäjälle. Valitse Lisäasetukset, jos haluat muuttaa asennuksen asetuksia.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Asenna</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">&amp;Lisäasetukset</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Kohde:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Yksi taso ylöspäin</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Luo uusi kansio</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Kansion nimi:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Selaa kohdekansioon</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Vaihda kohdekansiota</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="CancelDlgText" Overridable="yes">Haluatko varmasti peruuttaa tuotteen [ProductName] asennuksen?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Tietokuvake</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Valintojen puu</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">&amp;Selaa...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">P&amp;alauta</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">Levyn &amp;käyttö</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Napsauttamalla alla olevassa puussa olevia kuvakkeita voit muuttaa ominaisuuksien asennustapaa.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Valitse ominaisuuksien asennustapa.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Mukautettu asennus</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Sijainti:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Korostetuissa asemissa ei ole tarpeeksi vapaata levytilaa valittuja ominaisuuksia varten. Voit poistaa tiedostoja korostetuista asemista, asentaa vähemmän ominaisuuksia tai valita eri kohdeasemat.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Valittujen ominaisuuksien asentamiseen vaadittava levytila.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Levytilavaatimukset</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Tietoteksti</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Tietokuvake</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Lopeta ohjattu asennus valitsemalla Valmis.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Tuotteen [ProductName] ohjattu asennus on suoritettu</String>
+
+    <String Id="FatalError_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}Tuotteen [ProductName] ohjattu asennus päättyi ennenaikaisesti</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">Tuotteen [ProductName] ohjattu asennus päättyi ennenaikaisesti virheen vuoksi. Järjestelmään ei ole tehty muutoksia. Voit asentaa tämän ohjelman myöhemmin suorittamalla ohjatun asennuksen uudelleen.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Lopeta ohjattu asennus valitsemalla Valmis.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Tuotteen ominaisuudet</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Valitse ominaisuuksien asennustapa.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Tuotteen ominaisuudet</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Asenna</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Muuta</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="FilesInUseExit" Overridable="yes">&amp;Lopeta</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Seuraavat sovellukset käyttävät tiedostoja, jotka tämän asennuksen on päivitettävä. Sulje sovellukset ja jatka sitten asennusta valitsemalla &amp;Yritä uudelleen tai lopeta ohjattu toiminto valitsemalla Lopeta.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Jotkin päivitettävät tiedostot ovat tällä hetkellä käytössä.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Tiedostoja on käytössä</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Muuta...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Kohdekansio</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Valitse Seuraava, jos haluat asentaa oletuskansioon, tai valitse Muuta, jos haluat valita toisen kansion.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Asenna [ProductName] seuraavaan sijaintiin:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Valitse asennuksen laajuus ja kansio</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Asennuksen laajuus</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Asenna &amp;vain nykyiselle käyttäjälle ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] asennetaan käyttäjäkohtaiseen kansioon, ja se on vain nykyisen käyttäjätilin käytettävissä. Paikallisia järjestelmänvalvojaoikeuksia ei tarvita.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] ei tue käyttäjäkohtaista asennusta.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Asenna kaikille tämän &amp;tietokoneen käyttäjille</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">[ProductName] asennetaan tietokonekohtaiseen kansioon oletusarvon mukaan, ja se on kaikkien käyttäjien käytettävissä. Oletusasennuskansiota voi muuttaa. Paikalliset järjestelmänvalvojaoikeudet tarvitaan.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Asennus&amp;kansio:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Muuta...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Asennushakemiston on oltava paikallisessa kiintolevyasemassa.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Tietokuvake</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Hyväksyn käyttöoikeussopimuksen ehdot</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lue seuraava käyttöoikeussopimus huolellisesti</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Käyttöoikeussopimus</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Muuta</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Muuta asennusta</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">&amp;Korjaa</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Korjaa asennus</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Poista</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Poista asennus</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Valitse suoritettava toiminto.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Korjaa tai poista asennus tai muuta sitä</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Antaa muuttaa asennettuja ominaisuuksia.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">Tuotteessa [ProductName] ei ole erikseen valittavia ominaisuuksia.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Poistaa tuotteen [ProductName] tietokoneesta.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">Tuotetta [ProductName] ei voi poistaa.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Korjaa uusimman asennuksen virheitä korjaamalla puuttuvia ja vioittuneita tiedostoja, pikakuvakkeita ja rekisterimerkintöjä.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">Tuotetta [ProductName] ei voi korjata.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Ohjatun asennuksen avulla voit muuttaa sitä, miten tuotteen [ProductName] ominaisuudet asennetaan tietokoneeseen, tai poistaa tuotteen tietokoneesta. Voit jatkaa valitsemalla Seuraava tai poistua ohjatusta asennuksesta valitsemalla Peruuta.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Tervetuloa tuotteen [ProductName] ohjattuun asennukseen</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Seuraavat sovellukset käyttävät tiedostoja, jotka tämän asennuksen on päivitettävä. Voit antaa ohjatun asennuksen sulkea ne ja yrittää käynnistää ne uudelleen tai käynnistää tietokoneen myöhemmin uudelleen.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Jotkin päivitettävät tiedostot ovat tällä hetkellä käytössä.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Tiedostoja on käytössä</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Sulje sovellukset ja yritä käynnistää ne uudelleen.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Älä sulje sovelluksia. Uudelleenkäynnistys tarvitaan.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Korostetuissa asemissa ei ole tarpeeksi vapaata levytilaa valittuja ominaisuuksia varten. Voit poistaa tiedostoja korostetuista asemista, asentaa vähemmän ominaisuuksia tai valita toisen kohdeaseman.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Asennuksen vaatima levytila on suurempi kuin käytettävissä oleva levytila.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Levytila lopussa</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Korostetuissa asemissa ei ole tarpeeksi vapaata levytilaa valittuja ominaisuuksia varten. Voit poistaa tiedostoja korostetuista asemista, asentaa vähemmän ominaisuuksia tai valita toisen kohdeaseman.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Asennuksen vaatima levytila on suurempi kuin käytettävissä oleva levytila.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Levytila lopussa</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Voit myös poistaa asennusohjelman palautustoiminnon käytöstä. Palautuksen poistaminen käytöstä estää asennusohjelmaa palauttamasta tietokoneen alkuperäistä tilaa, jos asennus keskeytyy jollakin tavalla. Valitse Kyllä, jos haluat ottaa riskin ja poistaa palautuksen käytöstä.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Odota. Ohjattu asennus valmistautuu asennukseen.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Tervetuloa tuotteen [ProductName] ohjattuun asennukseen</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Odota. Ohjattu asennus asentaa tuotteen [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Asennetaan tuotetta [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Odota. Ohjattu asennus muuttaa tuotteen [ProductName] asennusta.</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Muutetaan tuotetta [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Odota. Ohjattu asennus korjaa tuotteen [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Korjataan tuotetta [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Odota. Ohjattu asennus poistaa tuotteen [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Poistetaan tuotetta [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Odota. Ohjattu asennus päivittää tuotteen [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}Päivitetään tuotetta [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Valmis</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Tila:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Asenna</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Ohjattu asennus viimeistelee tuotteen [ProductName] asennuksen tietokoneeseen. Voit jatkaa valitsemalla Asenna tai lopettaa ohjatun asennuksen valitsemalla Peruuta.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Jatketaan tuotteen [ProductName] ohjattua asennusta</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Normaali</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Normaali asennus</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">&amp;Mukautettu</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Mukautettu asennus</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">&amp;Valmis</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Täydellinen asennus</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Valitse asennustyyppi</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Valitse tarpeitasi parhaiten vastaava asennustyyppi</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Asentaa yleisimmät ohjelman ominaisuudet. Suositellaan useimmille käyttäjille.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Käyttäjä voi valita, mitkä ohjelman ominaisuudet asennetaan ja mihin ne asennetaan. Suositellaan kokeneille käyttäjille.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Kaikki ohjelman ominaisuudet asennetaan. Vaatii eniten levytilaa.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}Tuotteen [ProductName] ohjattu asennus keskeytyi</String>
+    <String Id="UserExitDescription1" Overridable="yes">Tuotteen [ProductName] asennus on keskeytynyt. Järjestelmään ei ole tehty muutoksia. Voit asentaa tämän ohjelman myöhemmin suorittamalla asennuksen uudelleen.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Lopeta ohjattu asennus valitsemalla Valmis.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Asenna</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Voit aloittaa asennuksen valitsemalla Asenna. Voit tarkastella tai muuttaa asennuksen asetuksia valitsemalla Edellinen. Voit lopettaa ohjatun toiminnon valitsemalla Peruuta.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Valmiina asentamaan tuotteen [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Muuta</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Voit aloittaa asennuksen valitsemalla Muuta. Voit tarkastella ja muuttaa asennuksen asetuksia valitsemalla Edellinen. Voit lopettaa ohjatun toiminnon valitsemalla Peruuta.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Valmiina muuttamaan tuotetta [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">&amp;Korjaa</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Voit aloittaa tuotteen [ProductName] asennuksen korjauksen valitsemalla Korjaa. Voit tarkastella tai muuttaa asennuksen asetuksia valitsemalla Edellinen. Voit lopettaa ohjatun toiminnon valitsemalla Peruuta.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Valmiina korjaamaan tuotteen [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Poista</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Voit poistaa tuotteen [ProductName] tietokoneestasi valitsemalla Poista. Voit tarkastella tai muuttaa asennuksen asetuksia valitsemalla Edellinen. Voit lopettaa ohjatun toiminnon valitsemalla Peruuta.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Valmiina poistamaan tuotteen [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Päivitä</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Valitse Päivitä, jos haluat päivittää tietokoneessa olevan tuotteen [ProductName]. Valitse Edellinen, jos haluat tarkastella tai muuttaa asennuksen asetuksia. Valitse Peruuta, jos haluat lopettaa ohjatun toiminnon.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Valmiina päivittämään tuotteen [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Palaa</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Odota hetki. Asennusohjelma viimeistelee levytilavaatimusten määrittämistä.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Huutomerkkikuvake</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">Ohjattu asennus asentaa tuotteen [ProductName] tietokoneeseen. Voit jatkaa valitsemalla Seuraava tai lopettaa ohjatun asennuksen valitsemalla Peruuta.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Ohjattu asennus päivittää tietokoneessa olevan tuotteen [ProductName]. Valitse Seuraava, jos haluat jatkaa, tai valitse Peruuta, jos haluat lopettaa ohjatun asennuksen.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Tervetuloa tuotteen [ProductName] ohjattuun asennukseen</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Hyväksyn käyttöoikeussopimuksen ehdot</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Asenna</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Päivitä</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lue tuotteen [ProductName] käyttöoikeussopimus</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Vahvistetaan asennusta</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Kopioidaan uusia tiedostoja</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9], koko: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Kopioidaan verkkoasennustiedostoja</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9], koko: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Lasketaan tilavaatimuksia</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Lasketaan tilavaatimuksia</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Lasketaan tilavaatimuksia</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Luodaan pikakuvakkeita</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Pikakuvake: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Julkaistaan valittuja osia</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Osan tunnus: [1], tarkenne: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Julkaistaan tuotteen ominaisuudet</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Toiminto: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Julkaistaan tuotetietoja</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Rekisteröidään luokkapalvelimia</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Luokkatunnus: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Rekisteröidään laajennuspalvelimia</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Laajennus: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Rekisteröidään MIME-tietoja</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME-sisältötyyppi: [1], laajennus: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Rekisteröidään ohjelmatunnisteita</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">Ohjelmatunniste: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Varataan rekisteritilaa</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Vapaa tila: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Etsitään asennettuja sovelluksia</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Ominaisuus: [1], allekirjoitus: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Sidotaan ohjelmatiedostoja</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Tiedosto: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Etsitään vaatimukset täyttäviä tuotteita</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Luodaan kansioita</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Kansio: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Poistetaan palveluita</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Palvelu: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Luodaan tiedostojen kaksoiskappaleita</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9], koko: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Etsitään yhteensopivia sovelluksia</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Löydettiin sovellus: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">Asennetaan ODBC-osia</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Asennetaan uusia palveluita</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Palvelu: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Arvioidaan käynnistysehtoja</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Siirretään ominaisuuksien tiloja muista sovelluksista</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Sovellus: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Siirretään tiedostoja</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9], koko: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Korjataan tiedostoja</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [2], koko: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Päivitetään osien rekisteröintiä</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">Rekisteröidään COM+-sovelluksia ja -osia</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">Sovellustunnus: [1]{{, Sovellustyyppi: [2], Käyttäjät: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Rekisteröidään fontteja</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Fontti: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Rekisteröidään tuote</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Rekisteröidään tyyppikirjastoja</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">Kirjastotunniste: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Rekisteröidään käyttäjä</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Poistetaan tiedostojen kaksoiskappaleita</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Päivitetään ympäristömerkkijonoja</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Nimi: [1], arvo: [2], toiminto [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Poistetaan sovelluksia</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Sovellus: [1], komentorivi: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Poistetaan tiedostoja</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Poistetaan kansioita</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Kansio: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">Poistetaan INI-tiedostojen merkintöjä</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Tiedosto: [1], osa: [2], avain: [3], arvo: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">Poistetaan ODBC-osia</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Poistetaan järjestelmärekisterin arvoja</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Avain: [1], nimi: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Poistetaan pikakuvakkeita</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Pikakuvake: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Etsitään vaatimukset täyttäviä tuotteita</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Rekisteröidään moduuleita</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Tiedosto: [1], kansio: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Poistetaan moduulien rekisteröintiä</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Tiedosto: [1], kansio: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">Alustetaan ODBC-hakemistoja</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Käynnistetään palveluita</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Palvelu: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Pysäytetään palveluita</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Palvelu: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Peruutetaan valittujen osien julkaisemista</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Osan tunnus: [1], tarkenne: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Peruutetaan tuotteen ominaisuuksien julkaisemista</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Toiminto: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Poista luokkapalvelinten rekisteröinti</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Luokkatunnus: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Poistetaan COM+-sovellusten ja -osien rekisteröintiä</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">Sovellustunnus: [1]{{, sovelluksen tyyppi: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Poistetaan laajennuspalvelimien rekisteröintiä</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Laajennus: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Poistetaan fonttien rekisteröintiä</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Fontti: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">Poistetaan MIME-rekisteröintiä</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME-sisältötyyppi: [1], laajennus: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Poistetaan ohjelmatunnisteiden rekisteröintiä</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">Ohjelmatunniste: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Poistetaan tyyppikirjastojen rekisteröintiä</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">Kirjastotunniste: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Päivitetään ympäristömerkkijonoja</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Nimi: [1], arvo: [2], toiminto [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">Kirjoitetaan INI-tiedoston arvoja</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Tiedosto: [1], osa: [2], avain: [3], arvo: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Kirjoitetaan järjestelmärekisteriarvoja</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Avain: [1], nimi: [2], arvo: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Ilmoitetaan sovelluksesta</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Muodostetaan komentosarjatoimintoja toiminnolle:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Asennetaan järjestelmäluetteloa</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Tiedosto: [1], riippuvuudet: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Julkaistaan kokoonpanotietoja</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Sovellusyhteys:[1], kokoonpanon nimi:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Peruutetaan kokoonpanotietojen julkaisemista</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Sovellusyhteys:[1], kokoonpanon nimi:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Palautetaan toimintoa:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Poistetaan varmuuskopiotiedostoja</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Tiedosto: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Poistetaan siirrettyjä tiedostoja</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Tiedosto: [1], hakemisto: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Peruutetaan tuotetietojen julkaisemista</String>
+
+    <String Id="Error0" Overridable="yes">{{Vakava virhe: }}</String>
+    <String Id="Error1" Overridable="yes">{{Virhe [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Varoitus [1]. </String>
+    <String Id="Error4" Overridable="yes">Tiedot [1]. </String>
+    <String Id="Error5" Overridable="yes">Odottamaton virhe paketin asennuksessa. Paketissa saattaa olla virhe. Virhekoodi: [1]. {{Argumentit: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Levy on täynnä: }}</String>
+    <String Id="Error8" Overridable="yes">Toiminto [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Sanomatyyppi: [1], argumentti: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Kirjaaminen aloitettu: [Date]  [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Kirjaaminen lopetettu: [Date]  [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Toiminto alkoi [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Toiminto päättyi [Time]: [1]. Palautusarvo [2].</String>
+    <String Id="Error16" Overridable="yes">Aikaa jäljellä: {[1] minuuttia }{[2] sekuntia}</String>
+    <String Id="Error17" Overridable="yes">Muisti ei riitä. Sulje muut sovellukset ja yritä uudelleen.</String>
+    <String Id="Error18" Overridable="yes">Asennusohjelma ei enää vastaa.</String>
+    <String Id="Error19" Overridable="yes">Asennusohjelma pysähtyi ennen valmistumista.</String>
+    <String Id="Error20" Overridable="yes">Odota, Windows määrittää tuotteen [ProductName]</String>
+    <String Id="Error21" Overridable="yes">Kerätään tarvittavia tietoja...</String>
+    <String Id="Error22" Overridable="yes">Poistetaan sovelluksen vanhempia versioita...</String>
+    <String Id="Error23" Overridable="yes">Valmistellaan sovelluksen vanhempien versioiden poistamista...</String>
+    <String Id="Error32" Overridable="yes">{[ProductName] }Asennus onnistui.</String>
+    <String Id="Error33" Overridable="yes">{[ProductName] }Asennus epäonnistui.</String>
+    <String Id="Error1101" Overridable="yes">Virhe luettaessa tiedostosta: [2]. {{ Järjestelmävirhe [3].}} Varmista, että tiedosto on olemassa ja että voit käyttää sitä.</String>
+    <String Id="Error1301" Overridable="yes">Tiedostoa [2] ei voi luoda. Samanniminen hakemisto on jo olemassa. Peruuta asennus ja yritä suorittaa asennus toiseen sijaintiin.</String>
+    <String Id="Error1302" Overridable="yes">Aseta asemaan levy: [2]</String>
+    <String Id="Error1303" Overridable="yes">Asennusohjelman oikeudet eivät riitä seuraavan hakemiston käyttämiseen: [2]. Asennusta ei voi jatkaa. Kirjaudu sisään järjestelmänvalvojana tai ota yhteyttä järjestelmänvalvojaan.</String>
+    <String Id="Error1304" Overridable="yes">Virhe kirjoitettaessa tiedostoon: [2]. Varmista, että sinulla on tarvittavan hakemiston käyttöoikeudet.</String>
+    <String Id="Error1305" Overridable="yes">Virhe luettaessa tiedostosta [2]. {{ Järjestelmävirhe [3].}} Varmista, että tiedosto on olemassa ja että käyttöoikeutesi ovat riittävät.</String>
+    <String Id="Error1306" Overridable="yes">Jollakin toisella sovelluksella on yksinomainen käyttöoikeus tiedostoon [2]. Sulje kaikki muut sovellukset ja valitse sitten Yritä uudelleen.</String>
+    <String Id="Error1307" Overridable="yes">Levytila ei riitä seuraavan tiedoston asentamiseen: [2]. Vapauta levytilaa ja valitse Yritä uudelleen tai lopeta valitsemalla Peruuta.</String>
+    <String Id="Error1308" Overridable="yes">Lähdetiedostoa ei löytynyt: [2]. Tarkista, että tiedosto on olemassa ja että voit käyttää sitä.</String>
+    <String Id="Error1309" Overridable="yes">Virhe luettaessa tiedostosta [3]. {{ Järjestelmävirhe [2].}} Varmista, että tiedosto on olemassa ja että käyttöoikeutesi ovat riittävät.</String>
+    <String Id="Error1310" Overridable="yes">Virhe kirjoitettaessa tiedostoon [3].{{ Järjestelmävirhe [2].}} Varmista, että sinulla on tarvittavan hakemiston käyttöoikeudet.</String>
+    <String Id="Error1311" Overridable="yes">Lähdetiedostoa ei löytynyt{{(CAB-tiedosto)}}: [2]. Tarkista, että tiedosto on olemassa ja että voit käyttää sitä.</String>
+    <String Id="Error1312" Overridable="yes">Hakemistoa [2] ei voi luoda. Samanniminen tiedosto on jo olemassa. Vaihda tiedoston nimi tai poista se järjestelmästä ja valitse Yritä uudelleen tai lopeta valitsemalla Peruuta.</String>
+    <String Id="Error1313" Overridable="yes">Asema [2] ei ole tällä hetkellä käytettävissä. Valitse toinen asema.</String>
+    <String Id="Error1314" Overridable="yes">Määritetty polku [2] ei ole käytettävissä.</String>
+    <String Id="Error1315" Overridable="yes">Määritettyyn kansioon [2] ei voi kirjoittaa.</String>
+    <String Id="Error1316" Overridable="yes">Verkkovirhe yritettäessä lukea tiedostoa: [2]</String>
+    <String Id="Error1317" Overridable="yes">Virhe yritettäessä luoda hakemistoa: [2]</String>
+    <String Id="Error1318" Overridable="yes">Verkkovirhe yritettäessä luoda hakemistoa: [2]</String>
+    <String Id="Error1319" Overridable="yes">Verkkovirhe yritettäessä avata lähdetiedoston .cab-tiedosto: [2]</String>
+    <String Id="Error1320" Overridable="yes">Määritetty polku on liian pitkä: [2]</String>
+    <String Id="Error1321" Overridable="yes">Asennusohjelmalla ei ole riittäviä oikeuksia tiedoston [2] muokkaamiseen.</String>
+    <String Id="Error1322" Overridable="yes">Kansiopolun [2] osa on virheellinen. Se on tyhjä tai ylittää järjestelmän salliman pituuden.</String>
+    <String Id="Error1323" Overridable="yes">Kansion polku [2] sisältää sanoja, jotka eivät ole kelvollisia kansioiden poluissa.</String>
+    <String Id="Error1324" Overridable="yes">Kansion polku [2] sisältää virheellisen merkin.</String>
+    <String Id="Error1325" Overridable="yes">[2] ei ole kelvollinen lyhyt tiedostonimi.</String>
+    <String Id="Error1326" Overridable="yes">Virhe haettaessa tiedoston suojauksia: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Asema ei kelpaa: [2]</String>
+    <String Id="Error1328" Overridable="yes">Virhe otettaessa korjausta käyttöön tiedostossa [2]. Tiedosto on ehkä päivitetty muulla tavoin, joten sitä ei voi enää muuttaa tällä korjauksella. Saat lisätietoja korjauksen myyjältä. {{Järjestelmävirhe: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Tarvittavaa tiedostoa ei voi asentaa, koska .cab-tiedostoa [2] ei ole allekirjoitettu digitaalisesti. Tämä voi tarkoittaa, että .cab-tiedosto on vioittunut.</String>
+    <String Id="Error1330" Overridable="yes">Tarvittavaa tiedostoa ei voi asentaa, koska .cab-tiedostolla [2] on virheellinen digitaalinen allekirjoitus. Tämä voi tarkoittaa, että .cab-tiedosto on vioittunut.{{  WinVerifyTrust palautti virheen [3].}}</String>
+    <String Id="Error1331" Overridable="yes">Tiedoston [2] kopiointi ei onnistunut: CRC-virhe.</String>
+    <String Id="Error1332" Overridable="yes">Tiedoston [2] siirtäminen ei onnistunut: CRC-virhe.</String>
+    <String Id="Error1333" Overridable="yes">Tiedoston [2] päivittäminen ei onnistunut: CRC-virhe.</String>
+    <String Id="Error1334" Overridable="yes">Tiedostoa [2] ei voida asentaa, koska sitä ei löytynyt .cab-tiedostosta [3]. Tämä saattaa johtua verkkovirheestä, CD-levyn lukuvirheestä tai paketin viallisuudesta.</String>
+    <String Id="Error1335" Overridable="yes">Asennukseen tarvittava .cab-tiedosto [2] on viallinen, eikä sitä voida käyttää. Tämä saattaa johtua verkkovirheestä, CD-levyn lukuvirheestä tai paketin viallisuudesta.</String>
+    <String Id="Error1336" Overridable="yes">Virhe tarvittavan tilapäistiedoston luomisessa. {{ Kansio: [3]. Järjestelmävirhekoodi: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Avainta [2] ei voi luoda.{{ Järjestelmävirhe [3].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön. </String>
+    <String Id="Error1402" Overridable="yes">Avainta [2] ei voi avata.{{ Järjestelmävirhe [3].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön. </String>
+    <String Id="Error1403" Overridable="yes">Arvoa [2] ei voi poistaa avaimesta [3].{{ Järjestelmävirhe [4].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön. </String>
+    <String Id="Error1404" Overridable="yes">Avainta [2] ei voi poistaa.{{ Järjestelmävirhe [3].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön. </String>
+    <String Id="Error1405" Overridable="yes">Arvoa [2] ei voi lukea avaimesta [3].{{ Järjestelmävirhe [4].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön. </String>
+    <String Id="Error1406" Overridable="yes">Arvoa [2] ei voi kirjoittaa avaimeen [3].{{ Järjestelmävirhe [4].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1407" Overridable="yes">Avaimen [2] arvojen nimiä ei voi hakea.{{ Järjestelmävirhe [3].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1408" Overridable="yes">Avaimen [2] aliavainten nimiä ei voi hakea.{{ Järjestelmävirhe [3].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1409" Overridable="yes">Avaimen [2] suojaustietoja ei voi lukea.{{ Järjestelmävirhe [3].}} Varmista, että käyttöoikeutesi riittävät avaimen käyttöön, tai ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1410" Overridable="yes">Vapaata rekisteritilaa ei voi lisätä. Tämän sovelluksen asentaminen vaatii [2] kilotavua vapaata rekisteritilaa.</String>
+    <String Id="Error1500" Overridable="yes">Toinen asennus on käynnissä. Se on suoritettava loppuun ennen tämän asennuksen jatkamista.</String>
+    <String Id="Error1501" Overridable="yes">Virhe käytettäessä suojattuja tietoja. Varmista, että Windows Installer on määritetty oikein, ja yritä sitten asennusta uudelleen.</String>
+    <String Id="Error1502" Overridable="yes">Käyttäjä [2] on aiemmin aloittanut tuotteen [3] asennuksen. Käyttäjän on suoritettava kyseinen asennus uudelleen, ennen kuin hän voi käyttää tuotetta. Nykyinen asennus jatkuu nyt.</String>
+    <String Id="Error1503" Overridable="yes">Käyttäjä [2] on aiemmin aloittanut tuotteen [3] asennuksen. Käyttäjän on suoritettava kyseinen asennus uudelleen, ennen kuin hän voi käyttää tuotetta.</String>
+    <String Id="Error1601" Overridable="yes">Levytila lopussa -- asema: [2]; tarvittava tila: [3] kt; käytettävissä oleva tila: [4] kt. Vapauta levytilaa ja yritä uudelleen.</String>
+    <String Id="Error1602" Overridable="yes">Haluatko varmasti peruuttaa?</String>
+    <String Id="Error1603" Overridable="yes">Tiedostoa [2][3] käyttää{ seuraava prosessi: nimi: [4], tunnus: [5], ikkunan otsikko: [6]}. Sulje kyseinen sovellus ja yritä uudelleen.</String>
+    <String Id="Error1604" Overridable="yes">Tuote [2] on jo asennettu, mikä estää tämän tuotteen asennuksen. Nämä kaksi tuotetta ovat toisensa poissulkevia.</String>
+    <String Id="Error1605" Overridable="yes">Asennuksen jatkamiseen ei ole tarpeeksi levytilaa asemassa [2] palautustoiminnon ollessa käytössä. [3] kt vaaditaan, mutta vain [4] kt on käytettävissä. Valitse Ohita jatkaaksesi asennusta ilman palautustietojen tallentamista, Yritä uudelleen tarkistaaksesi vapaa levytila uudelleen tai keskeytä asennus valitsemalla Peruuta.</String>
+    <String Id="Error1606" Overridable="yes">Verkon kohteeseen [2] ei voi muodostaa yhteyttä.</String>
+    <String Id="Error1607" Overridable="yes">Seuraavat sovellukset on suljettava ennen asennuksen jatkamista:</String>
+    <String Id="Error1608" Overridable="yes">Tietokoneesta ei löytynyt tämän tuotteen asennuksen edellyttämiä yhteensopivia tuotteita.</String>
+    <String Id="Error1609" Overridable="yes">Virhe suojausasetusten käyttöönotossa. [2] ei ole kelvollinen käyttäjä tai ryhmä. Ongelma saattaa olla paketissa tai yhteyden muodostamisessa toimialueen ohjauskoneeseen verkossa. Tarkista verkkoyhteys ja yritä uudelleen valitsemalla Yritä uudelleen. Voit keskeyttää asennuksen valitsemalla Peruuta. {{Käyttäjän SID-tunnusta ei löydy, järjestelmävirhe [3]}}</String>
+    <String Id="Error1701" Overridable="yes">Avain [2] ei kelpaa. Varmista, että olet antanut oikean avaimen.</String>
+    <String Id="Error1702" Overridable="yes">Asennusohjelman on käynnistettävä järjestelmä uudelleen, ennen kuin kohteen [2] määritys voi jatkua. Valitse Kyllä, jos haluat käynnistää järjestelmän uudelleen nyt, tai Ei, jos haluat käynnistää järjestelmän myöhemmin manuaalisesti.</String>
+    <String Id="Error1703" Overridable="yes">Sinun on käynnistettävä järjestelmä uudelleen, jotta tuotteen [2] määrityksiin tehdyt muutokset tulisivat voimaan. Käynnistä tietokone uudelleen valitsemalla Kyllä tai käynnistä tietokone itse uudelleen myöhemmin valitsemalla Ei.</String>
+    <String Id="Error1704" Overridable="yes">Kohteen [2] asennus on keskeytetty. Et voi jatkaa, ennen kuin kumoat asennuksessa tehdyt muutokset. Haluatko kumota muutokset?</String>
+    <String Id="Error1705" Overridable="yes">Tämän tuotteen aiempi asennus on kesken. Et voi jatkaa, ennen kuin kumoat asennuksessa tehdyt muutokset. Haluatko kumota muutokset?</String>
+    <String Id="Error1706" Overridable="yes">Tuotteen [2] asennuspakettia ei löydy. Yritä asennusta uudelleen käyttäen asennuspaketin [3] oikeaa versiota.</String>
+    <String Id="Error1707" Overridable="yes">Asennus onnistui.</String>
+    <String Id="Error1708" Overridable="yes">Asennus epäonnistui.</String>
+    <String Id="Error1709" Overridable="yes">Tuote: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Voit joko palauttaa tietokoneen aiempaan tilaan tai jatkaa asennusta myöhemmin uudelleen. Haluatko palauttaa aiemman tilan?</String>
+    <String Id="Error1711" Overridable="yes">Kirjoitettaessa asennustietoja levylle ilmeni virhe. Tarkista, että käytettävissä on riittävästi levytilaa, ja valitse Yritä uudelleen. Jos haluat lopettaa asennuksen, valitse Peruuta.</String>
+    <String Id="Error1712" Overridable="yes">Joitakin tiedostoja, joita tarvitaan tietokoneen aiempaan tilaan palauttamiseen, ei löydy. Palautusta ei voi suorittaa.</String>
+    <String Id="Error1713" Overridable="yes">[2] ei voi asentaa yhtä tarvittavaa tuotetta. Ota yhteyttä tekniseen tukeen. {{Järjestelmävirhe: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Tuotteen [2] vanhempaa versiota ei voi poistaa. Ota yhteyttä tekniseen tukeen. {{Järjestelmävirhe [3].}}</String>
+    <String Id="Error1715" Overridable="yes">Asennettu [2]</String>
+    <String Id="Error1716" Overridable="yes">Määritetty [2]</String>
+    <String Id="Error1717" Overridable="yes">Poistettu [2]</String>
+    <String Id="Error1718" Overridable="yes">Digitaalisten allekirjoitusten käytäntö hylkäsi tiedoston [2].</String>
+    <String Id="Error1719" Overridable="yes">Windows Installer -palvelua ei voida käyttää. Tämä saattaa tapahtua, jos Windows on vikasietotilassa tai Windows Installeria ei ole asennettu oikein. Ota yhteys tukihenkilöön.</String>
+    <String Id="Error1720" Overridable="yes">Tähän Windows Installer -pakettiin liittyy jokin ongelma. Asennuksessa tarvittavaa komentosarjaa ei voitu suorittaa. Ota yhteyttä tukihenkilöstöön tai paketin myyjään. {{Mukautetun toiminnon [2] komentosarjan virhe [3], [4]: [5] rivi [6], sarake [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Tähän Windows Installer -pakettiin liittyy jokin ongelma. Asennukseen tarvittavaa ohjelmaa ei voitu käynnistää. Ota yhteyttä tukihenkilöön tai paketin myyjään. {{Toiminto: [2], sijainti: [3], komento: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Tähän Windows Installer -pakettiin liittyy jokin ongelma. Asennuksessa tarvittavan ohjelman suoritus ei päättynyt odotetulla tavalla. Ota yhteyttä tukihenkilöstöön tai paketin myyjään. {{Toiminto [2], sijainti: [3], komento: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Tähän Windows Installer -pakettiin liittyy jokin ongelma. Asennuksessa tarvittavaa DLL-tiedostoa ei voitu suorittaa. Ota yhteyttä tukihenkilöstöön tai paketin myyjään. {{Toiminto [2], merkintä: [3], kirjasto: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Poistaminen onnistui.</String>
+    <String Id="Error1725" Overridable="yes">Poistaminen epäonnistui.</String>
+    <String Id="Error1726" Overridable="yes">Ilmoittaminen onnistui</String>
+    <String Id="Error1727" Overridable="yes">Ilmoittaminen epäonnistui.</String>
+    <String Id="Error1728" Overridable="yes">Määrittäminen onnistui.</String>
+    <String Id="Error1729" Overridable="yes">Määrittäminen epäonnistui.</String>
+    <String Id="Error1730" Overridable="yes">Käyttäjällä, joka poistaa tämän sovelluksen, täytyy olla Järjestelmänvalvoja-oikeudet. Kirjaudu järjestelmään käyttäen Järjestelmänvalvoja-tiliä tai ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1731" Overridable="yes">Tuotteen [2] lähdeasennuspakettia ei ole synkronoitu asiakaspaketin kanssa. Yritä suorittaa asennus uudelleen käyttämällä kelvollista asennuspaketin [3] kopiota.</String>
+    <String Id="Error1732" Overridable="yes">Tuotteen [2] asennuksen viimeistely edellyttää tietokoneen käynnistämistä uudelleen. Tietokoneeseen on parhaillaan kirjautuneina muita käyttäjiä, jotka voivat menettää tietoja, jos tietokone käynnistetään uudelleen. Haluatko käynnistää tietokoneen uudelleen nyt?</String>
+    <String Id="Error1801" Overridable="yes">Polku [2] ei kelpaa. Määritä kelvollinen polku.</String>
+    <String Id="Error1802" Overridable="yes">Muisti ei riitä. Sulje muut sovellukset ja yritä uudelleen.</String>
+    <String Id="Error1803" Overridable="yes">Asemassa [2] ei ole levyä. Aseta levy asemaan ja valitse Yritä uudelleen tai palaa aiemmin valittuun asemaan valitsemalla Peruuta.</String>
+    <String Id="Error1804" Overridable="yes">Asemassa [2] ei ole levyä. Aseta levy asemaan ja valitse Yritä uudelleen tai palaa selausvalintaikkunaan ja valitse eri asema valitsemalla Peruuta.</String>
+    <String Id="Error1805" Overridable="yes">Kansiota [2] ei ole. Anna olemassa olevan kansion polku.</String>
+    <String Id="Error1806" Overridable="yes">Sinulla ei ole lukuoikeutta tähän kansioon.</String>
+    <String Id="Error1807" Overridable="yes">Asennusta varten ei voitu määrittää kelvollista kohdekansiota.</String>
+    <String Id="Error1901" Overridable="yes">Virhe yritettäessä lukea lähdeasennustietokannasta: [2].</String>
+    <String Id="Error1902" Overridable="yes">Ajoitetaan uudelleenkäynnistystoiminto: tiedosto [2] nimetään uudelleen tiedostoksi [3]. Tietokone on käynnistettävä uudelleen toiminnon viimeistelemiseksi.</String>
+    <String Id="Error1903" Overridable="yes">Ajoitetaan uudelleenkäynnistystoiminto: tiedosto [2] poistetaan. Tietokone on käynnistettävä uudelleen toiminnon viimeistelemiseksi.</String>
+    <String Id="Error1904" Overridable="yes">Moduulia [2] ei voitu rekisteröidä. HRESULT [3]. Ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1905" Overridable="yes">Moduulin [2] rekisteröintiä ei voitu poistaa. HRESULT [3]. Ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1906" Overridable="yes">Paketin [2] tallentaminen välimuistiin epäonnistui. Virhe: [3]. Ota yhteyttä tukeen.</String>
+    <String Id="Error1907" Overridable="yes">Fonttia [2] ei voitu rekisteröidä. Varmista, että oikeutesi riittävät fonttien asentamiseen ja että järjestelmä tukee kyseistä fonttia.</String>
+    <String Id="Error1908" Overridable="yes">Fontin [2] rekisteröintiä ei voi poistaa. Varmista, että sinulla on tarvittavat oikeudet fonttien rekisteröintien poistamiseen.</String>
+    <String Id="Error1909" Overridable="yes">Pikakuvaketta [2] ei voi luoda. Varmista, että kohdekansio on olemassa ja että voit käyttää sitä.</String>
+    <String Id="Error1910" Overridable="yes">Pikakuvaketta [2] ei voi poistaa. Varmista, että pikakuvaketiedosto on olemassa ja että voit käyttää sitä.</String>
+    <String Id="Error1911" Overridable="yes">Tiedoston [2] tyyppikirjastoa ei voitu rekisteröidä. Ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1912" Overridable="yes">Tiedoston [2] tyyppikirjaston rekisteröintiä ei voitu poistaa. Ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1913" Overridable="yes">INI-tiedostoa [2][3] ei voitu päivittää. Varmista, että tiedosto on olemassa ja että voit käyttää sitä.</String>
+    <String Id="Error1914" Overridable="yes">Tiedostoa [2] ei voitu ajoittaa korvaamaan tiedostoa [3] uudelleenkäynnistyksessä. Varmista, että sinulla on kirjoitusoikeudet tiedostoon [3].</String>
+    <String Id="Error1915" Overridable="yes">Virhe poistettaessa ODBC-ohjaimen hallintaohjelmaa, ODBC-virhe [2]: [3]. Ota yhteyttä tukeen.</String>
+    <String Id="Error1916" Overridable="yes">Virhe asennettaessa ODBC-ohjaimen hallintaohjelmaa, ODBC-virhe [2]: [3]. Ota yhteyttä tukeen.</String>
+    <String Id="Error1917" Overridable="yes">Virhe poistettaessa ODBC-ohjainta: [4], ODBC-virhe [2]: [3]. Varmista, että sinulla on riittävät oikeudet ODBC-ohjainten poistamiseen.</String>
+    <String Id="Error1918" Overridable="yes">Virhe asennettaessa ODBC-ohjainta: [4], ODBC-virhe [2]: [3]. Varmista, että tiedosto [4] on luotu aiemmin ja että voit käyttää sitä.</String>
+    <String Id="Error1919" Overridable="yes">Virhe määritettäessä ODBC-tietolähdettä: [4], ODBC-virhe [2]: [3]. Varmista, että tiedosto [4] on luotu aiemmin ja että voit käyttää sitä.</String>
+    <String Id="Error1920" Overridable="yes">Palvelua [2] ([3]) ei voitu käynnistää. Varmista, että oikeutesi riittävät järjestelmäpalvelujen käynnistämiseen.</String>
+    <String Id="Error1921" Overridable="yes">Palvelua [2] ([3]) ei voitu pysäyttää. Varmista, että oikeutesi riittävät järjestelmäpalvelujen pysäyttämiseen.</String>
+    <String Id="Error1922" Overridable="yes">Palvelua [2] ([3]) ei voitu poistaa. Varmista, että oikeutesi riittävät järjestelmäpalvelujen poistamiseen.</String>
+    <String Id="Error1923" Overridable="yes">Palvelua [2] ([3]) ei voitu asentaa. Varmista, että oikeutesi riittävät järjestelmäpalvelujen asentamiseen.</String>
+    <String Id="Error1924" Overridable="yes">Ympäristömuuttujaa [2] ei voitu päivittää. Varmista, että oikeutesi riittävät ympäristömuuttujien muokkaamiseen.</String>
+    <String Id="Error1925" Overridable="yes">Oikeutesi eivät riitä tämän asennuksen tekemiseen kaikkien tietokoneen käyttäjien puolesta. Kirjaudu sisään järjestelmänvalvojana ja yritä suorittaa asennus sitten uudelleen.</String>
+    <String Id="Error1926" Overridable="yes">Tiedoston [3] suojausta ei voitu määrittää. Virhe: [2]. Varmista, että oikeutesi riittävät tämän tiedoston suojausoikeuksien muokkaamiseen.</String>
+    <String Id="Error1927" Overridable="yes">Tämän tietokoneeseen ei ole asennettu Component Services (COM+ 1.0) -sovellusta. Component Services tarvitaan, jotta asennus onnistuisi. Component Services löytyy Windows 2000:sta.</String>
+    <String Id="Error1928" Overridable="yes">Virhe rekisteröitäessä COM+-sovellusta. Jos haluat lisätietoja, ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1929" Overridable="yes">Virhe poistettaessa COM+-sovelluksen rekisteröintiä. Jos haluat lisätietoja, ota yhteyttä tukihenkilöstöön.</String>
+    <String Id="Error1930" Overridable="yes">Palvelun [2] ([3]) kuvausta ei voi muuttaa.</String>
+    <String Id="Error1931" Overridable="yes">Windows Installer -palvelu ei voi päivittää järjestelmätiedostoa [2], koska Windows on suojannut sen. Käyttöjärjestelmä täytyy ehkä päivittää, jotta tämä ohjelma toimii oikein. {{Paketin versio: [3], käyttöjärjestelmän suojaama versio: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Windows Installer ei voi päivittää Windowsin suojaamaa tiedostoa [2]. {{Paketin versio: [3], käyttöjärjestelmän suojaama versio: [4], SFP-virhe: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Windows Installer -palvelu ei pysty päivittämään vähintään yhtä Windowsin suojaamaa tiedostoa. {{SFP-virhe: [2]. Suojattujen tiedostojen luettelo:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Tietokoneen käytäntö estää käyttäjäasennukset.</String>
+    <String Id="Error1935" Overridable="yes">Kokoonpanon [6] asennuksen aikana ilmeni virhe. Lisätietoja on ohje- ja tukipalveluissa. HRESULT: [3]. {{kokoonpanoliittymä: [4], toiminto: [5], osa: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Kokoonpanon [6] asennuksessa tapahtui virhe. Kokoonpanon nimi ei ole vahva, tai allekirjoitusta ei ole tehty vaadittavalla avainpituudella. HRESULT: [3]. {{kokoonpanoliittymä: [4], toiminto: [5], osa: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Kokoonpanon [6] asennuksessa tapahtui virhe. Allekirjoitusta tai luetteloa ei voitu vahvistaa, tai se ei ole kelvollinen. HRESULT: [3]. {{kokoonpanoliittymä: [4], toiminto: [5], osa: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Kokoonpanon [6] asennuksessa tapahtui virhe. Yhtä tai useampaa kokoonpanon moduulia ei löytynyt. HRESULT: [3]. {{kokoonpanoliittymä: [4], toiminto: [5], osa: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">tavua</String>
+    <String Id="UITextGB" Overridable="yes">Gt</String>
+    <String Id="UITextKB" Overridable="yes">kt</String>
+    <String Id="UITextMB" Overridable="yes">Mt</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Ominaisuus poistetaan kokonaisuudessaan käytettävistä</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Ominaisuus asennetaan tarvittaessa</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Ominaisuus asennetaan kokonaisuudessaan CD-levyltä suoritettavaksi</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Ominaisuus asennetaan kokonaisuudessaan paikalliselle kiintolevylle</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Ominaisuus asennetaan kokonaisuudessaan verkosta suoritettavaksi</String>
+    <String Id="UITextMenuCD" Overridable="yes">Asennetaan suoritettavaksi CD-levyltä</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Asennetaan paikalliselle kiintolevylle</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Asennetaan suoritettavaksi verkosta</String>
+    <String Id="UITextNewFolder" Overridable="yes">Kansio|Uusi kansio</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Kerätään tarvittavia tietoja...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Ominaisuutta ei asenneta</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Ominaisuus asennetaan tarvittaessa</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Ominaisuus asennetaan CD-levyltä suoritettavaksi</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Ominaisuus asennetaan paikalliselle kiintolevylle</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Ominaisuus asennetaan toimimaan verkosta</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Ominaisuus poistetaan käytettävistä</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Asennetaan tarvittaessa</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Ominaisuus voidaan suorittaa CD-levyltä</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Ominaisuus asennetaan paikalliselle kiintolevylle</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Ominaisuus voidaan suorittaa verkosta</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Ominaisuus poistetaan kokonaisuudessaan, jolloin sitä ei voi enää suorittaa CD-levyltä</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Ominaisuus muutetaan CD-levyltä suoritettavasta tarvittaessa asennettavaksi</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Ominaisuus jää CD-levyltä suoritettavaksi</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Ominaisuus muutetaan CD-levyltä suoritettavasta paikalliselle kiintolevylle asennetuksi</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Tämä ominaisuus vapauttaa [1] kiintolevytilaa.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Tämä ominaisuus vaatii [1] kiintolevytilaa.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Lasketaan ominaisuuden tarvitsemaa levytilaa...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Ominaisuus poistetaan kokonaan</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Ominaisuus poistetaan paikalliselta kiintolevyltä, mutta se asennetaan tarvittaessa</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Ominaisuus poistetaan paikalliselta kiintolevyltä, mutta sen voi edelleen suorittaa CD-levyltä</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Ominaisuus jätetään paikalliselle kiintolevylle</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Ominaisuus poistetaan paikalliselta kiintolevyltä, mutta sen voi edelleen suorittaa verkosta</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Ominaisuus poistetaan kokonaisuudessaan, jolloin sitä ei voi enää suorittaa verkosta</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Ominaisuus muutetaan verkosta suoritettavasta tarvittaessa asennettavaksi</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Ominaisuus muutetaan verkosta suoritettavasta paikalliselle kiintolevylle asennetuksi</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Ominaisuus voidaan edelleen suorittaa verkosta</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Ominaisuus vapauttaa [1] kiintolevytilaa. Siinä on valittuna [2] alitoimintoa. Alitoimintoja on [3]. Alitoiminnot vapauttavat [4] levytilaa.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Ominaisuus vapauttaa [1] kiintolevytilaa. Siinä on valittuna [2] alitoimintoa. Alitoimintoja on [3]. Alitoiminnot vaativat [4] levytilaa.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Ominaisuus vaatii [1] kiintolevytilaa. Siinä on valittuna [2] alitoimintoa. Alitoimintoja on [3]. Alitoiminnot vapauttavat [4] levytilaa.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Ominaisuus vaatii [1] kiintolevytilaa. Siinä on valittuna [2] alitoimintoa. Alitoimintoja on [3]. Alitoiminnot vaativat [4] levytilaa.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Aikaa jäljellä: {[1] minuuttia }{[2] sekuntia}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Käytettävissä</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Ero</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Tarvitaan</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Levyn koko</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Levyasema</String>
+</WixLocalization>

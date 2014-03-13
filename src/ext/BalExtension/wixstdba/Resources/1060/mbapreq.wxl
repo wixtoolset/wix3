@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="sl-si" Language="1060" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] Namestitev</String>
+  <String Id="Title">Microsoft .NET Framework, potreben za namestitev paketa [WixBundleName]</String>
+  <String Id="ConfirmCancelMessage">Ali ste prepričani, da želite preklicati?</String>
+  <String Id="HelpHeader">Pomoč za namestitev</String>
+  <String Id="HelpText">/passive | /quiet - prikaže minimalni uporabniški vmesnik brez pozivov ali ne prikaže
+   uporabniškega vmesnika in pozivov. Privzeto so prikazani uporabniški vmesnik in
+   vsi pozivi.
+
+/norestart - skrije vse možnosti za vnovicni zagon. Privzeto uporabniški vmesnik
+   prikaže poziv pred ponovnim zagonom.
+/log log.txt - beleži vnose v dnevnik v doloceno datoteko. Privzeto je datoteko
+   ustvarjena v mapi %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Zapri</String>
+  <String Id="InstallLicenseTerms">Kliknite »Sprejmi in namesti« in sprejmite &lt;a href="#"&gt;licenčne pogoje&lt;/a&gt; za Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Sprejmi in namesti</String>
+  <String Id="InstallDeclineButton">&amp;Zavrni</String>
+  <String Id="ProgressHeader">Potek namestitve</String>
+  <String Id="ProgressLabel">Obdelovanje:</String>
+  <String Id="ProgressCancelButton">&amp;Prekliči</String>
+  <String Id="FailureHeader">Namestitev ni uspela</String>
+  <String Id="FailureLogLinkText">Namestitev ni uspela zaradi ene ali več težav. Odpravite težave in ponovno zaženite namestitev. Za več informacij glejte &lt;a href="#"&gt;dnevniško datoteko&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Za povrnitev prejšnjega stanja programske opreme morate ponovno zagnati računalnik.</String>
+  <String Id="FailureRestartButton">&amp;Ponovni zagon</String>
+  <String Id="FailureCloseButton">&amp;Zapri</String>
+</WixLocalization>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="TestExe.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:dep="http://schemas.microsoft.com/wix/DependencyExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Fragment>
+        <PackageGroup Id="TestExe">
+            <ExePackage Id="TestExe"
+                        Name="~$(var.TestName)_TestExe.exe"
+                        Compressed="yes"
+                        SourceFile="!(bindpath.data)\BurnTestPayloads\Products\TestExe\TestExe.exe"
+                        Vital="yes"
+                        PerMachine="yes"
+                        InstallCommand="/s 100"
+                        RepairCommand="/s 100"
+                        UninstallCommand="/s 100"/>
+        </PackageGroup>
+    </Fragment>
+</Wix>

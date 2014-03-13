@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset SQL Server Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="SqlDatabase" createSymbols="yes">
+        <columnDefinition name="SqlDb" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Server" type="string" length="255" nullable="yes"
+                category="formatted" description="Primary key, name of server running SQL Server"/>
+        <columnDefinition name="Instance" type="string" length="255" nullable="yes"
+                category="formatted" description="Primary key, name of SQL Server instance"/>
+        <!-- TODO: change the Database column length to "128" in WiX v4.0 when we can put in breaking changes -->
+        <columnDefinition name="Database" type="string" length="255"
+                category="formatted" description="Primary key, name of database in a SQL Server"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column" nullable="yes"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key, Component used to determine install state "/>
+        <columnDefinition name="User_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="User" keyColumn="1" category="identifier" description="Foreign key, User used to log into database"/>
+        <columnDefinition name="FileSpec_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="SqlFileSpec" keyColumn="1" category="identifier" description="Foreign key referencing SqlFileSpec."/>
+        <columnDefinition name="FileSpec_Log" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="SqlFileSpec" keyColumn="1" category="identifier" description="Foreign key referencing SqlFileSpec."/>
+        <columnDefinition name="Attributes" type="number" length="2" nullable="yes"
+                minValue="0" maxValue="255" description="1 == create on install, 2 == drop on uninstall, 4 == continue on error, 8 == drop on install, 16 == create on uninstall, 32 == confirm update existing table, 64 == create on reinstall, 128 == drop on reinstall" />
+    </tableDefinition>
+    <tableDefinition name="SqlFileSpec" createSymbols="yes">
+        <columnDefinition name="FileSpec" type="string" length="72" primaryKey="yes" modularize="column"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="Name" type="string" length="255" modularize="property"
+                category="formatted" description="Logical name of filespec"/>
+        <columnDefinition name="Filename" type="string" length="255" modularize="property"
+                category="formatted" description="Filename to use (path must exist)"/>
+        <columnDefinition name="Size" type="string" length="72" nullable="yes" modularize="property"
+                category="formatted" description="Initial size for file"/>
+        <columnDefinition name="MaxSize" type="string" length="72" nullable="yes" modularize="property"
+                category="formatted" description="Maximum size for file"/>
+        <columnDefinition name="GrowthSize" type="string" length="72" nullable="yes" modularize="property"
+                category="formatted" description="Size file should grow when necessary"/>
+    </tableDefinition>
+    <tableDefinition name="SqlScript">
+        <columnDefinition name="Script" type="string" length="72" primaryKey="yes"
+                category="identifier" description="Primary key, non-localized token"/>
+        <columnDefinition name="SqlDb_" type="string" length="72" modularize="column"
+                keyTable="SqlDatabase" keyColumn="1" category="identifier" description="Foreign key, SQL Server key"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key, Component used to determine install state"/>
+        <columnDefinition name="ScriptBinary_" type="string" length="72" modularize="column"
+                keyTable="Binary" keyColumn="1" category="identifier" description="Foreign key, Binary stream that contains SQL Script to execute"/>
+        <columnDefinition name="User_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="User" keyColumn="1" category="identifier" description="Foreign key, User used to log into database"/>
+        <columnDefinition name="Attributes" type="number" length="2"
+                set="1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" description="1 == execute on install, 2 == execute on uninstall, 4 == continue on error, 8 == rollback on install, 16 == rollback on uninstall"/>
+        <columnDefinition name="Sequence" type="number" length="2" nullable="yes"
+                description="Order to execute SQL Queries in"/>
+    </tableDefinition>
+    <tableDefinition name="SqlString">
+        <columnDefinition name="String" type="string" length="72" modularize="column" primaryKey="yes"
+                category="identifier" description="Id for the SqlString" />
+        <columnDefinition name="SqlDb_" type="string" length="72" modularize="column"
+                keyTable="SqlDatabase" keyColumn="1" category="identifier" description="Foreign key, SQL Server key"/>
+        <columnDefinition name="Component_" type="string" length="72" modularize="column"
+                keyTable="Component" keyColumn="1" category="identifier" description="Foreign key, Component used to determine install state"/>
+        <columnDefinition name="SQL" type="string" length="0"
+                category="formatted" description="SQL query to execute" escapeIdtCharacters="yes"/>
+        <columnDefinition name="User_" type="string" length="72" nullable="yes" modularize="column"
+                keyTable="User" keyColumn="1" category="identifier" description="Foreign key, User used to log into database"/>
+        <columnDefinition name="Attributes" type="number" length="2"
+                set="1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" description="1 == execute on install, 2 == execute on uninstall, 4 == continue on error, 8 == rollback on install, 16 == rollback on uninstall"/>
+        <columnDefinition name="Sequence" type="number" length="2" nullable="yes"
+                description="Order to execute SQL Queries in"/>
+    </tableDefinition>
+</tableDefinitions>

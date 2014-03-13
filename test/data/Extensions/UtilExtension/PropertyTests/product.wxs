@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="*" Name="noPermissionEx" Language="1033" Version="1.0.0.0" UpgradeCode="{D3C08DD4-A77E-43e8-8969-DB3D6CB0BE24}" Manufacturer="Microsoft Corporation">
+    <Package Description="Test from:no PermissionEx" Comments="Test from: PermissionEx" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <!-- WixQueryOsInfo Properties -->
+
+    <PropertyRef Id="WIX_SUITE_BACKOFFICE" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_BACKOFFICE flag.-->
+
+    <PropertyRef Id="WIX_SUITE_BLADE" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_BLADE flag.-->
+
+    <PropertyRef Id="WIX_SUITE_COMMUNICATIONS" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_COMMUNICATIONS flag.-->
+
+    <PropertyRef Id="WIX_SUITE_COMPUTE_SERVER" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_COMPUTE_SERVER flag.-->
+
+    <PropertyRef Id="WIX_SUITE_DATACENTER" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_DATACENTER flag.-->
+
+    <PropertyRef Id="WIX_SUITE_EMBEDDEDNT" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_EMBEDDEDNT flag.-->
+
+    <PropertyRef Id="WIX_SUITE_EMBEDDED_RESTRICTED" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_EMBEDDED_RESTRICTED flag.-->
+
+    <PropertyRef Id="WIX_SUITE_ENTERPRISE" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_ENTERPRISE flag.-->
+
+    <PropertyRef Id="WIX_SUITE_MEDIACENTER" />
+    <!-- Equivalent to the GetSystemMetrics SM_SERVERR2 flag.-->
+
+    <PropertyRef Id="WIX_SUITE_PERSONAL" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_PERSONAL flag.-->
+
+    <PropertyRef Id="WIX_SUITE_SECURITY_APPLIANCE" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_SECURITY_APPLIANCE flag.-->
+
+    <PropertyRef Id="WIX_SUITE_SERVERR2" />
+    <!-- Equivalent to the GetSystemMetrics SM_SERVERR2 flag.-->
+
+    <PropertyRef Id="WIX_SUITE_SINGLEUSERTS" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_SINGLEUSERTS flag.-->
+
+    <PropertyRef Id="WIX_SUITE_SMALLBUSINESS" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_SMALLBUSINESS flag.-->
+
+    <PropertyRef Id="WIX_SUITE_SMALLBUSINESS_RESTRICTED" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_SMALLBUSINESS_RESTRICTED  flag.-->
+
+    <PropertyRef Id="WIX_SUITE_STARTER" />
+    <!-- Equivalent to the GetSystemMetrics SM_STARTER flag.-->
+
+    <PropertyRef Id="WIX_SUITE_STORAGE_SERVER" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_STORAGE_SERVER flag.-->
+
+    <PropertyRef Id="WIX_SUITE_TABLETPC" />
+    <!-- Equivalent to the GetSystemMetrics SM_TABLETPC flag.-->
+
+    <PropertyRef Id="WIX_SUITE_TERMINAL" />
+    <!-- Equivalent to the OSVERSIONINFOEX VER_SUITE_TERMINAL flag.-->
+
+    <PropertyRef Id="WIX_SUITE_WH_SERVER" />
+    <!-- Windows Home Server. Equivalent to the OSVERSIONINFOEX VER_SUITE_WH_SERVER flag.-->
+
+
+    <!--WixQueryOsDirs Properties -->
+
+    <PropertyRef Id="WIX_DIR_ADMINTOOLS" />
+    <!-- Per-user administrative tools directory. Equivalent to the SHGetFolderPath CSIDL_ADMINTOOLS flag.-->
+
+    <PropertyRef Id="WIX_DIR_ALTSTARTUP" />
+    <!-- Per-user nonlocalized Startup program group. Equivalent to the SHGetFolderPath CSIDL_ALTSTARTUP flag.-->
+
+    <PropertyRef Id="WIX_DIR_CDBURN_AREA" />
+    <!-- Per-user CD burning staging directory. Equivalent to the SHGetFolderPath CSIDL_CDBURN_AREA flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_ADMINTOOLS" />
+    <!-- All-users administrative tools directory. Equivalent to the SHGetFolderPath CSIDL_COMMON_ADMINTOOLS flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_ALTSTARTUP" />
+    <!-- All-users nonlocalized Startup program group. Equivalent to the SHGetFolderPath CSIDL_COMMON_ALTSTARTUP flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_DOCUMENTS" />
+    <!-- All-users documents directory. Equivalent to the SHGetFolderPath CSIDL_COMMON_DOCUMENTS flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_FAVORITES" />
+    <!-- All-users favorite items directory. Equivalent to the SHGetFolderPath CSIDL_COMMON_FAVORITES flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_MUSIC" />
+    <!-- All-users music files directory. Equivalent to the SHGetFolderPath CSIDL_COMMON_MUSIC flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_PICTURES" />
+    <!-- All-users picture files directory. Equivalent to the SHGetFolderPath CSIDL_COMMON_PICTURES flag.-->
+
+    <PropertyRef Id="WIX_DIR_COMMON_VIDEO" />
+    <!-- All-users video files directory. Equivalent to the SHGetFolderPath CSIDL_COMMON_VIDEO flag.-->
+
+    <PropertyRef Id="WIX_DIR_COOKIES" />
+    <!-- Per-user Internet Explorer cookies directory. Equivalent to the SHGetFolderPath CSIDL_COOKIES flag.-->
+
+    <PropertyRef Id="WIX_DIR_DESKTOP" />
+    <!-- Per-user desktop directory. Equivalent to the SHGetFolderPath CSIDL_DESKTOP flag.-->
+
+    <PropertyRef Id="WIX_DIR_HISTORY" />
+    <!-- Per-user Internet Explorer history directory. Equivalent to the SHGetFolderPath CSIDL_HISTORY flag.-->
+
+    <PropertyRef Id="WIX_DIR_INTERNET_CACHE" />
+    <!-- Per-user Internet Explorer cache directory. Equivalent to the SHGetFolderPath CSIDL_INTERNET_CACHE flag.-->
+
+    <PropertyRef Id="WIX_DIR_MYMUSIC" />
+    <!-- Per-user music files directory. Equivalent to the SHGetFolderPath CSIDL_MYMUSIC flag.-->
+
+    <PropertyRef Id="WIX_DIR_MYPICTURES" />
+    <!-- Per-user picture files directory. Equivalent to the SHGetFolderPath CSIDL_MYPICTURES flag.-->
+
+    <PropertyRef Id="WIX_DIR_MYVIDEO" />
+    <!-- Per-user video files directory. Equivalent to the SHGetFolderPath CSIDL_MYVIDEO flag.-->
+
+    <PropertyRef Id="WIX_DIR_NETHOOD" />
+    <!-- Per-user My Network Places link object directory. Equivalent to the SHGetFolderPath CSIDL_NETHOOD flag.-->
+
+    <PropertyRef Id="WIX_DIR_PERSONAL" />
+    <!-- Per-user documents directory. Equivalent to the SHGetFolderPath CSIDL_PERSONAL flag.-->
+
+    <PropertyRef Id="WIX_DIR_PRINTHOOD" />
+    <!-- Per-user Printers link object directory. Equivalent to the SHGetFolderPath CSIDL_PRINTHOOD flag.-->
+
+    <PropertyRef Id="WIX_DIR_PROFILE" />
+    <!--  Per-user profile directory. Equivalent to the SHGetFolderPath CSIDL_PROFILE flag.-->
+
+    <PropertyRef Id="WIX_DIR_RECENT" />
+    <!-- Per-user most recently used documents shortcut directory. Equivalent to the SHGetFolderPath CSIDL_RECENT flag.-->
+
+    <PropertyRef Id="WIX_DIR_RESOURCES" />
+    <!-- All-users resource data directory. Equivalent to the SHGetFolderPath CSIDL_RESOURCES flag.-->
+
+
+    <!-- WixQueryOsWellKnownSID properties-->
+
+    <PropertyRef Id="WIX_ACCOUNT_LOCALSYSTEM" />
+    <!-- Localized qualified name of the Local System account.-->
+
+    <PropertyRef Id="WIX_ACCOUNT_LOCALSERVICE" />
+    <!-- Localized qualified name of the Local Service account.-->
+
+    <PropertyRef Id="WIX_ACCOUNT_NETWORKSERVICE" />
+    <!-- Localized qualified name of the Network Service account.-->
+
+    <PropertyRef Id="WIX_ACCOUNT_ADMINISTRATORS" />
+    <!-- Localized qualified name of the Administrators group.-->
+
+    <PropertyRef Id="WIX_ACCOUNT_USERS" />
+    <!-- Localized qualified name of the Users group.-->
+
+    <PropertyRef Id="WIX_ACCOUNT_GUESTS" />
+    <!-- Localized qualified name of the Users group.-->
+
+
+    <!-- WixQueryOsDriverInfo properties-->
+    <PropertyRef Id="WIX_WDDM_DRIVER_PRESENT" />
+    <!-- Set to 1 if the video card driver on the target machine is a WDDM driver. This property is only set on machines running Windows Vista or higher.-->
+
+    <PropertyRef Id="WIX_DWM_COMPOSITION_ENABLED" />
+    <!-- Set to 1 if the target machine has composition enabled. This property is only set on machines running Windows Vista or higher."-->
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="WixTestFolder" Name="WixTestFolder">
+
+        </Directory>
+      </Directory>
+    </Directory>
+    
+    <DirectoryRef Id="WixTestFolder">
+      <Component Id="TestComponent" Guid="00030829-0000-0000-C000-580000000065">
+        <File DiskId="1" KeyPath="yes" Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" />
+      </Component>
+      <Directory Id="TestCreateFolderDirectory" ShortName="cfolder" Name="Create Folder">
+      </Directory>
+    </DirectoryRef>
+
+    <Feature Id="Feature1" Level="1">
+      <ComponentRef Id="TestComponent" />
+    </Feature>
+
+  </Product>
+</Wix>

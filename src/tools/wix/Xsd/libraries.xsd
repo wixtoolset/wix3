@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="libraries.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2006/libraries"
+              xmlns="http://schemas.microsoft.com/wix/2006/libraries"
+          xmlns:loc="http://schemas.microsoft.com/wix/2006/localization"
+         xmlns:objs="http://schemas.microsoft.com/wix/2006/objects">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing Windows Installer Xml Library files (.wixlib).
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/localization" schemaLocation="wixloc.xsd" />
+    <xs:import namespace="http://schemas.microsoft.com/wix/2006/objects" schemaLocation="objects.xsd" />
+
+    <xs:element name="wixLibrary">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="loc:WixLocalization" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="objs:section" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+
+            <xs:attribute name="version" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Version of WiX used to create this library file</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE HelpIndex>
+<HelpIndex Name = "K"
+	Id = "_KLinks"	
+	DTDVersion = "1.0"
+	Merge="Yes"
+	Sort="Yes"
+	Title="Keyword Index"
+	Visible="Yes">
+</HelpIndex>

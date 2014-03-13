@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="cs-cz" Language="1029" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">Instalace produktu [WixBundleName]</String>
+  <String Id="Title">Pro instalaci produktu [WixBundleName] je vyžadováno rozhraní Microsoft .NET Framework.</String>
+  <String Id="ConfirmCancelMessage">Opravdu chcete akci zrušit?</String>
+  <String Id="HelpHeader">Nápověda k instalaci</String>
+  <String Id="HelpText">/passive | /quiet -  Zobrazí minimální uživatelské rozhraní bez jakýchkoli
+   výzev, nebo nezobrazí žádné uživatelské rozhraní ani žádné výzvy. Ve výchozím
+   nastavení  se jak uživatelské rozhraní, tak i všechny výzvy zobrazují.
+
+/norestart   - Potlačí jakékoli pokusy o restartování. Ve výchozím nastavení
+   se v uživatelském rozhraní před restartováním zobrazí výzva.
+/log log.txt - Nastaví, že se má zapisovat do konkrétního souboru protokolu.
+   Ve výchozím nastavení je soubor protokolu vytvořen v umístění %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Zavřít</String>
+  <String Id="InstallLicenseTerms">Kliknutím na tlačítko Přijmout a nainstalovat přijmete &lt;a href="#"&gt;licenční podmínky&lt;/a&gt; rozhraní Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Přijmout a instalovat</String>
+  <String Id="InstallDeclineButton">&amp;Odmítnout</String>
+  <String Id="ProgressHeader">Průběh instalace</String>
+  <String Id="ProgressLabel">Probíhá zpracování:</String>
+  <String Id="ProgressCancelButton">&amp;Storno</String>
+  <String Id="FailureHeader">Instalace se nezdařila</String>
+  <String Id="FailureLogLinkText">Byly zjištěny problémy, kvůli kterým se instalaci nepodařilo dokončit. Odstraňte tyto problémy a potom instalaci opakujte. Další informace naleznete v &lt;a href="#"&gt;souboru protokolu&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Aby bylo možné zrušení instalace softwaru dokončit, je nutné počítač restartovat.</String>
+  <String Id="FailureRestartButton">&amp;Restartovat</String>
+  <String Id="FailureCloseButton">&amp;Zavřít</String>
+</WixLocalization>

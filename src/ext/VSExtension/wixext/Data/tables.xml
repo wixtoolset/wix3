@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Visual Studio Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="HelpFile" createSymbols="yes">
+        <columnDefinition name="HelpFileKey" type="string" length="72" primaryKey="yes" modularize="column"
+            category="identifier" description="Primary Key for HelpFile Table (required)."/>
+        <columnDefinition name="HelpFileName" type="string" length="72"
+            category="text" description="Internal Microsoft Help ID for this HelpFile (required)."/>
+        <columnDefinition name="LangID" type="number" length="2" nullable="yes"
+            category="language" description="Language ID for content file (optional)."/>
+        <columnDefinition name="File_HxS" type="string" length="72" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxS (Title) file (required)."/>
+        <columnDefinition name="File_HxI" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxI (Index) file (optional)."/>
+        <columnDefinition name="File_HxQ" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxQ (Query) file (optional)."/>
+        <columnDefinition name="File_HxR" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxR (Attributes) file (optional)."/>
+        <columnDefinition name="File_Samples" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for a file that is in the 'root' of the samples directory for this HelpFile (optional)."/>
+    </tableDefinition>
+    <tableDefinition name="HelpFileToNamespace">
+        <columnDefinition name="HelpFile_" type="string" length="72" primaryKey="yes" modularize="column"
+            keyTable="HelpFile" keyColumn="1" category="identifier" description="Foreign key into HelpFile table (required)."/>
+        <columnDefinition name="HelpNamespace_" type="string" length="72" primaryKey="yes"
+            keyTable="HelpNamespace" keyColumn="1" category="identifier" description="Foreign key into HelpNamespace table (required)."/>
+    </tableDefinition>
+    <tableDefinition name="HelpFilter" createSymbols="yes">
+        <columnDefinition name="FilterKey" type="string" length="72" primaryKey="yes" modularize="column"
+            category="identifier" description="Primary Key for HelpFilter (required)."/>
+        <columnDefinition name="Description" type="localized" length="0"
+            category="text" description="Friendly name for Filter (required)."/>
+        <columnDefinition name="QueryString" type="string" length="0" nullable="yes"
+            category="text" description="Query String for Help Filter (optional)."/>
+    </tableDefinition>
+    <tableDefinition name="HelpFilterToNamespace">
+        <columnDefinition name="HelpFilter_" type="string" length="72" primaryKey="yes" modularize="column"
+            keyTable="HelpFilter" keyColumn="1" category="identifier" description="Foreign key into HelpFilter table (required)."/>
+        <columnDefinition name="HelpNamespace_" type="string" length="72" primaryKey="yes"
+            keyTable="HelpNamespace" keyColumn="1" category="identifier" description="Foreign key into HelpNamespace table (required)."/>
+    </tableDefinition>
+    <tableDefinition name="HelpNamespace" createSymbols="yes">
+        <columnDefinition name="NamespaceKey" type="string" length="72" primaryKey="yes"
+            category="identifier" description="Primary Key for HelpNamespace (required)."/>
+        <columnDefinition name="NamespaceName" type="string" length="0"
+            category="text" description="Internal Microsoft Help ID for this Namespace (required)."/>
+        <columnDefinition name="File_Collection" type="string" length="72" modularize="column"
+            keyTable="File" keyColumn="1" category="text" description="Key for HxC (Collection) file (required)."/>
+        <columnDefinition name="Description" type="localized" length="0" nullable="yes"
+            category="text" description="Friendly name for Namespace (optional)."/>
+    </tableDefinition>
+    <tableDefinition name="HelpPlugin">
+        <columnDefinition name="HelpNamespace_" type="string" length="72" primaryKey="yes"
+            keyTable="HelpNamespace" keyColumn="1" category="identifier" description="Forein Key into HelpNamespace table for the child namespace that will be plugged into the parent namespace (required)."/>
+        <columnDefinition name="HelpNamespace_Parent" type="string" length="72" primaryKey="yes"
+            category="identifier" description="Forein Key into HelpNamespace table for the parent namespace into which the child will be inserted (required)."/>
+        <columnDefinition name="File_HxT" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxT  file of child namespace (optional)."/>
+        <columnDefinition name="File_HxA" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxA (Attributes) file of child namespace (optional)."/>
+        <columnDefinition name="File_ParentHxT" type="string" length="72" nullable="yes" modularize="column"
+            keyTable="File" keyColumn="1" category="identifier" description="Key for HxT  file of parent namespace that now includes the new child namespace (optional)."/>
+    </tableDefinition>
+</tableDefinitions>

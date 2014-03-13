@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="votive2012.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="ZipProjects;CopyZippedProjectsAndItems" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+  
+  <PropertyGroup>
+    <TargetVisualStudio>2012</TargetVisualStudio>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\CustomAction.cpp"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\CustomAction.def"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\CustomAction.vcproj"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\CustomActionCPP.ico"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\CustomActionCPP.vstemplate"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\stdafx.cpp"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\stdafx.h"/>
+    <ZipProject Include="Templates\Projects\CustomActionCPP\targetver.h"/>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

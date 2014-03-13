@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <?define TestDataDirectory="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\Bundle\Files"?>
+
+  <Bundle Name="Wix Test Bundle" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+
+    <UX Name="Setup.exe" SourceFile="$(var.TestDataDirectory)\Bootstrapper.exe"/>
+
+    <Chain>
+      <MsiPackage SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi"/>
+    </Chain>
+
+    <Variable Name="variable1" Value="Variable1Value"/>
+    <Variable Name="variable2" Value="Variable2Value"/>
+
+    <util:ProductSearch Id="ProductSearch1" Variable="Variable1" Guid="{738D02BF-E231-4370-8209-E9FD4E1BE2A1}" After="ProductSearch2"/>
+    <util:ProductSearch Id="ProductSearch2" Variable="Variable2" Guid="{738D02BF-E231-4370-8209-E9FD4E1BE2A2}" After="ProductSearch1"/>
+
+  </Bundle>
+</Wix>

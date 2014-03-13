@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2006/tables"
+              xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing table definitions in Windows Installer.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="tableDefinitions">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element ref="tableDefinition" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="tableDefinition">
+        <xs:complexType>
+            <xs:sequence maxOccurs="32">
+                <xs:element ref="columnDefinition" />
+            </xs:sequence>
+            <xs:attribute name="createSymbols" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Boolean whether rows in this table create symbols</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name" type="NameType" use="required">
+                <xs:annotation>
+                    <xs:documentation>Name of table in Windows Installer database</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="unreal" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if table is virtual or not</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="bootstrapperApplicationData" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if the table is a part of the Bootstrapper Application Data manifest</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="columnDefinition">
+        <xs:complexType>
+            <xs:attribute name="name" type="NameType" use="required">
+                <xs:annotation>
+                    <xs:documentation>Name of column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="added" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Whether this column was added by a transform.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="type" type="ColumnDefinitionType" use="required">
+                <xs:annotation>
+                    <xs:documentation>Type of column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="length" use="required">
+                <xs:annotation>
+                    <xs:documentation>Type of column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:minInclusive value="0" />
+                        <xs:maxInclusive value="255" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="primaryKey" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Boolean whether column is primary key of Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="nullable" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Boolean whether column is nullable in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="unreal" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Boolean whether column is virtual in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="modularize" type="TablesModularizeType">
+                <xs:annotation>
+                    <xs:documentation>Enumeration specifying how column should have the ModuleId appended</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            
+            <xs:attribute name="localizable" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Set to "yes" in order to allow substitution for localized variables.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="minValue" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Minimum value for column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="maxValue" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Maximum value for column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="keyTable" type="NameType">
+                <xs:annotation>
+                    <xs:documentation>Foreign key table for column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="keyColumn">
+                <xs:annotation>
+                    <xs:documentation>Maximum value for column in Windows Installer table</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:integer">
+                        <xs:minInclusive value="1" />
+                        <xs:maxInclusive value="32" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="category" type="TablesCategoryType">
+                <xs:annotation>
+                    <xs:documentation>Specific column data types for column</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="set" type="TablesSetType">
+                <xs:annotation>
+                    <xs:documentation>List of permissible values for the column</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:attribute name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description of column</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            
+            <xs:attribute name="escapeIdtCharacters" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Set to "yes" in order to make the idt exporter escape whitespace characters \r, \n, and \t.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            
+            <xs:attribute name="useCData" type="TablesYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Set to "yes" in order to make the Intermediate and Output objects wrap their data in a CDATA element to preserve whitespace.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="NameType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="64" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ColumnDefinitionType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="string" />
+            <xs:enumeration value="localized" />
+            <xs:enumeration value="number" />
+            <xs:enumeration value="object" />
+            <xs:enumeration value="preserved" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TablesYesNoType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="yes" />
+            <xs:enumeration value="no" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TablesModularizeType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="column" />
+            <xs:enumeration value="companionFile" />
+            <xs:enumeration value="condition" />
+            <xs:enumeration value="controlEventArgument" />
+            <xs:enumeration value="controlText" />
+            <xs:enumeration value="icon" />
+            <xs:enumeration value="none" />
+            <xs:enumeration value="property" />
+            <xs:enumeration value="semicolonDelimited" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TablesCategoryType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="text" />
+            <xs:enumeration value="upperCase" />
+            <xs:enumeration value="lowerCase" />
+            <xs:enumeration value="integer" />
+            <xs:enumeration value="doubleInteger" />
+            <xs:enumeration value="timeDate" />
+            <xs:enumeration value="identifier" />
+            <xs:enumeration value="property" />
+            <xs:enumeration value="filename" />
+            <xs:enumeration value="wildCardFilename" />
+            <xs:enumeration value="path" />
+            <xs:enumeration value="paths" />
+            <xs:enumeration value="anyPath" />
+            <xs:enumeration value="defaultDir" />
+            <xs:enumeration value="regPath" />
+            <xs:enumeration value="formatted" />
+            <xs:enumeration value="formattedSddl" />
+            <xs:enumeration value="template" />
+            <xs:enumeration value="condition" />
+            <xs:enumeration value="guid" />
+            <xs:enumeration value="version" />
+            <xs:enumeration value="language" />
+            <xs:enumeration value="binary" />
+            <xs:enumeration value="customSource" />
+            <xs:enumeration value="cabinet" />
+            <xs:enumeration value="shortcut" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TablesSetType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+(;\w+)*" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

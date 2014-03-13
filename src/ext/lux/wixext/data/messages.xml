@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<!--
+    The messages for the Windows Installer XML Toolset Lux Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+  <Class Name="LuxErrors" ContainerName="LuxErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+    <Message Id="IllegalAttributeWhenNested" Number="6901">
+      <Instance>
+        The {0}/@{1} attribute cannot be specified when the {0} element is nested underneath another {0} element.
+        <Parameter Type="System.String" Name="elementName" />
+        <Parameter Type="System.String" Name="attributeName" />
+      </Instance>
+    </Message>
+    <Message Id="IllegalAttributeWhenNotNested" Number="6902">
+      <Instance>
+        The {0}/@{1} attribute can be specified only when the {0} element is nested underneath another {0} element.
+        <Parameter Type="System.String" Name="elementName" />
+        <Parameter Type="System.String" Name="attributeName" />
+      </Instance>
+    </Message>
+    <Message Id="ElementTooDeep" Number="6903">
+      <Instance>
+        The {0} element can be nested under a {1} element only one level deep.
+        <Parameter Type="System.String" Name="elementName" />
+        <Parameter Type="System.String" Name="parentElementName" />
+      </Instance>
+    </Message>
+    <Message Id="MissingRequiredParentAttribute" Number="6904">
+      <Instance>
+        When a {0} element is nested underneath another {0} element, the {1} attribute must be specified on the parent element.
+        <Parameter Type="System.String" Name="elementName" />
+        <Parameter Type="System.String" Name="attributeName" />
+      </Instance>
+      <Instance>
+        When a {0} element is nested underneath another {0} element, either the {1} attribute or the {2} attribute must be specified on the parent element.
+        <Parameter Type="System.String" Name="elementName" />
+        <Parameter Type="System.String" Name="attributeName" />
+        <Parameter Type="System.String" Name="otherAttributeName" />
+      </Instance>
+    </Message>
+  </Class>
+</Messages>

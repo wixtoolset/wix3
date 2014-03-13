@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="patch.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Patch Id="*" AllowRemoval="yes" Classification="Security Rollup" ClientPatchId="KB1" Codepage="1252" Description="Security Update (KB1)" DisplayName="Security Update (KB1)" Manufacturer="My Company" MoreInfoURL="http://support.MyCompany.com/kb/1">
+
+		<PatchProperty Company="My Company" Name="Branch" Value="GDR" />
+		<PatchProperty Company="My Company" Name="Baseline" Value="0" />
+
+        <Media Id="2" Cabinet="gdr1.cab" EmbedCab="yes">
+            <PatchBaseline Id="rtm" />
+        </Media>
+
+        <Media Id="3" Cabinet="ldr1.cab" EmbedCab="yes">
+            <PatchBaseline Id="rtmldr" />
+        </Media>
+
+        <PatchFamily Id="Source" Version="1.0.1.1" Supersede="yes">
+            <ComponentRef Id="C_Source" />
+        </PatchFamily>
+
+        <PatchFamily Id="Patch" Version="1.0.1.1" Supersede="yes">
+            <ComponentRef Id="C_Patch" />
+        </PatchFamily>
+    </Patch>
+</Wix>

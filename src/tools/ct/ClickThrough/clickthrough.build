@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="clickthrough.build" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<project name="clickthrough" default="clickthrough.inc" xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd">
+  <description>
+    clickthrough.build - Builds the ClickThrough project (ClickThrough.exe).
+  </description>
+
+  <!-- 
+    Use .NET 2.0 for our framework.  The COMPLUSBUILD environment can be used to work with a newer release
+    of .NET, e.g. COMPLUSBUILD=v3.0.0
+  -->
+  <property name="wixtasks.use.private.framework" value="${environment::variable-exists('COMPLUSBUILD')}"/>
+  <if test="${wixtasks.use.private.framework}">
+    <property name="nant.settings.currentframework" value="net-2.0-p" />
+  </if>
+  <if test="${not wixtasks.use.private.framework}">
+    <property name="nant.settings.currentframework" value="net-2.0" />
+  </if>
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Properties
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Include the global build properties -->
+  <!--include buildfile="..\..\..\wix.include" unless="${property::exists('wix.properties.defined')}" /-->
+
+  <!-- ClickThrough-specific properties -->
+  <property name="clickthrough.file.clickthrough.cs" value="${dir.build.ct.clickthrough}\ClickThrough.cs" readonly="true" />
+  <property name="clickthrough.file.clickthrough.xsd" value="${dir.src.ct}\ClickThrough\Xsd\ClickThrough.xsd" readonly="true" />
+  <property name="clickthrough.file.messages.cs" value="${dir.build.ct.clickthrough}\Messages.cs" readonly="true" />
+  <property name="clickthrough.file.messages.resources" value="${dir.build.ct.clickthrough}\Messages.resources" readonly="true" />
+  <property name="clickthrough.file.messages.xml" value="${dir.src.ct}\ClickThrough\Data\messages.xml" readonly="true" />
+  <property name="clickthrough.file.res.target" value="${dir.build.ct.clickthrough}\ClickThrough.res" readonly="true" />
+
+  <!--
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // Targets
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- Build -->
+  <target name="build" description="Performs an incremental build">
+
+    <!-- Compile the messages.xml into the messages.cs class and messages.resources file -->
+    <exec program="${tool.msggen}" unless="${file::up-to-date(clickthrough.file.messages.xml, clickthrough.file.messages.cs)}">
+      <arg value="-nologo" />
+      <arg path="${clickthrough.file.messages.xml}" />
+      <arg path="${clickthrough.file.messages.cs}" />
+      <arg path="${clickthrough.file.messages.resources}" />
+    </exec>
+
+    <!-- Compile the ClickThrough.xsd file into the ClickThrough.cs class -->
+    <exec program="${tool.xsdgen}" unless="${file::up-to-date(clickthrough.file.clickthrough.xsd, clickthrough.file.clickthrough.cs)}">
+      <arg path="${clickthrough.file.clickthrough.xsd}" />
+      <arg path="${clickthrough.file.clickthrough.cs}" />
+      <arg value="Microsoft.Tools.WindowsInstallerXml.ClickThrough.Serialize" />
+    </exec>
+
+    <!-- Copy the ClickThrough.exe.config -->
+    <copy todir="${dir.target.wix}">
+      <fileset basedir="${dir.src.ct}\ClickThrough">
+        <include name="ClickThrough.exe.config" />
+      </fileset>
+    </copy>
+
+    <!-- Compile the ClickThrough.rc file -->
+    <rc rcfile="${dir.src.ct}\ClickThrough\ClickThrough.rc" langid="0" output="${clickthrough.file.res.target}" options="${rc.standardOptions} ${cl.standardIncludes}" />
+
+    <!-- Build the ClickThrough.exe -->
+    <csc
+      target="winexe"
+      output="${dir.target.wix}\ClickThrough.exe"
+      debug="${csc.debug}"
+      optimize="${ship}"
+      define="${csc.defines}"
+      warnaserror="true"
+      warninglevel="4"
+      checked="true"
+    >
+      <arg value="${delaysignarg}" />
+      <arg value="/keyfile:${file.keyfile}" />
+      <sources basedir="${dir.src.ct}\ClickThrough">
+        <include name="${file.wixver}" />
+        <include name="${file.wixdistribution}" />
+        <include name="AssemblyInfo.cs" />
+        <include name="ClickThroughForm.cs" />
+        <include name="FilesControl.cs" />
+        <include name="Header.cs" />
+        <include name="NativeMethods.cs" />
+        <include name="PackageBuilder.cs" />
+        <include name="PickIconDialog.cs" />
+        <include name="ProgressDialog.cs" />
+        <include name="ProgressEventArgs.cs" />
+        <include name="RegistryControl.cs" />
+        <include name="StatusChangingEventArgs.cs" />
+        <include name="SummaryControl.cs" />
+        <include name="WixFolderBrowserDialog.cs" />
+        <include name="Serialize\CodeDomInterfaces.cs" />
+        <include name="Serialize\CodeDomReader.cs" />
+        <include name="Serialize\ElementCollection.cs" />
+        <include name="${clickthrough.file.messages.cs}" />
+        <include name="${clickthrough.file.clickthrough.cs}" />
+      </sources>
+      <resources failonempty="true" basedir="${dir.build.ct.clickthrough}" prefix="Microsoft.Tools.WindowsInstallerXml.ClickThrough.Data">
+        <include name="${clickthrough.file.messages.resources}" />
+      </resources>
+      <references basedir="${dir.target.wix}">
+        <include name="ambient.dll" />
+        <include name="wix.dll" />
+        <include name="WixUtilExtension.dll" />
+      </references>
+      <arg value="-win32res:&quot;${clickthrough.file.res.target}&quot;" />
+    </csc>
+  </target>
+
+</project>

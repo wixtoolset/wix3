@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixTestTools.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{55CB1042-647B-4347-9876-3EA607AF8DCE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>WixTest</RootNamespace>
+    <AssemblyName>WixTestTools</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Builder.cs" />
+    <Compile Include="BuilderBase.cs" />
+    <Compile Include="BundleBuilder.cs" />
+    <Compile Include="BundleInstaller.cs" />
+    <Compile Include="BundleRegistration.cs" />
+    <Compile Include="Burn\Detours\HijackReboots.cs" />
+    <Compile Include="Burn\EngineCleanup\EngineCleanup.cs" />
+    <Compile Include="Burn\LayoutManager\LayoutManager.cs" />
+    <Compile Include="Burn\LayoutManager\Ux\TestUX.cs" />
+    <Compile Include="Burn\LayoutManager\Ux\UxBase.cs" />
+    <Compile Include="Burn\OM\ElementAttribute\XmlAttribute.cs" />
+    <Compile Include="Burn\OM\ElementAttribute\XmlBlob.cs" />
+    <Compile Include="Burn\OM\ElementAttribute\XmlChildElement.cs" />
+    <Compile Include="Burn\OM\ElementAttribute\XmlElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\BundleElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Chain\ChainElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Chain\ExePackageElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Chain\MsiPackageElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Chain\MsiPropertyElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Chain\MspPackageElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Chain\Package.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\PayloadElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Searches\ComponentSearchElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Searches\DirectorySearchElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Searches\FileSearchElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Searches\ProductSearchElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Searches\RegistrySearchElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Searches\Searches.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\UX\UxElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\Bundle\Variable\VariableElement.cs" />
+    <Compile Include="Burn\OM\WixAuthoringOM\WixElement.cs" />
+    <Compile Include="Burn\OM\Generator\ObjectGenerator.cs" />
+    <Compile Include="Burn\OM\Generator\XMLGenerator.cs" />
+    <Compile Include="Candle.cs" />
+    <Compile Include="CandleArguments.cs" />
+    <Compile Include="CandleStaticMethods.cs" />
+    <Compile Include="ErrorCodes.cs" />
+    <Compile Include="Insignia.cs" />
+    <Compile Include="InsigniaArguments.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MSBuildMessage.cs" />
+    <Compile Include="HeatArguments.cs" />
+    <Compile Include="Heat.cs" />
+    <Compile Include="NamedFact.cs" />
+    <Compile Include="PackageBuilder.cs" />
+    <Compile Include="QuickTest.cs" />
+    <Compile Include="QuickTestStaticMethods.cs" />
+    <Compile Include="Utilities\FileUtilities.cs" />
+    <Compile Include="Utilities\MsiUtilities.cs" />
+    <Compile Include="Utilities\UserUtilities.cs" />
+    <Compile Include="Verifiers\FileVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\SpecialFoldersVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\ServiceVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\PermissionsVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\UserVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\RegistryVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\XMLVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\SqlVerifier.cs" />
+    <Compile Include="Verifiers\Extensions\NetFXVerifier.cs" />
+    <Compile Include="Verifiers\LogVerifier.cs" />
+    <Compile Include="MSITables.cs" />
+    <Compile Include="MSIExecArguments.cs" />
+    <Compile Include="MSIExec.cs" />
+    <Compile Include="Dark.cs" />
+    <Compile Include="DarkArguments.cs" />
+    <Compile Include="DarkStaticMethods.cs" />
+    <Compile Include="Light.cs" />
+    <Compile Include="LightArguments.cs" />
+    <Compile Include="LightStaticMethods.cs" />
+    <Compile Include="Lit.cs" />
+    <Compile Include="LitArguments.cs" />
+    <Compile Include="MSBuild.cs" />
+    <Compile Include="MSBuildArguments.cs" />
+    <Compile Include="Pyro.cs" />
+    <Compile Include="PyroArguments.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Smoke.cs" />
+    <Compile Include="SmokeArguments.cs" />
+    <Compile Include="TestException.cs" />
+    <Compile Include="TestTool.cs" />
+    <Compile Include="Tool.cs" />
+    <Compile Include="TorchArguments.cs" />
+    <Compile Include="MSIVersions.cs" />
+    <Compile Include="Verifiers\MsiVerifier.cs" />
+    <Compile Include="Verifiers\Verifier.cs" />
+    <Compile Include="WixCop.cs" />
+    <Compile Include="WixCopArguments.cs" />
+    <Compile Include="WixMessage.cs" />
+    <Compile Include="WixprojMSBuild.cs" />
+    <Compile Include="WixTestBase.cs" />
+    <Compile Include="WixTestContext.cs" />
+    <Compile Include="WixTool.cs" />
+    <Compile Include="Torch.cs" />
+    <Compile Include="WixToolArguments.cs" />
+    <Compile Include="WixTools.cs" />
+    <Compile Include="WixUnit.cs" />
+    <Compile Include="WixUnitArguments.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(WixSrcFolder)DTF\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
+    <ProjectReference Include="$(WixSrcFolder)DTF\Libraries\Compression\Compression.csproj" />
+    <ProjectReference Include="$(WixSrcFolder)DTF\Libraries\Compression.Cab\Compression.Cab.csproj" />
+    <ProjectReference Include="$(WixSrcFolder)tools\wix\wix.csproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

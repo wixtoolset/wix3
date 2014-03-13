@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUnit.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{EAFD5281-D9AE-4680-AEB5-90AAAF4DBD9D}</ProjectGuid>
+    <AssemblyName>WixUnit</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Unit</RootNamespace>
+    <NoWarn>618</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <FxCopEnabled>false</FxCopEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CandleUnit.cs" />
+    <Compile Include="CompareUnit.cs" />
+    <Compile Include="DarkUnit.cs" />
+    <Compile Include="HeatUnit.cs" />
+    <Compile Include="ICommandArgs.cs" />
+    <Compile Include="InsigniaUnit.cs" />
+    <Compile Include="LightUnit.cs" />
+    <Compile Include="LitUnit.cs" />
+    <Compile Include="ProcessUnit.cs" />
+    <Compile Include="PyroUnit.cs" />
+    <Compile Include="SmokeUnit.cs" />
+    <Compile Include="ToolUtility.cs" />
+    <Compile Include="TorchUnit.cs" />
+    <Compile Include="UnitResults.cs" />
+    <Compile Include="WixProjUnit.cs" />
+    <Compile Include="WixUnit.cs" />
+    <EmbeddedFlattenedResource Include="unitTests.xsd" />
+    <EmbeddedNativeResource Include="wixunit.rc" />
+    <None Include="app.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="WixCop.settings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\wconsole\wconsole.csproj" />
+    <ProjectReference Include="..\Wix\Wix.csproj" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

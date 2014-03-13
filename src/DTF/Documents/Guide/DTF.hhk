@@ -1,0 +1,126 @@
+﻿<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Deployment Tools Foundation Overview">
+			<param name="Local" value="Content\about.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="What's New?">
+			<param name="Local" value="Content\whatsnew.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Dependencies">
+			<param name="Local" value="Content\dependencies.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Sample Applications">
+			<param name="Local" value="Content\samples.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Inventory Sample Application">
+			<param name="Local" value="Content\inventory.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="WiFile Sample Tool">
+			<param name="Local" value="Content\wifile.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="CabPack Sample Tool">
+			<param name="Local" value="Content\cabpack.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="DDiff Sample Tool">
+			<param name="Local" value="Content\powerdiff.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Support/Bugs">
+			<param name="Local" value="Content\support.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Change History">
+			<param name="Local" value="Content\history.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Using Deployment Tools Foundation">
+			<param name="Local" value="Content\using.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Custom Actions">
+			<param name="Local" value="Content\managedcas.htm">
+		</OBJECT>
+		<UL>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Writing">
+					<param name="Local" value="Content\writingcas.htm">
+				</OBJECT>
+			</LI>
+			<LI>
+				<OBJECT type="text/sitemap">
+					<param name="Name" value="CustomAction.config">
+						<param name="Local" value="Content\caconfig.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Building">
+					<param name="Local" value="Content\buildingcas.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Debugging">
+					<param name="Local" value="Content\debuggingcas.htm">
+				</OBJECT>
+			</LI>
+			<LI><OBJECT type="text/sitemap">
+					<param name="Name" value="Samples">
+					<param name="Local" value="Content\samplecas.htm">
+				</OBJECT>
+			</LI>
+		</UL>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="InstallUtil">
+				<param name="Local" value="Content\installutil.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="CustomAction.config file">
+				<param name="Local" value="Content\caconfig.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Sample C# Custom Actions">
+			<param name="Local" value="Content\samplecas.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Databases, Working with">
+			<param name="Local" value="Content\databases.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Cabinets, Working with">
+			<param name="Local" value="Content\cabs.htm">
+		</OBJECT>
+	</LI>
+	<LI><OBJECT type="text/sitemap">
+			<param name="Name" value="Packages, Working with">
+			<param name="Local" value="Content\packages.htm">
+		</OBJECT>
+	</LI>
+</UL>
+</BODY></HTML>

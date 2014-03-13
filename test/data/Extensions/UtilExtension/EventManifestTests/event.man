@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instrumentationManifest 
+            xmlns="http://schemas.microsoft.com/win/2004/08/events" 
+            xmlns:win="http://manifests.microsoft.com/win/2004/08/windows/events"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <instrumentation>
+        <events>
+            <!--Publisher Info -->
+            <provider name="Microsoft-Windows-EventLogSamplePublisher" 
+                guid="{1db28f2e-8f80-4027-8c5a-a11f7f10f62d}" 
+                symbol="MICROSOFT_SAMPLE_PUBLISHER" 
+                resourceFileName="C:\temp\Publisher.exe" 
+                messageFileName="C:\temp\Publisher.exe">
+
+                <!--Channel to which this Publisher can publish -->
+                <channels>
+
+                    <!--Pre-Existing channel can be imported, but not required. -->
+                    <importChannel chid="C1" name="Application"/> 
+
+                    <!--New Channel can be declared for this Publisher-->
+                    <channel chid="MyChannel" 
+                        name="Microsoft-Windows-EventLogSamplePublisher/Operational" 
+                        type="Operational" 
+                        symbol="SAMPLE_PUBLISHER" 
+                        isolation="Application" enabled="true"/>
+
+                </channels>
+
+                <!--Event Templates -->
+                <templates>
+
+                   <template tid="MyEventTemplate">
+                        <data name="Prop_UnicodeString" inType="win:UnicodeString" />
+                        <data name="Prop_AnsiString" inType="win:AnsiString" outtype="xs:string" />
+                        <data name="Prop_Int8" inType="win:Int8" />
+                        <data name="Prop_UInt8" inType="win:UInt8" />
+                        <data name="Prop_Int16" inType="win:Int16" />
+                        <data name="Prop_UInt16" inType="win:UInt16" />
+                        <data name="Prop_Int32" inType="win:Int32" />
+                        <data name="Prop_UInt32" inType="win:UInt32" />
+                        <data name="Prop_Int64" inType="win:Int64" />
+                        <data name="Prop_UInt64" inType="win:UInt64" />
+                        <data name="Prop_Float" inType="win:Float" />
+                        <data name="Prop_Double" inType="win:Double" />
+                        <data name="Prop_Boolean" inType="win:Boolean" />
+                        <data name="Prop_GUID" inType="win:GUID" />
+                        <data name="Prop_Pointer" inType="win:Pointer" />
+                        <data name="Prop_FILETIME" inType="win:FILETIME" />
+                        <data name="Prop_SYSTEMTIME" inType="win:SYSTEMTIME" />
+                        <data name="Prop_SID_Length" inType="win:UInt32" />
+                        <data name="Prop_SID" inType="win:SID" length="Prop_SID_Length"/>
+                        <data name="Prop_Binary" inType="win:Binary" length="11" />
+
+                        <UserData>
+                            <MyEvent2 xmlns="myNs">
+                                <Prop_UnicodeString> %1 </Prop_UnicodeString>
+                                <Prop_AnsiString> %2 </Prop_AnsiString>
+                                <Prop_Int8> %3 </Prop_Int8>
+                                <Prop_UInt8> %4 </Prop_UInt8>
+                                <Prop_Int16> %5 </Prop_Int16>
+                                <Prop_UInt16> %6 </Prop_UInt16>
+                                <Prop_Int32> %7 </Prop_Int32>
+                                <Prop_UInt32> %8 </Prop_UInt32>
+                                <Prop_Int64> %9 </Prop_Int64>
+                                <Prop_UInt64> %10 </Prop_UInt64>
+                                <Prop_Float> %11 </Prop_Float>
+                                <Prop_Double> %12 </Prop_Double>
+                                <Prop_Boolean> %13 </Prop_Boolean>                                
+                                <Prop_GUID> %14 </Prop_GUID>
+                                <Prop_Pointer> %15 </Prop_Pointer>
+                                <Prop_FILETIME> %16 </Prop_FILETIME>
+                                <Prop_SYSTEMTIME> %17 </Prop_SYSTEMTIME>
+                                <Prop_SID_Length> %18 </Prop_SID_Length>
+                                <Prop_SID> %19 </Prop_SID>
+                                <Prop_Binary> %20 </Prop_Binary>
+                            </MyEvent2>
+                        </UserData>
+                    </template>
+
+                </templates>
+
+                <!--All the Events that can be published by this Publisher -->
+                <events>
+                    <event value="1" 
+                        level="win:Informational" 
+                        template="MyEventTemplate" 
+                        opcode="win:Info" 
+                        channel="MyChannel" 
+                        symbol="PROCESS_INFO_EVENT"
+                        message="$(string.Publisher.EventMessage)"/>
+                </events>
+
+            </provider>
+
+        </events>
+
+    </instrumentation>
+
+    <localization>
+        <resources culture="en-US">
+            <stringTable>
+                <!--This is how event data can be used as part of Message String -->
+                <string id="Publisher.EventMessage" 
+                    value="Prop_UnicodeString=%1;%n
+                    Prop_AnsiString=%2;%n
+                    Prop_Int8=%3;%n
+                    Prop_UInt8=%4;%n
+                    Prop_Int16=%5;%n
+                    Prop_UInt16=%6;%n
+                    Prop_Int32=%7;%n
+                    Prop_UInt32=%8;%n
+                    Prop_Int64=%9;%n
+                    Prop_UInt64=%10;%n
+                    Prop_Float=%11;%n
+                    Prop_Double=%12;%n
+                    Prop_Boolean=%13;%n
+                    Prop_GUID=%14;%n
+                    Prop_Pointer=%15;%n
+                    Prop_FILETIME=%16;%n
+                    Prop_SYSTEMTIME=%17;%n 
+                    Prop_SID_Length=%18;%n
+                    Prop_SID=%19;%n
+                    Prop_Binary=%20"/>  
+            </stringTable>
+        </resources>
+    </localization>
+</instrumentationManifest>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="NetFx2.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following location:
+
+           .NET Framework 2.0 - http://msdn.microsoft.com/library/aa480243.aspx
+    -->
+
+    <!-- set to #1 if the .NET Framework 2.0 is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20" Secure="yes">
+            <RegistrySearch Id="NetFramework20" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates the service pack level for the .NET Framework 2.0.         -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_SP_LEVEL" Secure="yes">
+            <RegistrySearch Id="NetFramework20SP" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727" Name="SP" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Location of .NET Framework 2.0 redistributable install root directory -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20INSTALLROOTDIR" Secure="yes">
+            <RegistrySearch Id="NetFxInstallRootForNetfx20Search" Type="raw" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="InstallRoot">
+                <DirectorySearch Id="NetFx20InstallRootSearch" Path="v2.0.50727" Depth="0" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <!-- Location of .NET Framework 2.0 (64-bit) redistributable install root directory -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20INSTALLROOTDIR64" Secure="yes">
+            <RegistrySearch Id="NetFxInstallRootForNetfx20Search64" Type="raw" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="InstallRoot" Win64="yes">
+                <DirectorySearch Id="NetFx20InstallRootSearch64" Path="v2.0.50727" Depth="0" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Chinese (Simplified) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_ZH_CN_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20ZhCnLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\2052" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Chinese (Traditional) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_ZH_TW_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20ZhTwLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1028" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Czech language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_CS_CZ_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20CsCzLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1029" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Danish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_DA_DK_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20DaDkLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1030" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Dutch language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_NL_NL_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20NlNlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1043" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Finnish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_FI_FI_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20FiFiLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1035" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 French language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_FR_FR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20FrFrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1036" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 German language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_DE_DE_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20DeDeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1031" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Greek language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_EL_GR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20ElGrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1032" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Hungarian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_HU_HU_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20HuHuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1038" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Italian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_IT_IT_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20ItItLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1040" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Japanese language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_JA_JP_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20JaJpLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1041" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Korean language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_KO_KR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20KoKrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1042" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Norwegian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_NB_NO_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20NbNoLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1044" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Polish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_PL_PL_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20PlPlLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1045" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Portuguese (Brazil) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_PT_BR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20PtBrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1046" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Portuguese (Portugal) language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_PT_PT_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20PtPtLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\2070" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Russian language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_RU_RU_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20RuRuLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1049" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Spanish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_ES_ES_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20EsEsLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\3082" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Swedish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_SV_SE_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20SvSeLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1053" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- set to #1 if the .NET Framework 2.0 Turkish language pack is installed (not set otherwise) -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20_TR_TR_LANGPACK" Secure="yes">
+            <RegistrySearch Id="NETFRAMEWORK20TrTrLp" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v2.0.50727\1055" Name="Install" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- location of the .NET Framework 2.0 SDK installation root -->
+    <Fragment>
+        <Property Id="NETFRAMEWORK20SDKDIR" Secure="yes">
+            <RegistrySearch Id="NetFramework20SDKDir" Root="HKLM" Key="Software\Microsoft\.NETFramework" Name="sdkInstallRootv2.0" Type="raw" />
+        </Property>
+    </Fragment>
+
+</Wix>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="external_nocache.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<BurnManifest xmlns="http://schemas.microsoft.com/wix/2008/Burn">
+   <UX SourceFile="stdux.dll">
+       <Resource SourceFile="en-us.wxl" />
+       <Resource SourceFile="thm.xml" />
+   </UX>
+
+   <Registration Id="external_nocache" ExecutableName='b.exe' PerMachine='yes'>
+
+   </Registration>
+   <Chain>
+      <MsiPackage Id='Package1' Vital='yes' Packaging='external' SourceFile='Package1.msi' FileName='Package1.msi' Cache='no'>
+         <MsiProperty Id="TARGETDIR" Value="[PACKAGE1TARGETDIR]" />
+      </MsiPackage>
+   </Chain>
+</BurnManifest>

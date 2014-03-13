@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product_fail.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Product Id="DCCE3521-FB10-4ef7-90AC-5529C0A8C232" Name="TestWebSDirProduct_Fail" Language="1033" Version="0.0.0.0" UpgradeCode="{955D321E-A24D-47aa-9652-ADACCB955EDB}" Manufacturer="Microsoft Corporation" >
+    <Package Description="Test Web dir Product" Comments="Test Web dir Product" InstallerVersion="200" Compressed="yes" />
+    <Property Id="PORT" Value="3062" />
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestWebSiteProductDirectory" ShortName="testassm" Name="Test File">
+          <Component Id="TestWebSiteProductComponent" Guid="00030829-0000-0000-C000-000000000046" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <!--
+            <File Id="CAFile" Name="CustomActionFail.exe"  DiskId="1" Source="$(env.datapath)\CustomActionFail.exe" />
+-->
+            <iis:WebSite Id="Test" Description="Test web server" Directory="TestWebSiteProductDirectory" StartOnInstall="yes" DirProperties="ReadAndExecute" ConfigureIfExists="no">
+              <iis:WebAddress Id="TestAddress" Port="[PORT]" Secure="no" />
+
+            </iis:WebSite>
+            <iis:WebDir Id="testwebdir" Path="webdir" WebSite="Test" DirProperties="ReadAndExecute"/>
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+    </Directory>
+
+    <?include $(env.WIX_ROOT)\test\data\SharedData\Authoring\FailureCustomAction.wxi?>
+    
+    <Feature Id="TestWebSiteProductFeature" Title="Test File Product Feature" Level="1">
+      <ComponentRef Id="TestWebSiteProductComponent" />
+      <ComponentRef Id="FailureCustomActionComponent" />
+    </Feature>
+    <iis:WebDirProperties Id="ReadAndExecute" Read="yes" Write="no" Script="yes" Execute="yes" AnonymousAccess="no" />
+
+    <!--<CustomAction Id="CaFail"  FileKey="CAFile" Execute="immediate" Return="check" ExeCommand=""/>-->
+    <InstallExecuteSequence>
+      <Custom Action="CaFail"  After="ConfigureIIs"/>
+    </InstallExecuteSequence>
+  </Product>
+</Wix>

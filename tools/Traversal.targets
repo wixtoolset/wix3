@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="Traversal.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="WixBuild.props" />
+  <Import Project="WixBuild.Tools.targets"/>
+
+  <PropertyGroup>
+    <BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ProjectReference>
+      <BuildInParallel>$(BuildInParallel)</BuildInParallel>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+
+  <Target Name="Build"
+          DependsOnTargets="_GroupProjectReferencesByParallelization">
+    <MSBuild Projects="@(_NonParallelProjects)" BuildInParallel="false" />
+    <MSBuild Projects="@(_ParallelProjects)" BuildInParallel="true" />
+  </Target>
+
+  <Target Name="Clean"
+          DependsOnTargets="_GroupProjectReferencesByParallelization">
+    <MSBuild Projects="@(_ParallelProjects)" Targets="Clean" BuildInParallel="true" />
+    <MSBuild Projects="@(_NonParallelProjects)" Targets="Clean" BuildInParallel="false" />
+  </Target>
+
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+
+  <Target Name="_GroupProjectReferencesByParallelization">
+    <ItemGroup>
+      <_NonParallelProjects Include="@(ProjectReference)" Condition=" '%(BuildInParallel)'!='true' " />
+      <_ParallelProjects Include="@(ProjectReference)" Condition=" '%(BuildInParallel)'=='true' " />
+    </ItemGroup>
+  </Target>
+
+</Project>

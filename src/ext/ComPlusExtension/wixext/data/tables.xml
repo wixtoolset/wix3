@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+    The table definitions for the Windows Installer XML Toolset COM+ Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+  <tableDefinition name="ComPlusPartition" createSymbols="yes">
+    <columnDefinition name="Partition" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Id" type="string" length="72" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Name" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusPartitionProperty">
+    <columnDefinition name="Partition_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusPartition" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusPartitionRole" createSymbols="yes">
+    <columnDefinition name="PartitionRole" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Partition_" type="string" length="72" modularize="column"
+        keyTable="ComPlusPartition" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusUserInPartitionRole" createSymbols="yes">
+    <columnDefinition name="UserInPartitionRole" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="PartitionRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusPartitionRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="User_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusGroupInPartitionRole" createSymbols="yes">
+    <columnDefinition name="GroupInPartitionRole" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="PartitionRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusPartitionRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Group_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusPartitionUser" createSymbols="yes">
+    <columnDefinition name="PartitionUser" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Partition_" type="string" length="72" modularize="column"
+        keyTable="ComPlusPartition" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="User_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusApplication" createSymbols="yes">
+    <columnDefinition name="Application" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Partition_" type="string" length="72" nullable="yes" modularize="column"
+        keyTable="ComPlusPartition" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Id" type="string" length="72" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Name" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusApplicationProperty">
+    <columnDefinition name="Application_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusApplication" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusApplicationRole" createSymbols="yes">
+    <columnDefinition name="ApplicationRole" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Application_" type="string" length="72" modularize="column"
+        keyTable="ComPlusApplication" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" nullable="yes" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusApplicationRoleProperty">
+    <columnDefinition name="ApplicationRole_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusApplicationRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusUserInApplicationRole" createSymbols="yes">
+    <columnDefinition name="UserInApplicationRole" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="ApplicationRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusApplicationRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="User_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusGroupInApplicationRole" createSymbols="yes">
+    <columnDefinition name="GroupInApplicationRole" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="ApplicationRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusApplicationRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Group_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusAssembly" createSymbols="yes">
+    <columnDefinition name="Assembly" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Application_" type="string" length="72" nullable="yes" modularize="column"
+        keyTable="ComPlusApplication" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="AssemblyName" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="DllPath" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="TlbPath" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="PSDllPath" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Attributes" type="number" length="4"
+        description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusAssemblyDependency">
+    <columnDefinition name="Assembly_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusAssembly" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="RequiredAssembly_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusAssembly" keyColumn="1" category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusComponent" createSymbols="yes">
+    <columnDefinition name="ComPlusComponent" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Assembly_" type="string" length="72" modularize="column"
+        keyTable="ComPlusAssembly" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="CLSID" type="string" length="72" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusComponentProperty">
+    <columnDefinition name="ComPlusComponent_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusComponent" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusRoleForComponent" createSymbols="yes">
+    <columnDefinition name="RoleForComponent" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="ComPlusComponent_" type="string" length="72" modularize="column"
+        keyTable="ComPlusComponent" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="ApplicationRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusApplicationRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusInterface" createSymbols="yes">
+    <columnDefinition name="Interface" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="ComPlusComponent_" type="string" length="72" modularize="column"
+        keyTable="ComPlusComponent" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="IID" type="string" length="72" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusInterfaceProperty">
+    <columnDefinition name="Interface_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusInterface" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusRoleForInterface" createSymbols="yes">
+    <columnDefinition name="RoleForInterface" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Interface_" type="string" length="72" modularize="column"
+        keyTable="ComPlusInterface" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="ApplicationRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusApplicationRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusMethod" createSymbols="yes">
+    <columnDefinition name="Method" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Interface_" type="string" length="72" modularize="column"
+        keyTable="ComPlusInterface" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Index" type="number" length="4" nullable="yes"
+        description=""/>
+    <columnDefinition name="Name" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusMethodProperty">
+    <columnDefinition name="Method_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusMethod" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusRoleForMethod" createSymbols="yes">
+    <columnDefinition name="RoleForMethod" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Method_" type="string" length="72" modularize="column"
+        keyTable="ComPlusMethod" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="ApplicationRole_" type="string" length="72" modularize="column"
+        keyTable="ComPlusApplicationRole" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusSubscription" createSymbols="yes">
+    <columnDefinition name="Subscription" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="ComPlusComponent_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusComponent" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Id" type="string" length="72" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Name" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="EventCLSID" type="string" length="72" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="PublisherID" type="string" length="72" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+  <tableDefinition name="ComPlusSubscriptionProperty">
+    <columnDefinition name="Subscription_" type="string" length="72" primaryKey="yes" modularize="column"
+        keyTable="ComPlusSubscription" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Name" type="string" length="72" primaryKey="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Value" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+  </tableDefinition>
+</tableDefinitions>

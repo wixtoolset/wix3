@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="actions.xsd" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://schemas.microsoft.com/wix/2003/04/actions"
+              xmlns="http://schemas.microsoft.com/wix/2003/04/actions">
+    <xs:annotation>
+        <xs:documentation>
+            Schema for describing standard actions in the Windows Installer.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="actions">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element ref="action" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="action">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Name of action</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="condition" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Default condition for action</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="sequence" type="xs:integer" use="required">
+                <xs:annotation>
+                    <xs:documentation>Sequence of action</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="AdminExecuteSequence" type="ActionsYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if action is allowed in AdminExecuteSequence</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="AdminUISequence" type="ActionsYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if action is allowed in AdminUISequence</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="AdvtExecuteSequence" type="ActionsYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if action is allowed in AdvtExecuteSequence</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="InstallExecuteSequence" type="ActionsYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if action is allowed in InstallExecuteSequence</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="InstallUISequence" type="ActionsYesNoType">
+                <xs:annotation>
+                    <xs:documentation>Specifies if action is allowed in InstallUISequence</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="ActionsYesNoType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="no" />
+            <xs:enumeration value="yes" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

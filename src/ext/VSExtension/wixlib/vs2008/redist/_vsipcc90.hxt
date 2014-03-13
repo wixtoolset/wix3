@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE HelpTOC>
+<HelpTOC 
+	DTDVersion = "1.0" 
+	Id = "vsipcc_TOC"
+	FileVersion = "9.0.20220.0" 
+	LangId = "1033"
+	ParentNodeIcon = "Book"
+	PluginStyle = "Flat"
+	>
+	<HelpTOCNode Id = "InsertTOC:VSIP" NodeType = "TOC"/>
+	<HelpTOCNode Id = "InsertTOC:Partner" NodeType = "TOC"/>
+</HelpTOC>
+
+

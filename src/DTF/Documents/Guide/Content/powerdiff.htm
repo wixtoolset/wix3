@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>MSI, MSP, CAB Diff Tool</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">MSI, MSP, CAB Diff Tool</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="samples.htm">Samples</a> &gt;
+        <span class="nolink">DDiff</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+            <h2>MSI, MSP, CAB Diff Tool</h2>
+
+            <p><pre><font face="Consolas, Courier New">Usage: DDiff target1 target2 [options]
+Example: DDiff d:\dir1 d:\dir2
+Example: DDiff setup1.msi setup2.msi
+Example: DDiff patch1.msp patch2.msp -patchtarget target.msi
+Example: DDiff package1.cab package2.cab
+
+Options:
+  /o [filename]    Output results to text file (UTF8)
+  /p [package.msi] Diff patches relative to target MSI</font></pre>
+            </p>
+            <p><br/></p>
+
+            <p>The following types of inputs can be diffed:
+            <ul>
+		            <li><b>Directories</b>: files and subdirectories are compared.</li>
+		            <li><b>Cab files</b>: internal file list and files are compared.</li>
+		            <li><b>MSI/MSM database files</b>: summary info, tables, and embedded binary and cab streams are compared.</li>
+		            <li><b>MSP files</b>: summary info and embedded file cab are compared.  When a patch target MSI is provided, the MSP's tables are also compared.</li>
+		            <li><b>Versioned files</b>: Win32 file version is compared.</li>
+		            <li><b>Text files</b>: if diff.exe is in the path, it is used to get a line-by-line diff.</li>
+		            <li><b>Other files</b>: file size and bytes are compared.</li>
+            </ul>
+            All processing is done recursively. So a versioned file within a cab within an MSI within a directory will have meaningful diff results.</p>
+
+            <p><br/></p>
+		</div>
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

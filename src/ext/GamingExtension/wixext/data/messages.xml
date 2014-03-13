@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="messages.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The messages for the Windows Installer XML Toolset Gaming Extension.
+-->
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+    <Class Name="GamingErrors" ContainerName="GamingErrorEventArgs" BaseContainerName="WixErrorEventArgs">
+        <Message Id="IllegalGameTaskDirectoryIdentifier" Number="6301">
+            <Instance>
+                The generated identifier ({0}) for the directory containing Game Explorer tasks is too long. Shorten the component identifier of your game executable so that the prefix and component ID combined are no more than 72 characters in length.
+                <Parameter Type="System.String" Name="identifier" />
+            </Instance>
+        </Message>
+    </Class>
+</Messages>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="cpsched.vcxproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7614644F-8340-4EED-BDCD-9BE1D0EE9E35}</ProjectGuid>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <TargetName>cpsched</TargetName>
+    <ProjectModuleDefinitionFile>cpsched.def</ProjectModuleDefinitionFile>
+  </PropertyGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\wcautil</ProjectAdditionalIncludeDirectories>
+    <ProjectAdditionalLinkLibraries>msi.lib;dutil$(MultiTargetTargetNameSuffix).lib;wcautil$(MultiTargetTargetNameSuffix).lib</ProjectAdditionalLinkLibraries>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ClCompile Include="cpapprolesched.cpp" />
+    <ClCompile Include="cpappsched.cpp" />
+    <ClCompile Include="cpasmsched.cpp" />
+    <ClCompile Include="cppartrolesched.cpp" />
+    <ClCompile Include="cppartsched.cpp" />
+    <ClCompile Include="cpsched.cpp" />
+    <ClCompile Include="cpsubssched.cpp" />
+    <ClCompile Include="cputilsched.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cpapprolesched.h" />
+    <ClInclude Include="cpappsched.h" />
+    <ClInclude Include="cpasmsched.h" />
+    <ClInclude Include="cppartrolesched.h" />
+    <ClInclude Include="cppartsched.h" />
+    <ClInclude Include="cpsubssched.h" />
+    <ClInclude Include="cputilsched.h" />
+    <ClInclude Include="..\inc\cpcost.h" />
+    <ClInclude Include="precomp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpsched.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="cpsched.rc" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

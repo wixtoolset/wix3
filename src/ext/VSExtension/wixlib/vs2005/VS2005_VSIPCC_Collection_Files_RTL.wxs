@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="VS2005_VSIPCC_Collection_Files_RTL.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment Id="VS2005_Namespace">
+    <DirectoryRef Id="VSIPCC">
+      <Component Id="VSIPCC_Reg" Guid="96F72137-191F-4120-A2FA-9DA8F6C2C993" KeyPath="yes">
+        <CreateFolder />
+        <RegistryValue Id="_FldbVs8_RegFile_15039_________00000" Root="HKLM" Key="SOFTWARE\Microsoft\MSDN\8.0\Help\0x0409\{F658C410-5D42-41a9-AB6C-83E8FE395595}" Name="Filename" Type="string" Value="ms-help://MS.VSIPCC.v80" />
+      </Component>
+      <Directory Id="vsipcc_v8.0" Name="v8.0" FileSource="$(sys.SOURCEFILEDIR)\Redist">
+        <Component Id="vsipcc_collection________" Guid="454FF049-0B57-4927-8A0C-AA10608A480C">
+          <File Id="FL_vsipcc_reg_hxs_86878________" Name="vsipcc_reg.hxs" KeyPath="yes" />
+          <File Id="FL_vsipcc_hxc_86879________" Name="vsipcc.hxc" />
+          <File Id="FL_vsipcc_hxt_86880________" Name="vsipcc.hxt" />
+          <File Id="FL_vsipccALinks_hxk_86881________" Name="vsipccALinks.hxk" />
+          <File Id="FL_vsipccBLinks_hxk_86882________" Name="vsipccBLinks.hxk" />
+          <File Id="FL_vsipccFLinks_hxk_86885________" Name="vsipccFLinks.hxk" />
+          <File Id="FL_vsipccKLinks_hxk_86886________" Name="vsipccKLinks.hxk" />
+          <File Id="FL_vsipccNamedURLs_hxk_86888________.3643236F_FC70_11D3_A536_0090278A1BB" Name="vsipccNamedURLs.hxk" />
+          <File Id="FL_vsipccSlinks_hxk_93825________" Name="vsipccSlinks.hxk" />
+          <File Id="FL_VsipCCSamples_HxK_103959________" Name="VsipCCSamples.HxK" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+    <CustomAction Id="CA_HxMerge_VSIPCC_VSCC" Return="ignore" Execute="commit" Impersonate="no" BinaryKey="BIN_File_60377" ExeCommand="ms-help://MS.VSCC.v80" />
+    <CustomAction Id="CA_HxMerge_VSIPCC_VSExpCC" Return="ignore" Execute="commit" Impersonate="no" BinaryKey="BIN_File_60377" ExeCommand="ms-help://MS.VSExpressCC.v80" />
+    <InstallExecuteSequence>
+      <Custom Action="CA_HxMerge_VSIPCC_VSCC" After="CA_RegisterMicrosoftHelp.3643236F_FC70_11D3_A536_0090278A1BB8"/>
+      <Custom Action="CA_HxMerge_VSIPCC_VSExpCC" After="CA_RegisterMicrosoftHelp.3643236F_FC70_11D3_A536_0090278A1BB8"/>
+    </InstallExecuteSequence>
+    <Binary Id="BIN_File_60377" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_60377" />
+    <CustomTable Id="HelpPlugin">
+      <Row>
+        <Data Column="HelpNamespace_">MS_VSIPCC_v80</Data>
+        <Data Column="HelpNamespace_Parent">MS_VSCC_v80</Data>
+        <Data Column="File_HxT">FL_vsipcc_hxt_86880________</Data>
+        <Data Column="File_HxA" />
+        <Data Column="File_ParentHxT" />
+      </Row>
+      <Row>
+        <Data Column="HelpNamespace_">MS_VSIPCC_v80</Data>
+        <Data Column="HelpNamespace_Parent">MS_VSExpressCC_v80</Data>
+        <Data Column="File_HxT">FL_vsipcc_hxt_86880________</Data>
+        <Data Column="File_HxA" />
+        <Data Column="File_ParentHxT" />
+      </Row>
+    </CustomTable>
+    <CustomTable Id="HelpNamespace">
+      <Row>
+        <Data Column="NamespaceKey">MS_VSIPCC_v80</Data>
+        <Data Column="NamespaceName">MS.VSIPCC.v80</Data>
+        <Data Column="File_Collection">FL_vsipcc_hxc_86879________</Data>
+        <Data Column="Description">VSIP Documentation</Data>
+      </Row>
+    </CustomTable>
+
+    <ComponentGroup Id="Help2_VS2005_Namespace_Components">
+      <ComponentRef Id="VSIPCC_Reg"/>
+      <ComponentRef Id="vsipcc_collection________"/>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

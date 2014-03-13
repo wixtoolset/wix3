@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <?define TestDataDirectory="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\Bundle\Files"?>
+
+  <Bundle Name="Wix Test Bundle" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+
+    <UX Name="Setup.exe" SourceFile="$(var.TestDataDirectory)\Bootstrapper.exe"/>
+
+    <Chain>
+      <MsiPackage SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi" After="UndefinedMsiPackage"/>
+      <MspPackage SourceFile="$(var.TestDataDirectory)\Packages\MspPackage.msp" After="UndefinedMspPackage"/>
+      <MsuPackage SourceFile="$(var.TestDataDirectory)\Packages\MsuPackage.msu" After="UndefinedMsuPackage"/>
+      <ExePackage SourceFile="$(var.TestDataDirectory)\Packages\ExePackage.exe" After="UndefinedExePackage"/>
+    </Chain>
+
+  </Bundle>
+</Wix>

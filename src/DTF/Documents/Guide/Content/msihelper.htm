@@ -1,0 +1,59 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html>
+	<head>
+		<title>Included Components</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+		<link rel="stylesheet" type="text/css" href="MSDN.css">
+	</head>
+	<body id="bodyID" class="dtBODY">
+		<div id="nsbanner">
+			<div id="bannerrow1">
+				<table class="bannerparthead" cellspacing="0" id="Table1">
+					<tr id="hdr">
+						<td class="runninghead">Managed Libraries for Windows Installer</td>
+						<td class="product"></td>
+					</tr>
+				</table>
+			</div>
+			<div id="TitleRow">
+				<h1 class="dtH1">Helper Classes for Windows Installer Packages</h1>
+			</div>
+		</div>
+		<div id="nstext">
+            <p>Included are some useful helper classes for working with
+            MSI and MSP packages:</p>
+            <ul>
+            <li><p><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.InstallPackage.html"
+            ><strong>InstallPackage</strong></a> - extends the Database class to provide powerful
+            package-based operations such as:</p>
+            <ul>
+                <li>direct extraction of files to uncompressed source 
+                path 
+                <li>updating files from uncompressed source path back 
+                into the compressed source for the package (including updating file 
+                metadata) 
+                <li>applying a patch directly to the package 
+                <li>consolidating a package with uncompressed source files or multiple msm-cabs
+                into a package with a single compressed cabinet</li>
+            </ul>
+            <P></P>
+            <li><p><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.InstallPathMap.html"
+            ><strong>InstallPathMap</strong>, <a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.InstallPath.html"
+            ><strong>InstallPath</strong></a> - represent the directory structure
+            of an installation package, including file, component, and directory source and target
+            install paths.  Accessible by file, component, or directory keys; searchable by
+            filename.</p>
+            <li><p><a href="ms-its:MMLRef.chm::/Microsoft.WindowsInstaller.PatchPackage.html"
+            ><strong>PatchPackage</strong></a> - allows convenient access to patch properties,
+            and analysis and extraction of transforms</p></li>
+            </ul>
+            <p><br/></p>
+            <p>These classes are in the Microsoft.WindowsInstaller.Package.dll assembly.</p>
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <p>The <a href="wifile.htm">WiFile</a> sample tool demonstrates some usage of the
+            InstallPackage class.</p>
+            <p><br/></p>
+		</div>
+	</body>
+</html>

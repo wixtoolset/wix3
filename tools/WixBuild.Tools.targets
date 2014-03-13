@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.Tools.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project InitialTargets="CheckRequiredProperties" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <ItemGroup>
+    <!--Provide support for setting type (BuildAction) from VS-->
+    <AvailableItemName Include="EmbeddedFlattenedResource" />
+    <AvailableItemName Include="EmbeddedNativeResource" />
+    <AvailableItemName Include="MsgGenSource" />
+    <AvailableItemName Include="XsdGenSource" />
+  </ItemGroup>
+
+  <!-- Steal some tasks from the MSBuild tasks assembly -->
+  <UsingTask TaskName="AssignTargetPath" AssemblyName="Microsoft.Build.Tasks, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+
+  <!--
+  ================================================================================================
+  Diagnostics
+
+    Displays useful information for debugging WixBuild targets.
+
+  ================================================================================================
+  -->
+  <Target Name="Diagnostics">
+    <Message Importance="high" Text="WixRoot = $(WixRoot)" />
+    <Message Importance="high" Text="WixObjRoot = $(WixObjRoot)" />
+    <Message Importance="high" Text="IntermediateOutputPath = $(IntermediateOutputPath)" />
+    <Message Importance="high" Text="OutputPath = $(OutputPath)" />
+    <Message Importance="high" Text="VS2008Available = $(VS2008Available)" />
+    <Message Importance="high" Text="VS2008SdkAvailable = $(VS2008SdkAvailable)" />
+    <Message Importance="high" Text="VS2010Available = $(VS2010Available)" />
+    <Message Importance="high" Text="VS2010SdkAvailable = $(VS2010SdkAvailable)" />
+    <Message Importance="high" Text="VS2012Available = $(VS2012Available)" />
+    <Message Importance="high" Text="VS2012SdkAvailable = $(VS2012SdkAvailable)" />
+    <Message Importance="high" Text="VS2013Available = $(VS2013Available)" />
+    <Message Importance="high" Text="VS2013SdkAvailable = $(VS2013SdkAvailable)" />
+    <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
+    <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
+    <Message Importance="high" Text="SqlCESdkIncludePath = $(SqlCESdkIncludePath)" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  CheckRequiredProperties
+
+    Checks for required properties that should be specified via environment variables or on the
+    command line.
+
+    [IN]
+    $(WIX_ROOT) - The root directory of the wix source files.
+  ================================================================================================
+  -->
+  <Target Name="CheckRequiredProperties">
+    <!-- These are handy debugging messages only shown when /verbosity:detailed is set. -->
+    <Message Importance="low" Text="WixRoot = $(WixRoot)" />
+    <Message Importance="low" Text="WixObjRoot = $(WixObjRoot)" />
+    <Message Importance="low" Text="WIX_BUILDROOT = $(WIX_BUILDROOT)" />
+
+    <Error
+      Code="WIXBUILD000"
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2008SdkAvailable) and $(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable))"
+      Text="All versions of VS and VS SDK are required on an official build. Install VS2008, VS2010, VS2012, VS2013, and matching SDKs." />
+
+    <Error
+      Code="WIXBUILD001"
+      Condition=" !Exists('$(AssemblyOriginatorKeyFile)') "
+      Text="Could not find public (or private) key file for WiX build at: $(AssemblyOriginatorKeyFile)" />
+
+    <Error
+      Code="WIXBUILD002"
+      Condition=" '$(PlatformSdkBinPath)' == '' or !Exists('$(PlatformSdkBinPath)')"
+      Text="Error the &quot;Microsoft Windows SDK for Windows 7 and .NET Framework 4&quot; or &quot;Visual Studio 2010&quot; must be installed." />
+
+    <Error
+      Code="WIXBUILD003"
+      Condition=" '$(SqlCESdkIncludePath)' == '' or !Exists('$(SqlCESdkIncludePath)')"
+      Text="Error the &quot;Microsoft SQL Server Compact Edition SDK v3.5 or v4.0&quot; must be installed. This is usually installed with Visual Studio 2010 or Visual Studio 2012" />
+
+    <Error
+      Code="WIXBUILD004"
+      Condition="!Exists('$(HelpCompiler)')" 
+      Text="$(HelpCompiler) does not exist. Please install the HTML Help Workshop that is part of the HTML Help SDK." />
+
+    <Error
+      Code="WIXBUILD005"
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !Exists('$(SandcastlePath)')"
+      Text="Sandcastle is required on an official build. Install the Sandcastle Help File Builder that is available on CodePlex to get Sandcastle and Sandcastle Help File Builder." />
+
+    <Error
+      Code="WIXBUILD006"
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !Exists('$(SandcastleHelpFileBuilderTargets)')"
+      Text="$(SandcastleHelpFileBuilderTargets) is required on an official build. Install the Sandcastle Help File Builder that is available on CodePlex." />
+
+    <Error
+      Code="WIXBUILD007"
+      Condition=" !Exists('$(XunitPath)xunit.dll') "
+      Text="Cannot locate xUnit assemblies. Ensure xUnit is present at: $(XunitPath) and that the 'xunit.dll' exists. If not, run the following command from the root of the project: msbuild -t:PackageRestore" />
+
+    <Error
+      Code="WIXBUILD008"
+      Condition=" $(VS2013Available) and '12.0'>'$(MSBuildToolsVersion)' "
+      Text="When Visual Studio 2013 is installed, you must use the MSBuild v12.0 to build. MSBuild v12.0 is typically found here: ProgramFiles(x86)\MSBuild\12.0\Bin\MSBuild.exe" />
+
+    <Error
+      Code="WIXBUILD009"
+      Condition=" $(VS2013Available) and '12.0'>'$(VisualStudioVersion)' "
+      Text="When Visual Studio 2013 is installed, the VisualStudioVersion environment variable must be set to '12.0' or higher. This should be handled by building with MSBuild v12.0. However, you may also be able to set the environment variable directly or use the 'Developer Command Prompt' provided by Visual Studio 2013 (or newer) to initialize your command prompt." />
+
+    <Error
+      Code="WIXBUILD010"
+      Condition=" $(VS2012Available) and '11.0'>'$(VisualStudioVersion)' "
+      Text="When Visual Studio 2012 is installed, the VisualStudioVersion environment variable must be set to '11.0' or higher. Set the environment variable directly or use the 'Developer Command Prompt' provided by Visual Studio 2012 (or newer) to initialize your command prompt." />
+
+  </Target>
+
+  <!--
+  ================================================================================================
+  CopyToOutputSubDirectory
+
+    Copies Content and None item types to directory under output.
+
+    [IN]
+    @(Content) - Items to copy.
+    @(None) - Items to copy.
+
+    [OUT]
+    @(CopiedToSubDirectory) - The items copied to subdirectories.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <CopyToOutputSubDirectoryDependsOn>
+      _PrepareCopyToOutputSubDirectoryItems
+    </CopyToOutputSubDirectoryDependsOn>
+    <AfterBuildDependsOn>
+      $(AfterBuildDependsOn);
+      CopyToOutputSubDirectory
+    </AfterBuildDependsOn>
+  </PropertyGroup>
+  <Target
+    Name="CopyToOutputSubDirectory"
+    DependsOnTargets="$(CopyToOutputSubDirectoryDependsOn)"
+    Inputs="@(_CopyToOutputSubDirectoryItem)"
+    Outputs="@(_CopyToOutputSubDirectoryItem->'%(CopyOutputFolder)%(CopyOutputName)')"
+    Condition=" '@(Content)@(None)'!='' ">
+
+    <Copy
+      SourceFiles="@(_CopyToOutputSubDirectoryItem)"
+      DestinationFolder="%(CopyOutputFolder)"
+      SkipUnchangedFiles="true"
+      OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+      Retries="$(CopyRetryCount)"
+      RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)">
+      <Output TaskParameter="DestinationFiles" ItemName="CopiedToSubDirectory"/>
+      <Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
+    </Copy>
+  </Target>
+
+  <Target
+    Name="_PrepareCopyToOutputSubDirectoryItems">
+    <ItemGroup>
+      <_CopyToOutputSubDirectoryItem Include="@(Content)" Condition=" '%(Content.CopyToOutputSubDirectory)'!='' ">
+        <CopyOutputFolder>$(OutputPath)%(Content.CopyToOutputSubDirectory)\</CopyOutputFolder>
+        <CopyOutputName>%(Content.Filename)%(Content.Extension)</CopyOutputName>
+      </_CopyToOutputSubDirectoryItem>
+      <_CopyToOutputSubDirectoryItem Include="@(None)" Condition=" '%(None.CopyToOutputSubDirectory)'!='' ">
+        <CopyOutputFolder>$(OutputPath)%(None.CopyToOutputSubDirectory)\</CopyOutputFolder>
+        <CopyOutputName>%(None.Filename)%(None.Extension)</CopyOutputName>
+      </_CopyToOutputSubDirectoryItem>
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  FlattenResources
+
+    Flattens an xml/xsd file by removing excess whitespace before embedding it as a resource
+    in the assembly.
+
+    [IN]
+    @(EmbeddedFlattenedResource) - The EmbeddedFlattenedResource items.
+
+    [OUT]
+    @(EmbeddedResource) - The flattened file is added to the list of embedded resources.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <FlattenResourcesDependsOn>
+      _AssignFlattenedTargetPaths
+    </FlattenResourcesDependsOn>
+    <PrepareResourcesDependsOn>
+      FlattenResources;
+      $(PrepareResourcesDependsOn)
+    </PrepareResourcesDependsOn>
+  </PropertyGroup>
+  <Target
+    Name="FlattenResources"
+    DependsOnTargets="$(FlattenResourcesDependsOn)"
+    Condition=" '@(EmbeddedFlattenedResource)' != '' "
+    Inputs="@(_EmbeddedFlattenedResourceWithTargetPath->'$(MSBuildProjectDirectory)\%(Identity)')"
+    Outputs="@(_EmbeddedFlattenedResourceWithTargetPath->'$(IntermediateOutputPath)%(TargetPath)')">
+
+    <Exec Command="&quot;$(OutputPath_x86)flattenxml.exe&quot; -nologo @(_EmbeddedFlattenedResourceWithTargetPath) &quot;$(IntermediateOutputPath)%(TargetPath)&quot;" />
+
+    <ItemGroup>
+      <!-- This will tell MSBuild to clean up the .res file during a Clean build -->
+      <FileWrites Include="@(_EmbeddedFlattenedResourceWithTargetPath->'$(IntermediateOutputPath)%(TargetPath)')"/>
+      <!-- Add the file to the list of embedded resources -->
+      <EmbeddedResource Include="@(_EmbeddedFlattenedResourceWithTargetPath->'$(IntermediateOutputPath)%(TargetPath)')" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  _AssignFlattenedTargetPaths
+
+    Creates <TargetPath> tags for items. <TargetPath> is a relative folder plus filename
+    for the destination of this item. Handles linked items correctly.
+
+
+    [IN]
+    @(EmbeddedFlattenedResource) - The EmbeddedFlattenedResource items.
+
+    [OUT]
+    @(_EmbeddedFlattenedResourceWithTargetPath) - The EmbeddedFlattenedResource with the <TargetPath> metadata added.
+  ================================================================================================
+  -->
+  <Target
+    Name="_AssignFlattenedTargetPaths">
+
+    <AssignTargetPath Files="@(EmbeddedFlattenedResource)" RootFolder="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="AssignedFiles" ItemName="_EmbeddedFlattenedResourceWithTargetPath" />
+    </AssignTargetPath>
+
+    <Message Importance="low" Text="Assigned target paths to @(_EmbeddedFlattenedResourceWithTargetPath)" />
+    <Message Importance="low" Text="Assigned target paths to @(_EmbeddedFlattenedResourceWithTargetPath->'%(TargetPath)')" />
+
+  </Target>
+
+  <!--
+  ================================================================================================
+  CompileNativeResources
+
+    Compiles an .rc file into a .res file and then embeds the .res file into the managed assembly.
+
+    [IN]
+    @(EmbeddedNativeResource) - The EmbeddedNativeResource items with extension equal to '.rc'.
+    @(RcIncludePath) - The list of paths to include in the search.
+
+    [OUT]
+    $(Win32Resource) - The compiled .res file to embed into the managed assembly.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <CompileNativeResourcesDependsOn>
+      WriteCppVersionFile
+    </CompileNativeResourcesDependsOn>
+    <PrepareResourcesDependsOn>
+      CompileNativeResources;
+      $(PrepareResourcesDependsOn)
+    </PrepareResourcesDependsOn>
+    <ResFile>$(IntermediateOutputPath)$(TargetName).res</ResFile>
+    <RcIncludeStandardPaths>true</RcIncludeStandardPaths>
+    <RcStandardPaths>$(WixVersionPath)\;$(WixRoot)src\common;$(PlatformSdkIncludePath);$(VCIncludePath)</RcStandardPaths>
+  </PropertyGroup>
+
+  <Target
+    Name="CompileNativeResources"
+    DependsOnTargets="$(CompileNativeResourcesDependsOn)"
+    Condition=" '@(EmbeddedNativeResource)' != '' "
+    Inputs="$(MSBuildAllProjects);@(EmbeddedNativeResource)"
+    Outputs="$(ResFile)">
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <RcPreprocessorDefinitions>$(RcPreprocessorDefinitions);DEBUG</RcPreprocessorDefinitions>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_RcIncludePath Include="@(RcIncludePath)" />
+      <_RcIncludePath Include="$(RcStandardPaths)" Condition=" '$(RcIncludeStandardPaths)'=='true' " />
+
+      <_RcPreprocessorDefinition Include="$(RcPreprocessorDefinitions)" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <_RcIncludeSwitch>@(_RcIncludePath -> '/i &quot;%(Identity)&quot;', ' ')</_RcIncludeSwitch>
+      <_RcPreprocessorSwitch>@(_RcPreprocessorDefinition -> '/d &quot;%(Identity)&quot;', ' ')</_RcPreprocessorSwitch>
+    </PropertyGroup>
+
+    <Exec Command="&quot;$(PlatformSdkBinPath)rc.exe&quot; /nologo /fo &quot;$(ResFile)&quot; $(_RcIncludeSwitch) $(_RcPreprocessorSwitch) &quot;@(EmbeddedNativeResource)&quot;"
+          Outputs="$(ResFile)" />
+
+    <PropertyGroup>
+      <!-- This tells the csc compiler to embed the .res file into the assembly -->
+      <Win32Resource>$(ResFile)</Win32Resource>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <!-- This will tell MSBuild to clean up the .res file during a Clean build -->
+      <FileWrites Include="$(ResFile)" />
+      <!-- Add the .res file to the inputs of the compile so that it will build when the .res file has changed -->
+      <CustomAdditionalCompileInputs Include="$(ResFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  GenerateWixInclude
+
+    Generates a .wxi class file from an .h file.
+
+    [IN]
+    @(ClInclude) - The items to run through the GenerateWixInclude tool.
+
+    [OUT]
+    $(OutputPath)%(ClInclude.GenerateWixInclude) - The generated .wxi files to generate.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <GenerateWixIncludeDependsOn>
+      PrepareGenerateWixInclude
+    </GenerateWixIncludeDependsOn>
+    <PrepareForBuildDependsOn>
+      $(PrepareForBuildDependsOn);
+      GenerateWixInclude
+    </PrepareForBuildDependsOn>
+  </PropertyGroup>
+  <Target
+    Name="GenerateWixInclude"
+    DependsOnTargets="$(GenerateWixIncludeDependsOn)"
+    Inputs="@(_GenerateWixIncludeSource)"
+    Outputs="@(_GenerateWixIncludeSource->'$(BuiltIncludePath)%(GenerateWixInclude)')">
+
+    <MakeDir Directories="$(BuiltIncludePath)" />
+
+    <Exec Command="&quot;$(OutputPath_x86)GenerateWixInclude.exe&quot; -nologo &quot;@(_GenerateWixIncludeSource)&quot; &quot;$(BuiltIncludePath)%(GenerateWixInclude)&quot;"
+          Outputs="$(BuiltIncludePath)%(GenerateWixInclude)" />
+
+    <ItemGroup>
+      <!-- This will tell MSBuild to clean up the .wxi file during a Clean build -->
+      <FileWrites Include="$(BuiltIncludePath)%(_GenerateWixIncludeSource.GenerateWixInclude)" />
+    </ItemGroup>
+  </Target>
+
+  <Target
+    Name="PrepareGenerateWixInclude">
+    <ItemGroup>
+      <_GenerateWixIncludeSource Include="@(ClInclude)" Condition=" '%(ClInclude.GenerateWixInclude)'!='' " />
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  MsgGen
+
+    Generates a .cs class file and a .resx file from an XML file.
+
+    [IN]
+    @(MsgGenSource) - The items to run through the MsgGen tool.
+
+    [OUT]
+    $(IntermediateOutputPath)%(Filename).cs - The generated .cs files to include in the compilation.
+    $(IntermediateOutputPath)%(MsgGenSource.ResourcesLogicalName) - The generated .resources file to embed in the assembly.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <MsgGenDependsOn>
+      PrepareMsgGen
+    </MsgGenDependsOn>
+    <PrepareResourcesDependsOn>
+      MsgGen;
+      $(PrepareResourcesDependsOn)
+    </PrepareResourcesDependsOn>
+  </PropertyGroup>
+  <Target
+    Name="MsgGen"
+    DependsOnTargets="$(MsgGenDependsOn)"
+    Condition=" '@(MsgGenSource)' != '' "
+    Inputs="@(MsgGenSource)"
+    Outputs="$(IntermediateOutputPath)%(MsgGenSource.Filename).cs;
+             $(IntermediateOutputPath)%(MsgGenSource.ResourcesLogicalName)">
+
+    <Exec Command="&quot;$(OutputPath_x86)msggen.exe&quot; -nologo &quot;%(MsgGenSource.FullPath)&quot; &quot;$(MsgGenCsFile)&quot; &quot;$(MsgGenResourcesFile)&quot;"
+          Outputs="$(MsgGenCsFile);$(MsgGenResourcesFile)" />
+
+    <ItemGroup>
+      <!-- This will tell MSBuild to clean up the .cs and .resources file during a Clean build -->
+      <FileWrites Include="$(MsgGenCsFile);$(MsgGenResourcesFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  PrepareMsgGen
+
+    Creates properties and Include items for MsgGen. This must be separate from the MsgGen target
+    to workaround an MSBuild bug: AdditionalMetadata is ignored when the target is up-to-date.
+
+  ================================================================================================
+  -->
+  <Target
+    Name="PrepareMsgGen"
+    Condition=" '@(MsgGenSource)' != '' ">
+
+    <CreateProperty Value="$(IntermediateOutputPath)%(MsgGenSource.Filename).cs">
+      <Output TaskParameter="Value" PropertyName="MsgGenCsFile" />
+    </CreateProperty>
+
+    <CreateProperty
+      Value="$(IntermediateOutputPath)%(MsgGenSource.ResourcesLogicalName)"
+      Condition=" '%(MsgGenSource.ResourcesLogicalName)' != '' ">
+
+      <Output TaskParameter="Value" PropertyName="MsgGenResourcesFile" />
+    </CreateProperty>
+
+    <!-- Add the generated .cs file to the list of source files to compile -->
+    <CreateItem
+      Include="$(MsgGenCsFile)"
+      AdditionalMetadata="Link=%(MsgGenCsFile.Filename)%(MsgGenCsFile.Extension)">
+
+      <Output TaskParameter="Include" ItemName="Compile" />
+    </CreateItem>
+
+    <!-- Add the generated .resources file to the list of resources to embed -->
+    <CreateItem
+      Include="$(MsgGenResourcesFile)"
+      AdditionalMetadata="Link=%(MsgGenResourcesFile.Filename)%(MsgGenResourcesFile.Extension);
+                          LogicalName=%(MsgGenSource.ResourcesLogicalName)"
+      Condition=" '$(MsgGenResourcesFile)' != '' ">
+
+      <Output TaskParameter="Include" ItemName="EmbeddedResource" />
+    </CreateItem>
+  </Target>
+
+  <!--
+  ================================================================================================
+  XsdGen
+
+    Generates a .cs class file from an .xsd file.
+
+    [IN]
+    @(XsdGenSource) - The items to run through the XsdGen tool.
+
+    [OUT]
+    $(IntermediateOutputPath)%(Filename).cs - The generated .cs files to include in the compilation.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <XsdGenDependsOn>
+    </XsdGenDependsOn>
+    <PrepareResourcesDependsOn>
+      XsdGen;
+      $(PrepareResourcesDependsOn)
+    </PrepareResourcesDependsOn>
+  </PropertyGroup>
+  <Target
+    Name="XsdGen"
+    DependsOnTargets="$(XsdGenDependsOn)"
+    Condition=" '@(XsdGenSource)' != '' "
+    Inputs="$(MSBuildAllProjects);@(XsdGenSource)"
+    Outputs="$(IntermediateOutputPath)%(XsdGenSource.Filename).cs">
+
+    <PropertyGroup>
+      <XsdGenCsFile>$(IntermediateOutputPath)%(XsdGenSource.Filename).cs</XsdGenCsFile>
+      <XsdGenCommonNamespace>%(XsdGenSource.CommonNamespace)</XsdGenCommonNamespace>
+    </PropertyGroup>
+
+    <Exec Command="&quot;$(OutputPath_x86)xsdgen.exe&quot; &quot;%(XsdGenSource.FullPath)&quot; &quot;$(XsdGenCsFile)&quot; %(XsdGenSource.Namespace) $(XsdGenCommonNamespace)"
+          Outputs="$(XsdGenCsFile)" />
+
+    <ItemGroup>
+      <!-- This will tell MSBuild to clean up the .cs file during a Clean build -->
+      <FileWrites Include="$(XsdGenCsFile)" />
+
+      <!-- Add the generated .cs file to the list of source files to compile -->
+      <Compile Include="$(XsdGenCsFile)">
+        <Link>%(XsdGenCsFile.Filename)%(XsdGenCsFile.Extension)</Link>
+      </Compile>
+    </ItemGroup>
+  </Target>
+
+</Project>

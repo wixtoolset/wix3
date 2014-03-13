@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <?define TestDataDirectory="$(env.WIX_ROOT)\test\data\Integration\BuildingPackages\Bundle\Files"?>
+
+  <Bundle Name="Wix Test Bundle" Version="1.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{D4CD70BC-7ABD-4fcd-8E10-C8DB53C73415}">
+
+    <UX Name="Setup.exe" SourceFile="$(var.TestDataDirectory)\Bootstrapper.exe"/>
+
+    <Chain>
+
+      <MsiPackage Id="MsiPackage3" Name="MsiPackage3.msi" SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi" Vital="no" DownloadUrl="http://go.microsoft.com/fwlink/?linkid=164202" After="MsuPackage2"/>
+      <MsuPackage Id="MsuPackage2" Name="MsuPackage2.msu" SourceFile="$(var.TestDataDirectory)\Packages\MsuPackage.msu" DownloadUrl="ftp://192.168.0.1/testPayload.exe" After="MspPackage1"/>
+      <MspPackage Id="MspPackage1" Name="MspPackage1.msp" SourceFile="$(var.TestDataDirectory)\Packages\MspPackage.msp" Cache="no" CacheId="MspPackage1CacheId" After="ExePackage5"/>  
+      <ExePackage Id="ExePackage5" Name="ExePackage5.exe" SourceFile="$(var.TestDataDirectory)\Packages\MsiPackage.msi" InstallCondition="x!=y" InstallCommand="\q" UninstallCommand="\q \r \t" RepairCommand="\anotherargument -t" DownloadUrl="\\wixbuild\releases\wix\"/>
+
+    </Chain>
+
+  </Bundle>
+</Wix>

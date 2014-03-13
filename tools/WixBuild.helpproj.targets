@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.helpproj.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <TargetExt Condition=" '$(TargetExt)'=='' ">.chm</TargetExt>
+    <TargetPath>$(OutputPath_x86)$(TargetName)$(TargetExt)</TargetPath>
+
+    <IntermediateDocumentsFolder>$(IntermediateOutputPath)documents\</IntermediateDocumentsFolder>
+    <IntermediateBuildFolder>$(IntermediateOutputPath)out\</IntermediateBuildFolder>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+
+  <!-- This target exists solely to make Microsoft.Common.targets happy. -->
+  <Target Name="CreateManifestResourceNames" />
+
+  <!--
+  ================================================================================================
+  Compile
+
+    Compile step for help content.
+
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <CompileDependsOn>
+      CompileHelpDocuments;
+      CompileHelpProjectFiles;
+    </CompileDependsOn>
+  </PropertyGroup>
+  <Target Name="Compile"
+          DependsOnTargets="$(CompileDependsOn)" />
+
+  <Target Name="_GetSchemaDocumentsToProcess">
+    <ItemGroup>
+      <DocFromXsdInput Include="@(SchemaDocument)" />
+      <DocFromXsdOutput Include="@(SchemaDocument->'$(IntermediateDocumentsFolder)xsd\%(FileName)\index.html')" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_ProcessXsdToDocuments"
+          DependsOnTargets="_GetSchemaDocumentsToProcess"
+          Inputs="@(DocFromXsdInput)"
+          Outputs="@(DocFromXsdOutput)">
+    <Exec Command="&quot;$(OutputPath_x86)docfromxsd.exe&quot; -out &quot;$(IntermediateDocumentsFolder)xsd&quot; @(SchemaDocument->'&quot;%(Identity)&quot;', ' ')" />
+  </Target>
+
+  <Target Name="_ProcessDocuments"
+          DependsOnTargets="_ProcessXsdToDocuments"
+          Inputs="@(SchemaContent);@(DocumentContent);@(LayoutContent)"
+          Outputs="$(IntermediateOutputPath)$(TargetName).hhp">
+    <!-- copy the documents to the intermediate folder to be interleaved with the generated XSD documents -->
+    <Copy SourceFiles="@(DocumentContent)" DestinationFiles="@(DocumentContent->'$(IntermediateDocumentsFolder)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" UseHardlinksIfPossible="false" />
+
+    <Exec Command="&quot;$(OutputPath_x86)doccompiler.exe&quot; &quot;$(IntermediateDocumentsFolder)\&quot; &quot;$(IntermediateBuildFolder)\&quot; &quot;$(LayoutsFolder)&quot; -appendmdtoc &quot;$(IntermediateDocumentsFolder)\index.html.md&quot; -htmlhelp &quot;$(IntermediateOutputPath)$(TargetName).hhp&quot;" />
+  </Target>
+
+  <Target Name="_ProcessFileContent"
+          Inputs="@(FileContent)"
+          Outputs="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)%(Filename)%(Extension)')">
+    <!-- "processing" file content is easy, it just gets duplicated into the intermediate build location. -->
+    <Copy SourceFiles="@(FileContent)" DestinationFiles="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  CompileHelpDocuments
+
+    Compiles when schemas and documents are collected and compiled into an HTML Help file.
+
+  ================================================================================================
+  -->
+  <Target Name="CompileHelpDocuments"
+          DependsOnTargets="_ProcessDocuments;_ProcessFileContent"
+          Inputs="@(SchemaContent);@(DocumentContent);@(LayoutContent);@(FileContent);$(IntermediateOutputPath)$(TargetName).hhp"
+          Outputs="$(IntermediateOutputPath)$(TargetName).chm"
+          Condition=" '@(SchemaContent)@(DocumentContent)'!='' ">
+    <Exec Command="&quot;$(HelpCompiler)&quot; &quot;$(IntermediateOutputPath)$(TargetName).hhp&quot;" WorkingDirectory="$(IntermediateOutputPath)" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+
+    <Delete Files="$(IntermediateOutputPath)$(TargetName).chm" Condition=" '$(ErrorCode)'!='1' " />
+    <Error Text="Help compiler failed while compiling: @(HelpProjectFile). For more information, see: $(IntermediateOutputPath)$(TargetName).log" Condition=" '$(ErrorCode)'!='1' " />
+  </Target>
+
+  <Target Name="_CopyHelpProjectContent"
+          Condition=" '@(HelpProjectContent)'!='' ">
+    <ItemGroup>
+      <_HelpProjectContent Include="@(HelpProjectFile)">
+        <SourcePath>$(MSBuildProjectFilePath)%(HelpProjectFile.Identity)</SourcePath>
+      </_HelpProjectContent>
+      <_HelpProjectContent Include="@(HelpProjectContent)" Condition=" '%(HelpProjectContent.SourcePath)'=='' ">
+        <SourcePath>$(MSBuildProjectFilePath)%(HelpProjectContent.Identity)</SourcePath>
+      </_HelpProjectContent>
+      <_HelpProjectContent Include="@(HelpProjectContent)" Condition=" '%(HelpProjectContent.SourcePath)'!='' ">
+        <SourcePath>%(HelpProjectContent.SourcePath)</SourcePath>
+      </_HelpProjectContent>
+    </ItemGroup>
+
+    <Copy SourceFiles="%(_HelpProjectContent.SourcePath)" DestinationFiles="$(IntermediateOutputPath)%(_HelpProjectContent.Identity)"
+          SkipUnchangedFiles="true">
+    </Copy>
+  </Target>
+
+  <!--
+  ================================================================================================
+  CompileHelpProjectFiles
+
+    Compiles when the HTML Help project is handcrafted.
+
+  ================================================================================================
+  -->
+  <Target Name="CompileHelpProjectFiles"
+          Condition=" '@(HelpProjectFile)'!='' "
+          DependsOnTargets="_CopyHelpProjectContent"
+          Inputs="@(HelpProjectFile);@(HelpProjectContent);$(MSBuildProjectFile)"
+          Outputs="$(TargetPath)">
+
+    <Exec Command="&quot;$(HelpCompiler)&quot; &quot;$(IntermediateOutputPath)@(HelpProjectFile)&quot;" WorkingDirectory="$(IntermediateOutputPath)" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+
+    <Error Text="Help compiler failed while compiling: @(HelpProjectFile)" Condition=" '$(ErrorCode)'!='1'" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  AfterClean
+
+    Overrides AfterClean to clean up intermediate files missed by CoreClean.
+
+  ================================================================================================
+  -->
+  <Target Name="AfterClean">
+    <RemoveDir Directories="$(IntermediateOutputPath)" />
+  </Target>
+</Project>

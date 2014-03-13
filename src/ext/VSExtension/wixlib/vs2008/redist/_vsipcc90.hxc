@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE HelpCollection>
+<HelpCollection 
+	DTDVersion = "1.0" 
+	Id = "vsipcc.9.0" 
+	FileVersion = "9.0.20220.0" 
+	LangId = "1033" 
+	Title = "Visual Studio Orcas Partner Documentation" 
+	Copyright = "Copyright (c) 2007 Microsoft Corporation. All Rights Reserved."
+	>
+	<TOCDef File = "_vsipcc90.HxT" Id = "InsertTOC:VSIPCC" />
+	<KeywordIndexDef File = "_ALinks.HxK"/>
+	<KeywordIndexDef File = "_BLinks.HxK"/>
+	<KeywordIndexDef File = "_CLinks.HxK"/>
+	<KeywordIndexDef File = "_FLinks.HxK"/>
+	<KeywordIndexDef File = "_KLinks.HxK"/>
+	<KeywordIndexDef File = "_SLinks.HxK"/>
+	<KeywordIndexDef File = "_vsipcc_NamedUrls.HxK"/>
+	<KeywordIndexDef File=	"_VsipCC_Samples.HxK" />
+
+	<ItemMoniker Name = "!DefaultNamedUrlIndex" ProgId = "HxDs.HxIndex" InitData = "VsccNamedUrls"/>
+	<ItemMoniker Name = "!SampleInfo" ProgId = "HxDs.HxSampleCollection" InitData = "Samples"/>
+	<ItemMoniker Name = "!DefaultTOC" ProgId = "HxDs.HxHierarchy" InitData = "TOC"/>
+	<ItemMoniker Name = "!DefaultFullTextSearch" ProgId = "HxDs.HxFullTextSearch" InitData = ""/>
+	<ItemMoniker Name = "!DefaultAssociativeIndex" ProgId = "HxDs.HxIndex" InitData = "A"/>
+	<ItemMoniker Name = "!DefaultDynamicLinkIndex" ProgId = "HxDs.HxIndex" InitData = "B"/>
+	<ItemMoniker Name = "!DefaultCodeIndex" ProgId = "HxDs.HxIndex" InitData = "C"/>
+	<ItemMoniker Name = "!DefaultContextWindowIndex" ProgId = "HxDs.HxIndex" InitData = "F"/>
+	<ItemMoniker Name = "!DefaultKeywordIndex" ProgId = "HxDs.HxIndex" InitData = "K"/>
+	<ItemMoniker Name = "!DefaultSearchWindowIndex" ProgId = "HxDs.HxIndex" InitData = "S"/>
+	<ItemMoniker Name = "!DefaultSampleIndex" ProgId="HxDs.HxIndex" InitData="Samples" />
+</HelpCollection>
+

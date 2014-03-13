@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="hello_world_non_admin-en-us.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+	<String Id="LaunchCondition_AllUsers">Setting the ALLUSERS property is not allowed because [ProductName] is a per-user application. Setup will now exit.</String>
+	<String Id="LaunchCondition_LaterVersion">A later version of [ProductName] is already installed.</String>
+	
+	<String Id="Property_ArpHelpLink">http://msdn.microsoft.com/mce/</String>
+	<String Id="Property_ArpUrlInfoAbout">http://msdn.microsoft.com/mce/</String>
+	<String Id="Property_ProductLanguage">1033</String>
+	<String Id="Property_ProductName">HelloWorldNonAdmin_Readme</String>
+	<String Id="Property_CompanyName">Microsoft</String>
+
+	<String Id="Package_Description">HelloWorldNonAdmin_Readme</String>
+	<String Id="Package_Comments">This Installer database contains the logic and data required to install HelloWorldNonAdmin_Readme.</String>
+
+</WixLocalization>

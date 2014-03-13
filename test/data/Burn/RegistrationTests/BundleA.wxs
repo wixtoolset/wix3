@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="BundleA.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Bundle Name="~$(var.TestName) - Bundle A"
+            Manufacturer="Microsoft Corporation"
+            Version="$(var.Version)"
+            UpgradeCode="5F8239FB-41CB-4DBE-9291-164D09C60B28">
+        <Log Prefix="$(var.TestName)_BundleA"/>
+        <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense"/>
+        <WixVariable Id="WixStdbaLicenseUrl" Value="http://wix"/>
+        <Chain>
+            <PackageGroupRef Id="TestExe"/>
+        </Chain>
+        <OptionalUpdateRegistration/>
+    </Bundle>
+</Wix>

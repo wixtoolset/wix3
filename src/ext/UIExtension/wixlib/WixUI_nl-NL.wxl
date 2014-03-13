@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_nl-NL.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="nl-nl" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">V&amp;orige</String>
+    <String Id="WixUINext" Overridable="yes">V&amp;olgende</String>
+    <String Id="WixUICancel" Overridable="yes">Annuleren</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Voltooien</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Opnieuw</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Negeren</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Ja</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Nee</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Afdrukken</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lees de gebruiksrechtovereenkomst van [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Ik ga &amp;akkoord met de voorwaarden in de overeenkomst</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Klik op Installeren om het product voor alle gebruikers te installeren met de standaardopties. Klik op Geavanceerd als u de installatieopties wilt wijzigen.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Klik op Installeren om het product alleen voor uzelf te installeren met de standaardopties. Klik op Geavanceerd als u de installatieopties wilt wijzigen.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Installeren</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">&amp;Geavanceerd</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Zoeken in:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Eén niveau naar boven</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Een nieuwe map maken</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mapnaam:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Naar de doelmap bladeren</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Doelmap wijzigen</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="CancelDlgText" Overridable="yes">Weet u zeker dat u de installatie van [ProductName] wilt annuleren?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Informatiepictogram</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Structuur van selecties</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">B&amp;laderen...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">&amp;Beginwaarden</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">Schijf&amp;gebruik</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Klik op de pictogrammen in de onderstaande structuur als u wilt wijzigen hoe onderdelen worden geïnstalleerd.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Selecteer de manier waarop u onderdelen wilt installeren.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Aangepaste installatie</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Locatie:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">De gemarkeerde volumes beschikken niet over voldoende schijfruimte voor de geselecteerde onderdelen. U kunt bestanden van de gemarkeerde volumes verwijderen, minder onderdelen installeren of andere doelstations selecteren.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">De benodigde schijfruimte voor de installatie van de geselecteerde onderdelen.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Vereiste schijfruimte</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Informatietekst</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Informatiepictogram</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Klik op de knop Voltooien om de installatiewizard af te sluiten.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}De wizard Setup van [ProductName] is voltooid</String>
+
+    <String Id="FatalError_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger} De wizard Setup van [ProductName] is voortijdig beëindigd</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">De installatiewizard van [ProductName] is voortijdig beëindigd vanwege een fout. Het systeem is niet gewijzigd. Als u dit programma op een later tijdstip wilt installeren, voert u de installatiewizard nogmaals uit.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Klik op de knop Voltooien om de installatiewizard af te sluiten.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Productonderdelen</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Selecteer de manier waarop u onderdelen wilt installeren.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Productonderdelen</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Installeren</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Wijzigen</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="FilesInUseExit" Overridable="yes">&amp;Afsluiten</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">De volgende toepassingen gebruiken bestanden die moeten worden bijgewerkt door deze installatie. Sluit deze toepassingen en klik op &amp;Opnieuw als u de installatie wilt voorzetten of op Afsluiten als u de installatie wilt afsluiten.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Bepaalde bestanden die moeten worden bijgewerkt, zijn momenteel in gebruik.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Bestanden in gebruik</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Wijzigen...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Doelmap</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Klik op Volgende om in de standaardmap te installeren of klik op Wijzigen om een andere map te kiezen.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">[ProductName] installeren in:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Kies het installatiebereik en de installatiemap</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installatiebereik</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Alleen voor &amp;uzelf installeren ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] wordt geïnstalleerd in een map per gebruiker en is alleen voor dit gebruikersaccount beschikbaar. U hebt geen lokale Administrator-bevoegdheden nodig.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] ondersteunt installatie per gebruiker niet.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Installeren voor &amp;alle gebruikers van deze computer</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">[ProductName] wordt standaard geïnstalleerd in een map per computer en is beschikbaar voor alle gebruikers. U kunt de standaardinstallatiemap wijzigen. U moet lokale Administrator-bevoegdheden hebben.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Installatie&amp;map:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Wijzigen...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">De installatiemap moet op een lokale harde schijf staan.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Informatiepictogram</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Ik ga &amp;akkoord met de voorwaarden in de overeenkomst</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lees de volgende gebruiksrechtovereenkomst aandachtig door</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Gebruiksrechtovereenkomst</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Wijzigen</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Installatie wijzigen</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">&amp;Herstellen</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Installatie herstellen</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Verwijderen</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Installatie verwijderen</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Selecteer de bewerking die u wilt uitvoeren.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installatie wijzigen, herstellen of verwijderen</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Hiermee kunt u wijzigen hoe onderdelen worden geïnstalleerd.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">[ProductName] heeft geen functies die afzonderlijk kunnen worden geselecteerd.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Hiermee wordt [ProductName] van de computer verwijderd.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">[ProductName] kan niet worden verwijderd.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Hiermee worden fouten in de meest recente installatie hersteld door ontbrekende of beschadigde bestanden, snelkoppelingen en registervermeldingen te repareren.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">[ProductName] kan niet worden hersteld.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Met de installatiewizard kunt u de manier wijzigen waarop onderdelen van [ProductName] op uw computer worden geïnstalleerd of kunt u [ProductName] van uw computer verwijderen. Klik op Volgende om door te gaan of op Annuleren als u de installatiewizard wilt sluiten.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Wizard Setup van [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">De volgende toepassingen gebruiken bestanden die door deze installatie moeten worden bijgewerkt. U kunt deze toepassingen met behulp van de installatiewizard sluiten en ze later opnieuw starten of u kunt de computer later opnieuw opstarten.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Bepaalde bestanden die moeten worden bijgewerkt, zijn momenteel in gebruik.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Bestanden in gebruik</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">De toepassingen &amp;sluiten en opnieuw starten.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Toepassingen niet sluiten. Opnieuw opstarten is vereist.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">De gemarkeerde volumes beschikken niet over voldoende schijfruimte voor de momenteel geselecteerde onderdelen. U kunt bestanden van de gemarkeerde volumes verwijderen, minder onderdelen installeren of een ander doelstation selecteren.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">De benodigde schijfruimte voor de installatie is groter dan de beschikbare schijfruimte.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Onvoldoende schijfruimte</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">De gemarkeerde volumes beschikken niet over voldoende schijfruimte voor de momenteel geselecteerde onderdelen. U kunt bestanden van de gemarkeerde volumes verwijderen, minder onderdelen installeren of een ander doelstation selecteren.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">De benodigde schijfruimte voor de installatie is groter dan de beschikbare schijfruimte.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Onvoldoende schijfruimte</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">U kunt ook de terugdraaifunctie van het installatieprogramma uitschakelen. Als u terugdraaien uitschakelt, kan het installatieprogramma de oorspronkelijke staat van uw computer niet meer herstellen als de installatie wordt onderbroken. Klik op Ja als u het risico wilt nemen dat terugdraaien niet meer mogelijk is.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">De installatiewizard wordt voorbereid. Een ogenblik geduld.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Wizard Setup van [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">[ProductName] wordt geïnstalleerd. Een ogenblik geduld.</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}[ProductName] installeren</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">De installatie van [ProductName] wordt gewijzigd. Een ogenblik geduld.</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}[ProductName] wijzigen</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">De installatie van [ProductName] wordt hersteld. Een ogenblik geduld.</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}[ProductName] herstellen</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">[ProductName] wordt verwijderd. Een ogenblik geduld.</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}[ProductName] verwijderen</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Een ogenblik geduld. [ProductName] wordt bijgewerkt.</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}[ProductName] bijwerken</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Voortgang gereed</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Status:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Installeren</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">De installatie van [ProductName] op uw computer wordt voltooid. Klik op Installeren om door te gaan of op Annuleren als u de installatiewizard wilt sluiten.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}De wizard Setup van [ProductName] hervatten</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">S&amp;tandaard</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Standaardinstallatie</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">Aa&amp;ngepast</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Aangepaste installatie</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">V&amp;olledig</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Volledige installatie</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installatietype kiezen</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Kies het meest geschikte installatietype</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">De meest gebruikte programmaonderdelen worden geïnstalleerd. Aanbevolen voor de meeste gebruikers.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Gebruikers kunnen kiezen welke programmaonderdelen worden geïnstalleerd en waar ze worden geïnstalleerd. Aanbevolen voor ervaren gebruikers.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Alle programmaonderdelen worden geïnstalleerd. Hiervoor is de meeste schijfruimte vereist.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}De wizard Setup van [ProductName] is onderbroken</String>
+    <String Id="UserExitDescription1" Overridable="yes">De installatie van [ProductName] is onderbroken. Het systeem is niet gewijzigd. Als u dit programma op een later tijdstip wilt installeren, voert u de installatie opnieuw uit.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Klik op de knop Voltooien om de installatiewizard af te sluiten.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Installeren</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Klik op Installeren om de installatie te starten. Klik op Vorige om uw installatie-instellingen te bekijken of te wijzigen. Klik op Annuleren als u de wizard wilt afsluiten.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Gereed om [ProductName] te installeren</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Wijzigen</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Klik op Wijzigen om de installatie te starten. Klik op Vorige om uw installatie-instellingen te bekijken of te wijzigen. Klik op Annuleren als u de wizard wilt afsluiten.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Gereed om [ProductName] te wijzigen</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">&amp;Herstellen</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Klik op Herstellen om de installatie van [ProductName] te herstellen. Klik op Vorige om uw installatie-instellingen te bekijken of te wijzigen. Klik op Annuleren als u de wizard wilt afsluiten.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Gereed om [ProductName] te herstellen</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Verwijderen</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Klik op Verwijderen om [ProductName] van uw computer te verwijderen. Klik op Vorige om uw installatie-instellingen te bekijken of te wijzigen. Klik op Annuleren als u de wizard wilt afsluiten.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Gereed om [ProductName] te verwijderen</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Bijwerken</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Klik op Bijwerken om [ProductName] bij te werken vanaf uw computer. Klik op Vorige om een willekeurige installatie-instelling te controleren. Klik op Annuleren om de wizard af te sluiten.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Gereed om [ProductName] bij te werken</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Terug</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">De vereiste schijfruimte wordt bepaald. Een ogenblik geduld.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Uitroepteken</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">[ProductName] wordt geïnstalleerd op uw computer. Klik op Volgende om door te gaan of op Annuleren als u de installatiewizard wilt afsluiten.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Met deze wizard wordt [ProductName] op uw computer bijgewerkt. Klik op Volgende als u wilt doorgaan of op Annuleren als u de wizard wilt afsluiten.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Wizard Setup van [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">[ProductName] Setup</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Ik ga &amp;akkoord met de voorwaarden in de overeenkomst</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Installeren</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Bijwerken</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lees de gebruiksrechtovereenkomst van [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Installatie valideren</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Nieuwe bestanden kopiëren</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Bestand: [1], map: [9], grootte: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Netwerkinstallatiebestanden kopiëren</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Bestand: [1], map: [9], grootte: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Vereiste ruimte berekenen</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Vereiste ruimte berekenen</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Vereiste ruimte berekenen</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Snelkoppelingen maken</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Snelkoppeling: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">In aanmerking komende onderdelen publiceren</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Onderdeel-id: [1], kwalificatie: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Productonderdelen publiceren</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Onderdeel: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Productinformatie publiceren</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Klassenservers registreren</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Klasse-id: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Uitbreidingsservers registreren</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Extensie: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">MIME-gegevens registreren</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME-inhoudtype: [1], extensie: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Programma-id's registreren</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">Programma-id: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Registerruimte toewijzen</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Vrije ruimte: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Naar geïnstalleerde toepassingen zoeken</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Eigenschap: [1], handtekening: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Binding van uitvoerbare bestanden</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Bestand: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Naar in aanmerking komende producten zoeken</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Mappen maken</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Map: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Services verwijderen</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Service: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Dubbele bestanden maken</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Bestand: [1], map: [9], grootte: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Naar verwante toepassingen zoeken</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Toepassing gevonden: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">ODBC-onderdelen installeren</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Nieuwe services installeren</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Service: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Startvoorwaarden evalueren</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Onderdeelstatussen van verwante toepassingen worden gemigreerd</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Toepassing: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Bestanden verplaatsen</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Bestand: [1], map: [9], grootte: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Bestanden bijwerken</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Bestand: [1], map: [2], grootte: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Registratie van onderdelen bijwerken</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">COM+-toepassingen en -onderdelen registreren</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">Toepassings-id: [1]{{, toepassingstype: [2], gebruikers: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Lettertypen registreren</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Lettertype: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Product registreren</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Typebibliotheken registreren</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">Bibliotheek-id: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Gebruiker registreren</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Dubbele bestanden verwijderen</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Bestand: [1], map: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Omgevingstekenreeksen bijwerken</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Naam: [1], waarde: [2], actie: [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Toepassingen verwijderen</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Toepassing: [1], opdrachtregel: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Bestanden verwijderen</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Bestand: [1], map: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Mappen verwijderen</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Map: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">Vermeldingen in INI-bestanden verwijderen</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Bestand: [1], sectie: [2], sleutel: [3], waarde: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">ODBC-onderdelen verwijderen</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Systeemregisterwaarden verwijderen</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Sleutel: [1], naam: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Snelkoppelingen verwijderen</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Snelkoppeling: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Naar in aanmerking komende producten zoeken</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Modules registreren</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Bestand: [1], map: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Registratie van modules ongedaan maken</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Bestand: [1], map: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">ODBC-mappen initialiseren</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Services worden gestart</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Service: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Services worden gestopt</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Service: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Publicatie van in aanmerking komende onderdelen ongedaan maken</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Onderdeel-id: [1], kwalificatie: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Publicatie van productonderdelen ongedaan maken</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Onderdeel: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Registratie van klassenservers ongedaan maken</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Klasse-id: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Registratie van COM+-toepassingen en -onderdelen ongedaan maken</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">Toepassings-id: [1]{{, toepassingstype: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Registratie van uitbreidingsservers ongedaan maken</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Extensie: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Registratie van lettertypen ongedaan maken</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Lettertype: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">Registratie van MIME-gegevens ongedaan maken</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME-inhoudtype: [1], extensie: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Registratie van programma-id's ongedaan maken</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">Programma-id: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Registratie van typebibliotheken ongedaan maken</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">Bibliotheek-id: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Omgevingstekenreeksen bijwerken</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Naam: [1], waarde: [2], actie: [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">INI-bestandswaarden schrijven</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Bestand: [1], sectie: [2], sleutel: [3], waarde: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Systeemregisterwaarden schrijven</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Sleutel: [1], naam: [2], waarde: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Toepassing adverteren</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Scriptbewerkingen genereren voor actie:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Systeemcatalogus installeren</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Bestand: [1], afhankelijkheden: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Assemblyinformatie publiceren</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Toepassingscontext:[1], assemblynaam:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Publicatie van assemblyinformatie ongedaan maken</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Toepassingscontext:[1], assemblynaam:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Terugdraaibewerking:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Back-upbestanden verwijderen</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Bestand: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Verplaatste bestanden verwijderen</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Bestand: [1], map: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Publicatie van productgegevens ongedaan maken</String>
+
+    <String Id="Error0" Overridable="yes">{{Onherstelbare fout: }}</String>
+    <String Id="Error1" Overridable="yes">{{Fout [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Waarschuwing [1]. </String>
+    <String Id="Error4" Overridable="yes">Info [1]. </String>
+    <String Id="Error5" Overridable="yes">Er is een onverwachte fout opgetreden tijdens het installeren van dit pakket. Dit kan duiden op een probleem met het pakket. Foutcode [1]. {{Argumenten: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Schijf vol: }}</String>
+    <String Id="Error8" Overridable="yes">Actie [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Berichttype: [1], argument: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Logboekfunctie gestart: [Date], [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Logboekfunctie beëindigd: [Date], [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Actie gestart [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Actie beëindigd [Time]: [1]. Retourwaarde [2].</String>
+    <String Id="Error16" Overridable="yes">Resterende tijd: {[1] minuten } en {[2] seconden}</String>
+    <String Id="Error17" Overridable="yes">Onvoldoende geheugen. Sluit de andere toepassingen af voordat u het opnieuw probeert.</String>
+    <String Id="Error18" Overridable="yes">Installatieprogramma reageert niet meer.</String>
+    <String Id="Error19" Overridable="yes">Installatieprogramma is voortijdig beëindigd.</String>
+    <String Id="Error20" Overridable="yes">[ProductName] wordt nu geconfigureerd. Een ogenblik geduld</String>
+    <String Id="Error21" Overridable="yes">Benodigde gegevens verzamelen...</String>
+    <String Id="Error22" Overridable="yes">Oudere versies van deze toepassing verwijderen...</String>
+    <String Id="Error23" Overridable="yes">Het verwijderen van oudere versies van deze toepassing voorbereiden...</String>
+    <String Id="Error32" Overridable="yes">De installatie van {[ProductName] } is voltooid.</String>
+    <String Id="Error33" Overridable="yes">De installatie van {[ProductName] } is mislukt.</String>
+    <String Id="Error1101" Overridable="yes">Fout bij het lezen van bestand: [2]. {{ Systeemfout [3].}} Controleer of het bestand bestaat en of u toegang tot het bestand hebt.</String>
+    <String Id="Error1301" Overridable="yes">Kan het bestand [2] niet maken. Er bestaat al een map met deze naam. Annuleer de installatie en probeer op een andere locatie te installeren.</String>
+    <String Id="Error1302" Overridable="yes">Plaats de schijf: [2]</String>
+    <String Id="Error1303" Overridable="yes">U hebt onvoldoende bevoegdheden voor deze map: [2]. De installatie kan niet worden voortgezet. Meld u als Administrator aan of neem contact op met de systeembeheerder.</String>
+    <String Id="Error1304" Overridable="yes">Fout bij het schrijven naar bestand: [2]. Controleer of u toegang tot de map hebt.</String>
+    <String Id="Error1305" Overridable="yes">Fout bij het lezen van het bestand: [2]. {{ Systeemfout [3].}} Controleer of het bestand bestaat en of u toegang tot het bestand hebt.</String>
+    <String Id="Error1306" Overridable="yes">Een andere toepassing heeft momenteel exclusief toegang tot het bestand [2]. Sluit alle andere toepassingen af en klik op Opnieuw.</String>
+    <String Id="Error1307" Overridable="yes">Er is onvoldoende schijfruimte voor de installatie van het bestand [2]. Maak schijfruimte vrij en klik op Opnieuw. Klik op Annuleren als u de installatie wilt beëindigen.</String>
+    <String Id="Error1308" Overridable="yes">Bronbestand niet gevonden: [2]. Controleer of het bestand bestaat en of u toegang tot het bestand hebt.</String>
+    <String Id="Error1309" Overridable="yes">Fout bij het lezen van bestand: [3]. {{ Systeemfout [2].}} Controleer of het bestand bestaat en of u toegang tot het bestand hebt.</String>
+    <String Id="Error1310" Overridable="yes">Fout bij het schrijven naar bestand: [3]. {{ Systeemfout [2].}} Controleer of u toegang tot de map hebt.</String>
+    <String Id="Error1311" Overridable="yes">Het bronbestand is niet gevonden {{(cabinet)}}: [2]. Controleer of het bestand bestaat en of u toegang tot het bestand hebt.</String>
+    <String Id="Error1312" Overridable="yes">Kan de map [2] niet maken. Er bestaat al een bestand met deze naam. Wijzig de naam of verwijder het bestand en klik op Opnieuw, of klik op Annuleren als u wilt stoppen.</String>
+    <String Id="Error1313" Overridable="yes">Het volume [2] is momenteel niet beschikbaar. Selecteer een ander volume.</String>
+    <String Id="Error1314" Overridable="yes">Het opgegeven pad [2] is niet beschikbaar.</String>
+    <String Id="Error1315" Overridable="yes">Kan niet naar de opgegeven map schrijven: [2].</String>
+    <String Id="Error1316" Overridable="yes">Er is een netwerkfout opgetreden bij het lezen van het bestand [2]</String>
+    <String Id="Error1317" Overridable="yes">Er is een fout opgetreden bij het maken van de map [2]</String>
+    <String Id="Error1318" Overridable="yes">Er is een netwerkfout opgetreden bij het maken van de map [2]</String>
+    <String Id="Error1319" Overridable="yes">Er is een netwerkfout opgetreden bij het openen van het CAB-bronbestand [2]</String>
+    <String Id="Error1320" Overridable="yes">Het opgegeven pad is te lang: [2]</String>
+    <String Id="Error1321" Overridable="yes">Het installatieprogramma heeft niet voldoende rechten om het bestand [2] te kunnen wijzigen.</String>
+    <String Id="Error1322" Overridable="yes">Een gedeelte van het mappad [2] is ongeldig. Het is leeg of langer dan de toegestane maximumlengte.</String>
+    <String Id="Error1323" Overridable="yes">In het pad [2] staan woorden die niet in paden zijn toegestaan.</String>
+    <String Id="Error1324" Overridable="yes">Het pad [2] bevat een ongeldig teken.</String>
+    <String Id="Error1325" Overridable="yes">[2] is een ongeldige korte bestandsnaam.</String>
+    <String Id="Error1326" Overridable="yes">Fout bij het opvragen van bestandsbeveiliging: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Ongeldig station: [2]</String>
+    <String Id="Error1328" Overridable="yes">Fout tijdens het toepassen van een patch op bestand [2]. Het bestand is waarschijnlijk op een andere manier bijgewerkt en kan niet meer worden gewijzigd door deze patch. Neem voor meer informatie contact op met de leverancier van de patch. {{Systeemfout [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Kan een benodigd bestand niet installeren omdat het CAB-bestand [2] niet digitaal is ondertekend. Dit kan duiden op een beschadigd CAB-bestand.</String>
+    <String Id="Error1330" Overridable="yes">Kan een benodigd bestand niet installeren omdat het CAB-bestand [2] een ongeldige digitale handtekening heeft. Dit kan duiden op een beschadigd CAB-bestand. {{ Fout [3] is geretourneerd door WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes">Kan het [2]-bestand niet kopiëren: CRC-fout.</String>
+    <String Id="Error1332" Overridable="yes">Kan het [2]-bestand niet verplaatsen: CRC-fout.</String>
+    <String Id="Error1333" Overridable="yes">Kan het [2]-bestand niet bijwerken met patch: CRC-fout.</String>
+    <String Id="Error1334" Overridable="yes">Kan het bestand [2] niet installeren omdat het bestand niet is gevonden in CAB-bestand [3]. Dit kan duiden op een netwerkfout, een fout tijdens het lezen vanaf de cd-rom of een probleem met het pakket.</String>
+    <String Id="Error1335" Overridable="yes">Het CAB-bestand [2] dat benodigd is voor deze installatie, is beschadigd en kan niet worden gebruikt. Dit kan duiden op een netwerkfout, een fout tijdens het lezen vanaf de cd-rom of een probleem met het pakket.</String>
+    <String Id="Error1336" Overridable="yes">Er is een fout opgetreden tijdens het maken van een tijdelijk bestand dat benodigd is om de installatie te voltooien.{{ Map: [3]. Systeemfoutcode: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Kan de sleutel [2] niet maken. {{ Systeemfout [3].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning. </String>
+    <String Id="Error1402" Overridable="yes">Kan de sleutel [2] niet openen. {{ Systeemfout [3].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning. </String>
+    <String Id="Error1403" Overridable="yes">Kan de waarde [2] niet uit de sleutel [3] verwijderen. {{ Systeemfout [4].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning. </String>
+    <String Id="Error1404" Overridable="yes">Kan de sleutel [2] niet verwijderen. {{ Systeemfout [3].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning. </String>
+    <String Id="Error1405" Overridable="yes">Kan de waarde [2] niet lezen in de sleutel [3]. {{ Systeemfout [4].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning. </String>
+    <String Id="Error1406" Overridable="yes">Kan de waarde [2] niet schrijven naar de sleutel [3]. {{ Systeemfout [4].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1407" Overridable="yes">Kan geen waardenamen voor de sleutel [2] opvragen. {{ Systeemfout [3].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1408" Overridable="yes">Kan geen subsleutelnamen voor de sleutel [2] opvragen. {{ Systeemfout [3].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1409" Overridable="yes">Kan geen beveiligingsgegevens voor de sleutel [2] lezen. {{ Systeemfout [3].}} Controleer of u voldoende toegangsrechten voor deze sleutel hebt of neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1410" Overridable="yes">Kan de beschikbare ruimte in het register niet vergroten. Voor de installatie van deze toepassing is [2] kB aan ruimte in het register nodig.</String>
+    <String Id="Error1500" Overridable="yes">Er wordt al een andere installatie uitgevoerd. Voordat u met de installatie kunt doorgaan, moet u de andere installatie eerst voltooien.</String>
+    <String Id="Error1501" Overridable="yes">Fout bij een poging toegang tot beveiligde gegevens te krijgen. Controleer of Windows Installer juist is geconfigureerd en probeer de installatie daarna opnieuw uit te voeren.</String>
+    <String Id="Error1502" Overridable="yes">Gebruiker [2] heeft eerder een installatie gestart voor product [3]. Deze gebruiker moet die installatie nogmaals uitvoeren voordat het product kan worden gebruikt. De huidige installatie wordt voortgezet.</String>
+    <String Id="Error1503" Overridable="yes">Gebruiker [2] heeft eerder een installatie gestart voor product [3]. Deze gebruiker moet die installatie nogmaals uitvoeren voordat het product kan worden gebruikt.</String>
+    <String Id="Error1601" Overridable="yes">Onvoldoende schijfruimte -- volume: [2]; benodigde schijfruimte: [3] kB; beschikbare schijfruimte: [4] kB. Maak schijfruimte vrij en probeer het opnieuw.</String>
+    <String Id="Error1602" Overridable="yes">Weet u zeker dat u de installatie wilt annuleren?</String>
+    <String Id="Error1603" Overridable="yes">Het bestand [2][3] wordt gebruikt{ door het volgende proces: naam: [4], id: [5], venstertitel: [6]}. Sluit die toepassing en probeer het opnieuw.</String>
+    <String Id="Error1604" Overridable="yes">Het product [2] is al geïnstalleerd. Hierdoor kan dit product niet worden geïnstalleerd. De twee producten zijn niet compatibel.</String>
+    <String Id="Error1605" Overridable="yes">Er is onvoldoende schijfruimte beschikbaar op volume [2] om door te gaan met de installatie met herstel ingeschakeld. [3] kB is benodigd, maar slechts [4] kB is beschikbaar. Klik op Negeren om door te gaan met de installatie zonder herstelinformatie op te slaan, klik op Opnieuw om de schijfruimte opnieuw te controleren, of klik op Annuleren om de installatie af te sluiten.</String>
+    <String Id="Error1606" Overridable="yes">Krijg geen toegang tot de netwerklocatie [2].</String>
+    <String Id="Error1607" Overridable="yes">U moet de volgende toepassingen sluiten voordat u kunt doorgaan met de installatie:</String>
+    <String Id="Error1608" Overridable="yes">Kan geen eerder geïnstalleerde in aanmerking komende producten op de computer vinden om dit product te installeren.</String>
+    <String Id="Error1609" Overridable="yes">Er is een fout opgetreden tijdens het toepassen van beveiligingsinstellingen. [2] is geen geldige gebruiker of groep. Dit kan duiden op een probleem met het pakket of op een probleem met de verbinding met een domeincontroller in het netwerk. Controleer de netwerkverbinding en klik op Opnieuw, of klik op Annuleren om de installatie te stoppen. {{Kan de SID van de gebruiker niet vinden, systeemfout [3]}}</String>
+    <String Id="Error1701" Overridable="yes">De sleutel [2] is ongeldig. Controleer of u de juiste sleutel hebt opgegeven.</String>
+    <String Id="Error1702" Overridable="yes">Het systeem moet opnieuw worden opgestart voordat de configuratie van [2] kan doorgaan. Klik op Ja als u de computer nu opnieuw wilt opstarten of op Nee als u de computer later handmatig opnieuw wilt opstarten.</String>
+    <String Id="Error1703" Overridable="yes">De wijzigingen in de configuratie van [2] worden pas van kracht als u de computer opnieuw opstart. Klik op Ja als u de computer nu opnieuw wilt opstarten of op Nee als u de computer later handmatig opnieuw wilt opstarten.</String>
+    <String Id="Error1704" Overridable="yes">De installatie van [2] is onderbroken. Als u wilt doorgaan, moet u de wijzigingen die door die installatie zijn aangebracht, ongedaan maken. Wilt u die wijzigingen ongedaan maken?</String>
+    <String Id="Error1705" Overridable="yes">Er wordt al een installatie van dit product uitgevoerd. Als u wilt doorgaan, moet u de wijzigingen die door die installatie zijn aangebracht, ongedaan maken. Wilt u die wijzigingen ongedaan maken?</String>
+    <String Id="Error1706" Overridable="yes">Kan geen installatiepakket vinden voor het product [2]. Probeer de installatie opnieuw uit te voeren met een geldig exemplaar van het installatiepakket [3].</String>
+    <String Id="Error1707" Overridable="yes">De installatie is voltooid.</String>
+    <String Id="Error1708" Overridable="yes">De installatie is mislukt.</String>
+    <String Id="Error1709" Overridable="yes">Product: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">U kunt de computer terugbrengen in de oorspronkelijke staat of later verdergaan met de installatie. Wilt u de configuratie herstellen?</String>
+    <String Id="Error1711" Overridable="yes">Er is een fout opgetreden bij het schrijven van installatiegegevens naar de harde schijf. Controleer of er voldoende schijfruimte beschikbaar is en klik op Opnieuw. Klik op Annuleren als u de installatie wilt beëindigen.</String>
+    <String Id="Error1712" Overridable="yes">Kan een of meer bestanden die nodig zijn om de computer in de oorspronkelijke staat terug te brengen, niet vinden. Herstel is niet mogelijk.</String>
+    <String Id="Error1713" Overridable="yes">Een van de benodigde producten kan niet worden geïnstalleerd door [2]. Neem contact op met de technische ondersteuning. {{Systeemfout: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">De oudere versie van [2] kan niet worden verwijderd. Neem contact op met de technische ondersteuning. {{Systeemfout: [3].}}</String>
+    <String Id="Error1715" Overridable="yes">Geïnstalleerd [2]</String>
+    <String Id="Error1716" Overridable="yes">Geconfigureerd [2]</String>
+    <String Id="Error1717" Overridable="yes">Verwijderd [2]</String>
+    <String Id="Error1718" Overridable="yes">Bestand [2] is geweigerd vanwege een beleidsinstelling voor digitale handtekeningen.</String>
+    <String Id="Error1719" Overridable="yes">Geen toegang tot de Windows Installer-service. Dit kan gebeuren als Windows in veilige modus wordt uitgevoerd of als Windows Installer niet correct is geïnstalleerd. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1720" Overridable="yes">Er is een probleem met dit Windows Installer-pakket. Een script dat nodig is voor het voltooien van deze installatie, kan niet worden uitgevoerd. Neem contact op met iemand van Ondersteuning of met de leverancier van het pakket. {{Aangepaste actie [2], scriptfout [3], [4]: [5], regel [6], kolom [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Er is een probleem met dit Windows Installer-pakket. Een programma dat nodig is voor het voltooien van deze installatie, kan niet worden uitgevoerd. Neem contact op met iemand van Ondersteuning of met de leverancier van het pakket. {{Actie: [2], locatie: [3], opdracht: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Er is een probleem met dit Windows Installer-pakket. Een programma dat wordt uitgevoerd tijdens de installatie is onverwachts beëindigd. Neem contact op met iemand van Ondersteuning of met de leverancier van het pakket. {{Actie [2], locatie: [3], opdracht: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Er is een probleem met dit Windows Installer-pakket. Een DLL-bestand dat nodig is voor het voltooien van deze installatie, kan niet worden uitgevoerd. Neem contact op met iemand van Ondersteuning of met de leverancier van het pakket. {{Actie: [2], vermelding: [3], bibliotheek: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Het verwijderen is voltooid.</String>
+    <String Id="Error1725" Overridable="yes">Het verwijderen is mislukt.</String>
+    <String Id="Error1726" Overridable="yes">Het adverteren is voltooid.</String>
+    <String Id="Error1727" Overridable="yes">Het adverteren is mislukt.</String>
+    <String Id="Error1728" Overridable="yes">Het configureren is voltooid.</String>
+    <String Id="Error1729" Overridable="yes">Het configureren is mislukt.</String>
+    <String Id="Error1730" Overridable="yes">U moet Administrator-rechten hebben om deze toepassing te kunnen verwijderen. Als u deze toepassing wilt verwijderen, kunt u zich aanmelden als Administrator of contact opnemen met de technische ondersteuning.</String>
+    <String Id="Error1731" Overridable="yes">Het broninstallatiepakket voor het product [2] is niet in overeenstemming met het clientpakket. Probeer de installatie opnieuw uit te voeren met een geldig exemplaar van het installatiepakket [3].</String>
+    <String Id="Error1732" Overridable="yes">U moet de computer opnieuw opstarten om de installatie van [2] te voltooien. Er zijn andere gebruikers aangemeld op deze computer. Opnieuw opstarten kan tot gevolg hebben dat deze gebruikers gegevens verliezen. Wilt u de computer nu opnieuw opstarten?</String>
+    <String Id="Error1801" Overridable="yes">Het pad [2] is ongeldig. Geef een geldig pad op.</String>
+    <String Id="Error1802" Overridable="yes">Onvoldoende geheugen. Sluit de andere toepassingen af voordat u het opnieuw probeert.</String>
+    <String Id="Error1803" Overridable="yes">Er bevindt zich geen schijf in station [2]. Plaats een schijf in het station en klik op Opnieuw. Klik op Annuleren als u naar het eerder geselecteerde volume wilt terugkeren.</String>
+    <String Id="Error1804" Overridable="yes">Er bevindt zich geen schijf in station [2]. Plaats een schijf in het station en klik op Opnieuw. Klik op Annuleren als u een ander volume wilt selecteren.</String>
+    <String Id="Error1805" Overridable="yes">De map [2] bestaat niet. Geef het pad naar een bestaande map op.</String>
+    <String Id="Error1806" Overridable="yes">U hebt onvoldoende rechten om deze map te kunnen lezen.</String>
+    <String Id="Error1807" Overridable="yes">Kan geen geldige doelmap voor de installatie bepalen.</String>
+    <String Id="Error1901" Overridable="yes">Fout bij het lezen van de broninstallatiedatabase: [2].</String>
+    <String Id="Error1902" Overridable="yes">Er wordt een opstartbewerking gepland: de naam van het bestand [2] wordt gewijzigd in [3]. De computer moet opnieuw worden opgestart om de bewerking te voltooien.</String>
+    <String Id="Error1903" Overridable="yes">Er wordt een opstartbewerking gepland: het bestand [2] wordt verwijderd. De computer moet opnieuw worden opgestart om de bewerking te voltooien.</String>
+    <String Id="Error1904" Overridable="yes">De registratie van de module [2] is mislukt. HRESULT [3]. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1905" Overridable="yes">Het ongedaan maken van de registratie van de module [2] is mislukt. HRESULT [3]. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1906" Overridable="yes">Kan het pakket [2] niet in de cache opslaan. Fout: [3]. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1907" Overridable="yes">Kan het lettertype [2] niet registreren. Controleer of u voldoende machtigingen hebt voor het installeren van lettertypen en of dit lettertype door het systeem wordt ondersteund.</String>
+    <String Id="Error1908" Overridable="yes">Kan de registratie van het lettertype [2] niet ongedaan maken. Controleer of u voldoende rechten hebt om lettertypen te verwijderen.</String>
+    <String Id="Error1909" Overridable="yes">Kan de snelkoppeling [2] niet maken. Controleer of de doelmap bestaat en of u toegang tot deze map hebt.</String>
+    <String Id="Error1910" Overridable="yes">Kan de snelkoppeling [2] niet verwijderen. Controleer of het snelkoppelingsbestand bestaat en of u toegang tot dit bestand hebt.</String>
+    <String Id="Error1911" Overridable="yes">Kan de typebibliotheek voor het bestand [2] niet registreren. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1912" Overridable="yes">Kan de registratie van de typebibliotheek voor het bestand [2] niet ongedaan maken. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1913" Overridable="yes">Kan het INI-bestand [2][3] niet bijwerken. Controleer of het bestand bestaat en of u toegang tot het bestand hebt.</String>
+    <String Id="Error1914" Overridable="yes">Kan het vervangen van het bestand [3] door het bestand [2] tijdens het opstarten niet plannen. Controleer of u schrijfmachtigingen voor het bestand [3] hebt.</String>
+    <String Id="Error1915" Overridable="yes">Fout bij het verwijderen van het beheerprogramma voor ODBC-stuurprogramma's. ODBC-fout [2]: [3]. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1916" Overridable="yes">Fout bij het installeren van het beheerprogramma voor ODBC-stuurprogramma's. ODBC-fout [2]: [3]. Neem contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1917" Overridable="yes">Fout bij het verwijderen van het ODBC-stuurprogramma [4]. ODBC-fout [2]: [3]. Controleer of u voldoende rechten hebt om ODBC-stuurprogramma's te verwijderen.</String>
+    <String Id="Error1918" Overridable="yes">Fout bij het installeren van het ODBC-stuurprogramma [4]. ODBC-fout [2]: [3]. Controleer of het bestand [4] bestaat en of u toegang tot dit bestand hebt.</String>
+    <String Id="Error1919" Overridable="yes">Fout bij het configureren van de ODBC-gegevensbron [4]. ODBC-fout [2]: [3]. Controleer of het bestand [4] bestaat en of u toegang tot dit bestand hebt.</String>
+    <String Id="Error1920" Overridable="yes">Kan de service [2] ([3]) niet starten. Controleer of u voldoende bevoegdheden hebt om systeemservices te starten.</String>
+    <String Id="Error1921" Overridable="yes">Kan de service [2] ([3]) niet stoppen. Controleer of u voldoende bevoegdheden hebt om systeemservices te stoppen.</String>
+    <String Id="Error1922" Overridable="yes">Kan de service [2] ([3]) niet verwijderen. Controleer of u voldoende bevoegdheden hebt om systeemservices te verwijderen.</String>
+    <String Id="Error1923" Overridable="yes">Kan de service [2] ([3]) niet installeren. Controleer of u voldoende bevoegdheden hebt om systeemservices te installeren.</String>
+    <String Id="Error1924" Overridable="yes">Kan de omgevingsvariabele [2] niet bijwerken. Controleer of u voldoende bevoegdheden hebt om omgevingsvariabelen te wijzigen.</String>
+    <String Id="Error1925" Overridable="yes">U hebt onvoldoende bevoegdheden om deze installatie voor alle gebruikers van de computer uit te voeren. Meld u als Administrator aan en voer de installatie opnieuw uit.</String>
+    <String Id="Error1926" Overridable="yes">Kan geen bestandsbeveiliging instellen voor het bestand [3]. Fout: [2]. Controleer of u voldoende bevoegdheden hebt om de beveiligingsmachtigingen voor dit bestand te wijzigen.</String>
+    <String Id="Error1927" Overridable="yes">Component Services (COM+ 1.0) is niet op deze computer geïnstalleerd. Component Services is nodig om de installatie te kunnen voltooien. Component Services is beschikbaar in Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Fout tijdens het registreren van de COM+-toepassing. Neem voor meer informatie contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1929" Overridable="yes">Fout tijdens het ongedaan maken van de registratie van de COM+-toepassing. Neem voor meer informatie contact op met iemand van Ondersteuning.</String>
+    <String Id="Error1930" Overridable="yes">Kan de beschrijving voor de service [2] ([3]) niet wijzigen.</String>
+    <String Id="Error1931" Overridable="yes">Het systeembestand [2] kan niet worden bijgewerkt door de Windows Installer-service omdat het bestand door Windows is beveiligd. Mogelijk moet u het besturingssysteem bijwerken voordat dit programma juist werkt. {{Pakketversie: [3], door besturingssysteem beveiligde versie: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Het beveiligde Windows-bestand [2] kan niet worden bijgewerkt door de Windows Installer-service. {{Pakketversie: [3], door besturingssysteem beveiligde versie: [4], SFP-fout: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Een of meer beveiligde Windows-bestanden kunnen niet worden bijgewerkt door de Windows Installer-service. {{SFP-fout: [2]. Lijst met beveiligde bestanden:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Gebruikers kunnen vanwege het ingestelde beleid geen toepassingen op deze computer installeren.</String>
+    <String Id="Error1935" Overridable="yes">Er is een fout opgetreden tijdens het installeren van de assembly [6]. Raadpleeg Help en ondersteuning voor meer informatie. HRESULT: [3]. {{Assemblyinterface: [4], functie: [5], onderdeel: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Er is een fout opgetreden tijdens het installeren van de assembly [6]. De assembly heeft geen sterke naam of is niet ondertekend met de minimale sleutellengte. HRESULT: [3]. {{Assemblyinterface: [4], functie: [5], onderdeel: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Er is een fout opgetreden tijdens het installeren van de assembly [6]. De handtekening of catalogus kan niet worden geverifieerd of is ongeldig. HRESULT: [3]. {{Assemblyinterface: [4], functie: [5], onderdeel: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Er is een fout opgetreden tijdens het installeren van de assembly [6]. Een of meer modules van de assembly zijn niet gevonden. HRESULT: [3]. {{Assemblyinterface: [4], functie: [5], onderdeel: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">Bytes</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">kB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Het volledige onderdeel is niet beschikbaar</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Het onderdeel wordt indien nodig geïnstalleerd</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Het volledige onderdeel wordt geïnstalleerd voor uitvoering vanaf cd</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Het volledige onderdeel wordt op de lokale harde schijf geïnstalleerd</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Het volledige onderdeel wordt geïnstalleerd voor uitvoering vanaf het netwerk</String>
+    <String Id="UITextMenuCD" Overridable="yes">Wordt geïnstalleerd voor uitvoering vanaf cd</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Wordt op de lokale harde schijf geïnstalleerd</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Wordt geïnstalleerd voor uitvoering vanaf het netwerk</String>
+    <String Id="UITextNewFolder" Overridable="yes">Map|Nieuwe map</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Benodigde gegevens verzamelen...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Dit onderdeel wordt niet geïnstalleerd</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Dit onderdeel wordt indien nodig geïnstalleerd</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Dit onderdeel wordt geïnstalleerd voor uitvoering vanaf cd</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Dit onderdeel wordt op de lokale harde schijf geïnstalleerd</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Dit onderdeel wordt geïnstalleerd voor uitvoering vanaf het netwerk</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Dit onderdeel zal niet meer beschikbaar zijn</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Wordt indien nodig geïnstalleerd</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Dit onderdeel kan vanaf cd worden uitgevoerd</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Dit onderdeel wordt op de lokale harde schijf geïnstalleerd</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Dit onderdeel kan vanaf het netwerk worden uitgevoerd</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">De installatie van dit onderdeel wordt volledig ongedaan gemaakt. U kunt het onderdeel niet meer vanaf cd uitvoeren</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">De status van dit onderdeel wordt gewijzigd van uitvoeren vanaf cd naar installeren indien nodig</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Dit onderdeel blijft beschikbaar voor uitvoering vanaf cd</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">De status van dit onderdeel wordt gewijzigd van uitvoerbaar vanaf cd naar geïnstalleerd op de lokale harde schijf</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Dit onderdeel maakt [1] vrij op de harde schijf.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Voor dit onderdeel is [1] op de harde schijf nodig.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Vereiste schijfruimte voor dit onderdeel berekenen...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Dit onderdeel wordt volledig verwijderd</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Dit onderdeel wordt van de lokale harde schijf verwijderd, maar kan indien nodig nog wel worden geïnstalleerd</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Dit onderdeel wordt van de lokale harde schijf verwijderd, maar kan nog wel vanaf cd worden uitgevoerd</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Dit onderdeel blijft beschikbaar op de lokale harde schijf</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Dit onderdeel wordt van de lokale harde schijf verwijderd, maar kan nog wel vanaf het netwerk worden uitgevoerd</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">De installatie van dit onderdeel wordt volledig ongedaan gemaakt. U kunt het onderdeel niet meer vanaf het netwerk uitvoeren</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">De status van dit onderdeel wordt gewijzigd van uitvoeren vanaf het netwerk naar installeren indien nodig</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">De status van dit onderdeel wordt gewijzigd van uitvoerbaar vanaf het netwerk naar geïnstalleerd op de lokale harde schijf</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Dit onderdeel blijft beschikbaar voor uitvoering vanaf het netwerk</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Dit onderdeel maakt [1] vrij op de harde schijf. Er is/zijn [2] van de [3] subonderdelen geselecteerd. De subonderdelen maken [4] vrij op de harde schijf.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Dit onderdeel maakt [1] vrij op de harde schijf. Er is/zijn [2] van de [3] subonderdelen geselecteerd. Voor de subonderdelen is [4] op de harde schijf nodig.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Voor dit onderdeel is [1] op de harde schijf nodig. Er is/zijn [2] van de [3] subonderdelen geselecteerd. De subonderdelen maken [4] vrij op de harde schijf.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Voor dit onderdeel is [1] op de harde schijf nodig. Er is/zijn [2] van de [3] subonderdelen geselecteerd. Voor de subonderdelen is [4] op de harde schijf nodig.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Resterende tijd: {[1] minuten } en {[2] seconden}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Beschikbaar</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Verschil</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Vereist</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Schijfgrootte</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Volume</String>
+</WixLocalization>

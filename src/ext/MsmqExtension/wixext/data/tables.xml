@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+    The table definitions for the Windows Installer XML Toolset MSMQ Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+  <tableDefinition name="MessageQueue" createSymbols="yes">
+    <columnDefinition name="MessageQueue" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="BasePriority" type="number" length="4" nullable="yes"
+        description=""/>
+    <columnDefinition name="JournalQuota" type="number" length="4" nullable="yes"
+        description=""/>
+    <columnDefinition name="Label" type="localized" length="255" modularize="property" escapeIdtCharacters="yes"
+        category="formatted" description=""/>
+    <columnDefinition name="MulticastAddress" type="string" length="255" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="PathName" type="string" length="255" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="PrivLevel" type="number" length="4" nullable="yes"
+        description=""/>
+    <columnDefinition name="Quota" type="number" length="4" nullable="yes"
+        description=""/>
+    <columnDefinition name="ServiceTypeGuid" type="string" length="72" nullable="yes" modularize="property"
+        category="formatted" description=""/>
+    <columnDefinition name="Attributes" type="number" length="4"
+        description=""/>
+  </tableDefinition>
+  <tableDefinition name="MessageQueueUserPermission" createSymbols="yes">
+    <columnDefinition name="MessageQueueUserPermission" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="MessageQueue_" type="string" length="72" modularize="column"
+        keyTable="MessageQueue" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="User_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Permissions" type="number" length="4"
+        description=""/>
+  </tableDefinition>
+  <tableDefinition name="MessageQueueGroupPermission" createSymbols="yes">
+    <columnDefinition name="MessageQueueGroupPermission" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="MessageQueue_" type="string" length="72" modularize="column"
+        keyTable="MessageQueue" keyColumn="1" category="identifier" description=""/>
+    <columnDefinition name="Group_" type="string" length="72" modularize="column"
+        category="identifier" description=""/>
+    <columnDefinition name="Permissions" type="number" length="4"
+        description=""/>
+  </tableDefinition>
+</tableDefinitions>

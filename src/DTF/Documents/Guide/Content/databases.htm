@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Working with MSI Databases</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Working with MSI Databases</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <span class="nolink">MSI Databases</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+      
+            <h3>Querying a database</h3>
+            <pre><font face="Consolas, Courier New">    <font color=blue>using</font> (Database db = <font color=blue>new</font> Database(<font color="purple">"product.msi"</font>, DatabaseOpenMode.ReadOnly))
+    {
+        <font color=blue>string</font> value = (<font color=blue>string</font>) db.ExecuteScalar(
+            <font color="purple">"SELECT `Value` FROM `Property` WHERE `Property` = '{0}'"</font>, propName);
+    }</font></pre><br />
+            <p>1.&nbsp; Create a <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_Database__ctor.htm">new Database</a>
+            instance referring to the location of the .msi or .msm file.</p>
+            <p>2.&nbsp; Execute the query:</p><ul>
+                <li>The <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_Database_ExecuteScalar.htm">ExecuteScalar</a>
+                method is a shortcut for opening a view, executing the view, and fetching a single value.</li>
+                <li>The <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_Database_ExecuteQuery.htm">ExecuteQuery</a>
+                method is a shortcut for opening a view, executing the view, and fetching all values.</li>
+                <li>Or do it all manually with <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_WindowsInstaller_Database_OpenView.htm">Database.OpenView</a>,
+                <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_View_Execute.htm">View.Execute</a>, and
+                <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_WindowsInstaller_View_Fetch.htm">View.Fetch</a>.</li>
+            </ul>
+            
+            <p><br/></p>
+            <h3>Updating a binary</h3>
+            <pre><font face="Consolas, Courier New">    Database db = <font color=blue>null</font>;
+    View view = <font color=blue>null</font>;
+    Record rec = <font color=blue>null</font>;
+    <font color=blue>try</font>
+    {
+        db = <font color=blue>new</font> Database(<font color="purple">"product.msi"</font>, DatabaseOpenMode.Direct);
+        view = db.OpenView(<font color="purple">"UPDATE `Binary` SET `Data` = ? WHERE `Name` = '{0}'"</font>, binName))
+        rec = <font color=blue>new</font> Record(1);
+        rec.SetStream(1, binFile);
+        view.Execute(rec);
+        db.Commit();
+    }
+    <font color=blue>finally</font>
+    {
+        <font color=blue>if</font> (rec != <font color=blue>null</font>) rec.Close();
+        <font color=blue>if</font> (view != <font color=blue>null</font>) view.Close();
+        <font color=blue>if</font> (db != <font color=blue>null</font>) db.Close();
+    }</font></pre><br />
+            <p>1.&nbsp; Create a <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_Database__ctor.htm">new Database</a>
+            instance referring to the location of the .msi or .msm file.</p>
+            <p>2.&nbsp; Open a view by calling one of the <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_WindowsInstaller_Database_OpenView.htm">Database.OpenView</a> overloads.</p><ul>
+                <li>Parameters can be substituted in the SQL string using the String.Format syntax.</li>
+            </ul>
+            <p>3.&nbsp; Create a record with one field containing the new binary value.</p>
+            <p>4.&nbsp; Execute the view by calling one of the <a href="DTFAPI.chm::/html/Overload_Microsoft_Deployment_WindowsInstaller_View_Execute.htm">View.Execute</a> overloads.</p><ul>
+                <li>A record can be supplied for substitution of field tokens (?) in the query.</li>
+            </ul>
+            <p>5.&nbsp; <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_WindowsInstaller_Database_Commit.htm">Commit</a> the Database.</p>
+            <p>6.&nbsp; <a href="DTFAPI.chm::/html/M_Microsoft_Deployment_WindowsInstaller_InstallerHandle_Close.htm">Close</a> the handles.</p>
+            
+            <p><br/></p>
+            <h3>About handles</h3>
+            <p>Handle objects (Database, View, Record, SummaryInfo, Session) will remain open until
+            they are explicitly closed or until the objects are collected by the GC. So for the tightest
+            code, handle objects should be explicitly closed when they are no longer needed,
+            since closing them can release significant resources, and too many unnecessary
+            open handles can degrade performance. This is especially important within a loop
+            construct: for example when iterating over all the Records in a table, it is much cleaner
+            and faster to close each Record after it is used.</p>
+            <p>The handle classes in the managed library all extend the
+            <a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_InstallerHandle.htm">InstallerHandle</a>
+            class, which implements the IDisposable interface. This makes them easily managed with C#'s
+            using statement. Alternatively, they can be closed in a finally block.</p>
+            <p>As a general rule, <i>methods</i> in the library return new handle objects that should be managed
+            and closed by the calling code, while <i>properties</i> only return a reference to a prexisting handle
+            object.</p>
+            
+            <p><br/></p>
+            <p><b>See also:</b></p>
+            <ul>
+                <li><a href="powerdiff.htm">MSI Diff Sample Tool</a></li>
+                <li><a href="DTFAPI.chm::/html/T_Microsoft_Deployment_WindowsInstaller_Database.htm">Database Class</a></li>
+            </ul>
+            <p><br/></p>
+            
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

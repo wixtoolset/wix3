@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="teststdba.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi' xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+    <Bundle Name='Burn Test Bundle' Version='0.1' UpgradeCode='0A190CA6-6D59-4F20-9BC3-B1021021F795'
+            IconSourceFile='$(env.WIX_ROOT)\src\Votive\votive2010\Templates\Projects\WixProject\WixProject.ico'
+            SplashScreenSourceFile='logo.bmp' DisableModify='yes'>
+        <BootstrapperApplicationRef Id='WixStandardBootstrapperApplication.HyperlinkLicense' />
+        <WixVariable Id="WixStdbaLicenseUrl" Value="" />
+<!--
+        <BootstrapperApplication SourceFile='E:\denv\Dev\wix36\build\debug\x86\stdux.dll'>
+            <Payload SourceFile='E:\denv\Dev\wix36\build\debug\x86\StduxResources\thm.xml' />
+            <Payload SourceFile='E:\denv\Dev\wix36\build\debug\x86\StduxResources\en-us.wxl' />
+        </BootstrapperApplication>
+-->
+        <Variable Name='InstallFolder' Value='[ProgramFilesFolder]\[WixBundleName]' />
+
+        <PayloadGroup Id='LayoutStuff'>
+            <Payload SourceFile='readme.html' Compressed='no' />
+        </PayloadGroup>
+
+        <util:ProductSearch Variable="PS" Guid='AAAAAAAA-6D59-4F20-9BC3-B1021021F795' />
+
+<!--
+        <Variable Name="NotVersion" Value="1.0" />
+        <Variable Name="v1" Value="v1" />
+        <Variable Name="v1point0" Value="v1.0" />
+        <Variable Name="v1point0point1" Value="v1.0.1" />
+        <Variable Name="v1point0point1point2" Value="v1.0.1.2" />
+        <Variable Name="NotVersionByPoints" Value="v1.0.1.2.3" />
+-->
+
+        <Chain ParallelCache="yes">
+<!--
+                       <ExePackage SourceFile="ExePkg.exe" 
+                        Compressed="no" Vital="yes"
+                        PerMachine="yes"
+                        InstallCommand="-permachine -wait 600 -install"
+                        UninstallCommand="-permachine -uninstall" />
+
+            <RollbackBoundary />
+-->
+            <MsiPackage Id='Package3'
+                        SourceFile='Package3.msi' EnableFeatureSelection='yes'
+                        Vital='yes' Compressed='no' Cache='yes'>
+                <MsiProperty Name='FAIL' Value='0' />
+                <MsiProperty Name='TARGETDIR' Value='[InstallFolder]' />
+                <MsiProperty Name='FOO' Value='A "pretty" long value with some "quoted" material in it.' />
+                <MsiProperty Name='BAR' Value='An even longer long value with absolutely no quoted strings anywhere to be found.' />
+            </MsiPackage>
+        </Chain>
+    </Bundle>
+
+    <Fragment>
+        <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v2.0.50727" Value="Install" Variable="Netfx2Installed" Result="value" />
+
+        <PackageGroup Id="Netfx">
+            <ExePackage Id="Netfx2" Cache="no" Compressed="no" PerMachine="yes" Permanent="yes" Vital="yes" SourceFile="dotnetfx.exe"
+                        DownloadUrl="http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
+                        DetectCondition="Netfx2Installed = 1" InstallCommand='/q:a /c:"install /l /q"' />
+        </PackageGroup>
+    </Fragment>
+
+</Wix>

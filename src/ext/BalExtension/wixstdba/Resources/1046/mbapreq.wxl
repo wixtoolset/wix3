@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="pt-br" Language="1046" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName] Instalação</String>
+  <String Id="Title">Microsoft .NET Framework é necessário para instalação do [WixBundleName]</String>
+  <String Id="ConfirmCancelMessage">Tem certeza de que deseja cancelar?</String>
+  <String Id="HelpHeader">Ajuda da Instalação</String>
+  <String Id="HelpText">/passive | /quiet -  exibe UI mínima sem avisos ou exibe sem UI e
+   sem avisos. Por padrão a UI e todos avisos são exibidos.
+
+/norestart   - suprime qualquer tentativa de reinicialização. Por padrão a UI
+   irá solicitar antes de reiniciar.
+/log log.txt - logs para um arquivo específico. Por padrão um arquivo de log é
+   criado em %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Fechar</String>
+  <String Id="InstallLicenseTerms">Clique o botão "Aceitar e Instalar" para aceitar os termos de licença do Microsoft .NET Framework &lt;a href="#"&gt;&lt;/a&gt;.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Aceitar e Instalar</String>
+  <String Id="InstallDeclineButton">&amp;Recusar</String>
+  <String Id="ProgressHeader">Progresso da Instalação</String>
+  <String Id="ProgressLabel">Processando:</String>
+  <String Id="ProgressCancelButton">&amp;Cancelar</String>
+  <String Id="FailureHeader">Falha na Instalação</String>
+  <String Id="FailureLogLinkText">Um ou mais problemas causaram falha na instalação. Corrija os problemas e tente a instalação novamente. Para mais informações consulte o &lt;a href="#"&gt;arquivo de log&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">Você deve reiniciar o computador para completar a reversão do software. </String>
+  <String Id="FailureRestartButton">&amp;Reiniciar</String>
+  <String Id="FailureCloseButton">&amp;Fechar</String>
+</WixLocalization>

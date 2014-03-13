@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="v1addon.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Bundle Name="Bundle Test v1 Addon (1)" Version="0.1.0.0"
+        UpgradeCode="7D52C39B-CBD0-4547-AE74-A52120C1F786" Tag="v1addon">
+   <BootstrapperApplicationRef Id='WixStandardBootstrapperApplication.RtfLicense' />
+
+   <!-- to relate as an addon to v1 -->
+   <RelatedBundle Id="8C78F409-835E-46DD-A00F-5E5802FEA6D8" Action="Addon"/>
+
+   <!-- for v1addonpatch, a patch to Dv1.msi -->
+   <RelatedBundle Id="D6A2F566-3B6C-45BE-906C-B5360FFBC4FD" Action="Detect"/>
+
+   <Chain>
+      <MsiPackage Id='Dv1' Vital='yes' SourceFile='Dv1.msi'/>
+   </Chain>
+</Bundle>
+</Wix>

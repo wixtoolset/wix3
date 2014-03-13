@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="Dtf.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="DtfComponents" Directory="SdkFolder">
+            <Component>
+                <File Source="Microsoft.Deployment.Compression.dll" />
+                <File Source="Microsoft.Deployment.Compression.xml" />
+            </Component>
+
+            <Component>
+                <File Source="Microsoft.Deployment.Compression.Cab.dll" />
+                <File Source="Microsoft.Deployment.Compression.Cab.xml" />
+            </Component>
+
+            <Component>
+                <File Source="Microsoft.Deployment.Compression.Zip.dll" />
+                <File Source="Microsoft.Deployment.Compression.Zip.xml" />
+            </Component>
+
+            <Component>
+                <File Source="Microsoft.Deployment.Resources.dll" />
+                <File Source="Microsoft.Deployment.Resources.xml" />
+            </Component>
+
+            <Component>
+                <File Source="Microsoft.Deployment.WindowsInstaller.dll" />
+                <File Source="Microsoft.Deployment.WindowsInstaller.xml" />
+            </Component>
+
+            <Component>
+                <File Source="Microsoft.Deployment.WindowsInstaller.Linq.dll" />
+                <File Source="Microsoft.Deployment.WindowsInstaller.Linq.xml" />
+            </Component>
+
+            <Component>
+                <File Source="Microsoft.Deployment.WindowsInstaller.Package.dll" />
+                <File Source="Microsoft.Deployment.WindowsInstaller.Package.xml" />
+            </Component>
+
+            <Component>
+                <File Source="wix.ca.targets" />
+            </Component>
+
+            <Component>
+                <File Source="MakeSfxCA.exe" />
+                <File Source="MakeSfxCA.exe.config" />
+            </Component>
+
+            <ComponentGroupRef Id="DtfNativeCompoments" />
+
+            <?ifdef BuildSandcastleDocumentation ?>
+            <ComponentGroupRef Id="DtfDocComponents" />
+            <?endif?>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="DtfNativeCompoments">
+            <Component Directory="SdkX86Folder">
+                <File Id="sfxca.dll_x86" Source="!(bindpath.x86)\sfxca.dll" />
+            </Component>
+
+            <Component Directory="SdkX64Folder">
+                <File Id="sfxca.dll_x64" Source="!(bindpath.x64)\sfxca.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <!--
+            Documentation
+        -->
+        <Icon Id="WixSetupIcons.ico" SourceFile="wixsetupicons.dll" />
+
+        <ComponentGroup Id="DtfDocComponents" Directory="DocFolder">
+            <Component>
+                <File Source="DTF.chm" />
+                <Shortcut Id="DtfChmShortcut" Directory="ShortcutFolder" Name="DTF Documentation" Icon="WixSetupIcons.ico" IconIndex="0" Advertise="yes" />
+
+                <RemoveFile Id="RemoveDtfChw" Name="DTF.chw" On="uninstall" />
+                <RemoveFolder Id="CleanupShortcutFolder" Directory="ShortcutFolder" On="uninstall" />
+            </Component>
+
+            <Component>
+                <File Source="DTFAPI.chm" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

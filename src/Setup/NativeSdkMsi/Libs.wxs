@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="Libs.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="LibComponents">
+            <ComponentGroupRef Id="LibX86Components" />
+            <ComponentGroupRef Id="LibX64Components" />
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="LibX86Components" Directory="SdkX86LibFolder">
+            <Component>
+                <File Source="!(bindpath.x86)\$(var.VisualStudioTargetVersion)\dutil.lib"/>
+            </Component>
+            <Component>
+                <File Source="!(bindpath.x86)\$(var.VisualStudioTargetVersion)\wcautil.lib"/>
+            </Component>
+
+            <Component>
+                <File Source="!(bindpath.x86)\$(var.VisualStudioTargetVersion)\balutil.lib"/>
+            </Component>
+            <Component>
+                <File Source="!(bindpath.x86)\$(var.VisualStudioTargetVersion)\deputil.lib"/>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="LibX64Components" Directory="SdkX64LibFolder">
+            <Component>
+                <File Id="dutil_x64.lib" Source="!(bindpath.x64)\$(var.VisualStudioTargetVersion)\dutil.lib"/>
+            </Component>
+            <Component>
+                <File Id="wcautil_x64.lib" Source="!(bindpath.x64)\$(var.VisualStudioTargetVersion)\wcautil.lib"/>
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

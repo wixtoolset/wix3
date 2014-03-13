@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="VS2008_VSIPCC_Collection_Files_RTL.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment Id="VS2008_Namespace">
+    <Binary Id="BIN_435439_x86_enu" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_435439_x86_enu" />
+    <CustomAction Id="CA_ScheduleExtHelpPlugin_VSCC_VSIPCC" BinaryKey="BIN_435439_x86_enu" DllEntry="ScheduleExtHelpPlugin" Return="ignore" />
+    <CustomAction Id="CA_ExtHelpPlugin" BinaryKey="BIN_435439_x86_enu" DllEntry="ExtHelpPluginAction" Execute="deferred" Impersonate="no" />
+    
+    <DirectoryRef Id="VSIPCC">
+      <Component Id="VSIPCC_Reg_27501" Guid="{7C32E9FB-9C4D-416B-8ACC-9D487ED0ADBD}" KeyPath="yes">
+        <CreateFolder Directory="VSIPCC" />
+        <RegistryValue Id="reg7291AF922BB02FD23E15437538DF9347" Root="HKLM" Key="SOFTWARE\Microsoft\MSDN\9.0\Help\0x0409\{F658C410-5D42-41a9-AB6C-83E8FE395595}" Name="Filename" Value="ms-help://MS.VSIPCC.v90" Type="string" />
+      </Component>
+      <Directory Id="vsipcc_v9.0" Name="v9.0" FileSource="$(sys.SOURCEFILEDIR)\Redist">
+        <Component Id="vsipcc_collection_25097" Guid="{D419D13C-D6D8-4E2A-A3EF-B26398D36524}">
+          <File Id="FL_vsipcc_reg_hxs_86878_86878_cn_ln" Name="vsipcc_reg.hxs" KeyPath="yes" Vital="no"/>
+          <File Id="FL_vsipcc_hxc_86879_86879_cn_ln" Name="_vsipcc90.hxc" Vital="no"/>
+          <File Id="FL_vsipcc_hxt_86880_86880_cn_ln" Name="_vsipcc90.hxt" Vital="no"/>
+          <File Id="FL_vsipccALinks_hxk_86881_86881_cn_ln" Name="_ALinks.hxk" Vital="no"/>
+          <File Id="FL_vsipccBLinks_hxk_86882_86882_cn_ln" Name="_BLinks.hxk" Vital="no"/>
+          <File Id="FL_vsipccCLinks_hxk_cn_ln" Name="_CLinks.hxk" Vital="no"/>
+          <File Id="FL_vsipccFLinks_hxk_86885_86885_cn_ln" Name="_FLinks.hxk" Vital="no"/>
+          <File Id="FL_vsipccKLinks_hxk_86886_86886_cn_ln" Name="_KLinks.hxk" Vital="no"/>
+          <File Id="FL_vsipccNamedURLs_hxk_86888_86888_cn_ln" Name="_vsipcc_namedUrls.hxk" Vital="no"/>
+          <File Id="FL_vsipccSlinks_hxk_93825_93825_cn_ln" Name="_SLinks.hxk" Vital="no"/>
+          <File Id="FL_VsipCCSamples_HxK_103959_103959_cn_ln" Name="_vsipcc_samples.HxK" Vital="no"/>
+        </Component>
+      </Directory>
+    </DirectoryRef>
+    <CustomTable Id="HelpNamespace">
+      <Row>
+        <Data Column="NamespaceKey">MS.VSIPCC.v90</Data>
+        <Data Column="NamespaceName">MS.VSIPCC.v90</Data>
+        <Data Column="File_Collection">FL_vsipcc_hxc_86879_86879_cn_ln</Data>
+        <Data Column="Description">VSIP Documentation</Data>
+      </Row>
+    </CustomTable>
+    <CustomTable Id="HelpPlugin">
+      <Row>
+        <Data Column="HelpNamespace_">MS.VSIPCC.v90</Data>
+        <Data Column="HelpNamespace_Parent">MS.VSCC.v90</Data>
+        <Data Column="File_HxT">FL_vsipcc_hxt_86880_86880_cn_ln</Data>
+        <Data Column="File_HxA" />
+        <Data Column="File_ParentHxT" />
+      </Row>
+    </CustomTable>
+    <Property Id="EXTERNALPLUGINLIST" Value="MS.VSCC.v90;MS.VSIPCC.v90" />
+    <Property Id="DirectoryTable_x86" Value="DirectoryTable" />
+    <Property Id="HHFilterTable" Value="HHFilterTable" />
+    <InstallExecuteSequence>
+      <Custom Action="CA_ScheduleExtHelpPlugin_VSCC_VSIPCC" After="CA_RegisterMicrosoftHelp.3643236F_FC70_11D3_A536_0090278A1BB8">Not Installed</Custom>
+    </InstallExecuteSequence>
+
+    <ComponentGroup Id="Help2_VS2008_Namespace_Components">
+      <ComponentRef Id="VSIPCC_Reg_27501"/>
+      <ComponentRef Id="vsipcc_collection_25097"/>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

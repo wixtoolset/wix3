@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="hello_world_non_admin.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
+<!-- will be used later on in this file.                                                                 -->
+<?define Property_ProductVersion = "1.0.1.0" ?>
+<?define Property_ProductCode = "{3a9ccb63-9ab8-47ae-81ca-c2ab75a49499}" ?>
+<?define Property_UpgradeCode = "af81bedc-e2bb-4252-9e87-91aa981867c7" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="$(var.Property_ProductCode)"
+           UpgradeCode="$(var.Property_UpgradeCode)"
+           Name="!(loc.Property_ProductName)"
+           Language="!(loc.Property_ProductLanguage)"
+           Version="$(var.Property_ProductVersion)"
+           Manufacturer="!(loc.Property_CompanyName)">
+
+    <Package Description="!(loc.Package_Description)"
+             Comments="!(loc.Package_Comments)"
+             InstallerVersion="200"
+             Compressed="yes"
+             InstallPrivileges="limited"
+        />
+
+    <!-- This custom action prevents users from installing if a newer version of this product is already -->
+    <!-- installed on the system. This is a part of Windows Installer major upgrade functionality.       -->
+    <CustomAction Id="CA_BlockOlderVersionInstall" Error="!(loc.LaunchCondition_LaterVersion)" />
+
+    <!-- This condition enforces that the ALLUSERS property is not set because this MSI is only ever     -->
+    <!-- intended to be a per-user installation.                                                         -->
+    <Condition Message="!(loc.LaunchCondition_AllUsers)">
+      NOT ALLUSERS
+    </Condition>
+
+    <!-- This is a list of directories that are used by this product as installation locations or custom -->
+    <!-- action file search locations.                                                                   -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder" Name="AppData">
+        <Directory Id="AppRootDirectory" Name="HelloWorldNonAdmin_Readme_External"/>
+      </Directory>
+    </Directory>
+
+    <!-- This is a list of all components installed as a part of this product. A component is the        -->
+    <!-- smallest atomic unit of installation in Windows Installer. Each component must have a unique    -->
+    <!-- GUID. In general, it is recommended that each file be installed by a separate component in      -->
+    <!-- order to avoid reference counting problems and make future servicing of this product easier.    -->
+    <!-- Each component is listed as a child of the DirectoryRef that represents the directory that      -->
+    <!-- the file it contains will install to.                                                           -->
+    <DirectoryRef Id="AppRootDirectory">
+      <Component Id="Readme.txt" Guid="c0dd45cd-7b39-4137-99cd-ab52007b4ea8" DiskId="1">
+        <CreateFolder/>
+        <RemoveFolder Id="RemoveAppRootDirectory" On="uninstall" />
+        <File Id="Readme.txt" Name="Readme.txt" Source="Readme.txt" Checksum="no" />
+        <!-- Comment out as this is only for a readme file
+        <RegistryKey Root="HKCU" Key="Software\MyCompany\MyApplication" Action="createAndRemoveOnUninstall">
+          <RegistryValue Name="Version" Value="[ProductVersion]" Type="string" KeyPath="yes"/>
+        </RegistryKey>
+        -->
+      </Component>
+    </DirectoryRef>
+
+    <!-- This is a list of features that are installed as a part of this product. In this case, there is -->
+    <!-- only one feature. Each feature contains a list of components that it will install. Features can -->
+    <!-- can be displayed and allow user selection in setup UI if desired.                               -->
+    <Feature Id="AppRootFeature" Title="HelloWorldNonAdmin_Readme_External" Level="1">
+      <ComponentRef Id="Readme.txt" />
+    </Feature>
+    
+    <!-- The media table defines the location that the MSI will look to find source files during         -->
+    <!-- installation or repair scenarios. In this case, the source files are in a cab file that will be -->
+    <!-- external to the MSI.                                                   -->
+    <Media Id='1' Cabinet='HelloWorldNonAdmin_Readme_External.cab' EmbedCab='no' />
+
+    <!-- These properties define links that will appear in the Add/Remove Programs control panel when    -->
+    <!-- this product is installed on the system.                                                        -->
+    <Property Id="ARPHELPLINK" Value="!(loc.Property_ArpHelpLink)" />
+    <Property Id="ARPURLINFOABOUT" Value="!(loc.Property_ArpUrlInfoAbout)" />
+
+    <!-- This property defines the ALLUSERS property and sets it to blank, which indicates that this     -->
+    <!-- product will be  installed per-user instead of per-machine.                                     -->
+    <Property Id="ALLUSERS" Secure="yes"/>
+
+
+  </Product>
+</Wix>

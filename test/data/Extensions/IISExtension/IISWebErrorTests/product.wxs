@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="product.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+  <Product Id="BB6E48EF-B98F-4ed2-A684-1A60089B5D59" Name="TestWebErrorProduct" Language="1033" Version="0.0.0.0"  Manufacturer="Microsoft Corporation" UpgradeCode="{4859DD3E-2260-476d-B24D-3E94F5E2D06C}">
+    <Package Description="Test IIS WebError in a Product" Comments="Test IIS WebError in a Product" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+    <Property Id="PORT" Value="3062" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestWebErrorProductDirectory" ShortName="testassm" Name="Test File">
+          <Component Id="TestWebErrorProductComponent" Guid="5F058A25-D0EF-4fd9-A9E0-90858FE75C05" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <iis:WebSite Id="Test" Description="Test web server" Directory="TestWebErrorProductDirectory" StartOnInstall="yes" DirProperties="ReadAndExecute" ConfigureIfExists="no">
+              <iis:WebAddress Id="TestAddress" Port="[PORT]" Secure="no" />
+
+              <iis:WebError ErrorCode="400" SubCode="0" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="1" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="2" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="3" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="4" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="5" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="7" File="[#Error404]" />
+              <iis:WebError ErrorCode="401" SubCode="61" File="[#Error404]" />
+
+            </iis:WebSite>
+
+            <File Id="Error404" Source="$(env.WIX_ROOT)\test\data\Extensions\IISExtension\IISWebErrorTests\404.htm" Name="404.htm" DiskId="1" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="ProgMenu" />
+    </Directory>
+
+    <Feature Id="TestWebErrorProductFeature" Title="Test File Product Feature" Level="1">
+      <ComponentRef Id="TestWebErrorProductComponent" />
+    </Feature>
+    <iis:WebDirProperties Id="ReadAndExecute" Read="yes" Write="no" Script="yes" Execute="yes" AnonymousAccess="no" />
+
+  </Product>
+</Wix>

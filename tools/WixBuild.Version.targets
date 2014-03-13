@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixBuild.Version.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <MajorBuildNumber>3</MajorBuildNumber>
+        <MinorBuildNumber>8</MinorBuildNumber>
+        <StartBuildYear>2013</StartBuildYear>
+
+        <MajorMinorVersionString>$(MajorBuildNumber)$(MinorBuildNumber)</MajorMinorVersionString>
+        <MajorMinorVersionDottedString>$(MajorBuildNumber).$(MinorBuildNumber)</MajorMinorVersionDottedString>
+
+        <WixVersionPath>$(WixObjRoot)version\</WixVersionPath>
+        <CppVersionFile>$(WixVersionPath)wixver.h</CppVersionFile>
+        <CSharpVersionFile>$(WixVersionPath)wixver.cs</CSharpVersionFile>
+        <SetupVersionFile>$(WixVersionPath)wixver.wxi</SetupVersionFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <BuildDay>$([System.DateTime]::Now.Day.ToString("00"))</BuildDay>
+        <BuildMonth>$([System.DateTime]::Now.Month)</BuildMonth>
+        <BuildYear>$([System.DateTime]::Now.Year)</BuildYear>
+        <BuildYearInMonths>$([MSBuild]::Multiply($([MSBuild]::Subtract($(BuildYear),$(StartBuildYear))), 12))</BuildYearInMonths>
+        <UpperBuildNumber>$([MSBuild]::Add($(BuildYearInMonths), $(BuildMonth)))</UpperBuildNumber>
+        <BuildNumber>$(UpperBuildNumber)$(BuildDay)</BuildNumber>
+        <BuildRevision>0</BuildRevision>
+
+        <FullBuildVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildNumber).$(BuildRevision)</FullBuildVersionString>
+        <FullBuildVersionStringDashed>$(MajorBuildNumber)-$(MinorBuildNumber)-$(BuildNumber)-$(BuildRevision)</FullBuildVersionStringDashed>
+    </PropertyGroup>
+
+  <!--
+  ================================================================================================
+  GetVersion
+
+    Returns the versions of this WiX build.
+  ================================================================================================
+  -->
+  <Target Name="GetVersion"
+          Returns="$(FullBuildVersionString)" />
+
+  <!--
+  ================================================================================================
+  WixVersionPrint
+
+    Displays the versions of this WiX build.
+  ================================================================================================
+  -->
+  <Target Name="WixVersionPrint">
+    <Message Text="BuildYearInMonths = $(BuildYearInMonths)" />
+    <Message Text="BuildNumber = $(BuildNumber)" />
+    <Message Text="FullBuildVersionString = $(FullBuildVersionString)" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  WriteCppVersionFile
+
+    Creates the wixver.h version file for C++ code.
+  ================================================================================================
+  -->
+  <Target Name="WriteCppVersionFile"
+          Condition="!Exists($(CppVersionFile))"
+          Returns="$(CppVersionFile)">
+    <ItemGroup>
+      <CppVersionLines Include="
+// &lt;auto-generated/&gt;
+#ifndef _VERSION_FILE_H_
+#define _VERSION_FILE_H_
+
+#define szVerMajorMinor &quot;$(MajorBuildNumber).$(MinorBuildNumber)&quot;
+#define szVerMajorMinorBuild &quot;$(FullBuildVersionString)&quot;
+#define rmj	$(MajorBuildNumber)
+#define rmm	$(MinorBuildNumber)
+#define rup	$(BuildNumber)
+#define szVerName	&quot;Official Release&quot;
+
+#endif
+"/>
+    </ItemGroup>
+
+    <MakeDir Directories="$(WixVersionPath)"/>
+    <WriteLinesToFile Overwrite="true"
+                File="$(CppVersionFile)"
+                Lines="@(CppVersionLines)" />
+    <ItemGroup>
+      <FileWrites Include="$(CppVersionFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  WriteCSharpVersionFile
+
+    Creates the wixver.cs version file for C# code.
+  ================================================================================================
+  -->
+  <Target Name="WriteCSharpVersionFile"
+          Condition="!Exists($(CSharpVersionFile))"
+          Returns="$(CSharpVersionFile)">
+    <ItemGroup>
+      <CSharpLines Include="
+// &lt;auto-generated/&gt;
+using System.Reflection%3B
+[assembly:AssemblyVersion(&quot;$(MajorBuildNumber).0.0.0&quot;)]
+[assembly:AssemblyFileVersion(&quot;$(FullBuildVersionString)&quot;)]
+"/>
+    </ItemGroup>
+
+    <MakeDir Directories="$(WixVersionPath)"/>
+    <WriteLinesToFile Overwrite="true"
+                File="$(CSharpVersionFile)"
+                Lines="@(CSharpLines)" />
+    <ItemGroup>
+      <FileWrites Include="$(CSharpVersionFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
+  WriteSetupVersionFile
+
+    Creates the wixver.wxi version file for WiX setup code.
+  ================================================================================================
+  -->
+  <Target Name="WriteSetupVersionFile"
+          Condition="!Exists($(SetupVersionFile))"
+          Returns="$(SetupVersionFile)">
+    <ItemGroup>
+      <WxiVersionLines Include="
+&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;!-- generated by build system --&gt;
+&lt;Include&gt;
+  &lt;?ifdef WixMajor?&gt;
+    &lt;?error WixMajor variable is already defined?&gt;
+  &lt;?endif?&gt;
+  &lt;?define WixMajor = '$(MajorBuildNumber)' ?&gt;
+  &lt;?ifdef WixMajorMinor?&gt;
+    &lt;?error WixMajorMinor variable is already defined?&gt;
+  &lt;?endif?&gt;
+  &lt;?define WixMajorMinor = '$(MajorBuildNumber).$(MinorBuildNumber)' ?&gt;
+  &lt;?ifdef WixBuildNum?&gt;
+    &lt;?error WixBuildNum variable is already defined?&gt;
+  &lt;?endif?&gt;
+  &lt;?define WixBuildNum = '$(BuildNumber)' ?&gt;
+  &lt;?ifdef WixVersion?&gt;
+    &lt;?error WixVersion variable is already defined?&gt;
+  &lt;?endif?&gt;
+  &lt;?define WixVersion = '%24(var.WixMajorMinor).%24(var.WixBuildNum).0' ?&gt;
+&lt;/Include&gt;
+"/>
+    </ItemGroup>
+
+    <MakeDir Directories="$(WixVersionPath)"/>
+    <WriteLinesToFile Overwrite="true"
+                File="$(SetupVersionFile)"
+                Lines="@(WxiVersionLines)" />
+    <ItemGroup>
+      <FileWrites Include="$(SetupVersionFile)" />
+    </ItemGroup>
+  </Target>
+
+
+  <!--
+  ================================================================================================
+  WriteVersionFiles
+
+    Creates the wixver.* version files.
+  ================================================================================================
+  -->
+  <Target Name="WriteVersionFiles"
+          DependsOnTargets="WriteCppVersionFile;WriteCSharpVersionFile;WriteSetupVersionFile" />
+
+  <!--
+  ================================================================================================
+  CleanVersionFiles
+
+    Deletes the wixver.* version files.
+  ================================================================================================
+  -->
+  <Target Name="CleanVersionFiles">
+    <Delete Files="$(CppVersionFile);$(CSharpVersionFile);$(SetupVersionFile)"
+            TreatErrorsAsWarnings="true" />
+  </Target>
+
+</Project>

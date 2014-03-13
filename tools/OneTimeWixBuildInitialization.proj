@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="OneTimeWixBuildInitialization.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="RegisterStrongNameSkip" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="WixBuild.props" />
+
+  <!--
+  ================================================================================================
+  RegisterStrongNameSkip
+
+    Trusts the partially signed WiX toolset binaries from a non-official build.
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <NetfxSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
+    <NetfxSdkInstallPath Condition=" '$(NetfxSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
+    <StrongNameSignFolder Condition=" Exists('$(NetfxSdkInstallPath)bin\NETFX 4.0 Tools\sn.exe') ">$(NetfxSdkInstallPath)bin\NETFX 4.0 Tools\</StrongNameSignFolder>
+    <StrongNameSignFolder Condition=" '$(StrongNameSignFolder)'=='' ">$(NetfxSdkInstallPath)bin\</StrongNameSignFolder>
+    <StrongNameSign64Folder Condition=" Exists('$(StrongNameSignFolder)x64\sn.exe') ">$(StrongNameSignFolder)x64\</StrongNameSign64Folder>
+  </PropertyGroup>
+  <Target
+    Name="RegisterStrongNameSkip">
+
+    <Error Text="Could not find sn.exe. Expected to find it at: $(StrongNameSignFolder)sn.exe" Condition=" !Exists('$(StrongNameSignFolder)sn.exe') " />
+
+    <Exec Command="&quot;$(StrongNameSign64Folder)sn.exe&quot; -q -Vr *,36e4ce08b8ecfb17" Condition=" '$(StrongNameSign64Folder)'!='' " />
+    <Exec Command="&quot;$(StrongNameSignFolder)sn.exe&quot; -q -Vr *,36e4ce08b8ecfb17" />
+  </Target>
+
+</Project>

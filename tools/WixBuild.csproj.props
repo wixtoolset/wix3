@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.csproj.props" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!-- Default C# properties -->
+  <PropertyGroup>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AllowUnsafeBlocks Condition=" '$(AllowUnsafeBlocks)' == '' ">false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow Condition=" '$(OverrideCheckForOverflowUnderflow)' == '' ">true</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow Condition=" '$(OverrideCheckForOverflowUnderflow)' != '' ">$(OverrideCheckForOverflowUnderflow)</CheckForOverflowUnderflow>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)'=='' ">v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(CreateDocumentationFile)' == 'true' ">
+    <DocumentationFile>$(IntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(VersionCS)' == '' ">
+    <VersionCS>wixver.cs</VersionCS>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(DistCS)' == '' ">
+    <DistCS>WixDistribution.cs</DistCS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Include the current version in all of the wix projects (this won't show up in the Solution Explorer, but it is used when building). -->
+    <Compile Include="$(WixVersionPath)$(VersionCS)">
+      <Link>Properties\$(VersionCS)</Link>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <Visible>false</Visible>
+    </Compile>
+    <Compile Include="$(WixRoot)src\common\$(DistCS)">
+      <Link>Properties\$(DistCS)</Link>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+      <Visible>false</Visible>
+    </Compile>
+  </ItemGroup>
+</Project>

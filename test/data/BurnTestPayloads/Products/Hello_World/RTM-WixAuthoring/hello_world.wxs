@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="hello_world.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
+<!-- will be used later on in this file.                                                                 -->
+<?define Property_ProductVersion = "1.0.1.0" ?>
+<?define Property_ProductCode = "{CDCCC256-3537-430D-95C9-1A55922BD040}" ?>
+<?define Property_UpgradeCode = "90449144-f51d-46a1-b17b-dd43c519542d" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="$(var.Property_ProductCode)"
+           UpgradeCode="$(var.Property_UpgradeCode)"
+           Name="!(loc.Property_ProductName)"
+           Language="!(loc.Property_ProductLanguage)"
+           Version="$(var.Property_ProductVersion)"
+           Manufacturer="!(loc.Property_CompanyName)">
+
+    <Package Description="!(loc.Package_Description)"
+             Comments="!(loc.Package_Comments)"
+             InstallerVersion="200"
+             Compressed="yes"
+        />
+    <!--     InstallPrivileges="limited"                                                                 -->
+
+    <!-- This custom action prevents users from installing if a newer version of this product is already -->
+    <!-- installed on the system. This is a part of Windows Installer major upgrade functionality.       -->
+    <CustomAction Id="CA_BlockOlderVersionInstall" Error="!(loc.LaunchCondition_LaterVersion)" />
+
+    <!-- This is a list of directories that are used by this product as installation locations or custom -->
+    <!-- action file search locations.                                                                   -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="ProgramFiles">
+        <Directory Id="AppRootDirectory" Name="HelloWorld_Readme"/>
+      </Directory>
+    </Directory>
+
+    <!-- This is a list of all components installed as a part of this product. A component is the        -->
+    <!-- smallest atomic unit of installation in Windows Installer. Each component must have a unique    -->
+    <!-- GUID. In general, it is recommended that each file be installed by a separate component in      -->
+    <!-- order to avoid reference counting problems and make future servicing of this product easier.    -->
+    <!-- Each component is listed as a child of the DirectoryRef that represents the directory that      -->
+    <!-- the file it contains will install to.                                                           -->
+    <DirectoryRef Id="AppRootDirectory">
+      <Component Id="Readme.txt" Guid="e60ada66-8562-4671-a153-5c3c009042ee" DiskId="1">
+        <CreateFolder/>
+        <RemoveFolder Id="RemoveAppRootDirectory" On="uninstall" />
+        <File Id="Readme.txt" Name="Readme.txt" Source="Readme.txt" Checksum="no" />
+        <RegistryKey Root="HKLM" Key="Software\BurnTest\HelloWorld" Action="createAndRemoveOnUninstall">
+          <RegistryValue Name="Version" Value="[ProductVersion]" Type="string" KeyPath="yes"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <!-- This is a list of features that are installed as a part of this product. In this case, there is -->
+    <!-- only one feature. Each feature contains a list of components that it will install. Features can -->
+    <!-- can be displayed and allow user selection in setup UI if desired.                               -->
+    <Feature Id="AppRootFeature" Title="HelloWorld_Readme" Level="1">
+      <ComponentRef Id="Readme.txt" />
+    </Feature>
+    
+    <!-- The media table defines the location that the MSI will look to find source files during         -->
+    <!-- installation or repair scenarios. In this case, the source files are in a cab file that will be -->
+    <!-- embedded directly into the MSI at build time.                                                   -->
+    <Media Id='1' Cabinet='HelloWorld_Readme.cab' EmbedCab='yes' />
+
+    <!-- These properties define links that will appear in the Add/Remove Programs control panel when    -->
+    <!-- this product is installed on the system.                                                        -->
+    <Property Id="ARPHELPLINK" Value="!(loc.Property_ArpHelpLink)" />
+    <Property Id="ARPURLINFOABOUT" Value="!(loc.Property_ArpUrlInfoAbout)" />
+
+    <!-- This property defines the ALLUSERS property and sets it to 1, which indicates that this     -->
+    <!-- product will be  installed per-machine and not per-user.                                     -->
+    <Property Id="ALLUSERS" Value="1" Secure="yes"/>
+
+
+  </Product>
+</Wix>

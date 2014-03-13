@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="MissingParentComponent.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
+  <Product   Id="7CD51CE1-EFD3-46CB-AF28-5B7356D9C7F8" Name="TestSqlScriptsProduct" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{833389DB-8EFE-4D62-AF81-C533266C63B4}">
+    <Package Description="Test SqlScripts in a Product" Comments="Test from: wix\examples\test\sqlscripts\product.wxs" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestSqlScriptProductDirectory" ShortName="testsql" Name="Test Sql">
+          <Component Id="TestSqlScriptProductComponent1" Guid="3462DF37-C6C1-4AF1-9BED-90B85B2C274F" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestSqlScriptProductFeature" Title="Test SQL String Product Feature" Level="1">
+      <ComponentRef Id="TestSqlScriptProductComponent1" />
+    </Feature>
+
+    <sql:SqlDatabase Id="TestDB" Database="BlankDB" Server="Localhost" CreateOnInstall="yes" >
+    </sql:SqlDatabase>
+
+  </Product>
+</Wix>

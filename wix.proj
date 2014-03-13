@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="wix.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <ItemGroup>
+    <ProjectReference Include="tools\Version.proj">
+      <!-- Build version files up front to avoid file contention -->
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
+    <ProjectReference Include="tools\src\tools.proj">
+      <!-- Build tools upfront to avoid project references everywhere -->
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
+
+    <ProjectReference Include="src\dtf\dtf.proj" />
+
+    <ProjectReference Include="src\tools\tools.proj" />
+
+    <ProjectReference Include="src\burn\burn.proj" />
+
+    <ProjectReference Include="src\ext\ext.proj" />
+
+    <ProjectReference Include="src\chm\chm.helpproj" />
+
+    <ProjectReference Include="src\votive\votive.proj" />
+
+    <ProjectReference Include="src\wixarm.proj" />
+
+    <ProjectReference Include="src\setup\setup.proj" />
+    <ProjectReference Include="test\test.proj" />
+  </ItemGroup>
+
+  <Import Project="tools\Traversal.targets" />
+  <Target Name="Clean">
+    <RemoveDir Directories="$(WixRoot)build" />
+  </Target>
+</Project>

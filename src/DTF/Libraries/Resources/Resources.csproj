@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Resources.csproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{44931ECB-8D6F-4C12-A872-64E261B6A98E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microsoft.Deployment.Resources</RootNamespace>
+    <AssemblyName>Microsoft.Deployment.Resources</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <CreateDocumentationFile>true</CreateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BitmapResource.cs" />
+    <Compile Include="FixedFileVersionInfo.cs" />
+    <Compile Include="GroupIconInfo.cs" />
+    <Compile Include="GroupIconResource.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Resource.cs" />
+    <Compile Include="ResourceCollection.cs" />
+    <Compile Include="ResourceType.cs" />
+    <Compile Include="VersionEnums.cs" />
+    <Compile Include="VersionInfo.cs" />
+    <Compile Include="VersionResource.cs" />
+    <Compile Include="VersionStringTable.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

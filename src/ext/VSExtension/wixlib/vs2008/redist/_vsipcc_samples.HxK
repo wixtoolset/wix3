@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HelpIndex>
+<HelpIndex 
+	DTDVersion = "1.0"
+	Name = "Samples"
+	Id = "VsipCCSamples"
+	AutoInclude = "Yes"
+	Merge = "Yes"
+	Sort = "Yes"
+	Title = "Samples"
+	Visible = "No"
+	LangId = "1033"
+	>
+</HelpIndex>

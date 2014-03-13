@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="Styles.xaml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ux="clr-namespace:Microsoft.Tools.WindowsInstallerXml.UX">
+
+    <!-- Converters -->
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <!-- Control Templates -->
+
+    <ControlTemplate x:Key="ButtonTemplateKey" TargetType="{x:Type Button}">
+        <Grid Margin="3" x:Name="ButtonGrid">
+            <Rectangle Fill="{TemplateBinding Button.Background}" />
+            <!-- TODO: how to make the gradient here look right 
+                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="1,1" StartPoint="1,1">
+                                    <GradientStop Offset="0.8"/>
+                                    <GradientStop Color="#66FFFFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>-->
+            <Rectangle x:Name="HighlightRectangle" Fill="#44FFFFFF" Visibility="Hidden" IsHitTestVisible="False"/>
+            <ContentPresenter VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" Content="{TemplateBinding Button.Content}" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="ButtonGrid" Property="RenderTransform">
+                    <Setter.Value>
+                        <TransformGroup>
+                            <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX=".96" ScaleY=".96" />
+                            <!-- TODO: Figure out how to make this relative to button size rather than hard coded to 2 -->
+                            <TranslateTransform X="2" Y="2"/>
+                        </TransformGroup>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="HighlightRectangle" Property="Visibility" Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ProgressBarTemplateKey" TargetType="{x:Type ProgressBar}">
+        <Grid Name="TemplateRoot" SnapsToDevicePixels="true">
+            <Rectangle Fill="{TemplateBinding Background}" />
+            <Rectangle Name="PART_Track" />
+            <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                <Grid Name="Foreground">
+                    <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}"/>
+                </Grid>
+            </Decorator>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- Styles -->
+    <Style TargetType="Button">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="DarkRed"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Template" Value="{StaticResource ButtonTemplateKey}"/>
+    </Style>
+
+    <Style TargetType="Image">
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="Width" Value="60"/>
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="RenderTransformOrigin" Value=".5,.5" />
+    </Style>
+
+    <Style x:Key="StatusTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="ProgressBar">
+        <Setter Property="Foreground" Value="DarkRed" />
+        <Setter Property="Background" Value="#FFCB0000" />
+        <Setter Property="Template" Value="{StaticResource ProgressBarTemplateKey}"/>
+    </Style>
+
+    <!-- Brushes -->
+    <LinearGradientBrush x:Key="BackgroundBrush" EndPoint="1.015,0.735" StartPoint="0.098,0.223">
+        <GradientStop Color="#88000000" Offset="0"/>
+        <GradientStop Color="#88452E2E" Offset="0.108"/>
+        <GradientStop Color="#88000000" Offset="0.228"/>
+        <GradientStop Color="#886A3C3C" Offset="0.414"/>
+        <GradientStop Color="#88000000" Offset="0.586"/>
+        <GradientStop Color="#885E4242" Offset="0.737"/>
+        <GradientStop Color="#88000000" Offset="0.948"/>
+    </LinearGradientBrush>
+
+
+</ResourceDictionary>

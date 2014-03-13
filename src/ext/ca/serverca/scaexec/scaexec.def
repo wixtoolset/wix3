@@ -1,0 +1,53 @@
+;-------------------------------------------------------------------------------------------------
+; <copyright file="scaexec.def" company="Outercurve Foundation">
+;   Copyright (c) 2004, Outercurve Foundation.
+;   This software is released under Microsoft Reciprocal License (MS-RL).
+;   The license and further copyright text can be found in the file
+;   LICENSE.TXT at the root directory of the distribution.
+; </copyright>
+; 
+; <summary>
+;    Windows Installer XML Server Execution CustomAction entry points
+; </summary>
+;-------------------------------------------------------------------------------------------------
+
+EXPORTS
+; IIS entry points
+    StartMetabaseTransaction
+    RollbackMetabaseTransaction
+    CommitMetabaseTransaction
+
+    WriteMetabaseChanges
+
+    StartIIS7ConfigTransaction
+    RollbackIIS7ConfigTransaction
+    CommitIIS7ConfigTransaction
+
+    WriteIIS7ConfigChanges  
+    IIS7ConfigChanges  
+
+; SQL entry points
+    CreateDatabase
+    DropDatabase
+    ExecuteSqlStrings
+
+; Perfmon entry points
+    RegisterPerfCounterData
+    UnregisterPerfCounterData
+    RegisterPerfmon
+    UnregisterPerfmon
+
+; SMB entry points
+    CreateSmb
+    DropSmb
+
+; Certificate entry points
+    AddUserCertificate
+    AddMachineCertificate
+    DeleteUserCertificate
+    DeleteMachineCertificate
+
+; User entry points
+    CreateUser
+    RemoveUser
+

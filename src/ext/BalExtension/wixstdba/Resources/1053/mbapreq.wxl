@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="mbapreq.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="sv-se" Language="1053" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Caption">[WixBundleName]-installation</String>
+  <String Id="Title">Microsoft .NET Framework krävs för installation av [WixBundleName]</String>
+  <String Id="ConfirmCancelMessage">Vill du avbryta?</String>
+  <String Id="HelpHeader">Installationshjälp</String>
+  <String Id="HelpText">/passive | /quiet -  visar ett minimalt användargränssnitt utan prompter,
+   alternativt inget användargränssnitt och inga prompter. Som standard visas
+   användargränssnitt och samtliga prompter.
+
+/norestart   - hejdar omstart. Som standard visar användargränssnittet en
+   prompt före omstart.
+/log log.txt - skapar logg till en specifik fil. Som standard skapas loggfilen
+   i %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;Stäng</String>
+  <String Id="InstallLicenseTerms">Klicka på knappen "Godkänn och installera" för att godkänna &lt;a href="#"&gt;licensvillkoren&lt;/a&gt; för Microsoft .NET Framework.</String>
+  <String Id="InstallAcceptAndInstallButton">&amp;Godkänn och installera</String>
+  <String Id="InstallDeclineButton">&amp;Avbryt</String>
+  <String Id="ProgressHeader">Installationsförlopp</String>
+  <String Id="ProgressLabel">Bearbetar:</String>
+  <String Id="ProgressCancelButton">&amp;Avbryt</String>
+  <String Id="FailureHeader">Installationen misslyckades</String>
+  <String Id="FailureLogLinkText">Installationen misslyckades på grund av ett eller flera problem. Åtgärda problemen och försök igen. Se &lt;a href="#"&gt;loggfilen&lt;/a&gt; för mer information.</String>
+  <String Id="FailureRestartText">Starta om datorn för att återställa programmet.</String>
+  <String Id="FailureRestartButton">&amp;Starta om</String>
+  <String Id="FailureCloseButton">&amp;Stäng</String>
+</WixLocalization>

@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_sk-SK.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="sk-sk" Codepage="1250" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Späť</String>
+    <String Id="WixUINext" Overridable="yes">Ď&amp;alej</String>
+    <String Id="WixUICancel" Overridable="yes">Zrušiť</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Dokončiť</String>
+    <String Id="WixUIRetry" Overridable="yes">Z&amp;nova</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Ignorovať</String>
+    <String Id="WixUIYes" Overridable="yes">Án&amp;o</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Nie</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Tlačiť</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Prečítajte si licenčnú zmluvu vzťahujúcu sa na program [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Súhlasím s podmienkami licenčnej zmluvy</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Kliknutím na tlačidlo Inštalovať nainštalujete produkt s predvolenými možnosťami pre všetkých používateľov. Ak chcete zmeniť možnosti inštalácie, kliknite na tlačidlo Spresniť.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Kliknutím na tlačidlo Inštalovať nainštalujete produkt s predvolenými možnosťami len pre seba. Ak chcete zmeniť možnosti inštalácie, kliknite na tlačidlo Spresniť.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">I&amp;nštalovať</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">&amp;Spresniť</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Kde hľadať:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">O úroveň vyššie</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Vytvoriť nový priečinok</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Názov priečinka:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Vyhľadať cieľový priečinok</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zmena cieľového priečinka</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="CancelDlgText" Overridable="yes">Naozaj chcete zrušiť inštaláciu programu [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Informačná ikona</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Strom výberov</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">P&amp;rehľadávať...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">&amp;Obnoviť</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">Vy&amp;užitie disku</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Klikaním na ikony v strome nižšie môžete zmeniť spôsob inštalácie súčastí.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Vyberte spôsob inštalácie súčastí.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Vlastná inštalácia</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Umiestnenie:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Označené zväzky nemajú dostatok miesta na disku na vybraté súčasti. Môžete odstrániť niektoré súbory z vyznačených zväzkov, nainštalovať menej súčastí alebo vybrať iné cieľové jednotky.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Požadované miesto na disku na inštaláciu vybratých súčastí.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Požiadavky na miesto na disku</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Informačný text</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Informačná ikona</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Kliknutím na tlačidlo Dokončiť ukončíte Sprievodcu inštaláciou.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Sprievodca inštaláciou programu [ProductName] bol dokončený</String>
+
+    <String Id="FatalError_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}Sprievodca inštaláciou programu [ProductName] sa predčasne ukončil</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">Sprievodca inštaláciou programu [ProductName] sa predčasne ukončil pre chybu. Nastavenie systému sa nezmenilo. Ak budete chcieť tento program nainštalovať neskôr, znova spustite Sprievodcu inštaláciou.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Kliknutím na tlačidlo Dokončiť ukončíte Sprievodcu inštaláciou.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Súčasti produktu</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Vyberte spôsob inštalácie súčastí.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Súčasti produktu</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">I&amp;nštalovať</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">Z&amp;meniť</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="FilesInUseExit" Overridable="yes">Sk&amp;ončiť</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Nasledujúce aplikácie používajú súbory, ktoré musí táto inštalácia aktualizovať. Zavrite tieto aplikácie, kliknite na tlačidlo &amp;Znova a pokračujte v inštalácii. Ak chcete skončiť, kliknite na tlačidlo Skončiť.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Niektoré súbory určené na aktualizáciu sa momentálne používajú.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Používané súbory</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">Z&amp;meniť...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Cieľový priečinok</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Ak chcete program nainštalovať do predvoleného priečinka, kliknite na tlačidlo Ďalej. Ak chcete vybrať iný priečinok, kliknite na tlačidlo Zmeniť.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Inštalovať program [ProductName] do priečinka:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Vyberte rozsah a priečinok inštalácie</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Rozsah inštalácie</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Inštalovať len pre &amp;seba ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Program [ProductName] sa nainštaluje do priečinka pre konkrétneho používateľa a bude k dispozícii len pre vaše používateľské konto. Nepotrebujete lokálne oprávnenia správcu.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">Program [ProductName] nepodporuje inštaláciu pre konkrétneho používateľa.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Inštalovať pre všetkých používateľov tohto &amp;počítača</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">Program [ProductName] sa predvolene nainštaluje do priečinka pre konkrétne zariadenie a bude k dispozícii pre všetkých používateľov. Predvolený inštalačný priečinok môžete zmeniť. Musíte mať lokálne oprávnenia správcu.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Inštalačný &amp;priečinok:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">Z&amp;meniť...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Inštalačný adresár sa musí nachádzať na lokálnom pevnom disku.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Informačná ikona</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Súhlasím s podmienkami licenčnej zmluvy</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pozorne si prečítajte nasledujúcu licenčnú zmluvu</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Licenčná zmluva koncového používateľa</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">Z&amp;meniť</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Zmeniť inštaláciu</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Opr&amp;aviť</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Opraviť inštaláciu</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Odstrániť</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Odstrániť inštaláciu</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Vyberte operáciu, ktorú chcete vykonať.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zmena, oprava alebo odstránenie inštalácie</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Umožňuje zmeniť spôsob inštalácie súčastí.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">Program [ProductName] neobsahuje žiadne súčasti, ktoré možno nezávisle vybrať.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Odstráni program [ProductName] z počítača.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">Program [ProductName] nemožno odstrániť.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Slúži na opravu chýb poslednej inštalácie prostredníctvom opravy chýbajúcich a poškodených súborov, odkazov a položiek databázy Registry.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">Program [ProductName] nemožno opraviť.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Sprievodca inštaláciou umožňuje zmeniť spôsob inštalácie súčastí programu [ProductName] v počítači alebo odstrániť tento program z počítača. Ak chcete pokračovať, kliknite na tlačidlo Ďalej. Ak chcete Sprievodcu inštaláciou ukončiť, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Víta vás Sprievodca inštaláciou programu [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Nasledujúce aplikácie používajú súbory, ktoré musí táto inštalácia aktualizovať. Sprievodca inštaláciou ich môže ukončiť a potom sa ich pokúsiť reštartovať alebo môže zariadenie reštartovať neskôr.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Niektoré súbory určené na aktualizáciu sa momentálne používajú.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Používané súbory</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">Ukončiť apliká&amp;cie a pokúsiť sa o ich opätovné spustenie.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Neukončiť aplikácie. Bude sa vyžadovať reštartovanie počítača.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Označené zväzky nemajú dostatok miesta na disku na aktuálne vybraté súčasti. Môžete odstrániť niektoré súbory z vyznačených zväzkov, nainštalovať menej súčastí alebo vybrať inú cieľovú jednotku.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Miesto na disku požadované na inštaláciu prekračuje dostupné miesto na disku.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nedostatok miesta na disku</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Označené zväzky nemajú dostatok miesta na disku na aktuálne vybraté súčasti. Môžete odstrániť niektoré súbory z vyznačených zväzkov, nainštalovať menej súčastí alebo vybrať inú cieľovú jednotku.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Miesto na disku požadované na inštaláciu prekračuje dostupné miesto na disku.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nedostatok miesta na disku</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Prípadne môžete zakázať funkciu vrátenia zmien inštalátora. Zakázanie funkcie vrátenia zmien zabráni inštalátoru obnoviť pôvodný stav počítača, ak by sa inštalácia akýmkoľvek spôsobom prerušila. Ak chcete zakázať funkciu vrátenia zmien, kliknite na tlačidlo Áno.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Počkajte, kým sa Sprievodca inštaláciou pripraví na prevádzanie inštaláciou.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Víta vás Sprievodca inštaláciou programu [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Počkajte, kým Sprievodca inštaláciou nainštaluje program [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Inštaluje sa program [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Počkajte, kým Sprievodca inštaláciou zmení program [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Mení sa program [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Počkajte, kým Sprievodca inštaláciou opraví program [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Opravuje sa program [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Počkajte, kým Sprievodca inštaláciou odstráni program [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Odstraňuje sa program [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Počkajte, kým Sprievodca inštaláciou dokončí aktualizáciu programu [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}Aktualizuje sa program [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Priebeh</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Stav:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">I&amp;nštalovať</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Sprievodca inštaláciou dokončí inštaláciu programu [ProductName] v počítači. Ak chcete pokračovať, kliknite na tlačidlo Inštalovať. Ak chcete Sprievodcu inštaláciou ukončiť, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Obnovuje sa Sprievodca inštaláciou programu [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Typická</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Typická inštalácia</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">&amp;Vlastná</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Vlastná inštalácia</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">Ú&amp;plná</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Úplná inštalácia</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Výber typu inštalácie</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Vyberte typ inštalácie zodpovedajúci vašim potrebám</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Nainštaluje najčastejšie používané funkcie programu. Odporúča sa pre väčšinu používateľov.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Umožňuje používateľom vybrať súčasti programu, ktoré sa majú nainštalovať, a miesto, kam sa majú nainštalovať. Odporúča sa pre skúsených používateľov.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Nainštalujú sa všetky súčasti programu. Vyžaduje najviac miesta na disku.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}Sprievodca inštaláciou programu [ProductName] sa prerušil</String>
+    <String Id="UserExitDescription1" Overridable="yes">Inštalácia programu [ProductName] sa prerušila. Nastavenie systému sa nezmenilo. Ak budete chcieť tento program nainštalovať neskôr, znova spustite inštaláciu.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Kliknutím na tlačidlo Dokončiť ukončíte Sprievodcu inštaláciou.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">I&amp;nštalovať</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Ak chcete spustiť inštaláciu, kliknite na tlačidlo Inštalovať. Ak chcete skontrolovať alebo zmeniť niektoré z nastavení inštalácie, kliknite na tlačidlo Späť. Kliknutím na tlačidlo Zrušiť ukončíte sprievodcu.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Pripravený na inštaláciu programu [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">Z&amp;meniť</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Ak chcete spustiť inštaláciu, kliknite na tlačidlo Zmeniť. Ak chcete skontrolovať alebo zmeniť niektoré z nastavení inštalácie, kliknite na tlačidlo Späť. Kliknutím na tlačidlo Zrušiť ukončíte sprievodcu.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Pripravený na zmenu programu [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">Opr&amp;aviť</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Kliknutím na tlačidlo Opraviť môžete opraviť inštaláciu programu [ProductName]. Ak chcete skontrolovať alebo zmeniť niektoré z nastavení inštalácie, kliknite na tlačidlo Späť. Kliknutím na tlačidlo Zrušiť ukončíte sprievodcu.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Pripravený na opravu programu [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Odstrániť</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Kliknutím na tlačidlo Odstrániť odstránite program [ProductName] z počítača. Ak chcete skontrolovať alebo zmeniť niektoré z nastavení inštalácie, kliknite na tlačidlo Späť. Kliknutím na tlačidlo Zrušiť ukončíte sprievodcu.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Pripravený na odstránenie programu [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Aktualizovať</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Kliknutím na tlačidlo Aktualizovať vykonáte aktualizáciu programu [ProductName] v počítači. Ak chcete skontrolovať alebo zmeniť niektoré z nastavení inštalácie, kliknite na tlačidlo Späť. Kliknutím na tlačidlo Zrušiť ukončíte sprievodcu.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Pripravený na aktualizáciu programu [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Návrat</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Počkajte, kým inštalátor určí požiadavky na miesto na disku.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Ikona výkričníka</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">Sprievodca inštaláciou nainštaluje program [ProductName] v počítači. Ak chcete pokračovať, kliknite na tlačidlo Ďalej. Ak chcete Sprievodcu inštaláciou ukončiť, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Sprievodca inštaláciou vykoná aktualizáciu programu [ProductName] v počítači. Ak chcete pokračovať, kliknite na tlačidlo Ďalej. Ak chcete Sprievodcu inštaláciou ukončiť, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Víta vás Sprievodca inštaláciou programu [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Súhlasím s podmienkami licenčnej zmluvy</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">I&amp;nštalovať</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Aktualizovať</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Prečítajte si licenčnú zmluvu vzťahujúcu sa na program [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Overuje sa inštalácia</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Kopírujú sa nové súbory</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Súbor: [1], adresár: [9], veľkosť: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Kopírujú sa sieťové inštalačné súbory</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Súbor: [1], adresár: [9], veľkosť: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Počíta sa požadované voľné miesto</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Počíta sa požadované voľné miesto</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Počíta sa požadované voľné miesto</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Vytvárajú sa odkazy</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Odkaz: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Publikujú sa oprávňujúce súčasti</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Identifikácia súčasti: [1], kvalifikátor: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Publikujú sa funkcie produktu</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Súčasť: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Publikujú sa informácie o produkte</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Registrujú sa servery tried</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Identifikácia triedy: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Registrujú sa servery rozšírení</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Rozšírenie: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Registrujú sa informácie MIME</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">Typ obsahu MIME: [1], rozšírenie: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Registrujú sa identifikátory programov</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">Identifikátor programu: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Vyhradzuje sa miesto v databáze Registry</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Voľné miesto: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Hľadajú sa nainštalované aplikácie</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Vlastnosť: [1], podpis: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Vytvárajú sa väzby spustiteľných súborov</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Súbor: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Hľadajú sa oprávňujúce produkty</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Vytvárajú sa priečinky</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Priečinok: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Odstraňujú sa služby</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Služba: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Vytvárajú sa duplicitné súbory</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Súbor: [1], adresár: [9], veľkosť: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Hľadajú sa súvisiace aplikácie</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Nájdená aplikácia: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">Inštalujú sa súčasti ODBC</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Inštalujú sa nové služby</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Služba: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Vyhodnocujú sa podmienky spustenia</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Presúvajú sa stavy funkcie zo súvisiacich aplikácií</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Aplikácia: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Premiestňujú sa súbory</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Súbor: [1], adresár: [9], veľkosť: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Opravujú sa súbory</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Súbor: [1], adresár: [2], veľkosť: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Aktualizuje sa registrácia súčasti</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">Registrujú sa aplikácie a súčasti COM+</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">Identifikácia aplikácie: [1]{{, typ aplikácie: [2], používatelia: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Registrujú sa písma</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Písmo: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Registruje sa produkt</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Registrujú sa knižnice typov</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">Identifikácia knižnice: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Registruje sa používateľ</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Odstraňujú sa duplicitné súbory</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Súbor: [1], adresár: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Aktualizujú sa reťazce prostredia</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Názov: [1], hodnota: [2], akcia [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Odstraňujú sa aplikácie</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Aplikácia: [1], príkazový riadok: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Odstraňujú sa súbory</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Súbor: [1], adresár: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Odstraňujú sa priečinky</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Priečinok: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">Odstraňujú sa položky súborov INI</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Súbor: [1], sekcia: [2], kľúč: [3], hodnota: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">Odstraňujú sa súčasti ODBC</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Odstraňujú sa hodnoty zo systémovej databázy Registry</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Kľúč: [1], názov: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Odstraňujú sa odkazy</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Odkaz: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Hľadajú sa oprávňujúce produkty</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Registrujú sa moduly</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Súbor: [1], priečinok: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Ruší sa registrácia modulov</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Súbor: [1], priečinok: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">Inicializujú sa adresáre ODBC</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Spúšťajú sa služby</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Služba: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Zastavujú sa služby</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Služba: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Ruší sa publikovanie oprávňujúcich súčastí</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Identifikácia súčasti: [1], kvalifikátor: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Ruší sa publikovanie funkcií produktu</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Súčasť: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Ruší sa registrácia serverov tried</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Identifikácia triedy: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Ruší sa registrácia aplikácií a súčastí COM+</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">Identifikácia aplikácie: [1]{{, typ aplikácie: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Ruší sa registrácia serverov rozšírení</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Rozšírenie: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Ruší sa registrácia písiem</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Písmo: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">Ruší sa registrácia informácií MIME</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">Typ obsahu MIME: [1], rozšírenie: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Ruší sa registrácia identifikátorov programov</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">Identifikátor programu: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Ruší sa registrácia knižníc typov</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">Identifikácia knižnice: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Aktualizujú sa reťazce prostredia</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Názov: [1], hodnota: [2], akcia [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">Zapisujú sa hodnoty do súborov INI</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Súbor: [1], sekcia: [2], kľúč: [3], hodnota: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Zapisujú sa hodnoty do systémovej databázy Registry</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Kľúč: [1], názov: [2], hodnota: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Zverejňuje sa aplikácia</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Vytvárajú sa operácie skriptu pre akciu:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Inštaluje sa systémový katalóg</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Súbor: [1], závislosti: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Publikujú sa informácie o zostave</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Kontext aplikácie: [1], názov zostavy: [2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Ruší sa publikovanie informácií o zostave</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Kontext aplikácie: [1], názov zostavy: [2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Vracajú sa zmeny:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Odstraňujú sa záložné súbory</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Súbor: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Odstraňujú sa premiestnené súbory</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Súbor: [1], adresár: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Ruší sa publikovanie informácií o produkte</String>
+
+    <String Id="Error0" Overridable="yes">{{Závažná chyba: }}</String>
+    <String Id="Error1" Overridable="yes">{{Chyba [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Upozornenie [1]. </String>
+    <String Id="Error4" Overridable="yes">Informácia [1]. </String>
+    <String Id="Error5" Overridable="yes">Inštalátor zistil neočakávanú chybu pri inštalácii tohto balíka. Príčinou môže byť problém s týmto balíkom. Kód chyby je [1]. {{Argumenty sú: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Disk je plný: }}</String>
+    <String Id="Error8" Overridable="yes">Akcia [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Typ správy: [1], argument: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Začiatok zapisovania do denníka: [Date] [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Zastavenie zapisovania do denníka: [Date] [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Začiatok akcie [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Ukončenie akcie [Time]: [1]. Vrátená hodnota [2].</String>
+    <String Id="Error16" Overridable="yes">Zostávajúci čas: {[1] min. }{[2] s}</String>
+    <String Id="Error17" Overridable="yes">Nedostatok pamäte. Pred opakovaním operácie ukončite ostatné aplikácie.</String>
+    <String Id="Error18" Overridable="yes">Inštalátor neodpovedá.</String>
+    <String Id="Error19" Overridable="yes">Inštalátor sa predčasne zastavil.</String>
+    <String Id="Error20" Overridable="yes">Počkajte, kým systém Windows nakonfiguruje program [ProductName]</String>
+    <String Id="Error21" Overridable="yes">Zhromažďujú sa požadované informácie...</String>
+    <String Id="Error22" Overridable="yes">Odstraňujú sa staršie verzie tejto aplikácie...</String>
+    <String Id="Error23" Overridable="yes">Pripravuje sa odstránenie starších verzií tejto aplikácie...</String>
+    <String Id="Error32" Overridable="yes">Inštalácia programu {[ProductName] }bola úspešne dokončená.</String>
+    <String Id="Error33" Overridable="yes">Inštalácia programu {[ProductName] }zlyhala.</String>
+    <String Id="Error1101" Overridable="yes">Chyba pri čítaní zo súboru: [2]. {{ Systémová chyba [3].}} Overte, či súbor existuje a či máte k nemu prístup.</String>
+    <String Id="Error1301" Overridable="yes">Nemožno vytvoriť súbor [2]. Adresár s týmto názvom už existuje. Zrušte inštaláciu a skúste vykonať inštaláciu do iného cieľového umiestnenia.</String>
+    <String Id="Error1302" Overridable="yes">Vložte disk: [2]</String>
+    <String Id="Error1303" Overridable="yes">Inštalátor nemá dostatočné oprávnenia na prístup k adresáru [2]. Inštalácia nemôže pokračovať. Prihláste sa ako správca alebo sa obráťte na správcu systému.</String>
+    <String Id="Error1304" Overridable="yes">Chyba pri zápise do súboru: [2]. Overte, či máte prístup do tohto adresára.</String>
+    <String Id="Error1305" Overridable="yes">Chyba pri čítaní zo súboru [2]. {{ Systémová chyba [3].}} Overte, či súbor existuje a či máte k nemu prístup.</String>
+    <String Id="Error1306" Overridable="yes">K súboru [2] má výhradný prístup iná aplikácia. Ukončite všetky ostatné aplikácie a kliknite na tlačidlo Znova.</String>
+    <String Id="Error1307" Overridable="yes">Na inštaláciu súboru [2] nie je dostatok voľného miesta na disku. Uvoľnite miesto na disku a kliknite na tlačidlo Znova. Ak chcete skončiť, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="Error1308" Overridable="yes">Zdrojový súbor sa nenašiel: [2]. Overte, či súbor existuje a či k nemu máte prístup.</String>
+    <String Id="Error1309" Overridable="yes">Chyba pri čítaní zo súboru: [3]. {{ Systémová chyba [2].}} Overte, či súbor existuje a či máte k nemu prístup.</String>
+    <String Id="Error1310" Overridable="yes">Chyba pri zápise do súboru: [3]. {{ Systémová chyba [2].}} Overte, či máte prístup k adresáru.</String>
+    <String Id="Error1311" Overridable="yes">Zdrojový súbor sa nenašiel {{(kabinet)}}: [2]. Overte, či súbor existuje a či k nemu máte prístup.</String>
+    <String Id="Error1312" Overridable="yes">Nemožno vytvoriť adresár [2]. Súbor s týmto názvom už existuje. Premenujte alebo odstráňte súbor a kliknite na tlačidlo Znova. Ak chcete skončiť, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="Error1313" Overridable="yes">Zväzok [2] momentálne nie je k dispozícii. Vyberte iný zväzok.</String>
+    <String Id="Error1314" Overridable="yes">Zadaná cesta [2] nie je k dispozícii.</String>
+    <String Id="Error1315" Overridable="yes">Do zadaného priečinka [2] nemožno zapisovať.</String>
+    <String Id="Error1316" Overridable="yes">Pri pokuse čítať súbor [2] sa vyskytla chyba siete.</String>
+    <String Id="Error1317" Overridable="yes">Pri pokuse vytvoriť adresár [2] sa vyskytla chyba.</String>
+    <String Id="Error1318" Overridable="yes">Pri pokuse vytvoriť adresár [2] sa vyskytla chyba siete.</String>
+    <String Id="Error1319" Overridable="yes">Pri pokuse otvoriť kabinet [2] zdrojového súboru sa vyskytla chyba siete.</String>
+    <String Id="Error1320" Overridable="yes">Zadaná cesta [2] je príliš dlhá.</String>
+    <String Id="Error1321" Overridable="yes">Inštalátor nemá dostatočné oprávnenia na zmenu súboru [2].</String>
+    <String Id="Error1322" Overridable="yes">Časť cesty k priečinku [2] je neplatná. Cesta je prázdna alebo prekračuje dĺžku povolenú systémom.</String>
+    <String Id="Error1323" Overridable="yes">Cesta k priečinku [2] obsahuje slová, ktoré nie sú platné pre cesty k priečinkom.</String>
+    <String Id="Error1324" Overridable="yes">Cesta k priečinku [2] obsahuje neplatný znak.</String>
+    <String Id="Error1325" Overridable="yes">[2] nie je platný krátky názov súboru.</String>
+    <String Id="Error1326" Overridable="yes">Chyba pri zisťovaní zabezpečenia súboru: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Neplatná jednotka: [2]</String>
+    <String Id="Error1328" Overridable="yes">Vyskytla sa chyba pri opravovaní súboru [2]. Súbor bol možno aktualizovaný iným spôsobom a týmto opravným súborom ho už nemožno opraviť. Ďalšie informácie získate od dodávateľa opravy. {{Systémová chyba: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Požadovaný súbor nemožno nainštalovať, pretože súbor kabinetu [2] nie je digitálne podpísaný. Môže to znamenať, že súbor kabinetu je poškodený.</String>
+    <String Id="Error1330" Overridable="yes">Požadovaný súbor nemožno nainštalovať, pretože súbor kabinetu [2] má neplatný digitálny podpis. Môže to znamenať, že súbor kabinetu je poškodený.{{ Funkcia WinVerifyTrust vrátila chybu [3].}}</String>
+    <String Id="Error1331" Overridable="yes">Súbor [2] sa nepodarilo správne skopírovať: chyba CRC.</String>
+    <String Id="Error1332" Overridable="yes">Súbor [2] sa nepodarilo správne premiestniť: chyba CRC.</String>
+    <String Id="Error1333" Overridable="yes">Súbor [2] sa nepodarilo správne opraviť: chyba CRC.</String>
+    <String Id="Error1334" Overridable="yes">Súbor [2] nemožno nainštalovať, pretože sa nenachádza v súbore kabinetu [3]. Príčinou môže byť chyba siete, chyba pri čítaní disku CD-ROM alebo problém s týmto balíkom.</String>
+    <String Id="Error1335" Overridable="yes">Súbor kabinetu [2] požadovaný pre inštaláciu je poškodený a nemožno ho používať. Príčinou môže byť chyba siete, chyba pri čítaní disku CD-ROM alebo problém s týmto balíkom.</String>
+    <String Id="Error1336" Overridable="yes">Pri vytváraní dočasného súboru požadovaného na dokončenie inštalácie sa vyskytla chyba.{{ Priečinok: [3]. Kód systémovej chyby: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Nepodarilo sa vytvoriť kľúč: [2]. {{ Systémová chyba [3].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory. </String>
+    <String Id="Error1402" Overridable="yes">Nepodarilo sa otvoriť kľúč: [2]. {{ Systémová chyba [3].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory. </String>
+    <String Id="Error1403" Overridable="yes">Nepodarilo sa odstrániť hodnotu [2] z kľúča [3]. {{ Systémová chyba [4].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory. </String>
+    <String Id="Error1404" Overridable="yes">Nepodarilo sa odstrániť kľúč [2]. {{ Systémová chyba [3].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory. </String>
+    <String Id="Error1405" Overridable="yes">Nepodarilo sa prečítať hodnotu [2] z kľúča [3]. {{ Systémová chyba [4].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory. </String>
+    <String Id="Error1406" Overridable="yes">Nepodarilo sa zapísať hodnotu [2] do kľúča [3]. {{ Systémová chyba [4].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory.</String>
+    <String Id="Error1407" Overridable="yes">Nepodarilo sa získať názvy hodnôt pre kľúč [2]. {{ Systémová chyba [3].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory.</String>
+    <String Id="Error1408" Overridable="yes">Nepodarilo sa získať názvy podkľúčov pre kľúč [2]. {{ Systémová chyba [3].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory.</String>
+    <String Id="Error1409" Overridable="yes">Nepodarilo sa prečítať informácie o zabezpečení pre kľúč [2]. {{ Systémová chyba [3].}} Overte, či máte pre daný kľúč dostatočné prístupové práva, alebo sa obráťte na pracovníkov technickej podpory.</String>
+    <String Id="Error1410" Overridable="yes">Voľné miesto v databáze Registry nemožno zväčšiť. Na inštaláciu tejto aplikácie sa vyžaduje [2] kB voľného miesta v databáze Registry.</String>
+    <String Id="Error1500" Overridable="yes">Prebieha iná inštalácia. Skôr ako budete pokračovať v tejto inštalácii, musíte dokončiť prebiehajúcu inštaláciu.</String>
+    <String Id="Error1501" Overridable="yes">Chyba pri prístupe k zabezpečeným údajom. Skontrolujte, či je Inštalátor systému Windows správne nakonfigurovaný, a zopakujte inštaláciu.</String>
+    <String Id="Error1502" Overridable="yes">Používateľ [2] už skôr inicioval inštaláciu produktu [3]. Pred použitím tohto produktu bude musieť znova spustiť inštaláciu. Teraz bude pokračovať aktuálna inštalácia.</String>
+    <String Id="Error1503" Overridable="yes">Používateľ [2] už skôr inicioval inštaláciu produktu [3]. Pred použitím tohto produktu bude musieť znova spustiť inštaláciu.</String>
+    <String Id="Error1601" Overridable="yes">Nedostatok voľného miesta na disku vo zväzku [2]; požadované miesto: [3] kB; voľné miesto: [4] kB. Uvoľnite miesto na disku a skúste to znova.</String>
+    <String Id="Error1602" Overridable="yes">Naozaj chcete zrušiť operáciu?</String>
+    <String Id="Error1603" Overridable="yes">Súbor [2][3] používa{ nasledujúci proces: názov: [4], identifikácia: [5], názov okna: [6]}. Ukončite túto aplikáciu a skúste to znova.</String>
+    <String Id="Error1604" Overridable="yes">Tento produkt nemožno nainštalovať, pretože už je nainštalovaný produkt [2]. Tieto dva produkty sú nekompatibilné.</String>
+    <String Id="Error1605" Overridable="yes">Na disku vo zväzku [2] nie je dostatok voľného miesta, aby bolo možné pokračovať v inštalácii so zapnutou funkciou obnovenia. Požadované miesto je [3] kB, ale k dispozícii je iba [4] kB. Ak chcete pokračovať v inštalácii bez ukladania informácií na obnovenie, kliknite na tlačidlo Ignorovať. Ak chcete znova skontrolovať voľné miesto, kliknite na tlačidlo Znova. Ak chcete ukončiť inštaláciu, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="Error1606" Overridable="yes">Nepodarilo sa získať prístup k umiestneniu v sieti [2].</String>
+    <String Id="Error1607" Overridable="yes">Pred pokračovaním v inštalácii by ste mali ukončiť nasledujúce aplikácie:</String>
+    <String Id="Error1608" Overridable="yes">V počítači sa nenašli žiadne vyhovujúce nainštalované produkty na inštaláciu tohto produktu.</String>
+    <String Id="Error1609" Overridable="yes">Pri použití nastavení zabezpečenia sa vyskytla chyba. [2] nie je platný používateľ alebo skupina. Príčinou môže byť problém s balíkom alebo pripojením k radiču domény siete. Skontrolujte pripojenie k sieti a kliknite na tlačidlo Znova. Ak chcete ukončiť inštaláciu, kliknite na tlačidlo Zrušiť. {{Nemožno nájsť identifikátor zabezpečenia SID používateľa. Systémová chyba [3]}}</String>
+    <String Id="Error1701" Overridable="yes">Kľúč [2] nie je platný. Overte, či ste zadali správny kľúč.</String>
+    <String Id="Error1702" Overridable="yes">Konfigurácia programu [2] môže pokračovať až po reštartovaní systému inštalátorom. Ak chcete reštartovať počítač, kliknite na tlačidlo Áno. Ak chcete reštartovať počítač neskôr manuálne, kliknite na tlačidlo Nie.</String>
+    <String Id="Error1703" Overridable="yes">Zmeny konfigurácie programu [2] sa prejavia až po reštartovaní systému. Ak chcete reštartovať počítač, kliknite na tlačidlo Áno. Ak chcete reštartovať počítač neskôr manuálne, kliknite na tlačidlo Nie.</String>
+    <String Id="Error1704" Overridable="yes">Inštalácia programu [2] je momentálne prerušená. Ak chcete pokračovať, musíte vrátiť zmeny uskutočnené pri inštalácii. Chcete vrátiť zmeny?</String>
+    <String Id="Error1705" Overridable="yes">Prebieha predchádzajúca inštalácia tohto produktu. Ak chcete pokračovať, musíte vrátiť zmeny uskutočnené pri inštalácii. Chcete vrátiť zmeny?</String>
+    <String Id="Error1706" Overridable="yes">Inštalačný balík pre produkt [2] nemožno nájsť. Skúste zopakovať inštaláciu pomocou platnej kópie inštalačného balíka [3].</String>
+    <String Id="Error1707" Overridable="yes">Inštalácia bola úspešne dokončená.</String>
+    <String Id="Error1708" Overridable="yes">Inštalácia zlyhala.</String>
+    <String Id="Error1709" Overridable="yes">Produkt: [2] – [3]</String>
+    <String Id="Error1710" Overridable="yes">Môžete obnoviť pôvodný stav počítača alebo pokračovať v inštalácii neskôr. Chcete obnoviť pôvodný stav?</String>
+    <String Id="Error1711" Overridable="yes">Pri zapisovaní informácií o inštalácii na disk sa vyskytla chyba. Skontrolujte, či je na disku dostatok voľného miesta, a potom kliknite na tlačidlo Znova. Ak chcete ukončiť inštaláciu, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="Error1712" Overridable="yes">Niektoré súbory potrebné na obnovenie predchádzajúceho stavu počítača sa nenašli. Obnovenie nie je možné.</String>
+    <String Id="Error1713" Overridable="yes">Program [2] nemôže nainštalovať jeden z požadovaných produktov. Obráťte sa na pracovníkov technickej podpory. {{Systémová chyba: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Nemožno odstrániť staršiu verziu programu [2]. Obráťte sa na pracovníkov technickej podpory. {{Systémová chyba [3].}}</String>
+    <String Id="Error1715" Overridable="yes">Nainštalované: [2]</String>
+    <String Id="Error1716" Overridable="yes">Nakonfigurované: [2]</String>
+    <String Id="Error1717" Overridable="yes">Odstránené: [2]</String>
+    <String Id="Error1718" Overridable="yes">Súbor [2] bol odmietnutý politikou digitálnych podpisov.</String>
+    <String Id="Error1719" Overridable="yes">Službu Inštalátora systému Windows nemožno spustiť. Táto chyba sa môže vyskytnúť, ak systém Windows pracuje v núdzovom režime alebo ak Inštalátor systému Windows nie je správne nainštalovaný. O pomoc požiadajte pracovníkov technickej podpory.</String>
+    <String Id="Error1720" Overridable="yes">Vyskytol sa problém s balíkom Inštalátora systému Windows. Skript požadovaný na dokončenie inštalácie sa nepodarilo spustiť. Obráťte sa na pracovníkov technickej podpory alebo dodávateľa balíka. {{Vlastná akcia [2], chyba skriptu [3], [4]: [5] riadok [6], stĺpec [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Vyskytol sa problém s balíkom Inštalátora systému Windows. Program požadovaný na dokončenie inštalácie sa nepodarilo spustiť. Obráťte sa na pracovníkov technickej podpory alebo dodávateľa balíka. {{Akcia: [2], umiestnenie: [3], príkaz: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Vyskytol sa problém s balíkom Inštalátora systému Windows. Program spustený ako súčasť inštalácie sa nedokončil podľa očakávania. Obráťte sa na pracovníkov technickej podpory alebo dodávateľa balíka. {{Akcia: [2], umiestnenie: [3], príkaz: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Vyskytol sa problém s balíkom Inštalátora systému Windows. Nepodarilo sa spustiť knižnicu DLL požadovanú na dokončenie inštalácie. Obráťte sa na pracovníkov technickej podpory alebo dodávateľa balíka. {{Akcia: [2], položka: [3], knižnica: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Odstránenie bolo úspešne dokončené.</String>
+    <String Id="Error1725" Overridable="yes">Odstránenie zlyhalo.</String>
+    <String Id="Error1726" Overridable="yes">Uverejnenie oznámenia bolo úspešne dokončené.</String>
+    <String Id="Error1727" Overridable="yes">Uverejnenie oznámenia zlyhalo.</String>
+    <String Id="Error1728" Overridable="yes">Konfigurácia bola úspešne dokončená.</String>
+    <String Id="Error1729" Overridable="yes">Konfigurácia zlyhala.</String>
+    <String Id="Error1730" Overridable="yes">Túto aplikáciu môžete odstrániť, iba ak ste správca. Ak chcete odstrániť túto aplikáciu, môžete sa prihlásiť ako správca alebo sa obráťte na pracovníkov technickej podpory.</String>
+    <String Id="Error1731" Overridable="yes">Zdrojový inštalačný balík pre produkt [2] nie je zosynchronizovaný s klientskym balíkom. Skúste zopakovať inštaláciu pomocou platnej kópie inštalačného balíka [3].</String>
+    <String Id="Error1732" Overridable="yes">Ak chcete dokončiť inštaláciu produktu [2], musíte reštartovať počítač. V tomto počítači sú momentálne prihlásení ďalší používatelia a reštartovaním by mohli stratiť svoju prácu. Chcete reštartovať počítač?</String>
+    <String Id="Error1801" Overridable="yes">Cesta [2] nie je platná. Zadajte platnú cestu.</String>
+    <String Id="Error1802" Overridable="yes">Nedostatok pamäte. Pred opakovaním operácie ukončite ostatné aplikácie.</String>
+    <String Id="Error1803" Overridable="yes">V jednotke [2] nie je disk. Vložte disk a kliknite na tlačidlo Znova. Ak sa chcete vrátiť na predchádzajúci zväzok, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="Error1804" Overridable="yes">V jednotke [2] nie je disk. Vložte disk a kliknite na tlačidlo Znova. Ak sa chcete vrátiť do dialógového okna pre prehľadávanie a vybrať iný zväzok, kliknite na tlačidlo Zrušiť.</String>
+    <String Id="Error1805" Overridable="yes">Priečinok [2] neexistuje. Zadajte cestu k existujúcemu priečinku.</String>
+    <String Id="Error1806" Overridable="yes">Nemáte dostatočné oprávnenia na čítanie tohto priečinka.</String>
+    <String Id="Error1807" Overridable="yes">Nepodarilo sa určiť platný cieľový priečinok pre inštaláciu.</String>
+    <String Id="Error1901" Overridable="yes">Chyba pri pokuse o čítanie zo zdrojovej inštalačnej databázy [2].</String>
+    <String Id="Error1902" Overridable="yes">Plánuje sa operácia reštartovania: názov súboru sa mení z [2] na [3]. Ak chcete dokončiť operáciu, musíte reštartovať počítač.</String>
+    <String Id="Error1903" Overridable="yes">Plánuje sa operácia reštartovania: odstraňuje sa súbor [2]. Ak chcete dokončiť operáciu, musíte reštartovať počítač.</String>
+    <String Id="Error1904" Overridable="yes">Nepodarilo sa zaregistrovať modul [2]. HRESULT [3]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1905" Overridable="yes">Nepodarilo sa zrušiť registráciu modulu [2]. HRESULT [3]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1906" Overridable="yes">Uloženie balíka [2] do vyrovnávacej pamäte zlyhalo. Chyba: [3]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1907" Overridable="yes">Písmo [2] nemožno zaregistrovať. Overte, či máte dostatočné povolenia na inštaláciu písiem a či systém podporuje toto písmo.</String>
+    <String Id="Error1908" Overridable="yes">Nepodarilo sa zrušiť registráciu písma [2]. Overte, či máte dostatočné povolenia na odstraňovanie písiem.</String>
+    <String Id="Error1909" Overridable="yes">Odkaz [2] nemožno vytvoriť. Overte, či cieľový priečinok existuje a či k nemu máte prístup.</String>
+    <String Id="Error1910" Overridable="yes">Odkaz [2] nemožno odstrániť. Overte, či súbor odkazu existuje a či k nemu máte prístup.</String>
+    <String Id="Error1911" Overridable="yes">Nepodarilo sa zaregistrovať knižnicu typov pre súbor [2]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1912" Overridable="yes">Nepodarilo sa zrušiť registráciu knižnice typov pre súbor [2]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1913" Overridable="yes">Súbor INI [2][3] sa nepodarilo aktualizovať. Overte, či súbor existuje a či k nemu máte prístup.</String>
+    <String Id="Error1914" Overridable="yes">Nahradenie súboru [3] súborom [2] pri reštartovaní sa nepodarilo naplánovať. Overte, či máte povolenia na zápis do súboru [3].</String>
+    <String Id="Error1915" Overridable="yes">Pri odstraňovaní správcu ovládačov ODBC sa vyskytla chyba ODBC [2]: [3]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1916" Overridable="yes">Pri inštalácii správcu ovládačov ODBC sa vyskytla chyba ODBC [2]: [3]. Obráťte sa na pracovníkov technickej podpory.</String>
+    <String Id="Error1917" Overridable="yes">Pri odstraňovaní ovládača ODBC [4] sa vyskytla chyba ODBC [2]: [3]. Overte, či máte dostatočné oprávnenia na odstraňovanie ovládačov ODBC.</String>
+    <String Id="Error1918" Overridable="yes">Pri inštalácii ovládača ODBC [4] sa vyskytla chyba ODBC [2]: [3]. Overte, či súbor [4] existuje a či k nemu máte prístup.</String>
+    <String Id="Error1919" Overridable="yes">Pri konfigurácii zdroja údajov ODBC [4] sa vyskytla chyba ODBC [2]: [3]. Overte, či súbor [4] existuje a či k nemu máte prístup.</String>
+    <String Id="Error1920" Overridable="yes">Službu [2] ([3]) sa nepodarilo spustiť. Overte, či máte dostatočné oprávnenia na spustenie systémových služieb.</String>
+    <String Id="Error1921" Overridable="yes">Službu [2] ([3]) sa nepodarilo zastaviť. Overte, či máte dostatočné oprávnenia na zastavenie systémových služieb.</String>
+    <String Id="Error1922" Overridable="yes">Službu [2] ([3]) sa nepodarilo odstrániť. Overte, či máte dostatočné oprávnenia na odstraňovanie systémových služieb.</String>
+    <String Id="Error1923" Overridable="yes">Službu [2] ([3]) sa nepodarilo nainštalovať. Overte, či máte dostatočné oprávnenia na inštaláciu systémových služieb.</String>
+    <String Id="Error1924" Overridable="yes">Premennú prostredia [2] sa nepodarilo aktualizovať. Overte, či máte dostatočné oprávnenia na zmenu premenných prostredia.</String>
+    <String Id="Error1925" Overridable="yes">Nemáte dostatočné oprávnenia na dokončenie inštalácie pre všetkých používateľov tohto počítača. Prihláste sa ako správca a zopakujte túto inštaláciu.</String>
+    <String Id="Error1926" Overridable="yes">Nepodarilo sa nastaviť zabezpečenie súboru [3]. Chyba: [2]. Overte, či máte dostatočné oprávnenia na zmenu povolení zabezpečenia pre tento súbor.</String>
+    <String Id="Error1927" Overridable="yes">V tomto počítači nie sú nainštalované služby súčastí (COM+ 1.0), ktoré sa požadujú na úspešné dokončenie inštalácie. Služby súčastí sú k dispozícii v systéme Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Chyba pri registrácii aplikácie COM+. Ďalšie informácie vám poskytnú pracovníci technickej podpory.</String>
+    <String Id="Error1929" Overridable="yes">Chyba pri rušení registrácie aplikácie COM+. Ďalšie informácie vám poskytnú pracovníci technickej podpory.</String>
+    <String Id="Error1930" Overridable="yes">Popis služby [2] ([3]) nemožno zmeniť.</String>
+    <String Id="Error1931" Overridable="yes">Služba Inštalátora systému Windows nemôže aktualizovať systémový súbor [2], pretože je chránený systémom Windows. Pravdepodobne budete musieť aktualizovať operačný systém, aby tento program správne pracoval. {{Verzia balíka: [3], verzia chránená operačným systémom: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Služba Inštalátora systému Windows nemôže aktualizovať chránený súbor [2] systému Windows. {{Verzia balíka: [3], verzia chránená operačným systémom: [4], chyba SFP: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Služba Inštalátora systému Windows nemôže aktualizovať niektoré chránené súbory systému Windows. {{Chyba SFP: [2]. Zoznam chránených súborov:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Používateľské inštalácie sú zakázané politikou v počítači.</String>
+    <String Id="Error1935" Overridable="yes">Počas inštalácie zostavy [6] sa vyskytla chyba. Ďalšie informácie nájdete v časti Pomoc a technická podpora. HRESULT: [3]. {{Rozhranie zostavy: [4], funkcia: [5], súčasť: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Počas inštalácie zostavy [6] sa vyskytla chyba. Zostava nemá silný názov alebo na jej podpísanie nebol použitý kľúč s požadovanou minimálnou dĺžkou. HRESULT: [3]. {{Rozhranie zostavy: [4], funkcia: [5], súčasť: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Počas inštalácie zostavy [6] sa vyskytla chyba. Podpis alebo katalóg sa nepodarilo overiť alebo nie je platný. HRESULT: [3]. {{Rozhranie zostavy: [4], funkcia: [5], súčasť: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Počas inštalácie zostavy [6] sa vyskytla chyba. Nenašli sa niektoré moduly zostavy. HRESULT: [3]. {{Rozhranie zostavy: [4], funkcia: [5], súčasť: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">B</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">kB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Celá súčasť bude nedostupná</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Súčasť sa nainštaluje v prípade potreby</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Celá súčasť sa nainštaluje na spúšťanie z disku CD</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Celá súčasť sa nainštaluje na lokálny pevný disk</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Celá súčasť sa nainštaluje na spúšťanie zo siete</String>
+    <String Id="UITextMenuCD" Overridable="yes">Nainštaluje sa na spúšťanie z disku CD</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Nainštaluje sa na lokálny pevný disk</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Nainštaluje sa na spúšťanie zo siete</String>
+    <String Id="UITextNewFolder" Overridable="yes">Priečinok|Nový priečinok</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Zhromažďujú sa požadované informácie...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Táto súčasť zostane nenainštalovaná</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Táto súčasť sa nainštaluje v prípade potreby</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Táto súčasť sa nainštaluje na spúšťanie z disku CD</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Táto súčasť sa nainštaluje na lokálny pevný disk</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Táto súčasť sa nainštaluje na spúšťanie zo siete</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Táto súčasť nebude k dispozícii</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Nainštaluje sa v prípade potreby</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Táto súčasť sa bude spúšťať z disku CD</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Táto súčasť sa nainštaluje na lokálny pevný disk</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Táto súčasť sa bude spúšťať zo siete</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Táto súčasť sa úplne odinštaluje a nebudete ju môcť spúšťať z disku CD</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Táto súčasť sa už nebude spúšťať z disku CD, ale sa nainštaluje v prípade potreby</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Táto súčasť sa bude dať spúšťať z disku CD</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Táto súčasť sa už nebude spúšťať z disku CD, ale sa nainštaluje na lokálny pevný disk</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Táto súčasť uvoľní [1] na pevnom disku.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Táto súčasť vyžaduje [1] na pevnom disku.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Kompilujú sa údaje o prostriedkoch požadovaných pre túto súčasť...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Táto súčasť sa úplne odstráni</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Táto súčasť sa odstráni z lokálneho pevného disku, v prípade potreby sa však nainštaluje</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Táto súčasť sa odstráni z lokálneho pevného disku, ale bude sa dať spúšťať z disku CD</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Táto súčasť zostane na lokálnom pevnom disku</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Táto súčasť sa odstráni z lokálneho pevného disku, ale bude sa dať spúšťať zo siete</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Táto súčasť sa úplne odinštaluje a nebudete ju môcť spúšťať zo siete</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Táto súčasť sa už nebude spúšťať zo siete, v prípade potreby sa však nainštaluje</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Táto súčasť sa už nebude spúšťať zo siete, ale sa nainštaluje na lokálny pevný disk</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Táto súčasť sa bude dať spúšťať zo siete</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Táto súčasť uvoľní [1] na pevnom disku. Obsahuje [2] z [3] vybratých vedľajších súčastí. Vedľajšie súčasti uvoľnia [4] na pevnom disku.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Táto súčasť uvoľní [1] na pevnom disku. Obsahuje [2] z [3] vybratých vedľajších súčastí. Vedľajšie súčasti vyžadujú [4] na pevnom disku.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Táto súčasť vyžaduje [1] na pevnom disku. Obsahuje [2] z [3] vybratých vedľajších súčastí. Vedľajšie súčasti uvoľnia [4] na pevnom disku.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Táto súčasť vyžaduje [1] na pevnom disku. Obsahuje [2] z [3] vybratých vedľajších súčastí. Vedľajšie súčasti vyžadujú [4] na pevnom disku.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Zostávajúci čas: {[1] min. }{[2] s}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">K dispozícii</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Rozdiel</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Požadované</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Veľkosť disku</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Zväzok</String>
+</WixLocalization>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="WixBuild.VisualStudioSdk.targets" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CopyZipOutputToOutputDirectory>false</CopyZipOutputToOutputDirectory>
+    <CopyVsixManifestToOutput>false</CopyVsixManifestToOutput>
+    <DeployExtension>false</DeployExtension>
+    <DeployVSTemplates>false</DeployVSTemplates>
+    <CreateVsixContainer>false</CreateVsixContainer>
+    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <RegisterOutputPackage>false</RegisterOutputPackage>
+    <RegisterWithCodebase>true</RegisterWithCodebase>
+    <VsTemplateLanguage>WiX</VsTemplateLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DefineConstants>$(DefineConstants);CCI_TRACING;Enable_CCIDiagnostics;Enable_CCIFileOutput</DefineConstants>
+  </PropertyGroup>
+
+  <Import Project="$(VS2008SdkTargetsPath)" Condition=" '$(TargetVisualStudio)'=='2008' " />
+  <Import Project="$(VS2010SdkTargetsPath)" Condition=" ('$(TargetVisualStudio)'=='2010' or '$(TargetVisualStudio)'=='2012' or '$(TargetVisualStudio)'=='2013') and !$(VS2012SdkAvailable) and !$(VS2013SdkAvailable)" />
+  <Import Project="$(VS2012SdkTargetsPath)" Condition=" ('$(TargetVisualStudio)'=='2010' or '$(TargetVisualStudio)'=='2012' or '$(TargetVisualStudio)'=='2013') and $(VS2012SdkAvailable) and !$(VS2013SdkAvailable)" />
+  <Import Project="$(VS2013SdkTargetsPath)" Condition=" ('$(TargetVisualStudio)'=='2010' or '$(TargetVisualStudio)'=='2012' or '$(TargetVisualStudio)'=='2013')  and $(VS2013SdkAvailable) " />
+
+  <Target Name="FindSDKInstallation" />
+  <Target Name="FindSourceVsixManifest">
+    <ItemGroup>
+      <SourceVsixManifest Include="extension.vsixmanifest" />
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup>
+    <PrepareForRunDependsOn>
+      $(PrepareForRunDependsOn);
+      CopyZippedProjectsAndItems
+    </PrepareForRunDependsOn>
+  </PropertyGroup>
+  <Target Name="CopyZippedProjectsAndItems"
+          Inputs="@(IntermediateZipProject);@(IntermediateZipItem)"
+          Outputs="@(IntermediateZipProject->'$(OutDir)$(MSBuildProjectName)\%(Filename)%(Extension)');@(IntermediateZipItem->'$(OutDir)$(MSBuildProjectName)\%(Filename)%(Extension)')"
+          Condition=" '@(IntermediateZipProject)@(IntermediateZipItem)'!='' ">
+    <Copy SourceFiles="@(IntermediateZipProject);@(IntermediateZipItem)"
+          DestinationFolder="$(OutDir)$(MSBuildProjectName)\"
+          SkipUnchangedFiles="true" />
+  </Target>
+</Project>

@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_sr-Latn-CS.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="sr-latn-cs" Codepage="1250" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Nazad</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Dalje</String>
+    <String Id="WixUICancel" Overridable="yes">Otkaži</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Završi</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Pokušaj opet</String>
+    <String Id="WixUIIgnore" Overridable="yes">Zanemar&amp;i</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Da</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Ne</String>
+    <String Id="WixUIOK" Overridable="yes">U redu</String>
+    <String Id="WixUIPrint" Overridable="yes">Odštam&amp;paj</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Pročitajte ugovor o licenciranju za [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Prihv&amp;atam uslove navedene u ugovoru o licenciranju</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Kliknite na dugme „Instaliraj“ da biste instalirali proizvod sa podrazumevanim opcijama za sve korisnike. Kliknite na dugme „Više opcija“ da biste promenili opcije instalacije.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Kliknite na dugme „Instaliraj“ da biste instalirali proizvod sa podrazumevanim opcijama samo za sebe. Kliknite na dugme „Više opcija“ da biste promenili opcije instalacije.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Instaliraj</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">V&amp;iše opcija</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Pogledaj u:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Nagore za jedan nivo</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Kreirajte novu fasciklu</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">Ime &amp;fascikle:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Potražite odredišnu fasciklu</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Promena odredišne fascikle</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="CancelDlgText" Overridable="yes">Želite li zaista da otkažete instalaciju proizvoda [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Ikona informacija</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Stablo izbora</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">P&amp;otraži…</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">U&amp;spostavi početne vrednosti</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">&amp;Upotreba diska</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Kliknite na ikone u okviru stabla ispod da biste promenili način na koji će funkcije biti instalirane.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Izaberite način na koji želite da instalirate funkcije.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Prilagođena instalacija</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Lokacija:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Na markiranim volumenima nema dovoljno dostupnog prostora za izabrane funkcije. Možete ukloniti neke datoteke iz markiranih volumena, instalirati manje funkcija ili izabrati druge odredišne disk jedinice.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Prostor na disku koji je potreban za instalaciju izabranih funkcija.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zahtevi za prostor na disku</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Tekst informacija</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Ikona informacija</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Kliknite na dugme „Završi“ da biste izašli iz čarobnjaka za instalaciju.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Dovršen je čarobnjak za instalaciju proizvoda [ProductName]</String>
+
+    <String Id="FatalError_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}Čarobnjak za instalaciju proizvoda [ProductName] je pre vremena završio sa radom</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">Čarobnjak za instalaciju proizvoda [ProductName] je pre vremena završio sa radom zbog greške. Sistem nije izmenjen. Da biste kasnije instalirali ovaj program, ponovo pokrenite čarobnjak za instalaciju.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Kliknite na dugme „Završi“ da biste izašli iz čarobnjaka za instalaciju.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Funkcije proizvoda</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Izaberite način na koji želite da instalirate funkcije.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Funkcije proizvoda</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Instaliraj</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Promeni</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes">I&amp;zađi</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Sledeće aplikacije koriste datoteke koje ova instalacija treba da ažurira. Zatvorite ove aplikacije, a zatim kliknite na dugme „&amp;Pokušaj opet“ da biste nastavili sa instalacijom ili na dugme „Izađi“ da biste izašli iz nje.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Neke datoteke koje treba ažurirati trenutno se koriste.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Datoteke u upotrebi</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Promeni...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Odredišna fascikla</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Kliknite na dugme „Dalje“ da biste instalaciju izvršili u podrazumevanoj fascikli ili na dugme „Promeni“ da biste odabrali drugu fasciklu.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Instaliraj [ProductName] u:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Odaberite opseg instalacije i instalacionu fasciklu</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Opseg instalacije</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalirajte &amp;samo za sebe ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] će biti instaliran u fascikli po korisniku i biće dostupan samo za vaš korisnički nalog. Nisu vam potrebne lokalne administratorske privilegije.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">[ProductName] ne podržava instalaciju po korisniku.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Instalirajte za sve korisnike ovog &amp;računara</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">[ProductName] će podrazumevano biti instaliran u fascikli po računaru i biće dostupan svim korisnicima. Možete promeniti podrazumevanu instalacionu fasciklu. Morate imati lokalne administratorske privilegije.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Instalaciona &amp;fascikla:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Promeni...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Instalacioni direktorijum mora da se nalazi na lokalnom čvrstom disku.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Ikona informacija</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Prihv&amp;atam uslove navedene u ugovoru o licenciranju</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pažljivo pročitajte sledeći ugovor o licenciranju</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Ugovor o licenciranju sa krajnjim korisnikom</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Promeni</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Promenite instalaciju</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">Po&amp;pravi</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Popravite instalaciju</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Ukloni</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Uklonite instalaciju</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Izaberite operaciju koju želite da izvršite.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Promena, popravka ili uklanjanje instalacije</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Omogućava vam da promenite način instalacije funkcija.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">[ProductName] ne sadrži funkcije koje je moguće nezavisno izabrati.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Uklanja [ProductName] sa računara.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">[ProductName] nije moguće ukloniti.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Popravlja greške u najnovijoj instalaciji tako što popravlja datoteke, prečice i stavke registratora koje nedostaju i koje su oštećene.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">[ProductName] nije moguće popraviti.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Čarobnjak za instalaciju vam omogućava da promenite način na koji će funkcije proizvoda [ProductName] biti instalirane na računar ili da ih uklonite sa računara. Kliknite na dugme „Dalje“ da biste nastavili ili na dugme „Otkaži“ da biste izašli iz čarobnjaka za instalaciju.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Dobro došli u čarobnjak za instalaciju proizvoda [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Sledeće aplikacije koriste datoteke koje ova instalacija treba da ažurira. Možete dozvoliti čarobnjaku za instalaciju da ih zatvori i pokuša ponovo da ih pokrene ili kasnije ponovo pokrenuti računar.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Neke datoteke koje treba ažurirati trenutno se koriste.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Datoteke u upotrebi</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Zatvori aplikacije i pokušaj ponovo da ih pokreneš.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Ne zatvaraj aplikacije. Biće potrebno ponovno pokretanje sistema.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Na markiranim volumenima nema dovoljno dostupnog prostora za trenutno izabrane funkcije. Možete ukloniti neke datoteke iz markiranih volumena, instalirati manje funkcija ili izabrati drugu odredišnu disk jedinicu.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Prostor na disku potreban za instalaciju premašuje dostupni prostor na disku.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nema prostora na disku</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Na markiranim volumenima nema dovoljno dostupnog prostora za trenutno izabrane funkcije. Možete ukloniti neke datoteke iz markiranih volumena, instalirati manje funkcija ili izabrati drugu odredišnu disk jedinicu.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Prostor na disku potreban za instalaciju premašuje dostupni prostor na disku.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Nema prostora na disku</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Druga mogućnost je da odaberete da onemogućite funkcionalnost vraćanja instalacionog programa. Ako onemogućite vraćanje, sprečićete da instalacioni program vrati prvobitno stanje računara ukoliko instalacija bude prekinuta na bilo koji način. Kliknite na dugme „Da“ ako želite da preuzmete rizik onemogućavanja vraćanja.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Sačekajte dok se čarobnjak za instalaciju pripremi da vas vodi kroz instalaciju.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Dobro došli u čarobnjak za instalaciju proizvoda [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Sačekajte dok čarobnjak za instalaciju instalira [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Instalacija proizvoda [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Sačekajte dok čarobnjak za instalaciju promeni [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Promena proizvoda [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Sačekajte dok čarobnjak za instalaciju popravi [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Popravka proizvoda [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Sačekajte dok čarobnjak za instalaciju ukloni [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Uklanjanje proizvoda [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Sačekajte dok čarobnjak za instalaciju ažurira [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}Ažuriranje proizvoda [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Tok je završen</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Status:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Instaliraj</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Čarobnjak za instalaciju će dovršiti instalaciju proizvoda [ProductName] na računaru. Kliknite na dugme „Instaliraj“ da biste nastavili ili na dugme „Otkaži“ da biste izašli iz čarobnjaka za instalaciju.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Nastavak rada čarobnjaka za instalaciju proizvoda [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Tipična</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Tipična instalacija</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">P&amp;rilagođena</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Prilagođena instalacija</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">P&amp;otpuna</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Potpuna instalacija</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Izbor tipa instalacije</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Odaberite tip instalacije koji najviše odgovara vašim potrebama</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Instalirajte funkcije programa koje se najčešće koriste. Preporučuje se za većinu korisnika.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Omogućava korisnicima da odaberu koje će funkcije programa biti instalirane i gde će biti instalirane. Preporučuje se za napredne korisnike.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Biće instalirane sve funkcije programa. Zahteva najviše prostora na disku.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}Čarobnjak za instalaciju proizvoda [ProductName] je prekinut</String>
+    <String Id="UserExitDescription1" Overridable="yes">Instalacija proizvoda [ProductName] je prekinuta. Sistem nije izmenjen. Da biste ovaj program instalirali kasnije, ponovo pokrenite instalaciju.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Kliknite na dugme „Završi“ da biste izašli iz čarobnjaka za instalaciju.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Instaliraj</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Kliknite na dugme „Instaliraj“ da biste započeli instalaciju. Kliknite na dugme „Nazad“ da biste pregledali ili promenili bilo koju postavku instalacije. Kliknite na dugme „Otkaži“ da biste izašli iz čarobnjaka.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Spremno za instalaciju proizvoda [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Promeni</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Kliknite na dugme „Promeni“ da biste započeli instalaciju. Kliknite na dugme „Nazad“ da biste pregledali ili promenili bilo koju postavku instalacije. Kliknite na dugme „Otkaži“ da biste izašli iz čarobnjaka.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Spremno za promenu proizvoda [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">Po&amp;pravi</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Kliknite na dugme „Popravi“ da biste popravili instalaciju proizvoda [ProductName]. Kliknite na dugme „Nazad“ da biste pregledali ili promenili bilo koju postavku instalacije. Kliknite na dugme „Otkaži“ da biste izašli iz čarobnjaka.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Spremno za popravku proizvoda [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Ukloni</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Kliknite na dugme „Ukloni“ da biste uklonili [ProductName] sa računara. Kliknite na dugme „Nazad“ da biste pregledali ili promenili bilo koju postavku instalacije. Kliknite na dugme „Otkaži“ da biste izašli iz čarobnjaka.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Spremno za uklanjanje proizvoda [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">Až&amp;uriraj</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Kliknite na dugme „Ažuriraj“ da biste ažurirali [ProductName] na računaru. Kliknite na dugme „Nazad“ da biste pregledali ili promenili bilo koju postavku instalacije. Kliknite na dugme „Otkaži“ da biste izašli iz čarobnjaka.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Spremno za ažuriranje proizvoda [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">V&amp;rati</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Sačekajte da instalacioni program odredi potreban prostor na disku.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Ikona sa znakom uzvika</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">Čarobnjak za instalaciju će instalirati [ProductName] na računar. Kliknite na dugme „Dalje“ da biste nastavili ili na dugme „Otkaži“ da biste izašli iz čarobnjaka za instalaciju.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Čarobnjak za instalaciju će ažurirati [ProductName] na računaru. Kliknite na dugme „Dalje“ da biste nastavili ili na dugme „Otkaži“ da biste izašli iz čarobnjaka za instalaciju.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Dobro došli u čarobnjak za instalaciju proizvoda [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">Prihv&amp;atam uslove navedene u ugovoru o licenciranju</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Instaliraj</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">Až&amp;uriraj</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Pročitajte ugovor o licenciranju za [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Provera valjanosti instalacije</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">Kopiranje novih datoteka</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9], veličina: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Kopiranje datoteka za mrežnu instalaciju</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9], veličina: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Izračunavanje potrebnog prostora</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Izračunavanje potrebnog prostora</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Izračunavanje potrebnog prostora</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Kreiranje prečica</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Prečica: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Objavljivanje kvalifikovanih komponenti</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">ID komponente: [1], kvalifikator: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Objavljivanje informacija o funkcijama proizvoda</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Funkcija: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Objavljivanje informacija o proizvodu</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Registracija servera klase</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Id klase: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Registracija servera proširenja</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Proširenje: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">Registracija MIME informacija</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME tip sadržaja: [1], proširenje: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Registracija identifikatora programa</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Dodeljivanje prostora u registratoru</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Slobodan prostor: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Traženje instaliranih aplikacija</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Svojstvo: [1], potpis: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Povezivanje izvršnih datoteka</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Datoteka: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Traženje kvalifikovanih proizvoda</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Kreiranje fascikli</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Fascikla: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Brisanje usluga</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Usluga: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Kreiranje dupliranih datoteka</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9], veličina: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Traženje povezanih aplikacija</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Pronađena aplikacija: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">Instaliranje ODBC komponenti</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Instaliranje novih usluga</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Usluga: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Procenjivanje uslova za pokretanje</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Premeštanje stanja funkcija iz povezanih aplikacija</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Aplikacija: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Premeštanje datoteka</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9], veličina: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Krpljenje datoteka</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [2], veličina: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Ažuriranje registracije komponenti</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">Registracija COM+ aplikacija i komponenti</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2], korisnici: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Registracija fontova</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Font: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Registracija proizvoda</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Registracija biblioteka tipova</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Registracija korisnika</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Uklanjanje dupliranih datoteka</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Ažuriranje niski okruženja</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Ime: [1], vrednost: [2], radnja [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Uklanjanje aplikacija</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Aplikacija: [1], komandna linija: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">Uklanjanje datoteka</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Uklanjanje fascikli</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Fascikla: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">Uklanjanje stavki INI datoteka</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Datoteka: [1], odeljak: [2], ključ: [3], vrednost: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">Uklanjanje ODBC komponenti</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Uklanjanje vrednosti sistemskog registratora</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Ključ: [1], ime: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Uklanjanje prečica</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Prečica: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Traženje kvalifikovanih proizvoda</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Registracija modula</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Datoteka: [1], fascikla: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Opoziv registracije modula</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Datoteka: [1], fascikla: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">Pokretanje ODBC direktorijuma</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Pokretanje usluga</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Usluga: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Zaustavljanje usluga</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Usluga: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Opoziv objavljivanja kvalifikovanih komponenti</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">ID komponente: [1], kvalifikator: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Opoziv objavljivanja funkcija proizvoda</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Funkcija: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Opoziv registracije servera klase</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Id klase: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">Opoziv registracije COM+ aplikacija i komponenti</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">AppId: [1]{{, AppType: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Opoziv registracije servera proširenja</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Proširenje: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Opoziv registracije fontova</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Font: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">Opoziv registracije MIME informacija</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME tip sadržaja: [1], proširenje: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Opoziv registracije identifikatora programa</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Opoziv registracije biblioteka tipova</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Ažuriranje niski okruženja</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Ime: [1], vrednost: [2], radnja [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">Upisivanje vrednosti INI datoteka</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Datoteka: [1], odeljak: [2], ključ: [3], vrednost: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Upisivanje vrednosti sistemskog registratora</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Ključ: [1], ime: [2], vrednost: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Aplikacija za reklamiranje</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Generisanje operacija sa skriptom za radnju:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Instaliranje sistemskog kataloga</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Datoteka: [1], zavisni elementi: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Objavljivanje informacija o asembleru</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Kontekst aplikacije: [1], ime asemblera: [2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Opoziv objavljivanja informacija o asembleru</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Kontekst aplikacije: [1], ime asemblera: [2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Vraćanje radnje:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Uklanjanje rezervnih datoteka</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Datoteka: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Uklanjanje premeštenih datoteka</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Datoteka: [1], direktorijum: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Opoziv objavljenih informacija o proizvodu</String>
+
+    <String Id="Error0" Overridable="yes">{{Fatalna greška: }}</String>
+    <String Id="Error1" Overridable="yes">{{Greška [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Upozorenje [1]. </String>
+    <String Id="Error4" Overridable="yes">Informacije [1]. </String>
+    <String Id="Error5" Overridable="yes">Instalacioni program je naišao na neočekivanu grešku prilikom instalacije ovog paketa. To možda ukazuje na problem sa ovim paketom. Kôd greške je [1]. {{Argumenti su: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Disk je pun: }}</String>
+    <String Id="Error8" Overridable="yes">Radnja [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Tip poruke: [1], argument: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Vođenje evidencije započeto: [Date]  [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Vođenje evidencije zaustavljeno: [Date]  [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Početak radnje [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Kraj radnje [Time]: [1]. Povratna vrednost [2].</String>
+    <String Id="Error16" Overridable="yes">Preostalo vreme: {[1] minuta }{[2] sekundi}</String>
+    <String Id="Error17" Overridable="yes">Nema dovoljno memorije. Zatvorite ostale aplikacije pre nego što pokušate ponovo.</String>
+    <String Id="Error18" Overridable="yes">Instalacioni program se ne odaziva.</String>
+    <String Id="Error19" Overridable="yes">Instalacioni program je pre vremena zaustavljen.</String>
+    <String Id="Error20" Overridable="yes">Sačekajte dok Windows konfiguriše [ProductName]</String>
+    <String Id="Error21" Overridable="yes">Prikupljanje potrebnih informacija...</String>
+    <String Id="Error22" Overridable="yes">Uklanjanje starijih verzija ove aplikacije...</String>
+    <String Id="Error23" Overridable="yes">Priprema za uklanjanje starijih verzija ove aplikacije...</String>
+    <String Id="Error32" Overridable="yes">Uspešno je dovršena instalacija proizvoda {[ProductName] }.</String>
+    <String Id="Error33" Overridable="yes">Nije uspela instalacija proizvoda {[ProductName] }.</String>
+    <String Id="Error1101" Overridable="yes">Greška tokom čitanja iz datoteke: [2]. {{ Sistemska greška [3].}} Proverite da li datoteka postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1301" Overridable="yes">Nije moguće kreirati datoteku „[2]“. Već postoji direktorijum sa tim imenom. Otkažite instalaciju i pokušajte da je izvršite na drugoj lokaciji.</String>
+    <String Id="Error1302" Overridable="yes">Stavite disk: [2]</String>
+    <String Id="Error1303" Overridable="yes">Instalacioni program nema dovoljno privilegija za pristup ovom direktorijumu: [2]. Nije moguće nastaviti instalaciju. Prijavite se kao administrator ili se obratite administratoru sistema.</String>
+    <String Id="Error1304" Overridable="yes">Greška tokom upisivanja u datoteku: [2]. Proverite da li imate pristup tom direktorijumu.</String>
+    <String Id="Error1305" Overridable="yes">Greška tokom čitanja iz datoteke [2]. {{ Sistemska greška [3].}} Proverite da li datoteka postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1306" Overridable="yes">Druga aplikacija ima isključivi pristup datoteci „[2]“. Zatvorite sve ostale aplikacije, a zatim kliknite na dugme „Pokušaj opet“.</String>
+    <String Id="Error1307" Overridable="yes">Nema dovoljno prostora na disku za instaliranje ove datoteke: [2]. Oslobodite prostor na disku i kliknite na dugme „Pokušaj opet“ ili kliknite na dugme „Otkaži“ da biste izašli.</String>
+    <String Id="Error1308" Overridable="yes">Izvorna datoteka nije pronađena: [2]. Proverite da li datoteka postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1309" Overridable="yes">Greška tokom čitanja iz datoteke: [3]. {{ Sistemska greška [2].}} Proverite da li datoteka postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1310" Overridable="yes">Greška tokom upisivanja u datoteku: [3]. {{ Sistemska greška [2].}} Proverite da li imate pristup tom direktorijumu.</String>
+    <String Id="Error1311" Overridable="yes">Izvorna datoteka nije pronađena{{(datoteka pakovanja)}}: [2]. Proverite da li datoteka postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1312" Overridable="yes">Nije moguće kreirati direktorijum „[2]“. Datoteka sa ovim imenom već postoji. Preimenujte ili uklonite datoteku i kliknite na dugme „Pokušaj opet“ ili na dugme „Otkaži“ da biste izašli.</String>
+    <String Id="Error1313" Overridable="yes">Volumen [2] trenutno nije dostupan. Izaberite drugi volumen.</String>
+    <String Id="Error1314" Overridable="yes">Navedena putanja „[2]“ nije dostupna.</String>
+    <String Id="Error1315" Overridable="yes">Nije moguće upisivati u navedenu fasciklu: [2].</String>
+    <String Id="Error1316" Overridable="yes">Došlo je do mrežne greške pri pokušaju čitanja iz datoteke: [2]</String>
+    <String Id="Error1317" Overridable="yes">Došlo je do greške pri pokušaju kreiranja direktorijuma: [2]</String>
+    <String Id="Error1318" Overridable="yes">Došlo je do mrežne greške pri pokušaju kreiranja direktorijuma: [2]</String>
+    <String Id="Error1319" Overridable="yes">Došlo je do mrežne greške pri pokušaju otvaranja pakovanja izvorne datoteke: [2]</String>
+    <String Id="Error1320" Overridable="yes">Navedena putanja je predugačka: [2]</String>
+    <String Id="Error1321" Overridable="yes">Instalacioni program nema dovoljno privilegija da bi izmenio ovu datoteku: [2].</String>
+    <String Id="Error1322" Overridable="yes">Deo putanje fascikle „[2]“ je nevažeći. On je prazan ili prekoračuje dužinu koju sistem dozvoljava.</String>
+    <String Id="Error1323" Overridable="yes">Putanja fascikle „[2]“ sadrži reči koje nisu važeće u putanji fascikle.</String>
+    <String Id="Error1324" Overridable="yes">Putanja fascikle „[2]“ sadrži nevažeći znak.</String>
+    <String Id="Error1325" Overridable="yes">„[2]“ nije važeće kratko ime datoteke.</String>
+    <String Id="Error1326" Overridable="yes">Greška tokom preuzimanja bezbednosti datoteke: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Nevažeća disk jedinica: [2]</String>
+    <String Id="Error1328" Overridable="yes">Došlo je do greške tokom primenjivanja zakrpe na datoteku [2]. Datoteka je verovatno već ažurirana na neki drugi način i ne može se više menjati ovom zakrpom. Za više informacija obratite se prodavcu zakrpe. {{Sistemska greška: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Potrebna datoteka se ne može instalirati zato što datoteka pakovanja [2] nije digitalno potpisana. Ovo može da ukazuje na to da je datoteka pakovanja oštećena.</String>
+    <String Id="Error1330" Overridable="yes">Potrebna datoteka se ne može instalirati zato što datoteka pakovanja [2] ima nevažeći digitalni potpis. Ovo može da ukazuje na to da je datoteka pakovanja oštećena.{{  Grešku [3] je vratila funkcija WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes">Nije uspelo ispravno kopiranje datoteke [2]: CRC greška.</String>
+    <String Id="Error1332" Overridable="yes">Nije uspelo ispravno premeštanje datoteke [2]: CRC greška.</String>
+    <String Id="Error1333" Overridable="yes">Nije uspelo ispravno krpljenje datoteke [2]: CRC greška.</String>
+    <String Id="Error1334" Overridable="yes">Nije moguće instalirati datoteku „[2]“ zato što ona ne može da se pronađe u datoteci pakovanja „[3]“. Ovo može da ukazuje na mrežnu grešku, grešku prilikom čitanja sa CD-ROM-a ili problem sa ovim paketom.</String>
+    <String Id="Error1335" Overridable="yes">Datoteka pakovanja „[2]“ neophodna za ovu instalaciju je oštećena i ne može da se koristi. Ovo može da ukazuje na mrežnu grešku, grešku prilikom čitanja sa CD-ROM-a ili problem sa ovim paketom.</String>
+    <String Id="Error1336" Overridable="yes">Došlo je do greške tokom kreiranja privremene datoteke koja je potrebna da bi se dovršila ova instalacija.{{  Fascikla: [3]. Kôd sistemske greške: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Nije bilo moguće kreirati ključ: [2]. {{ Sistemska greška [3].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku. </String>
+    <String Id="Error1402" Overridable="yes">Nije bilo moguće otvoriti ključ: [2]. {{ Sistemska greška [3].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku. </String>
+    <String Id="Error1403" Overridable="yes">Nije bilo moguće izbrisati vrednost [2] iz ključa [3]. {{ Sistemska greška [4].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku. </String>
+    <String Id="Error1404" Overridable="yes">Nije bilo moguće izbrisati ključ [2]. {{ Sistemska greška [3].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku. </String>
+    <String Id="Error1405" Overridable="yes">Nije bilo moguće pročitati vrednost [2] iz ključa [3]. {{ Sistemska greška [4].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku. </String>
+    <String Id="Error1406" Overridable="yes">Nije bilo moguće upisati vrednost [2] u ključ [3]. {{ Sistemska greška [4].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku.</String>
+    <String Id="Error1407" Overridable="yes">Nije bilo moguće preuzeti imena vrednosti za ključ [2]. {{ Sistemska greška [3].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku.</String>
+    <String Id="Error1408" Overridable="yes">Nije bilo moguće preuzeti imena potključeva za ključ [2]. {{ Sistemska greška [3].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku.</String>
+    <String Id="Error1409" Overridable="yes">Nije bilo moguće pročitati bezbednosne informacije za ključ [2]. {{ Sistemska greška [3].}} Proverite da li imate odgovarajući pristup tom ključu ili se obratite osoblju za podršku.</String>
+    <String Id="Error1410" Overridable="yes">Nije bilo moguće povećati dostupni prostor registratora. Potrebno je [2] kB slobodnog prostora registratora za instalaciju ove aplikacije.</String>
+    <String Id="Error1500" Overridable="yes">Neka druga instalacija je u toku. Morate dovršiti tu instalaciju da biste mogli da nastavite sa ovom.</String>
+    <String Id="Error1501" Overridable="yes">Greška tokom pristupanja zaštićenim podacima. Uverite se da je Windows Installer ispravno konfigurisan i pokušajte ponovo da izvršite instalaciju.</String>
+    <String Id="Error1502" Overridable="yes">Korisnik „[2]“ je prethodno pokrenuo instalaciju proizvoda „[3]“. Korisnik će morati ponovo da pokrene tu instalaciju da bi mogao da koristi taj proizvod. Trenutna instalacija će se nastaviti.</String>
+    <String Id="Error1503" Overridable="yes">Korisnik „[2]“ je prethodno pokrenuo instalaciju proizvoda „[3]“. Korisnik će morati ponovo da pokrene tu instalaciju da bi mogao da koristi taj proizvod.</String>
+    <String Id="Error1601" Overridable="yes">Nema prostora na disku -- volumen: „[2]“; potreban prostor: [3] kB; dostupan prostor: [4] kB. Oslobodite prostor na disku i pokušajte ponovo.</String>
+    <String Id="Error1602" Overridable="yes">Želite li zaista da otkažete ovu radnju?</String>
+    <String Id="Error1603" Overridable="yes">Datoteku [2][3] koristi{ sledeći proces: ime: [4], Id: [5], naslov prozora: „[6]“}. Zatvorite tu aplikaciju i pokušajte ponovo.</String>
+    <String Id="Error1604" Overridable="yes">Proizvod „[2]“ je već instaliran i sprečava instalaciju ovog proizvoda. Ova dva proizvoda su nekompatibilna.</String>
+    <String Id="Error1605" Overridable="yes">Nema dovoljno prostora na disku na volumenu „[2]“ da bi se nastavila instalacija sa omogućenim oporavkom. Potrebno je [3] kB, a dostupno je samo [4] kB. Kliknite na dugme „Zanemari“ da biste nastavili instalaciju bez čuvanja informacija za oporavak, kliknite na dugme „Pokušaj opet“ da biste ponovo proverili dostupan prostor ili na dugme „Otkaži“ da biste odustali od instaliranja.</String>
+    <String Id="Error1606" Overridable="yes">Nije bilo moguće pristupiti mrežnoj lokaciji [2].</String>
+    <String Id="Error1607" Overridable="yes">Sledeće aplikacije moraju biti zatvorene pre nego što nastavite sa instaliranjem:</String>
+    <String Id="Error1608" Overridable="yes">Na računaru nije bilo moguće pronaći nijedan prethodno instalirani usaglašeni proizvod za instaliranje ovog proizvoda.</String>
+    <String Id="Error1609" Overridable="yes">Došlo je do greške tokom primene bezbednosnih postavki. [2] nije važeći korisnik ili grupa. Ovo može biti problem sa paketom ili problem pri povezivanju sa kontrolerom domena na mreži. Proverite mrežnu vezu i kliknite na dugme „Pokušaj opet“ ili na dugme „Otkaži“ da biste završili instalaciju. {{Nije moguće pronaći korisnički SID, sistemska greška [3]}}</String>
+    <String Id="Error1701" Overridable="yes">Šifra [2] nije važeća. Proverite da li ste uneli ispravnu šifru.</String>
+    <String Id="Error1702" Overridable="yes">Instalacioni program mora ponovo da pokrene sistem da bi moglo da se nastavi sa konfigurisanjem programa [2]. Kliknite na dugme „Da“ da biste odmah ponovo pokrenuli računar ili na dugme „Ne“ ako planirate da kasnije ručno ponovo pokrenete računar.</String>
+    <String Id="Error1703" Overridable="yes">Morate ponovo da pokrenete sistem da bi promene napravljene u konfiguraciji proizvoda [2] stupile na snagu. Kliknite na dugme „Da“ da biste odmah ponovo pokrenuli računar ili na dugme „Ne“ ako planirate kasnije ručno da ponovo pokrenete računar.</String>
+    <String Id="Error1704" Overridable="yes">Instalacija proizvoda [2] je trenutno obustavljena. Morate da opozovete promene koje je napravila ta instalacija da biste nastavili. Želite li da opozovete te promene?</String>
+    <String Id="Error1705" Overridable="yes">Prethodno započeta instalacija ovog proizvoda je u toku. Morate da opozovete promene koje je napravila ta instalacija da biste nastavili. Želite li da opozovete te promene?</String>
+    <String Id="Error1706" Overridable="yes">Nije moguće pronaći instalacioni paket za proizvod [2]. Ponovo pokušajte da izvršite instalaciju pomoću važeće kopije instalacionog paketa „[3]“.</String>
+    <String Id="Error1707" Overridable="yes">Instaliranje je uspešno dovršeno.</String>
+    <String Id="Error1708" Overridable="yes">Instaliranje nije uspelo.</String>
+    <String Id="Error1709" Overridable="yes">Proizvod: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Možete da vratite računar u prethodno stanje ili da nastavite instaliranje kasnije. Želite li da vratite računar u prethodno stanje?</String>
+    <String Id="Error1711" Overridable="yes">Došlo je do greške tokom upisivanja informacija o instalaciji na disk. Uverite se da imate dovoljno dostupnog prostora na disku i kliknite na dugme „Pokušaj opet“ ili na dugme „Otkaži“ da biste završili instalaciju.</String>
+    <String Id="Error1712" Overridable="yes">Nije bilo moguće pronaći neke datoteke potrebne da se vaš računar vrati u prethodno stanje. Vraćanje računara u prethodno stanje neće biti moguće.</String>
+    <String Id="Error1713" Overridable="yes">[2] ne može da instalira jedan od potrebnih proizvoda. Obratite se grupi za tehničku podršku. {{Sistemska greška: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Nije moguće ukloniti stariju verziju programa [2]. Obratite se grupi za tehničku podršku. {{Sistemska greška [3].}}</String>
+    <String Id="Error1715" Overridable="yes">Proizvod [2] je instaliran</String>
+    <String Id="Error1716" Overridable="yes">Proizvod [2] je konfigurisan</String>
+    <String Id="Error1717" Overridable="yes">Proizvod [2] je uklonjen</String>
+    <String Id="Error1718" Overridable="yes">Smernice digitalnog potpisa su odbacile datoteku [2].</String>
+    <String Id="Error1719" Overridable="yes">Nije bilo moguće pristupiti usluzi Windows Installer. Ovo može da se dogodi ako Windows radi u bezbednom režimu ili ako Windows Installer nije ispravno instaliran. Obratite se osoblju za podršku za pomoć.</String>
+    <String Id="Error1720" Overridable="yes">Postoji problem sa ovim paketom programa Windows Installer. Nije bilo moguće pokrenuti skriptu koja je potrebna za dovršavanje ove instalacije. Obratite se osoblju za podršku ili prodavcu paketa. {{Prilagođena radnja [2] greška u skripti [3], [4]: [5] red [6], kolona [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Postoji problem sa ovim paketom programa Windows Installer. Nije moguće pokrenuti skriptu koja je potrebna za dovršavanje ove instalacije. Obratite se osoblju za podršku ili prodavcu paketa. {{Radnja: [2], lokacija: [3], komanda: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Postoji problem sa ovim paketom programa Windows Installer. Program koji je pokrenut kao deo instalacije nije se završio na očekivani način. Obratite se osoblju za podršku ili prodavcu paketa. {{Radnja [2], lokacija: [3], komanda: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Postoji problem sa ovim paketom programa Windows Installer. Nije bilo moguće pokrenuti DLL datoteku koja je potrebna za dovršavanje ove instalacije. Obratite se osoblju za podršku ili prodavcu paketa. {{Radnja [2], stavka: [3], biblioteka: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Uklanjanje je uspešno dovršeno.</String>
+    <String Id="Error1725" Overridable="yes">Uklanjanje nije uspelo.</String>
+    <String Id="Error1726" Overridable="yes">Oglas je uspešno dovršen.</String>
+    <String Id="Error1727" Overridable="yes">Oglas nije uspeo.</String>
+    <String Id="Error1728" Overridable="yes">Konfigurisanje je uspešno dovršeno.</String>
+    <String Id="Error1729" Overridable="yes">Konfigurisanje nije uspelo.</String>
+    <String Id="Error1730" Overridable="yes">Morate biti administrator da biste mogli da uklonite ovu aplikaciju. Da biste uklonili ovu aplikaciju, možete se prijaviti kao administrator ili se obratiti grupi za tehničku podršku za pomoć.</String>
+    <String Id="Error1731" Overridable="yes">Izvorni instalacioni paket proizvoda [2] nije sinhronizovan sa paketom klijenta. Ponovo pokušajte da izvršite instalaciju pomoću važeće kopije instalacionog paketa „[3]“.</String>
+    <String Id="Error1732" Overridable="yes">Da biste dovršili instalaciju proizvoda [2], morate ponovo pokrenuti računar. Na ovaj računar su trenutno prijavljeni drugi korisnici, koji zbog ponovnog pokretanja mogu izgubiti ono što su uradili. Želite li da odmah ponovo pokrenete računar?</String>
+    <String Id="Error1801" Overridable="yes">Putanja [2] nije važeća. Navedite važeću putanju.</String>
+    <String Id="Error1802" Overridable="yes">Nema dovoljno memorije. Zatvorite ostale aplikacije pre nego što pokušate ponovo.</String>
+    <String Id="Error1803" Overridable="yes">Ne postoji disk u disk jedinici [2]. Stavite disk i kliknite na dugme „Pokušaj opet“ ili na dugme „Otkaži“ da biste se vratili na prethodno izabrani volumen.</String>
+    <String Id="Error1804" Overridable="yes">Ne postoji disk u disk jedinici [2]. Stavite disk i kliknite na dugme „Pokušaj opet“ ili na dugme „Otkaži“ da biste se vratili u dijalog za pretraživanje i izabrali neki drugi volumen.</String>
+    <String Id="Error1805" Overridable="yes">Fascikla [2] ne postoji. Unesite putanju do postojeće fascikle.</String>
+    <String Id="Error1806" Overridable="yes">Nemate odgovarajuće privilegije za čitanje iz ove datoteke.</String>
+    <String Id="Error1807" Overridable="yes">Nije bilo moguće odrediti važeću odredišnu fasciklu za instalaciju.</String>
+    <String Id="Error1901" Overridable="yes">Greška pri pokušaju čitanja iz izvorne baze podataka instalacije: [2].</String>
+    <String Id="Error1902" Overridable="yes">Planiranje ponovnog pokretanja sistema: preimenovanje datoteke [2] u [3]. Morate ponovo pokrenuti sistem da biste dovršili operaciju.</String>
+    <String Id="Error1903" Overridable="yes">Planiranje ponovnog pokretanja sistema: brisanje datoteke [2]. Morate ponovo pokrenuti sistem da biste dovršili operaciju.</String>
+    <String Id="Error1904" Overridable="yes">Registracija modula [2] nije uspela. HRESULT [3]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1905" Overridable="yes">Opoziv registracije modula [2] nije uspeo. HRESULT [3]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1906" Overridable="yes">Keširanje paketa [2] nije uspelo. Greška: [3]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1907" Overridable="yes">Nije bilo moguće registrovati font [2]. Proverite da li imate odgovarajuće dozvole za instaliranje fontova i da li sistem podržava ovaj font.</String>
+    <String Id="Error1908" Overridable="yes">Nije bilo moguće opozvati registraciju fonta [2]. Proverite da li imate odgovarajuće dozvole za uklanjanje fontova.</String>
+    <String Id="Error1909" Overridable="yes">Nije bilo moguće kreirati prečicu [2]. Proverite da li odredišna fascikla postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1910" Overridable="yes">Nije bilo moguće ukloniti prečicu [2]. Proverite da li datoteka prečice postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1911" Overridable="yes">Nije bilo moguće registrovati biblioteku tipova za datoteku [2]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1912" Overridable="yes">Nije bilo moguće opozvati registraciju biblioteke tipova za datoteku [2]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1913" Overridable="yes">Nije bilo moguće ažurirati ini datoteku [2][3]. Proverite da li datoteka postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1914" Overridable="yes">Nije bilo moguće isplanirati da datoteka [2] zameni datoteku [3] pri ponovnom pokretanju sistema. Proverite da li imate dozvole za upisivanje u datoteku [3].</String>
+    <String Id="Error1915" Overridable="yes">Greška tokom uklanjanja menadžera ODBC upravljačkog programa, ODBC greška [2]: [3]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1916" Overridable="yes">Greška tokom instaliranja menadžera ODBC upravljačkog programa, ODBC greška [2]: [3]. Obratite se osoblju za podršku.</String>
+    <String Id="Error1917" Overridable="yes">Greška tokom uklanjanja ODBC upravljačkog programa: [4], ODBC greška [2]: [3]. Proverite da li imate odgovarajuće privilegije za uklanjanje ODBC upravljačkih programa.</String>
+    <String Id="Error1918" Overridable="yes">Greška tokom instaliranja ODBC upravljačkog programa: [4], ODBC greška [2]: [3]. Proverite da li datoteka [4] postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1919" Overridable="yes">Greška tokom konfigurisanja izvora ODBC podataka: [4], ODBC greška [2]: [3]. Proverite da li datoteka [4] postoji i da li joj možete pristupiti.</String>
+    <String Id="Error1920" Overridable="yes">Pokretanje usluge „[2]“ ([3]) nije uspelo. Proverite da li imate odgovarajuće privilegije za pokretanje sistemskih usluga.</String>
+    <String Id="Error1921" Overridable="yes">Nije bilo moguće zaustaviti uslugu „[2]“ ([3]). Proverite da li imate odgovarajuće privilegije za zaustavljanje sistemskih usluga.</String>
+    <String Id="Error1922" Overridable="yes">Nije bilo moguće izbrisati uslugu „[2]“ ([3]). Proverite da li imate odgovarajuće privilegije za uklanjanje sistemskih usluga.</String>
+    <String Id="Error1923" Overridable="yes">Nije bilo moguće instalirati uslugu „[2]“ ([3]). Proverite da li imate odgovarajuće privilegije za instaliranje sistemskih usluga.</String>
+    <String Id="Error1924" Overridable="yes">Nije bilo moguće ažurirati promenljivu okruženja „[2]“. Proverite da li imate odgovarajuće privilegije za izmenu promenljivih okruženja.</String>
+    <String Id="Error1925" Overridable="yes">Nemate odgovarajuće privilegije da biste dovršili ovu instalaciju za sve korisnike ovog računara. Prijavite se kao administrator i ponovo pokušajte da izvršite ovu instalaciju.</String>
+    <String Id="Error1926" Overridable="yes">Nije bilo moguće podesiti bezbednost datoteke za datoteku „[3]“. Greška: [2]. Proverite da li imate odgovarajuće privilegije za izmenu bezbednosnih dozvola za ovu datoteku.</String>
+    <String Id="Error1927" Overridable="yes">Usluge Component Services (COM+ 1.0) nisu instalirane na ovom računaru, a one su potrebne za uspešno dovršavanje ove instalacije. Usluge Component Services su dostupne u operativnom sistemu Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Greška tokom registracije COM+ aplikacije. Za više informacija obratite se osoblju za podršku.</String>
+    <String Id="Error1929" Overridable="yes">Greška tokom opoziva registracije COM+ aplikacije. Za više informacija obratite se osoblju za podršku.</String>
+    <String Id="Error1930" Overridable="yes">Opis usluge „[2]“ ([3]) ne može da se menja.</String>
+    <String Id="Error1931" Overridable="yes">Usluga Windows Installer ne može da ažurira sistemsku datoteku [2] zato što je Windows zaštitio datoteku. Možda ćete morati da ažurirate operativni sistem da bi ovaj program radio ispravno. {{Verzija paketa: [3], verzija koju štiti operativni sistem: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Usluga Windows Installer ne može da ažurira zaštićenu Windows datoteku [2]. {{Verzija paketa: [3], verzija koju štiti operativni sistem: [4], SFP greška: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Usluga Windows Installer ne može da ažurira neke zaštićene Windows datoteke. {{SFP greška: [2]. Lista zaštićenih datoteka:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Korisničke instalacije su onemogućene putem smernica na računaru.</String>
+    <String Id="Error1935" Overridable="yes">Došlo je do greške prilikom instaliranja asemblera „[6]“. Za više informacija pogledajte Pomoć i podršku. HRESULT: [3]. {{interfejs asemblera: [4], funkcija: [5], komponenta: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Došlo je do greške prilikom instaliranja asemblera „[6]“. Asembler nema dovoljno jako ime ili nije potpisan minimalnom dužinom ključa. HRESULT: [3]. {{interfejs asemblera: [4], funkcija: [5], komponenta: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Došlo je do greške prilikom instaliranja asemblera „[6]“. Nije bilo moguće verifikovati potpis ili katalog ili su oni nevažeći. HRESULT: [3]. {{interfejs asemblera: [4], funkcija: [5], komponenta: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Došlo je do greške prilikom instaliranja asemblera „[6]“. Nije bilo moguće pronaći neke module asemblera. HRESULT: [3]. {{interfejs asemblera: [4], funkcija: [5], komponenta: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">bajtova</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">kB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Čitava funkcija će biti nedostupna</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Funkcija će biti instalirana po potrebi</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Čitava funkcija će biti instalirana za pokretanje sa CD-a</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Čitava funkcija će biti instalirana na lokalni čvrsti disk</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Čitava funkcija će biti instalirana za pokretanje sa mreže</String>
+    <String Id="UITextMenuCD" Overridable="yes">Biće instalirano za pokretanje sa CD-a</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Biće instalirano na lokalni čvrsti disk</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Biće instalirano za pokretanje sa mreže</String>
+    <String Id="UITextNewFolder" Overridable="yes">Fascikla|Nova fascikla</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Prikupljanje potrebnih informacija...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">Ova funkcija će ostati neinstalirana</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">Ova funkcija će biti podešena tako da se instalira po potrebi</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">Ova funkcija će biti instalirana za pokretanje sa CD-a</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">Ova funkcija će biti instalirana na lokalni čvrsti disk</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">Ova funkcija će biti instalirana za pokretanje sa mreže</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">Ova funkcija će postati nedostupna</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Biće instalirano po potrebi</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Ova funkcija će biti dostupna za pokretanje sa CD-a</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">Ova funkcija će biti instalirana na lokalni čvrsti disk</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Ova funkcija će biti dostupna za pokretanje sa mreže</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">Ova funkcija će biti deinstalirana u potpunosti, nećete moći da je pokrećete sa CD-a</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">Ova funkcija će biti promenjena tako da se instalira po potrebi umesto da se pokreće sa CD-a</String>
+    <String Id="UITextSelCDCD" Overridable="yes">Ova funkcija će se i ubuduće pokretati sa CD-a</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Ova funkcija će biti promenjena tako da se instalira na lokalni čvrsti disk umesto da se pokreće sa CD-a</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">Ova funkcija oslobađa [1] na čvrstom disku.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">Ova funkcija zahteva [1] na čvrstom disku.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Proračun utroška za ovu funkciju...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">Ova funkcija će biti u potpunosti uklonjena</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">Ova funkcija će biti uklonjena sa lokalnog čvrstog diska, ali će biti podešena tako da se instalira po potrebi</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">Ova funkcija će biti uklonjena sa lokalnog čvrstog diska, ali će i dalje biti dostupna za pokretanje sa CD-a</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">Ova funkcija će ostati na lokalnom čvrstom disku</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">Ova funkcija će biti uklonjena sa lokalnog čvrstog diska, ali će i dalje biti dostupna za pokretanje sa mreže</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">Ova funkcija će biti deinstalirana u potpunosti, nećete moći da je pokrećete sa mreže</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Ova funkcija će biti promenjena tako da se instalira po potrebi umesto da se pokreće sa mreže</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Ova funkcija će biti promenjena tako da se instalira na lokalni čvrsti disk umesto da se pokreće sa mreže</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">Ova funkcija će se i ubuduće pokretati sa mreže</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">Ova funkcija oslobađa [1] na čvrstom disku. Izabrano je [2] od [3] njenih potfunkcija. Potfunkcije oslobađaju [4] na čvrstom disku.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">Ova funkcija oslobađa [1] na čvrstom disku. Izabrano je [2] od [3] njenih potfunkcija. Potfunkcije zahtevaju [4] na čvrstom disku.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Ova funkcija zahteva [1] na čvrstom disku. Izabrano je [2] od [3] njenih potfunkcija. Potfunkcije oslobađaju [4] na čvrstom disku.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Ova funkcija zahteva [1] na čvrstom disku. Izabrano je [2] od [3] njenih potfunkcija. Potfunkcije zahtevaju [4] na čvrstom disku.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Preostalo vreme: {[1] minuta }{[2] sekundi}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Dostupan</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Razlika</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Potrebno</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Veličina diska</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Volumen</String>
+</WixLocalization>

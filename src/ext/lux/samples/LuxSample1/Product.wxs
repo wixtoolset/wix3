@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="LuxSample1" Language="1033" Version="1.0.0.0" Manufacturer="LuxSample1" UpgradeCode="b2d28337-016c-4ec7-bcf8-44319c6ec60c">
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="ProductComponent">
+        <File Source="Product.wxs" />
+      </Component>
+    </DirectoryRef>
+
+    <CustomActionRef Id="TestCustomActionSimple" />
+    <CustomActionRef Id="TestCustomActionMultiValue" />
+    <CustomActionRef Id="TestCustomActionNameValuePairs" />
+
+    <Feature Id="ProductFeature" Title="LuxSample1" Level="1">
+      <ComponentRef Id="ProductComponent" />
+    </Feature>
+  </Product>
+</Wix>

@@ -1,0 +1,21 @@
+;-------------------------------------------------------------------------------------------------
+; <copyright file="cpexec.def" company="Outercurve Foundation">
+;   Copyright (c) 2004, Outercurve Foundation.
+;   This software is released under Microsoft Reciprocal License (MS-RL).
+;   The license and further copyright text can be found in the file
+;   LICENSE.TXT at the root directory of the distribution.
+; </copyright>
+; 
+; <summary>
+;    Windows Installer XML Public Execution CustomAction entry points
+; </summary>
+;-------------------------------------------------------------------------------------------------
+
+EXPORTS
+	ComPlusPrepare
+	ComPlusCleanup
+	ComPlusInstallExecute
+	ComPlusInstallExecuteCommit
+	ComPlusRollbackInstallExecute
+	ComPlusUninstallExecute
+	ComPlusRollbackUninstallExecute

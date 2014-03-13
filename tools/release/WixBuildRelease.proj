@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  <copyright file="WixBuildRelease.proj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project InitialTargets="InitializeVariables" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <Import Project="..\WixBuild.Version.targets" />
+  <Import Project="..\Nuget.targets" />
+
+  <UsingTask AssemblyFile="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.dll" TaskName="FtpUpload" />
+
+  <!--
+  ================================================================================================
+  Default
+
+    The default target that indicates you must specify which target to build.
+
+  ================================================================================================
+  -->
+  <Target Name="Default">
+    <Warning Text="Specify a target to execute -t:BuildRelease or -t:Release"/>
+  </Target>
+
+  <!--
+  ================================================================================================
+  InitializeVariables
+
+    Verifies input and initializes variables.
+
+  ================================================================================================
+  -->
+  <Target Name="InitializeVariables">
+    <PropertyGroup>
+      <ProjectFolder>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\..\))</ProjectFolder>
+
+      <ProjectHistoryFile>$(ProjectFolder)History.md</ProjectHistoryFile>
+      <ProjectFeedFile>$(MSBuildThisFileDirectory)wix$(MajorMinorVersionDottedString).feed</ProjectFeedFile>
+    </PropertyGroup>
+
+    <Error Text="Cannot locate project's private/public keypair at: $(OfficialBuildPrivateKeyPair). Ensure that the OfficialBuildPrivateKeyPair arguments are correct." Condition=" !Exists('$(OfficialBuildPrivateKeyPair)') " />
+
+    <Error Text="Cannot locate project's History.md file at: $(ProjectHistoryFile). Ensure that the Major and Minor arguments are correct." Condition=" !Exists('$(ProjectHistoryFile)') " />
+    <Error Text="Cannot locate project's feed file at: $(ProjectFeedFile). Ensure that the Major and Minor arguments are correct." Condition=" !Exists('$(ProjectFeedFile)') " />
+  </Target>
+
+  <!--
+  ================================================================================================
+  BuildProject
+
+    Builds a project.
+
+  ================================================================================================
+  -->
+  <Target Name="BuildProject">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair)"
+             Targets="Build" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  UpdateHistory
+
+    Updates a project's History.md with the build version.
+
+  ================================================================================================
+  -->
+  <Target Name="UpdateHistory"
+          Condition=" $(SkipUpdateHistory)=='' ">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj" Targets="GetVersion">
+      <Output TaskParameter="TargetOutputs" PropertyName="Version" />
+    </MSBuild>
+
+    <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(ProjectHistoryFile) $(Version) //nologo"
+          WorkingDirectory="$(ProjectFolder)" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  UpdateFeed
+
+    Updates a project's .feed file with the build version and changes from History.md.
+
+  ================================================================================================
+  -->
+  <Target Name="UpdateFeed"
+          Condition=" $(SkipUpdateFeed)=='' "
+          DependsOnTargets="GetReleasedFiles">
+    <ItemGroup>
+      <CoreMsi Include="@(ReleasedFiles)" Condition=" '%(Filename)%(Extension)'=='core.msi' " />
+      <CoreExe Include="@(ReleasedFiles)" Condition=" '%(Extension)'=='.exe' " />
+    </ItemGroup>
+
+    <RemoveDuplicates Inputs="@(CoreMsi)">
+      <Output TaskParameter="Filtered"
+              ItemName="CoreMsiFiltered"/>
+    </RemoveDuplicates>
+
+    <RemoveDuplicates Inputs="@(CoreExe)">
+      <Output TaskParameter="Filtered"
+              ItemName="CoreExeFiltered"/>
+    </RemoveDuplicates>
+
+    <Exec Command="cscript $(MSBuildThisFileDirectory)atomUpdate.js $(ProjectHistoryFile) $(ProjectFeedFile) @(CoreMsiFiltered) @(CoreExeFiltered) //nologo"
+          WorkingDirectory="$(ProjectFolder)" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  BuildRelease
+
+    Builds everything required to release.
+
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <BuildReleaseDependsOn>
+      BuildProject;
+      UpdateHistory;
+    </BuildReleaseDependsOn>
+  </PropertyGroup>
+  <Target Name="BuildRelease"
+          DependsOnTargets="$(BuildReleaseDependsOn)" />
+
+
+  <!--
+  ================================================================================================
+  GetReleasedFiles
+
+    Gets the released files from a project's build.
+
+  ================================================================================================
+  -->
+  <Target Name="GetReleasedFiles">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj" Targets="GetReleasedFiles">
+      <Output TaskParameter="TargetOutputs" ItemName="ReleasedFiles" />
+    </MSBuild>
+  </Target>
+
+  <!--
+  ================================================================================================
+  UploadFiles
+
+    Uploads the released files from a project's build.
+
+  ================================================================================================
+  -->
+  <Target Name="UploadFiles"
+          Condition=" $(SkipUploadFiles)=='' "
+          DependsOnTargets="GetReleasedFiles">
+
+    <FtpUpload RemoteUri="$(ReleaseFtpUrl)"
+               Username="$(ReleaseUsername)"
+               Password="$(ReleasePassword)"
+               LocalFiles="@(ReleasedFiles)"
+               RemoteFiles="@(ReleasedFiles->'%(RelativeUploadFolder)%(Filename)%(Extension)')" />
+
+    <!--<Exec Command="$(CurlExe) -ftp-create-dirs -silent -show-error -C - -T %(ReleasedFiles.Identity) -u $(ReleaseUsername):$(ReleasePassword) $(ReleaseFtpUrl)%(RelativeUploadFolder)"
+           WorkingDirectory="$(ProjectFolder)" />-->
+  </Target>
+
+  <!--
+  ================================================================================================
+  UploadFeed
+
+    Uploads the feed a project's build.
+
+  ================================================================================================
+  -->
+  <Target Name="UploadFeed"
+          Condition=" $(SkipUploadFeed)=='' "
+          DependsOnTargets="GetReleasedFiles">
+    <Exec Command="$(CurlExe) --ftp-create-dirs --silent --show-error -T $(ProjectFeedFile) -u $(ReleaseUsername):$(ReleasePassword) $(ReleaseFtpUrl)"
+          WorkingDirectory="$(ProjectFolder)" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  Release
+
+    Releases a build to the WiX toolset website.
+
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <ReleaseDependsOn>
+      UploadFiles;
+    </ReleaseDependsOn>
+  </PropertyGroup>
+  <Target Name="Release"
+          DependsOnTargets="$(ReleaseDependsOn)" />
+</Project>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="binaries.zipproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
+  <PropertyGroup>
+    <OutputName>wix$(MajorMinorVersionString)-binaries</OutputName>
+  </PropertyGroup>
+
+  <!-- Executables -->
+  <ItemGroup>
+    <!-- core toolset -->
+    <Stage Include="$(OutputPath)candle.exe" />
+    <Stage Include="$(OutputPath)candle.exe.config" />
+    <Stage Include="$(OutputPath)dark.exe" />
+    <Stage Include="$(OutputPath)dark.exe.config" />
+    <Stage Include="$(OutputPath)heat.exe" />
+    <Stage Include="$(OutputPath)heat.exe.config" />
+    <Stage Include="$(OutputPath)insignia.exe" />
+    <Stage Include="$(OutputPath)insignia.exe.config" />
+    <Stage Include="$(OutputPath)light.exe" />
+    <Stage Include="$(OutputPath)light.exe.config" />
+    <Stage Include="$(OutputPath)lit.exe" />
+    <Stage Include="$(OutputPath)lit.exe.config" />
+    <Stage Include="$(OutputPath)melt.exe" />
+    <Stage Include="$(OutputPath)melt.exe.config" />
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.dll" />
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.Cab.dll" />
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Resources.dll" />
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.dll" />
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Package.dll" />
+    <Stage Include="$(OutputPath)pyro.exe" />
+    <Stage Include="$(OutputPath)pyro.exe.config" />
+    <Stage Include="$(OutputPath)retina.exe" />
+    <Stage Include="$(OutputPath)retina.exe.config" />
+    <Stage Include="$(OutputPath)shine.exe" />
+    <Stage Include="$(OutputPath)shine.exe.config" />
+    <Stage Include="$(OutputPath)smoke.exe" />
+    <Stage Include="$(OutputPath)smoke.exe.config" />
+    <Stage Include="$(OutputPath)ThmViewer.exe" />
+    <Stage Include="$(OutputPath)torch.exe" />
+    <Stage Include="$(OutputPath)torch.exe.config" />
+    <Stage Include="$(OutputPath)wconsole.dll" />
+    <Stage Include="$(OutputPath)winterop.dll" />
+    <Stage Include="$(OutputPath)wix.dll" />
+    <Stage Include="$(OutputPath)wix.targets" />
+    <Stage Include="$(OutputPath)wix200x.targets" />
+    <Stage Include="$(OutputPath)wix2010.targets" />
+    <Stage Include="$(OutputPath)WixCop.exe" />
+    <Stage Include="$(OutputPath)WixTasks.dll" />
+    <!--<Stage Include="$(OutputPath)wui.dll" />-->
+    <Stage Include="$(OutputPath)x86\burn.exe" />
+    <Stage Include="$(OutputPath_arm)arm\burn.exe" Condition=" Exists('$(OutputPath_arm)arm\burn.exe') ">
+      <StageSubDirectory>arm</StageSubDirectory>
+    </Stage>
+
+    <Stage Include="$(OutputPath)darice.cub" />
+    <Stage Include="$(OutputPath)mergemod.cub" />
+    <Stage Include="$(OutputPath)mergemod.dll" />
+    <Stage Include="$(OutputPath)mspatchc.dll" />
+
+    <!-- extensions -->
+    <Stage Include="$(OutputPath)WixBalExtension.dll" />
+    <Stage Include="$(OutputPath)WixDifxAppExtension.dll" />
+    <Stage Include="$(OutputPath)WixDependencyExtension.dll" />
+    <Stage Include="$(OutputPath)WixDirectXExtension.dll" />
+    <Stage Include="$(OutputPath)WixFirewallExtension.dll" />
+    <Stage Include="$(OutputPath)WixGamingExtension.dll" />
+    <Stage Include="$(OutputPath)WixIIsExtension.dll" />
+    <Stage Include="$(OutputPath)WixNetFxExtension.dll" />
+    <!--<Stage Include="$(OutputPath)WixOfficeExtension.dll" />-->
+    <Stage Include="$(OutputPath)WixPSExtension.dll" />
+    <Stage Include="$(OutputPath)WixSqlExtension.dll" />
+    <Stage Include="$(OutputPath)WixTagExtension.dll" />
+    <Stage Include="$(OutputPath)WixUIExtension.dll" />
+    <Stage Include="$(OutputPath)WixUtilExtension.dll" />
+    <Stage Include="$(OutputPath)WixVSExtension.dll" />
+
+    <!-- special wixlib handling -->
+    <Stage Include="$(OutputPath)difxapp_x86.wixlib" />
+    <Stage Include="$(OutputPath_x64)difxapp_x64.wixlib">
+      <StageSubDirectory>.</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_arm)*arm.wixlib">
+      <StageSubDirectory>.</StageSubDirectory>
+    </Stage>
+
+    <!-- Lux -->
+    <Stage Include="$(OutputPath)lux.exe" />
+    <Stage Include="$(OutputPath)lux.exe.config" />
+    <Stage Include="$(OutputPath)nit.exe" />
+    <Stage Include="$(OutputPath)nit.exe.config" />
+    <Stage Include="$(OutputPath)WixLuxExtension.dll" />
+    <Stage Include="$(OutputPath)lux.targets" />
+    <Stage Include="$(OutputPath)LuxTasks.dll" />
+  </ItemGroup>
+
+  <!-- Doc -->
+  <ItemGroup>
+    <Stage Include="$(OutputPath)WiX.chm">
+      <StageSubDirectory>doc</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)DTF.chm" Condition="$(BuildSandcastleDocumentation)">
+      <StageSubDirectory>doc</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)DTFAPI.chm" Condition="$(BuildSandcastleDocumentation)">
+      <StageSubDirectory>doc</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(WixRoot)src\libs\dutil\xsd\*.xsd">
+      <StageSubDirectory>doc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\ext\**\xsd\*.xsd">
+      <StageSubDirectory>doc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\tools\wix\xsd\wix.xsd">
+      <StageSubDirectory>doc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\tools\wix\xsd\wixloc.xsd">
+      <StageSubDirectory>doc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+  </ItemGroup>
+
+  <!-- Sdk tools -->
+  <ItemGroup>
+    <Stage Include="$(OutputPath)MsgGen.exe">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)XsdGen.exe">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)DocCompiler.exe">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)XsdStitch.exe">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+
+    <!-- Burn binaries -->
+    <Stage Include="$(OutputPath)BootstrapperCore.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)BootstrapperCore.config">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+
+    <!-- DTF binaries -->
+    <Stage Include="$(OutputPath)wix.ca.targets">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.Cab.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.Cab.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.Zip.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Compression.Zip.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Resources.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.Resources.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Linq.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Linq.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Package.dll">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Package.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)MakeSfxCA.exe">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)MakeSfxCA.exe.config">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+
+    <Stage Include="$(OutputPath_x86)sfxca.dll">
+      <StageSubDirectory>sdk\x86</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x64)sfxca.dll">
+      <StageSubDirectory>sdk\x64</StageSubDirectory>
+    </Stage>
+  </ItemGroup>
+
+  <!-- Headers -->
+  <ItemGroup>
+    <Stage Include="$(WixRoot)src\burn\inc\*.h">
+      <StageSubDirectory>sdk\inc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\libs\wcautil\*.h" Exclude="$(WixRoot)src\libs\wcautil\precomp.h">
+      <StageSubDirectory>sdk\inc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\libs\wcautil\inc\*.h">
+      <StageSubDirectory>sdk\inc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\libs\dutil\inc\*.h">
+      <StageSubDirectory>sdk\inc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\libs\balutil\inc\*.h">
+      <StageSubDirectory>sdk\inc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+    <Stage Include="$(WixRoot)src\libs\deptuil\inc\*.h">
+      <StageSubDirectory>sdk\inc</StageSubDirectory>
+      <Hardlink>false</Hardlink>
+    </Stage>
+  </ItemGroup>
+
+  <!-- Libs -->
+  <ItemGroup>
+    <!-- ARM -->
+    <Stage Include="$(OutputPath_arm)**\balutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_arm)**\deputil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_arm)**\dutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_arm)**\wcautil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm</StageSubDirectory>
+    </Stage>
+
+    <!-- x64 -->
+    <Stage Include="$(OutputPath_x64)**\balutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x64</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x64)**\deputil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x64</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x64)**\dutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x64</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x64)**\wcautil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x64</StageSubDirectory>
+    </Stage>
+
+    <!-- x86 -->
+    <Stage Include="$(OutputPath_x86)**\balutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x86</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x86)**\deputil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x86</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x86)**\dutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x86</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_x86)**\wcautil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\x86</StageSubDirectory>
+    </Stage>
+  </ItemGroup>
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

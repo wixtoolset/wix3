@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="Doc.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <ComponentGroup Id="DocComponents" Directory="DocFolder">
+            <Component>
+                <File Source="WiX.chm" />
+                <Shortcut Id="WixChmShortcut" Directory="ShortcutFolder" Name="WiX Documentation" Icon="WixSetupIcons.ico" IconIndex="0" Advertise="yes" />
+
+                <RemoveFile Id="RemoveWixChw" Name="WiX.chw" On="uninstall" />
+            </Component>
+
+            <Component>
+                <File Source="msi.chm" />
+                <Shortcut Id="MsiChmShortcut" Directory="ShortcutFolder" Name="MSI SDK Documentation" Icon="WixSetupIcons.ico" IconIndex="0" Advertise="yes" />
+
+                <RemoveFile Id="RemoveMsiChw" Name="msi.chw" On="uninstall" />
+            </Component>
+
+            <Component>
+                <File Source="wix\Xsd\wix.xsd" />
+            </Component>
+
+            <Component>
+                <File Source="wix\Xsd\wixloc.xsd" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

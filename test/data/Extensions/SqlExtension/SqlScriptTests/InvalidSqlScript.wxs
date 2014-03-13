@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="InvalidSqlScript.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
+  <Product Id="*" Name="TestSqlScriptsProduct" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{833389DB-8EFE-4D62-AF81-C533266C63B4}">
+    <Package Description="Test SqlScripts in a Product" Comments="Test from: wix\examples\test\sqlscripts\product.wxs" InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="TestSqlScriptProductDirectory" ShortName="testsql" Name="Test Sql">
+          <Component Id="TestSqlScriptProductComponent1" Guid="3462DF37-C6C1-4AF1-9BED-90B85B2C274F" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt"/>
+            <sql:SqlDatabase Id="TestDB" Database="BlankDB" Server="$(env.SQLServerHostName)" Instance="$(env.SQLServerInstanceName)"  CreateOnInstall="yes" DropOnUninstall="yes" ConfirmOverwrite="yes">
+              <sql:SqlScript Id="SqlScript1" BinaryKey="SqlScript1" ExecuteOnInstall="yes" ContinueOnError="no" Sequence="1" />
+            </sql:SqlDatabase>
+          </Component>
+          <Component Id="TestSqlScriptProductComponent2" Guid="8431B393-F8C0-49F7-938E-BE055B41D99C" DiskId="1" KeyPath="yes">
+            <CreateFolder />
+            <sql:SqlScript Id="SqlScript2" SqlDb="TestDB" BinaryKey="SqlScript2" ExecuteOnInstall="yes" ContinueOnError="no" Sequence="2" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="TestSqlScriptProductFeature" Title="Test SQL String Product Feature" Level="1">
+      <ComponentRef Id="TestSqlScriptProductComponent1" />
+      <ComponentRef Id="TestSqlScriptProductComponent2" />
+    </Feature>
+
+    <Binary Id="SqlScript1" SourceFile="$(env.WIX_ROOT)\test\data\Extensions\SqlExtension\SqlScriptTests\SqlScript1.sql" />
+    <Binary Id="SqlScript2" SourceFile="$(env.WIX_ROOT)\test\data\Extensions\SqlExtension\SqlScriptTests\SqlScript2.sql" />
+  </Product>
+</Wix>

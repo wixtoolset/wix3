@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<!--
+    The table definitions for the Windows Installer XML Toolset Lux Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+    <tableDefinition name="WixUnitTest" createSymbols="yes">
+      <columnDefinition name="WixUnitTest" type="string" length="72" primaryKey="yes" modularize="column"
+          category="identifier" description="The unique key for the unit test."/>
+      <columnDefinition name="CustomAction_" type="string" length="72" modularize="column"
+          keyTable="CustomAction" keyColumn="1" category="identifier" description="The unique key for the unit test."/>
+      <columnDefinition name="Property" type="string" length="72" modularize="column" nullable="yes"
+          category="property" description="The property to be tested."/>
+      <columnDefinition name="Operator" type="number" length="2" nullable="yes"
+          category="integer" description="The operator to be applied to the property (0=equal, 1=not-equal)."/>
+      <columnDefinition name="Value" type="string" length="255" nullable="yes"
+          category="formatted" description="The to be tested against the property."/>
+      <columnDefinition name="Expression" type="string" length="255" modularize="condition" nullable="yes"
+          category="condition" description="An expression to be tested for truth, in lieu of (property)(operator)(value)."/>
+      <columnDefinition name="Condition" type="string" length="255" modularize="condition" nullable="yes"
+          category="condition" description="An expression that indicates whether the test should be run."/>
+      <columnDefinition name="ValueSeparator" type="string" length="1" nullable="yes"
+          category="text" description="A single-character separator between values."/>
+      <columnDefinition name="NameValueSeparator" type="string" length="1" nullable="yes"
+          category="text" description="A single-character separator between name/value pairs."/>
+      <columnDefinition name="Index" type="string" length="255" nullable="yes"
+          category="formatted" description="Indexer for multi-value properties, integer for multi-value properties and string for name/value pairs."/>
+      <columnDefinition name="Mutation" type="string" length="72" nullable="yes"
+          category="identifier" description="Id for mutation tests."/>
+    </tableDefinition>
+</tableDefinitions>

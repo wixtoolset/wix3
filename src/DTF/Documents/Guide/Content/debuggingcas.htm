@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Debugging Managed Custom Actions</title>
+  <link rel="stylesheet" type="text/css" href="../styles/presentation.css" />
+  <link rel="stylesheet" type="text/css" href="ms-help://Hx/HxRuntime/HxLink.css" />
+</head>
+
+<body>
+
+  <div id="control">
+    <span class="productTitle">Deployment Tools Foundation</span><br />
+    <span class="topicTitle">Debugging Managed Custom Actions</span><br />
+    <div id="toolbar">
+      <span id="chickenFeet">
+        <a href="using.htm">Development Guide</a> &gt;
+        <a href="managedcas.htm">Managed CAs</a> &gt;
+        <span class="nolink">Debugging</span>
+      </span>
+    </div>
+    </div>
+    <div id="main">
+      <div id="header">
+      </div>
+      <div class="summary">
+            <p>There are two ways to attach a debugger to a managed custom action.</p>
+            <p><b>Attach to message-box:</b> Add some temporary code to your custom action to display a
+            message box. Then when the message box pops up at install time, you can attch your
+            debugger to that process (usually identifiable by the title of the message box).
+            Once attached, you can ensure that symbols are loaded if necessary (they will be automatically
+            loaded if PDB files were embedded in the CA assembly at build time), then set breakpoints
+            anywhere in the custom action code.</p>
+            <p><b>MMsiBreak environment variable:</b> When debugging <i>managed</i> custom actions,
+            you should use the MMsiBreak environment variable instead of MsiBreak. Set the MMsiBreak
+            variable to the custom action entrypoint name. (Remember this might be different from
+            the method name if it was overridden by the CustomActionAttribute.) When the CA proxy
+            finds a matching name, the CLR JIT-debugging dialog
+            will appear with text similar to "An exception 'Launch for user' has occurred
+            in <i>YourCustomActionName</i>." The debug break occurs after the custom
+            action assembly has been loaded, but just before custom action method is invoked.
+            Once attached, you can ensure that symbols are loaded if necessary,
+            then set breakpoints anywhere in the custom action code. Note: the MMsiBreak
+            environment variable can also accept a comma-separated list of action names, any of
+            which will cause a break when hit.</p>
+            <p><br/></p>
+            
+      </div>
+        
+      <div id="footer">
+        <p />
+        Send comments on this topic to <a id="HT_MailLink" href="mailto:wix-users%40lists.sourceforge.net?Subject=Deployment Tools Foundation Documentation">
+        wix-users@lists.sourceforge.net</a>
+
+        <script type="text/javascript">
+          var HT_mailLink = document.getElementById("HT_MailLink");
+          var HT_mailLinkText = HT_mailLink.innerHTML;
+          HT_mailLink.href += ": " + document.title;
+          HT_mailLink.innerHTML = HT_mailLinkText;
+        </script>
+
+        <p />
+        
+      </div>
+   </div>
+    
+</body>
+</html>

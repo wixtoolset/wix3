@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="WixUI_et-EE.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="et-ee" Codepage="1257" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="WixUIBack" Overridable="yes">&amp;Tagasi</String>
+    <String Id="WixUINext" Overridable="yes">&amp;Edasi</String>
+    <String Id="WixUICancel" Overridable="yes">Loobu</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Valmis</String>
+    <String Id="WixUIRetry" Overridable="yes">&amp;Proovi uuesti</String>
+    <String Id="WixUIIgnore" Overridable="yes">&amp;Ignoreeri</String>
+    <String Id="WixUIYes" Overridable="yes">&amp;Jah</String>
+    <String Id="WixUINo" Overridable="yes">&amp;Ei</String>
+    <String Id="WixUIOK" Overridable="yes">OK</String>
+    <String Id="WixUIPrint" Overridable="yes">&amp;Prindi</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lugege toote [ProductName] litsentsilepingut</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Nõustun litsentsilepingu tingimustega</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes">Klõpsake käsku Installi toote installimiseks vaikesätetega kõigile kasutajatele. Klõpsake suvandit Täpsemalt installimissuvandite muutmiseks.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes">Klõpsake Installi toote installimiseks vaikesätetega ainult teie jaoks. Klõpsake Täpsemalt installimissuvandite muutmiseks.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes">&amp;Installi</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes">T&amp;äpsemalt</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes">12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes">9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes">8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes">tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes">&amp;Vaata:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes">WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes">Taseme võrra üles</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes">WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Loo uus kaust</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Kausta nimi:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Liikuge sirvides soovitud sihtkausta juurde</String>
+    <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Sihtkausta muutmine</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="CancelDlgText" Overridable="yes">Kas soovite kindlasti rakenduse [ProductName] installist loobuda?</String>
+    <String Id="CancelDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes">Teabeikoon</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="CustomizeDlgTree" Overridable="yes">Valikupuu</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes">S&amp;irvimine...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes">Läh&amp;htestus</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes">Ketta &amp;kasutus</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes">Klõpsake ikoone alloleval puul funktsioonide installimise viisi muutmiseks.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes">Valige soovitud funktsioonide installimise viis.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Kohandatud install</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes">CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes">CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes">CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes">Asukoht:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes">Esiletõstetud draividel pole valitud funktsioonide jaoks piisavalt vaba kettaruumi. Võite mõne faili esiletõstetud draividelt eemaldada, installida vähem funktsioone või valida mõne muu sihtdraivi.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes">Valitud funktsioonide installimiseks vajalik kettaruum.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes">{\WixUI_Font_Title}Kettaruumi nõuded</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes">Teabetekst</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes">Teabeikoon</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="ExitDialogBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes">Klõpsake installiviisardist väljumiseks nupul Lõpeta.</String>
+    <String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Toote [ProductName] installiviisard on lõpetanud</String>
+
+    <String Id="FatalError_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="FatalErrorBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}Toote [ProductName] installiviisard peatus enneaegselt</String>
+    <String Id="FatalErrorDescription1" Overridable="yes">Toote [ProductName] installiviisard peatus tõrke tõttu enneaegselt. Teie süsteemi pole muudetud. Kui soovite programmi hiljem installida, käivitage installiviisard uuesti.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes">Klõpsake installiviisardist väljumiseks nupul Lõpeta.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="FeaturesDlgTree" Overridable="yes">Toote funktsioonid</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes">Valige soovitud funktsioonide installimise viis.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes">{\WixUI_Font_Title}Toote funktsioonid</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes">FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes">FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes">&amp;Installi</String>
+    <String Id="FeaturesDlgChange" Overridable="yes">&amp;Muuda</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="FilesInUseExit" Overridable="yes">V&amp;älju</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes">Järgmised rakendused kasutavad faile, mida see installiprogramm peab värskendama. Sulgege need rakendused ja klõpsake siis installimise jätkamiseks käsul &amp;Proovi uuesti või väljumiseks käsul Välju.</String>
+    <String Id="FilesInUseDescription" Overridable="yes">Mõni värskendamist vajav fail on praegu kasutusel.</String>
+    <String Id="FilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Kasutuses olevad failid</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="InstallDirDlgChange" Overridable="yes">&amp;Muuda ...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes">{\WixUI_Font_Title}Sihtkaust</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes">Klõpsake suvandit Järgmine vaikekausta installimiseks või suvandit Muuda teise sihtkoha valimiseks.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes">Installi toode [ProductName] asukohta:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Valige installimise ulatus ja kaust</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installimise ulatus</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installimine &amp;ainult teie jaoks ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Toode [ProductName] installitakse kasutajapõhisesse kausta ja see on saadaval ainult teie kasutajakontole. Teil ei ole vaja kohaliku administraatori õigusi.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes">Toode [ProductName] ei toeta kasutajapõhist installimist.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes">{\WixUI_Font_Emphasized}Installi kõigile kasutajatele sellel &amp;seadmel</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes">Toode [ProductName] installitakse vaikimisi seadmepõhisesse kausta ja see on saadaval kõigile kasutajatele. Saate vaikeinstalli kausta muuta. Teil peavad olema kohaliku administraatori õigused.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes">Installi&amp;kaust:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes">&amp;Muuda ...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="InvalidDirDlgText" Overridable="yes">Installikaust peab asuma kohalikul kõvakettal.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes">WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes">Teabeikoon</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Nõustun litsentsilepingu tingimustega</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Palun lugege alltoodud litsentsileping hoolikalt läbi</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lõppkasutaja litsentsileping</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes">&amp;Muuda</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes">Muuda installi</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes">&amp;Paranda</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes">Paranda install</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes">&amp;Eemalda</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes">Eemalda install</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes">Valige toiming, mida soovite teha.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installi muutmine, parandamine või eemaldamine</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes">Saate muuta funktsioonide installimise viisi.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes">Tootel [ProductName] pole sõltumatult valitavaid funktsioone.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes">Eemaldab toote [ProductName] teie arvutist.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes">Toodet [ProductName] ei saa eemaldada.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes">Parandab viimase installimise tõrked, lahendades probleemid puuduvate või rikutud failide ja andmete, otseteede ja registrikirjete osas.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes">Toodet [ProductName] ei saa parandada.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes">Installiviisard võimaldab muuta toote [ProductName] funktsioonide installimise viisi teie arvutis või selle arvutist eemaldada. Jätkamiseks klõpsake käsul Edasi või installiviisardist väljumiseks käsul Loobu.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Tere tulemast toote [ProductName] installiviisardisse!</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes">Järgmised rakendused kasutavad faile, mida see installiprogramm peab värskendama. Võite lasta installiviisardil need sulgeda ja uuesti käivitada või taaskäivitada arvuti hiljem.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes">Mõni värskendamist vajav fail on praegu kasutusel.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes">{\WixUI_Font_Title}Kasutuses olevad failid</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes">&amp;Sulgege rakendused ja proovige need uuesti käivitada.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes">&amp;Ärge sulgege rakendusi. Arvuti tuleb taaskäivitada.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes">Esiletõstetud draividel pole praegu valitud funktsioonide jaoks piisavalt vaba kettaruumi. Võite mõne faili esiletõstetud draividelt eemaldada, installida vähem funktsioone või valida mõne muu sihtdraivi.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes">Installimiseks on vaja rohkem kettaruumi kui praegu saadaval.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Kettaruum on otsas</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes">Esiletõstetud draividel pole praegu valitud funktsioonide jaoks piisavalt vaba kettaruumi. Võite mõne faili esiletõstetud draividelt eemaldada, installida vähem funktsioone või valida mõne muu sihtdraivi.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes">Installimiseks on vaja rohkem kettaruumi kui praegu saadaval.</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes">{\WixUI_Font_Title}Kettaruum on otsas</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes">{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes">Soovi korral võite installeri tagasipööramisfunktsiooni keelata. Tagasipööramise keelamisel ei saa installer teie arvuti algset olekut taastada, kui installimine peaks mingil põhjusel katkema. Kui soovite riskida ja tagasipööramise keelata, klõpsake käsul Jah.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes">Palun oodake, kuni installiviisard valmistub teid installimisel juhendama.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Tere tulemast toote [ProductName] installiviisardisse!</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes">Palun oodake, kuni installiviisard installib toodet [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] installimine</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes">Palun oodake, kuni installiviisard muudab toodet [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] muutmine</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes">Palun oodake, kuni installiviisard parandab toodet [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] parandamine</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes">Palun oodake, kuni installiviisard eemaldab toodet [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] eemaldamine</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes">Palun oodake, kuni installiviisard värskendab toodet [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] värskendamine</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes">Edenemine</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes">Olek:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="ResumeDlgInstall" Overridable="yes">&amp;Installi</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes">Installiviisard viib toote [ProductName] teie arvutisse installimise lõpule. Jätkamiseks klõpsake käsul Installi, installiviisardist väljumiseks käsul Loobu.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Toote [ProductName] installiviisardi jätkamine</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes">&amp;Tavaline</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes">Tavaline install</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes">K&amp;ohandatud</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes">Kohandatud install</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes">T&amp;äielik</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Täielik install</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installitüübi valimine</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Valige oma vajadustele vastav installitüüp</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes">Installitakse levinumad programmifunktsioonid. Soovitatav enamikule kasutajatele.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes">Võimaldab kasutajatel otsustada programmifunktsioonide installimise valiku ja koha üle. Soovitatav kogenud kasutajatele.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes">Installitakse kõik programmifunktsioonid. Nõuab kõige rohkem kettaruumi.</String>
+
+    <String Id="UserExit_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="UserExitBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}Toote [ProductName] installiviisardi töö on katkestatud</String>
+    <String Id="UserExitDescription1" Overridable="yes">Toote [ProductName] installimine on katkestatud. Teie süsteemi pole muudetud. Kui soovite selle programmi hiljem installida, käivitage install uuesti.</String>
+    <String Id="UserExitDescription2" Overridable="yes">Klõpsake installiviisardist väljumiseks nupul Lõpeta.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes">&amp;Installi</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes">Installimise alustamiseks klõpsake käsul Installi. Installisätete läbivaatamiseks või muutmiseks klõpsake käsul Tagasi. Viisardist väljumiseks klõpsake käsul Loobu.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] installimiseks valmis</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes">&amp;Muuda</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes">Installimise alustamiseks klõpsake käsul Muuda. Installisätete läbivaatamiseks või muutmiseks klõpsake käsul Tagasi. Viisardist väljumiseks klõpsake käsul Loobu.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] muutmiseks valmis</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes">&amp;Paranda</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes">Toote [ProductName] installi parandamiseks klõpsake käsul Paranda. Installisätete läbivaatamiseks või muutmiseks klõpsake käsul Tagasi. Viisardist väljumiseks klõpsake käsul Loobu.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] parandamiseks valmis</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes">&amp;Eemalda</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes">Toote [ProductName] arvutist eemaldamiseks klõpsake käsul Eemalda. Installisätete läbivaatamiseks või muutmiseks klõpsake käsul Tagasi. Viisardist väljumiseks klõpsake käsul Loobu.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] eemaldamiseks valmis</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes">&amp;Värskendamine</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes">Klõpsake käsul Värskenda toote [ProductName] värskendamiseks teie arvutis. Installisätete läbivaatamiseks või muutmiseks klõpsake käsul Tagasi. Viisardist väljumiseks klõpsake käsul Loobu.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes">{\WixUI_Font_Title}Toote [ProductName] värskendamiseks valmis</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes">&amp;Tagasi</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes">Palun oodake, kuni installiprogramm lõpetab vajamineva kettaruumi kindlakstegemise.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes">WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes">Hüüumärgi ikoon</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes">Installiviisard installib toote [ProductName] teie arvutisse. Jätkamiseks klõpsake käsul Edasi või installiviisardist väljumiseks käsul Loobu.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes">Installiviisard värskendab toodet [ProductName] teie arvutis. Jätkamiseks klõpsake käsul Edasi või installiviisardist väljumiseks käsul Loobu.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Tere tulemast toote [ProductName] installiviisardisse!</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes">Toote [ProductName] install</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes">WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Nõustun litsentsilepingu tingimustega</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes">&amp;Installi</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes">&amp;Värskendamine</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lugege toote [ProductName] litsentsilepingut</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes">Installi kinnitamine</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes">uute failide kopeerimine</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes">Fail: [1], kataloog: [9], maht: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes">Võrguinstallifailide kopeerimine</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes">Fail: [1], kataloog: [9], maht: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes">Ruuminõuete arvutamine</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes">Ruuminõuete arvutamine</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes">Ruuminõuete arvutamine</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes">Otseteede loomine</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes">Otsetee: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes">Sobivate komponentide avaldamine</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes">Komponendi ID: [1], täpsusti: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes">Tootefunktsioonide avaldamine</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes">Funktsioon: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes">Tooteteabe avaldamine</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes">Klassiserverite registreerimine</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes">Klassi ID: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes">Laiendiserverite registreerimine</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes">Laiend: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes">MIME-teabe registreerimine</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes">MIME-sisu tüüp: [1], laiend: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes">Programmi-identifikaatorite registreerimine</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes">Registriruumi eraldamine</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes">Vaba ruum: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes">Installitud rakenduste otsimine</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes">Atribuut: [1], allkiri: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes">Täitmisfailide sidumine</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes">Fail: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes">Sobivate toodete otsimine</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes">Kaustade loomine</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes">Kaust: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes">Teenuste kustutamine</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes">Teenus: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes">Duplikaatfailide loomine</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes">Fail: [1], kataloog: [9], maht: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes">Seotud rakenduste otsimine</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes">Leitud rakendus: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes">ODBC-komponentide installimine</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes">Uute teenuste installimine</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes">Teenus: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes">Käivitustingimuste hindamine</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes">Funktsiooniolekute migreerimine seotud rakendustest</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes">Rakendus: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes">Failide teisaldamine</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes">Fail: [1], kataloog: [9], maht: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes">Failide paikamine</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes">Fail: [1], kataloog: [2], maht: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes">Komponendi registreeringu värskendamine</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes">COM+ rakenduste ja komponentide registreerimine</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes">Rakenduse ID: [1]{{, rakenduse tüüp: [2], kasutajad: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes">Fontide registreerimine</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes">Font: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes">Toote registreerimine</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes">Tüübiteekide registreerimine</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes">Kasutaja registreerimine</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes">Duplikaatfailide eemaldamine</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes">Fail: [1], kataloog: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes">Keskkonnastringide värskendamine</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes">Nimi: [1], väärtus: [2], toiming [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes">Rakenduste eemaldamine</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes">Rakendus: [1], käsurida: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes">failide eemaldamine</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes">Fail: [1], kataloog: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes">Kaustade eemaldamine</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes">Kaust: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes">INI-failide kirjete eemaldamine</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes">Fail: [1], sektsioon: [2], võti: [3], väärtus: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes">ODBC-komponentide eemaldamine</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes">Süsteemiregistri väärtuste eemaldamine</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes">Võti: [1], nimi: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes">Otseteede eemaldamine</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes">Otsetee: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes">Sobivate toodete otsimine</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes">Moodulite registreerimine</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes">Fail: [1], kaust: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes">Moodulite registreeringu tühistamine</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes">Fail: [1], kaust: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes">ODBC-kataloogide lähtestamine</String>
+    <String Id="ProgressTextStartServices" Overridable="yes">Teenuste käivitamine</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes">Teenus: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes">Teenuste peatamine</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes">Teenus: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes">Sobivate komponentide avaldamise tühistamine</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes">Komponendi ID: [1], täpsusti: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes">Tootefunktsioonide avaldamise tühistamine</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes">Funktsioon: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes">Klassiserverite registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes">Klassi ID: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes">COM+ rakenduste ja komponentide registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes">Rakenduse ID: [1]{{, rakenduse tüüp: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes">Laiendiserverite registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes">Laiend: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes">Fontide registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes">Font: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes">MIME-teabe registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes">MIME-sisu tüüp: [1], laiend: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes">Programmi-identifikaatorite registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes">ProgId: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes">Tüübiteekide registreeringu tühistamine</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes">LibID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes">Keskkonnastringide värskendamine</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes">Nimi: [1], väärtus: [2], toiming [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes">INI-failide väärtuste kirjutamine</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes">Fail: [1], sektsioon: [2], võti: [3], väärtus: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes">Süsteemiregistri väärtuste kirjutamine</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes">Võti: [1], nimi: [2], väärtus: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes">Rakenduse väljakuulutamine</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes">Skriptioperatsioonide loomine toimingule:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes">Süsteemikataloogi installimine</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes">Fail: [1], sõltuvused: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes">Paketi teabe avaldamine</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes">Rakenduse kontekst: [1], paketi nimi: [2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes">Paketi teabe avaldamise tühistamine</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes">Rakenduse kontekst: [1], paketi nimi: [2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes">Toimingu tagasipööramine:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes">[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes">Varufailide eemaldamine</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes">Fail: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes">Teisaldatud failide eemaldamine</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes">Fail: [1], kataloog: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes">Toote teabe avaldamise tühistamine</String>
+
+    <String Id="Error0" Overridable="yes">{{Pöördumatu tõrge: }}</String>
+    <String Id="Error1" Overridable="yes">{{Tõrge [1]. }}</String>
+    <String Id="Error2" Overridable="yes">Hoiatus [1]. </String>
+    <String Id="Error4" Overridable="yes">Teave [1]. </String>
+    <String Id="Error5" Overridable="yes">Installeril ilmnes selle paketi installimisel ootamatu tõrge. See võib viidata selle paketi probleemile. Tõrkekood on [1]. {{Argumendid on järgmised: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes">{{Ketas täis: }}</String>
+    <String Id="Error8" Overridable="yes">Toiming [Time]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes">[ProductName]</String>
+    <String Id="Error10" Overridable="yes">{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes">Sõnumi tüüp: [1], argument: [2]</String>
+    <String Id="Error12" Overridable="yes">=== Logimise algus: [Date] [Time] ===</String>
+    <String Id="Error13" Overridable="yes">=== Logimise lõpp: [Date] [Time] ===</String>
+    <String Id="Error14" Overridable="yes">Toimingu algus [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes">Toimingu lõpp [Time]: [1]. Tagastusväärtus [2].</String>
+    <String Id="Error16" Overridable="yes">Aega jäänud: {[1] minut(it) }{[2] sekund(it)}</String>
+    <String Id="Error17" Overridable="yes">Mälu pole piisavalt. Enne uuesti proovimist sulgege muud rakendused.</String>
+    <String Id="Error18" Overridable="yes">Installer ei reageeri enam.</String>
+    <String Id="Error19" Overridable="yes">Installer peatus enneaegselt.</String>
+    <String Id="Error20" Overridable="yes">Palun oodake, kuni Windows konfigureerib toodet [ProductName]</String>
+    <String Id="Error21" Overridable="yes">Vajaliku teabe kogumine ...</String>
+    <String Id="Error22" Overridable="yes">Selle rakenduse vanemate versioonide eemaldamine ...</String>
+    <String Id="Error23" Overridable="yes">Selle rakenduse varasemate versioonide eemaldamise ettevalmistamine ...</String>
+    <String Id="Error32" Overridable="yes">Toote {[ProductName] }installimine on edukalt lõpule viidud.</String>
+    <String Id="Error33" Overridable="yes">Toote {[ProductName] }installimine nurjus.</String>
+    <String Id="Error1101" Overridable="yes">Failist [2] lugemisel ilmnes tõrge. {{ Süsteemitõrge [3].}} Veenduge, et fail on olemas ja teil on sellele juurdepääs.</String>
+    <String Id="Error1301" Overridable="yes">Faili [2] ei saa luua. Samanimeline kaust on juba olemas. Tühistage install ja proovige installida mõnda teise asukohta.</String>
+    <String Id="Error1302" Overridable="yes">Palun sisestage ketas: [2]</String>
+    <String Id="Error1303" Overridable="yes">Installeril pole kaustale [2] juurdepääsuks piisavaid õigusi. Installimist ei saa jätkata. Logige sisse administraatorina või pöörduge süsteemiadministraatori poole.</String>
+    <String Id="Error1304" Overridable="yes">Tõrge faili [2] kirjutamisel. Veenduge, et teil oleks juurdepääs sellele kaustale.</String>
+    <String Id="Error1305" Overridable="yes">Failist [2] lugemisel ilmnes tõrge. {{ Süsteemitõrge [3].}} Veenduge, et fail on olemas ja teil on sellele juurdepääs.</String>
+    <String Id="Error1306" Overridable="yes">Fail [2] on mõnes muus rakenduses eksklusiivselt kasutusel. Sulgege kõik muud rakendused ja klõpsake siis käsul Proovi uuesti.</String>
+    <String Id="Error1307" Overridable="yes">Faili [2] installimiseks pole piisavalt kettaruumi. Vabastage kettal ruumi ja klõpsake käsul Proovi uuesti. Väljumiseks klõpsake käsul Loobu.</String>
+    <String Id="Error1308" Overridable="yes">Lähtefaili ei leitud: [2]. Veenduge, et fail oleks olemas ja pääsete sellele juurde.</String>
+    <String Id="Error1309" Overridable="yes">Failist [3] lugemisel ilmnes tõrge. {{ Süsteemitõrge [2].}} Veenduge, et fail on olemas ja pääsete sellele juurde.</String>
+    <String Id="Error1310" Overridable="yes">Faili [3] kirjutamisel ilmnes tõrge. {{ Süsteemitõrge [2].}} Veenduge, et teil on juurdepääs sellele kataloogile.</String>
+    <String Id="Error1311" Overridable="yes">Lähtefaili ei leitud{{(CAB-fail)}}: [2]. Veenduge, et fail on olemas ja pääsete sellele juurde.</String>
+    <String Id="Error1312" Overridable="yes">Kausta [2] ei saa luua. Samanimeline fail on juba olemas. Nimetage fail ümber või eemaldage see ja klõpsake siis käsul Proovi uuesti või klõpsake väljumiseks käsul Loobu.</String>
+    <String Id="Error1313" Overridable="yes">Draiv [2] pole praegu saadaval. Valige mõni muu draiv.</String>
+    <String Id="Error1314" Overridable="yes">Määratud tee [2] pole kättesaadav.</String>
+    <String Id="Error1315" Overridable="yes">Määratud kausta [2] ei saa kirjutada.</String>
+    <String Id="Error1316" Overridable="yes">Failist [2] lugemisel ilmnes võrgutõrge</String>
+    <String Id="Error1317" Overridable="yes">Kataloogi [2] loomisel ilmnes tõrge</String>
+    <String Id="Error1318" Overridable="yes">Kataloogi [2] loomisel ilmnes võrgutõrge</String>
+    <String Id="Error1319" Overridable="yes">Lähtefailikapi [2] avamisel ilmnes võrgutõrge</String>
+    <String Id="Error1320" Overridable="yes">Määratud tee on liiga pikk: [2]</String>
+    <String Id="Error1321" Overridable="yes">Installiprogrammil pole faili [2] muutmiseks piisavalt õigusi.</String>
+    <String Id="Error1322" Overridable="yes">Osa kaustateest [2] ei sobi. See on kas tühi või selle pikkus ületab süsteemi lubatu.</String>
+    <String Id="Error1323" Overridable="yes">Kaustatee [2] sisaldab sõnu, mis on kaustateede puhul sobimatud.</String>
+    <String Id="Error1324" Overridable="yes">Kaustatee [2] sisaldab sobimatut märki.</String>
+    <String Id="Error1325" Overridable="yes">[2] on faili lühinimena sobimatu.</String>
+    <String Id="Error1326" Overridable="yes">Faili turvalisuse toomisel ilmnes tõrge: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes">Sobimatu draiv: [2]</String>
+    <String Id="Error1328" Overridable="yes">Paiga rakendamisel failile [2] ilmnes tõrge. Arvatavasti on seda juba mõnel muul viisil värskendatud ja seetõttu ei saa see paik seda enam muuta. Lisateavet saate paiga tarnijalt. {{Süsteemitõrge: [3]}}</String>
+    <String Id="Error1329" Overridable="yes">Mõnda nõutavat faili ei saa installida, kuna CAB-fail [2] pole digitaalselt allkirjastatud. CAB-fail võib olla rikutud.</String>
+    <String Id="Error1330" Overridable="yes">Mõnda nõutavat faili ei saa installida, kuna CAB-faili [2] digitaalne allkiri ei kehti. CAB-fail võib olla rikutud.{{ WinVerifyTrust tagastas tõrke [3].}}</String>
+    <String Id="Error1331" Overridable="yes">Faili [2] kopeerimine nurjus: CRC tõrge.</String>
+    <String Id="Error1332" Overridable="yes">Faili [2] teisaldamine nurjus: CRC tõrge.</String>
+    <String Id="Error1333" Overridable="yes">Faili [2] paikamine nurjus: CRC tõrge.</String>
+    <String Id="Error1334" Overridable="yes">Faili [2] ei saa installida, sest seda faili CAB-failist [3] ei leia. See võib viidata võrgutõrkele, tõrkele CD-ROM-i lugemisel või probleemile selle paketiga.</String>
+    <String Id="Error1335" Overridable="yes">Selle installi jaoks vajalik CAB-fail [2] on rikutud ja seda ei saa kasutada. See võib viidata võrgutõrkele, tõrkele CD-ROM-i lugemisel või probleemile selle paketiga.</String>
+    <String Id="Error1336" Overridable="yes">Selle installi lõpuleviimiseks vajaliku ajutise faili loomisel ilmnes tõrge.{{ Kaust: [3]. Süsteemi tõrkekood: [2]}}</String>
+    <String Id="Error1401" Overridable="yes">Võtit [2] ei saanud luua. {{ Süsteemitõrge [3].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole. </String>
+    <String Id="Error1402" Overridable="yes">Võtit [2] ei saanud avada. {{ Süsteemitõrge [3].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole. </String>
+    <String Id="Error1403" Overridable="yes">Väärtust [2] ei saanud võtmest [3] kustutada. {{ Süsteemitõrge [4].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole. </String>
+    <String Id="Error1404" Overridable="yes">Võtit [2] ei saanud kustutada. {{ Süsteemitõrge [3].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole. </String>
+    <String Id="Error1405" Overridable="yes">Väärtust [2] ei saanud võtmest [3] lugeda. {{ Süsteemitõrge [4].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole. </String>
+    <String Id="Error1406" Overridable="yes">Väärtust [2] ei saanud võtmesse [3] kirjutada. {{ Süsteemitõrge [4].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1407" Overridable="yes">Võtme [2] väärtuste nimesid ei saanud hankida. {{ Süsteemitõrge [3].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1408" Overridable="yes">Võtme [2] alamvõtmete nimesid ei saanud hankida. {{ Süsteemitõrge [3].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1409" Overridable="yes">Võtme [2] turbeteavet ei saanud lugeda. {{ Süsteemitõrge [3].}} Veenduge, et teil on sellele võtmele piisav juurdepääs või pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1410" Overridable="yes">Saadaolevat registriruumi ei saanud suurendada. Selle rakenduse installimiseks on vaja [2] kB vaba registriruumi.</String>
+    <String Id="Error1500" Overridable="yes">Teine install on pooleli. See install tuleb kõigepealt lõpule viia, enne kui saate jätkata uuega.</String>
+    <String Id="Error1501" Overridable="yes">Turvatud andmetele juurdepääsul ilmnes tõrge. Veenduge, et Windows Installer on õigesti konfigureeritud ja proovige uuesti installida.</String>
+    <String Id="Error1502" Overridable="yes">Kasutaja [2] on varem algatanud toote [3] installi. See kasutaja peab selle installi enne toote kasutamist uuesti käivitama. Teie praegune install jätkub nüüd.</String>
+    <String Id="Error1503" Overridable="yes">Kasutaja [2] on varem algatanud toote [3] installi. See kasutaja peab selle installi enne toote kasutamist uuesti käivitama.</String>
+    <String Id="Error1601" Overridable="yes">Kettaruum on otsas — draiv: [2]; vajalik ruum: [3] kB; saadaolev ruum: [4] kB. Vabastage kettaruumi ja proovige uuesti.</String>
+    <String Id="Error1602" Overridable="yes">Kas soovite kindlasti loobuda?</String>
+    <String Id="Error1603" Overridable="yes">Fail [2][3] on kasutusel{ järgmises protsessis: nimi: [4], ID: [5], aknatiitel: [6]}. Sulgege see rakendus ja proovige uuesti.</String>
+    <String Id="Error1604" Overridable="yes">Toode [2] on juba installitud, välistades käesoleva toote installimise. Need kaks toodet on ühildumatud.</String>
+    <String Id="Error1605" Overridable="yes">Draivil [2] pole installi jätkamiseks koos lubatud taastamisega piisavalt kettaruumi. [3] kB on vaja, aga ainult [4] kB on vaba. Kui soovite jätkata installi ilma taasteteavet salvestamata, klõpsake käsul Ignoreeri, kui soovite saadaolevat ruumi uuesti kontrollida, klõpsake käsul Proovi uuesti, või kui soovite installi katkestada, klõpsake käsul Loobu.</String>
+    <String Id="Error1606" Overridable="yes">Võrgukohale [2] ei pääse juurde.</String>
+    <String Id="Error1607" Overridable="yes">Järgmised rakendused tuleks enne installi jätkamist sulgeda:</String>
+    <String Id="Error1608" Overridable="yes">Selle toote installiks ei leia arvutist ühtki varem installitud sobivat toodet.</String>
+    <String Id="Error1609" Overridable="yes">Turbesätete rakendamisel ilmnes tõrge. [2] pole lubatud kasutaja või rühm. Probleem võib olla paketis või ühenduse loomisel võrgus oleva domeenikontrolleriga. Kontrollige oma võrguühendust ning klõpsake käsul Proovi uuesti või, kui soovite installi lõpetada, klõpsake käsul Loobu. {{Kasutaja SID leidmine nurjus, süsteemitõrge [3]}}</String>
+    <String Id="Error1701" Overridable="yes">Võti [2] on kehtetu. Veenduge, et sisestasite õige võtme.</String>
+    <String Id="Error1702" Overridable="yes">Enne toote [2] konfigureerimise jätkamist peab installer süsteemi taaskäivitama. Arvuti kohe taaskäivitamiseks klõpsake käsul Jah, hiljem käsitsi taaskäivitamiseks klõpsake käsul Ei.</String>
+    <String Id="Error1703" Overridable="yes">Muudatused toote [2] konfiguratsioonis jõustuvad alles pärast arvuti taaskäivitamist. Arvuti kohe taaskäivitamiseks klõpsake käsul Jah või hiljem käsitsi taaskäivitamiseks klõpsake käsul Ei.</String>
+    <String Id="Error1704" Overridable="yes">Toote [2] install on praegu peatatud. Jätkamiseks peate selle installi tehtud muudatused tühistama. Kas soovite need muudatused tühistada?</String>
+    <String Id="Error1705" Overridable="yes">Selle toote varasem install on pooleli. Jätkamiseks peate selle installi tehtud muudatused tühistama. Kas soovite need muudatused tühistada?</String>
+    <String Id="Error1706" Overridable="yes">Toote [2] installipaketti ei õnnestu leida. Proovige uuesti installida, kasutades installipaketi [3] kehtivat eksemplari.</String>
+    <String Id="Error1707" Overridable="yes">Install on edukalt lõpule viidud.</String>
+    <String Id="Error1708" Overridable="yes">Install nurjus.</String>
+    <String Id="Error1709" Overridable="yes">Toode: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes">Võite taastada oma arvuti varasema seisundi või jätkata installimist hiljem. Kas soovite taastada?</String>
+    <String Id="Error1711" Overridable="yes">Installiteabe kirjutamisel kettale ilmnes tõrge. Kontrollige, kas kettal on piisavalt ruumi ja klõpsake käsul Proovi uuesti. Kui soovite installi katkestada, klõpsake käsul Loobu.</String>
+    <String Id="Error1712" Overridable="yes">Mõnda arvuti varasema oleku taastamiseks vajalikku faili ei leitud. Taastamine pole võimalik.</String>
+    <String Id="Error1713" Overridable="yes">[2] ei saa installida ühte oma vajalikest toodetest. Pöörduge tehnilise toe poole. {{Süsteemitõrge: [3].}}</String>
+    <String Id="Error1714" Overridable="yes">Toote [2] varasemat versiooni ei saa eemaldada. Pöörduge tehnilise toe poole. {{Süsteemitõrge [3].}}</String>
+    <String Id="Error1715" Overridable="yes">Installitud [2]</String>
+    <String Id="Error1716" Overridable="yes">Konfigureeritud [2]</String>
+    <String Id="Error1717" Overridable="yes">Eemaldatud [2]</String>
+    <String Id="Error1718" Overridable="yes">Digitaalallkirjapoliitika keeldus failist [2].</String>
+    <String Id="Error1719" Overridable="yes">Windows Installeri teenusele puudub juurdepääs. Nii võib juhtuda, kui Windows on turvarežiimis või Windows Installer pole õigesti installitud. Abi saamiseks pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1720" Overridable="yes">Selle Windows Installeri paketiga ilmnes probleem. Installi lõpuleviimiseks vajalikku skripti ei saanud käivitada. Pöörduge oma tugipersonali või paketi tarnija poole. {{Kohandatud toimingu [2] skriptitõrge [3], [4]: [5] rida [6], veerg [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes">Selle Windows Installeri paketiga ilmnes probleem. Installi lõpuleviimiseks vajalikku programmi ei saanud käivitada. Pöörduge oma tugipersonali või paketi tarnija poole. {{Toiming: [2], asukoht: [3], käsk: [4] }}</String>
+    <String Id="Error1722" Overridable="yes">Selle Windows Installeri paketiga ilmnes probleem. Installi osana käivitatud programm ei jõudnud ootuspäraselt lõpule. Pöörduge oma tugipersonali või paketi tarnija poole. {{Toiming [2], asukoht: [3], käsk: [4] }}</String>
+    <String Id="Error1723" Overridable="yes">Selle Windows Installeri paketiga ilmnes probleem. Selle installi lõpuleviimiseks vajalikku DLL-i ei saanud käivitada. Pöörduge oma tugipersonali või paketi tarnija poole. {{Toiming [2], kirje: [3], teek: [4] }}</String>
+    <String Id="Error1724" Overridable="yes">Eemaldamine on edukalt lõpule viidud.</String>
+    <String Id="Error1725" Overridable="yes">Eemaldamine nurjus.</String>
+    <String Id="Error1726" Overridable="yes">Väljakuulutamine on edukalt lõpule viidud.</String>
+    <String Id="Error1727" Overridable="yes">Väljakuulutamine nurjus.</String>
+    <String Id="Error1728" Overridable="yes">Konfigureerimine on edukalt lõpule viidud.</String>
+    <String Id="Error1729" Overridable="yes">Konfigureerimine nurjus.</String>
+    <String Id="Error1730" Overridable="yes">Selle rakenduse eemaldamiseks peate olema administraator. Rakenduse eemaldamiseks peate administraatorina sisse logima või pöörduma abi saamiseks tehnilise toe poole.</String>
+    <String Id="Error1731" Overridable="yes">Toote [2] lähteinstallipakett pole kliendipaketiga sünkroonitud. Proovige uuesti installida, kasutades installipaketi [3] kehtivat eksemplari.</String>
+    <String Id="Error1732" Overridable="yes">Rakenduse [2] installi lõpuleviimiseks peate oma arvuti taaskäivitama. Teised kasutajad on praegu sellesse arvutisse sisse logitud ja taaskäivitamisel võib nende töö kaotsi minna. Kas soovite kohe taaskäivitada?</String>
+    <String Id="Error1801" Overridable="yes">Tee [2] ei sobi. Palun määrake sobiv tee.</String>
+    <String Id="Error1802" Overridable="yes">Mälu pole piisavalt. Enne uuesti proovimist sulgege muud rakendused.</String>
+    <String Id="Error1803" Overridable="yes">Draivis [2] pole ketast. Palun sisestage ketas ja klõpsake käsul Proovi uuesti või eelmisena valitud draivi juurde tagasi pöördumiseks käsul Loobu.</String>
+    <String Id="Error1804" Overridable="yes">Draivis [2] pole ketast. Palun sisestage ketas ja klõpsake käsul Proovi uuesti või sirvimisdialoogi tagasipöördumiseks ja muu draivi valimiseks käsul Loobu.</String>
+    <String Id="Error1805" Overridable="yes">Kausta [2] pole olemas. Sisestage mõne olemasoleva kausta tee.</String>
+    <String Id="Error1806" Overridable="yes">Teil pole selle kausta lugemiseks piisavaid õigusi.</String>
+    <String Id="Error1807" Overridable="yes">Installi jaoks sobivat sihtkausta ei saanud määrata.</String>
+    <String Id="Error1901" Overridable="yes">Installi lähteandmebaasist [2] lugemisel ilmnes tõrge.</String>
+    <String Id="Error1902" Overridable="yes">Taaskäivituse ajastamise toiming: faili [2] ümbernimetamine failiks [3]. Toimingu lõpuleviimiseks tuleb arvuti taaskäivitada.</String>
+    <String Id="Error1903" Overridable="yes">Taaskäivituse ajastamise toiming: faili [2] kustutamine. Toimingu lõpuleviimiseks tuleb arvuti taaskäivitada.</String>
+    <String Id="Error1904" Overridable="yes">Mooduli [2] registreerimine nurjus. HRESULT [3]. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1905" Overridable="yes">Mooduli [2] registrist eemaldamine nurjus. HRESULT [3]. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1906" Overridable="yes">Paketi [2] vahemällu salvestamine nurjus. Tõrge: [3]. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1907" Overridable="yes">Fonti [2] ei saanud registreerida. Veenduge, et teil on fontide installimiseks piisavad õigused ja et teie süsteem toetab seda fonti.</String>
+    <String Id="Error1908" Overridable="yes">Fondi [2] registreeringut ei saanud tühistada. Veenduge, et teil on fontide eemaldamiseks piisavad õigused.</String>
+    <String Id="Error1909" Overridable="yes">Otseteed [2] ei saanud luua. Veenduge, et sihtkaust on olemas ja et teil on sellele juurdepääs.</String>
+    <String Id="Error1910" Overridable="yes">Otseteed [2] ei saanud eemaldada. Veenduge, et see otsetee on olemas ja et teil on sellele juurdepääs.</String>
+    <String Id="Error1911" Overridable="yes">Faili [2] tüübiteeki ei saanud registreerida. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1912" Overridable="yes">Faili [2] tüübiteeki ei saanud registrist eemaldada. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1913" Overridable="yes">INI-faili [2][3] ei saanud värskendada. Veenduge, et see fail on olemas ja et teil on sellele juurdepääs.</String>
+    <String Id="Error1914" Overridable="yes">Faili [2] ei saanud ajastada faili [3] taaskäivitamisel asendama. Veenduge, et teil on faili [3] kirjutusõigus.</String>
+    <String Id="Error1915" Overridable="yes">ODBC-draiverihalduri eemaldamisel ilmnes tõrge, ODBC tõrge [2]: [3]. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1916" Overridable="yes">ODBC-draiverihalduri installimisel ilmnes tõrge, ODBC tõrge [2]: [3]. Pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1917" Overridable="yes">ODBC-draiveri [4] eemaldamisel ilmnes tõrge, ODBC tõrge [2]: [3]. Veenduge, et teil on ODBC-draiverite eemaldamiseks piisavad õigused.</String>
+    <String Id="Error1918" Overridable="yes">ODBC-draiveri [4] installimisel ilmnes tõrge, ODBC tõrge [2]: [3]. Veenduge, et fail [4] on olemas ja et teil on sellele juurdepääs.</String>
+    <String Id="Error1919" Overridable="yes">ODBC-andmeallika [4] konfigureerimisel ilmnes tõrge, ODBC tõrge [2]: [3]. Veenduge, et fail [4] on olemas ja et teil on sellele juurdepääs.</String>
+    <String Id="Error1920" Overridable="yes">Teenuse [2] ([3]) käivitamine nurjus. Veenduge, et teil on süsteemiteenuste käivitamiseks piisavad õigused.</String>
+    <String Id="Error1921" Overridable="yes">Teenust [2] ([3]) ei saanud peatada. Veenduge, et teil on süsteemiteenuste peatamiseks piisavad õigused.</String>
+    <String Id="Error1922" Overridable="yes">Teenust [2] ([3]) ei saanud kustutada. Veenduge, et teil on süsteemiteenuste kustutamiseks piisavad õigused.</String>
+    <String Id="Error1923" Overridable="yes">Teenust [2] ([3]) ei saanud installida. Veenduge, et teil on süsteemiteenuste installimiseks piisavad õigused.</String>
+    <String Id="Error1924" Overridable="yes">Keskkonnamuutujat [2] ei saanud värskendada. Veenduge, et teil on keskkonnamuutujate muutmiseks piisavad õigused.</String>
+    <String Id="Error1925" Overridable="yes">Teil pole arvuti kõigi kasutajate jaoks vajaliku installiprotsessi lõpuleviimiseks piisavaid õigusi. Logige sisse administraatorina ja proovige siis uuesti installida.</String>
+    <String Id="Error1926" Overridable="yes">Faili [3] turbeteavet ei saanud määrata. Tõrge: [2]. Veenduge, et teil on selle faili turbeõiguste muutmiseks piisavad õigused.</String>
+    <String Id="Error1927" Overridable="yes">Component Services (COM+ 1.0) pole sellesse arvutisse installitud. Selle installi lõpuleviimiseks on Component Services nõutav. Component Services on olemas operatsioonisüsteemis Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes">Rakenduse COM+ registreerimisel ilmnes tõrge. Lisateabe saamiseks pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1929" Overridable="yes">Rakenduse COM+ registrist eemaldamisel ilmnes tõrge. Lisateabe saamiseks pöörduge oma tugipersonali poole.</String>
+    <String Id="Error1930" Overridable="yes">Teenuse [2] ([3]) kirjeldust ei saanud muuta.</String>
+    <String Id="Error1931" Overridable="yes">Windows Installeri teenus ei saa süsteemifaili [2] värskendada, kuna Windows kaitseb seda faili. On võimalik, et selle programmi õige töötamise tagamiseks peate oma operatsioonisüsteemi värskendama. {{Paketi versioon: [3], operatsioonisüsteemi kaitstud versioon: [4]}}</String>
+    <String Id="Error1932" Overridable="yes">Windows Installer ei saa kaitstud Windowsi faili [2] värskendada. {{Paketi versioon: [3], operatsioonisüsteemi kaitstud versioon: [4], SFP tõrge: [5]}}</String>
+    <String Id="Error1933" Overridable="yes">Windows Installer ei saanud värskendada ühte või mitut kaitstud Windowsi faili. {{SFP tõrge: [2]. Kaitstud failide loend:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes">Arvuti poliitika keelab kasutajapoolse installimise.</String>
+    <String Id="Error1935" Overridable="yes">Paketi [6] installi ajal ilmnes tõrge. Lisateavet leiate spikri- ja tugikeskusest. HRESULT: [3]. {{paketi liides: [4], funktsioon: [5], komponent: [2]}}</String>
+    <String Id="Error1936" Overridable="yes">Paketi [6] installi ajal ilmnes tõrge. Paketi nimi pole tugev või pakett pole allkirjastatud minimaalse võtmepikkusega. HRESULT: [3]. {{paketi liides: [4], funktsioon: [5], komponent: [2]}}</String>
+    <String Id="Error1937" Overridable="yes">Paketi [6] installi ajal ilmnes tõrge. Allkirja või kataloogi ei saanud kinnitada või see pole sobiv. HRESULT: [3]. {{paketi liides: [4], funktsioon: [5], komponent: [2]}}</String>
+    <String Id="Error1938" Overridable="yes">Paketi [6] installi ajal ilmnes tõrge. Ühte või mitut paketi moodulit ei leia. HRESULT: [3]. {{paketi liides: [4], funktsioon: [5], komponent: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes">baidid</String>
+    <String Id="UITextGB" Overridable="yes">GB</String>
+    <String Id="UITextKB" Overridable="yes">kB</String>
+    <String Id="UITextMB" Overridable="yes">MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes">Kogu funktsioon muutub kättesaamatuks</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes">Funktsioon installitakse vajadusel</String>
+    <String Id="UITextMenuAllCD" Overridable="yes">Kogu funktsioon installitakse CD-lt käitatavana</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes">Kogu funktsioon installitakse kohalikule kõvakettale</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes">Kogu funktsioon installitakse võrgust käitatavana</String>
+    <String Id="UITextMenuCD" Overridable="yes">Installitakse CD-lt käitatavana</String>
+    <String Id="UITextMenuLocal" Overridable="yes">Installitakse kohalikule kõvakettale</String>
+    <String Id="UITextMenuNetwork" Overridable="yes">Installitakse võrgust käitatavana</String>
+    <String Id="UITextNewFolder" Overridable="yes">Kaust|Uus kaust</String>
+    <String Id="UITextScriptInProgress" Overridable="yes">Vajaliku teabe kogumine ...</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes">See funktsioon jääb installimata</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes">See funktsioon määratakse nõudmisel installitavaks</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes">See funktsioon installitakse CD-lt käitatavana</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes">See funktsioon installitakse kohalikule kõvakettale</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes">See funktsioon installitakse võrgust käitatavana</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes">See funktsioon muutub kättesaamatuks</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes">Installitakse nõudmisel</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes">Seda funktsiooni saab edaspidi käitada CD-lt</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes">See funktsioon installitakse kohalikule kõvakettale</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes">Seda funktsiooni saab edaspidi käitada võrgust</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes">See funktsioon desinstallitakse täielikult, te ei saa seda enam CD-lt käitada</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes">See senini CD-lt käitatav funktsioon määratakse vajadusel installitavaks</String>
+    <String Id="UITextSelCDCD" Overridable="yes">See funktsioon jääb CD-lt käitatavaks</String>
+    <String Id="UITextSelCDLocal" Overridable="yes">Funktsiooni olek muutub CD-l käitatavast kohalikule kõvakettale installitavaks</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes">See komponent vabastab teie kõvakettal [1].</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes">See funktsioon nõuab [1] kõvakettaruumi.</String>
+    <String Id="UITextSelCostPending" Overridable="yes">Selle funktsiooni kulu arvutamine ...</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes">See funktsioon eemaldatakse täielikult</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes">See funktsioon eemaldatakse kohalikult kõvakettalt, kuid määratakse installitavaks nõudmisel</String>
+    <String Id="UITextSelLocalCD" Overridable="yes">See funktsioon eemaldatakse teie kohalikult kõvakettalt, kuid on edaspidi siiski käitatav CD-lt</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes">See funktsioon jääb kohalikule kõvakettale installituks</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes">See funktsioon eemaldatakse teie kohalikult kõvakettalt, kuid võrgust saab seda endiselt käitada</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes">See funktsioon desinstallitakse täielikult, te ei saa seda enam võrgust käitada</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes">Funktsiooni olek muutub võrgus käitatavast nõudmisel installitavaks</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes">Funktsiooni olek muutub võrgus käitatavast kohalikule kõvakettale installitavaks</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes">See funktsioon jääb võrgust käitatavaks</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes">See funktsioon vabastab [1] kõvakettaruumi. Valitud on [2] alamfunktsiooni [3]-st. Alamfunktsioonid vabastavad teie kõvakettal [4] ruumi.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes">See funktsioon vabastab [1] kõvakettaruumi. Valitud on [2] alamfunktsiooni [3]-st. Alamfunktsioonide jaoks on vaja kõvakettal [4] ruumi.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes">Selle funktsiooni jaoks on vaja kõvakettal [1] ruumi. Valitud on [2] alamfunktsiooni [3]-st. Alamfunktsioonid vabastavad teie kõvakettal [4] ruumi.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes">Selle funktsiooni jaoks on vaja kõvakettal [1] ruumi. Valitud on [2] alamfunktsiooni [3]-st. Alamfunktsioonide jaoks on vaja kõvakettal [4] ruumi.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes">Aega jäänud: {[1] minut(it) }{[2] sekund(it)}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes">Saadaval</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes">Erinevus</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes">Nõutav</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes">Kettamaht</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes">Draiv</String>
+</WixLocalization>
