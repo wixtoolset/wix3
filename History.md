@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4331 - guard against null registry keys
+
 * BobArnson: WIXBUG:4301 - don't cross the HRESULTs and Win32 error codes; it would be bad.
 
 * RobMen: WIXBUG:4228 - send TRUE to WM_ENDSESSION to correctly inform applications to close.
