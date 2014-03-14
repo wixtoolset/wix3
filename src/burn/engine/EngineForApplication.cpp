@@ -641,11 +641,13 @@ public: // IBootstrapperEngine
         return S_OK;
     }
 
-    virtual STDMETHODIMP Detect()
+    virtual STDMETHODIMP Detect(
+        __in_opt HWND hwndParent
+        )
     {
         HRESULT hr = S_OK;
 
-        if (!::PostThreadMessageW(m_dwThreadId, WM_BURN_DETECT, 0, 0))
+        if (!::PostThreadMessageW(m_dwThreadId, WM_BURN_DETECT, 0, reinterpret_cast<LPARAM>(hwndParent)))
         {
             ExitWithLastError(hr, "Failed to post detect message.");
         }

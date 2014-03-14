@@ -49,6 +49,10 @@ struct APPLICATION_UPDATE_ENTRY
 {
     LPWSTR wzApplicationId;
     LPWSTR wzApplicationType;
+    LPWSTR wzTitle;
+    LPWSTR wzSummary;
+    LPWSTR wzContentType;
+    LPWSTR wzContent;
 
     LPWSTR wzUpgradeId;
     BOOL fUpgradeExclusive;

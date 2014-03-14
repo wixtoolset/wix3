@@ -307,7 +307,7 @@ extern "C" HRESULT PlanDefaultPackageRequestState(
             *pRequestState = BOOTSTRAPPER_REQUEST_STATE_NONE;
         }
     }
-    else if (BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED == currentState && BOOTSTRAPPER_ACTION_UNINSTALL != action)
+    else if (BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED == currentState && !BOOTSTRAPPER_ACTION_UNINSTALL == action)
     {
         // Superseded means the package is on the machine but not active, so only uninstall operations are allowed.
         // All other operations do nothing.
@@ -1241,7 +1241,7 @@ extern "C" HRESULT PlanCleanPackage(
         // The following are all different reasons why the package should be cleaned from the cache.
         // The else-ifs are used to make the conditions easier to see (rather than have them combined
         // in one huge condition).
-        if (!pPackage->fCache)  // easy, package is not supposed to stay cached.
+        if (!pPackage->fCache && (BOOTSTRAPPER_ACTION_UPDATE_REPLACE != pPlan->action) )  // easy, package is not supposed to stay cached.
         {
             fPlanCleanPackage = TRUE;
         }

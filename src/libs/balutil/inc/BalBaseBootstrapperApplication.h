@@ -118,6 +118,20 @@ public: // IBurnUserExperience
         return CheckCanceled() ? IDCANCEL : nRecommendation;
     }
 
+    virtual STDMETHODIMP_(int) OnDetectUpdate(
+        __in_z LPCWSTR /*wzUpdateLocation*/,
+        __in DWORD64 /*dw64Size*/,
+        __in DWORD64 /*dw64Version*/,
+        __in_z LPCWSTR /*wzTitle*/,
+        __in_z LPCWSTR /*wzSummary*/,
+        __in_z LPCWSTR /*wzContentType*/,
+        __in_z LPCWSTR /*wzContent*/,
+        __in int nRecommendation
+        )
+    {
+        return CheckCanceled() ? IDCANCEL : nRecommendation;
+    }
+
     virtual STDMETHODIMP_(void) OnDetectUpdateComplete(
         __in HRESULT /*hrStatus*/,
         __in_z_opt LPCWSTR /*wzUpdateLocation*/
