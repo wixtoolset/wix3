@@ -5,7 +5,7 @@
 //   The license and further copyright text can be found in the file
 //   LICENSE.TXT at the root directory of the distribution.
 // </copyright>
-// 
+//
 // <summary>
 //    Precompiled header for standard bootstrapper application.
 // </summary>
@@ -20,7 +20,6 @@
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <stdlib.h>
-#include <strsafe.h>
 
 #include "dutil.h"
 #include "memutil.h"
@@ -36,6 +35,14 @@
 #include "thmutil.h"
 #include "uriutil.h"
 #include "xmlutil.h"
+
+// Used for EnumProcesses and GetModuleBaseName
+#include <psapi.h>
+
+// Used for CString and also fixes not linking MFC
+#include <atlstr.h>
+// Fixes error C1189: Need to include strsafe.h after tchar.h
+#include <strsafe.h>
 
 #include "IBootstrapperEngine.h"
 #include "IBootstrapperApplication.h"

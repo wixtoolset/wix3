@@ -7,7 +7,6 @@
 // </copyright>
 //-------------------------------------------------------------------------------------------------
 
-
 #include "precomp.h"
 
 static const HRESULT E_WIXSTDBA_CONDITION_FAILED = MAKE_HRESULT(SEVERITY_ERROR, 500, 1);
@@ -19,7 +18,14 @@ static const LPCWSTR WIXSTDBA_VARIABLE_INSTALL_FOLDER = L"InstallFolder";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
+static const LPCWSTR WIXSTDBA_VARIABLE_RUN_EXECUTABLE = L"RunExecutableVariable";
+static const LPCWSTR WIXSTDBA_VARIABLE_RUN_EXECUTABLE_ERROR_MSG = L"VerifyRunExecutableErrorMsg";
+static const LPCWSTR WIXSTDBA_VARIABLE_VERIFY_OFFICE_OPEN_ERROR_MSG = L"VerifyOfficeOpenMsg";
+static const LPCWSTR WIXSTDBA_VARIABLE_VERIFY_CHECKBOX_ERROR_MSG = L"VerifyCheckBoxesErrorMsg";
+static const LPCWSTR WIXSTDBA_VARIABLE_VERIFY_CLIENT_NOT_INSTALLING_IN_XP_ERROR_MSG = L"VerifyClientNotInstallingInXPErrorMsg";
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
+
+#define MAX_PROCESSES 1024
 
 enum WIXSTDBA_STATE
 {
@@ -91,6 +97,9 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_OPTIONS_BUTTON,
     WIXSTDBA_CONTROL_EULA_RICHEDIT,
     WIXSTDBA_CONTROL_EULA_LINK,
+    WIXSTDBA_CONTROL_CHECKBOX_CLIENT1,
+    WIXSTDBA_CONTROL_CHECKBOX_CLIENT2,
+    WIXSTDBA_CONTROL_CHECKBOX_CLIENT3,
     WIXSTDBA_CONTROL_EULA_ACCEPT_CHECKBOX,
     WIXSTDBA_CONTROL_WELCOME_CANCEL_BUTTON,
     WIXSTDBA_CONTROL_VERSION_LABEL,
@@ -124,12 +133,18 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON,
 
     // Success page
+    WIXSTDBA_CONTROL_SUCCESS_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER,
     WIXSTDBA_CONTROL_LAUNCH_BUTTON,
     WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT,
     WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON,
     WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON,
 
     // Failure page
+    WIXSTDBA_CONTROL_FAILURE_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER,
     WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK,
     WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT,
     WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT,
@@ -147,6 +162,9 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_OPTIONS_BUTTON, L"OptionsButton" },
     { WIXSTDBA_CONTROL_EULA_RICHEDIT, L"EulaRichedit" },
     { WIXSTDBA_CONTROL_EULA_LINK, L"EulaHyperlink" },
+    { WIXSTDBA_CONTROL_CHECKBOX_CLIENT1, L"InstallClient1Checkbox" },
+    { WIXSTDBA_CONTROL_CHECKBOX_CLIENT2, L"InstallClient2Checkbox" },
+    { WIXSTDBA_CONTROL_CHECKBOX_CLIENT3, L"InstallClient3Checkbox" },
     { WIXSTDBA_CONTROL_EULA_ACCEPT_CHECKBOX, L"EulaAcceptCheckbox" },
     { WIXSTDBA_CONTROL_WELCOME_CANCEL_BUTTON, L"WelcomeCancelButton" },
     { WIXSTDBA_CONTROL_VERSION_LABEL, L"InstallVersion" },
@@ -173,11 +191,17 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_OVERALL_PROGRESS_TEXT, L"OverallProgressText" },
     { WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON, L"ProgressCancelButton" },
 
+    { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, L"SuccessSetupHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, L"SuccessUninstallHeader" },
     { WIXSTDBA_CONTROL_LAUNCH_BUTTON, L"LaunchButton" },
     { WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT, L"SuccessRestartText" },
     { WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON, L"SuccessRestartButton" },
     { WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON, L"SuccessCancelButton" },
 
+    { WIXSTDBA_CONTROL_FAILURE_HEADER, L"FailureHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, L"FailureSetupHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, L"FailureUninstallHeader" },
     { WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK, L"FailureLogFileLink" },
     { WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, L"FailureMessageText" },
     { WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, L"FailureRestartText" },
@@ -259,7 +283,7 @@ public: // IBootstrapperApplication
     {
         BalInfoAddRelatedBundleAsPackage(&m_Bundle.packages, wzBundleId, relationType, fPerMachine);
 
-        // If we're not doing a pre-req install, remember when our bundle would cause a downgrade.
+        // If we're not doing a prerequisite install, remember when our bundle would cause a downgrade.
         if (!m_sczPrereqPackage && BOOTSTRAPPER_RELATED_OPERATION_DOWNGRADE == operation)
         {
             m_fDowngrading = TRUE;
@@ -275,7 +299,7 @@ public: // IBootstrapperApplication
         __in BOOTSTRAPPER_PACKAGE_STATE state
         )
     {
-        // If the prereq package is already installed, remember that.
+        // If the prerequisite package is already installed, remember that.
         if (m_sczPrereqPackage && BOOTSTRAPPER_PACKAGE_STATE_PRESENT == state &&
             CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
         {
@@ -297,6 +321,8 @@ public: // IBootstrapperApplication
         {
             hrStatus = EvaluateConditions();
         }
+
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running detect complete BA function");
 
         SetState(WIXSTDBA_STATE_DETECTED, hrStatus);
 
@@ -379,6 +405,8 @@ public: // IBootstrapperApplication
         {
             m_pBAFunction->OnPlanComplete();
         }
+
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running plan complete BA function");
 
         SetState(WIXSTDBA_STATE_PLANNED, hrStatus);
 
@@ -561,7 +589,28 @@ public: // IBootstrapperApplication
 
         if (INSTALLMESSAGE_ACTIONSTART == mt)
         {
-            ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, wzMessage);
+            // Need to trim the action data text
+            CString tempString = wzMessage;
+            size_t strLength = wcslen(tempString);
+            // Find the first '.' and removes text to the left of it i.e.: 'Action <time>: CustomAction name. progress text' to just 'progress text'
+            size_t strPosition = tempString.Find('.', 0);
+            // Check to see if there is another '.'
+            // Find the second '.' and removes text to the left of it i.e.: 'Action <time>: MergeModueGUID. progress text' to just 'progress text'
+            if (strPosition != -1)
+            {
+                size_t nextPosition = tempString.Find('.', strPosition + 1);
+                // Make sure it found something before using its position
+                if (nextPosition != -1)
+                {
+                    strPosition = nextPosition;
+                }
+            }
+
+            // Need to add + 2 for position since it will still show the '. '
+            CString trimString = tempString.Right(strLength - (strPosition + 2));
+
+            // Use the CString trimString instead of wzMessage, leave wzMessage alone
+            ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, trimString);
         }
 
         return __super::OnExecuteMsiMessage(wzPackageId, mt, uiFlags, wzMessage, cData, rgwzData, nRecommendation);
@@ -1661,7 +1710,15 @@ private: // privates
             BalExitOnFailure(hr, "Failed calling detect BA function.");
         }
 
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running detect BA function");
+
         SetState(WIXSTDBA_STATE_DETECTING, hr);
+
+        hr = GetFileVersion();
+        BalExitOnFailure(hr, "Failed to get version.");
+
+        // Delay start to show splash screen handling
+        Delay();
 
         // If the UI should be visible, display it now and hide the splash screen
         if (BOOTSTRAPPER_DISPLAY_NONE < m_command.display)
@@ -1682,6 +1739,48 @@ private: // privates
         }
 
         return;
+    }
+
+    //
+    // Get the file version of the bootstrapper and record in bootstrapper log file
+    //
+    HRESULT GetFileVersion()
+    {
+        HRESULT hr = S_OK;
+        LPWSTR sczValue = NULL;
+        ULARGE_INTEGER uliVersion = { };
+
+        BalFormatString(L"[WixBundleOriginalSource]", &sczValue);
+        BalExitOnFailure(hr, "Failed to format variable.");
+
+        FileVersion(sczValue, &uliVersion.HighPart, &uliVersion.LowPart);
+        BalExitOnFailure(hr, "Failed to get file version.");
+
+        hr = m_pEngine->SetVariableVersion(L"FileVersion", uliVersion.QuadPart);
+        BalExitOnFailure(hr, "Failed to set variable.");
+
+    LExit:
+        ReleaseStr(sczValue);
+
+        return hr;
+    }
+
+    //
+    // Delay the closing of the splash screen in milliseconds (in Bundle.wxs set variable DelayStart with value of milliseconds)
+    //
+    HRESULT Delay() 
+    { 
+        HRESULT hr = S_OK; 
+        LONGLONG llDelay = 0; 
+        
+        BalGetNumericVariable(L"DelayStart", &llDelay); 
+        if (llDelay) 
+        { 
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Delay for %dms", (DWORD)llDelay); 
+            ::Sleep((DWORD)llDelay); 
+        } 
+        
+        return hr; 
     }
 
 
@@ -1709,6 +1808,8 @@ private: // privates
                 BalExitOnFailure(hr, "Cannot install a product when a newer version is installed.");
             }
         }
+
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running plan BA function");
 
         SetState(WIXSTDBA_STATE_PLANNING, hr);
 
@@ -1858,6 +1959,23 @@ private: // privates
                         fLaunchTargetExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH);
                     }
 
+                    // Set the header of the Success page to either Setup or Uninstall
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, TRUE);
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, FALSE);
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, FALSE);
+                    if (BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction)
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, TRUE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, FALSE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE);
+                    }
+                    else if(BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction)
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, TRUE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, FALSE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE);
+                    }
+
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_LAUNCH_BUTTON, fLaunchTargetExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON, fShowRestartButton);
@@ -1884,15 +2002,7 @@ private: // privates
                             }
                         }
 
-                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal)
-                        {
-                            StrAllocString(&sczText, sczUnformattedText, 0);
-                        }
-                        else
-                        {
-                            StrAllocFormatted(&sczText, L"0x%08x - %ls", m_hrFinal, sczUnformattedText);
-                        }
-
+                        StrAllocFormatted(&sczText, L"0x%08x - %ls", m_hrFinal, sczUnformattedText);
                         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, sczText);
                         fShowErrorMessage = TRUE;
                     }
@@ -1903,6 +2013,23 @@ private: // privates
                         {
                             fShowRestartButton = TRUE;
                         }
+                    }
+
+                    // Set the header of the failure page to either Setup or Uninstall
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, TRUE);
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, FALSE);
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, FALSE);
+                    if (BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction)
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, TRUE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, FALSE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE);
+                    }
+                    else if(BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction)
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, TRUE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, FALSE);
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE);
                     }
 
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK, fShowLogLink);
@@ -2049,12 +2176,55 @@ private: // privates
 
     //
     // OnClickOptionsButton - show the options page.
+    //    In Bundle.wxs set the variable: VerifyCheckBoxes to 1 to run this function
+    //    In Bundle.wxs set the variable: VerifyOfficeOpen to 1 to run this function
+    //    In Bundle.wxs set the variable: VerifyRunExecutable to 1 to run this function
+    //    In Bundle.wex set the variable: VerifyClientNotInstallingInXP to 1 to run this function
     //
     void OnClickOptionsButton()
     {
-        SavePageSettings(WIXSTDBA_PAGE_INSTALL);
-        m_stateBeforeOptions = m_state;
-        SetState(WIXSTDBA_STATE_OPTIONS, S_OK);
+        BOOL fAdvanceToOptionsPageCheckboxOkay = TRUE;
+        BOOL fAdvanceToOptionsPageOfficeClosed = TRUE;
+        BOOL fAdvanceToOptionsPageNotXP = TRUE;
+        // Verify that one of the check boxes for the client has been selected, if not produce message
+        LONGLONG llVerifyCheckBoxes = 0;
+        BalGetNumericVariable(L"VerifyCheckBoxes", &llVerifyCheckBoxes);
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Validate check boxes: %d", (DWORD)llVerifyCheckBoxes);
+        // Verify that MS Office applications are closed, if not produce a warning message
+        LONGLONG llVerifyOfficeOpen = 0;
+        BalGetNumericVariable(L"VerifyOfficeOpen", &llVerifyOfficeOpen);
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Verify if Office application is open: %d", (DWORD)llVerifyOfficeOpen);
+        // Verify that the user wants to run an executable by a warning message
+        LONGLONG llVerifyRunExecutable = 0;
+        BalGetNumericVariable(L"VerifyRunExecutable", &llVerifyRunExecutable);
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Verify to run executable: %d", (DWORD)llVerifyRunExecutable);
+        // Verify that the client install cannot run in XP and warn the user
+        LONGLONG llVerifyClientNotInstallingInXP = 0;
+        BalGetNumericVariable(L"VerifyClientNotInstallingInXP", &llVerifyClientNotInstallingInXP);
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Verify not to run in XP: %d", (DWORD)llVerifyClientNotInstallingInXP);
+
+        if (llVerifyCheckBoxes == 1)
+        {
+            fAdvanceToOptionsPageCheckboxOkay = IsThereAtLeastOneClientSelected();
+        }
+        if (llVerifyOfficeOpen == 1)
+        {
+            fAdvanceToOptionsPageOfficeClosed = IsOfficeClosed();
+        }
+        if (llVerifyClientNotInstallingInXP == 1 && fAdvanceToOptionsPageOfficeClosed)
+        {
+            fAdvanceToOptionsPageNotXP = DisplayVerifyClientNotInstallingInXPMessage();
+        }
+        if (llVerifyRunExecutable == 1 && fAdvanceToOptionsPageOfficeClosed && fAdvanceToOptionsPageNotXP)
+        {
+            DisplayVerifyRunExecutableMessage();
+        }
+        if (fAdvanceToOptionsPageCheckboxOkay && fAdvanceToOptionsPageOfficeClosed && fAdvanceToOptionsPageNotXP)
+        {
+            SavePageSettings(WIXSTDBA_PAGE_INSTALL);
+            m_stateBeforeOptions = m_state;
+            SetState(WIXSTDBA_STATE_OPTIONS, S_OK);
+        }
     }
 
 
@@ -2143,10 +2313,24 @@ private: // privates
 
     //
     // OnClickUninstallButton - start the uninstall.
+    //    In Bundle.wxs set the variable: VerifyOfficeOpen to 1 to run this function
     //
     void OnClickUninstallButton()
     {
-        this->OnPlan(BOOTSTRAPPER_ACTION_UNINSTALL);
+        BOOL fValidateOfficeClosed = TRUE;
+        // Verify that MS Office applications are closed, if not produce a warning message
+        LONGLONG llVerifyOfficeOpen = 0;
+        BalGetNumericVariable(L"VerifyOfficeOpen", &llVerifyOfficeOpen);
+        BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Verify if Office application is open: %d", (DWORD)llVerifyOfficeOpen);
+
+        if (llVerifyOfficeOpen == 1)
+        {
+            fValidateOfficeClosed = IsOfficeClosed();
+        }
+        if (fValidateOfficeClosed)
+        {
+            this->OnPlan(BOOTSTRAPPER_ACTION_UNINSTALL);
+        }
     }
 
 
@@ -2156,6 +2340,222 @@ private: // privates
     void OnClickCloseButton()
     {
         ::SendMessageW(m_hWnd, WM_CLOSE, 0, 0);
+    }
+
+
+    //
+    // IsThereAtLeastOneClientSelected - Ensure at least one product has been selected to be installed
+    //    In Bundle.wxs set the variable: VerifyCheckBoxes to 1 to run this function
+    //                  set the variable: VerifyCheckBoxesErrorMsg (WIXSTDBA_VARIABLE_VERIFY_CHECKBOX_ERROR_MSG) to some error message string
+    //
+    bool IsThereAtLeastOneClientSelected()
+    {
+        HRESULT hr = S_OK;
+        LPWSTR sczUnformattedVerifyCheckBoxesErrorMsg = NULL;
+        LPWSTR sczVerifyCheckBoxesErrorMsg = NULL;
+
+        if ( (!ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_CHECKBOX_CLIENT1)) && (!ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_CHECKBOX_CLIENT2)) && (!ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_CHECKBOX_CLIENT3)) )
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_VERIFY_CHECKBOX_ERROR_MSG, &sczUnformattedVerifyCheckBoxesErrorMsg);
+            BalExitOnFailure1(hr, "Failed to get verify check box variable: %ls", WIXSTDBA_VARIABLE_VERIFY_CHECKBOX_ERROR_MSG);
+            hr = BalFormatString(sczUnformattedVerifyCheckBoxesErrorMsg, &sczVerifyCheckBoxesErrorMsg);
+            BalExitOnFailure1(hr, "Failed to format verify check box variable: %ls", sczUnformattedVerifyCheckBoxesErrorMsg);
+            ::MessageBoxW(m_hWnd, sczVerifyCheckBoxesErrorMsg, m_pTheme->sczCaption, MB_OK | MB_ICONEXCLAMATION);
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "None of the check boxes were selected to be installed.");
+
+            return FALSE;
+        }
+
+    LExit:
+        ReleaseStr(sczVerifyCheckBoxesErrorMsg);
+        ReleaseStr(sczUnformattedVerifyCheckBoxesErrorMsg);
+
+        return TRUE;
+
+    }
+
+
+    //
+    // IsOfficeClosed - Ensure that the Office applications are closed
+    //    In Bundle.wxs set the variable: VerifyOfficeOpen to 1 to run this function
+    //                  set the variable: VerifyOfficeOpenMsg (WIXSTDBA_VARIABLE_VERIFY_OFFICE_OPEN_ERROR_MSG) to some error message string
+    //
+    bool IsOfficeClosed()
+    {
+        LPCTSTR ExcelProcessName (L"EXCEL.EXE");
+        DWORD   ExcelProcessId;
+        LPCTSTR OutlookProcessName (L"OUTLOOK.EXE");
+        DWORD   OutlookProcessId;
+        LPCTSTR PowerPointProcessName (L"POWERPNT.EXE");
+        DWORD   PowerPointProcessId;
+        LPCTSTR WordProcessName (L"WINWORD.EXE");
+        DWORD   WordProcessId;
+        HRESULT hr = S_OK;
+        LPWSTR sczVerifyOfficeOpenMsg = NULL;
+        LPWSTR sczUnformattedVerifyOfficeOpenMsg = NULL;
+
+        ExcelProcessId = FindProcessId(ExcelProcessName);
+        OutlookProcessId = FindProcessId(OutlookProcessName);
+        PowerPointProcessId = FindProcessId(PowerPointProcessName);
+        WordProcessId = FindProcessId(WordProcessName);
+
+        if ( ExcelProcessId || OutlookProcessId || PowerPointProcessId || WordProcessId )
+        {
+            
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_VERIFY_OFFICE_OPEN_ERROR_MSG, &sczUnformattedVerifyOfficeOpenMsg);
+            BalExitOnFailure1(hr, "Failed to get verify Office open variable: %ls", WIXSTDBA_VARIABLE_VERIFY_OFFICE_OPEN_ERROR_MSG);
+            hr = BalFormatString(sczUnformattedVerifyOfficeOpenMsg, &sczVerifyOfficeOpenMsg);
+            BalExitOnFailure1(hr, "Failed to format verify Office open variable: %ls", sczUnformattedVerifyOfficeOpenMsg);
+            ::MessageBoxW(m_hWnd, sczVerifyOfficeOpenMsg, m_pTheme->sczCaption, MB_OK | MB_ICONEXCLAMATION);
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "One or more Microsoft Office applications are opened and must be closed before setup continues.");
+
+            return FALSE;
+        }
+
+    LExit:
+        ReleaseStr(sczVerifyOfficeOpenMsg);
+        ReleaseStr(sczUnformattedVerifyOfficeOpenMsg);
+
+        return TRUE;
+    }
+
+    //
+    // FindProcessId - helper function to detect if a process is running, returns true or false
+    //
+    DWORD FindProcessId(__in_z LPCTSTR lpcszFileName)
+    {
+        LPDWORD lpdwProcessIds;
+        LPTSTR  lpszBaseName;
+        HANDLE  hProcess;
+        DWORD   i, cdwProcesses, dwProcessId = 0;
+
+        lpdwProcessIds = (LPDWORD)HeapAlloc(GetProcessHeap(), 0, MAX_PROCESSES*sizeof(DWORD));
+        if (lpdwProcessIds != NULL)
+        {
+            if (EnumProcesses(lpdwProcessIds, MAX_PROCESSES*sizeof(DWORD), &cdwProcesses))
+            {
+                lpszBaseName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, MAX_PATH*sizeof(TCHAR));
+                if (lpszBaseName != NULL)
+                {
+                    cdwProcesses /= sizeof(DWORD);
+                    for (i = 0; i < cdwProcesses; i++)
+                    {
+                        hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwProcessIds[i]);
+                        if (hProcess != NULL)
+                        {
+                            if (GetModuleBaseName(hProcess, NULL, lpszBaseName, MAX_PATH) > 0)
+                            {
+                                if (!lstrcmpi(lpszBaseName, lpcszFileName))
+                                {
+                                    dwProcessId = lpdwProcessIds[i];
+                                    CloseHandle(hProcess);
+                                    break;
+                                }
+                            }
+                            CloseHandle(hProcess);
+                        }
+                    }
+                    HeapFree(GetProcessHeap(), 0, (LPVOID)lpszBaseName);
+                }
+            }
+            HeapFree(GetProcessHeap(), 0, (LPVOID)lpdwProcessIds);
+        }
+        return dwProcessId;
+    }
+
+
+    //
+    // DisplayVerifyRunExecutableMessage - if installing a specific feature/product ask the user if they want to run an executable
+    //    In Bundle.wxs set the variable: VerifyRunExecutable to 1 to run this function
+    //                  set the variable: VerifyRunExecutableErrorMsg (WIXSTDBA_VARIABLE_RUN_EXECUTABLE_ERROR_MSG) to some error message string
+    //                  set the variable: RunExecutableVariable (WIXSTDBA_VARIABLE_RUN_EXECUTABLE) to the MSI property you will be using to run the EXE
+    //
+    void DisplayVerifyRunExecutableMessage()
+    {
+        HRESULT hr = S_OK;
+        LPCWSTR sczRunExecutable = NULL;
+        LPWSTR sczRunExecutableVariable = NULL;
+        LPWSTR sczUnformattedRunExecutableVariable = NULL;
+        LPWSTR sczVerifyRunExecutableErrorMsg = NULL;
+        LPWSTR sczUnformattedVerifyRunExecutableErrorMsg = NULL;
+        if (ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_CHECKBOX_CLIENT3))
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_RUN_EXECUTABLE, &sczUnformattedRunExecutableVariable);
+            BalExitOnFailure1(hr, "Failed to get run executable variable: %ls", WIXSTDBA_VARIABLE_RUN_EXECUTABLE);
+            hr = BalFormatString(sczUnformattedRunExecutableVariable, &sczRunExecutableVariable);
+            BalExitOnFailure1(hr, "Failed to format run executable variable: %ls", sczUnformattedRunExecutableVariable);
+            
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_RUN_EXECUTABLE_ERROR_MSG, &sczUnformattedVerifyRunExecutableErrorMsg);
+            BalExitOnFailure1(hr, "Failed to get run executable error message variable: %ls", WIXSTDBA_VARIABLE_RUN_EXECUTABLE_ERROR_MSG);
+            hr = BalFormatString(sczUnformattedVerifyRunExecutableErrorMsg, &sczVerifyRunExecutableErrorMsg);
+            BalExitOnFailure1(hr, "Failed to format run executable error message variable: %ls", sczUnformattedVerifyRunExecutableErrorMsg);
+            int nResult = ::MessageBoxW(m_hWnd, sczVerifyRunExecutableErrorMsg, m_pTheme->sczCaption, MB_YESNO | MB_ICONQUESTION);
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Asking if they want to run an executable after a client install.");
+
+            if (nResult == IDYES)
+            {
+                sczRunExecutable = L"1";
+            }
+            else
+            {
+                sczRunExecutable = L"0";
+            }
+
+            hr = m_pEngine->SetVariableString(LPCWSTR(sczRunExecutableVariable), sczRunExecutable);
+
+        }
+
+    LExit:
+        ReleaseStr(sczRunExecutableVariable);
+        ReleaseStr(sczUnformattedRunExecutableVariable);
+        ReleaseStr(sczVerifyRunExecutableErrorMsg);
+        ReleaseStr(sczUnformattedVerifyRunExecutableErrorMsg);
+
+        return;
+
+    }
+
+        
+    //
+    // DisplayVerifyClientNotInstallingInXPMessage - if installing a specific MSI and it can't execute on XP, warn user and then deselect checkbox
+    //    In Bundle.wxs set the variable: VerifyClientNotInstallingInXP to 1 to run this function
+    //                  set the variable: VerifyClientNotInstallingInXPErrorMsg (WIXSTDBA_VARIABLE_VERIFY_CLIENT_NOT_INSTALLING_IN_XP_ERROR_MSG) to some error message string
+    //
+    bool DisplayVerifyClientNotInstallingInXPMessage()
+    {
+        HRESULT hr = S_OK;
+        LPWSTR sczVerifyClientNotInstallingInXPErrorMsg = NULL;
+        LPWSTR sczUnformattedVerifyClientNotInstallingInXPErrorMsg = NULL;
+
+        OSVERSIONINFO osvi;
+        BOOL bIsWindowsXP;
+
+        ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+
+        GetVersionEx(&osvi);
+
+        bIsWindowsXP = ( (osvi.dwMajorVersion == 5) && ((osvi.dwMinorVersion == 1) || (osvi.dwMinorVersion == 2)) );
+
+        if (ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_CHECKBOX_CLIENT3) && bIsWindowsXP)
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_VERIFY_CLIENT_NOT_INSTALLING_IN_XP_ERROR_MSG, &sczUnformattedVerifyClientNotInstallingInXPErrorMsg);
+            BalExitOnFailure1(hr, "Failed to get client cannot install in XP error message variable: %ls", WIXSTDBA_VARIABLE_VERIFY_CLIENT_NOT_INSTALLING_IN_XP_ERROR_MSG);
+            hr = BalFormatString(sczUnformattedVerifyClientNotInstallingInXPErrorMsg, &sczVerifyClientNotInstallingInXPErrorMsg);
+            BalExitOnFailure1(hr, "Failed to format run executable error message variable: %ls", sczUnformattedVerifyClientNotInstallingInXPErrorMsg);
+            ::MessageBoxW(m_hWnd, sczVerifyClientNotInstallingInXPErrorMsg, m_pTheme->sczCaption, MB_OK | MB_ICONWARNING);
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Warning user client install cannot be installed in Windows XP.");
+
+            return FALSE;
+
+        }
+
+    LExit:
+        ReleaseStr(sczVerifyClientNotInstallingInXPErrorMsg);
+        ReleaseStr(sczUnformattedVerifyClientNotInstallingInXPErrorMsg);
+
+        return TRUE;
+
     }
 
 
@@ -2183,7 +2583,7 @@ private: // privates
         hr = UriProtocol(sczLicenseUrl, &protocol);
         if (FAILED(hr) || URI_PROTOCOL_UNKNOWN == protocol)
         {
-            // Probe for localised license file
+            // Probe for localized license file
             hr = PathRelativeToModule(&sczLicensePath, sczLicenseUrl, m_hModule);
             if (SUCCEEDED(hr))
             {
@@ -2427,10 +2827,7 @@ private: // privates
 
             if (!fResult)
             {
-                BalLog(BOOTSTRAPPER_LOG_LEVEL_ERROR, "%ls", m_sczFailedMessage);
-
                 hr = E_WIXSTDBA_CONDITION_FAILED;
-                // todo: remove in WiX v4, in case people are relying on v3.x logging behavior
                 BalExitOnFailure1(hr, "Bundle condition evaluated to false: %ls", pCondition->sczCondition);
             }
         }
@@ -2570,7 +2967,7 @@ private: // privates
 
 public:
     //
-    // Constructor - intitialize member variables.
+    // Constructor - initialize member variables.
     //
     CWixStandardBootstrapperApplication(
         __in HMODULE hModule,
@@ -2670,7 +3067,7 @@ public:
     ~CWixStandardBootstrapperApplication()
     {
         AssertSz(!::IsWindow(m_hWnd), "Window should have been destroyed before destructor.");
-        AssertSz(!m_pTheme, "Theme should have been released before destuctor.");
+        AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
         ReleaseObject(m_pTaskbarList);
         ReleaseDict(m_sdOverridableVariables);
