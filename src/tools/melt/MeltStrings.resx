@@ -126,6 +126,7 @@
    -notidy    do not delete temporary files (useful for debugging)
    -o[ut]     specify output file (default: write to current directory)
    -pdb       specify .wixpdb matching database.msi
+   -se        supress extraction of the cabinet(s) - applicable ONLY for .msi
    -sw[N]     suppress all warnings or a specific message ID
               (example: -sw1059 -sw1067)
    -swall     suppress all warnings (deprecated)

@@ -45,6 +45,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private bool showHelp;
         private bool showLogo;
         private bool tidy;
+        private bool supressCABExtraction;
 
         /// <summary>
         /// Instantiate a new Melt class.
@@ -263,7 +264,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             IDictionary<string, string> paths = null;
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
-                package.ExtractFiles();
+                if (!this.supressCABExtraction)
+                {
+                    package.ExtractFiles();
+                }
                 paths = package.Files.SourcePaths;
             }
 
@@ -388,6 +392,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                         {
                             this.messageHandler.Display(this, WixErrors.IllegalSuppressWarningId(paramArg));
                         }
+                    }
+                    else if ("se" == parameter)
+                    {
+                        this.supressCABExtraction = true;
                     }
                     else if ("wxall" == parameter)
                     {
