@@ -116,57 +116,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
         }
 
         /// <summary>
-        /// Cleans up the temp files.
-        /// </summary>
-        /// <param name="path">The temporary directory to delete.</param>
-        /// <param name="messageHandler">The message handler.</param>
-        /// <returns>True if all files were deleted, false otherwise.</returns>
-        internal static bool DeleteTempFiles(string path, IMessageHandler messageHandler)
-        {
-            // try three times and give up with a warning if the temp files aren't gone by then
-            int retryLimit = 3;
-            bool removedReadOnly = false;
-
-            for (int i = 0; i < retryLimit; i++)
-            {
-                try
-                {
-                    Directory.Delete(path, true);   // toast the whole temp directory
-                    break; // no exception means we got success the first time
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    if (!removedReadOnly) // should only need to unmark readonly once - there's no point in doing it again and again
-                    {
-                        removedReadOnly = true;
-                        RecursiveFileAttributes(path, FileAttributes.ReadOnly, false); // toasting will fail if any files are read-only. Try changing them to not be.
-                    }
-                    else
-                    {
-                        messageHandler.OnMessage(WixWarnings.AccessDeniedForDeletion(null, path));
-                        return false;
-                    }
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    // if the path doesn't exist, then there is nothing for us to worry about
-                    break;
-                }
-                catch (IOException) // directory in use
-                {
-                    if (i == (retryLimit - 1)) // last try failed still, give up
-                    {
-                        messageHandler.OnMessage(WixWarnings.DirectoryInUse(null, path));
-                        return false;
-                    }
-                    System.Threading.Thread.Sleep(300);  // sleep a bit before trying again
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Gets a valid code page from the given web name or integer value.
         /// </summary>
         /// <param name="value">A code page web name or integer value as a string.</param>
@@ -395,35 +344,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
         internal static bool ContainsProperty(string possibleProperty)
         {
             return PropertySearch.IsMatch(possibleProperty);
-        }
-
-        /// <summary>
-        /// Recursively loops through a directory, changing an attribute on all of the underlying files.
-        /// An example is to add/remove the ReadOnly flag from each file.
-        /// </summary>
-        /// <param name="path">The directory path to start deleting from.</param>
-        /// <param name="fileAttribute">The FileAttribute to change on each file.</param>
-        /// <param name="markAttribute">If true, add the attribute to each file. If false, remove it.</param>
-        private static void RecursiveFileAttributes(string path, FileAttributes fileAttribute, bool markAttribute)
-        {
-            foreach (string subDirectory in Directory.GetDirectories(path))
-            {
-                RecursiveFileAttributes(subDirectory, fileAttribute, markAttribute);
-            }
-
-            foreach (string filePath in Directory.GetFiles(path))
-            {
-                FileAttributes attributes = File.GetAttributes(filePath);
-                if (markAttribute)
-                {
-                    attributes = attributes | fileAttribute; // add to list of attributes
-                }
-                else if (fileAttribute == (attributes & fileAttribute)) // if attribute set
-                {
-                    attributes = attributes ^ fileAttribute; // remove from list of attributes
-                }
-                File.SetAttributes(filePath, attributes);
-            }
         }
 
         internal static string GetFileHash(FileInfo fileInfo)
