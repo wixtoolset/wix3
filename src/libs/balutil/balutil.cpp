@@ -56,6 +56,7 @@ LExit:
 }
 
 
+//the contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree
 DAPI_(HRESULT) BalFormatString(
     __in_z LPCWSTR wzFormat,
     __inout LPWSTR* psczOut
@@ -81,7 +82,7 @@ DAPI_(HRESULT) BalFormatString(
     {
         ++cch;
 
-        hr = StrAlloc(psczOut, cch);
+        hr = StrAllocSecure(psczOut, cch);
         ExitOnFailure(hr, "Failed to allocate value.");
 
         hr = vpEngine->FormatString(wzFormat, *psczOut, &cch);
@@ -92,6 +93,7 @@ LExit:
 }
 
 
+//the contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory
 DAPI_(HRESULT) BalGetNumericVariable(
     __in_z LPCWSTR wzVariable,
     __out LONGLONG* pllValue
@@ -132,6 +134,7 @@ LExit:
 }
 
 
+//the contents of psczValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroFree
 DAPI_(HRESULT) BalGetStringVariable(
     __in_z LPCWSTR wzVariable,
     __inout LPWSTR* psczValue
@@ -157,7 +160,7 @@ DAPI_(HRESULT) BalGetStringVariable(
     {
         ++cch;
 
-        hr = StrAlloc(psczValue, cch);
+        hr = StrAllocSecure(psczValue, cch);
         ExitOnFailure(hr, "Failed to allocate value.");
 
         hr = vpEngine->GetVariableString(wzVariable, *psczValue, &cch);

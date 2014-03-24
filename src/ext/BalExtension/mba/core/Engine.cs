@@ -15,6 +15,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 {
     using System;
     using System.ComponentModel;
+    using System.Runtime.InteropServices;
+    using System.Security;
     using System.Text;
 
     /// <summary>
@@ -26,7 +28,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         private const int InitialBufferSize = 80;
 
         private IBootstrapperEngine engine;
+        private IBootstrapperEngineSecure secureEngine;
         private Variables<long> numericVariables;
+        private Variables<SecureString> secureStringVariables;
         private Variables<string> stringVariables;
         private Variables<Version> versionVariables;
 
@@ -37,6 +41,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         internal Engine(IBootstrapperEngine engine)
         {
             this.engine = engine;
+            this.secureEngine = (IBootstrapperEngineSecure)engine;
 
             // Wrap the calls to get and set numeric variables.
             this.numericVariables = new Variables<long>(
@@ -59,6 +64,74 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
                 {
                     long value;
                     int ret = this.engine.GetVariableNumeric(name, out value);
+
+                    return NativeMethods.E_NOTFOUND != ret;
+                }
+            );
+
+            // Wrap the calls to get and set string variables using SecureStrings.
+            this.secureStringVariables = new Variables<SecureString>(
+                delegate(string name)
+                {
+                    int capacity = InitialBufferSize;
+                    IntPtr pValue = Marshal.AllocCoTaskMem(capacity);
+                    try
+                    {
+                        // Get the size of the buffer.
+                        int ret = this.secureEngine.GetVariableString(name, pValue, ref capacity);
+                        if (NativeMethods.E_INSUFFICIENT_BUFFER == ret || NativeMethods.E_MOREDATA == ret)
+                        {
+                            capacity += 1; // Add one for the null terminator.
+                            pValue = Marshal.ReAllocCoTaskMem(pValue, capacity);
+                            ret = this.secureEngine.GetVariableString(name, pValue, ref capacity);
+                        }
+
+                        if (NativeMethods.S_OK != ret)
+                        {
+                            throw Marshal.GetExceptionForHR(ret);
+                        }
+
+                        SecureString value = new SecureString();
+                        byte lo, hi;
+                        char c;
+                        for (int charIndex = 0; charIndex < capacity; charIndex++)
+                        {
+                            lo = Marshal.ReadByte(pValue, charIndex * 2); //Wide chars are 2 bytes.
+                            hi = Marshal.ReadByte(pValue, charIndex * 2 + 1);
+                            c = (char)(256 * hi + lo);
+                            value.AppendChar(c);
+                            lo = 0;
+                            hi = 0;
+                            c = (char)0;
+                        }
+                        value.MakeReadOnly();
+                        return value;
+                    }
+                    finally
+                    {
+                        if (IntPtr.Zero != pValue)
+                        {
+                            Marshal.FreeCoTaskMem(pValue);
+                        }
+                    }
+                },
+                delegate(string name, SecureString value)
+                {
+                    IntPtr pValue = Marshal.SecureStringToCoTaskMemUnicode(value);
+                    try
+                    {
+                        this.secureEngine.SetVariableString(name, pValue);
+                    }
+                    finally
+                    {
+                        Marshal.FreeCoTaskMem(pValue);
+                    }
+                },
+                delegate(string name)
+                {
+                    int capacity = 0;
+                    IntPtr pValue = IntPtr.Zero;
+                    int ret = this.secureEngine.GetVariableString(name, pValue, ref capacity);
 
                     return NativeMethods.E_NOTFOUND != ret;
                 }
@@ -160,6 +233,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
                 return count;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets string variables for the engine using SecureStrings.
+        /// </summary>
+        public Variables<SecureString> SecureStringVariables
+        {
+            get { return this.secureStringVariables; }
         }
 
         /// <summary>

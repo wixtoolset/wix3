@@ -57,6 +57,58 @@ extern "C" LPVOID DAPI MemReAlloc(
 }
 
 
+extern "C" HRESULT DAPI MemReAllocSecure(
+    __in LPVOID pv,
+    __in SIZE_T cbSize,
+    __in BOOL fZero,
+    __out LPVOID* ppvNew
+    )
+{
+    SIZE_T cbOldSize = 0;
+    SIZE_T cbNewSize = 0;
+    SIZE_T cbCount = 0;
+    HRESULT hr = S_OK;
+    LPVOID pvNew = NULL;
+
+//    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
+    AssertSz(0 < cbSize, "MemReAllocSecure() called with invalid size");
+    AssertSz(NULL != ppvNew, "MemReAllocSecure() called with uninitialized pointer");
+    pvNew = ::HeapReAlloc(::GetProcessHeap(), HEAP_REALLOC_IN_PLACE_ONLY, pv, cbSize);
+    if (NULL == pvNew)
+    {
+        pvNew = MemAlloc(cbSize, fZero);
+        if (pvNew)
+        {
+            cbOldSize = MemSize(pv);
+            if (-1 == cbOldSize)
+            {
+                hr = E_INVALIDARG;
+                MemFree(pvNew);
+                ExitOnFailure(hr, "Failed to get size of source");
+            }
+            cbNewSize = MemSize(pvNew);
+            if (-1 == cbNewSize)
+            {
+                cbNewSize = cbSize;
+            }
+            cbCount = cbNewSize;
+            if (cbCount > cbOldSize)
+            {
+                cbCount = cbOldSize;
+            }
+            memcpy_s(pvNew, cbSize, pv, cbCount);
+            SecureZeroMemory(pv, cbOldSize);
+            MemFree(pv);
+        }
+    }
+    
+    ExitOnNull1(pvNew, hr, E_OUTOFMEMORY, "failed to reallocate, size: %u", cbSize);
+    *ppvNew = pvNew;
+LExit:
+    return hr;
+}
+
+
 extern "C" HRESULT DAPI MemEnsureArraySize(
     __deref_out_bcount(cArray * cbArrayType) LPVOID* ppvArray,
     __in DWORD cArray,

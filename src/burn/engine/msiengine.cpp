@@ -45,6 +45,10 @@ static HRESULT EscapePropertyArgumentString(
     __in LPCWSTR wzProperty,
     __inout_z LPWSTR* psczEscapedValue
     );
+static HRESULT EscapePropertyArgumentStringSecure(
+    __in LPCWSTR wzProperty,
+    __inout_z LPWSTR* psczEscapedValue
+    );
 static HRESULT ConcatFeatureActionProperties(
     __in BURN_PACKAGE* pPackage,
     __in BOOTSTRAPPER_FEATURE_ACTION* rgFeatureActions,
@@ -1016,13 +1020,13 @@ extern "C" HRESULT MsiEngineExecutePackage(
     switch (pExecuteAction->msiPackage.action)
     {
     case BOOTSTRAPPER_ACTION_STATE_ADMIN_INSTALL:
-        hr = StrAllocConcat(&sczProperties, L" ACTION=ADMIN", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L" ACTION=ADMIN", 0);
         ExitOnFailure(hr, "Failed to add ADMIN property on admin install.");
          __fallthrough;
 
     case BOOTSTRAPPER_ACTION_STATE_MAJOR_UPGRADE: __fallthrough;
     case BOOTSTRAPPER_ACTION_STATE_INSTALL:
-        hr = StrAllocConcat(&sczProperties, L" REBOOT=ReallySuppress", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reboot suppression property on install.");
 
         hr = WiuInstallProduct(sczMsiPath, sczProperties, &restart);
@@ -1036,11 +1040,11 @@ extern "C" HRESULT MsiEngineExecutePackage(
         // updated.
         if (0 == pExecuteAction->msiPackage.pPackage->Msi.cFeatures)
         {
-            hr = StrAllocConcat(&sczProperties, L" REINSTALL=ALL", 0);
+            hr = StrAllocConcatSecure(&sczProperties, L" REINSTALL=ALL", 0);
             ExitOnFailure(hr, "Failed to add reinstall all property on minor upgrade.");
         }
 
-        hr = StrAllocConcat(&sczProperties, L" REINSTALLMODE=\"vomus\" REBOOT=ReallySuppress", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L" REINSTALLMODE=\"vomus\" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reinstall mode and reboot suppression properties on minor upgrade.");
 
         hr = WiuInstallProduct(sczMsiPath, sczProperties, &restart);
@@ -1056,12 +1060,12 @@ extern "C" HRESULT MsiEngineExecutePackage(
                                   pExecuteAction->msiPackage.pPackage->Msi.cFeatures) ? L"" : L" REINSTALL=ALL";
         LPCWSTR wzReinstallMode = (BOOTSTRAPPER_ACTION_STATE_MODIFY == pExecuteAction->msiPackage.action) ? L"o" : L"e";
 
-        hr = StrAllocFormatted(&sczProperties, L"%ls%ls REINSTALLMODE=\"cmus%ls\" REBOOT=ReallySuppress", sczProperties ? sczProperties : L"", wzReinstallAll, wzReinstallMode);
+        hr = StrAllocFormattedSecure(&sczProperties, L"%ls%ls REINSTALLMODE=\"cmus%ls\" REBOOT=ReallySuppress", sczProperties ? sczProperties : L"", wzReinstallAll, wzReinstallMode);
         ExitOnFailure(hr, "Failed to add reinstall mode and reboot suppression properties on repair.");
         }
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-        hr = StrAllocFormatted(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocFormattedSecure(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuInstallProduct(sczMsiPath, sczProperties, &restart);
@@ -1069,11 +1073,11 @@ extern "C" HRESULT MsiEngineExecutePackage(
         break;
 
     case BOOTSTRAPPER_ACTION_STATE_UNINSTALL:
-        hr = StrAllocConcat(&sczProperties, L" REBOOT=ReallySuppress", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reboot suppression property on uninstall.");
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-        hr = StrAllocFormatted(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocFormattedSecure(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuConfigureProductEx(pExecuteAction->msiPackage.pPackage->Msi.sczProductCode, INSTALLLEVEL_DEFAULT, INSTALLSTATE_ABSENT, sczProperties, &restart);
@@ -1089,7 +1093,7 @@ extern "C" HRESULT MsiEngineExecutePackage(
 LExit:
     WiuUninitializeExternalUI(&context);
 
-    ReleaseStr(sczProperties);
+    StrSecureZeroFreeString(sczProperties);
     ReleaseStr(sczObfuscatedProperties);
     ReleaseStr(sczMsiPath);
     ReleaseStr(sczCachedDirectory);
@@ -1113,6 +1117,7 @@ LExit:
     return hr;
 }
 
+//the contents of psczProperties may be sensitive, should keep encrypted and SecureZeroFree
 extern "C" HRESULT MsiEngineConcatProperties(
     __in_ecount(cProperties) BURN_MSIPROPERTY* rgProperties,
     __in DWORD cProperties,
@@ -1135,30 +1140,43 @@ extern "C" HRESULT MsiEngineConcatProperties(
         if (fObfuscateHiddenVariables)
         {
             hr = VariableFormatStringObfuscated(pVariables, (fRollback && pProperty->sczRollbackValue) ? pProperty->sczRollbackValue : pProperty->sczValue, &sczValue, NULL);
+            ExitOnFailure(hr, "Failed to format property value.");
+
+            // escape property value
+            hr = EscapePropertyArgumentString(sczValue, &sczEscapedValue);
+            ExitOnFailure(hr, "Failed to escape string.");
+
+            // build part
+            hr = StrAllocFormatted(&sczProperty, L" %s%=\"%s\"", pProperty->sczId, sczEscapedValue);
+            ExitOnFailure(hr, "Failed to format property string part.");
+
+            // append to property string
+            hr = StrAllocConcat(psczProperties, sczProperty, 0);
+            ExitOnFailure(hr, "Failed to append property string part.");
         }
         else
         {
             hr = VariableFormatString(pVariables, (fRollback && pProperty->sczRollbackValue) ? pProperty->sczRollbackValue : pProperty->sczValue, &sczValue, NULL);
+            ExitOnFailure(hr, "Failed to format property value.");
+
+            // escape property value
+            hr = EscapePropertyArgumentStringSecure(sczValue, &sczEscapedValue);
+            ExitOnFailure(hr, "Failed to escape string.");
+
+            // build part
+            hr = StrAllocFormattedSecure(&sczProperty, L" %s%=\"%s\"", pProperty->sczId, sczEscapedValue);
+            ExitOnFailure(hr, "Failed to format property string part.");
+
+            // append to property string
+            hr = StrAllocConcatSecure(psczProperties, sczProperty, 0);
+            ExitOnFailure(hr, "Failed to append property string part.");
         }
-        ExitOnFailure(hr, "Failed to format property value.");
-
-        // escape property value
-        hr = EscapePropertyArgumentString(sczValue, &sczEscapedValue);
-        ExitOnFailure(hr, "Failed to escape string.");
-
-        // build part
-        hr = StrAllocFormatted(&sczProperty, L" %s%=\"%s\"", pProperty->sczId, sczEscapedValue);
-        ExitOnFailure(hr, "Failed to format property string part.");
-
-        // append to property string
-        hr = StrAllocConcat(psczProperties, sczProperty, 0);
-        ExitOnFailure(hr, "Failed to append property string part.");
     }
 
 LExit:
-    ReleaseStr(sczValue);
-    ReleaseStr(sczEscapedValue);
-    ReleaseStr(sczProperty);
+    StrSecureZeroFreeString(sczValue);
+    StrSecureZeroFreeString(sczEscapedValue);
+    StrSecureZeroFreeString(sczProperty);
     return hr;
 }
 
@@ -1471,6 +1489,55 @@ LExit:
     return hr;
 }
 
+static HRESULT EscapePropertyArgumentStringSecure(
+    __in LPCWSTR wzProperty,
+    __inout_z LPWSTR* psczEscapedValue
+    )
+{
+    HRESULT hr = S_OK;
+    DWORD cch = 0;
+    DWORD cchEscape = 0;
+    LPCWSTR wzSource = NULL;
+    LPWSTR wzTarget = NULL;
+
+    // count characters to escape
+    wzSource = wzProperty;
+    while (*wzSource)
+    {
+        ++cch;
+        if (L'\"' == *wzSource)
+        {
+            ++cchEscape;
+        }
+        ++wzSource;
+    }
+
+    // allocate target buffer
+    hr = StrAllocSecure(psczEscapedValue, cch + cchEscape + 1); // character count, plus escape character count, plus null terminator
+    ExitOnFailure(hr, "Failed to allocate string buffer.");
+
+    // write to target buffer
+    wzSource = wzProperty;
+    wzTarget = *psczEscapedValue;
+    while (*wzSource)
+    {
+        *wzTarget = *wzSource;
+        if (L'\"' == *wzTarget)
+        {
+            ++wzTarget;
+            *wzTarget = L'\"';
+        }
+
+        ++wzSource;
+        ++wzTarget;
+    }
+
+    *wzTarget = L'\0'; // add null terminator
+
+LExit:
+    return hr;
+}
+
 static HRESULT ConcatFeatureActionProperties(
     __in BURN_PACKAGE* pPackage,
     __in BOOTSTRAPPER_FEATURE_ACTION* rgFeatureActions,
@@ -1560,7 +1627,7 @@ static HRESULT ConcatFeatureActionProperties(
         hr = StrAllocFormatted(&scz, L" ADDLOCAL=\"%s\"", sczAddLocal, 0);
         ExitOnFailure(hr, "Failed to format ADDLOCAL string.");
 
-        hr = StrAllocConcat(psczArguments, scz, 0);
+        hr = StrAllocConcatSecure(psczArguments, scz, 0);
         ExitOnFailure(hr, "Failed to concat argument string.");
     }
 
@@ -1569,7 +1636,7 @@ static HRESULT ConcatFeatureActionProperties(
         hr = StrAllocFormatted(&scz, L" ADDSOURCE=\"%s\"", sczAddSource, 0);
         ExitOnFailure(hr, "Failed to format ADDSOURCE string.");
 
-        hr = StrAllocConcat(psczArguments, scz, 0);
+        hr = StrAllocConcatSecure(psczArguments, scz, 0);
         ExitOnFailure(hr, "Failed to concat argument string.");
     }
 
@@ -1578,7 +1645,7 @@ static HRESULT ConcatFeatureActionProperties(
         hr = StrAllocFormatted(&scz, L" ADDDEFAULT=\"%s\"", sczAddDefault, 0);
         ExitOnFailure(hr, "Failed to format ADDDEFAULT string.");
 
-        hr = StrAllocConcat(psczArguments, scz, 0);
+        hr = StrAllocConcatSecure(psczArguments, scz, 0);
         ExitOnFailure(hr, "Failed to concat argument string.");
     }
 
@@ -1587,7 +1654,7 @@ static HRESULT ConcatFeatureActionProperties(
         hr = StrAllocFormatted(&scz, L" REINSTALL=\"%s\"", sczReinstall, 0);
         ExitOnFailure(hr, "Failed to format REINSTALL string.");
 
-        hr = StrAllocConcat(psczArguments, scz, 0);
+        hr = StrAllocConcatSecure(psczArguments, scz, 0);
         ExitOnFailure(hr, "Failed to concat argument string.");
     }
 
@@ -1596,7 +1663,7 @@ static HRESULT ConcatFeatureActionProperties(
         hr = StrAllocFormatted(&scz, L" ADVERTISE=\"%s\"", sczAdvertise, 0);
         ExitOnFailure(hr, "Failed to format ADVERTISE string.");
 
-        hr = StrAllocConcat(psczArguments, scz, 0);
+        hr = StrAllocConcatSecure(psczArguments, scz, 0);
         ExitOnFailure(hr, "Failed to concat argument string.");
     }
 
@@ -1605,7 +1672,7 @@ static HRESULT ConcatFeatureActionProperties(
         hr = StrAllocFormatted(&scz, L" REMOVE=\"%s\"", sczRemove, 0);
         ExitOnFailure(hr, "Failed to format REMOVE string.");
 
-        hr = StrAllocConcat(psczArguments, scz, 0);
+        hr = StrAllocConcatSecure(psczArguments, scz, 0);
         ExitOnFailure(hr, "Failed to concat argument string.");
     }
 
@@ -1670,7 +1737,7 @@ static HRESULT ConcatPatchProperty(
             hr = StrAllocConcat(&sczPatches, L"\"", 0);
             ExitOnFailure(hr, "Failed to close the quoted PATCH property.");
 
-            hr = StrAllocConcat(psczArguments, sczPatches, 0);
+            hr = StrAllocConcatSecure(psczArguments, sczPatches, 0);
             ExitOnFailure(hr, "Failed to append PATCH property.");
         }
     }

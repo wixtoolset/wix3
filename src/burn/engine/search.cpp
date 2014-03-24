@@ -579,6 +579,7 @@ static HRESULT DirectorySearchExists(
     }
 
     // else must have found a file.
+    // what if there is a hidden variable in sczPath?
     ExitOnFailure2(hr, "Failed while searching directory search: %ls, for path: %ls", pSearch->sczKey, sczPath);
 
     // set variable
@@ -586,7 +587,7 @@ static HRESULT DirectorySearchExists(
     ExitOnFailure(hr, "Failed to set variable.");
 
 LExit:
-    ReleaseStr(sczPath);
+    StrSecureZeroFreeString(sczPath);
 
     return hr;
 }
@@ -618,6 +619,7 @@ static HRESULT DirectorySearchPath(
         hr = E_PATHNOTFOUND;
     }
 
+    // what if there is a hidden variable in sczPath?
     if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
     {
         LogStringLine(REPORT_STANDARD, "Directory search: %ls, did not find path: %ls, reason: 0x%x", pSearch->sczKey, sczPath, hr);
@@ -626,7 +628,7 @@ static HRESULT DirectorySearchPath(
     ExitOnFailure2(hr, "Failed while searching directory search: %ls, for path: %ls", pSearch->sczKey, sczPath);
 
 LExit:
-    ReleaseStr(sczPath);
+    StrSecureZeroFreeString(sczPath);
 
     return hr;
 }
@@ -652,6 +654,7 @@ static HRESULT FileSearchExists(
         er = ::GetLastError();
         if (ERROR_FILE_NOT_FOUND == er || ERROR_PATH_NOT_FOUND == er)
         {
+            // what if there is a hidden variable in sczPath?
             LogStringLine(REPORT_STANDARD, "File search: %ls, did not find path: %ls", pSearch->sczKey, sczPath);
         }
         else
@@ -669,7 +672,7 @@ static HRESULT FileSearchExists(
     ExitOnFailure(hr, "Failed to set variable.");
 
 LExit:
-    ReleaseStr(sczPath);
+    StrSecureZeroFreeString(sczPath);
     return hr;
 }
 
@@ -690,6 +693,7 @@ static HRESULT FileSearchVersion(
     hr = FileVersion(sczPath, &uliVersion.HighPart, &uliVersion.LowPart);
     if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
     {
+        // what if there is a hidden variable in sczPath?
         LogStringLine(REPORT_STANDARD, "File search: %ls, did not find path: %ls", pSearch->sczKey, sczPath);
         ExitFunction1(hr = S_OK);
     }
@@ -700,7 +704,7 @@ static HRESULT FileSearchVersion(
     ExitOnFailure(hr, "Failed to set variable.");
 
 LExit:
-    ReleaseStr(sczPath);
+    StrSecureZeroFreeString(sczPath);
     return hr;
 }
 
@@ -731,6 +735,7 @@ static HRESULT FileSearchPath(
         ExitOnFailure(hr, "Failed to set variable to file search path.");
     }
 
+    // what if there is a hidden variable in sczPath?
     if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
     {
         LogStringLine(REPORT_STANDARD, "File search: %ls, did not find path: %ls", pSearch->sczKey, sczPath);
@@ -739,7 +744,7 @@ static HRESULT FileSearchPath(
     ExitOnFailure2(hr, "Failed while searching file search: %ls, for path: %ls", pSearch->sczKey, sczPath);
 
 LExit:
-    ReleaseStr(sczPath);
+    StrSecureZeroFreeString(sczPath);
 
     return hr;
 }
@@ -775,12 +780,14 @@ static HRESULT RegistrySearchExists(
     }
     else if (E_FILENOTFOUND == hr)
     {
+        // what if there is a hidden variable in sczKey?
         LogStringLine(REPORT_STANDARD, "Registry key not found. Key = '%ls'", sczKey);
         fExists = FALSE;
         hr = S_OK;
     }
     else
     {
+        // what if there is a hidden variable in sczKey?
         ExitOnFailure1(hr, "Failed to open registry key. Key = '%ls'", sczKey);
     }
 
@@ -798,6 +805,7 @@ static HRESULT RegistrySearchExists(
             fExists = TRUE;
             break;
         case ERROR_FILE_NOT_FOUND:
+            // what if there is a hidden variable in sczKey or sczValue?
             LogStringLine(REPORT_STANDARD, "Registry value not found. Key = '%ls', Value = '%ls'", sczKey, sczValue);
             fExists = FALSE;
             break;
@@ -813,11 +821,12 @@ static HRESULT RegistrySearchExists(
 LExit:
     if (FAILED(hr))
     {
+        // what if there is a hidden variable in sczKey?
         LogStringLine(REPORT_STANDARD, "RegistrySearchExists failed: ID '%ls', HRESULT 0x%x", sczKey, hr);
     }
 
-    ReleaseStr(sczKey);
-    ReleaseStr(sczValue);
+    StrSecureZeroFreeString(sczKey);
+    StrSecureZeroFreeString(sczValue);
     ReleaseRegKey(hKey);
 
     return hr;
@@ -860,6 +869,7 @@ static HRESULT RegistrySearchValue(
     hr = RegOpen(pSearch->RegistrySearch.hRoot, sczKey, samDesired, &hKey);
     if (E_FILENOTFOUND == hr)
     {
+        // what if there is a hidden variable in sczKey?
         LogStringLine(REPORT_STANDARD, "Registry key not found. Key = '%ls'", sczKey);
         hr = VariableSetVariant(pVariables, pSearch->sczVariable, &value, FALSE);
         ExitOnFailure(hr, "Failed to clear variable.");
@@ -871,6 +881,7 @@ static HRESULT RegistrySearchValue(
     er = ::RegQueryValueExW(hKey, sczValue, NULL, &dwType, NULL, &cbData);
     if (ERROR_FILE_NOT_FOUND == er)
     {
+        // what if there is a hidden variable in sczKey or sczValue?
         LogStringLine(REPORT_STANDARD, "Registry value not found. Key = '%ls', Value = '%ls'", sczKey, sczValue);
         hr = VariableSetVariant(pVariables, pSearch->sczVariable, &value, FALSE);
         ExitOnFailure(hr, "Failed to clear variable.");
@@ -940,11 +951,12 @@ static HRESULT RegistrySearchValue(
 LExit:
     if (FAILED(hr))
     {
+        // what if there is a hidden variable in sczKey?
         LogStringLine(REPORT_STANDARD, "RegistrySearchValue failed: ID '%ls', HRESULT 0x%x", sczKey, hr);
     }
 
-    ReleaseStr(sczKey);
-    ReleaseStr(sczValue);
+    StrSecureZeroFreeString(sczKey);
+    StrSecureZeroFreeString(sczValue);
     ReleaseRegKey(hKey);
     ReleaseMem(pData);
     BVariantUninitialize(&value);
@@ -1031,8 +1043,8 @@ LExit:
         LogStringLine(REPORT_STANDARD, "MsiComponentSearch failed: ID '%ls', HRESULT 0x%x", pSearch->sczKey, hr);
     }
 
-    ReleaseStr(sczComponentId);
-    ReleaseStr(sczProductCode);
+    StrSecureZeroFreeString(sczComponentId);
+    StrSecureZeroFreeString(sczProductCode);
     ReleaseStr(sczPath);
     return hr;
 }
@@ -1049,6 +1061,7 @@ static HRESULT MsiProductSearch(
     DWORD dwRelatedProducts = 0;
     BURN_VARIANT_TYPE type = BURN_VARIANT_TYPE_NONE;
     BURN_VARIANT value = { };
+    // we're not going to encrypt this value, so can access the value directly.
 
     switch (pSearch->MsiProductSearch.Type)
     {
@@ -1078,13 +1091,14 @@ static HRESULT MsiProductSearch(
     // if this is an upgrade code then get the product code of the highest versioned related product
     if (BURN_MSI_PRODUCT_SEARCH_GUID_TYPE_UPGRADECODE == pSearch->MsiProductSearch.GuidType)
     {
+        // WiuEnumRelatedProductCodes will log sczGuid on errors, what if there's a hidden variable in there?
         hr = WiuEnumRelatedProductCodes(sczGuid, &rgsczRelatedProductCodes, &dwRelatedProducts, TRUE);
         ExitOnFailure(hr, "Failed to enumerate related products for upgrade code.");
 
         // if we actually found a related product then use its upgrade code for the rest of the search
         if (1 == dwRelatedProducts)
         {
-            hr = StrAllocString(&sczGuid, rgsczRelatedProductCodes[0], 0);
+            hr = StrAllocStringSecure(&sczGuid, rgsczRelatedProductCodes[0], 0);
             ExitOnFailure(hr, "Failed to copy upgrade code.");
         }
         else
@@ -1101,12 +1115,14 @@ static HRESULT MsiProductSearch(
         if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PROPERTY) == hr)
         {
             // product state is available only through MsiGetProductInfoEx
+            // what if there is a hidden variable in sczGuid?
             LogStringLine(REPORT_VERBOSE, "Trying per-machine extended info for property '%ls' for product: %ls", wzProperty, sczGuid);
             hr = WiuGetProductInfoEx(sczGuid, NULL, MSIINSTALLCONTEXT_MACHINE, wzProperty, &value.sczValue);
 
             // if not in per-machine context, try per-user (unmanaged)
             if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) == hr)
             {
+                // what if there is a hidden variable in sczGuid?
                 LogStringLine(REPORT_STANDARD, "Trying per-user extended info for property '%ls' for product: %ls", wzProperty, sczGuid);
                 hr = WiuGetProductInfoEx(sczGuid, NULL, MSIINSTALLCONTEXT_USERUNMANAGED, wzProperty, &value.sczValue);
             }
@@ -1115,6 +1131,7 @@ static HRESULT MsiProductSearch(
 
     if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) == hr)
     {
+        // what if there is a hidden variable in sczGuid?
         LogStringLine(REPORT_STANDARD, "Product or related product not found: %ls", sczGuid);
 
         // set value to indicate absent
@@ -1165,7 +1182,7 @@ LExit:
         LogStringLine(REPORT_STANDARD, "MsiProductSearch failed: ID '%ls', HRESULT 0x%x", pSearch->sczKey, hr);
     }
 
-    ReleaseStr(sczGuid);
+    StrSecureZeroFreeString(sczGuid);
     ReleaseStrArray(rgsczRelatedProductCodes, dwRelatedProducts);
     BVariantUninitialize(&value);
 

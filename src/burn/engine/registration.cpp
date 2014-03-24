@@ -1461,7 +1461,7 @@ static HRESULT RegWriteStringVariable(
     ExitOnFailure1(hr, "Failed to write %ls value.", wzName);
 
 LExit:
-    ReleaseStr(sczValue);
+    StrSecureZeroFreeString(sczValue);
 
     return hr;
 }

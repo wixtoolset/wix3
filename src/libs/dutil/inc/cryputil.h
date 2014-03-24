@@ -19,9 +19,38 @@ extern "C" {
 #endif
 
 
+// Use CRYPTPROTECTMEMORY_BLOCK_SIZE, because it's larger and thus more restrictive than RTL_ENCRYPT_MEMORY_SIZE
+#define CRYP_ENCRYPT_MEMORY_SIZE CRYPTPROTECTMEMORY_BLOCK_SIZE
 #define SHA1_HASH_LEN 20
+	
+typedef NTSTATUS (APIENTRY *PFN_RTLENCRYPTMEMORY)(
+	__inout PVOID Memory,
+	__in ULONG MemoryLength,
+	__in ULONG OptionFlags
+    );
+	
+typedef NTSTATUS (APIENTRY *PFN_RTLDECRYPTMEMORY)(
+	__inout PVOID Memory,
+	__in ULONG MemoryLength,
+	__in ULONG OptionFlags
+    );
+	
+typedef BOOL (APIENTRY *PFN_CRYPTPROTECTMEMORY)(
+	__inout LPVOID pData,
+	__in DWORD cbData,
+	__in DWORD dwFlags
+    );
+	
+typedef BOOL (APIENTRY *PFN_CRYPTUNPROTECTMEMORY)(
+	__inout LPVOID pData,
+	__in DWORD cbData,
+	__in DWORD dwFlags
+    );
 
 // function declarations
+
+HRESULT DAPI CrypInitialize();
+void DAPI CrypUninitialize();
 
 HRESULT DAPI CrypDecodeObject(
     __in_z LPCSTR szStructType,
@@ -65,6 +94,18 @@ HRESULT DAPI CrypHashBuffer(
     __in ALG_ID algid,
     __out_bcount(cbHash) BYTE* pbHash,
     __in DWORD cbHash
+    );
+
+HRESULT DAPI CrypEncryptMemory(
+	__inout LPVOID pData,
+	__in DWORD cbData,
+	__in DWORD dwFlags
+    );
+
+HRESULT DAPI CrypDecryptMemory(
+	__inout LPVOID pData,
+	__in DWORD cbData,
+	__in DWORD dwFlags
     );
 
 #ifdef __cplusplus

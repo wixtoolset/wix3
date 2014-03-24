@@ -13,8 +13,82 @@
 
 #include "precomp.h"
 
+static PFN_RTLENCRYPTMEMORY vpfnRtlEncryptMemory = NULL;
+static PFN_RTLDECRYPTMEMORY vpfnRtlDecryptMemory = NULL;
+static PFN_CRYPTPROTECTMEMORY vpfnCryptProtectMemory = NULL;
+static PFN_CRYPTUNPROTECTMEMORY vpfnCryptUnprotectMemory = NULL;
+
+static HMODULE vhAdvApi32Dll = NULL;
+static HMODULE vhCrypt32Dll = NULL;
+static BOOL vfCrypInitialized = FALSE;
 
 // function definitions
+
+/********************************************************************
+ CrypInitialize - initializes cryputil
+
+*********************************************************************/
+extern "C" HRESULT DAPI CrypInitialize(
+    )
+{
+    HRESULT hr = S_OK;
+
+    hr = LoadSystemLibrary(L"AdvApi32.dll", &vhAdvApi32Dll);
+    if (SUCCEEDED(hr))
+    {
+        // ignore failures - if these don't exist, we'll try the Crypt methods
+        vpfnRtlEncryptMemory = reinterpret_cast<PFN_RTLENCRYPTMEMORY>(::GetProcAddress(vhAdvApi32Dll, "SystemFunction040"));
+        vpfnRtlDecryptMemory = reinterpret_cast<PFN_RTLDECRYPTMEMORY>(::GetProcAddress(vhAdvApi32Dll, "SystemFunction041"));
+    }
+    if (!vpfnRtlEncryptMemory || !vpfnRtlDecryptMemory)
+    {
+        hr = LoadSystemLibrary(L"Crypt32.dll", &vhCrypt32Dll);
+        ExitOnFailure(hr, "Failed to load Crypt32.dll");
+        
+        vpfnCryptProtectMemory = reinterpret_cast<PFN_CRYPTPROTECTMEMORY>(::GetProcAddress(vhCrypt32Dll, "CryptProtectMemory"));
+        if (!vpfnRtlEncryptMemory && !vpfnCryptProtectMemory)
+        {
+            ExitWithLastError(hr, "Failed to load an encryption method");
+        }
+        vpfnCryptUnprotectMemory = reinterpret_cast<PFN_CRYPTUNPROTECTMEMORY>(::GetProcAddress(vhCrypt32Dll, "CryptUnprotectMemory"));
+        if (!vpfnRtlDecryptMemory && !vpfnCryptUnprotectMemory)
+        {
+            ExitWithLastError(hr, "Failed to load a decryption method");
+        }
+    }
+
+    vfCrypInitialized = TRUE;
+
+LExit:
+    return hr;
+}
+
+
+/********************************************************************
+ CrypUninitialize - uninitializes cryputil
+
+*********************************************************************/
+extern "C" void DAPI CrypUninitialize(
+    )
+{
+    if (vhAdvApi32Dll)
+    {
+        ::FreeLibrary(vhAdvApi32Dll);
+        vhAdvApi32Dll = NULL;
+        vpfnRtlEncryptMemory = NULL;
+        vpfnRtlDecryptMemory = NULL;
+    }
+    
+    if (vhCrypt32Dll)
+    {
+        ::FreeLibrary(vhCrypt32Dll);
+        vhCrypt32Dll = NULL;
+        vpfnCryptProtectMemory = NULL;
+        vpfnCryptUnprotectMemory = NULL;
+    }
+
+    vfCrypInitialized = FALSE;
+}
 
 extern "C" HRESULT DAPI CrypDecodeObject(
     __in_z LPCSTR szStructType,
@@ -247,6 +321,70 @@ LExit:
         ::CryptReleaseContext(hProv, 0);
     }
 
+    return hr;
+}
+
+HRESULT DAPI CrypEncryptMemory(
+	__inout LPVOID pData,
+	__in DWORD cbData,
+	__in DWORD dwFlags
+    )
+{
+    HRESULT hr = E_FAIL;
+
+    if (0 != cbData % CRYP_ENCRYPT_MEMORY_SIZE)
+    {
+        hr = E_INVALIDARG;
+    }
+    else if (vpfnRtlEncryptMemory)
+    {
+        hr = HRESULT_FROM_NT(vpfnRtlEncryptMemory(pData, cbData, dwFlags));
+    }
+    else if (vpfnCryptProtectMemory)
+    {
+        if (vpfnCryptProtectMemory(pData, cbData, dwFlags))
+        {
+            hr = S_OK;
+        }
+        else
+        {
+            hr = HRESULT_FROM_WIN32(::GetLastError());
+        }
+    }
+    ExitOnFailure(hr, "Failed to encrypt memory");
+LExit:
+    return hr;
+}
+
+HRESULT DAPI CrypDecryptMemory(
+	__inout LPVOID pData,
+	__in DWORD cbData,
+	__in DWORD dwFlags
+    )
+{
+    HRESULT hr = E_FAIL;
+    
+    if (0 != cbData % CRYP_ENCRYPT_MEMORY_SIZE)
+    {
+        hr = E_INVALIDARG;
+    }
+    else if (vpfnRtlDecryptMemory)
+    {
+        hr = HRESULT_FROM_NT(vpfnRtlDecryptMemory(pData, cbData, dwFlags));
+    }
+    else if (vpfnCryptUnprotectMemory)
+    {
+        if (vpfnCryptUnprotectMemory(pData, cbData, dwFlags))
+        {
+            hr = S_OK;
+        }
+        else
+        {
+            hr = HRESULT_FROM_WIN32(::GetLastError());
+        }
+    }
+    ExitOnFailure(hr, "Failed to decrypt memory");
+LExit:
     return hr;
 }
 
