@@ -36,7 +36,6 @@
     <Compile Include="IBootstrapperApplication.cs" />
     <Compile Include="IBootstrapperApplicationFactory.cs" />
     <Compile Include="IBootstrapperEngine.cs" />
-    <Compile Include="IBootstrapperEngineSecure.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
