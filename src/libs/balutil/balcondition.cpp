@@ -107,7 +107,7 @@ DAPI_(HRESULT) BalConditionEvaluate(
         {
             ++cchMessage;
 
-            hr = StrAllocSecure(psczMessage, cchMessage);
+            hr = StrAllocate(psczMessage, cchMessage, TRUE);
             ExitOnFailure(hr, "Failed to allocate string for condition's formatted message.");
 
             hr = pEngine->FormatString(pCondition->sczMessage, *psczMessage, reinterpret_cast<DWORD*>(&cchMessage));

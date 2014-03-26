@@ -82,7 +82,7 @@ DAPI_(HRESULT) BalFormatString(
     {
         ++cch;
 
-        hr = StrAllocSecure(psczOut, cch);
+        hr = StrAllocate(psczOut, cch, TRUE);
         ExitOnFailure(hr, "Failed to allocate value.");
 
         hr = vpEngine->FormatString(wzFormat, *psczOut, &cch);
@@ -160,7 +160,7 @@ DAPI_(HRESULT) BalGetStringVariable(
     {
         ++cch;
 
-        hr = StrAllocSecure(psczValue, cch);
+        hr = StrAllocate(psczValue, cch, TRUE);
         ExitOnFailure(hr, "Failed to allocate value.");
 
         hr = vpEngine->GetVariableString(wzVariable, *psczValue, &cch);

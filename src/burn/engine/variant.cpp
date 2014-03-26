@@ -113,7 +113,7 @@ extern "C" HRESULT BVariantGetString(
         hr = BVariantRetrieveDecryptedNumeric(pVariant, &llValue);
         if (SUCCEEDED(hr))
         {
-            hr = StrAllocFormattedSecure(psczValue, L"%I64d", llValue);
+            hr = StrAllocateFormatted(psczValue, TRUE, L"%I64d", llValue);
             ExitOnFailure(hr, "Failed to convert int64 to string.");
         }
         SecureZeroMemory(&llValue, sizeof(llValue));
@@ -125,7 +125,7 @@ extern "C" HRESULT BVariantGetString(
         hr = BVariantRetrieveDecryptedVersion(pVariant, &qwValue);
         if (SUCCEEDED(hr))
         {
-            hr = StrAllocFormattedSecure(psczValue, L"%hu.%hu.%hu.%hu",
+			hr = StrAllocateFormatted(psczValue, TRUE, L"%hu.%hu.%hu.%hu",
                 (WORD)(qwValue >> 48),
                 (WORD)(qwValue >> 32),
                 (WORD)(qwValue >> 16),
@@ -226,7 +226,7 @@ extern "C" HRESULT BVariantSetString(
         }
         else
         {
-            hr = StrAllocStringSecure(&pVariant->sczValue, wzValue, cchValue);
+            hr = StrAllocateString(&pVariant->sczValue, wzValue, cchValue, TRUE);
         }
         ExitOnFailure(hr, "Failed to copy string.");
         pVariant->Type = BURN_VARIANT_TYPE_STRING;
@@ -520,7 +520,7 @@ static HRESULT BVariantRetrieveDecryptedString(
         ExitOnFailure(hr, "Failed to decrypt string");
     }
 
-    hr = StrAllocStringSecure(psczValue, pVariant->sczValue, 0);
+    hr = StrAllocateString(psczValue, pVariant->sczValue, 0, TRUE);
     ExitOnFailure(hr, "Failed to copy value.");
 
     if (pVariant->fEncryptValue)

@@ -641,14 +641,7 @@ extern "C" HRESULT VariableGetFormatted(
         hr = BVariantGetString(&pVariable->Value, &scz);
         ExitOnFailure(hr, "Failed to get unformatted string");
         hr = VariableFormatString(pVariables, scz, psczValue, NULL);
-        if (pVariable->fHidden)
-        {
-            ExitOnFailure1(hr, "Failed to format value ***** of variable: %ls", wzVariable);
-        }
-        else
-        {
-            ExitOnFailure2(hr, "Failed to format value '%ls' of variable: %ls", pVariable->Value.sczValue, wzVariable);
-        }
+        ExitOnFailure2(hr, "Failed to format value '%ls' of variable: %ls", pVariable->fHidden ? L"*****" : pVariable->Value.sczValue, wzVariable);
     }
     else
     {
@@ -1015,14 +1008,7 @@ static HRESULT FormatString(
         if (!wzOpen)
         {
             // end reached, append the remainder of the string and end loop
-            if (fObfuscateHiddenVariables)
-            {
-                hr = StrAllocConcat(&sczFormat, wzRead, 0);
-            }
-            else
-            {
-                hr = StrAllocConcatSecure(&sczFormat, wzRead, 0);
-            }
+            hr = StrAllocateConcat(&sczFormat, wzRead, 0, !fObfuscateHiddenVariables);
             ExitOnFailure(hr, "Failed to append string.");
             break;
         }
@@ -1032,14 +1018,7 @@ static HRESULT FormatString(
         if (!wzClose)
         {
             // end reached, treat unterminated expander as literal
-            if (fObfuscateHiddenVariables)
-            {
-                hr = StrAllocConcat(&sczFormat, wzRead, 0);
-            }
-            else
-            {
-                hr = StrAllocConcatSecure(&sczFormat, wzRead, 0);
-            }
+            hr = StrAllocateConcat(&sczFormat, wzRead, 0, !fObfuscateHiddenVariables);
             ExitOnFailure(hr, "Failed to append string.");
             break;
         }
@@ -1048,14 +1027,7 @@ static HRESULT FormatString(
         if (0 == cch)
         {
             // blank, copy all text including the terminator
-            if (fObfuscateHiddenVariables)
-            {
-                hr = StrAllocConcat(&sczFormat, wzRead, (DWORD_PTR)(wzClose - wzRead) + 1);
-            }
-            else
-            {
-                hr = StrAllocConcatSecure(&sczFormat, wzRead, (DWORD_PTR)(wzClose - wzRead) + 1);
-            }
+            hr = StrAllocateConcat(&sczFormat, wzRead, (DWORD_PTR)(wzClose - wzRead) + 1, !fObfuscateHiddenVariables);
             ExitOnFailure(hr, "Failed to append string.");
         }
         else
@@ -1063,26 +1035,12 @@ static HRESULT FormatString(
             // append text preceding expander
             if (wzOpen > wzRead)
             {
-                if (fObfuscateHiddenVariables)
-                {
-                    hr = StrAllocConcat(&sczFormat, wzRead, (DWORD_PTR)(wzOpen - wzRead));
-                }
-                else
-                {
-                    hr = StrAllocConcatSecure(&sczFormat, wzRead, (DWORD_PTR)(wzOpen - wzRead));
-                }
+                hr = StrAllocateConcat(&sczFormat, wzRead, (DWORD_PTR)(wzOpen - wzRead), !fObfuscateHiddenVariables);
                 ExitOnFailure(hr, "Failed to append string.");
             }
 
             // get variable name
-            if (fObfuscateHiddenVariables)
-            {
-                hr = StrAllocString(&scz, wzOpen + 1, cch);
-            }
-            else
-            {
-                hr = StrAllocStringSecure(&scz, wzOpen + 1, cch);
-            }
+            hr = StrAllocateString(&scz, wzOpen + 1, cch, !fObfuscateHiddenVariables);
             ExitOnFailure(hr, "Failed to get variable name.");
 
             // allocate space in variable array
@@ -1102,14 +1060,7 @@ static HRESULT FormatString(
             if (2 <= cch && L'\\' == wzOpen[1])
             {
                 // escape sequence, copy character
-                if (fObfuscateHiddenVariables)
-                {
-                    hr = StrAllocString(&rgVariables[cVariables], &wzOpen[2], 1);
-                }
-                else
-                {
-                    hr = StrAllocStringSecure(&rgVariables[cVariables], &wzOpen[2], 1);
-                }
+                hr = StrAllocateString(&rgVariables[cVariables], &wzOpen[2], 1, !fObfuscateHiddenVariables);
             }
             else
             {
@@ -1129,7 +1080,7 @@ static HRESULT FormatString(
                     hr = VariableGetFormatted(pVariables, scz, &rgVariables[cVariables]);
                     if (E_NOTFOUND == hr) // variable not found
                     {
-                        hr = StrAllocStringSecure(&rgVariables[cVariables], L"", 0);
+                        hr = StrAllocateString(&rgVariables[cVariables], L"", 0, TRUE);
                     }
                 }
             }
@@ -1137,24 +1088,10 @@ static HRESULT FormatString(
             ++cVariables;
 
             // append placeholder to format string
-            if (fObfuscateHiddenVariables)
-            {
-                hr = StrAllocFormatted(&scz, L"[%d]", cVariables);
-            }
-            else
-            {
-                hr = StrAllocFormattedSecure(&scz, L"[%d]", cVariables);
-            }
+            hr = StrAllocateFormatted(&scz, !fObfuscateHiddenVariables, L"[%d]", cVariables);
             ExitOnFailure(hr, "Failed to format placeholder string.");
 
-            if (fObfuscateHiddenVariables)
-            {
-                hr = StrAllocConcat(&sczFormat, scz, 0);
-            }
-            else
-            {
-                hr = StrAllocConcatSecure(&sczFormat, scz, 0);
-            }
+            hr = StrAllocateConcat(&sczFormat, scz, 0, !fObfuscateHiddenVariables);
             ExitOnFailure(hr, "Failed to append placeholder.");
         }
 
@@ -1194,27 +1131,13 @@ static HRESULT FormatString(
     // return formatted string
     if (psczOut)
     {
-        if (fObfuscateHiddenVariables)
-        {
-            hr = StrAlloc(&scz, ++cch);
-        }
-        else
-        {
-            hr = StrAllocSecure(&scz, ++cch);
-        }
+        hr = StrAllocate(&scz, ++cch, !fObfuscateHiddenVariables);
         ExitOnFailure(hr, "Failed to allocate string.");
 
         er = ::MsiFormatRecordW(NULL, hRecord, scz, &cch);
         ExitOnWin32Error(er, hr, "Failed to format record.");
 
-        if (fObfuscateHiddenVariables)
-        {
-            hr = StrAllocString(psczOut, scz, 0);
-        }
-        else
-        {
-            hr = StrAllocStringSecure(psczOut, scz, 0);
-        }
+        hr = StrAllocateString(psczOut, scz, 0, !fObfuscateHiddenVariables);
         ExitOnFailure(hr, "Failed to copy string.");
     }
 
