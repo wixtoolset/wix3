@@ -56,7 +56,7 @@ LExit:
 }
 
 
-//the contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree.
 DAPI_(HRESULT) BalFormatString(
     __in_z LPCWSTR wzFormat,
     __inout LPWSTR* psczOut
@@ -93,7 +93,7 @@ LExit:
 }
 
 
-//the contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory
+// The contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
 DAPI_(HRESULT) BalGetNumericVariable(
     __in_z LPCWSTR wzVariable,
     __out LONGLONG* pllValue
@@ -134,7 +134,7 @@ LExit:
 }
 
 
-//the contents of psczValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroFree
+// The contents of psczValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroFree.
 DAPI_(HRESULT) BalGetStringVariable(
     __in_z LPCWSTR wzVariable,
     __inout LPWSTR* psczValue

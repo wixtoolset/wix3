@@ -625,8 +625,8 @@ public: // IBootstrapperApplication
 
                 if (pLocString)
                 {
-                    //if the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
-                    //so don't go down the rabbit hole of making sure that this is securely freed
+                    // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                    // so don't go down the rabbit hole of making sure that this is securely freed.
                     BalFormatString(pLocString->wzText, &sczFormattedString);
                 }
 
@@ -1068,8 +1068,8 @@ private: // privates
         BalExitOnFailure1(hr, "Failed to localize theme: %ls", sczThemePath);
 
         // Update the caption if there are any formatted strings in it.
-        // if the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
-        // so don't go down the rabbit hole of making sure that this is securely freed
+        // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+        // so don't go down the rabbit hole of making sure that this is securely freed.
         hr = BalFormatString(m_pTheme->sczCaption, &sczCaption);
         if (SUCCEEDED(hr))
         {
@@ -1570,8 +1570,8 @@ private: // privates
             THEME_CONTROL* pControl = m_pTheme->rgControls + i;
             if (!pControl->wPageId && pControl->sczText && *pControl->sczText)
             {
-                // if the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
-                // so don't go down the rabbit hole of making sure that this is securely freed
+                // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                // so don't go down the rabbit hole of making sure that this is securely freed.
                 HRESULT hrFormat = BalFormatString(pControl->sczText, &sczText);
                 if (SUCCEEDED(hrFormat))
                 {
@@ -1592,8 +1592,8 @@ private: // privates
                     hr = LocLocalizeString(m_pWixLoc, &sczLicenseFormatted);
                     if (SUCCEEDED(hr))
                     {
-                        // assume there is no hidden variables to be formatted
-                        // so don't worry about securely freeing it
+                        // Assume there is no hidden variables to be formatted
+                        // so don't worry about securely freeing it.
                         hr = BalFormatString(sczLicenseFormatted, &sczLicenseFormatted);
                         if (SUCCEEDED(hr))
                         {
@@ -1846,8 +1846,8 @@ private: // privates
                     HRESULT hr = BalGetStringVariable(WIXSTDBA_VARIABLE_INSTALL_FOLDER, &sczUnformattedText);
                     if (SUCCEEDED(hr))
                     {
-                        // if the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
-                        // so don't go down the rabbit hole of making sure that this is securely freed
+                        // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                        // so don't go down the rabbit hole of making sure that this is securely freed.
                         BalFormatString(sczUnformattedText, &sczText);
                         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FOLDER_EDITBOX, sczText);
                     }
@@ -1987,8 +1987,8 @@ private: // privates
                         // Format the text in each of the new page's controls (if they have any text).
                         if (pControl->sczText && *pControl->sczText)
                         {
-                            // if the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
-                            // so don't go down the rabbit hole of making sure that this is securely freed
+                            // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                            // so don't go down the rabbit hole of making sure that this is securely freed.
                             HRESULT hr = BalFormatString(pControl->sczText, &sczText);
                             if (SUCCEEDED(hr))
                             {
@@ -2189,8 +2189,8 @@ private: // privates
         hr = LocLocalizeString(m_pWixLoc, &sczLicenseUrl);
         BalExitOnFailure1(hr, "Failed to localize license URL: %ls", m_sczLicenseUrl);
         
-        // assume there is no hidden variables to be formatted
-        // so don't worry about securely freeing it
+        // Assume there is no hidden variables to be formatted
+        // so don't worry about securely freeing it.
         hr = BalFormatString(sczLicenseUrl, &sczLicenseUrl);
         BalExitOnFailure1(hr, "Failed to get formatted license URL: %ls", m_sczLicenseUrl);
 
@@ -2441,7 +2441,7 @@ private: // privates
 
             if (!fResult)
             {
-                //hope they didn't have hidden variables in their message, cause it's going in the log in plaintext
+                // Hope they didn't have hidden variables in their message, because it's going in the log in plaintext.
                 BalLog(BOOTSTRAPPER_LOG_LEVEL_ERROR, "%ls", m_sczFailedMessage);
 
                 hr = E_WIXSTDBA_CONDITION_FAILED;

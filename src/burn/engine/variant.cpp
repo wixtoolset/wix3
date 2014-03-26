@@ -60,7 +60,7 @@ extern "C" void BVariantUninitialize(
     SecureZeroMemory(pVariant, sizeof(BURN_VARIANT));
 }
 
-//the contents of pllValue may be sensitive, should keep encrypted and SecureZeroMemory
+// The contents of pllValue may be sensitive, should keep encrypted and SecureZeroMemory.
 extern "C" HRESULT BVariantGetNumeric(
     __in BURN_VARIANT* pVariant,
     __out LONGLONG* pllValue
@@ -97,7 +97,7 @@ extern "C" HRESULT BVariantGetNumeric(
     return hr;
 }
 
-//the contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree.
 extern "C" HRESULT BVariantGetString(
     __in BURN_VARIANT* pVariant,
     __out_z LPWSTR* psczValue
@@ -125,7 +125,7 @@ extern "C" HRESULT BVariantGetString(
         hr = BVariantRetrieveDecryptedVersion(pVariant, &qwValue);
         if (SUCCEEDED(hr))
         {
-			hr = StrAllocateFormatted(psczValue, TRUE, L"%hu.%hu.%hu.%hu",
+            hr = StrAllocateFormatted(psczValue, TRUE, L"%hu.%hu.%hu.%hu",
                 (WORD)(qwValue >> 48),
                 (WORD)(qwValue >> 32),
                 (WORD)(qwValue >> 16),
@@ -143,7 +143,7 @@ LExit:
     return hr;
 }
 
-//the contents of pqwValue may be sensitive, should keep encrypted and SecureZeroMemory
+// The contents of pqwValue may be sensitive, should keep encrypted and SecureZeroMemory.
 extern "C" HRESULT BVariantGetVersion(
     __in BURN_VARIANT* pVariant,
     __out DWORD64* pqwValue
@@ -358,7 +358,8 @@ extern "C" HRESULT BVariantSetEncryption(
 
     if (pVariant->fEncryptValue == fEncrypt)
     {
-        ExitFunction(); // the requested encryption state is already applied
+        // The requested encryption state is already applied.
+        ExitFunction();
     }
     
     switch (pVariant->Type)
@@ -437,7 +438,7 @@ static HRESULT BVariantEncryptString(
         cbData += extraNeeded;
         LPVOID pvNew = NULL;
         hr = MemReAllocSecure(static_cast<LPVOID>(pVariant->sczValue), cbData, TRUE, &pvNew);
-        ExitOnFailure(hr, "Failed to resize the string to be able to be encrypted");
+        ExitOnFailure(hr, "Failed to resize the string so it could be encrypted");
         pVariant->sczValue = static_cast<LPWSTR>(pvNew);
     }
     
@@ -474,7 +475,7 @@ static HRESULT BVariantEncryptVersion(
     return hr;
 }
 
-//the contents of pllValue may be sensitive, should keep encrypted and SecureZeroMemory
+// The contents of pllValue may be sensitive, should keep encrypted and SecureZeroMemory.
 static HRESULT BVariantRetrieveDecryptedNumeric(
     __in BURN_VARIANT* pVariant,
     __out LONGLONG* pllValue
@@ -500,7 +501,7 @@ LExit:
     return hr;
 }
 
-//the contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree.
 static HRESULT BVariantRetrieveDecryptedString(
     __in BURN_VARIANT* pVariant,
     __out LPWSTR* psczValue
@@ -508,11 +509,11 @@ static HRESULT BVariantRetrieveDecryptedString(
 {
     HRESULT hr = S_OK;
 
-	if (NULL == pVariant->sczValue)
-	{
-		*psczValue = NULL;
-		ExitFunction();
-	}
+    if (NULL == pVariant->sczValue)
+    {
+        *psczValue = NULL;
+        ExitFunction();
+    }
 
     if (pVariant->fEncryptValue)
     {
@@ -532,7 +533,7 @@ LExit:
     return hr;
 }
 
-//the contents of pqwValue may be sensitive, should keep encrypted and SecureZeroMemory
+// The contents of pqwValue may be sensitive, should keep encrypted and SecureZeroMemory.
 static HRESULT BVariantRetrieveDecryptedVersion(
     __in BURN_VARIANT* pVariant,
     __out DWORD64* pqwValue

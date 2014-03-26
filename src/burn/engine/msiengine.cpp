@@ -43,12 +43,8 @@ static HRESULT CalculateFeatureAction(
     );
 static HRESULT EscapePropertyArgumentString(
     __in LPCWSTR wzProperty,
-    __inout_z LPWSTR* psczEscapedValue
-    );
-static HRESULT EscapePropertyArgumentString(
-    __in LPCWSTR wzProperty,
     __inout_z LPWSTR* psczEscapedValue,
-	__in BOOL fZeroOnRealloc
+    __in BOOL fZeroOnRealloc
     );
 static HRESULT ConcatFeatureActionProperties(
     __in BURN_PACKAGE* pPackage,
@@ -1066,7 +1062,7 @@ extern "C" HRESULT MsiEngineExecutePackage(
         }
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-		hr = StrAllocateFormatted(&sczProperties, TRUE, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocateFormatted(&sczProperties, TRUE, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuInstallProduct(sczMsiPath, sczProperties, &restart);
@@ -1078,7 +1074,7 @@ extern "C" HRESULT MsiEngineExecutePackage(
         ExitOnFailure(hr, "Failed to add reboot suppression property on uninstall.");
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-		hr = StrAllocateFormatted(&sczProperties, TRUE, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocateFormatted(&sczProperties, TRUE, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuConfigureProductEx(pExecuteAction->msiPackage.pPackage->Msi.sczProductCode, INSTALLLEVEL_DEFAULT, INSTALLSTATE_ABSENT, sczProperties, &restart);
@@ -1118,7 +1114,7 @@ LExit:
     return hr;
 }
 
-//the contents of psczProperties may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczProperties may be sensitive, should keep encrypted and SecureZeroFree.
 extern "C" HRESULT MsiEngineConcatProperties(
     __in_ecount(cProperties) BURN_MSIPROPERTY* rgProperties,
     __in DWORD cProperties,
@@ -1146,20 +1142,20 @@ extern "C" HRESULT MsiEngineConcatProperties(
         {
             hr = VariableFormatString(pVariables, (fRollback && pProperty->sczRollbackValue) ? pProperty->sczRollbackValue : pProperty->sczValue, &sczValue, NULL);
             ExitOnFailure(hr, "Failed to format property value.");
-		}
-		ExitOnFailure(hr, "Failed to format property value.");
+        }
+        ExitOnFailure(hr, "Failed to format property value.");
 
-		// escape property value
-		hr = EscapePropertyArgumentString(sczValue, &sczEscapedValue, !fObfuscateHiddenVariables);
-		ExitOnFailure(hr, "Failed to escape string.");
+        // escape property value
+        hr = EscapePropertyArgumentString(sczValue, &sczEscapedValue, !fObfuscateHiddenVariables);
+        ExitOnFailure(hr, "Failed to escape string.");
 
-		// build part
-		hr = StrAllocateFormatted(&sczProperty, !fObfuscateHiddenVariables, L" %s%=\"%s\"", pProperty->sczId, sczEscapedValue);
-		ExitOnFailure(hr, "Failed to format property string part.");
+        // build part
+        hr = StrAllocateFormatted(&sczProperty, !fObfuscateHiddenVariables, L" %s%=\"%s\"", pProperty->sczId, sczEscapedValue);
+        ExitOnFailure(hr, "Failed to format property string part.");
 
-		// append to property string
-		hr = StrAllocateConcat(psczProperties, sczProperty, 0, !fObfuscateHiddenVariables);
-		ExitOnFailure(hr, "Failed to append property string part.");
+        // append to property string
+        hr = StrAllocateConcat(psczProperties, sczProperty, 0, !fObfuscateHiddenVariables);
+        ExitOnFailure(hr, "Failed to append property string part.");
     }
 
 LExit:
@@ -1432,7 +1428,7 @@ LExit:
 static HRESULT EscapePropertyArgumentString(
     __in LPCWSTR wzProperty,
     __inout_z LPWSTR* psczEscapedValue,
-	__in BOOL fZeroOnRealloc
+    __in BOOL fZeroOnRealloc
     )
 {
     HRESULT hr = S_OK;

@@ -87,7 +87,7 @@ public: // IBootstrapperEngine
         return hr;
     }
 
-    //the contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory
+    // The contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
     virtual STDMETHODIMP GetVariableNumeric(
         __in_z LPCWSTR wzVariable,
         __out LONGLONG* pllValue
@@ -106,8 +106,8 @@ public: // IBootstrapperEngine
 
         return hr;
     }
-    
-    //the contents of wzValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroFree
+
+    // The contents of wzValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroFree.
     virtual STDMETHODIMP GetVariableString(
         __in_z LPCWSTR wzVariable,
         __out_ecount_opt(*pcchValue) LPWSTR wzValue,
@@ -152,7 +152,7 @@ public: // IBootstrapperEngine
         return hr;
     }
 
-    //the contents of wzValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory
+    // The contents of wzValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
     virtual STDMETHODIMP GetVariableVersion(
         __in_z LPCWSTR wzVariable,
         __out DWORD64* pqwValue
@@ -172,7 +172,7 @@ public: // IBootstrapperEngine
         return hr;
     }
 
-    //the contents of wzOut may be sensitive, should keep encrypted and SecureZeroFree
+    // The contents of wzOut may be sensitive, should keep encrypted and SecureZeroFree.
     virtual STDMETHODIMP FormatString(
         __in_z LPCWSTR wzIn,
         __out_ecount_opt(*pcchOut) LPWSTR wzOut,

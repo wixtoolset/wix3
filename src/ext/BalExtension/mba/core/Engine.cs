@@ -535,7 +535,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             char c;
             for (int charIndex = 0; charIndex < length; charIndex++)
             {
-                lo = Marshal.ReadByte(pUniString, charIndex * 2); //Wide chars are 2 bytes.
+                // Wide chars are 2 bytes.
+                lo = Marshal.ReadByte(pUniString, charIndex * 2);
                 hi = Marshal.ReadByte(pUniString, charIndex * 2 + 1);
                 c = (char)(256 * hi + lo);
                 value.AppendChar(c);

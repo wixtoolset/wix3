@@ -36,7 +36,7 @@ extern "C" HRESULT DAPI CrypInitialize(
     hr = LoadSystemLibrary(L"AdvApi32.dll", &vhAdvApi32Dll);
     if (SUCCEEDED(hr))
     {
-        // ignore failures - if these don't exist, we'll try the Crypt methods
+        // Ignore failures - if these don't exist, we'll try the Crypt methods.
         vpfnRtlEncryptMemory = reinterpret_cast<PFN_RTLENCRYPTMEMORY>(::GetProcAddress(vhAdvApi32Dll, "SystemFunction040"));
         vpfnRtlDecryptMemory = reinterpret_cast<PFN_RTLDECRYPTMEMORY>(::GetProcAddress(vhAdvApi32Dll, "SystemFunction041"));
     }
@@ -338,7 +338,7 @@ HRESULT DAPI CrypEncryptMemory(
     }
     else if (vpfnRtlEncryptMemory)
     {
-        hr = HRESULT_FROM_NT(vpfnRtlEncryptMemory(pData, cbData, dwFlags));
+        hr = static_cast<HRESULT>(vpfnRtlEncryptMemory(pData, cbData, dwFlags));
     }
     else if (vpfnCryptProtectMemory)
     {
@@ -370,7 +370,7 @@ HRESULT DAPI CrypDecryptMemory(
     }
     else if (vpfnRtlDecryptMemory)
     {
-        hr = HRESULT_FROM_NT(vpfnRtlDecryptMemory(pData, cbData, dwFlags));
+        hr = static_cast<HRESULT>(vpfnRtlDecryptMemory(pData, cbData, dwFlags));
     }
     else if (vpfnCryptUnprotectMemory)
     {

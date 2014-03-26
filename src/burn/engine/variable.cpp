@@ -487,7 +487,7 @@ extern "C" void VariablesDump(
     StrSecureZeroFreeString(sczValue);
 }
 
-//the contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory
+// The contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
 extern "C" HRESULT VariableGetNumeric(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -519,7 +519,7 @@ LExit:
     return hr;
 }
 
-//the contents of psczValue may be sensitive, if variable is hidden should keep encrypted and SecureZeroFree
+// The contents of psczValue may be sensitive, if variable is hidden should keep encrypted and SecureZeroFree.
 extern "C" HRESULT VariableGetString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -551,7 +551,7 @@ LExit:
     return hr;
 }
 
-//the contents of pqwValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory
+// The contents of pqwValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
 extern "C" HRESULT VariableGetVersion(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -610,7 +610,7 @@ LExit:
     return hr;
 }
 
-//the contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree.
 extern "C" HRESULT VariableGetFormatted(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -665,7 +665,7 @@ extern "C" HRESULT VariableSetNumeric(
 {
     BURN_VARIANT variant = { };
 
-    // we're not going to encrypt this value, so can access the value directly.
+    // We're not going to encrypt this value, so can access the value directly.
     variant.llValue = llValue;
     variant.Type = BURN_VARIANT_TYPE_NUMERIC;
 
@@ -681,7 +681,7 @@ extern "C" HRESULT VariableSetString(
 {
     BURN_VARIANT variant = { };
 
-    // we're not going to encrypt this value, so can access the value directly.
+    // We're not going to encrypt this value, so can access the value directly.
     variant.sczValue = (LPWSTR)wzValue;
     variant.Type = BURN_VARIANT_TYPE_STRING;
 
@@ -697,7 +697,7 @@ extern "C" HRESULT VariableSetVersion(
 {
     BURN_VARIANT variant = { };
 
-    // we're not going to encrypt this value, so can access the value directly.
+    // We're not going to encrypt this value, so can access the value directly.
     variant.qwValue = qwValue;
     variant.Type = BURN_VARIANT_TYPE_VERSION;
 
@@ -714,7 +714,7 @@ extern "C" HRESULT VariableSetVariant(
     return SetVariableValue(pVariables, wzVariable, pVariant, fOverwriteBuiltIn ? SET_VARIABLE_OVERRIDE_BUILTIN : SET_VARIABLE_NOT_BUILTIN, TRUE);
 }
 
-//the contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree
 extern "C" HRESULT VariableFormatString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzIn,
@@ -864,7 +864,6 @@ extern "C" HRESULT VariableSerialize(
             hr = E_INVALIDARG;
             ExitOnFailure(hr, "Unsupported variable type.");
         }
-
     }
 
 LExit:
@@ -970,7 +969,7 @@ LExit:
 
 // internal function definitions
 
-//the contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree
+// The contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree.
 static HRESULT FormatString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzIn,
@@ -1403,7 +1402,7 @@ static HRESULT SetVariableValue(
         }
         else
         {
-            //assume value isn't encrypted since it's not hidden
+            // Assume value isn't encrypted since it's not hidden.
             switch (pVariant->Type)
             {
             case BURN_VARIANT_TYPE_NONE:
@@ -1475,7 +1474,7 @@ static HRESULT InitializeVariableVersionNT(
     }
     
     ovix.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
-    hr = HRESULT_FROM_NT(rtlGetVersion(&ovix));
+    hr = static_cast<HRESULT>(rtlGetVersion(&ovix));
     ExitOnFailure(hr, "Failed to get OS info.");
 
     switch ((OS_INFO_VARIABLE)dwpData)
