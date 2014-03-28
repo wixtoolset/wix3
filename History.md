@@ -1,3 +1,5 @@
+* STunney/BobArnson: WIXFEAT:4239 - Add option to not extract the .msi when melting .wixpdbs. Don't leave temporary cabinet files behind (unless -notidy is in effect).
+
 * BobArnson: WIXBUG:4331 - guard against null registry keys
 
 * BobArnson: WIXBUG:4301 - don't cross the HRESULTs and Win32 error codes; it would be bad.

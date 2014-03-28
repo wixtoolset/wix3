@@ -45,6 +45,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private bool showHelp;
         private bool showLogo;
         private bool tidy;
+        private bool suppressExtraction;
 
         /// <summary>
         /// Instantiate a new Melt class.
@@ -256,38 +257,57 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private void MeltProduct()
         {
             // print friendly message saying what file is being decompiled
-            Console.WriteLine(Path.GetFileName(this.inputFile), "/", Path.GetFileName(this.inputPdbFile));
+            Console.WriteLine("{0} / {1}", Path.GetFileName(this.inputFile), Path.GetFileName(this.inputPdbFile));
 
-            // extract files from the .msi and get the path map of File ids to target paths
+            // extract files from the .msi (unless suppressed) and get the path map of File ids to target paths
             string outputDirectory = this.exportBasePath ?? Environment.GetEnvironmentVariable("WIX_TEMP");
             IDictionary<string, string> paths = null;
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
-                package.ExtractFiles();
+                if (!this.suppressExtraction)
+                {
+                    package.ExtractFiles();
+                }
+
                 paths = package.Files.SourcePaths;
             }
 
             Pdb inputPdb = Pdb.Load(this.inputPdbFile, true, true);
-            if (null != inputPdb)
+            Table wixFileTable = inputPdb.Output.Tables["WixFile"];
+            if (null != wixFileTable)
             {
-                Table wixFileTable = inputPdb.Output.Tables["WixFile"];
-                if (null != wixFileTable)
+                foreach (Row row in wixFileTable.Rows)
                 {
-                    foreach (Row row in wixFileTable.Rows)
+                    WixFileRow fileRow = row as WixFileRow;
+                    if (null != fileRow)
                     {
-                        WixFileRow fileRow = row as WixFileRow;
-                        if (null != fileRow)
+                        string newPath;
+                        if (paths.TryGetValue(fileRow.File, out newPath))
                         {
-                            string newPath;
-                            if (paths.TryGetValue(fileRow.File, out newPath))
-                            {
-                                fileRow.Source = Path.Combine(outputDirectory, newPath);
-                            }
+                            fileRow.Source = Path.Combine(outputDirectory, newPath);
                         }
                     }
                 }
+            }
 
-                inputPdb.Save(this.outputFile, null, null, outputDirectory);
+            string tempPath = Path.Combine(Environment.GetEnvironmentVariable("WIX_TEMP") ?? Path.GetTempPath(), Path.GetRandomFileName());
+            try
+            {
+                inputPdb.Save(this.outputFile, null, null, tempPath);
+            }
+            finally
+            {
+                if (this.tidy)
+                {
+                    if (!AppCommon.DeleteDirectory(tempPath, this.messageHandler))
+                    {
+                        Console.WriteLine(MeltStrings.WAR_FailedToDeleteTempDir, tempPath);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine(MeltStrings.INF_TempDirLocatedAt, tempPath);
+                }
             }
         }
 
@@ -354,6 +374,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                         {
                             return;
                         }
+                    }
+                    else if ("sextract" == parameter)
+                    {
+                        this.suppressExtraction = true;
                     }
                     else if ("swall" == parameter)
                     {
