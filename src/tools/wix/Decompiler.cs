@@ -347,7 +347,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
             else
             {
-                bool deleted = AppCommon.DeleteDirectory(this.tempFiles.BasePath, this.core);
+                bool deleted = Common.DeleteTempFiles(this.tempFiles.BasePath, this.core);
 
                 if (deleted)
                 {
