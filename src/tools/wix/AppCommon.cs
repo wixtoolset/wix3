@@ -120,6 +120,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
         }
 
         /// <summary>
+        /// Delete a directory with retries and best-effort cleanup.
+        /// </summary>
+        /// <param name="path">The directory to delete.</param>
+        /// <param name="messageHandler">The message handler.</param>
+        /// <returns>True if all files were deleted, false otherwise.</returns>
+        public static bool DeleteDirectory(string path, IMessageHandler messageHandler)
+        {
+            return Common.DeleteTempFiles(path, messageHandler);
+        }
+
+        /// <summary>
         /// Prepares the console for localization.
         /// </summary>
         public static void PrepareConsoleForLocalization()

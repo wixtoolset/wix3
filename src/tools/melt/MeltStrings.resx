@@ -126,6 +126,7 @@
    -notidy    do not delete temporary files (useful for debugging)
    -o[ut]     specify output file (default: write to current directory)
    -pdb       specify .wixpdb matching database.msi
+   -sextract  suppress extracting .msi payloads when updating .wixpdb
    -sw[N]     suppress all warnings or a specific message ID
               (example: -sw1059 -sw1067)
    -swall     suppress all warnings (deprecated)
