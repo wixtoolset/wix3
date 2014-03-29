@@ -286,7 +286,11 @@
       <_RcPreprocessorSwitch>@(_RcPreprocessorDefinition -> '/d &quot;%(Identity)&quot;', ' ')</_RcPreprocessorSwitch>
     </PropertyGroup>
 
-    <Exec Command="&quot;$(PlatformSdkBinPath)rc.exe&quot; /nologo /fo &quot;$(ResFile)&quot; $(_RcIncludeSwitch) $(_RcPreprocessorSwitch) &quot;@(EmbeddedNativeResource)&quot;"
+    <PropertyGroup Condition=" '$(PlatformSdkRegistryVersion)'=='v7.1A' and '12.0'&lt;='$(MSBuildToolsVersion)' ">
+      <_RcUsingSdkSwitch>/D &quot;_USING_V110_SDK71_&quot;</_RcUsingSdkSwitch>
+    </PropertyGroup>
+
+    <Exec Command="&quot;$(PlatformSdkBinPath)rc.exe&quot; /nologo /fo &quot;$(ResFile)&quot; $(_RcIncludeSwitch) $(_RcPreprocessorSwitch) $(_RcUsingSdkSwitch) &quot;@(EmbeddedNativeResource)&quot;"
           Outputs="$(ResFile)" />
 
     <PropertyGroup>

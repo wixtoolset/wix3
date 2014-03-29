@@ -83,8 +83,20 @@
 
   <PropertyGroup>
     <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.0', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
-    <PlatformSdkInstallPath Condition=" '$(PlatformSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
-    <PlatformSdkInstallPath Condition=" '$(PlatformSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
+    <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v8.0</PlatformSdkRegistryVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(PlatformSdkInstallPath)'=='' ">
+    <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
+    <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v7.1A</PlatformSdkRegistryVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(PlatformSdkInstallPath)'=='' ">
+    <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
+    <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v7.0A</PlatformSdkRegistryVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PlatformSdkInstallPath Condition="!HasTrailingSlash('$(PlatformSdkInstallPath)')">$(PlatformSdkInstallPath)\</PlatformSdkInstallPath>
 
     <PlatformSdkIncludePath>$(PlatformSdkInstallPath)include</PlatformSdkIncludePath>
