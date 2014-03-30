@@ -37,7 +37,9 @@ $if$ ($targetframeworkversion$ >= 3.5)
 		<Reference Include="System.Xml.Linq"/>
 $endif$
 		<Reference Include="System.Xml" />
-		<Reference Include="Microsoft.Deployment.WindowsInstaller"/>
+		<Reference Include="Microsoft.Deployment.WindowsInstaller">
+			<Private>True</Private>
+		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<Import Include="Microsoft.VisualBasic" />
