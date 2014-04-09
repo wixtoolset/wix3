@@ -497,6 +497,22 @@ LExit:
     return hr;
 }
 
+HRESULT PackageEnsureCompatiblePackagesArray(
+    __in BURN_PACKAGES* pPackages
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (!pPackages->rgCompatiblePackages)
+    {
+        pPackages->rgCompatiblePackages = (BURN_PACKAGE*)MemAlloc(sizeof(BURN_PACKAGE) * pPackages->cPackages, TRUE);
+        ExitOnNull(pPackages->rgCompatiblePackages, hr, E_OUTOFMEMORY, "Failed to allocate memory for compatible packages.");
+    }
+
+LExit:
+    return hr;
+}
+
 
 // internal function declarations
 

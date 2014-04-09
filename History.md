@@ -1,3 +1,5 @@
+* HeathS: Make sure enough memory is allocated for compatible packages.
+
 * HeathS: Uninstall compatible orphaned MSI packages.
 
 * HeathS: Allow package downgrades for related bundles with proper ref-counting. Make sure packages register their identities in the provider registry.

@@ -315,6 +315,9 @@ HRESULT PackageGetProperty(
     __in_z LPCWSTR wzProperty,
     __out_z_opt LPWSTR* psczValue
     );
+HRESULT PackageEnsureCompatiblePackagesArray(
+    __in BURN_PACKAGES* pPackages
+    );
 
 
 #if defined(__cplusplus)

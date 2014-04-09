@@ -956,8 +956,10 @@ extern "C" HRESULT MsiEngineAddCompatiblePackage(
     BURN_PACKAGE* pCompatiblePackage = NULL;
     LPWSTR sczInstalledVersion = NULL;
 
-    hr = MemEnsureArraySize(reinterpret_cast<LPVOID*>(&pPackages->rgCompatiblePackages), pPackages->cCompatiblePackages + 1, sizeof(BURN_PACKAGE), 5);
-    ExitOnFailure(hr, "Failed to allocate memory for compatible package.");
+    // Allocate enough memory all at once so pointers to packages within
+    // aren't invalidated if we otherwise reallocated.
+    hr = PackageEnsureCompatiblePackagesArray(pPackages);
+    ExitOnFailure(hr, "Failed to allocate memory for compatible MSI package.");
 
     pCompatiblePackage = pPackages->rgCompatiblePackages + pPackages->cCompatiblePackages;
     ++pPackages->cCompatiblePackages;
