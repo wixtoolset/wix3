@@ -36,6 +36,7 @@ static void ResetPlannedPackageState(
     );
 static HRESULT ProcessPackage(
     __in BOOL fBundlePerMachine,
+    __in BOOL fPlanCompatible,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PLAN* pPlan,
     __in BURN_PACKAGE* pPackage,
@@ -446,8 +447,35 @@ extern "C" HRESULT PlanPackages(
         DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action) ? pPackages->cPackages - 1 - i : i;
         BURN_PACKAGE* pPackage = pPackages->rgPackages + iPackage;
 
-        hr = ProcessPackage(fBundlePerMachine, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
+        hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
         ExitOnFailure(hr, "Failed to process package.");
+
+        // Attempt to remove orphaned packages during uninstall. Currently only MSI packages are supported and should not require source.
+        if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action && BURN_PACKAGE_TYPE_MSI == pPackage->type && pPackage->Msi.fCompatibleInstalled)
+        {
+            BURN_PACKAGE* pCompatiblePackage = NULL;
+            BURN_EXECUTE_ACTION* pAction = NULL;
+
+            // Add the compatible package to the list.
+            hr = MsiEngineAddCompatiblePackage(pPackages, pPackage, &pCompatiblePackage);
+            ExitOnFailure1(hr, "Failed to add compatible package for package: %ls", pPackage->sczId);
+
+            // Plan to load the compatible package into the elevated engine before its needed.
+            hr = PlanAppendExecuteAction(pPlan, &pAction);
+            ExitOnFailure(hr, "Failed to append execute action.");
+
+            pAction->type = BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE;
+            pAction->compatiblePackage.pReferencePackage = pPackage;
+
+            // Process the compatible MSI package like any other.
+            hr = ProcessPackage(fBundlePerMachine, TRUE, pUX, pPlan, pCompatiblePackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
+            ExitOnFailure(hr, "Failed to process compatible package.");
+
+            if (BOOTSTRAPPER_ACTION_STATE_UNINSTALL == pCompatiblePackage->execute)
+            {
+                LogId(REPORT_STANDARD, MSG_PLANNED_ORPHAN_PACKAGE_FROM_PROVIDER, pPackage->sczId, pCompatiblePackage->Msi.sczProductCode, pPackage->Msi.sczProductCode);
+            }
+        }
     }
 
     // Insert the "keep registration" and "remove registration" actions in the plan when installing the first time and anytime we are uninstalling respectively.
@@ -491,6 +519,15 @@ extern "C" HRESULT PlanPackages(
 
         hr = PlanCleanPackage(pPlan, pPackage);
         ExitOnFailure(hr, "Failed to plan clean package.");
+    }
+
+    // Plan best-effort clean up of compatible packages.
+    for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+    {
+        DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action) ? pPackages->cCompatiblePackages - 1 - i : i;
+        BURN_PACKAGE* pCompatiblePackage = pPackages->rgCompatiblePackages + iPackage;
+
+        PlanCleanPackage(pPlan, pCompatiblePackage);
     }
 
 LExit:
@@ -689,7 +726,7 @@ extern "C" HRESULT PlanPassThroughBundle(
     BURN_ROLLBACK_BOUNDARY* pRollbackBoundary = NULL;
 
     // Plan passthrough package.
-    hr = ProcessPackage(fBundlePerMachine, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
+    hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
     ExitOnFailure(hr, "Failed to process passthrough package.");
 
     // If we still have an open rollback boundary, complete it.
@@ -723,7 +760,7 @@ extern "C" HRESULT PlanUpdateBundle(
     BURN_ROLLBACK_BOUNDARY* pRollbackBoundary = NULL;
 
     // Plan update package.
-    hr = ProcessPackage(fBundlePerMachine, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
+    hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
     ExitOnFailure(hr, "Failed to process update package.");
 
     // If we still have an open rollback boundary, complete it.
@@ -743,6 +780,7 @@ LExit:
 
 static HRESULT ProcessPackage(
     __in BOOL fBundlePerMachine,
+    __in BOOL fPlanCompatible,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PLAN* pPlan,
     __in BURN_PACKAGE* pPackage,
@@ -765,7 +803,16 @@ static HRESULT ProcessPackage(
 
     pPackage->requested = pPackage->defaultRequested;
 
-    int nResult = pUX->pUserExperience->OnPlanPackageBegin(pPackage->sczId, &pPackage->requested);
+    int nResult = IDNOACTION;
+    if (fPlanCompatible)
+    {
+        nResult = pUX->pUserExperience->OnPlanCompatiblePackage(pPackage->sczId, &pPackage->requested);
+    }
+    else
+    {
+        nResult = pUX->pUserExperience->OnPlanPackageBegin(pPackage->sczId, &pPackage->requested);
+    }
+
     hr = UserExperienceInterpretResult(pUX, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted plan package begin.");
 
@@ -2697,6 +2744,10 @@ static void ExecuteActionLog(
 
     case BURN_EXECUTE_ACTION_TYPE_UNCACHE_PACKAGE:
         LogStringLine(REPORT_STANDARD, "%ls action[%u]: UNCACHE_PACKAGE id: %ls", wzBase, iAction, pAction->uncachePackage.pPackage->sczId);
+        break;
+
+    case BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE:
+        LogStringLine(REPORT_STANDARD, "%ls action[%u]: COMPATIBLE_PACKAGE reference id: %ls", wzBase, iAction, pAction->compatiblePackage.pReferencePackage->sczId);
         break;
 
     default:

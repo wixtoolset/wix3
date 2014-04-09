@@ -319,6 +319,7 @@ extern "C" void MsiEnginePackageUninitialize(
     )
 {
     ReleaseStr(pPackage->Msi.sczProductCode);
+    ReleaseStr(pPackage->Msi.sczInstalledProductCode);
 
     // free features
     if (pPackage->Msi.rgFeatures)
@@ -395,6 +396,8 @@ extern "C" HRESULT MsiEngineDetectPackage(
     HRESULT hr = S_OK;
     LPWSTR sczInstalledVersion = NULL;
     LPWSTR sczInstalledLanguage = NULL;
+    LPWSTR sczInstalledProductCode = NULL;
+    LPWSTR sczInstalledProviderKey = NULL;
     INSTALLSTATE installState = INSTALLSTATE_UNKNOWN;
     BOOTSTRAPPER_RELATED_OPERATION operation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
     BOOTSTRAPPER_RELATED_OPERATION relatedMsiOperation = BOOTSTRAPPER_RELATED_OPERATION_NONE;
@@ -440,6 +443,33 @@ extern "C" HRESULT MsiEngineDetectPackage(
     }
     else if (HRESULT_FROM_WIN32(ERROR_UNKNOWN_PRODUCT) == hr || HRESULT_FROM_WIN32(ERROR_UNKNOWN_PROPERTY) == hr) // package not present.
     {
+        // Check for newer, compatible packages based on a fixed provider key.
+        hr = DependencyDetectProviderKeyPackageId(pPackage, &sczInstalledProviderKey, &sczInstalledProductCode);
+        if (SUCCEEDED(hr))
+        {
+            hr = WiuGetProductInfoEx(sczInstalledProductCode, NULL, pPackage->fPerMachine ? MSIINSTALLCONTEXT_MACHINE : MSIINSTALLCONTEXT_USERUNMANAGED, INSTALLPROPERTY_VERSIONSTRING, &sczInstalledVersion);
+            if (SUCCEEDED(hr))
+            {
+                hr = FileVersionFromStringEx(sczInstalledVersion, 0, &qwVersion);
+                ExitOnFailure2(hr, "Failed to convert version: %ls to DWORD64 for ProductCode: %ls", sczInstalledVersion, sczInstalledProductCode);
+
+                if (pPackage->Msi.qwVersion < qwVersion)
+                {
+                    LogId(REPORT_STANDARD, MSG_DETECTED_COMPATIBLE_PACKAGE_FROM_PROVIDER, pPackage->sczId, sczInstalledProviderKey, sczInstalledProductCode, sczInstalledVersion, pPackage->Msi.sczProductCode);
+
+                    nResult = pUserExperience->pUserExperience->OnDetectCompatiblePackage(pPackage->sczId, sczInstalledProductCode);
+                    hr = UserExperienceInterpretResult(pUserExperience, MB_OKCANCEL, nResult);
+                    ExitOnRootFailure(hr, "UX aborted detect compatible MSI package.");
+
+                    hr = StrAllocString(&pPackage->Msi.sczInstalledProductCode, sczInstalledProductCode, 0);
+                    ExitOnFailure(hr, "Failed to copy the installed ProductCode to the package.");
+
+                    pPackage->Msi.qwInstalledVersion = qwVersion;
+                    pPackage->Msi.fCompatibleInstalled = TRUE;
+                }
+            }
+        }
+
         pPackage->currentState = BOOTSTRAPPER_PACKAGE_STATE_ABSENT;
         hr = S_OK;
     }
@@ -631,6 +661,8 @@ extern "C" HRESULT MsiEngineDetectPackage(
     }
 
 LExit:
+    ReleaseStr(sczInstalledProviderKey);
+    ReleaseStr(sczInstalledProductCode);
     ReleaseStr(sczInstalledLanguage);
     ReleaseStr(sczInstalledVersion);
 
@@ -912,6 +944,115 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT MsiEngineAddCompatiblePackage(
+    __in BURN_PACKAGES* pPackages,
+    __in const BURN_PACKAGE* pPackage,
+    __out_opt BURN_PACKAGE** ppCompatiblePackage
+    )
+{
+    Assert(BURN_PACKAGE_TYPE_MSI == pPackage->type);
+
+    HRESULT hr = S_OK;
+    BURN_PACKAGE* pCompatiblePackage = NULL;
+    LPWSTR sczInstalledVersion = NULL;
+
+    hr = MemEnsureArraySize(reinterpret_cast<LPVOID*>(&pPackages->rgCompatiblePackages), pPackages->cCompatiblePackages + 1, sizeof(BURN_PACKAGE), 5);
+    ExitOnFailure(hr, "Failed to allocate memory for compatible package.");
+
+    pCompatiblePackage = pPackages->rgCompatiblePackages + pPackages->cCompatiblePackages;
+    ++pPackages->cCompatiblePackages;
+
+    pCompatiblePackage->type = BURN_PACKAGE_TYPE_MSI;
+
+    // Read in the compatible ProductCode if not already available.
+    if (pPackage->Msi.sczInstalledProductCode)
+    {
+        hr = StrAllocString(&pCompatiblePackage->Msi.sczProductCode, pPackage->Msi.sczInstalledProductCode, 0);
+        ExitOnFailure(hr, "Failed to copy installed ProductCode to compatible package.");
+    }
+    else
+    {
+        hr = DependencyDetectProviderKeyPackageId(pPackage, NULL, &pCompatiblePackage->Msi.sczProductCode);
+        ExitOnFailure(hr, "Failed to detect compatible package from provider key.");
+    }
+
+    // Read in the compatible ProductVersion if not already available.
+    if (pPackage->Msi.qwInstalledVersion)
+    {
+        pCompatiblePackage->Msi.qwVersion = pPackage->Msi.qwInstalledVersion;
+
+        hr = FileVersionToStringEx(pCompatiblePackage->Msi.qwVersion, &sczInstalledVersion);
+        ExitOnFailure(hr, "Failed to format version number string.");
+    }
+    else
+    {
+        hr = WiuGetProductInfoEx(pCompatiblePackage->Msi.sczProductCode, NULL, pPackage->fPerMachine ? MSIINSTALLCONTEXT_MACHINE : MSIINSTALLCONTEXT_USERUNMANAGED, INSTALLPROPERTY_VERSIONSTRING, &sczInstalledVersion);
+        ExitOnFailure(hr, "Failed to read version from compatible package.");
+
+        hr = FileVersionFromStringEx(sczInstalledVersion, 0, &pCompatiblePackage->Msi.qwVersion);
+        ExitOnFailure2(hr, "Failed to convert version: %ls to DWORD64 for ProductCode: %ls", sczInstalledVersion, pCompatiblePackage->Msi.sczProductCode);
+    }
+
+    // For now, copy enough information to support uninstalling the newer, compatible package.
+    hr = StrAllocString(&pCompatiblePackage->sczId, pCompatiblePackage->Msi.sczProductCode, 0);
+    ExitOnFailure(hr, "Failed to copy installed ProductCode as compatible package ID.");
+
+    pCompatiblePackage->fPerMachine = pPackage->fPerMachine;
+    pCompatiblePackage->fUninstallable = pPackage->fUninstallable;
+    pCompatiblePackage->fVital = pPackage->fVital;
+    pCompatiblePackage->fCache = pPackage->fCache;
+
+    // Format a suitable log path variable from the original package.
+    hr = StrAllocFormatted(&pCompatiblePackage->sczLogPathVariable, L"%ls_Compatible", pPackage->sczLogPathVariable);
+    ExitOnFailure(hr, "Failed to format log path variable for compatible package.");
+
+    // Use the default cache ID generation from the binder.
+    hr = StrAllocFormatted(&pCompatiblePackage->sczCacheId, L"%lsv%ls", pCompatiblePackage->sczId, sczInstalledVersion);
+    ExitOnFailure(hr, "Failed to format cache ID for compatible package.");
+
+    pCompatiblePackage->currentState = BOOTSTRAPPER_PACKAGE_STATE_PRESENT;
+    pCompatiblePackage->cache = BURN_CACHE_STATE_PARTIAL; // Cannot know if it's complete or not.
+
+    // Copy all the providers to ensure no dependents.
+    if (pPackage->cDependencyProviders)
+    {
+        pCompatiblePackage->rgDependencyProviders = (BURN_DEPENDENCY_PROVIDER*)MemAlloc(sizeof(BURN_DEPENDENCY_PROVIDER) * pPackage->cDependencyProviders, TRUE);
+        ExitOnNull(pCompatiblePackage->rgDependencyProviders, hr, E_OUTOFMEMORY, "Failed to allocate for compatible package providers.");
+
+        for (DWORD i = 0; i < pPackage->cDependencyProviders; ++i)
+        {
+            BURN_DEPENDENCY_PROVIDER* pProvider = pPackage->rgDependencyProviders + i;
+            BURN_DEPENDENCY_PROVIDER* pCompatibleProvider = pCompatiblePackage->rgDependencyProviders + i;
+
+            // Only need to copy the key for uninstall.
+            hr = StrAllocString(&pCompatibleProvider->sczKey, pProvider->sczKey, 0);
+            ExitOnFailure(hr, "Failed to copy the compatible provider key.");
+
+            // Assume the package version is the same as the provider version.
+            hr = StrAllocString(&pCompatibleProvider->sczVersion, sczInstalledVersion, 0);
+            ExitOnFailure(hr, "Failed to copy the compatible provider version.");
+
+            // Assume provider keys are similarly authored for this package.
+            pCompatibleProvider->fImported = pProvider->fImported;
+        }
+
+        pCompatiblePackage->cDependencyProviders = pPackage->cDependencyProviders;
+    }
+
+    pCompatiblePackage->type = BURN_PACKAGE_TYPE_MSI;
+    pCompatiblePackage->Msi.fDisplayInternalUI = pPackage->Msi.fDisplayInternalUI;
+
+    if (ppCompatiblePackage)
+    {
+        *ppCompatiblePackage = pCompatiblePackage;
+    }
+
+LExit:
+    ReleaseStr(sczInstalledVersion);
+
+    return hr;
+}
+
 extern "C" HRESULT MsiEngineExecutePackage(
     __in_opt HWND hwndParent,
     __in BURN_EXECUTE_ACTION* pExecuteAction,
@@ -970,12 +1111,15 @@ extern "C" HRESULT MsiEngineExecutePackage(
         dwLogMode |= INSTALLLOGMODE_EXTRADEBUG;
     }
 
-    // get cached MSI path
-    hr = CacheGetCompletedPath(pExecuteAction->msiPackage.pPackage->fPerMachine, pExecuteAction->msiPackage.pPackage->sczCacheId, &sczCachedDirectory);
-    ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->msiPackage.pPackage->sczId);
+    if (BOOTSTRAPPER_ACTION_STATE_UNINSTALL != pExecuteAction->msiPackage.action)
+    {
+        // get cached MSI path
+        hr = CacheGetCompletedPath(pExecuteAction->msiPackage.pPackage->fPerMachine, pExecuteAction->msiPackage.pPackage->sczCacheId, &sczCachedDirectory);
+        ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->msiPackage.pPackage->sczId);
 
-    hr = PathConcat(sczCachedDirectory, pExecuteAction->msiPackage.pPackage->rgPayloads[0].pPayload->sczFilePath, &sczMsiPath);
-    ExitOnFailure(hr, "Failed to build MSI path.");
+        hr = PathConcat(sczCachedDirectory, pExecuteAction->msiPackage.pPackage->rgPayloads[0].pPayload->sczFilePath, &sczMsiPath);
+        ExitOnFailure(hr, "Failed to build MSI path.");
+    }
 
     // Wire up the external UI handler and logging.
     hr = WiuInitializeExternalUI(pfnMessageHandler, pExecuteAction->msiPackage.uiLevel, hwndParent, pvContext, fRollback, &context);

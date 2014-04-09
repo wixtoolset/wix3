@@ -203,6 +203,10 @@ static HRESULT ExecuteDependencyAction(
     __in BURN_EXECUTE_ACTION* pAction,
     __in BURN_EXECUTE_CONTEXT* pContext
     );
+static HRESULT ExecuteCompatiblePackageAction(
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in BURN_EXECUTE_ACTION* pAction
+    );
 static HRESULT CleanPackage(
     __in HANDLE hElevatedPipe,
     __in BURN_PACKAGE* pPackage
@@ -1675,6 +1679,11 @@ static HRESULT DoExecuteAction(
             ExitOnFailure(hr, "Failed to execute dependency action.");
             break;
 
+        case BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE:
+            hr = ExecuteCompatiblePackageAction(pEngineState, pExecuteAction);
+            ExitOnFailure(hr, "Failed to execute compatible package action.");
+            break;
+
         case BURN_EXECUTE_ACTION_TYPE_REGISTRATION:
             *pfKeepRegistration = pExecuteAction->registration.fKeep;
             break;
@@ -2103,6 +2112,25 @@ static HRESULT ExecuteDependencyAction(
         hr = DependencyExecutePackageDependencyAction(FALSE, pAction);
         ExitOnFailure(hr, "Failed to register the dependency on per-user package.");
     }
+
+LExit:
+    return hr;
+}
+
+static HRESULT ExecuteCompatiblePackageAction(
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in BURN_EXECUTE_ACTION* pAction
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (pAction->compatiblePackage.pReferencePackage->fPerMachine)
+    {
+        hr = ElevationLoadCompatiblePackageAction(pEngineState->companionConnection.hPipe, pAction);
+        ExitOnFailure(hr, "Failed to load compatible package on per-machine package.");
+    }
+
+    // Compatible package already loaded in this process.
 
 LExit:
     return hr;

@@ -227,6 +227,7 @@ typedef struct _BURN_PACKAGE
             LPWSTR sczProductCode;
             DWORD dwLanguage;
             DWORD64 qwVersion;
+            LPWSTR sczInstalledProductCode;
             DWORD64 qwInstalledVersion;
             BOOL fDisplayInternalUI;
 
@@ -242,6 +243,8 @@ typedef struct _BURN_PACKAGE
             _BURN_PACKAGE** rgpSlipstreamMspPackages;
             LPWSTR* rgsczSlipstreamMspPackageIds;
             DWORD cSlipstreamMspPackages;
+
+            BOOL fCompatibleInstalled;
         } Msi;
         struct
         {
@@ -270,6 +273,9 @@ typedef struct _BURN_PACKAGES
 
     BURN_PACKAGE* rgPackages;
     DWORD cPackages;
+
+    BURN_PACKAGE* rgCompatiblePackages;
+    DWORD cCompatiblePackages;
 
     BURN_PATCH_TARGETCODE* rgPatchTargetCodes;
     DWORD cPatchTargetCodes;

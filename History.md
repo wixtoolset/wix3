@@ -1,3 +1,5 @@
+* HeathS: Uninstall compatible orphaned MSI packages.
+
 * HeathS: Allow package downgrades for related bundles with proper ref-counting. Make sure packages register their identities in the provider registry.
 
 * STunney/BobArnson: WIXFEAT:4239 - Add option to not extract the .msi when melting .wixpdbs. Don't leave temporary cabinet files behind (unless -notidy is in effect).

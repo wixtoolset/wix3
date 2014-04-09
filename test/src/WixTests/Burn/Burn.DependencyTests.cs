@@ -125,7 +125,6 @@ namespace WixTest.Tests.Burn
             this.CleanTestArtifacts = true;
         }
 
-        [Ignore]
         [TestMethod]
         [Priority(2)]
         [Description("Install bundle A then B, upgrade A, then attempt to uninstall A while B is still present.")]

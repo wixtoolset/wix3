@@ -356,6 +356,15 @@ extern "C" void PackagesUninitialize(
         MemFree(pPackages->rgPackages);
     }
 
+    if (pPackages->rgCompatiblePackages)
+    {
+        for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+        {
+            PackageUninitialize(pPackages->rgCompatiblePackages + i);
+        }
+        MemFree(pPackages->rgCompatiblePackages);
+    }
+
     if (pPackages->rgPatchTargetCodes)
     {
         for (DWORD i = 0; i < pPackages->cPatchTargetCodes; ++i)
@@ -384,6 +393,17 @@ extern "C" HRESULT PackageFindById(
     for (DWORD i = 0; i < pPackages->cPackages; ++i)
     {
         pPackage = &pPackages->rgPackages[i];
+
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, pPackage->sczId, -1, wzId, -1))
+        {
+            *ppPackage = pPackage;
+            ExitFunction1(hr = S_OK);
+        }
+    }
+
+    for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+    {
+        pPackage = &pPackages->rgCompatiblePackages[i];
 
         if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, pPackage->sczId, -1, wzId, -1))
         {

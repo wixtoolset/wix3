@@ -79,6 +79,7 @@ enum BURN_EXECUTE_ACTION_TYPE
     BURN_EXECUTE_ACTION_TYPE_PACKAGE_DEPENDENCY,
     BURN_EXECUTE_ACTION_TYPE_ROLLBACK_BOUNDARY,
     BURN_EXECUTE_ACTION_TYPE_REGISTRATION,
+    BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE,
 };
 
 enum BURN_CLEAN_ACTION_TYPE
@@ -288,6 +289,10 @@ typedef struct _BURN_EXECUTE_ACTION
             LPWSTR sczBundleProviderKey;
             BURN_DEPENDENCY_ACTION action;
         } packageDependency;
+        struct
+        {
+            BURN_PACKAGE* pReferencePackage;
+        } compatiblePackage;
     };
 } BURN_EXECUTE_ACTION;
 
