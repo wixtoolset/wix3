@@ -1,3 +1,5 @@
+* AndySt: Add /DisableSystemRestore switch and /OriginalSource switch /OriginalSource is used when authoring embedded bundles so it can look to the parent's original location instead of the package cached location that it is run from.
+
 * HeathS: Make sure enough memory is allocated for compatible packages.
 
 * HeathS: Uninstall compatible orphaned MSI packages.

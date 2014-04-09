@@ -35,6 +35,8 @@ static HRESULT ParseCommandLine(
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
+    __out BOOL* pfDisableSystemRestore,
+    __out_z LPWSTR* psczOriginalSource,
     __out BURN_ELEVATION_STATE* pElevationState,
     __out BOOL* pfDisableUnelevate,
     __out DWORD *pdwLoggingAttributes,
@@ -77,9 +79,10 @@ extern "C" HRESULT CoreInitialize(
     BYTE* pbBuffer = NULL;
     SIZE_T cbBuffer = 0;
     BURN_CONTAINER_CONTEXT containerContext = { };
+    LPWSTR sczOriginalSource = NULL;
 
     // parse command line
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors);
+    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczOriginalSource, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors);
     ExitOnFailure(hr, "Failed to parse command line.");
 
     // initialize variables
@@ -104,6 +107,14 @@ extern "C" HRESULT CoreInitialize(
     hr = ManifestLoadXmlFromBuffer(pbBuffer, cbBuffer, pEngineState);
     ExitOnFailure(hr, "Failed to load manifest.");
 
+    // Set BURN_BUNDLE_ORIGINAL_SOURCE, if it was passed in on the command line.
+    // Needs to be done after ManifestLoadXmlFromBuffer.
+    if (NULL != sczOriginalSource)
+    {
+        hr = VariableSetString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
+        ExitOnFailure(hr, "Failed to set original source variable.");
+    }
+
     // If we're not elevated then we'll be loading the bootstrapper application, so extract
     // the payloads from the BA container.
     if (pEngineState->elevationState == BURN_ELEVATION_STATE_UNELEVATED || pEngineState->elevationState == BURN_ELEVATION_STATE_UNELEVATED_EXPLICITLY)
@@ -121,6 +132,7 @@ extern "C" HRESULT CoreInitialize(
     }
 
 LExit:
+    ReleaseStr(sczOriginalSource);
     ContainerClose(&containerContext);
     ReleaseStr(sczStreamName);
     ReleaseMem(pbBuffer);
@@ -891,6 +903,8 @@ static HRESULT ParseCommandLine(
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
+    __out BOOL* pfDisableSystemRestore,
+    __out_z LPWSTR* psczOriginalSource,
     __out BURN_ELEVATION_STATE* pElevationState,
     __out BOOL* pfDisableUnelevate,
     __out DWORD *pdwLoggingAttributes,
@@ -1037,6 +1051,21 @@ static HRESULT ParseCommandLine(
                 {
                     *pAutomaticUpdates = BURN_AU_PAUSE_ACTION_IFELEVATED_NORESUME;
                 }
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"disablesystemrestore", -1))
+            {
+                *pfDisableSystemRestore = TRUE;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"originalsource", -1))
+            {
+                if (i + 1 >= argc)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Must specify a path for original source.");
+                }
+
+                ++i;
+                hr = StrAllocString(psczOriginalSource, argv[i], 0);
+                ExitOnFailure(hr, "Failed to copy last used source.");
             }
             else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_PARENT, -1))
             {
