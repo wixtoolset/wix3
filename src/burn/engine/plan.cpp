@@ -231,6 +231,7 @@ extern "C" void PlanUninitializeExecuteAction(
     {
     case BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE:
         ReleaseStr(pExecuteAction->exePackage.sczIgnoreDependencies);
+        ReleaseStr(pExecuteAction->exePackage.sczAncestors);
         break;
 
     case BURN_EXECUTE_ACTION_TYPE_MSI_PACKAGE:
@@ -1063,10 +1064,140 @@ LExit:
     return hr;
 }
 
-extern "C" HRESULT PlanRelatedBundles(
+extern "C" HRESULT PlanRelatedBundlesBegin(
     __in BURN_USER_EXPERIENCE* pUserExperience,
     __in BURN_REGISTRATION* pRegistration,
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
+    __in BURN_PLAN* pPlan,
+    __in BURN_MODE mode
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR* rgsczAncestors = NULL;
+    UINT cAncestors = 0;
+    STRINGDICT_HANDLE sdAncestors = NULL;
+
+    if (pRegistration->sczAncestors)
+    {
+        hr = StrSplitAllocArray(&rgsczAncestors, &cAncestors, pRegistration->sczAncestors, L";");
+        ExitOnFailure(hr, "Failed to create string array from ancestors.");
+
+        hr = DictCreateStringListFromArray(&sdAncestors, rgsczAncestors, cAncestors, DICT_FLAG_CASEINSENSITIVE);
+        ExitOnFailure(hr, "Failed to create dictionary from ancestors array.");
+    }
+
+    for (DWORD i = 0; i < pRegistration->relatedBundles.cRelatedBundles; ++i)
+    {
+        BURN_RELATED_BUNDLE* pRelatedBundle = pRegistration->relatedBundles.rgRelatedBundles + i;
+        pRelatedBundle->package.defaultRequested = BOOTSTRAPPER_REQUEST_STATE_NONE;
+        pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_NONE;
+
+        // Do not execute the same bundle twice.
+        if (sdAncestors)
+        {
+            hr = DictKeyExists(sdAncestors, pRelatedBundle->package.sczId);
+            if (SUCCEEDED(hr))
+            {
+                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_SCHEDULED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
+                continue;
+            }
+            else if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure(hr, "Failed to lookup the bundle ID in the ancestors dictionary.");
+            }
+        }
+        else if (BURN_MODE_EMBEDDED == mode)
+        {
+            // Protect loops for older bundles that do not handle ancestors.
+            LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
+            continue;
+        }
+
+        // Pass along any ancestors and ourself to prevent infinite loops.
+        if (pRegistration->sczAncestors && *pRegistration->sczAncestors)
+        {
+            hr = StrAllocFormatted(&pRelatedBundle->package.Exe.sczAncestors, L"%ls;%ls", pRegistration->sczAncestors, pRegistration->sczId);
+            ExitOnFailure(hr, "Failed to copy ancestors and self to related bundle ancestors.");
+        }
+        else
+        {
+            hr = StrAllocString(&pRelatedBundle->package.Exe.sczAncestors, pRegistration->sczId, 0);
+            ExitOnFailure(hr, "Failed to copy self to related bundle ancestors.");
+        }
+
+        switch (pRelatedBundle->relationType)
+        {
+        case BOOTSTRAPPER_RELATION_UPGRADE:
+            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL < pPlan->action)
+            {
+                pRelatedBundle->package.requested = (pRegistration->qwVersion > pRelatedBundle->qwVersion) ? BOOTSTRAPPER_REQUEST_STATE_ABSENT : BOOTSTRAPPER_REQUEST_STATE_NONE;
+            }
+            break;
+        case BOOTSTRAPPER_RELATION_PATCH: __fallthrough;
+        case BOOTSTRAPPER_RELATION_ADDON:
+            if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
+            {
+                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_ABSENT;
+            }
+            else if (BOOTSTRAPPER_ACTION_INSTALL == pPlan->action || BOOTSTRAPPER_ACTION_MODIFY == pPlan->action)
+            {
+                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
+            }
+            else if (BOOTSTRAPPER_ACTION_REPAIR == pPlan->action)
+            {
+                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_REPAIR;
+            }
+            break;
+        case BOOTSTRAPPER_RELATION_DEPENDENT:
+            // Automatically repair dependent bundles to restore missing packages after uninstall.
+            if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
+            {
+                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_REPAIR;
+            }
+            break;
+        case BOOTSTRAPPER_RELATION_DETECT:
+            break;
+        default:
+            hr = E_UNEXPECTED;
+            ExitOnFailure1(hr, "Unexpected relation type encountered during plan: %d", pRelatedBundle->relationType);
+            break;
+        }
+
+        pRelatedBundle->package.defaultRequested = pRelatedBundle->package.requested;
+
+        int nResult = pUserExperience->pUserExperience->OnPlanRelatedBundle(pRelatedBundle->package.sczId, &pRelatedBundle->package.requested);
+        hr = UserExperienceInterpretResult(pUserExperience, MB_OKCANCEL, nResult);
+        ExitOnRootFailure(hr, "UX aborted plan related bundle.");
+
+        // Log when the UX changed the bundle state so the engine doesn't get blamed for planning the wrong thing.
+        if (pRelatedBundle->package.requested != pRelatedBundle->package.defaultRequested)
+        {
+            LogId(REPORT_STANDARD, MSG_PLANNED_BUNDLE_UX_CHANGED_REQUEST, pRelatedBundle->package.sczId, LoggingRequestStateToString(pRelatedBundle->package.requested), LoggingRequestStateToString(pRelatedBundle->package.defaultRequested));
+        }
+
+        // If uninstalling and the dependent related bundle may be executed, ignore its provider key to allow for downgrades with ref-counting.
+        if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action && BOOTSTRAPPER_RELATION_DEPENDENT == pRelatedBundle->relationType && BOOTSTRAPPER_REQUEST_STATE_NONE != pRelatedBundle->package.requested)
+        {
+            if (0 < pRelatedBundle->package.cDependencyProviders)
+            {
+                // Bundles only support a single provider key.
+                const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders;
+
+                hr = DepDependencyArrayAlloc(&pPlan->rgPlannedProviders, &pPlan->cPlannedProviders, pProvider->sczKey, pProvider->sczDisplayName);
+                ExitOnFailure1(hr, "Failed to add the package provider key \"%ls\" to the planned list.", pProvider->sczKey);
+            }
+        }
+    }
+
+LExit:
+    ReleaseDict(sdAncestors);
+    ReleaseStrArray(rgsczAncestors, cAncestors);
+
+    return hr;
+}
+
+extern "C" HRESULT PlanRelatedBundlesComplete(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_PLAN* pPlan,
     __in BURN_LOGGING* pLog,
     __in BURN_VARIABLES* pVariables,
@@ -1085,58 +1216,18 @@ extern "C" HRESULT PlanRelatedBundles(
     {
         DWORD *pdwInsertIndex = NULL;
         BURN_RELATED_BUNDLE* pRelatedBundle = pRegistration->relatedBundles.rgRelatedBundles + i;
-        pRelatedBundle->package.defaultRequested = BOOTSTRAPPER_REQUEST_STATE_NONE;
-        pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_NONE;
 
-        switch (pRelatedBundle->relationType)
+        if (BOOTSTRAPPER_RELATION_ADDON == pRelatedBundle->relationType || BOOTSTRAPPER_RELATION_PATCH == pRelatedBundle->relationType)
         {
-        case BOOTSTRAPPER_RELATION_UPGRADE:
-            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL < pPlan->action)
-            {
-                pRelatedBundle->package.requested = (pRegistration->qwVersion > pRelatedBundle->qwVersion) ? BOOTSTRAPPER_REQUEST_STATE_ABSENT : BOOTSTRAPPER_REQUEST_STATE_NONE;
-            }
-            break;
-        case BOOTSTRAPPER_RELATION_PATCH: __fallthrough;
-        case BOOTSTRAPPER_RELATION_ADDON:
             // Addon and patch bundles will be passed a list of dependencies to ignore for planning.
             hr = StrAllocString(&pRelatedBundle->package.Exe.sczIgnoreDependencies, sczIgnoreDependencies, 0);
             ExitOnFailure(hr, "Failed to copy the list of dependencies to ignore.");
 
+            // Uninstall addons and patches early in the chain, before other packages are uninstalled.
             if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
             {
-                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_ABSENT;
-
-                // Uninstall addons and patches early in the chain, before other packages are uninstalled.
                 pdwInsertIndex = &dwExecuteActionEarlyIndex;
             }
-            else if (BOOTSTRAPPER_ACTION_INSTALL == pPlan->action || BOOTSTRAPPER_ACTION_MODIFY == pPlan->action)
-            {
-                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
-            }
-            else if (BOOTSTRAPPER_ACTION_REPAIR == pPlan->action)
-            {
-                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_REPAIR;
-            }
-            break;
-        case BOOTSTRAPPER_RELATION_DETECT: __fallthrough;
-        case BOOTSTRAPPER_RELATION_DEPENDENT:
-            break;
-        default:
-            hr = E_UNEXPECTED;
-            ExitOnFailure1(hr, "Unexpected relation type encountered during plan: %d", pRelatedBundle->relationType);
-            break;
-        }
-
-        pRelatedBundle->package.defaultRequested = pRelatedBundle->package.requested;
-
-        int nResult = pUserExperience->pUserExperience->OnPlanRelatedBundle(pRelatedBundle->package.sczId, &pRelatedBundle->package.requested);
-        hr = UserExperienceInterpretResult(pUserExperience, MB_OKCANCEL, nResult);
-        ExitOnRootFailure(hr, "UX aborted plan related bundle.");
-
-        // Log when the UX changed the bundle state so the engine doesn't get blamed for planning the wrong thing.
-        if (pRelatedBundle->package.requested != pRelatedBundle->package.defaultRequested)
-        {
-            LogId(REPORT_STANDARD, MSG_PLANNED_BUNDLE_UX_CHANGED_REQUEST, pRelatedBundle->package.sczId, LoggingRequestStateToString(pRelatedBundle->package.requested), LoggingRequestStateToString(pRelatedBundle->package.defaultRequested));
         }
 
         if (BOOTSTRAPPER_REQUEST_STATE_NONE != pRelatedBundle->package.requested)
@@ -1546,7 +1637,7 @@ extern "C" HRESULT PlanSetResumeCommand(
     hr = StrAllocFormatted(&pRegistration->sczResumeCommandLine, L"\"%ls\"", pRegistration->sczCacheExecutablePath);
     ExitOnFailure(hr, "Failed to copy executable path to resume command-line.");
 
-    hr = CoreRecreateCommandLine(&pRegistration->sczResumeCommandLine, action, pCommand->display, pCommand->restart, pCommand->relationType, pCommand->fPassthrough, pRegistration->sczActiveParent, pLog->sczPath, pCommand->wzCommandLine);
+    hr = CoreRecreateCommandLine(&pRegistration->sczResumeCommandLine, action, pCommand->display, pCommand->restart, pCommand->relationType, pCommand->fPassthrough, pRegistration->sczActiveParent, pRegistration->sczAncestors, pLog->sczPath, pCommand->wzCommandLine);
     ExitOnFailure(hr, "Failed to recreate resume command-line.");
 
 LExit:

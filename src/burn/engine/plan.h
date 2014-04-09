@@ -229,6 +229,7 @@ typedef struct _BURN_EXECUTE_ACTION
             BOOL fFireAndForget;
             BOOTSTRAPPER_ACTION_STATE action;
             LPWSTR sczIgnoreDependencies;
+            LPWSTR sczAncestors;
         } exePackage;
         struct
         {
@@ -427,10 +428,15 @@ HRESULT PlanExecutePackage(
     __in BURN_VARIABLES* pVariables,
     __inout HANDLE* phSyncpointEvent
     );
-HRESULT PlanRelatedBundles(
+HRESULT PlanRelatedBundlesBegin(
     __in BURN_USER_EXPERIENCE* pUserExperience,
     __in BURN_REGISTRATION* pRegistration,
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
+    __in BURN_PLAN* pPlan,
+    __in BURN_MODE mode
+    );
+HRESULT PlanRelatedBundlesComplete(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_PLAN* pPlan,
     __in BURN_LOGGING* pLog,
     __in BURN_VARIABLES* pVariables,

@@ -40,7 +40,8 @@ static HRESULT ParseCommandLine(
     __out DWORD *pdwLoggingAttributes,
     __out_z LPWSTR* psczLogFile,
     __out_z LPWSTR* psczActiveParent,
-    __out_z LPWSTR* psczIgnoreDependencies
+    __out_z LPWSTR* psczIgnoreDependencies,
+    __out_z LPWSTR* psczAncestors
     );
 static HRESULT ParsePipeConnection(
     __in LPWSTR* rgArgs,
@@ -78,7 +79,7 @@ extern "C" HRESULT CoreInitialize(
     BURN_CONTAINER_CONTEXT containerContext = { };
 
     // parse command line
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies);
+    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors);
     ExitOnFailure(hr, "Failed to parse command line.");
 
     // initialize variables
@@ -432,12 +433,16 @@ extern "C" HRESULT CorePlan(
             // of addons and patches, which should be uninstalled before the main product.
             DWORD dwExecuteActionEarlyIndex = pEngineState->plan.cExecuteActions;
 
+            // Plan the related bundles first to support downgrades with ref-counting.
+            hr = PlanRelatedBundlesBegin(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan, pEngineState->mode);
+            ExitOnFailure(hr, "Failed to plan related bundles.");
+
             hr = PlanPackages(&pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, pEngineState->registration.fInstalled, pEngineState->command.display, pEngineState->command.relationType, NULL, &hSyncpointEvent);
             ExitOnFailure(hr, "Failed to plan packages.");
 
-            // Plan the update of related bundles last.
-            hr = PlanRelatedBundles(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, &hSyncpointEvent, dwExecuteActionEarlyIndex);
-            ExitOnFailure(hr, "Failed to plan related bundles.");
+            // Schedule the update of related bundles last.
+            hr = PlanRelatedBundlesComplete(&pEngineState->registration, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, &hSyncpointEvent, dwExecuteActionEarlyIndex);
+            ExitOnFailure(hr, "Failed to schedule related bundles.");
         }
     }
 
@@ -764,6 +769,7 @@ extern "C" HRESULT CoreRecreateCommandLine(
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
     __in BOOL fPassthrough,
     __in_z_opt LPCWSTR wzActiveParent,
+    __in_z_opt LPCWSTR wzAncestors,
     __in_z_opt LPCWSTR wzApppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
     )
@@ -825,6 +831,15 @@ extern "C" HRESULT CoreRecreateCommandLine(
         ExitOnFailure(hr, "Failed to append active parent command-line to command-line.");
     }
 
+    if (wzAncestors)
+    {
+        hr = StrAllocFormatted(&scz, L" /%ls=%ls", BURN_COMMANDLINE_SWITCH_ANCESTORS, wzAncestors);
+        ExitOnFailure(hr, "Failed to format ancestors for command-line.");
+
+        hr = StrAllocConcat(psczCommandLine, scz, 0);
+        ExitOnFailure(hr, "Failed to append ancestors to command-line.");
+    }
+
     if (wzRelationTypeCommandLine)
     {
         hr = StrAllocFormatted(&scz, L" /%ls", wzRelationTypeCommandLine);
@@ -881,7 +896,8 @@ static HRESULT ParseCommandLine(
     __out DWORD *pdwLoggingAttributes,
     __out_z LPWSTR* psczLogFile,
     __out_z LPWSTR* psczActiveParent,
-    __out_z LPWSTR* psczIgnoreDependencies
+    __out_z LPWSTR* psczIgnoreDependencies,
+    __out_z LPWSTR* psczAncestors
     )
 {
     HRESULT hr = S_OK;
@@ -1154,6 +1170,18 @@ static HRESULT ParseCommandLine(
 
                 hr = StrAllocString(psczIgnoreDependencies, &wzParam[1], 0);
                 ExitOnFailure(hr, "Failed to allocate the list of dependencies to ignore.");
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS), BURN_COMMANDLINE_SWITCH_ANCESTORS, lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS)))
+            {
+                // Get a pointer to the next character after the switch.
+                LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS)];
+                if (L'=' != wzParam[0] || L'\0' == wzParam[1])
+                {
+                    ExitOnRootFailure1(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_ANCESTORS);
+                }
+
+                hr = StrAllocString(psczAncestors, &wzParam[1], 0);
+                ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
             }
             else if (lstrlenW(&argv[i][1]) >= lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX) &&
                 CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX), BURN_COMMANDLINE_SWITCH_PREFIX, lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX)))

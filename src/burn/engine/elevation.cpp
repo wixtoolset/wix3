@@ -647,6 +647,9 @@ extern "C" HRESULT ElevationExecuteExePackage(
     hr = BuffWriteString(&pbData, &cbData, pExecuteAction->exePackage.sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to write the list of dependencies to ignore to the message buffer.");
 
+    hr = BuffWriteString(&pbData, &cbData, pExecuteAction->exePackage.sczAncestors);
+    ExitOnFailure(hr, "Failed to write the list of ancestors to the message buffer.");
+
     hr = VariableSerialize(pVariables, FALSE, &pbData, &cbData);
     ExitOnFailure(hr, "Failed to write variables.");
 
@@ -1816,6 +1819,7 @@ static HRESULT OnExecuteExePackage(
     DWORD dwRollback = 0;
     BURN_EXECUTE_ACTION executeAction = { };
     LPWSTR sczIgnoreDependencies = NULL;
+    LPWSTR sczAncestors = NULL;
     BOOTSTRAPPER_APPLY_RESTART exeRestart = BOOTSTRAPPER_APPLY_RESTART_NONE;
 
     executeAction.type = BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE;
@@ -1832,6 +1836,9 @@ static HRESULT OnExecuteExePackage(
 
     hr = BuffReadString(pbData, cbData, &iData, &sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to read the list of dependencies to ignore.");
+
+    hr = BuffReadString(pbData, cbData, &iData, &sczAncestors);
+    ExitOnFailure(hr, "Failed to read the list of ancestors.");
 
     hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
@@ -1850,11 +1857,19 @@ static HRESULT OnExecuteExePackage(
         ExitOnFailure(hr, "Failed to allocate the list of dependencies to ignore.");
     }
 
+    // Pass the list of ancestors, if any, to the related bundle.
+    if (sczAncestors && *sczAncestors)
+    {
+        hr = StrAllocString(&executeAction.exePackage.sczAncestors, sczAncestors, 0);
+        ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
+    }
+
     // execute EXE package
     hr = ExeEngineExecutePackage(&executeAction, pVariables, static_cast<BOOL>(dwRollback), GenericExecuteMessageHandler, hPipe, &exeRestart);
     ExitOnFailure(hr, "Failed to execute EXE package.");
 
 LExit:
+    ReleaseStr(sczAncestors);
     ReleaseStr(sczIgnoreDependencies);
     ReleaseStr(sczPackage);
     PlanUninitializeExecuteAction(&executeAction);

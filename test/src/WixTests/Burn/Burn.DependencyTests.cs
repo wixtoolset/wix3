@@ -125,9 +125,10 @@ namespace WixTest.Tests.Burn
             this.CleanTestArtifacts = true;
         }
 
+        [Ignore]
         [TestMethod]
         [Priority(2)]
-        [Description("Install bundle A then B, upgrades A, then attempts to uninstall A while B is still present.")]
+        [Description("Install bundle A then B, upgrade A, then attempt to uninstall A while B is still present.")]
         [TestProperty("IsRuntimeTest", "true")]
         public void Burn_UninstallUpgradedBundle()
         {
@@ -182,14 +183,13 @@ namespace WixTest.Tests.Burn
             Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
 
             // Uninstall bundleB now.
+            // // SFBUG:3307315, or (new) 2555 - Detect for upgraded package also.
             installerB.Uninstall();
-
-            // BUG: BundleB does not know about PackageA1 (A,v2), so remove it explicitly (SFBUG:3307315).
-            MSIExec.UninstallProduct(packageA1, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Make sure the MSIs are not installed.
             Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
             Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
             Assert.IsNull(this.GetTestRegistryRoot());
 
             this.CleanTestArtifacts = true;
@@ -401,7 +401,7 @@ namespace WixTest.Tests.Burn
 
         [TestMethod]
         [Priority(2)]
-        [Description("Installs a bundle, then an addon bundle, and uninstalls the main bundle.")]
+        [Description("Installs a bundle, then a patch bundle, and uninstalls the main bundle.")]
         [TestProperty("IsRuntimeTest", "true")]
         public void Burn_InstallPatchBundle()
         {
@@ -438,6 +438,63 @@ namespace WixTest.Tests.Burn
             installerF.Uninstall();
             Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
             Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsFalse(MsiUtils.IsPatchInstalled(patchA));
+
+            this.CleanTestArtifacts = true;
+        }
+
+        [TestMethod]
+        [Priority(2)]
+        [Description("Installs a bundle, then a patch bundle, uninstalls the patch bundle and makes sure the base bundle is restored.")]
+        [TestProperty("IsRuntimeTest", "true")]
+        public void Burn_UninstallPatchBundle()
+        {
+            const string expectedVersion = "1.0.1.0";
+
+            // Build the packages.
+            string packageA1 = new PackageBuilder(this, "A") { Extensions = Extensions }.Build().Output;
+            string packageA2 = new PackageBuilder(this, "A") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } }, NeverGetsInstalled = true }.Build().Output;
+            string packageB1 = new PackageBuilder(this, "B") { Extensions = Extensions }.Build().Output;
+            string packageB2 = new PackageBuilder(this, "B") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } } }.Build().Output;
+            string patchA = new PatchBuilder(this, "PatchA") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } }, TargetPath = packageA1, UpgradePath = packageA2 }.Build().Output;
+
+            // Create the named bind paths to the packages.
+            Dictionary<string, string> bindPaths = new Dictionary<string, string>();
+            bindPaths.Add("packageA", packageA1);
+            bindPaths.Add("packageB", packageB1);
+            bindPaths.Add("patchA", patchA);
+
+            // Build the base bundle.
+            string bundleF = new BundleBuilder(this, "BundleF") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+
+            // Build the patch bundle.
+            bindPaths["packageB"] = packageB2;
+            string bundleJ = new BundleBuilder(this, "BundleJ") { BindPaths = bindPaths, Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } } }.Build().Output;
+
+            // Install the base bundle and make sure all packages are installed.
+            BundleInstaller installerF = new BundleInstaller(this, bundleF).Install();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB1));
+
+            // Install patch bundle and make sure all packages are installed.
+            BundleInstaller installerJ = new BundleInstaller(this, bundleJ).Install();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB2));
+            Assert.IsTrue(MsiUtils.IsPatchInstalled(patchA));
+
+            // Uninstall the patch bundle and make sure the base bundle is restored.
+            installerJ.Uninstall();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB2));
+            Assert.IsFalse(MsiUtils.IsPatchInstalled(patchA));
+
+            // Uninstall the base bundle and make sure all packages are uninstalled.
+            installerF.Uninstall();
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB2));
             Assert.IsFalse(MsiUtils.IsPatchInstalled(patchA));
 
             this.CleanTestArtifacts = true;

@@ -330,6 +330,20 @@ Language=English
 Planned forward compatible bundle: %1!ls!, default requested: %2!hs!, ba requested: %3!hs!, execute: %4!hs!, rollback: %5!hs!, dependency: %6!hs!
 .
 
+MessageId=213
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED
+Language=English
+Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was embedded.
+.
+
+MessageId=214
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_SCHEDULED
+Language=English
+Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was previously scheduled.
+.
+
 MessageId=299
 Severity=Success
 SymbolicName=MSG_PLAN_COMPLETE

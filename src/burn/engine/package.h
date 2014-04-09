@@ -212,6 +212,7 @@ typedef struct _BURN_PACKAGE
             LPWSTR sczRepairArguments;
             LPWSTR sczUninstallArguments;
             LPWSTR sczIgnoreDependencies;
+            LPWSTR sczAncestors;
 
             BOOL fPseudoBundle;
 
