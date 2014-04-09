@@ -379,6 +379,7 @@ HRESULT PlanLayoutBundle(
     __out_z LPWSTR* psczLayoutDirectory
     );
 HRESULT PlanPackages(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PLAN* pPlan,

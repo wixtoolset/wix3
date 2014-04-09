@@ -419,6 +419,7 @@ LExit:
 }
 
 extern "C" HRESULT PlanPackages(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PLAN* pPlan,
@@ -446,6 +447,22 @@ extern "C" HRESULT PlanPackages(
     {
         DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action) ? pPackages->cPackages - 1 - i : i;
         BURN_PACKAGE* pPackage = pPackages->rgPackages + iPackage;
+
+        // Support passing Ancestors to embedded burn bundles
+        if (BURN_PACKAGE_TYPE_EXE == pPackage->type && BURN_EXE_PROTOCOL_TYPE_BURN == pPackage->Exe.protocol)
+        {
+            // Pass along any ancestors and ourself to prevent infinite loops.
+            if (pRegistration->sczAncestors && *pRegistration->sczAncestors)
+            {
+                hr = StrAllocFormatted(&pPackage->Exe.sczAncestors, L"%ls;%ls", pRegistration->sczAncestors, pRegistration->sczId);
+                ExitOnFailure(hr, "Failed to copy ancestors and self to related bundle ancestors.");
+            }
+            else
+            {
+                hr = StrAllocString(&pPackage->Exe.sczAncestors, pRegistration->sczId, 0);
+                ExitOnFailure(hr, "Failed to copy self to related bundle ancestors.");
+            }
+        }
 
         hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
         ExitOnFailure(hr, "Failed to process package.");
@@ -1155,9 +1172,22 @@ extern "C" HRESULT PlanRelatedBundlesBegin(
         }
         else if (BURN_MODE_EMBEDDED == mode)
         {
-            // Protect loops for older bundles that do not handle ancestors.
-            LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
-            continue;
+            BOOL fSkipBundle = TRUE;
+            for (DWORD j = 0; j < pRelatedBundle->package.cDependencyProviders; ++j)
+            {
+                const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders + j;
+                if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pProvider->sczKey, -1, pRegistration->sczProviderKey, -1))
+                {
+                    fSkipBundle = FALSE;
+                }
+            }
+
+            if (fSkipBundle)
+            {
+                // Protect loops for older bundles that do not handle ancestors.
+                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
+                continue;
+            }
         }
 
         // Pass along any ancestors and ourself to prevent infinite loops.
@@ -1254,15 +1284,55 @@ extern "C" HRESULT PlanRelatedBundlesComplete(
 {
     HRESULT hr = S_OK;
     LPWSTR sczIgnoreDependencies = NULL;
+    STRINGDICT_HANDLE sdProviderKeys = NULL;
 
     // Get the list of dependencies to ignore to pass to related bundles.
     hr = DependencyAllocIgnoreDependencies(pPlan, &sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to get the list of dependencies to ignore.");
 
+    hr = DictCreateStringList(&sdProviderKeys, pPlan->cExecuteActions, DICT_FLAG_CASEINSENSITIVE);
+    ExitOnFailure(hr, "Failed to create dictionary for planned packages.");
+
+    for (DWORD i = 0; i < pPlan->cExecuteActions; ++i)
+    {
+        if (BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE == pPlan->rgExecuteActions[i].type && BOOTSTRAPPER_ACTION_STATE_NONE != pPlan->rgExecuteActions[i].exePackage.action)
+        {
+            BURN_PACKAGE* pPackage = pPlan->rgExecuteActions[i].packageProvider.pPackage;
+            if (BURN_PACKAGE_TYPE_EXE == pPackage->type && BURN_EXE_PROTOCOL_TYPE_BURN == pPackage->Exe.protocol)
+            {
+                if (0 < pPackage->cDependencyProviders)
+                {
+                    // Bundles only support a single provider key.
+                    const BURN_DEPENDENCY_PROVIDER* pProvider = pPackage->rgDependencyProviders;
+                    DictAddKey(sdProviderKeys, pProvider->sczKey);
+                }
+            }
+        }
+    }
+
     for (DWORD i = 0; i < pRegistration->relatedBundles.cRelatedBundles; ++i)
     {
         DWORD *pdwInsertIndex = NULL;
         BURN_RELATED_BUNDLE* pRelatedBundle = pRegistration->relatedBundles.rgRelatedBundles + i;
+
+        // Do not execute if a major upgrade to the related bundle is an embedded bundle (Provider keys are the same)
+        if (0 < pRelatedBundle->package.cDependencyProviders)
+        {
+            // Bundles only support a single provider key.
+            const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders;
+            hr = DictKeyExists(sdProviderKeys, pProvider->sczKey);
+            if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure1(hr, "Failed to check the dictionary for a related bundle provider key: \"%ls\".", pProvider->sczKey);
+                // Key found, so there is an embedded bundle with the same provider key that will be executed.  So this related bundle should not be added to the plan
+                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED_BUNDLE_NEWER, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType), pProvider->sczKey);
+                continue;
+            }
+            else
+            {
+                hr = S_OK;
+            }
+        }
 
         if (BOOTSTRAPPER_RELATION_ADDON == pRelatedBundle->relationType || BOOTSTRAPPER_RELATION_PATCH == pRelatedBundle->relationType)
         {
@@ -1335,6 +1405,7 @@ extern "C" HRESULT PlanRelatedBundlesComplete(
     }
 
 LExit:
+    ReleaseDict(sdProviderKeys);
     ReleaseStr(sczIgnoreDependencies);
 
     return hr;
