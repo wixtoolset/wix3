@@ -488,7 +488,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         {
             int capacity = InitialBufferSize;
             bool success = false;
-            IntPtr pValue = Marshal.AllocCoTaskMem(capacity);
+            IntPtr pValue = Marshal.AllocCoTaskMem(capacity * UnicodeEncoding.CharSize);
             try
             {
                 // Get the size of the buffer.
@@ -496,7 +496,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
                 if (NativeMethods.E_INSUFFICIENT_BUFFER == ret || NativeMethods.E_MOREDATA == ret)
                 {
                     // Don't need to add 1 for the null terminator, the engine already includes that.
-                    pValue = Marshal.ReAllocCoTaskMem(pValue, capacity);
+                    pValue = Marshal.ReAllocCoTaskMem(pValue, capacity * UnicodeEncoding.CharSize);
                     ret = this.engine.GetVariableString(name, pValue, ref capacity);
                 }
 
@@ -505,8 +505,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
                     throw Marshal.GetExceptionForHR(ret);
                 }
 
+                // The engine only returns the exact length of the string if the buffer was too small, so calculate it ourselves.
+                for (length = 0; length < capacity; ++length)
+                {
+                    if(0 == Marshal.ReadInt16(pValue, length * UnicodeEncoding.CharSize))
+                    {
+                        break;
+                    }
+                }
+
                 success = true;
-                length = capacity;
                 return pValue;
             }
             finally
@@ -531,17 +539,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             }
 
             SecureString value = new SecureString();
-            byte lo, hi;
+            short s;
             char c;
             for (int charIndex = 0; charIndex < length; charIndex++)
             {
-                // Wide chars are 2 bytes.
-                lo = Marshal.ReadByte(pUniString, charIndex * 2);
-                hi = Marshal.ReadByte(pUniString, charIndex * 2 + 1);
-                c = (char)(256 * hi + lo);
+                s = Marshal.ReadInt16(pUniString, charIndex * UnicodeEncoding.CharSize);
+                c = (char)s;
                 value.AppendChar(c);
-                lo = 0;
-                hi = 0;
+                s = 0;
                 c = (char)0;
             }
             return value;
