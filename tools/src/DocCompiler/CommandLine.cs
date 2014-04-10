@@ -25,6 +25,7 @@ namespace WixBuild.Tools.DocCompiler
     {
         private CommandLine()
         {
+            this.Ignored = new List<string>();
             this.Variables = new List<string>();
         }
 
@@ -42,6 +43,7 @@ namespace WixBuild.Tools.DocCompiler
 
         public bool IgnoreXsdSimpleTypeInTableOfContents { get; private set; }
 
+        public List<string> Ignored { get; private set; }
         public List<string> Variables { get; private set; }
 
         public static void ShowHelp()
@@ -109,6 +111,19 @@ namespace WixBuild.Tools.DocCompiler
                             else
                             {
                                 commandLine.HtmlHelpProjectFile = args[i];
+                            }
+                            break;
+
+                        case "ignore":
+                            ++i;
+                            if (args.Length == i)
+                            {
+                                Console.Error.WriteLine("Missing directory for '-{0}' option. Provide a directory to ignore when processing documents.", arg);
+                                return false;
+                            }
+                            else
+                            {
+                                commandLine.Ignored.Add(args[i]);
                             }
                             break;
 

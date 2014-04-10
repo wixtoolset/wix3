@@ -69,8 +69,17 @@ namespace WixBuild.Tools.DocCompiler
             Uri outputUri = new Uri(commandLine.OutputFolder);
             List<IndexedDocument> indexedDocs = new List<IndexedDocument>();
 
+            // Build up a list of directories to ignore when processing documents.
+            var ignored = commandLine.Ignored.Select(dir => Path.Combine(commandLine.InputFolder, dir));
+
             foreach (string documentPath in Directory.GetFiles(commandLine.InputFolder, "*.*", SearchOption.AllDirectories))
             {
+                // Skip processing if the document path is ignored.
+                if (ignored.Any(str => documentPath.StartsWith(str, StringComparison.OrdinalIgnoreCase)))
+                {
+                    break;
+                }
+
                 Document doc = Document.Create(documentPath, commandLine.InputFolder);
                 string documentOutputPath = Path.Combine(commandLine.OutputFolder, doc.RelativeOutputPath);
                 string content = doc.Content;
