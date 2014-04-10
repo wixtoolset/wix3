@@ -890,8 +890,8 @@ static HRESULT PlanTargetProduct(
             pWaitSyncPointAction->type = BURN_EXECUTE_ACTION_TYPE_WAIT_SYNCPOINT;
             pWaitSyncPointAction->syncpoint.hEvent = hCacheEvent;
 
-            // Since we inserted an action before the MSP target action that we will be updating, need to increment the pointer.
-            ++pAction;
+            // Since we inserted an action before the MSP target action that we will be updating, need to update the pointer.
+            pAction = pPlan->rgExecuteActions + (dwInsertSequence + 1);
         }
     }
 
