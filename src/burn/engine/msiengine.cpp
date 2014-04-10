@@ -1001,8 +1001,10 @@ extern "C" HRESULT MsiEngineAddCompatiblePackage(
 
     pCompatiblePackage->fPerMachine = pPackage->fPerMachine;
     pCompatiblePackage->fUninstallable = pPackage->fUninstallable;
-    pCompatiblePackage->fVital = pPackage->fVital;
     pCompatiblePackage->fCache = pPackage->fCache;
+
+    // Removing compatible packages is best effort.
+    pCompatiblePackage->fVital = FALSE;
 
     // Format a suitable log path variable from the original package.
     hr = StrAllocFormatted(&pCompatiblePackage->sczLogPathVariable, L"%ls_Compatible", pPackage->sczLogPathVariable);

@@ -957,6 +957,12 @@ extern "C" HRESULT ElevationLoadCompatiblePackageAction(
     hr = BuffWriteString(&pbData, &cbData, pExecuteAction->compatiblePackage.pReferencePackage->sczId);
     ExitOnFailure(hr, "Failed to write package id to message buffer.");
 
+    hr = BuffWriteString(&pbData, &cbData, pExecuteAction->compatiblePackage.sczInstalledProductCode);
+    ExitOnFailure(hr, "Failed to write installed ProductCode to message buffer.");
+
+    hr = BuffWriteNumber64(&pbData, &cbData, pExecuteAction->compatiblePackage.qwInstalledVersion);
+    ExitOnFailure(hr, "Failed to write installed version to message buffer.");
+
     // Send the message.
     hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE, pbData, cbData, NULL, NULL, &dwResult);
     ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE message to per-machine process.");
@@ -2278,6 +2284,18 @@ static HRESULT OnLoadCompatiblePackage(
     // Find the reference package.
     hr = PackageFindById(pPackages, sczPackage, &executeAction.compatiblePackage.pReferencePackage);
     ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+
+    hr = BuffReadString(pbData, cbData, &iData, &executeAction.compatiblePackage.sczInstalledProductCode);
+    ExitOnFailure(hr, "Failed to read installed ProductCode from message buffer.");
+
+    hr = BuffReadNumber64(pbData, cbData, &iData, &executeAction.compatiblePackage.qwInstalledVersion);
+    ExitOnFailure(hr, "Failed to read installed version from message buffer.");
+
+    // Copy the installed data to the reference package.
+    hr = StrAllocString(&executeAction.compatiblePackage.pReferencePackage->Msi.sczInstalledProductCode, executeAction.compatiblePackage.sczInstalledProductCode, 0);
+    ExitOnFailure(hr, "Failed to copy installed ProductCode.");
+
+    executeAction.compatiblePackage.pReferencePackage->Msi.qwInstalledVersion = executeAction.compatiblePackage.qwInstalledVersion;
 
     // Load the compatible package and add it to the list.
     hr = MsiEngineAddCompatiblePackage(pPackages, executeAction.compatiblePackage.pReferencePackage, NULL);

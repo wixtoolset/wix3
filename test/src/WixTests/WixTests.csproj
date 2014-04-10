@@ -189,6 +189,9 @@
     <None Include="..\..\data\Burn\DependencyTests\D.wxs">
       <Link>Burn\DependencyTests\D.wxs</Link>
     </None>
+    <None Include="..\..\data\Burn\DependencyTests\E.wxs">
+      <Link>Burn\DependencyTests\E.wxs</Link>
+    </None>
     <None Include="..\..\data\Burn\DependencyTests\PatchA.wxs">
       <Link>Burn\DependencyTests\PatchA.wxs</Link>
     </None>

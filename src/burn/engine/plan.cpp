@@ -260,6 +260,10 @@ extern "C" void PlanUninitializeExecuteAction(
     case BURN_EXECUTE_ACTION_TYPE_PACKAGE_DEPENDENCY:
         ReleaseStr(pExecuteAction->packageDependency.sczBundleProviderKey);
         break;
+
+    case BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE:
+        ReleaseStr(pExecuteAction->compatiblePackage.sczInstalledProductCode);
+        break;
     }
 }
 
@@ -483,6 +487,10 @@ extern "C" HRESULT PlanPackages(
 
             pAction->type = BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE;
             pAction->compatiblePackage.pReferencePackage = pPackage;
+            pAction->compatiblePackage.qwInstalledVersion = pCompatiblePackage->Msi.qwVersion;
+
+            hr = StrAllocString(&pAction->compatiblePackage.sczInstalledProductCode, pCompatiblePackage->Msi.sczProductCode, 0);
+            ExitOnFailure(hr, "Failed to copy installed ProductCode");
 
             // Process the compatible MSI package like any other.
             hr = ProcessPackage(fBundlePerMachine, TRUE, pUX, pPlan, pCompatiblePackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
@@ -1226,8 +1234,10 @@ extern "C" HRESULT PlanRelatedBundlesBegin(
             }
             break;
         case BOOTSTRAPPER_RELATION_DEPENDENT:
-            // Automatically repair dependent bundles to restore missing packages after uninstall.
-            if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
+            // Automatically repair dependent bundles to restore missing
+            // packages after uninstall unless we're being upgraded with the
+            // assumption that upgrades are cumulative (as intended).
+            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
             {
                 pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_REPAIR;
             }
@@ -2818,7 +2828,7 @@ static void ExecuteActionLog(
         break;
 
     case BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE:
-        LogStringLine(REPORT_STANDARD, "%ls action[%u]: COMPATIBLE_PACKAGE reference id: %ls", wzBase, iAction, pAction->compatiblePackage.pReferencePackage->sczId);
+        LogStringLine(REPORT_STANDARD, "%ls action[%u]: COMPATIBLE_PACKAGE reference id: %ls, installed ProductCode: %ls", wzBase, iAction, pAction->compatiblePackage.pReferencePackage->sczId, pAction->compatiblePackage.sczInstalledProductCode);
         break;
 
     default:

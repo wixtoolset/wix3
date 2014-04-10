@@ -292,6 +292,8 @@ typedef struct _BURN_EXECUTE_ACTION
         struct
         {
             BURN_PACKAGE* pReferencePackage;
+            LPWSTR sczInstalledProductCode;
+            DWORD64 qwInstalledVersion;
         } compatiblePackage;
     };
 } BURN_EXECUTE_ACTION;

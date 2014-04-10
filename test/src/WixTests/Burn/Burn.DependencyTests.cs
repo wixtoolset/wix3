@@ -406,37 +406,43 @@ namespace WixTest.Tests.Burn
         {
             const string expectedVersion = "1.0.1.0";
 
-            // Build the packages.
+            // Build the packages with explicit provider keys.
             string packageA1 = new PackageBuilder(this, "A") { Extensions = Extensions }.Build().Output;
             string packageA2 = new PackageBuilder(this, "A") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } }, NeverGetsInstalled = true }.Build().Output;
-            string packageB = new PackageBuilder(this, "B") { Extensions = Extensions }.Build().Output;
+            string packageB1 = new PackageBuilder(this, "E") { Extensions = Extensions }.Build().Output;
+            string packageB2 = new PackageBuilder(this, "E") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } } }.Build().Output;
             string patchA = new PatchBuilder(this, "PatchA") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } }, TargetPath = packageA1, UpgradePath = packageA2 }.Build().Output;
 
             // Create the named bind paths to the packages.
             Dictionary<string, string> bindPaths = new Dictionary<string, string>();
             bindPaths.Add("packageA", packageA1);
-            bindPaths.Add("packageB", packageB);
+            bindPaths.Add("packageB", packageB1);
             bindPaths.Add("patchA", patchA);
 
-            // Build the bundles.
+            // Build the base bundle.
             string bundleF = new BundleBuilder(this, "BundleF") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
-            string bundleG = new BundleBuilder(this, "BundleG") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+
+            // Build the patch bundle.
+            bindPaths["packageB"] = packageB2;
+            string bundleJ = new BundleBuilder(this, "BundleJ") { BindPaths = bindPaths, Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", expectedVersion } } }.Build().Output;
 
             // Install the base bundle and make sure all packages are installed.
             BundleInstaller installerF = new BundleInstaller(this, bundleF).Install();
             Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB1));
 
             // Install patch bundle and make sure all packages are installed.
-            BundleInstaller installerG = new BundleInstaller(this, bundleG).Install();
+            BundleInstaller installerJ = new BundleInstaller(this, bundleJ).Install();
             Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB2));
             Assert.IsTrue(MsiUtils.IsPatchInstalled(patchA));
 
             // Uninstall the base bundle and make sure all packages are uninstalled.
             installerF.Uninstall();
             Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB2));
             Assert.IsFalse(MsiUtils.IsPatchInstalled(patchA));
 
             this.CleanTestArtifacts = true;
