@@ -41,6 +41,7 @@ typedef struct _BURN_VARIANT
         LPWSTR sczValue;
     };
     BURN_VARIANT_TYPE Type;
+    BOOL fEncryptValue;
 } BURN_VARIANT;
 
 
@@ -81,6 +82,10 @@ HRESULT BVariantCopy(
 HRESULT BVariantChangeType(
     __in BURN_VARIANT* pVariant,
     __in BURN_VARIANT_TYPE type
+    );
+HRESULT BVariantSetEncryption(
+    __in BURN_VARIANT* pVariant,
+    __in BOOL fEncrypt
     );
 
 #if defined(__cplusplus)

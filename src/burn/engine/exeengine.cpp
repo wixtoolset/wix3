@@ -457,7 +457,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
         hr = VariableFormatString(pVariables, wzArguments, &sczArgumentsFormatted, NULL);
         ExitOnFailure(hr, "Failed to format argument string.");
 
-        hr = StrAllocFormatted(&sczCommand, L"\"%ls\" %s", sczExecutablePath, sczArgumentsFormatted);
+        hr = StrAllocateFormatted(&sczCommand, TRUE, L"\"%ls\" %s", sczExecutablePath, sczArgumentsFormatted);
         ExitOnFailure(hr, "Failed to create executable command.");
 
         hr = VariableFormatStringObfuscated(pVariables, wzArguments, &sczArgumentsObfuscated, NULL);
@@ -477,7 +477,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     // Add the list of dependencies to ignore, if any, to the burn command line.
     if (pExecuteAction->exePackage.sczIgnoreDependencies && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
     {
-        hr = StrAllocFormatted(&sczCommand, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
+        hr = StrAllocateFormatted(&sczCommand, TRUE, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
         ExitOnFailure(hr, "Failed to append the list of dependencies to ignore to the command line.");
 
         hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
@@ -544,11 +544,11 @@ LExit:
         ::SetCurrentDirectoryW(wzCurrentDirectory);
     }
 
-    ReleaseStr(sczArgumentsFormatted);
+    StrSecureZeroFreeString(sczArgumentsFormatted);
     ReleaseStr(sczArgumentsObfuscated);
     ReleaseStr(sczCachedDirectory);
     ReleaseStr(sczExecutablePath);
-    ReleaseStr(sczCommand);
+    StrSecureZeroFreeString(sczCommand);
     ReleaseStr(sczCommandObfuscated);
 
     ReleaseHandle(pi.hThread);
