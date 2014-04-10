@@ -1429,17 +1429,44 @@ static HRESULT RemoveUpdateRegistration(
 {
     HRESULT hr = S_OK;
     LPWSTR sczKey = NULL;
+    LPWSTR sczPackageVersion = NULL;
+    HKEY hkKey = NULL;
+    BOOL fDeleteRegKey = TRUE;
 
     hr = FormatUpdateRegistrationKey(pRegistration, &sczKey);
     ExitOnFailure(hr, "Failed to format key for update registration.");
 
-    hr = RegDelete(pRegistration->hkRoot, sczKey, REG_KEY_DEFAULT, FALSE);
-    if (E_FILENOTFOUND != hr)
+    // Only delete if the uninstalling bundle's PackageVersion is the same as the
+    // PackageVersion in the update registration key.
+    // This is to support build to build upgrades
+    hr = RegOpen(pRegistration->hkRoot, sczKey, KEY_QUERY_VALUE, &hkKey);
+    if (SUCCEEDED(hr))
     {
-        ExitOnFailure1(hr, "Failed to remove update registration key: %ls", sczKey);
+        hr = RegReadString(hkKey, L"PackageVersion", &sczPackageVersion);
+        if (SUCCEEDED(hr))
+        {
+            if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, 0, sczPackageVersion, -1, pRegistration->sczDisplayVersion, -1))
+            {
+                fDeleteRegKey = FALSE;
+            }
+        }
+        ReleaseRegKey(hkKey);
+    }
+
+    // Unable to open the key or read the value is okay.
+    hr = S_OK;
+
+    if (fDeleteRegKey)
+    {
+        hr = RegDelete(pRegistration->hkRoot, sczKey, REG_KEY_DEFAULT, FALSE);
+        if (E_FILENOTFOUND != hr)
+        {
+            ExitOnFailure1(hr, "Failed to remove update registration key: %ls", sczKey);
+        }
     }
 
 LExit:
+    ReleaseStr(sczPackageVersion);
     ReleaseStr(sczKey);
 
     return hr;
