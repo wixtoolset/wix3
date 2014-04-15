@@ -109,7 +109,7 @@ extern "C" HRESULT CoreInitialize(
 
     // Set BURN_BUNDLE_ORIGINAL_SOURCE, if it was passed in on the command line.
     // Needs to be done after ManifestLoadXmlFromBuffer.
-    if (NULL != sczOriginalSource)
+    if (sczOriginalSource)
     {
         hr = VariableSetString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
         ExitOnFailure(hr, "Failed to set original source variable.");

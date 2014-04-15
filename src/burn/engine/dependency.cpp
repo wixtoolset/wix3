@@ -39,6 +39,13 @@ static HRESULT GetIgnoredDependents(
     __deref_inout STRINGDICT_HANDLE* psdIgnoredDependents
     );
 
+static HRESULT GetProviderInformation(
+    __in HKEY hkRoot,
+    __in_z LPCWSTR wzProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczId
+    );
+
 static void CalculateDependencyActionStates(
     __in const BURN_PACKAGE* pPackage,
     __in const BOOTSTRAPPER_ACTION action,
@@ -178,7 +185,6 @@ extern "C" HRESULT DependencyDetectProviderKeyPackageId(
     )
 {
     HRESULT hr = E_NOTFOUND;
-    LPWSTR sczId = NULL;
     LPWSTR wzProviderKey = NULL;
     HKEY hkRoot = pPackage->fPerMachine ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
 
@@ -187,34 +193,12 @@ extern "C" HRESULT DependencyDetectProviderKeyPackageId(
         const BURN_DEPENDENCY_PROVIDER* pProvider = &pPackage->rgDependencyProviders[i];
 
         // Find the first package id registered for the provider key.
-        hr = DepGetProviderInformation(hkRoot, pProvider->sczKey, &sczId, NULL, NULL);
+        hr = GetProviderInformation(hkRoot, pProvider->sczKey, psczProviderKey, psczId);
         if (E_NOTFOUND == hr)
         {
             continue;
         }
-        ExitOnFailure(hr, "Failed to get the provider key package id.");
-
-        // If the id was registered return it and exit.
-        if (sczId && *sczId)
-        {
-            if (psczProviderKey)
-            {
-                hr = StrAllocString(psczProviderKey, pProvider->sczKey, 0);
-                ExitOnFailure(hr, "Failed to copy the provider key.");
-            }
-
-            if (psczId)
-            {
-                *psczId = sczId;
-                sczId = NULL;
-            }
-
-            ExitFunction();
-        }
-        else
-        {
-            hr = E_NOTFOUND;
-        }
+        ExitOnFailure(hr, "Failed to get the package provider information.");
     }
 
     // Older bundles may not have written the id so try the default.
@@ -225,36 +209,15 @@ extern "C" HRESULT DependencyDetectProviderKeyPackageId(
 
     if (wzProviderKey)
     {
-        hr = DepGetProviderInformation(hkRoot, wzProviderKey, &sczId, NULL, NULL);
+        hr = GetProviderInformation(hkRoot, wzProviderKey, psczProviderKey, psczId);
         if (E_NOTFOUND == hr)
         {
             ExitFunction();
         }
-        ExitOnFailure(hr, "Failed to get the default provider key package id.");
-
-        if (sczId && *sczId)
-        {
-            if (psczProviderKey)
-            {
-                hr = StrAllocString(psczProviderKey, wzProviderKey, 0);
-                ExitOnFailure(hr, "Failed to copy the default provider key.");
-            }
-
-            if (psczId)
-            {
-                *psczId = sczId;
-                sczId = NULL;
-            }
-        }
-        else
-        {
-            hr = E_NOTFOUND;
-        }
+        ExitOnFailure(hr, "Failed to get the package default provider information.");
     }
 
 LExit:
-    ReleaseStr(sczId);
-
     return hr;
 }
 
@@ -443,7 +406,7 @@ extern "C" HRESULT DependencyPlanPackageBegin(
         pPackage->rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
     }
     // Use the calculated dependency actions as the provider actions if there
-    // are any non-imported provider that need to be registered and the package
+    // are any non-imported providers that need to be registered and the package
     // is current (not obsolete).
     else if (BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE != pPackage->currentState)
     {
@@ -850,6 +813,55 @@ static HRESULT GetIgnoredDependents(
 
 LExit:
     ReleaseStr(sczIgnoreDependencies);
+
+    return hr;
+}
+
+/********************************************************************
+ GetProviderId - Gets the ID of the package given the provider key.
+
+*********************************************************************/
+static HRESULT GetProviderInformation(
+    __in HKEY hkRoot,
+    __in_z LPCWSTR wzProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczId
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczId = NULL;
+
+    hr = DepGetProviderInformation(hkRoot, wzProviderKey, &sczId, NULL, NULL);
+    if (E_NOTFOUND == hr)
+    {
+        ExitFunction();
+    }
+    ExitOnFailure(hr, "Failed to get the provider key package id.");
+
+    // If the id was registered return it and exit.
+    if (sczId && *sczId)
+    {
+        if (psczProviderKey)
+        {
+            hr = StrAllocString(psczProviderKey, wzProviderKey, 0);
+            ExitOnFailure(hr, "Failed to copy the provider key.");
+        }
+
+        if (psczId)
+        {
+            *psczId = sczId;
+            sczId = NULL;
+        }
+
+        ExitFunction();
+    }
+    else
+    {
+        hr = E_NOTFOUND;
+    }
+
+LExit:
+    ReleaseStr(psczId);
 
     return hr;
 }
