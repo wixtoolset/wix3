@@ -144,6 +144,65 @@ namespace WixTest.Tests.Burn
             this.CleanTestArtifacts = true;
         }
 
+        [TestMethod]
+        [Priority(2)]
+        [Description("Installs bundle Av1.0 that is updated bundle Av2.0.  Verifies the OptionalUpdateRegistration Element is correct for both installs")]
+        [TestProperty("IsRuntimeTest", "true")]
+        public void Burn_InstallUpdatedBundleOptionalUpdateRegistration()
+        {
+            string v2Version = "2.0.0.0";
+
+            // Build the packages.
+            string packageAv1 = new PackageBuilder(this, "A").Build().Output;
+            string packageAv2 = new PackageBuilder(this, "A") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", v2Version } } }.Build().Output;
+
+            // Create the named bind paths to the packages.
+            Dictionary<string, string> bindPathsv1 = new Dictionary<string, string>() { { "packageA", packageAv1 } };
+            Dictionary<string, string> bindPathsv2 = new Dictionary<string, string>() { { "packageA", packageAv2 } };
+
+            // Build the bundles.
+            string bundleAv1 = new BundleBuilder(this, "BundleA") { BindPaths = bindPathsv1, Extensions = Extensions }.Build().Output;
+            string bundleAv2 = new BundleBuilder(this, "BundleA") { BindPaths = bindPathsv2, Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", v2Version } } }.Build().Output;
+
+            // Initialize with first bundle.
+            BundleInstaller installerAv1 = new BundleInstaller(this, bundleAv1).Install();
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv1));
+
+            // Make sure the OptionalUpdateRegistration exists.
+            // SOFTWARE\[Manufacturer]\Updates\[ProductFamily]\[Name]
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft Corporation\Updates\~Burn_InstallUpdatedBundleOptionalUpdateRegistration - Bundle A"))
+            {
+                Assert.AreEqual("Y", key.GetValue("ThisVersionInstalled"));
+                Assert.AreEqual("1.0.0.0", key.GetValue("PackageVersion"));
+            }
+
+            // Install second bundle which will major upgrade away v1.
+            BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install();
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv1));
+            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+
+            // Make sure the OptionalUpdateRegistration exists.
+            // SOFTWARE\[Manufacturer]\Updates\[ProductFamily]\[Name]
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft Corporation\Updates\~Burn_InstallUpdatedBundleOptionalUpdateRegistration - Bundle A"))
+            {
+                Assert.AreEqual("Y", key.GetValue("ThisVersionInstalled"));
+                Assert.AreEqual("2.0.0.0", key.GetValue("PackageVersion"));
+            }
+
+            // Uninstall the second bundle and everything should be gone.
+            installerAv2.Uninstall();
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv1));
+            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+
+            // Make sure the key is removed.
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft Corporation\Updates\~Burn_InstallUpdatedBundleOptionalUpdateRegistration - Bundle A"))
+            {
+                Assert.IsNull(key);
+            }
+
+            this.CleanTestArtifacts = false;
+        }
+
         private PackageBuilder GetPackageA()
         {
             return (null != this.packageA) ? this.packageA : this.packageA = new PackageBuilder(this, "A") { Extensions = Extensions }.Build();

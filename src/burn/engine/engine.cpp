@@ -496,6 +496,9 @@ static HRESULT RunEmbedded(
 {
     HRESULT hr = S_OK;
 
+    // Disable system restore since the parent bundle may have done it.
+    pEngineState->fDisableSystemRestore = TRUE;
+
     // Connect to parent process.
     hr = PipeChildConnect(&pEngineState->embeddedConnection, FALSE);
     ExitOnFailure(hr, "Failed to connect to parent of embedded process.");

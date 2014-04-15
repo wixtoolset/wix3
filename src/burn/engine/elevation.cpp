@@ -37,6 +37,7 @@ typedef enum _BURN_ELEVATION_MESSAGE_TYPE
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_MSU_PACKAGE,
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_PACKAGE_PROVIDER,
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_PACKAGE_DEPENDENCY,
+    BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE,
     BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_EMBEDDED_CHILD,
     BURN_ELEVATION_MESSAGE_TYPE_CLEAN_PACKAGE,
 
@@ -84,6 +85,11 @@ static DWORD WINAPI ElevatedChildCacheThreadProc(
 static HRESULT WaitForElevatedChildCacheThread(
     __in HANDLE hCacheThread,
     __in DWORD dwExpectedExitCode
+    );
+static HRESULT OnLoadCompatiblePackage(
+    __in BURN_PACKAGES* pPackages,
+    __in BYTE* pbData,
+    __in DWORD cbData
     );
 static HRESULT ProcessGenericExecuteMessages(
     __in BURN_PIPE_MESSAGE* pMsg,
@@ -647,6 +653,9 @@ extern "C" HRESULT ElevationExecuteExePackage(
     hr = BuffWriteString(&pbData, &cbData, pExecuteAction->exePackage.sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to write the list of dependencies to ignore to the message buffer.");
 
+    hr = BuffWriteString(&pbData, &cbData, pExecuteAction->exePackage.sczAncestors);
+    ExitOnFailure(hr, "Failed to write the list of ancestors to the message buffer.");
+
     hr = VariableSerialize(pVariables, FALSE, &pbData, &cbData);
     ExitOnFailure(hr, "Failed to write variables.");
 
@@ -920,6 +929,45 @@ extern "C" HRESULT ElevationExecutePackageDependencyAction(
     ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_PACKAGE_DEPENDENCY message to per-machine process.");
 
     // Ignore the restart since this action only results in registry writes.
+    hr = ProcessResult(dwResult, &restart);
+
+LExit:
+    ReleaseBuffer(pbData);
+
+    return hr;
+}
+
+/*******************************************************************
+ ElevationLoadCompatiblePackageAction - Load compatible package
+  information from the referenced package.
+
+*******************************************************************/
+extern "C" HRESULT ElevationLoadCompatiblePackageAction(
+    __in HANDLE hPipe,
+    __in BURN_EXECUTE_ACTION* pExecuteAction
+    )
+{
+    HRESULT hr = S_OK;
+    BYTE* pbData = NULL;
+    SIZE_T cbData = 0;
+    DWORD dwResult = 0;
+    BOOTSTRAPPER_APPLY_RESTART restart = BOOTSTRAPPER_APPLY_RESTART_NONE;
+
+    // Serialize message data.
+    hr = BuffWriteString(&pbData, &cbData, pExecuteAction->compatiblePackage.pReferencePackage->sczId);
+    ExitOnFailure(hr, "Failed to write package id to message buffer.");
+
+    hr = BuffWriteString(&pbData, &cbData, pExecuteAction->compatiblePackage.sczInstalledProductCode);
+    ExitOnFailure(hr, "Failed to write installed ProductCode to message buffer.");
+
+    hr = BuffWriteNumber64(&pbData, &cbData, pExecuteAction->compatiblePackage.qwInstalledVersion);
+    ExitOnFailure(hr, "Failed to write installed version to message buffer.");
+
+    // Send the message.
+    hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE, pbData, cbData, NULL, NULL, &dwResult);
+    ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE message to per-machine process.");
+
+    // Ignore the restart since this action only loads data into memory.
     hr = ProcessResult(dwResult, &restart);
 
 LExit:
@@ -1344,6 +1392,10 @@ static HRESULT ProcessElevatedChildMessage(
 
     case BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_PACKAGE_DEPENDENCY:
         hrResult = OnExecutePackageDependencyAction(pContext->pPackages, &pContext->pRegistration->relatedBundles, (BYTE*)pMsg->pvData, pMsg->cbData);
+        break;
+
+    case BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE:
+        hrResult = OnLoadCompatiblePackage(pContext->pPackages, (BYTE*)pMsg->pvData, pMsg->cbData);
         break;
 
     case BURN_ELEVATION_MESSAGE_TYPE_CLEAN_PACKAGE:
@@ -1816,6 +1868,7 @@ static HRESULT OnExecuteExePackage(
     DWORD dwRollback = 0;
     BURN_EXECUTE_ACTION executeAction = { };
     LPWSTR sczIgnoreDependencies = NULL;
+    LPWSTR sczAncestors = NULL;
     BOOTSTRAPPER_APPLY_RESTART exeRestart = BOOTSTRAPPER_APPLY_RESTART_NONE;
 
     executeAction.type = BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE;
@@ -1832,6 +1885,9 @@ static HRESULT OnExecuteExePackage(
 
     hr = BuffReadString(pbData, cbData, &iData, &sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to read the list of dependencies to ignore.");
+
+    hr = BuffReadString(pbData, cbData, &iData, &sczAncestors);
+    ExitOnFailure(hr, "Failed to read the list of ancestors.");
 
     hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
@@ -1850,11 +1906,19 @@ static HRESULT OnExecuteExePackage(
         ExitOnFailure(hr, "Failed to allocate the list of dependencies to ignore.");
     }
 
+    // Pass the list of ancestors, if any, to the related bundle.
+    if (sczAncestors && *sczAncestors)
+    {
+        hr = StrAllocString(&executeAction.exePackage.sczAncestors, sczAncestors, 0);
+        ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
+    }
+
     // execute EXE package
     hr = ExeEngineExecutePackage(&executeAction, pVariables, static_cast<BOOL>(dwRollback), GenericExecuteMessageHandler, hPipe, &exeRestart);
     ExitOnFailure(hr, "Failed to execute EXE package.");
 
 LExit:
+    ReleaseStr(sczAncestors);
     ReleaseStr(sczIgnoreDependencies);
     ReleaseStr(sczPackage);
     PlanUninitializeExecuteAction(&executeAction);
@@ -2151,6 +2215,9 @@ static HRESULT OnExecutePackageProviderAction(
     ExitOnFailure(hr, "Failed to execute package provider action.");
 
 LExit:
+    ReleaseStr(sczPackage);
+    PlanUninitializeExecuteAction(&executeAction);
+
     return hr;
 }
 
@@ -2191,6 +2258,53 @@ static HRESULT OnExecutePackageDependencyAction(
     ExitOnFailure(hr, "Failed to execute package dependency action.");
 
 LExit:
+    ReleaseStr(sczPackage);
+    PlanUninitializeExecuteAction(&executeAction);
+
+    return hr;
+}
+
+static HRESULT OnLoadCompatiblePackage(
+    __in BURN_PACKAGES* pPackages,
+    __in BYTE* pbData,
+    __in DWORD cbData
+    )
+{
+    HRESULT hr = S_OK;
+    SIZE_T iData = 0;
+    LPWSTR sczPackage = NULL;
+    BURN_EXECUTE_ACTION executeAction = { };
+
+    executeAction.type = BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE;
+
+    // Deserialize the message data.
+    hr = BuffReadString(pbData, cbData, &iData, &sczPackage);
+    ExitOnFailure(hr, "Failed to read package id from message buffer.");
+
+    // Find the reference package.
+    hr = PackageFindById(pPackages, sczPackage, &executeAction.compatiblePackage.pReferencePackage);
+    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+
+    hr = BuffReadString(pbData, cbData, &iData, &executeAction.compatiblePackage.sczInstalledProductCode);
+    ExitOnFailure(hr, "Failed to read installed ProductCode from message buffer.");
+
+    hr = BuffReadNumber64(pbData, cbData, &iData, &executeAction.compatiblePackage.qwInstalledVersion);
+    ExitOnFailure(hr, "Failed to read installed version from message buffer.");
+
+    // Copy the installed data to the reference package.
+    hr = StrAllocString(&executeAction.compatiblePackage.pReferencePackage->Msi.sczInstalledProductCode, executeAction.compatiblePackage.sczInstalledProductCode, 0);
+    ExitOnFailure(hr, "Failed to copy installed ProductCode.");
+
+    executeAction.compatiblePackage.pReferencePackage->Msi.qwInstalledVersion = executeAction.compatiblePackage.qwInstalledVersion;
+
+    // Load the compatible package and add it to the list.
+    hr = MsiEngineAddCompatiblePackage(pPackages, executeAction.compatiblePackage.pReferencePackage, NULL);
+    ExitOnFailure(hr, "Failed to load compatible package.");
+
+LExit:
+    ReleaseStr(sczPackage);
+    PlanUninitializeExecuteAction(&executeAction);
+
     return hr;
 }
 

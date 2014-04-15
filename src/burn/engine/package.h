@@ -212,6 +212,7 @@ typedef struct _BURN_PACKAGE
             LPWSTR sczRepairArguments;
             LPWSTR sczUninstallArguments;
             LPWSTR sczIgnoreDependencies;
+            LPWSTR sczAncestors;
 
             BOOL fPseudoBundle;
 
@@ -226,6 +227,7 @@ typedef struct _BURN_PACKAGE
             LPWSTR sczProductCode;
             DWORD dwLanguage;
             DWORD64 qwVersion;
+            LPWSTR sczInstalledProductCode;
             DWORD64 qwInstalledVersion;
             BOOL fDisplayInternalUI;
 
@@ -241,6 +243,8 @@ typedef struct _BURN_PACKAGE
             _BURN_PACKAGE** rgpSlipstreamMspPackages;
             LPWSTR* rgsczSlipstreamMspPackageIds;
             DWORD cSlipstreamMspPackages;
+
+            BOOL fCompatibleInstalled;
         } Msi;
         struct
         {
@@ -269,6 +273,9 @@ typedef struct _BURN_PACKAGES
 
     BURN_PACKAGE* rgPackages;
     DWORD cPackages;
+
+    BURN_PACKAGE* rgCompatiblePackages;
+    DWORD cCompatiblePackages;
 
     BURN_PATCH_TARGETCODE* rgPatchTargetCodes;
     DWORD cPatchTargetCodes;
@@ -307,6 +314,9 @@ HRESULT PackageGetProperty(
     __in const BURN_PACKAGE* pPackage,
     __in_z LPCWSTR wzProperty,
     __out_z_opt LPWSTR* psczValue
+    );
+HRESULT PackageEnsureCompatiblePackagesArray(
+    __in BURN_PACKAGES* pPackages
     );
 
 

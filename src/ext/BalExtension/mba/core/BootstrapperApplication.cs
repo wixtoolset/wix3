@@ -100,6 +100,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public event EventHandler<DetectPackageBeginEventArgs> DetectPackageBegin;
 
         /// <summary>
+        /// Fired when a package was not detected but a package using the same provider key was.
+        /// </summary>
+        public event EventHandler<DetectCompatiblePackageEventArgs> DetectCompatiblePackage;
+
+        /// <summary>
         /// Fired when a related MSI package has been detected for a package.
         /// </summary>
         public event EventHandler<DetectRelatedMsiPackageEventArgs> DetectRelatedMsiPackage;
@@ -138,6 +143,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Fired when the engine has begun planning the installation of a specific package.
         /// </summary>
         public event EventHandler<PlanPackageBeginEventArgs> PlanPackageBegin;
+
+        /// <summary>
+        /// Fired when the engine plans a new, compatible package using the same provider key.
+        /// </summary>
+        public event EventHandler<PlanCompatiblePackageEventArgs> PlanCompatiblePackage;
 
         /// <summary>
         /// Fired when the engine is about to plan the target MSI of a MSP package.
@@ -494,6 +504,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         }
 
         /// <summary>
+        /// Called when a package was not detected but a package using the same provider key was.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnDetectCompatiblePackage(DetectCompatiblePackageEventArgs args)
+        {
+            EventHandler<DetectCompatiblePackageEventArgs> handler = this.DetectCompatiblePackage;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
         /// Called when a related MSI package has been detected for a package.
         /// </summary>
         /// <param name="args">Additional arguments for this event.</param>
@@ -591,6 +614,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         protected virtual void OnPlanPackageBegin(PlanPackageBeginEventArgs args)
         {
             EventHandler<PlanPackageBeginEventArgs> handler = this.PlanPackageBegin;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Called when the engine plans a new, compatible package using the same provider key.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnPlanCompatiblePackage(PlanCompatiblePackageEventArgs args)
+        {
+            EventHandler<PlanCompatiblePackageEventArgs> handler = this.PlanCompatiblePackage;
             if (null != handler)
             {
                 handler(this, args);
@@ -1083,6 +1119,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             return args.Result;
         }
 
+        Result IBootstrapperApplication.OnDetectCompatiblePackage(string wzPackageId, string wzCompatiblePackageId)
+        {
+            DetectCompatiblePackageEventArgs args = new DetectCompatiblePackageEventArgs(wzPackageId, wzCompatiblePackageId);
+            this.OnDetectCompatiblePackage(args);
+
+            return args.Result;
+        }
+
         Result IBootstrapperApplication.OnDetectRelatedMsiPackage(string wzPackageId, string wzProductCode, bool fPerMachine, long version, RelatedOperation operation)
         {
             DetectRelatedMsiPackageEventArgs args = new DetectRelatedMsiPackageEventArgs(wzPackageId, wzProductCode, fPerMachine, version, operation);
@@ -1138,6 +1182,15 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         {
             PlanPackageBeginEventArgs args = new PlanPackageBeginEventArgs(wzPackageId, pRequestedState);
             this.OnPlanPackageBegin(args);
+
+            pRequestedState = args.State;
+            return args.Result;
+        }
+
+        Result IBootstrapperApplication.OnPlanCompatiblePackage(string wzPackageId, ref RequestState pRequestedState)
+        {
+            PlanCompatiblePackageEventArgs args = new PlanCompatiblePackageEventArgs(wzPackageId, pRequestedState);
+            this.OnPlanCompatiblePackage(args);
 
             pRequestedState = args.State;
             return args.Result;

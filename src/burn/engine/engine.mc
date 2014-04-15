@@ -197,6 +197,13 @@ Language=English
 Detected forward compatible bundle: %1!ls!, type: %2!hs!, scope: %3!hs!, version: %4!hs!, enabled: %5!hs!
 .
 
+MessageId=108
+Severity=Success
+SymbolicName=MSG_DETECTED_COMPATIBLE_PACKAGE_FROM_PROVIDER
+Language=English
+Detected compatible package: %1!ls!, provider: %2!ls!, installed: %3!ls!, version: %4!ls!, chained: %5!ls!
+.
+
 MessageId=120
 Severity=Warning
 SymbolicName=MSG_DETECT_PACKAGE_NOT_FULLY_CACHED
@@ -328,6 +335,34 @@ Severity=Success
 SymbolicName=MSG_PLANNED_FORWARD_COMPATIBLE_BUNDLE
 Language=English
 Planned forward compatible bundle: %1!ls!, default requested: %2!hs!, ba requested: %3!hs!, execute: %4!hs!, rollback: %5!hs!, dependency: %6!hs!
+.
+
+MessageId=213
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED
+Language=English
+Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was embedded.
+.
+
+MessageId=214
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_SCHEDULED
+Language=English
+Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was previously scheduled.
+.
+
+MessageId=215
+Severity=Success
+SymbolicName=MSG_PLANNED_ORPHAN_PACKAGE_FROM_PROVIDER
+Language=English
+Will remove orphan package: %1!ls!, installed: %2!ls!, chained: %3!ls!
+.
+
+MessageId=216
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED_BUNDLE_NEWER
+Language=English
+Plan skipped related bundle: %1!ls!, type: %2!hs!, provider key: %3!ls!, because an embedded bundle with the same provider key is being installed.
 .
 
 MessageId=299

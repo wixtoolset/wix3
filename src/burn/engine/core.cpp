@@ -35,12 +35,15 @@ static HRESULT ParseCommandLine(
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
+    __out BOOL* pfDisableSystemRestore,
+    __out_z LPWSTR* psczOriginalSource,
     __out BURN_ELEVATION_STATE* pElevationState,
     __out BOOL* pfDisableUnelevate,
     __out DWORD *pdwLoggingAttributes,
     __out_z LPWSTR* psczLogFile,
     __out_z LPWSTR* psczActiveParent,
-    __out_z LPWSTR* psczIgnoreDependencies
+    __out_z LPWSTR* psczIgnoreDependencies,
+    __out_z LPWSTR* psczAncestors
     );
 static HRESULT ParsePipeConnection(
     __in LPWSTR* rgArgs,
@@ -76,9 +79,10 @@ extern "C" HRESULT CoreInitialize(
     BYTE* pbBuffer = NULL;
     SIZE_T cbBuffer = 0;
     BURN_CONTAINER_CONTEXT containerContext = { };
+    LPWSTR sczOriginalSource = NULL;
 
     // parse command line
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies);
+    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczOriginalSource, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors);
     ExitOnFailure(hr, "Failed to parse command line.");
 
     // initialize variables
@@ -103,6 +107,14 @@ extern "C" HRESULT CoreInitialize(
     hr = ManifestLoadXmlFromBuffer(pbBuffer, cbBuffer, pEngineState);
     ExitOnFailure(hr, "Failed to load manifest.");
 
+    // Set BURN_BUNDLE_ORIGINAL_SOURCE, if it was passed in on the command line.
+    // Needs to be done after ManifestLoadXmlFromBuffer.
+    if (sczOriginalSource)
+    {
+        hr = VariableSetString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
+        ExitOnFailure(hr, "Failed to set original source variable.");
+    }
+
     // If we're not elevated then we'll be loading the bootstrapper application, so extract
     // the payloads from the BA container.
     if (pEngineState->elevationState == BURN_ELEVATION_STATE_UNELEVATED || pEngineState->elevationState == BURN_ELEVATION_STATE_UNELEVATED_EXPLICITLY)
@@ -120,6 +132,7 @@ extern "C" HRESULT CoreInitialize(
     }
 
 LExit:
+    ReleaseStr(sczOriginalSource);
     ContainerClose(&containerContext);
     ReleaseStr(sczStreamName);
     ReleaseMem(pbBuffer);
@@ -396,7 +409,7 @@ extern "C" HRESULT CorePlan(
         ExitOnFailure(hr, "Failed to plan the layout of the bundle.");
 
         // Plan the packages' layout.
-        hr = PlanPackages(&pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, FALSE, pEngineState->command.display, pEngineState->command.relationType, sczLayoutDirectory, &hSyncpointEvent);
+        hr = PlanPackages(&pEngineState->registration, &pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, FALSE, pEngineState->command.display, pEngineState->command.relationType, sczLayoutDirectory, &hSyncpointEvent);
         ExitOnFailure(hr, "Failed to plan packages.");
     }
     else if (BOOTSTRAPPER_ACTION_UPDATE_REPLACE == action || BOOTSTRAPPER_ACTION_UPDATE_REPLACE_EMBEDDED == action)
@@ -432,12 +445,16 @@ extern "C" HRESULT CorePlan(
             // of addons and patches, which should be uninstalled before the main product.
             DWORD dwExecuteActionEarlyIndex = pEngineState->plan.cExecuteActions;
 
-            hr = PlanPackages(&pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, pEngineState->registration.fInstalled, pEngineState->command.display, pEngineState->command.relationType, NULL, &hSyncpointEvent);
+            // Plan the related bundles first to support downgrades with ref-counting.
+            hr = PlanRelatedBundlesBegin(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan, pEngineState->mode);
+            ExitOnFailure(hr, "Failed to plan related bundles.");
+
+            hr = PlanPackages(&pEngineState->registration, &pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, pEngineState->registration.fInstalled, pEngineState->command.display, pEngineState->command.relationType, NULL, &hSyncpointEvent);
             ExitOnFailure(hr, "Failed to plan packages.");
 
-            // Plan the update of related bundles last.
-            hr = PlanRelatedBundles(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, &hSyncpointEvent, dwExecuteActionEarlyIndex);
-            ExitOnFailure(hr, "Failed to plan related bundles.");
+            // Schedule the update of related bundles last.
+            hr = PlanRelatedBundlesComplete(&pEngineState->registration, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, &hSyncpointEvent, dwExecuteActionEarlyIndex);
+            ExitOnFailure(hr, "Failed to schedule related bundles.");
         }
     }
 
@@ -764,6 +781,7 @@ extern "C" HRESULT CoreRecreateCommandLine(
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
     __in BOOL fPassthrough,
     __in_z_opt LPCWSTR wzActiveParent,
+    __in_z_opt LPCWSTR wzAncestors,
     __in_z_opt LPCWSTR wzApppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
     )
@@ -825,6 +843,15 @@ extern "C" HRESULT CoreRecreateCommandLine(
         ExitOnFailure(hr, "Failed to append active parent command-line to command-line.");
     }
 
+    if (wzAncestors)
+    {
+        hr = StrAllocFormatted(&scz, L" /%ls=%ls", BURN_COMMANDLINE_SWITCH_ANCESTORS, wzAncestors);
+        ExitOnFailure(hr, "Failed to format ancestors for command-line.");
+
+        hr = StrAllocConcat(psczCommandLine, scz, 0);
+        ExitOnFailure(hr, "Failed to append ancestors to command-line.");
+    }
+
     if (wzRelationTypeCommandLine)
     {
         hr = StrAllocFormatted(&scz, L" /%ls", wzRelationTypeCommandLine);
@@ -876,12 +903,15 @@ static HRESULT ParseCommandLine(
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
+    __out BOOL* pfDisableSystemRestore,
+    __out_z LPWSTR* psczOriginalSource,
     __out BURN_ELEVATION_STATE* pElevationState,
     __out BOOL* pfDisableUnelevate,
     __out DWORD *pdwLoggingAttributes,
     __out_z LPWSTR* psczLogFile,
     __out_z LPWSTR* psczActiveParent,
-    __out_z LPWSTR* psczIgnoreDependencies
+    __out_z LPWSTR* psczIgnoreDependencies,
+    __out_z LPWSTR* psczAncestors
     )
 {
     HRESULT hr = S_OK;
@@ -1022,6 +1052,21 @@ static HRESULT ParseCommandLine(
                     *pAutomaticUpdates = BURN_AU_PAUSE_ACTION_IFELEVATED_NORESUME;
                 }
             }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"disablesystemrestore", -1))
+            {
+                *pfDisableSystemRestore = TRUE;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"originalsource", -1))
+            {
+                if (i + 1 >= argc)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Must specify a path for original source.");
+                }
+
+                ++i;
+                hr = StrAllocString(psczOriginalSource, argv[i], 0);
+                ExitOnFailure(hr, "Failed to copy last used source.");
+            }
             else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_PARENT, -1))
             {
                 if (i + 1 >= argc)
@@ -1154,6 +1199,18 @@ static HRESULT ParseCommandLine(
 
                 hr = StrAllocString(psczIgnoreDependencies, &wzParam[1], 0);
                 ExitOnFailure(hr, "Failed to allocate the list of dependencies to ignore.");
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS), BURN_COMMANDLINE_SWITCH_ANCESTORS, lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS)))
+            {
+                // Get a pointer to the next character after the switch.
+                LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS)];
+                if (L'=' != wzParam[0] || L'\0' == wzParam[1])
+                {
+                    ExitOnRootFailure1(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_ANCESTORS);
+                }
+
+                hr = StrAllocString(psczAncestors, &wzParam[1], 0);
+                ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
             }
             else if (lstrlenW(&argv[i][1]) >= lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX) &&
                 CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX), BURN_COMMANDLINE_SWITCH_PREFIX, lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX)))
@@ -1380,6 +1437,14 @@ static void LogPackages(
         {
             const DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == action) ? pPackages->cPackages - 1 - i : i;
             const BURN_PACKAGE* pPackage = &pPackages->rgPackages[iPackage];
+
+            LogId(REPORT_STANDARD, MSG_PLANNED_PACKAGE, pPackage->sczId, LoggingPackageStateToString(pPackage->currentState), LoggingRequestStateToString(pPackage->defaultRequested), LoggingRequestStateToString(pPackage->requested), LoggingActionStateToString(pPackage->execute), LoggingActionStateToString(pPackage->rollback), LoggingBoolToString(pPackage->fAcquire), LoggingBoolToString(pPackage->fUncache), LoggingDependencyActionToString(pPackage->dependencyExecute));
+        }
+
+        for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+        {
+            const DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == action) ? pPackages->cCompatiblePackages - 1 - i : i;
+            const BURN_PACKAGE* pPackage = &pPackages->rgCompatiblePackages[iPackage];
 
             LogId(REPORT_STANDARD, MSG_PLANNED_PACKAGE, pPackage->sczId, LoggingPackageStateToString(pPackage->currentState), LoggingRequestStateToString(pPackage->defaultRequested), LoggingRequestStateToString(pPackage->requested), LoggingActionStateToString(pPackage->execute), LoggingActionStateToString(pPackage->rollback), LoggingBoolToString(pPackage->fAcquire), LoggingBoolToString(pPackage->fUncache), LoggingDependencyActionToString(pPackage->dependencyExecute));
         }
