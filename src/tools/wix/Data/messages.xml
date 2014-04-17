@@ -2927,7 +2927,7 @@
       </Message>
       <Message Id="RemotePayloadUnsupported" Number="383">
         <Instance>
-          The RemotePayload element can only be used for ExePackages.
+          The RemotePayload element can only be used for ExePackage and MsuPackage payloads.
         </Instance>
       </Message>
     </Class>
