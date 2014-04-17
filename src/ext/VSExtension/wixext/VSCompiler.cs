@@ -861,7 +861,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 {
                     string rollbackNamePerUser = this.Core.GenerateIdentifier("vru", componentId, fileId, "per-user", target ?? String.Empty, targetVersion ?? String.Empty);
                     string rollbackNamePerMachine = this.Core.GenerateIdentifier("vrm", componentId, fileId, "per-machine", target ?? String.Empty, targetVersion ?? String.Empty);
-                    string rollbackCmdLinePerUser = String.Concat(cmdlinePrefix, " /u:", packageId);
+                    string rollbackCmdLinePerUser = String.Concat(cmdlinePrefix, " /u:\"", packageId, "\"");
                     string rollbackCmdLinePerMachine = String.Concat(rollbackCmdLinePerUser, " /admin");
                     int rollbackExtraBitsPerUser = VSCompiler.MsidbCustomActionTypeContinue | VSCompiler.MsidbCustomActionTypeRollback | VSCompiler.MsidbCustomActionTypeInScript;
                     int rollbackExtraBitsPerMachine = rollbackExtraBitsPerUser | VSCompiler.MsidbCustomActionTypeNoImpersonate;
@@ -889,7 +889,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 {
                     string uninstallNamePerUser = this.Core.GenerateIdentifier("vuu", componentId, fileId, "per-user", target ?? String.Empty, targetVersion ?? String.Empty);
                     string uninstallNamePerMachine = this.Core.GenerateIdentifier("vum", componentId, fileId, "per-machine", target ?? String.Empty, targetVersion ?? String.Empty);
-                    string uninstallCmdLinePerUser = String.Concat(cmdlinePrefix, " /u:", packageId);
+                    string uninstallCmdLinePerUser = String.Concat(cmdlinePrefix, " /u:\"", packageId, "\"");
                     string uninstallCmdLinePerMachine = String.Concat(uninstallCmdLinePerUser, " /admin");
                     int uninstallExtraBitsPerUser = VSCompiler.MsidbCustomActionTypeContinue | VSCompiler.MsidbCustomActionTypeInScript;
                     int uninstallExtraBitsPerMachine = uninstallExtraBitsPerUser | VSCompiler.MsidbCustomActionTypeNoImpersonate;
