@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4361 - Clarify error message.
+
 * BobArnson: WIXBUG:4384 - Add MsuPackage back as supporting RemotePayload.
 
 * STunney/BobArnson: WIXFEAT:4239 - Add option to not extract the .msi when melting .wixpdbs. Don't leave temporary cabinet files behind (unless -notidy is in effect).
