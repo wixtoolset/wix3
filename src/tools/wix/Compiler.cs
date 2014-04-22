@@ -21522,7 +21522,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     SourceLineNumberCollection childSourceLineNumbers = Preprocessor.GetSourceLineNumbers(child);
 
-                    if (node.NamespaceURI == this.schema.TargetNamespace && node.LocalName != "ExePackage")
+                    if (node.NamespaceURI == this.schema.TargetNamespace && node.LocalName != "ExePackage" && node.LocalName != "MsuPackage")
                     {
                         this.core.OnMessage(WixErrors.RemotePayloadUnsupported(childSourceLineNumbers));
                         continue;
