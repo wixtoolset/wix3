@@ -58,7 +58,7 @@
           Inputs="@(SchemaContent);@(DocumentContent);@(LayoutContent)"
           Outputs="$(IntermediateOutputPath)$(TargetName).hhp">
 
-    <!-- ignore file content in the intermediate document location -->
+    <!-- ignore static content for markup since content types in repo aren't always correct -->
     <ItemGroup>
       <_Ignore Include="@(FileContent->'$(IntermediateDocumentsPreProcessedFolder)%(RecursiveDir)')" />
       <_Ignore Include="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)')" />
