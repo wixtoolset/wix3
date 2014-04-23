@@ -56,10 +56,6 @@ To create a build that can be installed on different machines, create a new stro
     sn -p wix.snk wix.pub
     sn -tp wix.pub
 
-Copy the public key and add new InternalsVisibleTo lines in:
-
-* src/Votive/votive2010/vssdk/AssemblyInfo.cs
-
 Then run the build:
 
     msbuild /p:Configuration=Release /p:OFFICIAL_WIX_BUILD=C:\wix.snk
