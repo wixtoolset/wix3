@@ -669,6 +669,7 @@
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="Payload" />
         <xs:element ref="PayloadGroupRef" />
+        <xs:element ref="RemotePayload" />
         <xs:any namespace="##other" processContents="lax">
           <xs:annotation>
             <xs:documentation>
@@ -1290,6 +1291,7 @@
       The parent must specify DownloadUrl and must not specify SourceFile when using this element.</xs:documentation>
       <xs:appinfo>
         <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="MsuPackage" />
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>

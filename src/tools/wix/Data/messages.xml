@@ -1159,7 +1159,7 @@
         </Message>
         <Message Id="PathCannotContainQuote" Number="117" SourceLineNumbers="no">
             <Instance>
-                Your file or directory path '{0}' cannot contain a quote. Quotes are often accidentally introduced when trying to refer to a directory path with spaces in it, such as "C:\Out Directory\".  The correct representation for that path is: "C:\Out Directory\\".
+                Path '{0}' contains a literal quote character. Quotes are often accidentally introduced when trying to refer to a directory path with spaces in it, such as "C:\Out Directory\" -- the backslash before the quote acts an escape character. The correct representation for that path is: "C:\Out Directory\\".
                 <Parameter Type="System.String" Name="fileName" />
             </Instance>
         </Message>
@@ -2927,7 +2927,7 @@
       </Message>
       <Message Id="RemotePayloadUnsupported" Number="383">
         <Instance>
-          The RemotePayload element can only be used for ExePackages.
+          The RemotePayload element can only be used for ExePackage and MsuPackage payloads.
         </Instance>
       </Message>
     </Class>
