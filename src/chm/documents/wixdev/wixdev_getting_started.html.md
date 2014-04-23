@@ -15,7 +15,7 @@ Before jumping to any conspiracy theories, please note that this copyright assig
 
 <b>2)&nbsp; The Windows Installer XML project is a <a href="http://meatballwiki.org/wiki/BenevolentDictator" target="_blank">benevolent dictatorship</a>.</b>
 
-To have your contribution submitted to the project, please submit an assignment agreement as described above (you only need to do so once) then send your pull request on [CodePlex.com](http://wix.codeplex.com/sourcecontrol/list/contributions).&nbsp; The developers there will review the changes and someone will apply them to source control as quickly as possible.
+To have your contribution submitted to the project, please submit an assignment agreement as described above (you only need to do so once) then send your pull request on [GitHub.com](http://github.com/wixtoolset/).&nbsp; The developers there will review the changes and someone will apply them to source control as quickly as possible.
 
 <b>3)&nbsp; The Windows Installer XML community is a <a href="http://en.wikipedia.org/wiki/Meritocracy" target="_blank">meritocracy</a>.</b>
 
