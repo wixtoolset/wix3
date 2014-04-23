@@ -14,8 +14,6 @@
     <AssemblyName>votive2010</AssemblyName>
     <TargetVisualStudio>2010</TargetVisualStudio>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <!-- disable warning 436 until we remove InternalsVisibleTo from sconce. -->
-    <NoWarn>436</NoWarn>
   </PropertyGroup>
 
   <!-- Add new files to votive2010.common.targets and not here -->
