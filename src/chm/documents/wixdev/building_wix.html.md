@@ -53,8 +53,6 @@ The DTF help build process looks for these tools in an &quot;external&quot; dire
 To create a build that can be installed on different machines, create a new strong name key pair and point OFFICIAL\_WIX\_BUILD to it:
 
     sn -k wix.snk
-    sn -p wix.snk wix.pub
-    sn -tp wix.pub
 
 Then run the build:
 
