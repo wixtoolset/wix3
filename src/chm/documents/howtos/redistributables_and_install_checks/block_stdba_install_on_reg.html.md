@@ -4,13 +4,13 @@ layout: documentation
 ---
 # How To: Block Bootstrapper Installation Based on Registry Key
 
-In this example, the bootstrapper will install the 4.0 .Net Framework, if necessary, and then the specific application.
+In this example, the bootstrapper will install .NET Framework 4.0, if necessary, and then the specific application.
 However, the application depends on a previous installation of third-party software. Ideally, the user wants to abort 
-the installation and avoid a time-consuming .Net Framework install, if the software can't be used.  An existance check 
+the installation and avoid a time-consuming .NET Framework install if the software can't be used.  An existence check
 for a registry key, in this example, allows the install to abort if it's not found.  Here's how it's done:
 
-The process requires both the WiX Util and the WiX Bal Extensions.  Reference the dll libraries from the bootstrapper 
-project, and add the schema to the Wix element. (The .Net Framework extension is included merely as part of the example.)
+The process requires both the WiX Util and the WiX Bal extensions.  Reference the extensions from the bootstrapper
+project, and add the schema to the Wix element. (The .NET Framework extension is included merely as part of the example.)
 The Wix element should look like this:
 
     <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
@@ -26,7 +26,7 @@ the key exists.
           Variable="ThirdPartyCOMLibraryInstalled" 
           Result="exists"
           Root="HKLM"
-          Key="SOFTWARE\Classes\ThirdPartyId.Server\CLSID"/>
+          Key="SOFTWARE\Classes\ThirdPartyId.Server\CLSID" />
 
 The WiX variable, ThirdPartyCOMLibraryInstalled, is used as the bal:Condition check expression.  If False, 
 the value of the 'Message' attribute is displayed, and the installation is aborted.
@@ -84,7 +84,7 @@ The complete Bundle illustrates the required elements in context.
               Variable="ThirdPartyCOMLibraryInstalled" 
               Result="exists"
               Root="HKLM"
-              Key="SOFTWARE\Classes\ThirdPartyId.Server\CLSID"/>
+              Key="SOFTWARE\Classes\ThirdPartyId.Server\CLSID" />
         <bal:Condition 
           Message="ThirdParty Application COM Library Required.">
           ThirdPartyCOMLibraryInstalled

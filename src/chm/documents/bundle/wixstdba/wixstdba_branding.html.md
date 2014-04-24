@@ -24,7 +24,7 @@ The WiX Standard Bootstrapper Application displays a generic logo in the bottom 
       &lt;/Bundle&gt;
     &lt;/Wix&gt;</pre>
 
-For the HyperlinkSidebarLicense UI there are two logos and they can be configured as follows:
+For the HyperlinkSidebarLicense UI, there are two logos and they can be configured as follows:
 
 <pre>    &lt;?xml version=&quot;1.0&quot;?&gt;
     &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot;
