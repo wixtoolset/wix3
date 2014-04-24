@@ -7,7 +7,7 @@ after: /wixui/
 
 In this section, we will cover the basics of creating a simple setup that produces a bundle using the WiX toolset.
 
-A bundle is a collection of installation packages that are chained together in a single user experience. Bundles are often used to install prerequisites, such as the .NET Framework or C++ Runtime, before an application&apos;s .MSI file. Bundles also allow very large applications or suites of applications to be broken into smaller, logical installation packages while still presenting a single product to the end-user.
+A bundle is a collection of installation packages that are chained together in a single user experience. Bundles are often used to install prerequisites, such as the .NET Framework or Visual C++ runtime, before an application&apos;s .MSI file. Bundles also allow very large applications or suites of applications to be broken into smaller, logical installation packages while still presenting a single product to the end-user.
 
 To create a seamless setup experience across multiple installation packages, the WiX toolset provides an engine (often referred to as a bootstrapper or chainer) named Burn. The Burn engine is an executable that hosts a DLL called the &quot;bootstrapper application&quot;. The bootstrapper application DLL is responsible for displaying UI to the end-user and directs the Burn engine when to carry out download, install, repair and uninstall actions. Most developers will not need to interact directly with the Burn engine because the WiX toolset provides a standard bootstrapper application and the language necessary to create bundles.
 

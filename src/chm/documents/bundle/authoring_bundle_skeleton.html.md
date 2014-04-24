@@ -13,13 +13,13 @@ The root element of a bundle is [&lt;Bundle&gt;](~/xsd/wix/bundle.html). The [&l
       </Bundle>
     </Wix>
 
-In this example, we will be adding the following elements to the [&lt;Bundle&gt;](~/xsd/wix/bundle.html) element:
+In this example, you will be adding the following elements to the [&lt;Bundle&gt;](~/xsd/wix/bundle.html) element:
 
 * [&lt;BootstrapperApplicationRef&gt;](~/xsd/wix/bootstrapperapplicationref.html)
 * [&lt;Chain&gt;](~/xsd/wix/chain.html)
 * [&lt;Variable&gt;](~/xsd/wix/variable.html)
 
-As a start, let&apos;s add the two most common elements inside a [&lt;Bundle&gt;](~/xsd/wix/bundle.html) :
+As a start, add the two most common elements inside a [&lt;Bundle&gt;](~/xsd/wix/bundle.html) :
 
     <?xml version="1.0"?>
     <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -32,4 +32,4 @@ As a start, let&apos;s add the two most common elements inside a [&lt;Bundle&gt;
 
 The [&lt;BootstrapperApplicationRef&gt;](~/xsd/wix/bootstrapperapplicationref.html) element will eventually point to the standard BootstrapperApplication provided by the WiX toolset and the [&lt;Chain&gt;](~/xsd/wix/chain.html) element will eventually contain the ordered list of packages that make up the bundle.
 
-Now that you have the skeleton authoring of a Bundle, let&apos;s move on to adding information for the [&lt;BootstrapperApplicationRef&gt;](~/xsd/wix/bootstrapperapplicationref.html) element. See [Author the BootstrapperApplication for a Bundle](authoring_bundle_application.html).
+Now that you have the skeleton authoring of a Bundle, you can move on to adding information for the [&lt;BootstrapperApplicationRef&gt;](~/xsd/wix/bootstrapperapplicationref.html) element. See [Author the BootstrapperApplication for a Bundle](authoring_bundle_application.html).

@@ -58,7 +58,7 @@ After the searches are defined and stored into variables, the variables can then
             InstallCommand=&quot;/q /ACTION=Install&quot;
             RepairCommand=&quot;/q ACTION=Repair /hideconsole&quot;
             UninstallCommand=&quot;/q ACTION=Uninstall /hideconsole&quot;
-            InstallCondition=&quot;x86 = 1 AND OSVersion &gt;= v5.0.5121.0 <strong class="highlight">AND PatchLevel = 0</strong>&quot; /&gt;
+            InstallCondition=&quot;x86 = 1 AND OSVersion &gt;= v5.0.5121.0 <strong class="highlight">AND patchLevel = 0</strong>&quot; /&gt;
         &lt;/PackageGroup&gt;
       &lt;/Fragment&gt;
     &lt;/Wix&gt;  </pre>

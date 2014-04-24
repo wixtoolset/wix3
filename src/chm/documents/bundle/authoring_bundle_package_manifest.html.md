@@ -31,7 +31,7 @@ Here is an example of authoring an ExePackage in a sharable fragment:
       </Fragment>
     </Wix>
 
-Now let&apos;s add an install condition to the package so that it only installs on x86 Windows XP and above. There are [built-in variables](bundle_built_in_variables.html) that can be used to construct these condition statements. The highlighted section shows how to leverage the built-in variables to create that condition:
+Now you can add an install condition to the package so that it only installs on x86 Windows XP and above. There are [built-in variables](bundle_built_in_variables.html) that can be used to construct these condition statements. The highlighted section shows how to leverage the built-in variables to create that condition:
 
 <pre>    &lt;?xml version=&quot;1.0&quot;?&gt;
     &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot;&gt;
@@ -49,6 +49,6 @@ Now let&apos;s add an install condition to the package so that it only installs 
       &lt;/Fragment&gt;
     &lt;/Wix&gt;    </pre>
 
-The VersionNT property takes up to a four-part version number ([Major].[Minor].[Build].[Revision]). For a list of major and minor versions of the Windows Operating System, see <a href="http://msdn.microsoft.com/library/ms724832.aspx" target="_blank">Operating System Version</a>.
+The VersionNT property takes up to a four-part version number ([Major].[Minor].[Build].[Revision]). For a list of major and minor versions of the Windows operating system, see <a href="http://msdn.microsoft.com/library/ms724832.aspx" target="_blank">Operating System Version</a>.
 
 You can also define your own variables and store search results in them. See [Define Searches using Variables](bundle_define_searches.html).
