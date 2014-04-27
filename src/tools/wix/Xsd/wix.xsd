@@ -887,7 +887,7 @@
     </xs:attribute>
     <xs:attribute name="AlwaysCache" type="YesNoTypeUnion">
       <xs:annotation>
-        <xs:documentation>Whether to always cache the package.</xs:documentation>
+        <xs:documentation>Whether to always cache the package.  If this is set to "yes", then the Cache attribute shouldn't be specified.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="DisplayName" type="xs:string">

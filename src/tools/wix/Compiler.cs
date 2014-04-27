@@ -21645,6 +21645,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
+            if(YesNoType.Yes == alwaysCache && (YesNoType.Yes == cache || YesNoType.No == cache))
+            {
+                this.core.OnMessage(WixWarnings.RelatedAttributeConditionallyIgnored(sourceLineNumbers, "Cache", "AlwaysCache", "yes"));
+                cache = YesNoType.Yes;
+            }
+
             // Only set default scope for EXEs and MSPs if not already set.
             if ((ChainPackageType.Exe == packageType || ChainPackageType.Msp == packageType) && YesNoDefaultType.NotSet == perMachine)
             {

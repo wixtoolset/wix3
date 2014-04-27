@@ -3738,6 +3738,14 @@
                 All changes between the baseline and upgraded packages will be included in the patch except for any change to the ProductCode. The 'All' element is supported primarily for testing purposes and negates the benefits of patch families.
             </Instance>
         </Message>
+        <Message Id="RelatedAttributeConditionallyIgnored" Number="1146">
+            <Instance>
+                Ignoring attribute {0} because attribute {1} is set to {2}.
+                <Parameter Type="System.String" Name="recessiveAttribute" />
+                <Parameter Type="System.String" Name="dominantAttribute" />
+                <Parameter Type="System.String" Name="dominantValue" />
+            </Instance>
+        </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">

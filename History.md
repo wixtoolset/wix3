@@ -1,4 +1,10 @@
+* SeanHall: WIXFEAT:4329 - Add AlwaysCache attribute to *Package.
+
+* SeanHall: WIXBUG:3978 - Add InstallCondition to BootstrapperApplicationData.xml.
+
 * steveOgilvie/BobArnson: Add to WixStdBA the WixBundleFileVersion variable that's set to the file version of the bundle .exe.
+
+* SeanHall: WIXBUG:4163 - For references to Microsoft.Deployment.WindowsInstaller.dll in managed Custom Action projects, set Private=True in case it's installed in the GAC.
 
 * BobArnson: WIXBUG:4361 - Clarify error message.
 
@@ -10,13 +16,15 @@
 
 * BobArnson: WIXBUG:4301 - don't cross the HRESULTs and Win32 error codes; it would be bad.
 
+* SeanHall: WIXBUG:3914 - !(bind.packageVersion.PackageID) isn't expanded in bundle.
+
 * RobMen: WIXBUG:4228 - send TRUE to WM_ENDSESSION to correctly inform applications to close.
 
 * RobMen: WIXBUG:4285 - Fix typo in documentation.
 
 * RobMen: WIXFEAT:4234 - Remove ClickThrough.
 
-* SeanHall: WIXFEAT:4292 - Add ProductCode, UpgradeCode, and Version to BootstrapperApplicationData.xml.
+* SeanHall: WIXFEAT:4233 - Add ProductCode, UpgradeCode, and Version to BootstrapperApplicationData.xml.
 
 * WIXBUG:3883 - Retry on IIS ERROR_TRANSACTIONAL_CONFLICT too
 
