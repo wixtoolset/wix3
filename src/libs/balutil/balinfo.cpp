@@ -152,6 +152,7 @@ DAPI_(void) BalInfoUninitialize(
         ReleaseStr(pBundle->packages.rgPackages[i].sczProductCode);
         ReleaseStr(pBundle->packages.rgPackages[i].sczUpgradeCode);
         ReleaseStr(pBundle->packages.rgPackages[i].sczVersion);
+        ReleaseStr(pBundle->packages.rgPackages[i].sczInstallCondition);
     }
 
     ReleaseMem(pBundle->packages.rgPackages);
@@ -247,6 +248,15 @@ static HRESULT ParsePackagesFromXml(
         {
             ExitOnFailure(hr, "Failed to get version for package.");
         }
+
+        hr = XmlGetAttributeEx(pNode, L"InstallCondition", &prgPackages[iPackage].sczInstallCondition);
+        if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get install condition for package.");
+        }
+
+        hr = XmlGetYesNoAttribute(pNode, L"AlwaysCache", &prgPackages[iPackage].fAlwaysCache);
+        ExitOnFailure(hr, "Failed to get AlwaysCache setting for package.");
 
         ++iPackage;
         ReleaseNullObject(pNode);

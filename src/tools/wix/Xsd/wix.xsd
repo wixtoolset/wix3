@@ -885,6 +885,11 @@
         <xs:documentation>The identifier to use when caching the package.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="AlwaysCache" type="YesNoTypeUnion">
+      <xs:annotation>
+        <xs:documentation>Whether to always cache the package.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="DisplayName" type="xs:string">
       <xs:annotation>
         <xs:documentation>
@@ -900,7 +905,7 @@
         <xs:documentation>
           Specifies the description to place in the bootstrapper application data manifest for the package. By default, ExePackages
           use the FileName field from the version information, MsiPackages use the ARPCOMMENTS property, and MspPackages use
-          the Description patch metadata property. Other package types must use this attribute to define a desciption in the
+          the Description patch metadata property. Other package types must use this attribute to define a description in the
           bootstrapper application data manifest.
         </xs:documentation>
       </xs:annotation>
@@ -933,7 +938,7 @@
       <xs:annotation>
         <xs:documentation>
             Specifies whether the package must succeed for the chain to continue. The default "yes"
-            inidicates that if the package fails then the chain will fail and rollback or stop. If
+            indicates that if the package fails then the chain will fail and rollback or stop. If
             "no" is specified then the chain will continue even if the package reports failure.
         </xs:documentation>
       </xs:annotation>

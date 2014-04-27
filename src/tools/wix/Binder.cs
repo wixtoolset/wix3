@@ -3804,13 +3804,23 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 row[10] = package.RollbackLogPathVariable;
                 row[11] = (PackagingType.Embedded == package.PackagePayload.Packaging) ? "yes" : "no";
                 row[12] = package.DisplayInternalUI ? "yes" : "no";
-
-                if (Compiler.ChainPackageType.Msi == package.ChainPackageType)
+                if (!string.IsNullOrEmpty(package.ProductCode))
                 {
                     row[13] = package.ProductCode;
+                }
+                if (!string.IsNullOrEmpty(package.UpgradeCode))
+                {
                     row[14] = package.UpgradeCode;
+                }
+                if (!string.IsNullOrEmpty(package.Version))
+                {
                     row[15] = package.Version;
                 }
+                if (!string.IsNullOrEmpty(package.InstallCondition))
+                {
+                    row[16] = package.InstallCondition;
+                }
+                row[17] = package.AlwaysCache ? "yes" : "no";
 
                 Table wixPackageFeatureInfoTable = bundle.EnsureTable(this.core.TableDefinitions["WixPackageFeatureInfo"]);
 
@@ -4349,6 +4359,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     writer.WriteAttributeString("Id", package.Id);
                     writer.WriteAttributeString("Cache", package.Cache ? "yes" : "no");
                     writer.WriteAttributeString("CacheId", package.CacheId);
+                    writer.WriteAttributeString("AlwaysCache", package.AlwaysCache ? "yes" : "no");
                     writer.WriteAttributeString("InstallSize", Convert.ToString(package.InstallSize));
                     writer.WriteAttributeString("Size", Convert.ToString(package.Size));
                     writer.WriteAttributeString("PerMachine", YesNoDefaultType.Yes == package.PerMachine ? "yes" : "no");

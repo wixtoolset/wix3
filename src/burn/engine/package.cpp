@@ -127,6 +127,10 @@ extern "C" HRESULT PackagesParseFromXml(
         hr = XmlGetAttributeEx(pixnNode, L"CacheId", &pPackage->sczCacheId);
         ExitOnFailure(hr, "Failed to get @CacheId.");
 
+        // @AlwaysCache
+        hr = XmlGetYesNoAttribute(pixnNode, L"AlwaysCache", &pPackage->fAlwaysCache);
+        ExitOnFailure(hr, "Failed to get @AlwaysCache.");
+
         // @Size
         hr = XmlGetAttributeLargeNumber(pixnNode, L"Size", &pPackage->qwSize);
         ExitOnFailure(hr, "Failed to get @Size.");

@@ -137,6 +137,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.Permanent = (BundlePackageAttributes.Permanent == (attributes & BundlePackageAttributes.Permanent));
             this.Visible = (BundlePackageAttributes.Visible == (attributes & BundlePackageAttributes.Visible));
             this.Slipstream = (BundlePackageAttributes.Slipstream == (attributes & BundlePackageAttributes.Slipstream));
+            this.AlwaysCache = (BundlePackageAttributes.AlwaysCache == (attributes & BundlePackageAttributes.AlwaysCache));
             this.Vital = (YesNoType.Yes == vital); // true only when specifically requested.
             this.DetectCondition = detectCondition;
             this.MsuKB = msuKB;
@@ -329,6 +330,22 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 else
                 {
                     this.Attributes &= ~BundlePackageAttributes.Slipstream;
+                }
+            }
+        }
+
+        public bool AlwaysCache
+        {
+            get { return (BundlePackageAttributes.AlwaysCache == (this.Attributes & BundlePackageAttributes.AlwaysCache)); }
+            private set
+            {
+                if (value)
+                {
+                    this.Attributes |= BundlePackageAttributes.AlwaysCache;
+                }
+                else
+                {
+                    this.Attributes &= ~BundlePackageAttributes.AlwaysCache;
                 }
             }
         }

@@ -1833,6 +1833,8 @@
         <columnDefinition name="ProductCode" type="string" length="0" nullable="yes"/>
         <columnDefinition name="UpgradeCode" type="string" length="0" nullable="yes"/>
         <columnDefinition name="Version" type="string" length="0" nullable="yes"/>
+        <columnDefinition name="InstallCondition" type="string" length="0" nullable="yes" />
+        <columnDefinition name="AlwaysCache" type="string" length="0" nullable="yes" minValue="0" maxValue="1" />
     </tableDefinition>
     <tableDefinition name="WixPayloadProperties" unreal="yes" bootstrapperApplicationData="yes">
         <columnDefinition name="Payload"  type="string" length="0" category="identifier" primaryKey="yes" />

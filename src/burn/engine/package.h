@@ -173,6 +173,7 @@ typedef struct _BURN_PACKAGE
 
     BOOL fCache;
     LPWSTR sczCacheId;
+    BOOL fAlwaysCache;
 
     DWORD64 qwInstallSize;
     DWORD64 qwSize;

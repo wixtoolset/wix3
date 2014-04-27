@@ -21349,6 +21349,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string installCondition = null;
             YesNoType cache = YesNoType.NotSet;
             string cacheId = null;
+            YesNoType alwaysCache = YesNoType.NotSet;
             string description = null;
             string displayName = null;
             string logPathVariable = (packageType == ChainPackageType.Msu) ? String.Empty : null;
@@ -21416,6 +21417,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             break;
                         case "CacheId":
                             cacheId = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "AlwaysCache":
+                            alwaysCache = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             break;
                         case "Description":
                             description = this.core.GetAttributeValue(sourceLineNumbers, attrib);
@@ -21726,6 +21730,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 if (YesNoType.Yes == slipstream)
                 {
                     attributes |= BundlePackageAttributes.Slipstream;
+                }
+
+                if (YesNoType.Yes == alwaysCache)
+                {
+                    attributes |= BundlePackageAttributes.AlwaysCache;
                 }
 
                 // We create the package contents as a payload with this package as the parent

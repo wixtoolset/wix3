@@ -25,5 +25,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
         Permanent = 0x1,
         Visible = 0x2,
         Slipstream = 0x4,
+        AlwaysCache = 0x8,
     }
 }

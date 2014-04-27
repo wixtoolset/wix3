@@ -42,6 +42,8 @@ typedef struct _BAL_INFO_PACKAGE
     LPWSTR sczProductCode;
     LPWSTR sczUpgradeCode;
     LPWSTR sczVersion;
+    LPWSTR sczInstallCondition;
+    BOOL fAlwaysCache;
 } BAL_INFO_PACKAGE;
 
 
