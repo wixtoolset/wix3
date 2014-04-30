@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="BundleA.wxs" company="Microsoft Corporation">
+    Copyright (c) 1999, Microsoft Corporation.  All rights reserved.
+  </copyright>
+-->
+
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="~$(var.TestName) - Bundle A" Version="$(var.Version)" UpgradeCode="5161DC26-C1D4-4BDD-B562-CF57A58CB1F2">
+    <Log Prefix="~$(var.TestName)_BundleA" />
+    <Variable Name="TestName" Value="$(var.TestName)" />
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload Name="BootstrapperCore.config" SourceFile="!(bindpath.build)\TestBA.BootstrapperCore.config" />
+      <Payload SourceFile="!(bindpath.build)\TestBA.dll" />
+    </BootstrapperApplicationRef>
+    <WixVariable Id="WixMbaPrereqPackageId" Value="ignored" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="ignored" />
+    <PayloadGroup Id="NI_Files">
+      <Payload Id="PackageE" Name="~$(var.TestName)_PackageE.msi" SourceFile="!(bindpath.packageE)" Compressed="no" />
+      <Payload Id="PackageF" Name="~$(var.TestName)_PackageF.msi" SourceFile="!(bindpath.packageF)" Compressed="no" />
+    </PayloadGroup>
+    <Chain DisableSystemRestore="yes">
+      <ExePackage Id="BundleE" Name="~$(var.TestName)_BundleE.exe" Compressed="no" SourceFile="!(bindpath.bundleE)" InstallCommand="/q /norestart /log &quot;[WixBundleLog_BundleE]&quot; /OriginalSource &quot;[WixBundleOriginalSource]&quot;" DetectCondition="BundleEInstalled" Protocol="burn" Vital="yes" />
+    </Chain>
+  </Bundle>
+  <Fragment>
+    <util:RegistrySearch Id="BundleEInstalled" Variable="BundleEInstalled" Root="HKLM" Key="Software\WiX\Tests\$(var.TestName)" Value="E" Result="exists" />
+  </Fragment>
+</Wix>

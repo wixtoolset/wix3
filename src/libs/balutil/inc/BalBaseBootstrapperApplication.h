@@ -125,6 +125,14 @@ public: // IBurnUserExperience
     {
     }
 
+    virtual STDMETHODIMP_(int) OnDetectCompatiblePackage(
+        __in_z LPCWSTR /*wzPackageId*/,
+        __in_z LPCWSTR /*wzCompatiblePackageId*/
+        )
+    {
+        return CheckCanceled() ? IDCANCEL : IDNOACTION;
+    }
+
     virtual STDMETHODIMP_(int) OnDetectPriorBundle(
         __in_z LPCWSTR /*wzBundleId*/
         )
@@ -212,6 +220,14 @@ public: // IBurnUserExperience
     virtual STDMETHODIMP_(int) OnPlanPackageBegin(
         __in_z LPCWSTR /*wzPackageId*/, 
         __inout BOOTSTRAPPER_REQUEST_STATE* /*pRequestState*/
+        )
+    {
+        return CheckCanceled() ? IDCANCEL : IDNOACTION;
+    }
+
+    virtual STDMETHODIMP_(int) OnPlanCompatiblePackage(
+        __in_z LPCWSTR /*wzPackageId*/,
+        __inout BOOTSTRAPPER_REQUEST_STATE* /*pRequestedState*/
         )
     {
         return CheckCanceled() ? IDCANCEL : IDNOACTION;

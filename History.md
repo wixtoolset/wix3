@@ -1,3 +1,17 @@
+* HeathS: Don't fail uninstall when planned package was removed by related bundle. Don't repair dependent bundles when upgrading a patch or addon bundle.
+
+* AndySt: Update Registration key was being deleted during a bundle to bundle upgrade. Added version check so that only if the version was the same would the key be deleted.
+
+* AndySt: Skip the repair of the related bundle if it has the same provider key as an embedded bundle that is being installed, so only V2 of the patch bundle is on the machine at the end.
+
+* AndySt: Add /DisableSystemRestore switch and /OriginalSource switch /OriginalSource is used when authoring embedded bundles so it can look to the parent's original location instead of the package cached location that it is run from.
+
+* HeathS: Make sure enough memory is allocated for compatible packages.
+
+* HeathS: Uninstall compatible orphaned MSI packages.
+
+* HeathS: Allow package downgrades for related bundles with proper ref-counting. Make sure packages register their identities in the provider registry.
+
 * steveOgilvie/BobArnson: Add to WixStdBA the WixBundleFileVersion variable that's set to the file version of the bundle .exe.
 
 * BobArnson: WIXBUG:4361 - Clarify error message.

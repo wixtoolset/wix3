@@ -174,6 +174,7 @@ extern "C" void ExeEnginePackageUninitialize(
     ReleaseStr(pPackage->Exe.sczRepairArguments);
     ReleaseStr(pPackage->Exe.sczUninstallArguments);
     ReleaseStr(pPackage->Exe.sczIgnoreDependencies);
+    ReleaseStr(pPackage->Exe.sczAncestors);
     //ReleaseStr(pPackage->Exe.sczProgressSwitch);
     ReleaseMem(pPackage->Exe.rgExitCodes);
 
@@ -373,6 +374,12 @@ extern "C" HRESULT ExeEnginePlanAddPackage(
             ExitOnFailure(hr, "Failed to allocate the list of dependencies to ignore.");
         }
 
+        if (pPackage->Exe.sczAncestors)
+        {
+            hr = StrAllocString(&pAction->exePackage.sczAncestors, pPackage->Exe.sczAncestors, 0);
+            ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
+        }
+
         LoggingSetPackageVariable(pPackage, NULL, FALSE, pLog, pVariables, NULL); // ignore errors.
     }
 
@@ -390,6 +397,12 @@ extern "C" HRESULT ExeEnginePlanAddPackage(
         {
             hr = StrAllocString(&pAction->exePackage.sczIgnoreDependencies, pPackage->Exe.sczIgnoreDependencies, 0);
             ExitOnFailure(hr, "Failed to allocate the list of dependencies to ignore.");
+        }
+
+        if (pPackage->Exe.sczAncestors)
+        {
+            hr = StrAllocString(&pAction->exePackage.sczAncestors, pPackage->Exe.sczAncestors, 0);
+            ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
         }
 
         LoggingSetPackageVariable(pPackage, NULL, TRUE, pLog, pVariables, NULL); // ignore errors.
@@ -474,14 +487,27 @@ extern "C" HRESULT ExeEngineExecutePackage(
     }
     ExitOnFailure(hr, "Failed to create obfuscated executable command.");
 
-    // Add the list of dependencies to ignore, if any, to the burn command line.
-    if (pExecuteAction->exePackage.sczIgnoreDependencies && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    if (BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
     {
-        hr = StrAllocFormatted(&sczCommand, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
-        ExitOnFailure(hr, "Failed to append the list of dependencies to ignore to the command line.");
+        // Add the list of dependencies to ignore, if any, to the burn command line.
+        if (pExecuteAction->exePackage.sczIgnoreDependencies && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+        {
+            hr = StrAllocFormatted(&sczCommand, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
+            ExitOnFailure(hr, "Failed to append the list of dependencies to ignore to the command line.");
 
-        hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
-        ExitOnFailure(hr, "Failed to append the list of dependencies to ignore to the obfuscated command line.");
+            hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
+            ExitOnFailure(hr, "Failed to append the list of dependencies to ignore to the obfuscated command line.");
+        }
+
+        // Add the list of ancestors, if any, to the burn command line.
+        if (pExecuteAction->exePackage.sczAncestors)
+        {
+            hr = StrAllocFormatted(&sczCommand, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_ANCESTORS, pExecuteAction->exePackage.sczAncestors);
+            ExitOnFailure(hr, "Failed to append the list of ancestors to the command line.");
+
+            hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_ANCESTORS, pExecuteAction->exePackage.sczAncestors);
+            ExitOnFailure(hr, "Failed to append the list of ancestors to the obfuscated command line.");
+        }
     }
 
     // Log before we add the secret pipe name and client token for embedded processes.

@@ -14,6 +14,9 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Bundle Name="~$(var.TestName) - Bundle A" Manufacturer="!(bind.packageManufacturer.PackageA)" Version="$(var.Version)" UpgradeCode="7C322279-17A2-4B08-9129-ABAFAE0AF58A">
+    <!-- SOFTWARE\[Manufacturer]\Updates\[ProductFamily]\[Name] -->
+    <OptionalUpdateRegistration />
+
     <Log Prefix="~$(var.TestName)_BundleA"/>
 
     <Variable Name="TestName" Value="$(var.TestName)" />
