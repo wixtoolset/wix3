@@ -12,6 +12,8 @@
 
 * HeathS: Allow package downgrades for related bundles with proper ref-counting. Make sure packages register their identities in the provider registry.
 
+## WixBuild: Version 3.9.421.0
+
 * steveOgilvie/BobArnson: Add to WixStdBA the WixBundleFileVersion variable that's set to the file version of the bundle .exe.
 
 * BobArnson: WIXBUG:4361 - Clarify error message.
