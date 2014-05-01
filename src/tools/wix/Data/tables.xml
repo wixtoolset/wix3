@@ -1711,7 +1711,7 @@
         <columnDefinition name="InstallCommand" type="string" length="0" nullable="yes"/>
         <columnDefinition name="RepairCommand" type="string" length="0" nullable="yes"/>
         <columnDefinition name="UninstallCommand" type="string" length="0" nullable="yes"/>
-        <columnDefinition name="Cache" type="number" length="2" nullable="yes" minValue="0" maxValue="1"/>
+        <columnDefinition name="Cache" type="number" length="2" nullable="yes" minValue="0" maxValue="2"/>
         <columnDefinition name="CacheId" type="string" length="0" nullable="yes"/>
         <columnDefinition name="Attributes" type="number" length="4" nullable="no" minValue="0" maxValue="2147483647" description="A 32-bit word that specifies the attribute flags to be applied to this package."/>
         <columnDefinition name="Vital" type="number" length="2" nullable="yes" minValue="0" maxValue="1"/>
@@ -1737,7 +1737,7 @@
         <columnDefinition name="InstallCommand" type="string" length="0" nullable="yes"/>
         <columnDefinition name="RepairCommand" type="string" length="0" nullable="yes"/>
         <columnDefinition name="UninstallCommand" type="string" length="0" nullable="yes"/>
-        <columnDefinition name="Cache" type="number" length="2" nullable="yes" minValue="0" maxValue="1"/>
+        <columnDefinition name="Cache" type="number" length="2" nullable="yes" minValue="0" maxValue="2"/>
         <columnDefinition name="CacheId" type="string" length="0" nullable="yes"/>
         <columnDefinition name="Attributes" type="number" length="4" nullable="no" minValue="0" maxValue="2147483647" description="A 32-bit word that specifies the attribute flags to be applied to this package."/>
         <columnDefinition name="Vital" type="number" length="2" nullable="yes" minValue="0" maxValue="1"/>
@@ -1833,6 +1833,8 @@
         <columnDefinition name="ProductCode" type="string" length="0" nullable="yes"/>
         <columnDefinition name="UpgradeCode" type="string" length="0" nullable="yes"/>
         <columnDefinition name="Version" type="string" length="0" nullable="yes"/>
+        <columnDefinition name="InstallCondition" type="string" length="0" nullable="yes" />
+        <columnDefinition name="Cache" type="string" length="0" nullable="yes" minValue="0" maxValue="2" />
     </tableDefinition>
     <tableDefinition name="WixPayloadProperties" unreal="yes" bootstrapperApplicationData="yes">
         <columnDefinition name="Payload"  type="string" length="0" category="identifier" primaryKey="yes" />

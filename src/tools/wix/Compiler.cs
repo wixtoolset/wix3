@@ -21347,7 +21347,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string id = null;
             string after = null;
             string installCondition = null;
-            YesNoType cache = YesNoType.NotSet;
+            YesNoAlwaysType cache = YesNoAlwaysType.NotSet;
             string cacheId = null;
             string description = null;
             string displayName = null;
@@ -21412,7 +21412,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             installCondition = this.core.GetAttributeValue(sourceLineNumbers, attrib);
                             break;
                         case "Cache":
-                            cache = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            cache = this.core.GetAttributeYesNoAlwaysValue(sourceLineNumbers, attrib);
                             break;
                         case "CacheId":
                             cacheId = this.core.GetAttributeValue(sourceLineNumbers, attrib);
@@ -21741,9 +21741,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 row[5] = repairCommand;
                 row[6] = uninstallCommand;
 
-                if (YesNoType.NotSet != cache)
+                switch (cache)
                 {
-                    row[7] = (YesNoType.Yes == cache) ? 1 : 0;
+                    case YesNoAlwaysType.No:
+                        row[7] = 0;
+                        break;
+                    case YesNoAlwaysType.Yes:
+                        row[7] = 1;
+                        break;
+                    case YesNoAlwaysType.Always:
+                        row[7] = 2;
+                        break;
                 }
 
                 row[8] = cacheId;

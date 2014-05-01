@@ -875,9 +875,9 @@
         <xs:documentation>A condition to evaluate before installing the package. The package will only be installed if the condition evaluates to true. If the condition evaluates to false and the bundle is being installed, repaired, or modified, the package will be uninstalled.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Cache" type="YesNoTypeUnion">
+    <xs:attribute name="Cache" type="YesNoAlwaysTypeUnion">
       <xs:annotation>
-        <xs:documentation>Whether to cache the package.</xs:documentation>
+        <xs:documentation>Whether to cache the package. The default is "yes".</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="CacheId" type="xs:string">
@@ -900,7 +900,7 @@
         <xs:documentation>
           Specifies the description to place in the bootstrapper application data manifest for the package. By default, ExePackages
           use the FileName field from the version information, MsiPackages use the ARPCOMMENTS property, and MspPackages use
-          the Description patch metadata property. Other package types must use this attribute to define a desciption in the
+          the Description patch metadata property. Other package types must use this attribute to define a description in the
           bootstrapper application data manifest.
         </xs:documentation>
       </xs:annotation>
@@ -933,7 +933,7 @@
       <xs:annotation>
         <xs:documentation>
             Specifies whether the package must succeed for the chain to continue. The default "yes"
-            inidicates that if the package fails then the chain will fail and rollback or stop. If
+            indicates that if the package fails then the chain will fail and rollback or stop. If
             "no" is specified then the chain will continue even if the package reports failure.
         </xs:documentation>
       </xs:annotation>
@@ -1287,7 +1287,7 @@
   </xs:element>
   <xs:element name="RemotePayload">
     <xs:annotation>
-      <xs:documentation>Describes a information about a remote file payload that is not available at the time of building the bundle.  
+      <xs:documentation>Describes information about a remote file payload that is not available at the time of building the bundle.  
       The parent must specify DownloadUrl and must not specify SourceFile when using this element.</xs:documentation>
       <xs:appinfo>
         <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />
@@ -1307,7 +1307,7 @@
       </xs:attribute>
       <xs:attribute name="Description" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>Description of the file from version resouces.</xs:documentation>
+          <xs:documentation>Description of the file from version resources.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Hash" type="HexType" use="required">
@@ -12808,6 +12808,22 @@
     </xs:annotation>
     <xs:restriction base="xs:NMTOKEN">
       <xs:enumeration value="default" />
+      <xs:enumeration value="no" />
+      <xs:enumeration value="yes" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="YesNoAlwaysTypeUnion">
+    <xs:annotation>
+      <xs:documentation>Values of this type will either be "always", "yes", or "no".</xs:documentation>
+    </xs:annotation>
+    <xs:union memberTypes="YesNoAlwaysType PreprocessorVariables"/>
+  </xs:simpleType>
+  <xs:simpleType name="YesNoAlwaysType">
+    <xs:annotation>
+      <xs:documentation>Values of this type will either be "always", "yes", or "no".</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="always" />
       <xs:enumeration value="no" />
       <xs:enumeration value="yes" />
     </xs:restriction>

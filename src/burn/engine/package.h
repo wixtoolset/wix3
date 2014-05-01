@@ -58,6 +58,13 @@ enum BURN_CACHE_STATE
     BURN_CACHE_STATE_COMPLETE,
 };
 
+enum BURN_CACHE_TYPE
+{
+    BURN_CACHE_TYPE_NO,
+    BURN_CACHE_TYPE_YES,
+    BURN_CACHE_TYPE_ALWAYS,
+};
+
 enum BURN_DEPENDENCY_ACTION
 {
     BURN_DEPENDENCY_ACTION_NONE,
@@ -171,7 +178,7 @@ typedef struct _BURN_PACKAGE
     BOOL fUninstallable;
     BOOL fVital;
 
-    BOOL fCache;
+    BURN_CACHE_TYPE cacheType;
     LPWSTR sczCacheId;
 
     DWORD64 qwInstallSize;
