@@ -61,10 +61,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             BundlePackageAttributes attributes = (null == attributesData) ? 0 : (BundlePackageAttributes)attributesData;
 
-            YesNoType cache = YesNoType.NotSet;
+            YesNoAlwaysType cache = YesNoAlwaysType.NotSet;
             if (null != cacheData)
             {
-                cache = (1 == (int)cacheData) ? YesNoType.Yes : YesNoType.No;
+                switch ((int)cacheData)
+                {
+                    case 0:
+                        cache = YesNoAlwaysType.No;
+                        break;
+                    case 1:
+                        cache = YesNoAlwaysType.Yes;
+                        break;
+                    case 2:
+                        cache = YesNoAlwaysType.Always;
+                        break;
+                }
             }
 
             YesNoType vital = (null == vitalData || 1 == (int)vitalData) ? YesNoType.Yes : YesNoType.No;
@@ -132,12 +143,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             this.PerMachine = perMachine;
             this.ProductCode = null;
-            this.Cache = (YesNoType.No != cache); // true unless it's specifically prohibited.
+            this.Cache = YesNoAlwaysType.NotSet == cache ? YesNoAlwaysType.Yes : cache; // The default is yes.
             this.CacheId = cacheId;
             this.Permanent = (BundlePackageAttributes.Permanent == (attributes & BundlePackageAttributes.Permanent));
             this.Visible = (BundlePackageAttributes.Visible == (attributes & BundlePackageAttributes.Visible));
             this.Slipstream = (BundlePackageAttributes.Slipstream == (attributes & BundlePackageAttributes.Slipstream));
-            this.AlwaysCache = (BundlePackageAttributes.AlwaysCache == (attributes & BundlePackageAttributes.AlwaysCache));
             this.Vital = (YesNoType.Yes == vital); // true only when specifically requested.
             this.DetectCondition = detectCondition;
             this.MsuKB = msuKB;
@@ -259,10 +269,46 @@ namespace Microsoft.Tools.WindowsInstallerXml
             private set { this.Fields[6].Data = value; }
         }
 
-        public bool Cache
+        public YesNoAlwaysType Cache
         {
-            get { return (null != this.Fields[7].Data) && (1 == (int)this.Fields[7].Data); }
-            private set { this.Fields[7].Data = value ? 1 : 0; }
+            get
+            {
+                object cacheData = this.Fields[7].Data;
+
+                if (null != cacheData)
+                {
+                    switch ((int)cacheData)
+                    {
+                        case 0:
+                            return YesNoAlwaysType.No;
+                        case 1:
+                            return YesNoAlwaysType.Yes;
+                        case 2:
+                            return YesNoAlwaysType.Always;
+                    }
+                }
+
+                return YesNoAlwaysType.NotSet;
+            }
+
+            private set
+            {
+                switch (value)
+                {
+                    case YesNoAlwaysType.No:
+                        this.Fields[7].Data = 0;
+                        break;
+                    case YesNoAlwaysType.Yes:
+                        this.Fields[7].Data = 1;
+                        break;
+                    case YesNoAlwaysType.Always:
+                        this.Fields[7].Data = 2;
+                        break;
+                    default:
+                        this.Fields[7].Data = null;
+                        break;
+                }
+            }
         }
 
         public string CacheId
@@ -330,22 +376,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 else
                 {
                     this.Attributes &= ~BundlePackageAttributes.Slipstream;
-                }
-            }
-        }
-
-        public bool AlwaysCache
-        {
-            get { return (BundlePackageAttributes.AlwaysCache == (this.Attributes & BundlePackageAttributes.AlwaysCache)); }
-            private set
-            {
-                if (value)
-                {
-                    this.Attributes |= BundlePackageAttributes.AlwaysCache;
-                }
-                else
-                {
-                    this.Attributes &= ~BundlePackageAttributes.AlwaysCache;
                 }
             }
         }

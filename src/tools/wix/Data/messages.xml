@@ -2930,6 +2930,14 @@
           The RemotePayload element can only be used for ExePackage and MsuPackage payloads.
         </Instance>
       </Message>
+      <Message Id="IllegalYesNoAlwaysValue" Number="384">
+          <Instance>
+              The {0}/@{1} attribute's value, '{2}', is not a legal yes/no/always value.  The only legal values are 'always', 'no' or 'yes'.
+              <Parameter Type="System.String" Name="elementName" />
+              <Parameter Type="System.String" Name="attributeName" />
+              <Parameter Type="System.String" Name="value" />
+          </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">

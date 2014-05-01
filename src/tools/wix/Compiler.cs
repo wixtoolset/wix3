@@ -21347,9 +21347,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string id = null;
             string after = null;
             string installCondition = null;
-            YesNoType cache = YesNoType.NotSet;
+            YesNoAlwaysType cache = YesNoAlwaysType.NotSet;
             string cacheId = null;
-            YesNoType alwaysCache = YesNoType.NotSet;
             string description = null;
             string displayName = null;
             string logPathVariable = (packageType == ChainPackageType.Msu) ? String.Empty : null;
@@ -21413,13 +21412,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             installCondition = this.core.GetAttributeValue(sourceLineNumbers, attrib);
                             break;
                         case "Cache":
-                            cache = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            cache = this.core.GetAttributeYesNoAlwaysValue(sourceLineNumbers, attrib);
                             break;
                         case "CacheId":
                             cacheId = this.core.GetAttributeValue(sourceLineNumbers, attrib);
-                            break;
-                        case "AlwaysCache":
-                            alwaysCache = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             break;
                         case "Description":
                             description = this.core.GetAttributeValue(sourceLineNumbers, attrib);
@@ -21645,12 +21641,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
-            if(YesNoType.Yes == alwaysCache && (YesNoType.Yes == cache || YesNoType.No == cache))
-            {
-                this.core.OnMessage(WixWarnings.RelatedAttributeConditionallyIgnored(sourceLineNumbers, "Cache", "AlwaysCache", "yes"));
-                cache = YesNoType.Yes;
-            }
-
             // Only set default scope for EXEs and MSPs if not already set.
             if ((ChainPackageType.Exe == packageType || ChainPackageType.Msp == packageType) && YesNoDefaultType.NotSet == perMachine)
             {
@@ -21738,11 +21728,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     attributes |= BundlePackageAttributes.Slipstream;
                 }
 
-                if (YesNoType.Yes == alwaysCache)
-                {
-                    attributes |= BundlePackageAttributes.AlwaysCache;
-                }
-
                 // We create the package contents as a payload with this package as the parent
                 this.CreatePayloadRow(sourceLineNumbers, id, name, sourceFile, downloadUrl, ComplexReferenceParentType.Package, id,
                     ComplexReferenceChildType.Unknown, null, compressed, suppressSignatureVerification, displayName, description);
@@ -21756,9 +21741,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 row[5] = repairCommand;
                 row[6] = uninstallCommand;
 
-                if (YesNoType.NotSet != cache)
+                switch (cache)
                 {
-                    row[7] = (YesNoType.Yes == cache) ? 1 : 0;
+                    case YesNoAlwaysType.No:
+                        row[7] = 0;
+                        break;
+                    case YesNoAlwaysType.Yes:
+                        row[7] = 1;
+                        break;
+                    case YesNoAlwaysType.Always:
+                        row[7] = 2;
+                        break;
                 }
 
                 row[8] = cacheId;

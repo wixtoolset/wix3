@@ -120,16 +120,32 @@ extern "C" HRESULT PackagesParseFromXml(
         ExitOnFailure(hr, "Failed to get @Id.");
 
         // @Cache
-        hr = XmlGetYesNoAttribute(pixnNode, L"Cache", &pPackage->fCache);
+        hr = XmlGetAttributeEx(pixnNode, L"Cache", &scz);
+        if (SUCCEEDED(hr))
+        {
+            if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"no", -1))
+            {
+                pPackage->cacheType = BURN_CACHE_TYPE_NO;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"yes", -1))
+            {
+                pPackage->cacheType = BURN_CACHE_TYPE_YES;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"always", -1))
+            {
+                pPackage->cacheType = BURN_CACHE_TYPE_ALWAYS;
+            }
+            else
+            {
+                hr = E_UNEXPECTED;
+                ExitOnFailure1(hr, "Invalid cache type: %ls", scz);
+            }
+        }
         ExitOnFailure(hr, "Failed to get @Cache.");
 
         // @CacheId
         hr = XmlGetAttributeEx(pixnNode, L"CacheId", &pPackage->sczCacheId);
         ExitOnFailure(hr, "Failed to get @CacheId.");
-
-        // @AlwaysCache
-        hr = XmlGetYesNoAttribute(pixnNode, L"AlwaysCache", &pPackage->fAlwaysCache);
-        ExitOnFailure(hr, "Failed to get @AlwaysCache.");
 
         // @Size
         hr = XmlGetAttributeLargeNumber(pixnNode, L"Size", &pPackage->qwSize);

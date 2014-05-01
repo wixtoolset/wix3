@@ -173,7 +173,7 @@ static HRESULT ParsePackagesFromXml(
     IXMLDOMNode* pNode = NULL;
     BAL_INFO_PACKAGE* prgPackages = NULL;
     DWORD cPackages = 0;
-    LPWSTR sczType = NULL;
+    LPWSTR scz = NULL;
 
     hr = XmlSelectNodes(pixdManifest, L"/BootstrapperApplicationData/WixPackageProperties", &pNodeList);
     ExitOnFailure(hr, "Failed to select all packages.");
@@ -202,22 +202,22 @@ static HRESULT ParsePackagesFromXml(
             ExitOnFailure(hr, "Failed to get description for package.");
         }
 
-        hr = XmlGetAttributeEx(pNode, L"PackageType", &sczType);
+        hr = XmlGetAttributeEx(pNode, L"PackageType", &scz);
         ExitOnFailure(hr, "Failed to get package type for package.");
 
-        if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Exe", -1, sczType, -1))
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Exe", -1, scz, -1))
         {
             prgPackages[iPackage].type = BAL_INFO_PACKAGE_TYPE_EXE;
         }
-        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Msi", -1, sczType, -1))
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Msi", -1, scz, -1))
         {
             prgPackages[iPackage].type = BAL_INFO_PACKAGE_TYPE_MSI;
         }
-        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Msp", -1, sczType, -1))
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Msp", -1, scz, -1))
         {
             prgPackages[iPackage].type = BAL_INFO_PACKAGE_TYPE_MSP;
         }
-        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Msu", -1, sczType, -1))
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, L"Msu", -1, scz, -1))
         {
             prgPackages[iPackage].type = BAL_INFO_PACKAGE_TYPE_MSU;
         }
@@ -255,8 +255,21 @@ static HRESULT ParsePackagesFromXml(
             ExitOnFailure(hr, "Failed to get install condition for package.");
         }
 
-        hr = XmlGetYesNoAttribute(pNode, L"AlwaysCache", &prgPackages[iPackage].fAlwaysCache);
-        ExitOnFailure(hr, "Failed to get AlwaysCache setting for package.");
+        hr = XmlGetAttributeEx(pNode, L"Cache", &scz);
+        ExitOnFailure(hr, "Failed to get cache type for package.");
+
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, scz, -1, L"no", -1))
+        {
+            prgPackages[iPackage].cacheType = BAL_INFO_CACHE_TYPE_NO;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, scz, -1, L"yes", -1))
+        {
+            prgPackages[iPackage].cacheType = BAL_INFO_CACHE_TYPE_YES;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, scz, -1, L"always", -1))
+        {
+            prgPackages[iPackage].cacheType = BAL_INFO_CACHE_TYPE_ALWAYS;
+        }
 
         ++iPackage;
         ReleaseNullObject(pNode);
@@ -273,7 +286,7 @@ static HRESULT ParsePackagesFromXml(
     prgPackages = NULL;
 
 LExit:
-    ReleaseStr(sczType);
+    ReleaseStr(scz);
     ReleaseMem(prgPackages);
     ReleaseObject(pNode);
     ReleaseObject(pNodeList);

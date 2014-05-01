@@ -78,7 +78,7 @@ extern "C" HRESULT ExeEngineParsePackageFromXml(
         else
         {
             hr = E_UNEXPECTED;
-            ExitOnFailure1(hr, "Invalid exit code type: %ls", scz);
+            ExitOnFailure1(hr, "Invalid protocol type: %ls", scz);
         }
     }
     else if (E_NOTFOUND != hr)

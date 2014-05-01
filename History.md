@@ -1,4 +1,4 @@
-* SeanHall: WIXFEAT:4329 - Add AlwaysCache attribute to *Package.
+* SeanHall: WIXFEAT:4329 - Change the type of the CacheAttribute to the new YesNoAlwaysType, and make the engine always cache a package if Cache is set to always.
 
 * SeanHall: WIXBUG:3978 - Add InstallCondition to BootstrapperApplicationData.xml.
 

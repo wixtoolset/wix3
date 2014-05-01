@@ -3804,23 +3804,34 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 row[10] = package.RollbackLogPathVariable;
                 row[11] = (PackagingType.Embedded == package.PackagePayload.Packaging) ? "yes" : "no";
                 row[12] = package.DisplayInternalUI ? "yes" : "no";
-                if (!string.IsNullOrEmpty(package.ProductCode))
+                if (!String.IsNullOrEmpty(package.ProductCode))
                 {
                     row[13] = package.ProductCode;
                 }
-                if (!string.IsNullOrEmpty(package.UpgradeCode))
+                if (!String.IsNullOrEmpty(package.UpgradeCode))
                 {
                     row[14] = package.UpgradeCode;
                 }
-                if (!string.IsNullOrEmpty(package.Version))
+                if (!String.IsNullOrEmpty(package.Version))
                 {
                     row[15] = package.Version;
                 }
-                if (!string.IsNullOrEmpty(package.InstallCondition))
+                if (!String.IsNullOrEmpty(package.InstallCondition))
                 {
                     row[16] = package.InstallCondition;
                 }
-                row[17] = package.AlwaysCache ? "yes" : "no";
+                switch (package.Cache)
+                {
+                    case YesNoAlwaysType.No:
+                        row[17] = "no";
+                        break;
+                    case YesNoAlwaysType.Yes:
+                        row[17] = "yes";
+                        break;
+                    case YesNoAlwaysType.Always:
+                        row[17] = "always";
+                        break;
+                }
 
                 Table wixPackageFeatureInfoTable = bundle.EnsureTable(this.core.TableDefinitions["WixPackageFeatureInfo"]);
 
@@ -4357,9 +4368,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     writer.WriteStartElement(String.Format(CultureInfo.InvariantCulture, "{0}Package", package.ChainPackageType));
 
                     writer.WriteAttributeString("Id", package.Id);
-                    writer.WriteAttributeString("Cache", package.Cache ? "yes" : "no");
+
+                    switch (package.Cache)
+                    {
+                        case YesNoAlwaysType.No:
+                            writer.WriteAttributeString("Cache", "no");
+                            break;
+                        case YesNoAlwaysType.Yes:
+                            writer.WriteAttributeString("Cache", "yes");
+                            break;
+                        case YesNoAlwaysType.Always:
+                            writer.WriteAttributeString("Cache", "always");
+                            break;
+                    }
+
                     writer.WriteAttributeString("CacheId", package.CacheId);
-                    writer.WriteAttributeString("AlwaysCache", package.AlwaysCache ? "yes" : "no");
                     writer.WriteAttributeString("InstallSize", Convert.ToString(package.InstallSize));
                     writer.WriteAttributeString("Size", Convert.ToString(package.Size));
                     writer.WriteAttributeString("PerMachine", YesNoDefaultType.Yes == package.PerMachine ? "yes" : "no");

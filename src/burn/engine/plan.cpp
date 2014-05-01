@@ -811,8 +811,8 @@ static HRESULT ProcessPackage(
         hr = DependencyPlanPackageBegin(fBundlePerMachine, pPackage, pPlan);
         ExitOnFailure1(hr, "Failed to begin plan dependency actions for package: %ls", pPackage->sczId);
 
-        // All packages that have AlwaysCache set to true should be cached if the bundle is going to be present.
-        if (pPackage->fAlwaysCache && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
+        // All packages that have cacheType set to always should be cached if the bundle is going to be present.
+        if (BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
         {
             // If this is an MSI package with slipstream MSPs, ensure the MSPs are cached first.
             if (BURN_PACKAGE_TYPE_MSI == pPackage->type && 0 < pPackage->Msi.cSlipstreamMspPackages)
@@ -978,8 +978,8 @@ extern "C" HRESULT PlanExecutePackage(
     hr = DependencyPlanPackageBegin(fPerMachine, pPackage, pPlan);
     ExitOnFailure1(hr, "Failed to begin plan dependency actions for package: %ls", pPackage->sczId);
 
-    // All packages that have AlwaysCache set to true should be cached if the bundle is going to be present.
-    if (pPackage->fAlwaysCache && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
+    // All packages that have cacheType set to always should be cached if the bundle is going to be present.
+    if (BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
     {
         fNeedsCache = TRUE;
     }
@@ -1017,11 +1017,11 @@ extern "C" HRESULT PlanExecutePackage(
     // Add the cache and install size to estimated size if it will be on the machine at the end of the install
     if (BOOTSTRAPPER_REQUEST_STATE_PRESENT == pPackage->requested || 
         (BOOTSTRAPPER_PACKAGE_STATE_PRESENT == pPackage->currentState && BOOTSTRAPPER_REQUEST_STATE_ABSENT < pPackage->requested) || 
-        pPackage->fAlwaysCache
+        BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType
        )
     {
         // If the package will remain in the cache, add the package size to the estimated size
-        if (pPackage->fCache)
+        if (BURN_CACHE_TYPE_YES <= pPackage->cacheType)
         {
             pPlan->qwEstimatedSize += pPackage->qwSize;
         }
@@ -1261,12 +1261,12 @@ extern "C" HRESULT PlanCleanPackage(
     // from the cache. Start by noting that we only clean if the package is being acquired or
     // already cached and the package is not supposed to always be cached.
     if ((pPackage->fAcquire || BURN_CACHE_STATE_PARTIAL == pPackage->cache || BURN_CACHE_STATE_COMPLETE == pPackage->cache) && 
-        (!pPackage->fAlwaysCache || BOOTSTRAPPER_ACTION_INSTALL > pPlan->action))
+        (BURN_CACHE_TYPE_ALWAYS > pPackage->cacheType || BOOTSTRAPPER_ACTION_INSTALL > pPlan->action))
     {
         // The following are all different reasons why the package should be cleaned from the cache.
         // The else-ifs are used to make the conditions easier to see (rather than have them combined
         // in one huge condition).
-        if (!pPackage->fCache)  // easy, package is not supposed to stay cached.
+        if (BURN_CACHE_TYPE_YES > pPackage->cacheType)  // easy, package is not supposed to stay cached.
         {
             fPlanCleanPackage = TRUE;
         }
