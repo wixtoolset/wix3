@@ -1,6 +1,7 @@
-* SeanHall: WIXFEAT:4329 - Change the type of the CacheAttribute to the new YesNoAlwaysType, and make the engine always cache a package if Cache is set to always.
+* SeanHall: WIXFEAT:4329 - Change the type of the Cache attribute to the new YesNoAlwaysType, and make the engine always cache a package if Cache is set to always.
 
 * SeanHall: WIXBUG:3978 - Add InstallCondition to BootstrapperApplicationData.xml.
+
 * HeathS: Don't fail uninstall when planned package was removed by related bundle. Don't repair dependent bundles when upgrading a patch or addon bundle.
 
 * AndySt: Update Registration key was being deleted during a bundle to bundle upgrade. Added version check so that only if the version was the same would the key be deleted.
