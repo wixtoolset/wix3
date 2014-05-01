@@ -26,43 +26,61 @@ namespace WixTest.Tests.Burn
     {
         [TestMethod]
         [Priority(2)]
-        [Description("Installs bundle A, patch bundle D, then uninstalls bundle A.")]
+        [Description("Installs bundle A, patch bundle D, upgrades patch bundle D, then uninstalls bundle A.")]
         [TestProperty("IsRuntimeTest", "true")]
         public void Burn_InstallUninstallPatchRelatedBundle()
         {
-            const string patchVersion = "1.0.1.0";
+            const string patchVersion1 = "1.0.1.0";
+            const string patchVersion2 = "1.0.2.0";
 
             // Build the packages.
             string packageA1 = new PackageBuilder(this, "A").Build().Output;
-            string packageA2 = new PackageBuilder(this, "A") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion } }, NeverGetsInstalled = true }.Build().Output;
-            string patchA = new PatchBuilder(this, "PatchA") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion } }, TargetPath = packageA1, UpgradePath = packageA2 }.Build().Output;
+            string packageA2 = new PackageBuilder(this, "A") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion1 } }, NeverGetsInstalled = true }.Build().Output;
+            string packageA3 = new PackageBuilder(this, "A") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion2 } }, NeverGetsInstalled = true }.Build().Output;
+            string patchA1 = new PatchBuilder(this, "PatchA") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion1 } }, TargetPath = packageA1, UpgradePath = packageA2 }.Build().Output;
+            string patchA2 = new PatchBuilder(this, "PatchA") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion2 } }, TargetPath = packageA1, UpgradePath = packageA3 }.Build().Output;
 
             // Create the named bind paths to the packages.
             Dictionary<string, string> bindPaths = new Dictionary<string, string>();
             bindPaths.Add("packageA", packageA1);
-            bindPaths.Add("patchA", patchA);
+            bindPaths.Add("patchA", patchA1);
 
             // Build the bundles.
             string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
-            string bundleD = new BundleBuilder(this, "BundleD") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion } }, BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+            string bundleD1 = new BundleBuilder(this, "BundleD") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion1 } }, BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+
+            bindPaths["patchA"] = patchA2;
+            string bundleD2 = new BundleBuilder(this, "BundleD") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchVersion2 } }, BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
 
             // Install the bundles.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
-            BundleInstaller installerD = new BundleInstaller(this, bundleD).Install();
+            BundleInstaller installerD1 = new BundleInstaller(this, bundleD1).Install();
 
             // Test both packages are installed.
             Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchVersion, actualVersion);
+                Assert.AreEqual(patchVersion1, actualVersion);
+            }
+
+            // Install the patch upgrade bundle.
+            BundleInstaller installerD2 = new BundleInstaller(this, bundleD2).Install();
+
+            // Test the package is upgraded but that bundle A is not repaired.
+            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(installerD2.LastLogFile, @"Detected related bundle: \{[0-9A-Za-z\-]{36}\}, type: Dependent, scope: PerMachine, version: 1\.0\.0\.0, operation: None"));
+            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(installerD2.LastLogFile, @"Detected related bundle: \{[0-9A-Za-z\-]{36}\}, type: Upgrade, scope: PerMachine, version: 1\.0\.1\.0, operation: MajorUpgrade"));
+            using (RegistryKey root = this.GetTestRegistryRoot())
+            {
+                string actualVersion = root.GetValue("A") as string;
+                Assert.AreEqual(patchVersion2, actualVersion);
             }
 
             // Attempt to uninstall bundleA.
             installerA.Uninstall();
 
             // Test that uninstalling bundle A detected and would remove bundle D.
-            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(installerA.LastLogFile, @"Detected related bundle: \{[0-9A-Za-z\-]{36}\}, type: Patch, scope: PerMachine, version: 1\.0\.1\.0, operation: Remove"));
+            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(installerA.LastLogFile, @"Detected related bundle: \{[0-9A-Za-z\-]{36}\}, type: Patch, scope: PerMachine, version: 1\.0\.2\.0, operation: Remove"));
 
             // Test both packages are uninstalled.
             Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));

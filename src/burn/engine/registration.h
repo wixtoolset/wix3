@@ -154,6 +154,7 @@ typedef struct _BURN_REGISTRATION
     BURN_RELATED_BUNDLES relatedBundles;
 
     LPWSTR sczDetectedProviderKeyBundleId;
+    LPWSTR sczAncestors;
 
     BOOL fEnabledForwardCompatibleBundle;
     BURN_PACKAGE forwardCompatibleBundle;

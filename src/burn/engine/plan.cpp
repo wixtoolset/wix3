@@ -36,6 +36,7 @@ static void ResetPlannedPackageState(
     );
 static HRESULT ProcessPackage(
     __in BOOL fBundlePerMachine,
+    __in BOOL fPlanCompatible,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PLAN* pPlan,
     __in BURN_PACKAGE* pPackage,
@@ -231,6 +232,7 @@ extern "C" void PlanUninitializeExecuteAction(
     {
     case BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE:
         ReleaseStr(pExecuteAction->exePackage.sczIgnoreDependencies);
+        ReleaseStr(pExecuteAction->exePackage.sczAncestors);
         break;
 
     case BURN_EXECUTE_ACTION_TYPE_MSI_PACKAGE:
@@ -257,6 +259,10 @@ extern "C" void PlanUninitializeExecuteAction(
 
     case BURN_EXECUTE_ACTION_TYPE_PACKAGE_DEPENDENCY:
         ReleaseStr(pExecuteAction->packageDependency.sczBundleProviderKey);
+        break;
+
+    case BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE:
+        ReleaseStr(pExecuteAction->compatiblePackage.sczInstalledProductCode);
         break;
     }
 }
@@ -417,6 +423,7 @@ LExit:
 }
 
 extern "C" HRESULT PlanPackages(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PLAN* pPlan,
@@ -445,8 +452,55 @@ extern "C" HRESULT PlanPackages(
         DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action) ? pPackages->cPackages - 1 - i : i;
         BURN_PACKAGE* pPackage = pPackages->rgPackages + iPackage;
 
-        hr = ProcessPackage(fBundlePerMachine, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
+        // Support passing Ancestors to embedded burn bundles
+        if (BURN_PACKAGE_TYPE_EXE == pPackage->type && BURN_EXE_PROTOCOL_TYPE_BURN == pPackage->Exe.protocol)
+        {
+            // Pass along any ancestors and ourself to prevent infinite loops.
+            if (pRegistration->sczAncestors && *pRegistration->sczAncestors)
+            {
+                hr = StrAllocFormatted(&pPackage->Exe.sczAncestors, L"%ls;%ls", pRegistration->sczAncestors, pRegistration->sczId);
+                ExitOnFailure(hr, "Failed to copy ancestors and self to related bundle ancestors.");
+            }
+            else
+            {
+                hr = StrAllocString(&pPackage->Exe.sczAncestors, pRegistration->sczId, 0);
+                ExitOnFailure(hr, "Failed to copy self to related bundle ancestors.");
+            }
+        }
+
+        hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
         ExitOnFailure(hr, "Failed to process package.");
+
+        // Attempt to remove orphaned packages during uninstall. Currently only MSI packages are supported and should not require source.
+        if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action && BURN_PACKAGE_TYPE_MSI == pPackage->type && pPackage->Msi.fCompatibleInstalled)
+        {
+            BURN_PACKAGE* pCompatiblePackage = NULL;
+            BURN_EXECUTE_ACTION* pAction = NULL;
+
+            // Add the compatible package to the list.
+            hr = MsiEngineAddCompatiblePackage(pPackages, pPackage, &pCompatiblePackage);
+            ExitOnFailure1(hr, "Failed to add compatible package for package: %ls", pPackage->sczId);
+
+            // Plan to load the compatible package into the elevated engine before its needed.
+            hr = PlanAppendExecuteAction(pPlan, &pAction);
+            ExitOnFailure(hr, "Failed to append execute action.");
+
+            pAction->type = BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE;
+            pAction->compatiblePackage.pReferencePackage = pPackage;
+            pAction->compatiblePackage.qwInstalledVersion = pCompatiblePackage->Msi.qwVersion;
+
+            hr = StrAllocString(&pAction->compatiblePackage.sczInstalledProductCode, pCompatiblePackage->Msi.sczProductCode, 0);
+            ExitOnFailure(hr, "Failed to copy installed ProductCode");
+
+            // Process the compatible MSI package like any other.
+            hr = ProcessPackage(fBundlePerMachine, TRUE, pUX, pPlan, pCompatiblePackage, pLog, pVariables, display, relationType, wzLayoutDirectory, phSyncpointEvent, &pRollbackBoundary, &nonpermanentPackageIndices);
+            ExitOnFailure(hr, "Failed to process compatible package.");
+
+            if (BOOTSTRAPPER_ACTION_STATE_UNINSTALL == pCompatiblePackage->execute)
+            {
+                LogId(REPORT_STANDARD, MSG_PLANNED_ORPHAN_PACKAGE_FROM_PROVIDER, pPackage->sczId, pCompatiblePackage->Msi.sczProductCode, pPackage->Msi.sczProductCode);
+            }
+        }
     }
 
     // Insert the "keep registration" and "remove registration" actions in the plan when installing the first time and anytime we are uninstalling respectively.
@@ -490,6 +544,15 @@ extern "C" HRESULT PlanPackages(
 
         hr = PlanCleanPackage(pPlan, pPackage);
         ExitOnFailure(hr, "Failed to plan clean package.");
+    }
+
+    // Plan best-effort clean up of compatible packages.
+    for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+    {
+        DWORD iPackage = (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action) ? pPackages->cCompatiblePackages - 1 - i : i;
+        BURN_PACKAGE* pCompatiblePackage = pPackages->rgCompatiblePackages + iPackage;
+
+        PlanCleanPackage(pPlan, pCompatiblePackage);
     }
 
 LExit:
@@ -688,7 +751,7 @@ extern "C" HRESULT PlanPassThroughBundle(
     BURN_ROLLBACK_BOUNDARY* pRollbackBoundary = NULL;
 
     // Plan passthrough package.
-    hr = ProcessPackage(fBundlePerMachine, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
+    hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
     ExitOnFailure(hr, "Failed to process passthrough package.");
 
     // If we still have an open rollback boundary, complete it.
@@ -722,7 +785,7 @@ extern "C" HRESULT PlanUpdateBundle(
     BURN_ROLLBACK_BOUNDARY* pRollbackBoundary = NULL;
 
     // Plan update package.
-    hr = ProcessPackage(fBundlePerMachine, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
+    hr = ProcessPackage(fBundlePerMachine, FALSE, pUX, pPlan, pPackage, pLog, pVariables, display, relationType, NULL, phSyncpointEvent, &pRollbackBoundary, NULL);
     ExitOnFailure(hr, "Failed to process update package.");
 
     // If we still have an open rollback boundary, complete it.
@@ -742,6 +805,7 @@ LExit:
 
 static HRESULT ProcessPackage(
     __in BOOL fBundlePerMachine,
+    __in BOOL fPlanCompatible,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PLAN* pPlan,
     __in BURN_PACKAGE* pPackage,
@@ -764,7 +828,16 @@ static HRESULT ProcessPackage(
 
     pPackage->requested = pPackage->defaultRequested;
 
-    int nResult = pUX->pUserExperience->OnPlanPackageBegin(pPackage->sczId, &pPackage->requested);
+    int nResult = IDNOACTION;
+    if (fPlanCompatible)
+    {
+        nResult = pUX->pUserExperience->OnPlanCompatiblePackage(pPackage->sczId, &pPackage->requested);
+    }
+    else
+    {
+        nResult = pUX->pUserExperience->OnPlanPackageBegin(pPackage->sczId, &pPackage->requested);
+    }
+
     hr = UserExperienceInterpretResult(pUX, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted plan package begin.");
 
@@ -1087,30 +1160,79 @@ LExit:
     return hr;
 }
 
-extern "C" HRESULT PlanRelatedBundles(
+extern "C" HRESULT PlanRelatedBundlesBegin(
     __in BURN_USER_EXPERIENCE* pUserExperience,
     __in BURN_REGISTRATION* pRegistration,
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
     __in BURN_PLAN* pPlan,
-    __in BURN_LOGGING* pLog,
-    __in BURN_VARIABLES* pVariables,
-    __inout HANDLE* phSyncpointEvent,
-    __in DWORD dwExecuteActionEarlyIndex
+    __in BURN_MODE mode
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR sczIgnoreDependencies = NULL;
+    LPWSTR* rgsczAncestors = NULL;
+    UINT cAncestors = 0;
+    STRINGDICT_HANDLE sdAncestors = NULL;
 
-    // Get the list of dependencies to ignore to pass to related bundles.
-    hr = DependencyAllocIgnoreDependencies(pPlan, &sczIgnoreDependencies);
-    ExitOnFailure(hr, "Failed to get the list of dependencies to ignore.");
+    if (pRegistration->sczAncestors)
+    {
+        hr = StrSplitAllocArray(&rgsczAncestors, &cAncestors, pRegistration->sczAncestors, L";");
+        ExitOnFailure(hr, "Failed to create string array from ancestors.");
+
+        hr = DictCreateStringListFromArray(&sdAncestors, rgsczAncestors, cAncestors, DICT_FLAG_CASEINSENSITIVE);
+        ExitOnFailure(hr, "Failed to create dictionary from ancestors array.");
+    }
 
     for (DWORD i = 0; i < pRegistration->relatedBundles.cRelatedBundles; ++i)
     {
-        DWORD *pdwInsertIndex = NULL;
         BURN_RELATED_BUNDLE* pRelatedBundle = pRegistration->relatedBundles.rgRelatedBundles + i;
         pRelatedBundle->package.defaultRequested = BOOTSTRAPPER_REQUEST_STATE_NONE;
         pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_NONE;
+
+        // Do not execute the same bundle twice.
+        if (sdAncestors)
+        {
+            hr = DictKeyExists(sdAncestors, pRelatedBundle->package.sczId);
+            if (SUCCEEDED(hr))
+            {
+                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_SCHEDULED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
+                continue;
+            }
+            else if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure(hr, "Failed to lookup the bundle ID in the ancestors dictionary.");
+            }
+        }
+        else if (BURN_MODE_EMBEDDED == mode)
+        {
+            BOOL fSkipBundle = TRUE;
+            for (DWORD j = 0; j < pRelatedBundle->package.cDependencyProviders; ++j)
+            {
+                const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders + j;
+                if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pProvider->sczKey, -1, pRegistration->sczProviderKey, -1))
+                {
+                    fSkipBundle = FALSE;
+                }
+            }
+
+            if (fSkipBundle)
+            {
+                // Protect loops for older bundles that do not handle ancestors.
+                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
+                continue;
+            }
+        }
+
+        // Pass along any ancestors and ourself to prevent infinite loops.
+        if (pRegistration->sczAncestors && *pRegistration->sczAncestors)
+        {
+            hr = StrAllocFormatted(&pRelatedBundle->package.Exe.sczAncestors, L"%ls;%ls", pRegistration->sczAncestors, pRegistration->sczId);
+            ExitOnFailure(hr, "Failed to copy ancestors and self to related bundle ancestors.");
+        }
+        else
+        {
+            hr = StrAllocString(&pRelatedBundle->package.Exe.sczAncestors, pRegistration->sczId, 0);
+            ExitOnFailure(hr, "Failed to copy self to related bundle ancestors.");
+        }
 
         switch (pRelatedBundle->relationType)
         {
@@ -1122,16 +1244,9 @@ extern "C" HRESULT PlanRelatedBundles(
             break;
         case BOOTSTRAPPER_RELATION_PATCH: __fallthrough;
         case BOOTSTRAPPER_RELATION_ADDON:
-            // Addon and patch bundles will be passed a list of dependencies to ignore for planning.
-            hr = StrAllocString(&pRelatedBundle->package.Exe.sczIgnoreDependencies, sczIgnoreDependencies, 0);
-            ExitOnFailure(hr, "Failed to copy the list of dependencies to ignore.");
-
             if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
             {
                 pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_ABSENT;
-
-                // Uninstall addons and patches early in the chain, before other packages are uninstalled.
-                pdwInsertIndex = &dwExecuteActionEarlyIndex;
             }
             else if (BOOTSTRAPPER_ACTION_INSTALL == pPlan->action || BOOTSTRAPPER_ACTION_MODIFY == pPlan->action)
             {
@@ -1142,8 +1257,16 @@ extern "C" HRESULT PlanRelatedBundles(
                 pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_REPAIR;
             }
             break;
-        case BOOTSTRAPPER_RELATION_DETECT: __fallthrough;
         case BOOTSTRAPPER_RELATION_DEPENDENT:
+            // Automatically repair dependent bundles to restore missing
+            // packages after uninstall unless we're being upgraded with the
+            // assumption that upgrades are cumulative (as intended).
+            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
+            {
+                pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_REPAIR;
+            }
+            break;
+        case BOOTSTRAPPER_RELATION_DETECT:
             break;
         default:
             hr = E_UNEXPECTED;
@@ -1161,6 +1284,101 @@ extern "C" HRESULT PlanRelatedBundles(
         if (pRelatedBundle->package.requested != pRelatedBundle->package.defaultRequested)
         {
             LogId(REPORT_STANDARD, MSG_PLANNED_BUNDLE_UX_CHANGED_REQUEST, pRelatedBundle->package.sczId, LoggingRequestStateToString(pRelatedBundle->package.requested), LoggingRequestStateToString(pRelatedBundle->package.defaultRequested));
+        }
+
+        // If uninstalling and the dependent related bundle may be executed, ignore its provider key to allow for downgrades with ref-counting.
+        if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action && BOOTSTRAPPER_RELATION_DEPENDENT == pRelatedBundle->relationType && BOOTSTRAPPER_REQUEST_STATE_NONE != pRelatedBundle->package.requested)
+        {
+            if (0 < pRelatedBundle->package.cDependencyProviders)
+            {
+                // Bundles only support a single provider key.
+                const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders;
+
+                hr = DepDependencyArrayAlloc(&pPlan->rgPlannedProviders, &pPlan->cPlannedProviders, pProvider->sczKey, pProvider->sczDisplayName);
+                ExitOnFailure1(hr, "Failed to add the package provider key \"%ls\" to the planned list.", pProvider->sczKey);
+            }
+        }
+    }
+
+LExit:
+    ReleaseDict(sdAncestors);
+    ReleaseStrArray(rgsczAncestors, cAncestors);
+
+    return hr;
+}
+
+extern "C" HRESULT PlanRelatedBundlesComplete(
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_PLAN* pPlan,
+    __in BURN_LOGGING* pLog,
+    __in BURN_VARIABLES* pVariables,
+    __inout HANDLE* phSyncpointEvent,
+    __in DWORD dwExecuteActionEarlyIndex
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczIgnoreDependencies = NULL;
+    STRINGDICT_HANDLE sdProviderKeys = NULL;
+
+    // Get the list of dependencies to ignore to pass to related bundles.
+    hr = DependencyAllocIgnoreDependencies(pPlan, &sczIgnoreDependencies);
+    ExitOnFailure(hr, "Failed to get the list of dependencies to ignore.");
+
+    hr = DictCreateStringList(&sdProviderKeys, pPlan->cExecuteActions, DICT_FLAG_CASEINSENSITIVE);
+    ExitOnFailure(hr, "Failed to create dictionary for planned packages.");
+
+    for (DWORD i = 0; i < pPlan->cExecuteActions; ++i)
+    {
+        if (BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE == pPlan->rgExecuteActions[i].type && BOOTSTRAPPER_ACTION_STATE_NONE != pPlan->rgExecuteActions[i].exePackage.action)
+        {
+            BURN_PACKAGE* pPackage = pPlan->rgExecuteActions[i].packageProvider.pPackage;
+            if (BURN_PACKAGE_TYPE_EXE == pPackage->type && BURN_EXE_PROTOCOL_TYPE_BURN == pPackage->Exe.protocol)
+            {
+                if (0 < pPackage->cDependencyProviders)
+                {
+                    // Bundles only support a single provider key.
+                    const BURN_DEPENDENCY_PROVIDER* pProvider = pPackage->rgDependencyProviders;
+                    DictAddKey(sdProviderKeys, pProvider->sczKey);
+                }
+            }
+        }
+    }
+
+    for (DWORD i = 0; i < pRegistration->relatedBundles.cRelatedBundles; ++i)
+    {
+        DWORD *pdwInsertIndex = NULL;
+        BURN_RELATED_BUNDLE* pRelatedBundle = pRegistration->relatedBundles.rgRelatedBundles + i;
+
+        // Do not execute if a major upgrade to the related bundle is an embedded bundle (Provider keys are the same)
+        if (0 < pRelatedBundle->package.cDependencyProviders)
+        {
+            // Bundles only support a single provider key.
+            const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders;
+            hr = DictKeyExists(sdProviderKeys, pProvider->sczKey);
+            if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure1(hr, "Failed to check the dictionary for a related bundle provider key: \"%ls\".", pProvider->sczKey);
+                // Key found, so there is an embedded bundle with the same provider key that will be executed.  So this related bundle should not be added to the plan
+                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED_BUNDLE_NEWER, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType), pProvider->sczKey);
+                continue;
+            }
+            else
+            {
+                hr = S_OK;
+            }
+        }
+
+        if (BOOTSTRAPPER_RELATION_ADDON == pRelatedBundle->relationType || BOOTSTRAPPER_RELATION_PATCH == pRelatedBundle->relationType)
+        {
+            // Addon and patch bundles will be passed a list of dependencies to ignore for planning.
+            hr = StrAllocString(&pRelatedBundle->package.Exe.sczIgnoreDependencies, sczIgnoreDependencies, 0);
+            ExitOnFailure(hr, "Failed to copy the list of dependencies to ignore.");
+
+            // Uninstall addons and patches early in the chain, before other packages are uninstalled.
+            if (BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
+            {
+                pdwInsertIndex = &dwExecuteActionEarlyIndex;
+            }
         }
 
         if (BOOTSTRAPPER_REQUEST_STATE_NONE != pRelatedBundle->package.requested)
@@ -1221,6 +1439,7 @@ extern "C" HRESULT PlanRelatedBundles(
     }
 
 LExit:
+    ReleaseDict(sdProviderKeys);
     ReleaseStr(sczIgnoreDependencies);
 
     return hr;
@@ -1571,7 +1790,7 @@ extern "C" HRESULT PlanSetResumeCommand(
     hr = StrAllocFormatted(&pRegistration->sczResumeCommandLine, L"\"%ls\"", pRegistration->sczCacheExecutablePath);
     ExitOnFailure(hr, "Failed to copy executable path to resume command-line.");
 
-    hr = CoreRecreateCommandLine(&pRegistration->sczResumeCommandLine, action, pCommand->display, pCommand->restart, pCommand->relationType, pCommand->fPassthrough, pRegistration->sczActiveParent, pLog->sczPath, pCommand->wzCommandLine);
+    hr = CoreRecreateCommandLine(&pRegistration->sczResumeCommandLine, action, pCommand->display, pCommand->restart, pCommand->relationType, pCommand->fPassthrough, pRegistration->sczActiveParent, pRegistration->sczAncestors, pLog->sczPath, pCommand->wzCommandLine);
     ExitOnFailure(hr, "Failed to recreate resume command-line.");
 
 LExit:
@@ -2631,6 +2850,10 @@ static void ExecuteActionLog(
 
     case BURN_EXECUTE_ACTION_TYPE_UNCACHE_PACKAGE:
         LogStringLine(REPORT_STANDARD, "%ls action[%u]: UNCACHE_PACKAGE id: %ls", wzBase, iAction, pAction->uncachePackage.pPackage->sczId);
+        break;
+
+    case BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE:
+        LogStringLine(REPORT_STANDARD, "%ls action[%u]: COMPATIBLE_PACKAGE reference id: %ls, installed ProductCode: %ls", wzBase, iAction, pAction->compatiblePackage.pReferencePackage->sczId, pAction->compatiblePackage.sczInstalledProductCode);
         break;
 
     default:

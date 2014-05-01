@@ -44,6 +44,18 @@ HRESULT DependencyParseProvidersFromXml(
     );
 
 /********************************************************************
+ DependencyDetectProviderKeyPackageId - Detect if the provider key is
+  registered and if so what package code is registered.
+
+ Note: Returns E_NOTFOUND if the provider key is not registered.
+*********************************************************************/
+HRESULT DependencyDetectProviderKeyPackageId(
+    __in const BURN_PACKAGE* pPackage,
+    __deref_opt_out_z_opt LPWSTR* psczProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczId
+    );
+
+/********************************************************************
  DependencyDetectProviderKeyBundleId - Detect if the provider key is
   registered and if so what bundle is registered.
 

@@ -79,6 +79,7 @@ enum BURN_EXECUTE_ACTION_TYPE
     BURN_EXECUTE_ACTION_TYPE_PACKAGE_DEPENDENCY,
     BURN_EXECUTE_ACTION_TYPE_ROLLBACK_BOUNDARY,
     BURN_EXECUTE_ACTION_TYPE_REGISTRATION,
+    BURN_EXECUTE_ACTION_TYPE_COMPATIBLE_PACKAGE,
 };
 
 enum BURN_CLEAN_ACTION_TYPE
@@ -229,6 +230,7 @@ typedef struct _BURN_EXECUTE_ACTION
             BOOL fFireAndForget;
             BOOTSTRAPPER_ACTION_STATE action;
             LPWSTR sczIgnoreDependencies;
+            LPWSTR sczAncestors;
         } exePackage;
         struct
         {
@@ -287,6 +289,12 @@ typedef struct _BURN_EXECUTE_ACTION
             LPWSTR sczBundleProviderKey;
             BURN_DEPENDENCY_ACTION action;
         } packageDependency;
+        struct
+        {
+            BURN_PACKAGE* pReferencePackage;
+            LPWSTR sczInstalledProductCode;
+            DWORD64 qwInstalledVersion;
+        } compatiblePackage;
     };
 } BURN_EXECUTE_ACTION;
 
@@ -373,6 +381,7 @@ HRESULT PlanLayoutBundle(
     __out_z LPWSTR* psczLayoutDirectory
     );
 HRESULT PlanPackages(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PLAN* pPlan,
@@ -427,10 +436,15 @@ HRESULT PlanExecutePackage(
     __in BURN_VARIABLES* pVariables,
     __inout HANDLE* phSyncpointEvent
     );
-HRESULT PlanRelatedBundles(
+HRESULT PlanRelatedBundlesBegin(
     __in BURN_USER_EXPERIENCE* pUserExperience,
     __in BURN_REGISTRATION* pRegistration,
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
+    __in BURN_PLAN* pPlan,
+    __in BURN_MODE mode
+    );
+HRESULT PlanRelatedBundlesComplete(
+    __in BURN_REGISTRATION* pRegistration,
     __in BURN_PLAN* pPlan,
     __in BURN_LOGGING* pLog,
     __in BURN_VARIABLES* pVariables,
