@@ -845,7 +845,7 @@ static HRESULT ProcessPackage(
     hr = ProcessPackageRollbackBoundary(pPlan, pEffectiveRollbackBoundary, ppRollbackBoundary);
     ExitOnFailure(hr, "Failed to process package rollback boundary.");
 
-    // If the the package is in a requested state, plan it.
+    // If the package is in a requested state, plan it.
     if (BOOTSTRAPPER_REQUEST_STATE_NONE != pPackage->requested)
     {
         if (BOOTSTRAPPER_ACTION_LAYOUT == pPlan->action)
@@ -883,6 +883,22 @@ static HRESULT ProcessPackage(
         // Make sure the package is properly ref-counted even if no plan is requested.
         hr = DependencyPlanPackageBegin(fBundlePerMachine, pPackage, pPlan);
         ExitOnFailure1(hr, "Failed to begin plan dependency actions for package: %ls", pPackage->sczId);
+
+        // All packages that have cacheType set to always should be cached if the bundle is going to be present.
+        if (BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
+        {
+            // If this is an MSI package with slipstream MSPs, ensure the MSPs are cached first.
+            if (BURN_PACKAGE_TYPE_MSI == pPackage->type && 0 < pPackage->Msi.cSlipstreamMspPackages)
+            {
+                hr = AddCacheSlipstreamMsps(pPlan, pPackage);
+                ExitOnFailure(hr, "Failed to plan slipstream patches for package.");
+            }
+
+            hr = AddCachePackage(pPlan, pPackage, phSyncpointEvent);
+            ExitOnFailure(hr, "Failed to plan cache package.");
+
+            pPlan->qwEstimatedSize += pPackage->qwSize;
+        }
 
         hr = DependencyPlanPackage(NULL, pPackage, pPlan);
         ExitOnFailure(hr, "Failed to plan package dependency actions.");
@@ -1035,12 +1051,17 @@ extern "C" HRESULT PlanExecutePackage(
     hr = DependencyPlanPackageBegin(fPerMachine, pPackage, pPlan);
     ExitOnFailure1(hr, "Failed to begin plan dependency actions for package: %ls", pPackage->sczId);
 
+    // All packages that have cacheType set to always should be cached if the bundle is going to be present.
+    if (BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
+    {
+        fNeedsCache = TRUE;
+    }
     // Exe packages require the package for all operations (even uninstall).
-    if (BURN_PACKAGE_TYPE_EXE == pPackage->type)
+    else if (BURN_PACKAGE_TYPE_EXE == pPackage->type)
     {
         fNeedsCache = (BOOTSTRAPPER_ACTION_STATE_NONE != pPackage->execute);
     }
-    else // the other engine types can uninstall without the original package.
+    else // the other package types can uninstall without the original package.
     {
         fNeedsCache = (BOOTSTRAPPER_ACTION_STATE_UNINSTALL < pPackage->execute);
     }
@@ -1067,10 +1088,13 @@ extern "C" HRESULT PlanExecutePackage(
 
 
     // Add the cache and install size to estimated size if it will be on the machine at the end of the install
-    if (BOOTSTRAPPER_REQUEST_STATE_PRESENT == pPackage->requested || (BOOTSTRAPPER_PACKAGE_STATE_PRESENT == pPackage->currentState && BOOTSTRAPPER_REQUEST_STATE_ABSENT < pPackage->requested))
+    if (BOOTSTRAPPER_REQUEST_STATE_PRESENT == pPackage->requested || 
+        (BOOTSTRAPPER_PACKAGE_STATE_PRESENT == pPackage->currentState && BOOTSTRAPPER_REQUEST_STATE_ABSENT < pPackage->requested) || 
+        BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType
+       )
     {
         // If the package will remain in the cache, add the package size to the estimated size
-        if (pPackage->fCache)
+        if (BURN_CACHE_TYPE_YES <= pPackage->cacheType)
         {
             pPlan->qwEstimatedSize += pPackage->qwSize;
         }
@@ -1454,13 +1478,14 @@ extern "C" HRESULT PlanCleanPackage(
 
     // The following is a complex set of logic that determines when a package should be cleaned
     // from the cache. Start by noting that we only clean if the package is being acquired or
-    // already cached.
-    if (pPackage->fAcquire || BURN_CACHE_STATE_PARTIAL == pPackage->cache || BURN_CACHE_STATE_COMPLETE == pPackage->cache)
+    // already cached and the package is not supposed to always be cached.
+    if ((pPackage->fAcquire || BURN_CACHE_STATE_PARTIAL == pPackage->cache || BURN_CACHE_STATE_COMPLETE == pPackage->cache) && 
+        (BURN_CACHE_TYPE_ALWAYS > pPackage->cacheType || BOOTSTRAPPER_ACTION_INSTALL > pPlan->action))
     {
         // The following are all different reasons why the package should be cleaned from the cache.
         // The else-ifs are used to make the conditions easier to see (rather than have them combined
         // in one huge condition).
-        if (!pPackage->fCache)  // easy, package is not supposed to stay cached.
+        if (BURN_CACHE_TYPE_YES > pPackage->cacheType)  // easy, package is not supposed to stay cached.
         {
             fPlanCleanPackage = TRUE;
         }
@@ -2232,7 +2257,7 @@ static HRESULT AppendCacheOrLayoutPayloadAction(
         BURN_CACHE_ACTION* pPreviousPackageExtractAction = NULL;
         BURN_CACHE_ACTION* pThisPackageExtractAction = NULL;
 
-        // If the payload is not already cached, the add it to the first extract container action in the plan. Extracting
+        // If the payload is not already cached, then add it to the first extract container action in the plan. Extracting
         // all the needed payloads from the container in a single pass is the most efficient way to extract files from
         // containers. If there is not an extract container action before our package, that is okay because we'll create
         // an extract container action for our package in a second anyway.
@@ -2246,7 +2271,7 @@ static HRESULT AppendCacheOrLayoutPayloadAction(
         }
 
         // If there is already an extract container action after our package start action then try to find an acquire action
-        // that is matched with it. If there is an acquire action that is our "try again" action otherwise we'll use the existing
+        // that is matched with it. If there is an acquire action then that is our "try again" action, otherwise we'll use the existing
         // extract action as the "try again" action.
         if (FindContainerCacheAction(BURN_CACHE_ACTION_TYPE_EXTRACT_CONTAINER, pPlan, pPayload->pContainer, iPackageStartAction, BURN_PLAN_INVALID_ACTION_INDEX, &pThisPackageExtractAction, &iTryAgainAction))
         {

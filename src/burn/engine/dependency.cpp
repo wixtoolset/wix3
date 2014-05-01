@@ -861,7 +861,7 @@ static HRESULT GetProviderInformation(
     }
 
 LExit:
-    ReleaseStr(psczId);
+    ReleaseStr(sczId);
 
     return hr;
 }

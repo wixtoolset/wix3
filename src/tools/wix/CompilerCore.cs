@@ -69,6 +69,27 @@ namespace Microsoft.Tools.WindowsInstallerXml
     }
 
     /// <summary>
+    /// Yes, No, Always xml simple type.
+    /// </summary>
+    public enum YesNoAlwaysType
+    {
+        /// <summary>Value not set; equivalent to null for reference types.</summary>
+        NotSet,
+
+        /// <summary>The always value.</summary>
+        Always,
+
+        /// <summary>The no value.</summary>
+        No,
+
+        /// <summary>The yes value.</summary>
+        Yes,
+
+        /// <summary>Not a valid yes, no or always value.</summary>
+        IllegalValue,
+    }
+
+    /// <summary>
     /// A set of rules describing the whitespace rules for an attribute.
     /// </summary>
     public enum EmptyRule
@@ -1334,6 +1355,39 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             return YesNoDefaultType.IllegalValue;
+        }
+
+        /// <summary>
+        /// Gets a yes/no/always value and displays an error for an illegal value.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source line information about the owner element.</param>
+        /// <param name="attribute">The attribute containing the value to get.</param>
+        /// <returns>The attribute's YesNoAlwaysType value.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes")]
+        public YesNoAlwaysType GetAttributeYesNoAlwaysValue(SourceLineNumberCollection sourceLineNumbers, XmlAttribute attribute)
+        {
+            string value = this.GetAttributeValue(sourceLineNumbers, attribute);
+
+            if (0 < value.Length)
+            {
+                switch (Wix.Enums.ParseYesNoAlwaysType(value))
+                {
+                    case Wix.YesNoAlwaysType.@always:
+                        return YesNoAlwaysType.Always;
+                    case Wix.YesNoAlwaysType.no:
+                        return YesNoAlwaysType.No;
+                    case Wix.YesNoAlwaysType.yes:
+                        return YesNoAlwaysType.Yes;
+                    case Wix.YesNoAlwaysType.NotSet:
+                        // Previous code never returned 'NotSet'!
+                        break;
+                    default:
+                        this.OnMessage(WixErrors.IllegalYesNoAlwaysValue(sourceLineNumbers, attribute.OwnerElement.Name, attribute.Name, value));
+                        break;
+                }
+            }
+
+            return YesNoAlwaysType.IllegalValue;
         }
 
         /// <summary>
