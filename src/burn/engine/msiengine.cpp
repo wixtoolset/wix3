@@ -1001,7 +1001,7 @@ extern "C" HRESULT MsiEngineAddCompatiblePackage(
 
     pCompatiblePackage->fPerMachine = pPackage->fPerMachine;
     pCompatiblePackage->fUninstallable = pPackage->fUninstallable;
-    pCompatiblePackage->fCache = pPackage->fCache;
+    pCompatiblePackage->cacheType = pPackage->cacheType;
 
     // Removing compatible packages is best effort.
     pCompatiblePackage->fVital = FALSE;
