@@ -887,6 +887,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 case "4.0":
                     project = ConstructMsbuild40Project(projectFile, this.Core, this.configuration, this.platform);
                     break;
+                case "12.0":
+                    project = ConstructMsbuild40Project(projectFile, this.Core, this.configuration, this.platform, "12.0.0.0");
+                    break;
                 default:
                     project = ConstructMsbuild35Project(projectFile, this.Core, this.configuration, this.platform);
                     break;
