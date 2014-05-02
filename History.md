@@ -1,3 +1,5 @@
+* mavxg: WIXFEAT:4373 - Add LogonAsBatchJob to WixUtilExtension.User
+
 * SeanHall: WIXFEAT:4329 - Change the type of the Cache attribute to the new YesNoAlwaysType, and make the engine always cache a package if Cache is set to always.
 
 * SeanHall: WIXBUG:3978 - Add InstallCondition to BootstrapperApplicationData.xml.
