@@ -1244,6 +1244,11 @@
           <xs:documentation>Indicates whether or not the user can logon as a serivce.  User creation can be skipped if all that is desired is to set this access right on the user.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="LogonAsBatchJob" type="YesNoType">
+        <xs:annotation>
+          <xs:documentation>Indicates whether or not the user can logon as a batch job.  User creation can be skipped if all that is desired is to set this access right on the user.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
       <xs:attribute name="UpdateIfExists" type="YesNoType">
         <xs:annotation>
           <xs:documentation>Indicates if the user account properties should be updated if the user already exists.</xs:documentation>
