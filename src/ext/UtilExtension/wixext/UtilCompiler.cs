@@ -37,6 +37,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         internal const int UserFailIfExists = 0x00000010;
         internal const int UserUpdateIfExists = 0x00000020;
         internal const int UserLogonAsService = 0x00000040;
+        internal const int UserLogonAsBatchJob = 0x00000080;
 
         internal const int UserDontRemoveOnUninstall = 0x00000100;
         internal const int UserDontCreateUser = 0x00000200;
@@ -3465,6 +3466,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib))
                             {
                                 attributes |= UserLogonAsService;
+                            }
+                            break;
+                        case "LogonAsBatchJob":
+                            if (null == componentId)
+                            {
+                                this.Core.OnMessage(UtilErrors.IllegalAttributeWithoutComponent(sourceLineNumbers, node.Name, attrib.Name));
+                            }
+                            if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib))
+                            {
+                                attributes |= UserLogonAsBatchJob;
                             }
                             break;
                         case "Name":
