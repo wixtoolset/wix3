@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4215 - Clarify all the elements that switch bitness based on -arch/InstallerPlatform.
+
 * johnbuuck: WIXBUG:4279 - Add support for MSBuild version 12.0.
 
 * mavxg: WIXFEAT:4373 - Add LogonAsBatchJob to WixUtilExtension.User

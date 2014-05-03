@@ -3977,7 +3977,12 @@
       </xs:attribute>
       <xs:attribute name="Win64" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Instructs the search to look in the 64-bit registry when the value is 'yes'. When the value is 'no', the search looks in the 32-bit registry. The default value depends on the value of the Package/@Platform attribute: if the @Platform attribute value is 'x86', the default @Win64 attribute value is 'no'; otherwise, the default value is 'yes'.</xs:documentation>
+          <xs:documentation>Instructs the search to look in the 64-bit registry when the value is 'yes'. When the value is 'no', the search looks in the 32-bit registry.
+          The default value is based on the platform set by the -arch switch to candle.exe
+          or the InstallerPlatform property in a .wixproj MSBuild project: 
+          For x86 and ARM, the default value is 'no'. 
+          For x64 and IA64, the default value is 'yes'.
+          </xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>
@@ -7581,10 +7586,13 @@
         <xs:annotation>
           <xs:documentation>
                         Set this attribute to 'yes' to mark this as a 64-bit component. This attribute facilitates
-                        the installation of packages that include both 32-bit and 64-bit components.  If this bit
-                        is not set, the component is registered as a 32-bit component.  If this is a 64-bit
-                        component replacing a 32-bit component, set this bit and assign a new GUID in the Guid attribute.
-                    </xs:documentation>
+                        the installation of packages that include both 32-bit and 64-bit components.  If this is a 64-bit
+                        component replacing a 32-bit component, set this attribute to 'yes' and assign a new GUID in the Guid attribute.
+          The default value is based on the platform set by the -arch switch to candle.exe
+          or the InstallerPlatform property in a .wixproj MSBuild project: 
+          For x86 and ARM, the default value is 'no'. 
+          For x64 and IA64, the default value is 'yes'.
+          </xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax">
@@ -9025,7 +9033,11 @@
               <xs:documentation>
                                 Specifies that a script custom action targets a 64-bit platform. Valid only when used with
                                 the Script, VBScriptCall, and JScriptCall attributes.
-                            </xs:documentation>
+          The default value is based on the platform set by the -arch switch to candle.exe
+          or the InstallerPlatform property in a .wixproj MSBuild project: 
+          For x86 and ARM, the default value is 'no'. 
+          For x64 and IA64, the default value is 'yes'.
+              </xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="TerminalServerAware" type="YesNoTypeUnion">
