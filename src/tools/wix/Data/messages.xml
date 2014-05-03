@@ -2938,6 +2938,12 @@
               <Parameter Type="System.String" Name="value" />
           </Instance>
       </Message>
+      <Message Id="TooDeeplyIncluded" Number="385">
+        <Instance>
+          Include files cannot be nested more deeply than {0} times. Make sure included files don't accidentally include themselves.
+          <Parameter Type="System.Int32" Name="depth" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">
