@@ -384,8 +384,8 @@ extern "C" HRESULT ApplyUnregister(
 
     // Calculate the correct resume mode. If a restart has been initiated, that trumps all other
     // modes. If the user chose to suspend the install then we'll use that as the resume mode.
-    // Barring those special cases, if it was determined that we should keep the registration
-    // do that otherwise the resume mode was initialized to none and registration will be removed.
+    // Barring those special cases, if it was determined that we should keep the registration then
+    // do that, otherwise the resume mode was initialized to none and registration will be removed.
     if (BOOTSTRAPPER_APPLY_RESTART_INITIATED == restart)
     {
         resumeMode = BURN_RESUME_MODE_REBOOT_PENDING;
@@ -477,7 +477,11 @@ extern "C" HRESULT ApplyCache(
                 else // skip the action.
                 {
                     // If we skipped it, we can assume it was successful so add the action's progress now.
-                    qwSuccessfulCachedProgress += GetCacheActionSuccessProgress(pCacheAction);
+                    // This assumption fails when extracting a container because we plan extracting the container for each package inside of it.
+                    if (BURN_CACHE_ACTION_TYPE_EXTRACT_CONTAINER != pCacheAction->type)
+                    {
+                        qwSuccessfulCachedProgress += GetCacheActionSuccessProgress(pCacheAction);
+                    }
                     continue;
                 }
             }
@@ -2167,7 +2171,7 @@ static int GenericExecuteMessageHandler(
     {
     case GENERIC_EXECUTE_MESSAGE_PROGRESS:
         {
-            DWORD dwOverallProgress = pContext->cExecutePackagesTotal ? ((pContext->cExecutedPackages * 100 + pMessage->progress.dwPercentage) * 100) / (pContext->cExecutePackagesTotal * 100) : 0;
+            DWORD dwOverallProgress = pContext->cExecutePackagesTotal ? (pContext->cExecutedPackages * 100 + pMessage->progress.dwPercentage) / (pContext->cExecutePackagesTotal) : 0;
             nResult = pContext->pUX->pUserExperience->OnExecuteProgress(pContext->pExecutingPackage->sczId, pMessage->progress.dwPercentage, dwOverallProgress);
         }
         break;
@@ -2197,7 +2201,7 @@ static int MsiExecuteMessageHandler(
     {
     case WIU_MSI_EXECUTE_MESSAGE_PROGRESS:
         {
-        DWORD dwOverallProgress = pContext->cExecutePackagesTotal ? ((pContext->cExecutedPackages * 100 + pMessage->progress.dwPercentage) * 100) / (pContext->cExecutePackagesTotal * 100) : 0;
+        DWORD dwOverallProgress = pContext->cExecutePackagesTotal ? (pContext->cExecutedPackages * 100 + pMessage->progress.dwPercentage) / (pContext->cExecutePackagesTotal) : 0;
         nResult = pContext->pUX->pUserExperience->OnExecuteProgress(pContext->pExecutingPackage->sczId, pMessage->progress.dwPercentage, dwOverallProgress);
         }
         break;
