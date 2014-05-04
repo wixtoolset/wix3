@@ -51,6 +51,7 @@ const LPCWSTR BURN_BUNDLE_INSTALLED = L"WixBundleInstalled";
 const LPCWSTR BURN_BUNDLE_ELEVATED = L"WixBundleElevated";
 const LPCWSTR BURN_BUNDLE_PROVIDER_KEY = L"WixBundleProviderKey";
 const LPCWSTR BURN_BUNDLE_MANUFACTURER = L"WixBundleManufacturer";
+const LPCWSTR BURN_BUNDLE_NUMBER_OF_APPLY_PHASES = L"WixBundleNumberOfApplyPhases";
 const LPCWSTR BURN_BUNDLE_TAG = L"WixBundleTag";
 const LPCWSTR BURN_BUNDLE_VERSION = L"WixBundleVersion";
 
