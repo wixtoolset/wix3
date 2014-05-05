@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4410 - Fix MediaTemplate/@CompressionLevel and ensure that when it's not specified, the default compression level takes effect.
+
 * BobArnson: WIXBUG:4394 - Enforce a maximum include nesting depth of 1024 to avoid stack overflows when files include themselves.
 
 * johnbuuck: WIXBUG:4279 - Add support for MSBuild version 12.0.

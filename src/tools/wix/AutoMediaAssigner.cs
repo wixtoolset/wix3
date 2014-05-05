@@ -20,6 +20,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using System.Globalization;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
+    using Microsoft.Tools.WindowsInstallerXml.Cab;
 
     /// <summary>
     /// AutoMediaAssigner assigns files to cabs depending on Media or MediaTemplate.
@@ -357,6 +358,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
             MediaRow currentMediaRow = (MediaRow)mediaTable.CreateRow(null);
             currentMediaRow.DiskId = cabIndex;
             currentMediaRow.Cabinet = String.Format(this.cabinetNameTemplate, cabIndex);
+
+            if (!String.IsNullOrEmpty(compressionLevel))
+            {
+                currentMediaRow.CompressionLevel = WixCreateCab.CompressionLevelFromString(compressionLevel);
+            }
+
             this.mediaRows.Add(currentMediaRow);
             this.cabinets.Add(currentMediaRow, new FileRowCollection());
 

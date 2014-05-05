@@ -8213,8 +8213,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string volumeLabel = null;
             int maximumUncompressedMediaSize = CompilerCore.IntegerNotSet;
             int maximumCabinetSizeForLargeFileSplitting = CompilerCore.IntegerNotSet;
-
-            Wix.CompressionLevelType compressionLevelType = Wix.CompressionLevelType.none;
+            Wix.CompressionLevelType compressionLevelType = Wix.CompressionLevelType.NotSet;
 
             YesNoType embedCab = patch ? YesNoType.Yes : YesNoType.NotSet;
 
@@ -8337,7 +8336,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         mediaTemplateRow.CompressionLevel = Cab.CompressionLevel.None.ToString();
                         break;
                     case Wix.CompressionLevelType.mszip:
-                    case Wix.CompressionLevelType.NotSet:
                         mediaTemplateRow.CompressionLevel = Cab.CompressionLevel.Mszip.ToString();
                         break;
                 }
