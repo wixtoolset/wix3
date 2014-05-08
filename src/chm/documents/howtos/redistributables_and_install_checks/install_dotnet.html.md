@@ -7,12 +7,12 @@ layout: documentation
 Applications written using the .NET Framework often need to bundle the .NET framework and install it with their application.  Wix 3.6 and later makes this easy with Burn.
 
 ## Step 1: Create a bundle for your application
-Follow the instructions in [Building Installation Package Bundles](~/bundle/index.html)
+Follow the instructions in [Building Installation Package Bundles](~/bundle/index.html).
 
-## Step 2: Add a reference to one of the .Net PackageGroups
+## Step 2: Add a reference to one of the .NET PackageGroups
 <ol>
-<li>Add a reference to WixNetFxExtension to your bundle project</li>
-<li>Add a PayloadGroupRef element to your bundle&apos;s chain that references the .Net package required by your application.  For a full list see [WixNetfxExtension](~/customactions/wixnetfxextension.html). Ensure that the PayloadGroupRef is placed before any other packages that require .Net.</li>
+<li>Add a reference to WixNetFxExtension to your bundle project.</li>
+<li>Add a PayloadGroupRef element to your bundle&apos;s chain that references the .NET package required by your application.  For a full list, see [WixNetfxExtension](~/customactions/wixnetfxextension.html). Ensure that the PayloadGroupRef is placed before any other packages that require .NET.</li>
 <pre>
 <font size="2" color="#0000FF">&lt;</font><font size="2" color="#A31515">Chain</font><font size="2" color="#0000FF">&gt;
     &lt;</font><font size="2" color="#A31515">PackageGroupRef</font><font size="2" color="#0000FF"> </font><font size="2" color="#FF0000">Id</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">NetFx45Web</font><font size="2">"</font><font size="2" color="#0000FF">/&gt;
@@ -22,9 +22,9 @@ Follow the instructions in [Building Installation Package Bundles](~/bundle/inde
 </ol>
 
 ## Customizing your bootstrapper application
-Any native bootstrapper application including the [WiX Standard Bootstrapper Application](~/bundle/wixstdba/index.html) will work well with bundles that include .Net.
+Any native bootstrapper application, including the [WiX Standard Bootstrapper Application](~/bundle/wixstdba/index.html), will work well with bundles that include .NET.
 
-Managed bootstrapper applications must take care when including .Net to ensure that they do not unnecessarily depend on the .Net framework version being installed.
+Managed bootstrapper applications must take care when including .NET to ensure that they do not unnecessarily depend on the .NET framework version being installed.
 
 <ol>
 <li>Reference the managed bootstrapper application host from your bundle.</li>
@@ -36,8 +36,8 @@ Managed bootstrapper applications must take care when including .Net to ensure t
   <font color="blue">&lt;</font><font color="maroon">Payload</font>
     <font color="red">SourceFile</font>="<font color="blue">$(var.MyMBA.TargetPath)</font>"/<font color="blue">&gt;</font>
 <font color="blue">&lt;</font>/<font color="maroon">BootstrapperApplicationRef</font><font color="blue">&gt;</font></pre>
-<li>Target your bootstrapper application to the version of .Net built into the operating system.  For Windows 7 this is .Net 3.5.</li>
-<li>Support using the newer versions of .Net if the older versions are not available.  The following example shows the content of the BootstrapperCore.config file.</li>
+<li>Target your bootstrapper application to the version of .NET built into the operating system.  For Windows 7, this is .NET 3.5.</li>
+<li>Support using the newer versions of .NET if the older versions are not available.  The following example shows the content of the BootstrapperCore.config file.</li>
 <pre>
 <font color="blue">&lt;</font><font color="maroon">configuration</font><font color="blue">&gt;</font>
   <font color="blue">&lt;</font><font color="maroon">configSections</font><font color="blue">&gt;</font>

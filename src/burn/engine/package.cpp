@@ -120,7 +120,27 @@ extern "C" HRESULT PackagesParseFromXml(
         ExitOnFailure(hr, "Failed to get @Id.");
 
         // @Cache
-        hr = XmlGetYesNoAttribute(pixnNode, L"Cache", &pPackage->fCache);
+        hr = XmlGetAttributeEx(pixnNode, L"Cache", &scz);
+        if (SUCCEEDED(hr))
+        {
+            if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"no", -1))
+            {
+                pPackage->cacheType = BURN_CACHE_TYPE_NO;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"yes", -1))
+            {
+                pPackage->cacheType = BURN_CACHE_TYPE_YES;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"always", -1))
+            {
+                pPackage->cacheType = BURN_CACHE_TYPE_ALWAYS;
+            }
+            else
+            {
+                hr = E_UNEXPECTED;
+                ExitOnFailure1(hr, "Invalid cache type: %ls", scz);
+            }
+        }
         ExitOnFailure(hr, "Failed to get @Cache.");
 
         // @CacheId
@@ -356,6 +376,15 @@ extern "C" void PackagesUninitialize(
         MemFree(pPackages->rgPackages);
     }
 
+    if (pPackages->rgCompatiblePackages)
+    {
+        for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+        {
+            PackageUninitialize(pPackages->rgCompatiblePackages + i);
+        }
+        MemFree(pPackages->rgCompatiblePackages);
+    }
+
     if (pPackages->rgPatchTargetCodes)
     {
         for (DWORD i = 0; i < pPackages->cPatchTargetCodes; ++i)
@@ -384,6 +413,17 @@ extern "C" HRESULT PackageFindById(
     for (DWORD i = 0; i < pPackages->cPackages; ++i)
     {
         pPackage = &pPackages->rgPackages[i];
+
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, pPackage->sczId, -1, wzId, -1))
+        {
+            *ppPackage = pPackage;
+            ExitFunction1(hr = S_OK);
+        }
+    }
+
+    for (DWORD i = 0; i < pPackages->cCompatiblePackages; ++i)
+    {
+        pPackage = &pPackages->rgCompatiblePackages[i];
 
         if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, pPackage->sczId, -1, wzId, -1))
         {
@@ -471,6 +511,22 @@ extern "C" HRESULT PackageGetProperty(
 
             ExitFunction1(hr = S_OK);
         }
+    }
+
+LExit:
+    return hr;
+}
+
+HRESULT PackageEnsureCompatiblePackagesArray(
+    __in BURN_PACKAGES* pPackages
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (!pPackages->rgCompatiblePackages)
+    {
+        pPackages->rgCompatiblePackages = (BURN_PACKAGE*)MemAlloc(sizeof(BURN_PACKAGE) * pPackages->cPackages, TRUE);
+        ExitOnNull(pPackages->rgCompatiblePackages, hr, E_OUTOFMEMORY, "Failed to allocate memory for compatible packages.");
     }
 
 LExit:

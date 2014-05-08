@@ -242,6 +242,17 @@ DECLARE_INTERFACE_IID_(IBootstrapperApplication, IUnknown, "53C31D56-49C0-426B-A
         __in_z LPCWSTR wzPackageId
         ) = 0;
 
+    // OnDetectCompatiblePackage - called when the engine detects that a package is not installed but a newer package using the same provider key is.
+    //
+    // Return:
+    //  IDCANCEL instructs the engine to stop detection.
+    //
+    //  IDNOACTION instructs the engine to continue.
+    STDMETHOD_(int, OnDetectCompatiblePackage)(
+        __in_z LPCWSTR wzPackageId,
+        __in_z LPCWSTR wzCompatiblePackageId
+        ) = 0;
+
     // OnDetectRelatedMsiPackage - called when the engine begins detects a related package.
     //
     // Return:
@@ -323,6 +334,17 @@ DECLARE_INTERFACE_IID_(IBootstrapperApplication, IUnknown, "53C31D56-49C0-426B-A
     //
     //  IDNOACTION instructs the engine to continue.
     STDMETHOD_(int, OnPlanPackageBegin)(
+        __in_z LPCWSTR wzPackageId,
+        __inout BOOTSTRAPPER_REQUEST_STATE* pRequestedState
+        ) = 0;
+
+    // OnPlanCompatiblePackage - called when the engine plans a newer, compatible package using the same provider key.
+    //
+    // Return:
+    //  IDCANCEL instructs the engine to stop planning.
+    //
+    //  IDNOACTION instructs the engine to continue.
+    STDMETHOD_(int, OnPlanCompatiblePackage)(
         __in_z LPCWSTR wzPackageId,
         __inout BOOTSTRAPPER_REQUEST_STATE* pRequestedState
         ) = 0;

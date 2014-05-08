@@ -252,6 +252,10 @@ namespace WixTest.BA
         protected override void OnProgress(ProgressEventArgs args)
         {
             this.Log("OnProgress() - progress: {0}%, overall progress: {1}%", args.ProgressPercentage, args.OverallPercentage);
+            if (this.Command.Display == Display.Embedded)
+            {
+                Engine.SendEmbeddedProgress(args.ProgressPercentage, args.OverallPercentage);
+            }
         }
 
         protected override void OnApplyComplete(ApplyCompleteEventArgs args)

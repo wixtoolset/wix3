@@ -5,7 +5,7 @@ after: bundle_built_in_variables
 ---
 # Define Searches Using Variables
 
-Searches are used to detect if the target machine meets certain conditions. The result of a search is stored into a variable. Variables are then used to construct install conditions through the use of operands. The search schemas are in the WixUtilExtension. Here is the list of supported searches:
+Searches are used to detect if the target machine meets certain conditions. The result of a search is stored into a variable. Variables are then used to construct install conditions. The search schemas are in the WixUtilExtension. Here is the list of supported searches:
 
 * [&lt;FileSearch&gt;](~/xsd/util/filesearch.html)
 * [&lt;RegistrySearch&gt;](~/xsd/util/registrysearch.html)
@@ -33,7 +33,7 @@ A search can be dependent on the result of another search. Keep in mind that all
       </Fragment>
     </Wix>
 
-After the searches are defined and stored into variables, the variables can then be used in install conditions. For example, I can use the result of the registry searches in the install condition of my package by adding both the searches and the install conditions. Here&apos;s an example of a complete fragment that contains a package definition with conditions and searches:
+After the searches are defined and stored into variables, the variables can then be used in install conditions. For example, you can use the result of the registry searches in the install condition of your package by adding both the searches and the install conditions. Here&apos;s an example of a complete fragment that contains a package definition with conditions and searches:
 
 <pre>   &lt;?xml version=&quot;1.0&quot;?&gt;
     &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot;
@@ -54,11 +54,11 @@ After the searches are defined and stored into variables, the variables can then
         &lt;PackageGroup Id=&quot;MyPackage&quot;&gt;
           &lt;ExePackage 
             SourceFile=&quot;[sources]\packages\shared\MyPackage.exe&quot;
-            DownloadURL=&quot;http://mywebdomain.com/?mypackage.exe
+            DownloadURL=&quot;http://mywebdomain.com/?mypackage.exe&quot;
             InstallCommand=&quot;/q /ACTION=Install&quot;
             RepairCommand=&quot;/q ACTION=Repair /hideconsole&quot;
-            UninstallCommand=&quot;/q ACTION=Uninstall /hideconsole &quot;
-            InstallCondition=&quot;x86 = 1 AND OSVersion &gt;= v5.0.5121.0 <strong class="highlight">AND patchLevel = 0&quot;</strong> /&gt;
+            UninstallCommand=&quot;/q ACTION=Uninstall /hideconsole&quot;
+            InstallCondition=&quot;x86 = 1 AND OSVersion &gt;= v5.0.5121.0 <strong class="highlight">AND patchLevel = 0</strong>&quot; /&gt;
         &lt;/PackageGroup&gt;
       &lt;/Fragment&gt;
     &lt;/Wix&gt;  </pre>

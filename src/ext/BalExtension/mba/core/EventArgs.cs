@@ -574,6 +574,43 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     }
 
     /// <summary>
+    /// Additional arguments used when a package was not found but a newer package using the same provider key was.
+    /// </summary>
+    [Serializable]
+    public class DetectCompatiblePackageEventArgs : ResultEventArgs
+    {
+        private string packageId;
+        private string compatiblePackageId;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="DetectCompatiblePackageEventArgs"/> class.
+        /// </summary>
+        /// <param name="packageId">The identity of the package that was not detected.</param>
+        /// <param name="compatiblePackageId">The identity of the compatible package that was detected.</param>
+        public DetectCompatiblePackageEventArgs(string packageId, string compatiblePackageId)
+        {
+            this.packageId = packageId;
+            this.compatiblePackageId = compatiblePackageId;
+        }
+
+        /// <summary>
+        /// Gets the identity of the package that was not detected.
+        /// </summary>
+        public string PackageId
+        {
+            get { return this.packageId; }
+        }
+
+        /// <summary>
+        /// Gets the identity of the compatible package that was detected.
+        /// </summary>
+        public string CompatiblePackageId
+        {
+            get { return this.compatiblePackageId; }
+        }
+    }
+
+    /// <summary>
     /// Additional arguments used when a related MSI package has been detected for a package.
     /// </summary>
     [Serializable]
@@ -886,6 +923,44 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         /// <summary>
         /// Gets or sets the requested state for the package.
+        /// </summary>
+        public RequestState State
+        {
+            get { return this.state; }
+            set { this.state = value; }
+        }
+    }
+
+    /// <summary>
+    /// Additional arguments used when the engine is about to plan a newer package using the same provider key.
+    /// </summary>
+    [Serializable]
+    public class PlanCompatiblePackageEventArgs : ResultEventArgs
+    {
+        private string packageId;
+        private RequestState state;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="PlanCompatiblePackageEventArgs"/> class.
+        /// </summary>
+        /// <param name="packageId">The identity of the package that was not detected.</param>
+        /// <param name="state">The requested state for the compatible package.</param>
+        public PlanCompatiblePackageEventArgs(string packageId, RequestState state)
+        {
+            this.packageId = packageId;
+            this.state = state;
+        }
+
+        /// <summary>
+        /// Gets the identity of the package that was not detected.
+        /// </summary>
+        public string PackageId
+        {
+            get { return this.packageId; }
+        }
+
+        /// <summary>
+        /// Gets or sets the state to use for the compatible package for planning.
         /// </summary>
         public RequestState State
         {

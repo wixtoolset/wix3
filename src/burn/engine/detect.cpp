@@ -139,7 +139,7 @@ extern "C" HRESULT DetectForwardCompatibleBundle(
 
                 if (IDOK == nResult)
                 {
-                    hr = PseudoBundleInitializePassthrough(&pRegistration->forwardCompatibleBundle, pCommand, NULL, pRegistration->sczActiveParent, &pRelatedBundle->package);
+                    hr = PseudoBundleInitializePassthrough(&pRegistration->forwardCompatibleBundle, pCommand, NULL, pRegistration->sczActiveParent, pRegistration->sczAncestors, &pRelatedBundle->package);
                     ExitOnFailure(hr, "Failed to initialize update bundle.");
 
                     pRegistration->fEnabledForwardCompatibleBundle = TRUE;

@@ -127,6 +127,10 @@ HRESULT ElevationExecutePackageDependencyAction(
     __in HANDLE hPipe,
     __in BURN_EXECUTE_ACTION* pExecuteAction
     );
+HRESULT ElevationLoadCompatiblePackageAction(
+    __in HANDLE hPipe,
+    __in BURN_EXECUTE_ACTION* pExecuteAction
+    );
 HRESULT ElevationLaunchElevatedChild(
     __in HANDLE hPipe,
     __in BURN_PACKAGE* pPackage,

@@ -20,6 +20,7 @@ static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
+static const LPCWSTR WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION = L"WixBundleFileVersion";
 
 enum WIXSTDBA_STATE
 {
@@ -259,7 +260,7 @@ public: // IBootstrapperApplication
     {
         BalInfoAddRelatedBundleAsPackage(&m_Bundle.packages, wzBundleId, relationType, fPerMachine);
 
-        // If we're not doing a pre-req install, remember when our bundle would cause a downgrade.
+        // If we're not doing a prerequisite install, remember when our bundle would cause a downgrade.
         if (!m_sczPrereqPackage && BOOTSTRAPPER_RELATED_OPERATION_DOWNGRADE == operation)
         {
             m_fDowngrading = TRUE;
@@ -275,7 +276,7 @@ public: // IBootstrapperApplication
         __in BOOTSTRAPPER_PACKAGE_STATE state
         )
     {
-        // If the prereq package is already installed, remember that.
+        // If the prerequisite package is already installed, remember that.
         if (m_sczPrereqPackage && BOOTSTRAPPER_PACKAGE_STATE_PRESENT == state &&
             CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
         {
@@ -290,6 +291,7 @@ public: // IBootstrapperApplication
     {
         if (SUCCEEDED(hrStatus) && m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running detect complete BA function");
             m_pBAFunction->OnDetectComplete();
         }
 
@@ -377,6 +379,7 @@ public: // IBootstrapperApplication
     {
         if (SUCCEEDED(hrStatus) && m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running plan complete BA function");
             m_pBAFunction->OnPlanComplete();
         }
 
@@ -913,7 +916,11 @@ private: // privates
         hr = BalConditionsParseFromXml(&m_Conditions, pixdManifest, m_pWixLoc);
         BalExitOnFailure(hr, "Failed to load conditions from XML.");
 
-        LoadBootstrapperBAFunctions();
+        hr = LoadBootstrapperBAFunctions();
+        BalExitOnFailure(hr, "Failed to load bootstrapper functions.");
+
+        GetBundleFileVersion();
+        // don't fail if we couldn't get the version info; best-effort only
 
         if (m_fPrereq)
         {
@@ -1254,6 +1261,31 @@ private: // privates
 
     LExit:
         ReleaseObject(pNode);
+        return hr;
+    }
+
+
+    //
+    // Get the file version of the bootstrapper and record in bootstrapper log file
+    //
+    HRESULT GetBundleFileVersion()
+    {
+        HRESULT hr = S_OK;
+        ULARGE_INTEGER uliVersion = { };
+        LPWSTR sczCurrentPath = NULL;
+
+        hr = PathForCurrentProcess(&sczCurrentPath, NULL);
+        BalExitOnFailure(hr, "Failed to get bundle path.");
+
+        hr = FileVersion(sczCurrentPath, &uliVersion.HighPart, &uliVersion.LowPart);
+        BalExitOnFailure(hr, "Failed to get bundle file version.");
+
+        hr = m_pEngine->SetVariableVersion(WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION, uliVersion.QuadPart);
+        BalExitOnFailure(hr, "Failed to set WixBundleFileVersion variable.");
+
+    LExit:
+        ReleaseStr(sczCurrentPath);
+
         return hr;
     }
 
@@ -1657,6 +1689,7 @@ private: // privates
 
         if (m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running detect BA function");
             hr = m_pBAFunction->OnDetect();
             BalExitOnFailure(hr, "Failed calling detect BA function.");
         }
@@ -1714,6 +1747,7 @@ private: // privates
 
         if (m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running plan BA function");
             m_pBAFunction->OnPlan();
         }
 
@@ -2183,7 +2217,7 @@ private: // privates
         hr = UriProtocol(sczLicenseUrl, &protocol);
         if (FAILED(hr) || URI_PROTOCOL_UNKNOWN == protocol)
         {
-            // Probe for localised license file
+            // Probe for localized license file
             hr = PathRelativeToModule(&sczLicensePath, sczLicenseUrl, m_hModule);
             if (SUCCEEDED(hr))
             {
@@ -2570,7 +2604,7 @@ private: // privates
 
 public:
     //
-    // Constructor - intitialize member variables.
+    // Constructor - initialize member variables.
     //
     CWixStandardBootstrapperApplication(
         __in HMODULE hModule,
@@ -2670,7 +2704,7 @@ public:
     ~CWixStandardBootstrapperApplication()
     {
         AssertSz(!::IsWindow(m_hWnd), "Window should have been destroyed before destructor.");
-        AssertSz(!m_pTheme, "Theme should have been released before destuctor.");
+        AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
         ReleaseObject(m_pTaskbarList);
         ReleaseDict(m_sdOverridableVariables);

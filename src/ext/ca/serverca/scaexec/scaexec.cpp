@@ -1614,6 +1614,67 @@ LExit:
 }
 
 
+static HRESULT ModifyUserLocalBatchRight(
+  __in_opt LPCWSTR wzDomain,
+  __in LPCWSTR wzName,
+  __in BOOL fAdd
+  )
+{
+    HRESULT hr = S_OK;
+    NTSTATUS nt = 0;
+
+    LPWSTR pwzUser = NULL;
+    PSID psid = NULL;
+    LSA_HANDLE hPolicy = NULL;
+    LSA_OBJECT_ATTRIBUTES ObjectAttributes = { 0 };
+    LSA_UNICODE_STRING lucPrivilege = { 0 };
+
+    if (wzDomain && *wzDomain)
+    {
+        hr = StrAllocFormatted(&pwzUser, L"%s\\%s", wzDomain, wzName);
+        ExitOnFailure(hr, "Failed to allocate user with domain string");
+    }
+    else
+    {
+        hr = StrAllocString(&pwzUser, wzName, 0);
+        ExitOnFailure(hr, "Failed to allocate string from user name.");
+    }
+
+    hr = AclGetAccountSid(NULL, pwzUser, &psid);
+    ExitOnFailure1(hr, "Failed to get SID for user: %ls", pwzUser);
+
+    nt = ::LsaOpenPolicy(NULL, &ObjectAttributes, POLICY_ALL_ACCESS, &hPolicy);
+    hr = HRESULT_FROM_WIN32(::LsaNtStatusToWinError(nt));
+    ExitOnFailure(hr, "Failed to open LSA policy store.");
+
+    lucPrivilege.Buffer = L"SeBatchLogonRight";
+    lucPrivilege.Length = static_cast<USHORT>(lstrlenW(lucPrivilege.Buffer) * sizeof(WCHAR));
+    lucPrivilege.MaximumLength = (lucPrivilege.Length + 1) * sizeof(WCHAR);
+
+    if (fAdd)
+    {
+        nt = ::LsaAddAccountRights(hPolicy, psid, &lucPrivilege, 1);
+        hr = HRESULT_FROM_WIN32(::LsaNtStatusToWinError(nt));
+        ExitOnFailure1(hr, "Failed to add 'logon as batch job' bit to user: %ls", pwzUser);
+    }
+    else
+    {
+        nt = ::LsaRemoveAccountRights(hPolicy, psid, FALSE, &lucPrivilege, 1);
+        hr = HRESULT_FROM_WIN32(::LsaNtStatusToWinError(nt));
+        ExitOnFailure1(hr, "Failed to remove 'logon as batch job' bit from user: %ls", pwzUser);
+    }
+
+  LExit:
+    if (hPolicy)
+    {
+        ::LsaClose(hPolicy);
+    }
+
+    ReleaseSid(psid);
+    ReleaseStr(pwzUser);
+    return hr;
+}
+
 static void SetUserPasswordAndAttributes(
     __in USER_INFO_1* puserInfo,
     __in LPWSTR wzPassword,
@@ -1788,6 +1849,12 @@ extern "C" UINT __stdcall CreateUser(
         MessageExitOnFailure1(hr, msierrUSRFailedGrantLogonAsService, "Failed to grant logon as service rights to user: %ls", pwzName);
     }
 
+    if (SCAU_ALLOW_LOGON_AS_BATCH & iAttributes)
+    {
+        hr = ModifyUserLocalBatchRight(pwzDomain, pwzName, TRUE);
+        MessageExitOnFailure1(hr, msierrUSRFailedGrantLogonAsService, "Failed to grant logon as batch job rights to user: %ls", pwzName);
+    }
+
     //
     // Add the users to groups
     //
@@ -1896,6 +1963,16 @@ extern "C" UINT __stdcall RemoveUser(
         if (FAILED(hr))
         {
             WcaLogError(hr, "Failed to remove logon as service right from user, continuing...");
+            hr = S_OK;
+        }
+    }
+
+    if (SCAU_ALLOW_LOGON_AS_BATCH & iAttributes)
+    {
+        hr = ModifyUserLocalBatchRight(pwzDomain, pwzName, FALSE);
+        if (FAILED(hr))
+        {
+            WcaLogError(hr, "Failed to remove logon as batch job right from user, continuing...");
             hr = S_OK;
         }
     }

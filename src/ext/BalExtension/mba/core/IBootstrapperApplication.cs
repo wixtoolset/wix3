@@ -99,6 +99,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId
             );
 
+        [return: MarshalAs(UnmanagedType.I4)]
+        Result OnDetectCompatiblePackage(
+            [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzCompatiblePackageId
+            );
+
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnDetectRelatedMsiPackage(
@@ -151,6 +157,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnPlanPackageBegin(
+            [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
+            [MarshalAs(UnmanagedType.U4)] ref RequestState pRequestedState
+            );
+
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.I4)]
+        Result OnPlanCompatiblePackage(
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
             [MarshalAs(UnmanagedType.U4)] ref RequestState pRequestedState
             );
