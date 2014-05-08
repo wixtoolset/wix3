@@ -29,6 +29,7 @@ static const LPCWSTR WIXSTDBA_VARIABLE_LANGUAGE_ID = L"WixStdBALanguageId";
 enum WIXSTDBA_STATE
 {
     WIXSTDBA_STATE_OPTIONS,
+    WIXSTDBA_STATE_FILESINUSE,
     WIXSTDBA_STATE_INITIALIZING,
     WIXSTDBA_STATE_INITIALIZED,
     WIXSTDBA_STATE_HELP,
@@ -52,6 +53,8 @@ enum WM_WIXSTDBA
     WM_WIXSTDBA_PLAN_PACKAGES,
     WM_WIXSTDBA_APPLY_PACKAGES,
     WM_WIXSTDBA_CHANGE_STATE,
+    WM_WIXSTDBA_SHOW_STATE_MODAL,
+    WM_WIXSTDBA_CLOSE_STATE_MODAL,
     WM_WIXSTDBA_SHOW_FAILURE,
 };
 
@@ -62,6 +65,7 @@ enum WIXSTDBA_PAGE
     WIXSTDBA_PAGE_HELP,
     WIXSTDBA_PAGE_INSTALL,
     WIXSTDBA_PAGE_OPTIONS,
+    WIXSTDBA_PAGE_FILESINUSE,
     WIXSTDBA_PAGE_MODIFY,
     WIXSTDBA_PAGE_PROGRESS,
     WIXSTDBA_PAGE_PROGRESS_PASSIVE,
@@ -76,6 +80,7 @@ static LPCWSTR vrgwzPageNames[] = {
     L"Help",
     L"Install",
     L"Options",
+    L"FilesInUse",
     L"Modify",
     L"Progress",
     L"ProgressPassive",
@@ -106,6 +111,13 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_BROWSE_BUTTON,
     WIXSTDBA_CONTROL_OK_BUTTON,
     WIXSTDBA_CONTROL_CANCEL_BUTTON,
+
+    // FilesInUse page
+    WIXSTDBA_CONTROL_FILESINUSE_TEXT,
+    WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON,
+    WIXSTDBA_CONTROL_FILESINUSE_DONTCLOSE_RADIOBUTTON,
+    WIXSTDBA_CONTROL_FILESINUSE_OK_BUTTON,
+    WIXSTDBA_CONTROL_FILESINUSE_CANCEL_BUTTON,
 
     // Modify page
     WIXSTDBA_CONTROL_REPAIR_BUTTON,
@@ -171,6 +183,12 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_BROWSE_BUTTON, L"BrowseButton" },
     { WIXSTDBA_CONTROL_OK_BUTTON, L"OptionsOkButton" },
     { WIXSTDBA_CONTROL_CANCEL_BUTTON, L"OptionsCancelButton" },
+
+    { WIXSTDBA_CONTROL_FILESINUSE_TEXT, L"FilesInUseText" },
+    { WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON, L"FilesInUseCloseRadioButton" },
+    { WIXSTDBA_CONTROL_FILESINUSE_DONTCLOSE_RADIOBUTTON, L"FilesInUseDontCloseRadioButton" },
+    { WIXSTDBA_CONTROL_FILESINUSE_OK_BUTTON, L"FilesInUseOkButton" },
+    { WIXSTDBA_CONTROL_FILESINUSE_CANCEL_BUTTON, L"FilesInUseCancelButton" },
 
     { WIXSTDBA_CONTROL_REPAIR_BUTTON, L"RepairButton" },
     { WIXSTDBA_CONTROL_UNINSTALL_BUTTON, L"UninstallButton" },
@@ -934,6 +952,26 @@ public: // IBootstrapperApplication
         }
     }
 
+    virtual STDMETHODIMP_(int) OnExecuteFilesInUse(
+        __in_z LPCWSTR wzPackageId,
+        __in DWORD cFiles,
+        __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
+        )
+    {
+        if (!m_fPrereq && wzPackageId && *wzPackageId)
+        {
+            //If this is an MSI package, display the files in use page.
+            BAL_INFO_PACKAGE* pPackage = NULL;
+            BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
+
+            if (pPackage && BAL_INFO_PACKAGE_TYPE_MSI == pPackage->type)
+            {
+                return ShowFilesInUseModal(cFiles, rgwzFiles);
+            }
+        }
+
+        return __super::OnExecuteFilesInUse(wzPackageId, cFiles, rgwzFiles);
+    }
 
 private: // privates
     //
@@ -1749,6 +1787,9 @@ private: // privates
             pBA->OnChangeState(static_cast<WIXSTDBA_STATE>(lParam));
             return 0;
 
+        case WM_WIXSTDBA_SHOW_STATE_MODAL:
+            return pBA->OnShowStateModal(static_cast<WIXSTDBA_STATE>(lParam));
+
         case WM_WIXSTDBA_SHOW_FAILURE:
             pBA->OnShowFailure();
             return 0;
@@ -1797,12 +1838,18 @@ private: // privates
                 pBA->OnClickRestartButton();
                 return 0;
 
+            //Files in use
+            case WIXSTDBA_CONTROL_FILESINUSE_OK_BUTTON:
+                pBA->OnClickFilesInUseOkButton();
+                return 0;
+
             case WIXSTDBA_CONTROL_HELP_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_WELCOME_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_MODIFY_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON: __fallthrough;
+            case WIXSTDBA_CONTROL_FILESINUSE_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_CLOSE_BUTTON:
                 pBA->OnClickCloseButton();
                 return 0;
@@ -1971,6 +2018,70 @@ private: // privates
         m_pEngine->CloseSplashScreen();
 
         return;
+    }
+
+
+    //
+    // OnShowStateModal - display the given state modal.
+    //
+    int OnShowStateModal(WIXSTDBA_STATE state)
+    {
+        MSG msg = {};
+        int nResult = IDERROR;
+        BOOL fDone = FALSE;
+        TBPFLAG flag = TBPF_PAUSED;
+
+        //The state before showing our page.
+        WIXSTDBA_STATE stateBeforeModal = m_state;
+
+        //Set taskbar to paused
+        SetTaskbarButtonState(flag);
+        SetState(state, S_OK);
+
+        ++m_dwModalCnt;
+
+        //Inner message loop
+        while (!fDone && !IsCanceled())
+        {
+            ::WaitMessage();
+
+            while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+            {
+                if (WM_WIXSTDBA_CLOSE_STATE_MODAL == msg.message)
+                {
+                    fDone = TRUE;
+                    nResult = static_cast<int>(msg.lParam);
+
+                    break;
+                }
+                else if (WM_QUIT == msg.message)
+                {
+                    //Exit during modal page
+                    fDone = TRUE;
+
+                    //Forward quit message to main message loop
+                    ::PostMessage(NULL, WM_QUIT, 0, 0);
+
+                    break;
+                }
+                else if (!ThemeHandleKeyboardMessage(m_pTheme, msg.hwnd, &msg))
+                {
+                    ::TranslateMessage(&msg);
+                    ::DispatchMessageW(&msg);
+                }
+            }
+        }
+
+        --m_dwModalCnt;
+
+        //Restore taskbar state
+        flag = TBPF_NORMAL;
+        SetTaskbarButtonState(flag);
+
+        //Restore previous state
+        SetState(stateBeforeModal, S_OK);
+
+        return IsCanceled() ? IDCANCEL : nResult;
     }
 
 
@@ -2303,7 +2414,7 @@ private: // privates
                     {
                         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, TRUE);
                     }
-                    
+
                     if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER))
                     {
                         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
@@ -2411,6 +2522,12 @@ private: // privates
                     }
                 }
 
+                //Exit "modal" pages if any is active
+                if (m_rgdwPageIds[WIXSTDBA_PAGE_FILESINUSE] == dwOldPageId)
+                {
+                    ExitModalState(IDERROR);
+                }
+
                 ThemeShowPage(m_pTheme, dwOldPageId, SW_HIDE);
                 ThemeShowPage(m_pTheme, dwNewPageId, SW_SHOW);
 
@@ -2447,7 +2564,7 @@ private: // privates
         }
 
         // If we're doing progress then we never close, we just cancel to let rollback occur.
-        if (WIXSTDBA_STATE_APPLYING <= m_state && WIXSTDBA_STATE_APPLIED > m_state)
+        if ((WIXSTDBA_STATE_APPLYING <= m_state && WIXSTDBA_STATE_APPLIED > m_state) || WIXSTDBA_STATE_FILESINUSE == m_state )
         {
             // If we canceled disable cancel button since clicking it again is silly.
             if (fClose)
@@ -2756,6 +2873,25 @@ private: // privates
 
 
     //
+    // OnClickFilesInUseOkButton
+    //
+    void OnClickFilesInUseOkButton()
+    {
+        BOOL fCloseApps = ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON);
+
+        if (fCloseApps)
+        {
+            //Close apps
+            ExitModalState(IDOK);
+        }
+        else
+        {
+            //Do not close apps, a restart might be required
+            ExitModalState(IDIGNORE);
+        }
+    }
+
+    //
     // SetState
     //
     void SetState(
@@ -2773,7 +2909,7 @@ private: // privates
             state = WIXSTDBA_STATE_FAILED;
         }
 
-        if (WIXSTDBA_STATE_OPTIONS == state || m_state < state)
+        if (WIXSTDBA_STATE_OPTIONS == state || WIXSTDBA_STATE_FILESINUSE == state || m_state < state)
         {
             ::PostMessageW(m_hWnd, WM_WIXSTDBA_CHANGE_STATE, 0, state);
         }
@@ -2854,6 +2990,10 @@ private: // privates
 
             case WIXSTDBA_STATE_OPTIONS:
                 *pdwPageId = m_rgdwPageIds[WIXSTDBA_PAGE_OPTIONS];
+                break;
+
+            case WIXSTDBA_STATE_FILESINUSE:
+                *pdwPageId = m_rgdwPageIds[WIXSTDBA_PAGE_FILESINUSE];
                 break;
 
             case WIXSTDBA_STATE_PLANNING: __fallthrough;
@@ -3033,6 +3173,93 @@ private: // privates
         }
     }
 
+    int ShowFilesInUseModal(DWORD cFiles, LPCWSTR* rgwzFiles)
+    {
+        HRESULT hRes = S_OK;
+        LPWSTR sczFilesInUse = NULL;
+        DWORD_PTR cchLen = 0;
+        int nResult = IDERROR;
+
+        //If the user has choosen to ignore on a previously displayed "files in use" page, 
+        //we will return the same result for other cases. No need to display the page again.
+        if (IDIGNORE == m_nLastFilesInUseResult)
+        {
+            nResult = m_nLastFilesInUseResult;
+        }
+        else if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display) //Only show files in use when using full display mode
+        {
+            //Show applications using the files. This is currently using a static label, a listbox is probably better, 
+            //because with many applications we can require scrollbars.
+            if (cFiles > 0)
+            {
+                //Files in use consists of the process id (or exe filename) and the windows titles. See MSDN for details
+                for (DWORD i = 1; i < cFiles; i += 2)
+                {
+                    hRes = ::StringCchLengthW(rgwzFiles[i], STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchLen));
+                    BalExitOnFailure(hRes, "Failed to calculate length of string");
+
+                    if (cchLen > 0)
+                    {
+                        hRes = StrAllocConcat(&sczFilesInUse, rgwzFiles[i], 0);
+                        BalExitOnFailure(hRes, "Failed to concat files in use");
+
+                        hRes = StrAllocConcat(&sczFilesInUse, L"\r\n", 2);
+                        BalExitOnFailure(hRes, "Failed to concat files in use");
+                    }
+                }
+            }
+
+            //Set text with applications using files
+            if (sczFilesInUse)
+            {
+                ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_TEXT, sczFilesInUse);
+            }
+            else
+            {
+                ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_TEXT, L"");
+            }
+
+            //Select default option (restart applications)
+            if (IDNOACTION == m_nLastFilesInUseResult)
+            {
+                ThemeSendControlMessage(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON, BM_SETCHECK, BST_CHECKED, 0);
+            }
+
+            nResult = ShowModalState(WIXSTDBA_STATE_FILESINUSE);
+        }
+        else
+        {
+            //Silent UI level installations always shut down applications and services, and on Windows Vista, always use Restart Manager.
+            nResult = IDOK;
+        }
+
+    LExit:
+
+        ReleaseStr(sczFilesInUse);
+
+        //Remember the answer from the user
+        m_nLastFilesInUseResult = FAILED(hRes) ? IDERROR : nResult;
+
+        return m_nLastFilesInUseResult;
+    }
+
+    int ShowModalState(WIXSTDBA_STATE state)
+    {
+        int nResult = IDERROR;
+
+        //Show state and wait for result
+        nResult = ::SendMessageW(m_hWnd, WM_WIXSTDBA_SHOW_STATE_MODAL, 0, state);
+
+        return nResult;
+    }
+
+    void ExitModalState(int result)
+    {
+        if (m_dwModalCnt > 0)
+        {
+            ::PostMessage(m_hWnd, WM_WIXSTDBA_CLOSE_STATE_MODAL, 0, result);
+        }
+    }
 
 public:
     //
@@ -3126,6 +3353,9 @@ public:
         m_sczPrereqPackage = NULL;
         m_fPrereqInstalled = FALSE;
         m_fPrereqAlreadyInstalled = FALSE;
+
+        m_dwModalCnt = 0;
+        m_nLastFilesInUseResult = IDNOACTION;
 
         pEngine->AddRef();
         m_pEngine = pEngine;
@@ -3224,6 +3454,9 @@ private:
     BOOL m_fTaskbarButtonOK;
     BOOL m_fShowingInternalUiThisPackage;
     BOOL m_fTriedToLaunchElevated;
+
+    DWORD m_dwModalCnt;
+    int m_nLastFilesInUseResult;
 
     HMODULE m_hBAFModule;
     IBootstrapperBAFunction* m_pBAFunction;
