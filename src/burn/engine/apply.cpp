@@ -477,11 +477,7 @@ extern "C" HRESULT ApplyCache(
                 else // skip the action.
                 {
                     // If we skipped it, we can assume it was successful so add the action's progress now.
-                    // This assumption fails when extracting a container because we plan extracting the container for each package inside of it.
-                    if (BURN_CACHE_ACTION_TYPE_EXTRACT_CONTAINER != pCacheAction->type)
-                    {
-                        qwSuccessfulCachedProgress += GetCacheActionSuccessProgress(pCacheAction);
-                    }
+                    qwSuccessfulCachedProgress += GetCacheActionSuccessProgress(pCacheAction);
                     continue;
                 }
             }
@@ -1515,6 +1511,10 @@ static DWORD CALLBACK CacheProgressRoutine(
     LPCWSTR wzPackageOrContainerId = pProgress->pContainer ? pProgress->pContainer->sczId : pProgress->pPackage ? pProgress->pPackage->sczId : NULL;
     LPCWSTR wzPayloadId = pProgress->pPayload ? pProgress->pPayload->sczKey : NULL;
     DWORD64 qwCacheProgress = pProgress->qwCacheProgress + TotalBytesTransferred.QuadPart;
+    if (qwCacheProgress > pProgress->qwTotalCacheSize)
+    {
+        qwCacheProgress = pProgress->qwTotalCacheSize;
+    }
     DWORD dwOverallPercentage = pProgress->qwTotalCacheSize ? static_cast<DWORD>(qwCacheProgress * 100 / pProgress->qwTotalCacheSize) : 0;
 
     int nResult = pProgress->pUX->pUserExperience->OnCacheAcquireProgress(wzPackageOrContainerId, wzPayloadId, TotalBytesTransferred.QuadPart, TotalFileSize.QuadPart, dwOverallPercentage);
