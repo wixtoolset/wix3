@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4161 - Add the MBAPrereqSupportPackage attribute to all package types so that more than one package can be installed by the Prereq BA.
+
 * SeanHall: WIXBUG:3835 - Fix progress bug when extracting multiple packages from a container.
 
 * BobArnson: WIXBUG:4410 - Fix MediaTemplate/@CompressionLevel and ensure that when it's not specified, the default compression level takes effect.

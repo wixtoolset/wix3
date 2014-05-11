@@ -319,7 +319,7 @@ public: // IBootstrapperApplication
         __inout_z BOOTSTRAPPER_REQUEST_STATE* pRequestedState
         )
     {
-        // If we're only installing prereq, do not touch related bundles.
+        // If we're only installing prerequisites, do not touch related bundles.
         if (m_sczPrereqPackage)
         {
             *pRequestedState = BOOTSTRAPPER_REQUEST_STATE_NONE;
@@ -334,20 +334,50 @@ public: // IBootstrapperApplication
         __inout BOOTSTRAPPER_REQUEST_STATE *pRequestState
         )
     {
-        // If we're planning to install a pre-req, install it. The pre-req needs to be installed
+        HRESULT hr = S_OK;
+        BAL_INFO_PACKAGE* pPackage = NULL;
+
+        // If we're planning to install a prerequisite, install it. The prerequisite needs to be installed
         // in all cases (even uninstall!) so the BA can load next.
         if (m_sczPrereqPackage)
         {
+            BOOL fInstall = FALSE;
             if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
+            {
+                fInstall = TRUE;
+            }
+            else
+            {
+                // Skip everything else, unless it's a prerequisite support package and its InstallCondition indicates it should be installed.
+                hr = GetPrereqSupportPackage(wzPackageId, &pPackage);
+                if (SUCCEEDED(hr))
+                {
+                    if (pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
+                    {
+                        hr = m_pEngine->EvaluateCondition(pPackage->sczInstallCondition, &fInstall);
+                        if (FAILED(hr))
+                        {
+                            fInstall = FALSE;
+                        }
+                    }
+                    else
+                    {
+                        // If the InstallCondition is missing, then it should always be installed.
+                        fInstall = TRUE;
+                    }
+                }
+            }
+
+            if (fInstall)
             {
                 *pRequestState = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
             }
-            else // skip everything else.
+            else
             {
                 *pRequestState = BOOTSTRAPPER_REQUEST_STATE_NONE;
             }
         }
-        else if (m_sczAfterForcedRestartPackage) // after force restart skip packages until after the package that caused the restart.
+        else if (m_sczAfterForcedRestartPackage) // after force restart, skip packages until after the package that caused the restart.
         {
             // After restart we need to finish the dependency registration for our package so allow the package
             // to go present.
@@ -686,11 +716,24 @@ public: // IBootstrapperApplication
 
         int nResult = __super::OnExecutePackageComplete(wzPackageId, hrExitCode, restart, nRecommendation);
 
+        BOOL fPrereqPackage = FALSE;
+
         if (m_sczPrereqPackage && CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
         {
             m_fPrereqInstalled = SUCCEEDED(hrExitCode);
 
-            // If the pre-req required a restart (any restart) then do an immediate
+            fPrereqPackage = TRUE;
+        }
+        else
+        {
+            BAL_INFO_PACKAGE* pPackage = NULL;
+            HRESULT hr = GetPrereqSupportPackage(wzPackageId, &pPackage);
+            fPrereqPackage = SUCCEEDED(hr);
+        }
+
+        if (fPrereqPackage)
+        {
+            // If the prerequisite required a restart (any restart) then do an immediate
             // restart to ensure that the bundle will get launched again post reboot.
             if (BOOTSTRAPPER_APPLY_RESTART_NONE != restart)
             {
@@ -884,7 +927,7 @@ private: // privates
 
 
     //
-    // InitializeData - initializes all the package and prereq information.
+    // InitializeData - initializes all the package and prerequisite information.
     //
     HRESULT InitializeData()
     {
@@ -1144,6 +1187,9 @@ private: // privates
     {
         HRESULT hr = S_OK;
         IXMLDOMNode* pNode = NULL;
+        IXMLDOMNodeList* pNodes = NULL;
+        DWORD cNodes = 0;
+        LPWSTR scz = NULL;
 
         hr = XmlSelectSingleNode(pixdManifest, L"/BootstrapperApplicationData/WixMbaPrereqInformation", &pNode);
         if (S_FALSE == hr)
@@ -1169,8 +1215,43 @@ private: // privates
         }
         BalExitOnFailure(hr, "Failed to get prerequisite license file.");
 
+        // get the list of prerequisite support packages
+        hr = XmlSelectNodes(pixdManifest, L"/BootstrapperApplicationData/WixMBAPrereqSupportPackage", &pNodes);
+        if (S_FALSE == hr)
+        {
+            ExitFunction1(hr = S_OK);
+        }
+        ExitOnFailure(hr, "Failed to select prerequisite support package nodes.");
+
+        hr = pNodes->get_length((long*)&cNodes);
+        ExitOnFailure(hr, "Failed to get prerequisite support package node count.");
+
+        if (cNodes)
+        {
+            hr = DictCreateStringList(&m_sdPrereqSupportPackages, 32, DICT_FLAG_NONE);
+            ExitOnFailure(hr, "Failed to create the prerequisite support package string dictionary.");
+
+            for (DWORD i = 0; i < cNodes; ++i)
+            {
+                hr = XmlNextElement(pNodes, &pNode, NULL);
+                ExitOnFailure(hr, "Failed to get next node.");
+
+                // @PackageId
+                hr = XmlGetAttributeEx(pNode, L"PackageId", &scz);
+                ExitOnFailure(hr, "Failed to get @PackageId.");
+
+                hr = DictAddKey(m_sdPrereqSupportPackages, scz);
+                ExitOnFailure1(hr, "Failed to add \"%ls\" to the prerequisite support package string dictionary.", scz);
+
+                // prepare next iteration
+                ReleaseNullObject(pNode);
+            }
+        }
+
     LExit:
         ReleaseObject(pNode);
+        ReleaseObject(pNodes);
+        ReleaseStr(scz);
         return hr;
     }
 
@@ -1261,6 +1342,35 @@ private: // privates
 
     LExit:
         ReleaseObject(pNode);
+        return hr;
+    }
+
+    HRESULT GetPrereqSupportPackage(
+        __in_z LPCWSTR wzPackageId,
+        __out BAL_INFO_PACKAGE** ppPackage
+        )
+    {
+        HRESULT hr = E_NOTFOUND;
+        BAL_INFO_PACKAGE* pPackage = NULL;
+
+        Assert(wzPackageId && *wzPackageId);
+        Assert(ppPackage);
+
+        if (m_sdPrereqSupportPackages)
+        {
+            hr = DictKeyExists(m_sdPrereqSupportPackages, wzPackageId);
+            if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure(hr, "Failed to check the dictionary of prerequisite support packages.");
+                hr = BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
+            }
+        }
+
+        if (pPackage)
+        {
+            *ppPackage = pPackage;
+        }
+    LExit:
         return hr;
     }
 
@@ -2680,6 +2790,7 @@ public:
         m_fShowVersion = FALSE;
 
         m_sdOverridableVariables = NULL;
+        m_sdPrereqSupportPackages = NULL;
         m_pTaskbarList = NULL;
         m_uTaskbarButtonCreatedMessage = UINT_MAX;
         m_fTaskbarButtonOK = FALSE;
@@ -2708,6 +2819,7 @@ public:
 
         ReleaseObject(m_pTaskbarList);
         ReleaseDict(m_sdOverridableVariables);
+        ReleaseDict(m_sdPrereqSupportPackages);
         ReleaseStr(m_sczFailedMessage);
         ReleaseStr(m_sczConfirmCloseMessage);
         BalConditionsUninitialize(&m_Conditions);
@@ -2770,6 +2882,7 @@ private:
     BOOL m_fShowVersion;
 
     STRINGDICT_HANDLE m_sdOverridableVariables;
+    STRINGDICT_HANDLE m_sdPrereqSupportPackages;
 
     BOOL m_fPrereq;
     LPWSTR m_sczPrereqPackage;
