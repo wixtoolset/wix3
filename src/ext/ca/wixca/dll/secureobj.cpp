@@ -701,7 +701,7 @@ extern "C" UINT __stdcall ExecSecureObjects(
         //
         ea.grfAccessMode = SET_ACCESS;
 
-        if (0 == lstrcmpW(L"CreateFolder", pwzTable))
+        if (0 == lstrcmpW(L"CreateFolder", pwzTable) || 0 == lstrcmpW(L"Registry", pwzTable))
         {
             ea.grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
         }
