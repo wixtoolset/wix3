@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4215 - Clarify all the elements that switch bitness based on -arch/InstallerPlatform.
+
 * SeanHall: WIXBUG:3835 - Fix progress bug when extracting multiple packages from a container.
 
 * BobArnson: WIXBUG:4410 - Fix MediaTemplate/@CompressionLevel and ensure that when it's not specified, the default compression level takes effect.
