@@ -281,6 +281,7 @@ static void UninitializeEngineState(
     ::DeleteCriticalSection(&pEngineState->userExperience.csEngineActive);
     UserExperienceUninitialize(&pEngineState->userExperience);
 
+	ApprovedExesUninitialize(&pEngineState->approvedExes);
     UpdateUninitialize(&pEngineState->update);
     VariablesUninitialize(&pEngineState->variables);
     SearchesUninitialize(&pEngineState->searches);
@@ -465,7 +466,7 @@ static HRESULT RunElevated(
     LogRedirect(RedirectLoggingOverPipe, pEngineState);
 
     // Pump messages from parent process.
-    hr = ElevationChildPumpMessages(pEngineState->dwElevatedLoggingTlsId, pEngineState->companionConnection.hPipe, pEngineState->companionConnection.hCachePipe, &pEngineState->containers, &pEngineState->packages, &pEngineState->payloads, &pEngineState->variables, &pEngineState->registration, &pEngineState->userExperience, &hLock, &fDisabledAutomaticUpdates, &pEngineState->userExperience.dwExitCode, &pEngineState->fRestart);
+    hr = ElevationChildPumpMessages(pEngineState->dwElevatedLoggingTlsId, pEngineState->companionConnection.hPipe, pEngineState->companionConnection.hCachePipe, &pEngineState->approvedExes, &pEngineState->containers, &pEngineState->packages, &pEngineState->payloads, &pEngineState->variables, &pEngineState->registration, &pEngineState->userExperience, &hLock, &fDisabledAutomaticUpdates, &pEngineState->userExperience.dwExitCode, &pEngineState->fRestart);
     LogRedirect(NULL, NULL); // reset logging so the next failure gets written to "log buffer" for the failure log.
     ExitOnFailure(hr, "Failed to pump messages from parent process.");
 
@@ -648,6 +649,10 @@ static HRESULT ProcessMessage(
 
     case WM_BURN_APPLY:
         hr = CoreApply(pEngineState, reinterpret_cast<HWND>(pmsg->lParam));
+        break;
+
+    case WM_BURN_LAUNCH_APPROVED_EXE:
+        hr = CoreLaunchApprovedExe(pEngineState, reinterpret_cast<BURN_LAUNCH_APPROVED_EXE*>(pmsg->lParam));
         break;
 
     case WM_BURN_QUIT:

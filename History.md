@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
+
 * SeanHall: WIXBUG:3835 - Fix progress bug when extracting multiple packages from a container.
 
 * BobArnson: WIXBUG:4410 - Fix MediaTemplate/@CompressionLevel and ensure that when it's not specified, the default compression level takes effect.

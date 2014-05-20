@@ -62,7 +62,36 @@
         <xs:complexType>
             <xs:attribute name="LaunchTarget" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>If set, the success page will show a Launch button the user can use to launch the application being installed. The string value can be formatted using Burn variables enclosed in brackets, to refer to installation directories and so forth.</xs:documentation>
+                    <xs:documentation>
+                        If set, the success page will show a Launch button the user can use to launch the application being installed.
+                        The string value can be formatted using Burn variables enclosed in brackets, 
+                        to refer to installation directories and so forth.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="LaunchTargetElevatedId" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Id of the target ApprovedExeForElevation element.
+                        If set with LaunchTarget, WixStdBA will launch the application through the Engine's LaunchApprovedExe method instead of through ShellExecute.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="LaunchArguments" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        If set, WixStdBA will supply these arguments when launching the application specified by the LaunchTarget attribute.
+                        The string value can be formatted using Burn variables enclosed in brackets,
+                        to refer to installation directories and so forth.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="LaunchHidden" type="YesNoType">
+                <xs:annotation>
+                    <xs:documentation>
+                        If set to "yes", WixStdBA will launch the application specified by the LaunchTarget attribute with the SW_HIDE flag.
+                        This attribute is ignored when the LaunchTargetElevatedId attribute is specified.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute name="LicenseFile" type="xs:string">

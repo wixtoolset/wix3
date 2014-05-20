@@ -54,6 +54,11 @@ HRESULT CacheCaclulateContainerWorkingPath(
     __in BURN_CONTAINER* pContainer,
     __deref_out_z LPWSTR* psczWorkingPath
     );
+HRESULT CacheGetRootCompletedPath(
+    __in BOOL fPerMachine,
+    __in BOOL fForceInitialize,
+    __deref_out_z LPWSTR* psczRootCompletedPath
+    );
 HRESULT CacheGetCompletedPath(
     __in BOOL fPerMachine,
     __in_z LPCWSTR wzCacheId,
@@ -144,6 +149,11 @@ HRESULT CacheVerifyPayloadSignature(
     __in BURN_PAYLOAD* pPayload,
     __in_z LPCWSTR wzUnverifiedPayloadPath,
     __in HANDLE hFile
+    );
+HRESULT CacheVerifyFileAgainstHash(
+    __in LPWSTR wzUnverifiedPath,
+    __in BYTE* pbHash,
+    __in DWORD cbHash
     );
 void CacheCleanup(
     __in BOOL fPerMachine,

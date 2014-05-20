@@ -685,6 +685,47 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT CoreLaunchApprovedExe(
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe
+    )
+{
+    HRESULT hr = S_OK;
+    BOOL fActivated = FALSE;
+    DWORD dwProcessId = 0;
+
+    LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_BEGIN);
+
+    hr = UserExperienceActivateEngine(&pEngineState->userExperience, &fActivated);
+    ExitOnFailure(hr, "Engine cannot start apply because it is busy with another action.");
+
+    // Reserve Begin callback for future use, there's no use case right now.
+    //int nResult = pEngineState->userExperience.pUserExperience->OnLaunchApprovedExeBegin();
+    //hr = UserExperienceInterpretResult(&pEngineState->userExperience, MB_OKCANCEL, nResult);
+    //ExitOnRootFailure(hr, "UX aborted launch approved exe begin.");
+
+    // Elevate.
+    hr = CoreElevate(pEngineState, pLaunchApprovedExe->hwndParent);
+    ExitOnFailure(hr, "Failed to elevate.");
+
+    // Launch.
+    hr = ElevationLaunchApprovedExe(pEngineState->companionConnection.hPipe, pLaunchApprovedExe, &dwProcessId);
+
+LExit:
+    if (fActivated)
+    {
+        UserExperienceDeactivateEngine(&pEngineState->userExperience);
+    }
+
+    pEngineState->userExperience.pUserExperience->OnLaunchApprovedExeComplete(hr, dwProcessId);
+
+    LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_COMPLETE, hr, dwProcessId);
+
+    ApprovedExesUninitializeLaunch(pLaunchApprovedExe);
+
+    return hr;
+}
+
 extern "C" HRESULT CoreQuit(
     __in BURN_ENGINE_STATE* pEngineState,
     __in int nExitCode

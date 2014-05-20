@@ -296,6 +296,31 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         }
 
         /// <summary>
+        /// Launches a preapproved executable elevated.  As long as the engine already elevated, there will be no UAC prompt.
+        /// </summary>
+        /// <param name="hwndParent">The parent window of the elevation dialog (if the engine hasn't elevated yet).</param>
+        /// <param name="approvedExeForElevationId">Id of the ApprovedExeForElevation element specified when the bundle was authored.</param>
+        /// <param name="executablePath">Absolute path to the executable.  The executable must be in a secure location, currently one of the ProgramFilesFolders or the Package Cache.</param>
+        /// <param name="arguments">Optional arguments.</param>
+        public void LaunchApprovedExe(IntPtr hwndParent, string approvedExeForElevationId, string executablePath, string arguments)
+        {
+            LaunchApprovedExe(hwndParent, approvedExeForElevationId, executablePath, arguments, 0);
+        }
+
+        /// <summary>
+        /// Launches a preapproved executable elevated.  As long as the engine already elevated, there will be no UAC prompt.
+        /// </summary>
+        /// <param name="hwndParent">The parent window of the elevation dialog (if the engine hasn't elevated yet).</param>
+        /// <param name="approvedExeForElevationId">Id of the ApprovedExeForElevation element specified when the bundle was authored.</param>
+        /// <param name="executablePath">Absolute path to the executable. The executable must be in a secure location, currently one of the ProgramFilesFolders or the Package Cache.</param>
+        /// <param name="arguments">Optional arguments.</param>
+		/// <param name="waitForInputIdleTimeout">Timeout in milliseconds. When set to something other than zero, the engine will call WaitForInputIdle for the new process with this timeout before calling OnLaunchApprovedExeComplete.</param>
+        public void LaunchApprovedExe(IntPtr hwndParent, string approvedExeForElevationId, string executablePath, string arguments, int waitForInputIdleTimeout)
+        {
+            engine.LaunchApprovedExe(hwndParent, approvedExeForElevationId, executablePath, arguments, waitForInputIdleTimeout);
+        }
+
+        /// <summary>
         /// Logs the <paramref name="message"/>.
         /// </summary>
         /// <param name="level">The logging level.</param>

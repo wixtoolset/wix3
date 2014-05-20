@@ -718,6 +718,74 @@ public: // IBootstrapperEngine
         return hr;
     }
 
+    virtual STDMETHODIMP LaunchApprovedExe(
+        __in_opt HWND hwndParent,
+        __in_z LPCWSTR wzApprovedExeForElevationId,
+        __in_z LPCWSTR wzExecutablePath,
+        __in_z_opt LPCWSTR wzArguments,
+        __in DWORD dwWaitForInputIdleTimeout
+        )
+    {
+        HRESULT hr = S_OK;
+        BURN_APPROVED_EXE* pApprovedExe = NULL;
+        BOOL fLeaveCriticalSection = FALSE;
+        BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe = (BURN_LAUNCH_APPROVED_EXE*)MemAlloc(sizeof(BURN_LAUNCH_APPROVED_EXE), TRUE);
+
+        ::EnterCriticalSection(&m_pEngineState->csActive);
+        fLeaveCriticalSection = TRUE;
+        hr = UserExperienceEnsureEngineInactive(&m_pEngineState->userExperience);
+        ExitOnFailure(hr, "Engine is active, cannot change engine state.");
+
+        if (!wzExecutablePath || !*wzExecutablePath)
+        {
+            ExitFunction1(hr = E_INVALIDARG);
+        }
+        else if (!wzApprovedExeForElevationId || !*wzApprovedExeForElevationId)
+        {
+            ExitFunction1(hr = E_INVALIDARG);
+        }
+
+        hr = ApprovedExesFindById(&m_pEngineState->approvedExes, wzApprovedExeForElevationId, &pApprovedExe);
+        ExitOnFailure1(hr, "UX requested unknown approved exe with id: %ls", wzApprovedExeForElevationId);
+
+        ::LeaveCriticalSection(&m_pEngineState->csActive);
+        fLeaveCriticalSection = FALSE;
+
+        hr = StrAllocString(&pLaunchApprovedExe->sczId, wzApprovedExeForElevationId, NULL);
+        ExitOnFailure(hr, "Failed to copy the id.");
+
+        hr = StrAllocString(&pLaunchApprovedExe->sczExecutablePath, wzExecutablePath, NULL);
+        ExitOnFailure(hr, "Failed to copy the executable path.");
+
+        if (wzArguments)
+        {
+            hr = StrAllocString(&pLaunchApprovedExe->sczArguments, wzArguments, NULL);
+            ExitOnFailure(hr, "Failed to copy the arguments.");
+        }
+
+        pLaunchApprovedExe->dwWaitForInputIdleTimeout = dwWaitForInputIdleTimeout;
+
+        pLaunchApprovedExe->hwndParent = hwndParent;
+
+        if (!::PostThreadMessageW(m_dwThreadId, WM_BURN_LAUNCH_APPROVED_EXE, 0, reinterpret_cast<LPARAM>(pLaunchApprovedExe)))
+        {
+            ExitWithLastError(hr, "Failed to post launch approved exe message.");
+        }
+
+    LExit:
+        if (fLeaveCriticalSection)
+        {
+            ::LeaveCriticalSection(&m_pEngineState->csActive);
+        }
+
+        if (FAILED(hr))
+        {
+            ApprovedExesUninitializeLaunch(pLaunchApprovedExe);
+        }
+
+        return hr;
+    }
+
 public: // IMarshal
     virtual STDMETHODIMP GetUnmarshalClass( 
         __in REFIID /*riid*/,

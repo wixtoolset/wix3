@@ -785,3 +785,17 @@ SymbolicName=MSG_STATE_NOT_SAVED
 Language=English
 The state file could not be saved, error: 0x%1!x!. Continuing...
 .
+
+MessageId=600
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_BEGIN
+Language=English
+Launch approved exe begin.
+.
+
+MessageId=699
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_COMPLETE
+Language=English
+Launch approved exe complete, result: 0x%1!x!, processId: %2!lu!
+.

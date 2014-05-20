@@ -1678,6 +1678,10 @@
         <columnDefinition name="ProviderKey" type="string" length="38" category="guid" nullable="yes" description="Only valid after binding." />
         <columnDefinition name="PerMachine" type="number" length="2" nullable="yes" minValue="0" maxValue="1" description="Only valid after binding." />
     </tableDefinition>
+    <tableDefinition name="WixApprovedExeForElevation" createSymbols="yes" unreal="yes">
+      <columnDefinition name="Id" type="string" length="0" category="identifier" primaryKey="yes"/>
+      <columnDefinition name="SourceFile" type="object" length="0"/>
+    </tableDefinition>
     <tableDefinition name="WixBundleUpdate" unreal="yes">
         <columnDefinition name="Location" type="string" length="0" />
         <columnDefinition name="Attributes" type="number" length="4" nullable="yes" />

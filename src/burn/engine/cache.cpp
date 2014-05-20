@@ -14,7 +14,7 @@
 #include "precomp.h"
 
 static const LPCWSTR BUNDLE_WORKING_FOLDER_NAME = L".be";
-static const LPCWSTR UNVERFIED_CACHE_FOLDER_NAME = L".unverified";
+static const LPCWSTR UNVERIFIED_CACHE_FOLDER_NAME = L".unverified";
 static const DWORD FILE_OPERATION_RETRY_COUNT = 3;
 static const DWORD FILE_OPERATION_RETRY_WAIT = 2000;
 
@@ -304,6 +304,27 @@ extern "C" HRESULT CacheCaclulateContainerWorkingPath(
     ExitOnFailure(hr, "Failed to append SHA1 hash as container unverified path.");
 
 LExit:
+    return hr;
+}
+
+extern "C" HRESULT CacheGetRootCompletedPath(
+    __in BOOL fPerMachine,
+    __in BOOL fForceInitialize,
+    __deref_out_z LPWSTR* psczRootCompletedPath
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (fForceInitialize)
+    {
+        hr = CreateCompletedPath(fPerMachine, L"", psczRootCompletedPath);
+    }
+    else
+    {
+        hr = CacheGetCompletedPath(fPerMachine, L"", psczRootCompletedPath);
+    }
+
+//LExit:
     return hr;
 }
 
@@ -978,6 +999,36 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT CacheVerifyFileAgainstHash(
+    __in LPWSTR wzUnverifiedPath,
+    __in BYTE* pbHash,
+    __in DWORD cbHash
+    )
+{
+    HRESULT hr = S_OK;
+    HANDLE hFile = INVALID_HANDLE_VALUE;
+
+    // Get the file on disk actual hash.
+    hFile = ::CreateFileW(wzUnverifiedPath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    if (INVALID_HANDLE_VALUE == hFile)
+    {
+        hr = HRESULT_FROM_WIN32(::GetLastError());
+        if (E_PATHNOTFOUND == hr || E_FILENOTFOUND == hr)
+        {
+            ExitFunction(); // do not log error when the file was not found.
+        }
+        ExitOnRootFailure1(hr, "Failed to open file at path: %ls", wzUnverifiedPath);
+    }
+
+    hr = VerifyHash(pbHash, cbHash, wzUnverifiedPath, hFile);
+    ExitOnFailure1(hr, "Failed to verify hash of file: %ls", wzUnverifiedPath);
+
+LExit:
+    ReleaseFileHandle(hFile);
+
+    return hr;
+}
+
 extern "C" void CacheCleanup(
     __in BOOL fPerMachine,
     __in_z LPCWSTR wzBundleId
@@ -991,7 +1042,7 @@ extern "C" void CacheCleanup(
     WIN32_FIND_DATAW wfd = { };
     DWORD cFileName = 0;
 
-    hr = CacheGetCompletedPath(fPerMachine, UNVERFIED_CACHE_FOLDER_NAME, &sczFolder);
+    hr = CacheGetCompletedPath(fPerMachine, UNVERIFIED_CACHE_FOLDER_NAME, &sczFolder);
     if (SUCCEEDED(hr))
     {
         hr = DirEnsureDeleteEx(sczFolder, DIR_DELETE_FILES | DIR_DELETE_RECURSE | DIR_DELETE_SCHEDULE);
@@ -1148,7 +1199,7 @@ static HRESULT CreateUnverifiedPath(
     HRESULT hr = S_OK;
     LPWSTR sczUnverifiedCacheFolder = NULL;
 
-    hr = CacheGetCompletedPath(fPerMachine, UNVERFIED_CACHE_FOLDER_NAME, &sczUnverifiedCacheFolder);
+    hr = CacheGetCompletedPath(fPerMachine, UNVERIFIED_CACHE_FOLDER_NAME, &sczUnverifiedCacheFolder);
     ExitOnFailure(hr, "Failed to get cache directory.");
 
     if (!fUnverifiedCacheFolderCreated)
