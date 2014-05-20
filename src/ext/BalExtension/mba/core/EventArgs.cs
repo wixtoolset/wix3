@@ -2120,4 +2120,28 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             get { return this.overallPercentage; }
         }
     }
+
+    /// <summary>
+    /// Additional arguments passed by the engine after it finished trying to launch the preapproved executable.
+    /// </summary>
+    [Serializable]
+    public class LaunchApprovedExeCompleteArgs : StatusEventArgs
+    {
+        private int processId;
+
+        public LaunchApprovedExeCompleteArgs(int status, int processId)
+            : base(status)
+        {
+            this.processId = processId;
+        }
+
+        /// <summary>
+        /// Gets the ProcessId of the process that was launched.
+        /// This is only valid if the status reports success.
+        /// </summary>
+        public int ProcessId
+        {
+            get { return this.processId; }
+        }
+    }
 }

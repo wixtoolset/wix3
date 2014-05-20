@@ -84,9 +84,6 @@
     <ClCompile Include="dependency.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="downloadengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="apply.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -127,6 +124,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="relatedbundle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="approvedexe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,9 +203,6 @@
     <ClInclude Include="dependency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="downloadengine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="apply.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -255,6 +252,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="relatedbundle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="approvedexe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

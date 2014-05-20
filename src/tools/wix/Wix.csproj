@@ -18,6 +18,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApprovedExeForElevation.cs" />
     <Compile Include="AssemblyDefaultFabricatorExtensionAttribute.cs" />
     <Compile Include="AssemblyDefaultHeatExtensionAttribute.cs" />
     <Compile Include="AssemblyDefaultWixExtensionAttribute.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="InspectorExtension.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="PatchAPI\PatchInterop.cs" />
+    <Compile Include="WixApprovedExeForElevationRow.cs" />
     <Compile Include="WixBundlePatchTargetCodeRow.cs" />
     <Compile Include="PatchTransform.cs" />
     <Compile Include="PayloadInfoRow.cs" />

@@ -17,6 +17,7 @@ static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 static const LPCWSTR WIXSTDBA_WINDOW_CLASS = L"WixStdBA";
 static const LPCWSTR WIXSTDBA_VARIABLE_INSTALL_FOLDER = L"InstallFolder";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
+static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID = L"LaunchTargetElevatedId";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
@@ -791,6 +792,22 @@ public: // IBootstrapperApplication
         SetTaskbarButtonProgress(100); // show full progress bar, green, yellow, or red
 
         return IDNOACTION;
+    }
+
+    virtual STDMETHODIMP_(void) OnLaunchApprovedExeComplete(
+        __in HRESULT hrStatus,
+        __in DWORD /*processId*/
+        )
+    {
+        if (HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED) == hrStatus)
+        {
+            //try with ShelExec next time
+            OnClickLaunchButton();
+        }
+        else
+        {
+            ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
+        }
     }
 
 
@@ -2250,6 +2267,7 @@ private: // privates
         HRESULT hr = S_OK;
         LPWSTR sczUnformattedLaunchTarget = NULL;
         LPWSTR sczLaunchTarget = NULL;
+        LPWSTR sczLaunchTargetElevatedId = NULL;
         LPWSTR sczUnformattedArguments = NULL;
         LPWSTR sczArguments = NULL;
         int nCmdShow = SW_SHOWNORMAL;
@@ -2259,6 +2277,12 @@ private: // privates
 
         hr = BalFormatString(sczUnformattedLaunchTarget, &sczLaunchTarget);
         BalExitOnFailure1(hr, "Failed to format launch target variable: %ls", sczUnformattedLaunchTarget);
+
+        if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID))
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID, &sczLaunchTargetElevatedId);
+            BalExitOnFailure1(hr, "Failed to get launch target elevated id '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID);
+        }
 
         if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS))
         {
@@ -2274,14 +2298,30 @@ private: // privates
             nCmdShow = SW_HIDE;
         }
 
-        hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
-        BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
+        if (sczLaunchTargetElevatedId && !m_fTriedToLaunchElevated)
+        {
+            m_fTriedToLaunchElevated = TRUE;
+            hr = m_pEngine->LaunchApprovedExe(m_hWnd, sczLaunchTargetElevatedId, sczLaunchTarget, sczArguments, 0);
+            if (FAILED(hr))
+            {
+                BalLogError(hr, "Failed to launch elevated target: %ls (%ls)", sczLaunchTarget, sczLaunchTargetElevatedId);
 
-        ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
+                //try with ShelExec next time
+                OnClickLaunchButton();
+            }
+        }
+        else
+        {
+            hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
+            BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
+
+            ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
+        }
 
     LExit:
         ReleaseStr(sczArguments);
         ReleaseStr(sczUnformattedArguments);
+        ReleaseStr(sczLaunchTargetElevatedId);
         ReleaseStr(sczLaunchTarget);
         ReleaseStr(sczUnformattedLaunchTarget);
 
@@ -2684,6 +2724,7 @@ public:
         m_uTaskbarButtonCreatedMessage = UINT_MAX;
         m_fTaskbarButtonOK = FALSE;
         m_fShowingInternalUiThisPackage = FALSE;
+        m_fTriedToLaunchElevated = FALSE;
 
         m_fPrereq = fPrereq;
         m_sczPrereqPackage = NULL;
@@ -2780,6 +2821,7 @@ private:
     UINT m_uTaskbarButtonCreatedMessage;
     BOOL m_fTaskbarButtonOK;
     BOOL m_fShowingInternalUiThisPackage;
+    BOOL m_fTriedToLaunchElevated;
 
     HMODULE m_hBAFModule;
     IBootstrapperBAFunction* m_pBAFunction;

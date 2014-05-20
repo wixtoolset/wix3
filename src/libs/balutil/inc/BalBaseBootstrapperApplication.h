@@ -65,7 +65,7 @@ public: // IUnknown
         return 0;
     }
 
-public: // IBurnUserExperience
+public: // IBootstrapperApplication
     virtual STDMETHODIMP OnStartup()
     {
         return S_OK;
@@ -568,6 +568,13 @@ public: // IBurnUserExperience
         )
     {
         return CheckCanceled() ? IDCANCEL : IDNOACTION;
+    }
+
+    virtual STDMETHODIMP_(void) OnLaunchApprovedExeComplete(
+        __in HRESULT /*hrStatus*/,
+        __in DWORD /*dwProcessId*/
+        )
+    {
     }
 
 protected:
