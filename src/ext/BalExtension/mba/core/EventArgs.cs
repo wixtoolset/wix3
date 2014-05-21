@@ -1080,6 +1080,31 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     }
 
     /// <summary>
+    /// DEPRECATED: this information will be provided in ApplyBeginEventArgs in wix4.
+    /// Additional arguments used when the engine has determined the number of phases in apply.
+    /// </summary>
+    [Serializable]
+    public class ApplyNumberOfPhasesArgs : EventArgs
+    {
+        private int numberOfApplyPhases;
+
+        public ApplyNumberOfPhasesArgs(int numberOfApplyPhases)
+        {
+            this.numberOfApplyPhases = numberOfApplyPhases;
+        }
+
+        /// <summary>
+        /// DEPRECATED: this information will be provided in ApplyBeginEventArgs in wix4.
+        /// Gets the number of phases that the engine will go through in apply.
+        /// There are currently two possible phases: cache and execute.
+        /// </summary>
+        public int NumberOfApplyPhases
+        {
+            get { return this.numberOfApplyPhases; }
+        }
+    }
+
+    /// <summary>
     /// Additional arguments used when the engine is about to start the elevated process.
     /// </summary>
     [Serializable]

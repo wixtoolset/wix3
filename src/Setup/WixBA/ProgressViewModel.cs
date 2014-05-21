@@ -37,7 +37,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             WixBA.Model.Bootstrapper.ExecuteProgress += this.ApplyExecuteProgress;
             WixBA.Model.Bootstrapper.PlanBegin += this.PlanBegin;
             WixBA.Model.Bootstrapper.PlanPackageComplete += this.PlanPackageComplete;
-            WixBA.Model.Bootstrapper.ApplyBegin += this.ApplyBegin;
+            WixBA.Model.Bootstrapper.ApplyNumberOfPhases += this.ApplyNumberOfPhases;
             WixBA.Model.Bootstrapper.Progress += this.ApplyProgress;
             WixBA.Model.Bootstrapper.CacheAcquireProgress += this.CacheAcquireProgress;
             WixBA.Model.Bootstrapper.CacheComplete += this.CacheComplete;
@@ -123,9 +123,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             }
         }
 
-        private void ApplyBegin(object sender, ApplyBeginEventArgs e)
+        private void ApplyNumberOfPhases(object sender, ApplyNumberOfPhasesArgs e)
         {
-            this.progressPhases = (int)WixBA.Model.Engine.NumericVariables["WixBundleNumberOfApplyPhases"];
+            this.progressPhases = e.NumberOfApplyPhases;
         }
 
         private void ApplyProgress(object sender, ProgressEventArgs e)

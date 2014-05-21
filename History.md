@@ -1,4 +1,4 @@
-* SeanHall: WIXFEAT:4413 - Add the WixBundleNumberOfApplyPhases built-in variable.
+* SeanHall: WIXFEAT:4413 - Add IBootstrapperApplication::OnApplyNumberOfPhases.
 
 * BobArnson: WIXBUG:4394 - Enforce a maximum include nesting depth of 1024 to avoid stack overflows when files include themselves.
 
