@@ -116,10 +116,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     {
                         switch (attribute.LocalName)
                         {
-                            case "MBAPrereqSupportPackage":
+                            case "PrereqSupportPackage":
                                 if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attribute))
                                 {
-                                    Row row = this.Core.CreateRow(sourceLineNumbers, "WixMBAPrereqSupportPackage");
+                                    Row row = this.Core.CreateRow(sourceLineNumbers, "MbaPrerequisiteSupportPackage");
                                     row[0] = packageId;
                                 }
                                 break;

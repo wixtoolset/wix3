@@ -119,12 +119,10 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:attribute name="MBAPrereqSupportPackage" type="YesNoType">
+    <xs:attribute name="PrereqSupportPackage" type="YesNoType">
         <xs:annotation>
             <xs:documentation>
                 When set to "yes", the Prereq BA will plan the package to be installed if its InstallCondition is "true" or empty.
-                This attribute will be ignored by the Prereq BA if the package is the MBA Prereq
-                (which gets planned to be installed regardless of its InstallCondition).
             </xs:documentation>
             <xs:appinfo>
                 <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />

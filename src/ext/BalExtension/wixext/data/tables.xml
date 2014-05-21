@@ -18,7 +18,7 @@
                 category="formatted" description="Localizable text to display when condition fails and install must abort."/>
     </tableDefinition>
 
-    <tableDefinition name="WixMBAPrereqSupportPackage" bootstrapperApplicationData="yes">
+    <tableDefinition name="MbaPrerequisiteSupportPackage" bootstrapperApplicationData="yes">
         <columnDefinition name="PackageId" type="string" length="255" primaryKey="yes" 
                 category="identifier" description="PackageId for the Prereq BA to conditionally install."/>
     </tableDefinition>
