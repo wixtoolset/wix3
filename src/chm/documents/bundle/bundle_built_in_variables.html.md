@@ -58,7 +58,7 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * WixBundleDirectoryLayout - set to the folder provided to the -layout switch (default is the directory containing the bundle executable). This variable can also be set by the bootstrapper application to modify where files will be laid out.
 * WixBundleElevated - gets whether the bundle was launched elevated and will be set to 1 once the bundle is elevated. For example, use this variable to show or hide the elevation shield in the bootstrapper application UI.
 * WixBundleForcedRestartPackage - gets the ID of the package that caused a force restart during apply. This value is reset on the next call to apply.
-* WixBundleInstalled - gets whether the bundle was already installed and will be set to 1 once the bundle is installed.
+* WixBundleInstalled - gets whether the bundle was already installed. This value is only set when the engine initializes.
 * WixBundleLastUsedSource - gets the path of the last successful source resolution for a container or payload.
 * WixBundleName - gets the name of the bundle (from Bundle/@Name). This variable can also be set by the bootstrapper application to modify the bundle name at runtime.
 * WixBundleManufacturer - gets the manufacturer of the bundle (from Bundle/@Manufacturer).

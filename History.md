@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4413 - Add IBootstrapperApplication::OnApplyNumberOfPhases.
+
 * BobArnson: WIXBUG:4215 - Clarify all the elements that switch bitness based on -arch/InstallerPlatform.
 
 * SeanHall: WIXBUG:3835 - Fix progress bug when extracting multiple packages from a container.

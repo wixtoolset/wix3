@@ -527,6 +527,7 @@ extern "C" HRESULT CoreApply(
     BOOL fSuspend = FALSE;
     BOOTSTRAPPER_APPLY_RESTART restart = BOOTSTRAPPER_APPLY_RESTART_NONE;
     BURN_CACHE_THREAD_CONTEXT cacheThreadContext = { };
+    DWORD dwNumberOfPhases = 0;
 
     LogId(REPORT_STANDARD, MSG_APPLY_BEGIN);
 
@@ -535,6 +536,16 @@ extern "C" HRESULT CoreApply(
 
     // Ensure any previous attempts to execute are reset.
     ApplyReset(&pEngineState->userExperience, &pEngineState->packages);
+
+    if (pEngineState->plan.cCacheActions)
+    {
+        ++dwNumberOfPhases;
+    }
+    if (pEngineState->plan.cExecuteActions)
+    {
+        ++dwNumberOfPhases;
+    }
+    pEngineState->userExperience.pUserExperience->OnApplyNumberOfPhases(dwNumberOfPhases);
 
     int nResult = pEngineState->userExperience.pUserExperience->OnApplyBegin();
     hr = UserExperienceInterpretResult(&pEngineState->userExperience, MB_OKCANCEL, nResult);
@@ -623,7 +634,7 @@ extern "C" HRESULT CoreApply(
         UserExperienceExecutePhaseComplete(&pEngineState->userExperience, hr); // signal that execute completed.
     }
 
-    // Wait for cache thread to terminate, this should return immediately (unless we're waiting for layout to complete).
+    // Wait for cache thread to terminate, this should return immediately unless we're waiting for layout to complete.
     if (hCacheThread)
     {
         HRESULT hrCached = WaitForCacheThread(hCacheThread);

@@ -37,6 +37,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             WixBA.Model.Bootstrapper.ExecuteProgress += this.ApplyExecuteProgress;
             WixBA.Model.Bootstrapper.PlanBegin += this.PlanBegin;
             WixBA.Model.Bootstrapper.PlanPackageComplete += this.PlanPackageComplete;
+            WixBA.Model.Bootstrapper.ApplyNumberOfPhases += this.ApplyNumberOfPhases;
             WixBA.Model.Bootstrapper.Progress += this.ApplyProgress;
             WixBA.Model.Bootstrapper.CacheAcquireProgress += this.CacheAcquireProgress;
             WixBA.Model.Bootstrapper.CacheComplete += this.CacheComplete;
@@ -93,7 +94,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         {
             lock (this)
             {
-                this.progressPhases = (LaunchAction.Layout == WixBA.Model.PlannedAction) ? 1 : 2;
                 this.executingPackageOrderIndex.Clear();
             }
         }
@@ -121,6 +121,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
                 e.Result = this.root.Canceled ? Result.Cancel : Result.Ok;
             }
+        }
+
+        private void ApplyNumberOfPhases(object sender, ApplyNumberOfPhasesArgs e)
+        {
+            this.progressPhases = e.NumberOfApplyPhases;
         }
 
         private void ApplyProgress(object sender, ProgressEventArgs e)
@@ -156,7 +161,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
 
                 this.executeProgress = e.OverallPercentage;
-                this.Progress = (this.cacheProgress + this.executeProgress) / 2; // always two phases if we hit execution.
+                this.Progress = (this.cacheProgress + this.executeProgress) / this.progressPhases;
 
                 if (WixBA.Model.Command.Display == Display.Embedded)
                 {

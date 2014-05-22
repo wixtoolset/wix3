@@ -278,6 +278,13 @@ public: // IBurnUserExperience
         return CheckCanceled() ? IDCANCEL : IDNOACTION;
     }
 
+    // DEPRECATED: this will be merged with OnApplyBegin in wix4.
+    virtual STDMETHODIMP_(void) OnApplyNumberOfPhases(
+        __in DWORD /*dwNumberOfPhases*/
+        )
+    {
+    }
+
     virtual STDMETHODIMP_(int) OnElevate()
     {
         return CheckCanceled() ? IDCANCEL : IDNOACTION;
