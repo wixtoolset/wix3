@@ -22,6 +22,7 @@ extern "C" {
 #define ReleaseNullBSTR(bstr) if (bstr) { ::SysFreeString(bstr); bstr = NULL; }
 #define ReleaseStrArray(rg, c) { if (rg) { StrArrayFree(rg, c); } }
 #define ReleaseNullStrArray(rg, c) { if (rg) { StrArrayFree(rg, c); c = 0; rg = NULL; } }
+#define ReleaseNullStrSecure(pwz) if (pwz) { StrSecureZeroFreeString(pwz); pwz = NULL; }
 
 #define DeclareConstBSTR(bstr_const, wz) const WCHAR bstr_const[] = { 0x00, 0x00, sizeof(wz)-sizeof(WCHAR), 0x00, wz }
 #define UseConstBSTR(bstr_const) const_cast<BSTR>(bstr_const + 4)
@@ -29,6 +30,11 @@ extern "C" {
 HRESULT DAPI StrAlloc(
     __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
     __in DWORD_PTR cch
+    );
+HRESULT DAPI StrAllocate(
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch,
+    __in BOOL fZeroOnRealloc
     );
 HRESULT DAPI StrTrimCapacity(
     __deref_out_z LPWSTR* ppwz
@@ -52,6 +58,12 @@ HRESULT DAPI StrAllocString(
     __deref_out_ecount_z(cchSource+1) LPWSTR* ppwz,
     __in_z LPCWSTR wzSource,
     __in DWORD_PTR cchSource
+    );
+HRESULT DAPI StrAllocateString(
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource,
+    __in BOOL fZeroOnRealloc
     );
 HRESULT DAPI StrAnsiAllocString(
     __deref_out_ecount_z(cchSource+1) LPSTR* ppsz,
@@ -80,6 +92,12 @@ HRESULT DAPI StrAllocConcat(
     __in_z LPCWSTR wzSource,
     __in DWORD_PTR cchSource
     );
+HRESULT DAPI StrAllocateConcat(
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource,
+    __in BOOL fZeroOnRealloc
+    );
 HRESULT DAPI StrAnsiAllocConcat(
     __deref_out_z LPSTR* ppz,
     __in_z LPCSTR pzSource,
@@ -90,6 +108,12 @@ HRESULT __cdecl StrAllocFormatted(
     __in __format_string LPCWSTR wzFormat,
     ...
     );
+HRESULT __cdecl StrAllocateFormatted(
+    __deref_out_z LPWSTR* ppwz,
+    __in BOOL fZeroOnRealloc,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    );
 HRESULT __cdecl StrAnsiAllocFormatted(
     __deref_out_z LPSTR* ppsz,
     __in __format_string LPCSTR szFormat,
@@ -97,6 +121,12 @@ HRESULT __cdecl StrAnsiAllocFormatted(
     );
 HRESULT DAPI StrAllocFormattedArgs(
     __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    __in va_list args
+    );
+HRESULT DAPI StrAllocateFormattedArgs(
+    __deref_out_z LPWSTR* ppwz,
+    __in BOOL fZeroOnRealloc,
     __in __format_string LPCWSTR wzFormat,
     __in va_list args
     );
@@ -272,6 +302,13 @@ HRESULT DAPI StrSplitAllocArray(
     __inout LPUINT pcStrArray,
     __in_z LPCWSTR wzSource,
     __in_z LPCWSTR wzDelim
+    );
+
+HRESULT DAPI StrSecureZeroString(
+    __in LPWSTR pwz
+    );
+HRESULT DAPI StrSecureZeroFreeString(
+    __in LPWSTR pwz
     );
 
 #ifdef __cplusplus

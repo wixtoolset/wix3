@@ -524,13 +524,13 @@ extern "C" HRESULT MspEngineExecutePackage(
     {
     case BOOTSTRAPPER_ACTION_STATE_INSTALL: __fallthrough;
     case BOOTSTRAPPER_ACTION_STATE_REPAIR:
-        hr = StrAllocConcat(&sczProperties, L" PATCH=\"", 0);
+        hr = StrAllocateConcat(&sczProperties, L" PATCH=\"", 0, TRUE);
         ExitOnFailure(hr, "Failed to add PATCH property on install.");
 
-        hr = StrAllocConcat(&sczProperties, sczPatches, 0);
+        hr = StrAllocateConcat(&sczProperties, sczPatches, 0, TRUE);
         ExitOnFailure(hr, "Failed to add patches to PATCH property on install.");
 
-        hr = StrAllocConcat(&sczProperties, L"\" REBOOT=ReallySuppress", 0);
+        hr = StrAllocateConcat(&sczProperties, L"\" REBOOT=ReallySuppress", 0, TRUE);
         ExitOnFailure(hr, "Failed to add reboot suppression property on install.");
 
         hr = WiuConfigureProductEx(pExecuteAction->mspTarget.sczTargetProductCode, INSTALLLEVEL_DEFAULT, INSTALLSTATE_DEFAULT, sczProperties, &restart);
@@ -538,11 +538,11 @@ extern "C" HRESULT MspEngineExecutePackage(
         break;
 
     case BOOTSTRAPPER_ACTION_STATE_UNINSTALL:
-        hr = StrAllocConcat(&sczProperties, L" REBOOT=ReallySuppress", 0);
+        hr = StrAllocateConcat(&sczProperties, L" REBOOT=ReallySuppress", 0, TRUE);
         ExitOnFailure(hr, "Failed to add reboot suppression property on uninstall.");
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-        hr = StrAllocFormatted(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocateFormatted(&sczProperties, TRUE, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuRemovePatches(sczPatches, pExecuteAction->mspTarget.sczTargetProductCode, sczProperties, &restart);
@@ -555,7 +555,7 @@ LExit:
 
     ReleaseStr(sczCachedDirectory);
     ReleaseStr(sczMspPath);
-    ReleaseStr(sczProperties);
+    StrSecureZeroFreeString(sczProperties);
     ReleaseStr(sczObfuscatedProperties);
     ReleaseStr(sczPatches);
 

@@ -388,19 +388,37 @@ static HRESULT ParseTerm(
     }
     else
     {
+        LONGLONG llValue = 0;
+        LPWSTR sczValue = NULL;
+        DWORD64 qwValue = 0;
         switch (firstValue.Type)
         {
         case BURN_VARIANT_TYPE_NONE:
             *pf = FALSE;
             break;
         case BURN_VARIANT_TYPE_STRING:
-            *pf = firstValue.sczValue && *firstValue.sczValue;
+            hr = BVariantGetString(&firstValue, &sczValue);
+            if (SUCCEEDED(hr))
+            {
+                *pf = sczValue && *sczValue;
+            }
+            StrSecureZeroFreeString(sczValue);
             break;
         case BURN_VARIANT_TYPE_NUMERIC:
-            *pf = 0 != firstValue.llValue;
+            hr = BVariantGetNumeric(&firstValue, &llValue);
+            if (SUCCEEDED(hr))
+            {
+                *pf = 0 != llValue;
+            }
+            SecureZeroMemory(&llValue, sizeof(llValue));
             break;
         case BURN_VARIANT_TYPE_VERSION:
-            *pf = 0 != firstValue.qwValue;
+            hr = BVariantGetVersion(&firstValue, &qwValue);
+            if (SUCCEEDED(hr))
+            {
+                *pf = 0 != qwValue;
+            }
+            SecureZeroMemory(&llValue, sizeof(qwValue));
             break;
         default:
             ExitFunction1(hr = E_UNEXPECTED);
@@ -420,6 +438,7 @@ static HRESULT ParseValue(
 {
     HRESULT hr = S_OK;
 
+    // Symbols don't encrypt their value, so can access the value directly.
     switch (pContext->NextSymbol.Type)
     {
     case BURN_SYMBOL_TYPE_IDENTIFIER:
@@ -699,6 +718,7 @@ static HRESULT NextSymbol(
                     }
                 }
 
+                // Symbols don't encrypt their value, so can access the value directly.
                 hr = FileVersionFromStringEx(&pContext->wzRead[1], n - 1, &pContext->NextSymbol.Value.qwValue);
                 if (FAILED(hr))
                 {
@@ -768,72 +788,112 @@ static HRESULT CompareValues(
     )
 {
     HRESULT hr = S_OK;
-    LONGLONG ll = 0;
-    DWORD64 qw = 0;
+    LONGLONG llLeft = 0;
+    DWORD64 qwLeft = 0;
+    LPWSTR sczLeft = NULL;
+    LONGLONG llRight = 0;
+    DWORD64 qwRight = 0;
+    LPWSTR sczRight = NULL;
 
     // get values to compare based on type
     if (BURN_VARIANT_TYPE_STRING == leftOperand.Type && BURN_VARIANT_TYPE_STRING == rightOperand.Type)
     {
-        hr = CompareStringValues(comparison, leftOperand.sczValue, rightOperand.sczValue, pfResult);
+        hr = BVariantGetString(&leftOperand, &sczLeft);
+        ExitOnFailure(hr, "Failed to get the left string");
+        hr = BVariantGetString(&rightOperand, &sczRight);
+        ExitOnFailure(hr, "Failed to get the right string");
+        hr = CompareStringValues(comparison, sczLeft, sczRight, pfResult);
     }
     else if (BURN_VARIANT_TYPE_NUMERIC == leftOperand.Type && BURN_VARIANT_TYPE_NUMERIC == rightOperand.Type)
     {
-        hr = CompareIntegerValues(comparison, leftOperand.llValue, rightOperand.llValue, pfResult);
+        hr = BVariantGetNumeric(&leftOperand, &llLeft);
+        ExitOnFailure(hr, "Failed to get the left numeric");
+        hr = BVariantGetNumeric(&rightOperand, &llRight);
+        ExitOnFailure(hr, "Failed to get the right numeric");
+        hr = CompareIntegerValues(comparison, llLeft, llRight, pfResult);
     }
     else if (BURN_VARIANT_TYPE_VERSION == leftOperand.Type && BURN_VARIANT_TYPE_VERSION == rightOperand.Type)
     {
-        hr = CompareVersionValues(comparison, leftOperand.qwValue, rightOperand.qwValue, pfResult);
+        hr = BVariantGetVersion(&leftOperand, &qwLeft);
+        ExitOnFailure(hr, "Failed to get the left version");
+        hr = BVariantGetVersion(&rightOperand, &qwRight);
+        ExitOnFailure(hr, "Failed to get the right version");
+        hr = CompareVersionValues(comparison, qwLeft, qwRight, pfResult);
     }
     else if (BURN_VARIANT_TYPE_VERSION == leftOperand.Type && BURN_VARIANT_TYPE_STRING == rightOperand.Type)
     {
-        hr = BVariantGetVersion(&rightOperand, &qw);
+        hr = BVariantGetVersion(&leftOperand, &qwLeft);
+        ExitOnFailure(hr, "Failed to get the left version");
+        hr = BVariantGetVersion(&rightOperand, &qwRight);
         if (FAILED(hr))
         {
+            if (DISP_E_TYPEMISMATCH != hr)
+            {
+                ExitOnFailure(hr, "Failed to get the right version");
+            }
             *pfResult = (BURN_SYMBOL_TYPE_NE == comparison);
             hr = S_OK;
         }
         else
         {
-            hr = CompareVersionValues(comparison, leftOperand.qwValue, qw, pfResult);
+            hr = CompareVersionValues(comparison, qwLeft, qwRight, pfResult);
         }
     }
     else if (BURN_VARIANT_TYPE_STRING == leftOperand.Type && BURN_VARIANT_TYPE_VERSION == rightOperand.Type)
     {
-        hr = BVariantGetVersion(&leftOperand, &qw);
+        hr = BVariantGetVersion(&rightOperand, &qwRight);
+        ExitOnFailure(hr, "Failed to get the right version");
+        hr = BVariantGetVersion(&leftOperand, &qwLeft);
         if (FAILED(hr))
         {
+            if (DISP_E_TYPEMISMATCH != hr)
+            {
+                ExitOnFailure(hr, "Failed to get the left version");
+            }
             *pfResult = (BURN_SYMBOL_TYPE_NE == comparison);
             hr = S_OK;
         }
         else
         {
-            hr = CompareVersionValues(comparison, qw, rightOperand.qwValue, pfResult);
+            hr = CompareVersionValues(comparison, qwLeft, qwRight, pfResult);
         }
     }
     else if (BURN_VARIANT_TYPE_NUMERIC == leftOperand.Type && BURN_VARIANT_TYPE_STRING == rightOperand.Type)
     {
-        hr = StrStringToInt64(rightOperand.sczValue, 0, &ll);
+        hr = BVariantGetNumeric(&leftOperand, &llLeft);
+        ExitOnFailure(hr, "Failed to get the left numeric");
+        hr = BVariantGetNumeric(&rightOperand, &llRight);
         if (FAILED(hr))
         {
+            if (DISP_E_TYPEMISMATCH != hr)
+            {
+                ExitOnFailure(hr, "Failed to get the right numeric");
+            }
             *pfResult = (BURN_SYMBOL_TYPE_NE == comparison);
             hr = S_OK;
         }
         else
         {
-            hr = CompareIntegerValues(comparison, leftOperand.llValue, ll, pfResult);
+            hr = CompareIntegerValues(comparison, llLeft, llRight, pfResult);
         }
     }
     else if (BURN_VARIANT_TYPE_STRING == leftOperand.Type && BURN_VARIANT_TYPE_NUMERIC == rightOperand.Type)
     {
-        hr = StrStringToInt64(leftOperand.sczValue, 0, &ll);
+        hr = BVariantGetNumeric(&rightOperand, &llRight);
+        ExitOnFailure(hr, "Failed to get the right numeric");
+        hr = BVariantGetNumeric(&leftOperand, &llLeft);
         if (FAILED(hr))
         {
+            if (DISP_E_TYPEMISMATCH != hr)
+            {
+                ExitOnFailure(hr, "Failed to get the left numeric");
+            }
             *pfResult = (BURN_SYMBOL_TYPE_NE == comparison);
             hr = S_OK;
         }
         else
         {
-            hr = CompareIntegerValues(comparison, ll, rightOperand.llValue, pfResult);
+            hr = CompareIntegerValues(comparison, llLeft, llRight, pfResult);
         }
     }
     else
@@ -841,6 +901,14 @@ static HRESULT CompareValues(
         // not a combination that can be compared
         *pfResult = (BURN_SYMBOL_TYPE_NE == comparison);
     }
+
+LExit:
+    SecureZeroMemory(&qwLeft, sizeof(DWORD64));
+    SecureZeroMemory(&llLeft, sizeof(LONGLONG));
+    StrSecureZeroFreeString(sczLeft);
+    SecureZeroMemory(&qwRight, sizeof(DWORD64));
+    SecureZeroMemory(&llRight, sizeof(LONGLONG));
+    StrSecureZeroFreeString(sczRight);
 
     return hr;
 }

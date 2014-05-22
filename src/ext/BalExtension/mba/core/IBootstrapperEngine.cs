@@ -40,7 +40,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [PreserveSig]
         int GetVariableString(
             [MarshalAs(UnmanagedType.LPWStr)] string wzVariable,
-            [MarshalAs(UnmanagedType.LPWStr), Out] StringBuilder wzValue,
+                                              IntPtr wzValue,
             [MarshalAs(UnmanagedType.U4)] ref int pcchValue
             );
 
@@ -117,7 +117,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         void SetVariableString(
             [MarshalAs(UnmanagedType.LPWStr)] string wzVariable,
-            [MarshalAs(UnmanagedType.LPWStr)] string wzValue
+                                              IntPtr wzValue
             );
 
         void SetVariableVersion(

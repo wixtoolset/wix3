@@ -470,7 +470,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
         hr = VariableFormatString(pVariables, wzArguments, &sczArgumentsFormatted, NULL);
         ExitOnFailure(hr, "Failed to format argument string.");
 
-        hr = StrAllocFormatted(&sczCommand, L"\"%ls\" %s", sczExecutablePath, sczArgumentsFormatted);
+        hr = StrAllocateFormatted(&sczCommand, TRUE, L"\"%ls\" %s", sczExecutablePath, sczArgumentsFormatted);
         ExitOnFailure(hr, "Failed to create executable command.");
 
         hr = VariableFormatStringObfuscated(pVariables, wzArguments, &sczArgumentsObfuscated, NULL);
@@ -570,11 +570,11 @@ LExit:
         ::SetCurrentDirectoryW(wzCurrentDirectory);
     }
 
-    ReleaseStr(sczArgumentsFormatted);
+    StrSecureZeroFreeString(sczArgumentsFormatted);
     ReleaseStr(sczArgumentsObfuscated);
     ReleaseStr(sczCachedDirectory);
     ReleaseStr(sczExecutablePath);
-    ReleaseStr(sczCommand);
+    StrSecureZeroFreeString(sczCommand);
     ReleaseStr(sczCommandObfuscated);
 
     ReleaseHandle(pi.hThread);

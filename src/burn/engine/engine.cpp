@@ -70,6 +70,7 @@ extern "C" HRESULT EngineRun(
     HRESULT hr = S_OK;
     BOOL fComInitialized = FALSE;
     BOOL fLogInitialized = FALSE;
+    BOOL fCrypInitialized = FALSE;
     BOOL fRegInitialized = FALSE;
     BOOL fWiuInitialized = FALSE;
     BOOL fXmlInitialized = FALSE;
@@ -103,6 +104,10 @@ extern "C" HRESULT EngineRun(
     // Initialize dutil.
     LogInitialize(::GetModuleHandleW(NULL));
     fLogInitialized = TRUE;
+
+    hr = CrypInitialize();
+    ExitOnFailure(hr, "Failed to initialize Cryputil.");
+    fCrypInitialized = TRUE;
 
     hr = RegInitialize();
     ExitOnFailure(hr, "Failed to initialize Regutil.");
@@ -204,6 +209,11 @@ LExit:
     if (fRegInitialized)
     {
         RegUninitialize();
+    }
+
+    if (fCrypInitialized)
+    {
+        CrypUninitialize();
     }
 
     if (fComInitialized)

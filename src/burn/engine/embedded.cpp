@@ -81,7 +81,7 @@ extern "C" HRESULT EmbeddedRunBundle(
     hr = PipeCreatePipes(&connection, FALSE, &hCreatedPipesEvent);
     ExitOnFailure(hr, "Failed to create embedded pipe.");
 
-    hr = StrAllocFormatted(&sczCommand, L"%ls -%ls %ls %ls %u", wzArguments, BURN_COMMANDLINE_SWITCH_EMBEDDED, connection.sczName, connection.sczSecret, dwCurrentProcessId);
+    hr = StrAllocateFormatted(&sczCommand, TRUE, L"%ls -%ls %ls %ls %u", wzArguments, BURN_COMMANDLINE_SWITCH_EMBEDDED, connection.sczName, connection.sczSecret, dwCurrentProcessId);
     ExitOnFailure(hr, "Failed to allocate embedded command.");
 
     if (!::CreateProcessW(wzExecutablePath, sczCommand, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
@@ -107,7 +107,7 @@ LExit:
     ReleaseHandle(pi.hThread);
     ReleaseHandle(pi.hProcess);
 
-    ReleaseStr(sczCommand);
+    StrSecureZeroFreeString(sczCommand);
     ReleaseHandle(hCreatedPipesEvent);
     PipeConnectionUninitialize(&connection);
 
