@@ -103,6 +103,32 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         {
             switch (parentElement.LocalName)
             {
+                case "ExePackage":
+                case "MsiPackage":
+                case "MspPackage":
+                case "MsuPackage":
+                    string packageId;
+                    if (!contextValues.TryGetValue("PackageId", out packageId) || String.IsNullOrEmpty(packageId))
+                    {
+                        this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, parentElement.LocalName, "Id"));
+                    }
+                    else
+                    {
+                        switch (attribute.LocalName)
+                        {
+                            case "PrereqSupportPackage":
+                                if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attribute))
+                                {
+                                    Row row = this.Core.CreateRow(sourceLineNumbers, "MbaPrerequisiteSupportPackage");
+                                    row[0] = packageId;
+                                }
+                                break;
+                            default:
+                                this.Core.UnexpectedAttribute(sourceLineNumbers, attribute);
+                                break;
+                        }
+                    }
+                        break;
                 case "Variable":
                     // at the time the extension attribute is parsed, the compiler might not yet have
                     // parsed the Name attribute, so we need to get it directly from the parent element.

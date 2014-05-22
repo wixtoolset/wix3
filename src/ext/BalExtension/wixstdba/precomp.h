@@ -21,6 +21,7 @@
 #include <shlwapi.h>
 #include <stdlib.h>
 #include <strsafe.h>
+#include <stddef.h>
 
 #include "dutil.h"
 #include "memutil.h"

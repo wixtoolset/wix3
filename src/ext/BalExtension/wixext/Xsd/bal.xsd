@@ -118,8 +118,22 @@
             </xs:attribute>
         </xs:complexType>
     </xs:element>
+    
+    <xs:attribute name="PrereqSupportPackage" type="YesNoType">
+        <xs:annotation>
+            <xs:documentation>
+                When set to "yes", the Prereq BA will plan the package to be installed if its InstallCondition is "true" or empty.
+            </xs:documentation>
+            <xs:appinfo>
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="MsiPackage" />
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="MspPackage" />
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="MsuPackage" />
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
 
-    <xs:attribute name="Overridable">
+    <xs:attribute name="Overridable" type="YesNoType">
         <xs:annotation>
             <xs:documentation>
                 When set to "yes", lets the user override the variable's default value by specifying another value on the command line,

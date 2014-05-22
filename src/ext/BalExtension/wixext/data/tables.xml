@@ -18,6 +18,11 @@
                 category="formatted" description="Localizable text to display when condition fails and install must abort."/>
     </tableDefinition>
 
+    <tableDefinition name="MbaPrerequisiteSupportPackage" bootstrapperApplicationData="yes">
+        <columnDefinition name="PackageId" type="string" length="255" primaryKey="yes" 
+                category="identifier" description="PackageId for the Prereq BA to conditionally install."/>
+    </tableDefinition>
+
     <tableDefinition name="WixStdbaOptions" bootstrapperApplicationData="yes">
         <columnDefinition name="SuppressOptionsUI" type="number" length="2" nullable="yes"
                 maxValue="1" description="If 1, don't show Options button during install."/>

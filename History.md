@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4161 - Add the PrereqSupportPackage attribute to all package types so that more than one package can be installed by the Prereq BA, and the MbaPrereqPackage can be conditionally installed.
+
 * SeanHall: WIXFEAT:4413 - Add IBootstrapperApplication::OnApplyNumberOfPhases.
 
 * BobArnson: WIXBUG:4215 - Clarify all the elements that switch bitness based on -arch/InstallerPlatform.
