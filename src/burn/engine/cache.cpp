@@ -139,6 +139,11 @@ extern "C" HRESULT CacheInitialize(
     vfInitializedCache = TRUE;
 
 LExit:
+    ReleaseStr(sczCurrentPath);
+    ReleaseStr(sczCompletedFolder);
+    ReleaseStr(sczCompletedPath);
+    ReleaseStr(sczOriginalSource);
+
     return hr;
 }
 
@@ -168,53 +173,6 @@ extern "C" HRESULT CacheEnsureWorkingFolder(
 LExit:
     ReleaseStr(sczWorkingFolder);
 
-    return hr;
-}
-
-extern "C" HRESULT CacheGetOriginalSourcePath(
-    __in BURN_VARIABLES* pVariables,
-    __in_z_opt LPCWSTR wzRelativePath,
-    __out_z_opt LPWSTR* psczOriginalSource
-    )
-{
-    HRESULT hr = S_OK;
-    LPWSTR sczOriginalSource = NULL;
-    LPWSTR sczOriginalSourceDirectory = NULL;
-
-    // If the original source has not been set already then set it where the bundle is
-    // running from right now. This value will be persisted and we'll use it when launched
-    // from the package cache since none of our packages will be relative to that location.
-    hr = VariableGetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, &sczOriginalSource);
-    if (E_NOTFOUND == hr)
-    {
-        hr = PathForCurrentProcess(&sczOriginalSource, NULL);
-        ExitOnFailure(hr, "Failed to get path for current executing process.");
-
-        hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
-        ExitOnFailure(hr, "Failed to set original source variable.");
-    }
-
-    // If the original source was requested, append the relative path if it was provided.
-    if (psczOriginalSource)
-    {
-        if (wzRelativePath)
-        {
-            hr = PathGetDirectory(sczOriginalSource, &sczOriginalSourceDirectory);
-            ExitOnFailure(hr, "Failed to get original source directory.");
-
-            hr = PathConcat(sczOriginalSourceDirectory, wzRelativePath, psczOriginalSource);
-            ExitOnFailure(hr, "Failed to concat original source path with relative path.");
-        }
-        else // return the original source as is.
-        {
-            *psczOriginalSource = sczOriginalSource;
-            sczOriginalSource = NULL;
-        }
-    }
-
-LExit:
-    ReleaseStr(sczOriginalSourceDirectory);
-    ReleaseStr(sczOriginalSource);
     return hr;
 }
 
