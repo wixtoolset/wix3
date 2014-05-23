@@ -47,6 +47,7 @@ enum OS_INFO_VARIABLE
     OS_INFO_VARIABLE_NTSuiteWebServer,
     OS_INFO_VARIABLE_CompatibilityMode,
     OS_INFO_VARIABLE_TerminalServer,
+    OS_INFO_VARIABLE_ProcessorArchitecture,
 };
 
 enum SET_VARIABLE
@@ -99,6 +100,10 @@ static HRESULT InitializeVariableVersionNT(
     __inout BURN_VARIANT* pValue
     );
 static HRESULT InitializeVariableOsInfo(
+    __in DWORD_PTR dwpData,
+    __inout BURN_VARIANT* pValue
+    );
+static HRESULT InitializeVariableSystemInfo(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
     );
@@ -232,6 +237,7 @@ extern "C" HRESULT VariableInitialize(
         {L"NTSuiteWebServer", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteWebServer},
         {L"PersonalFolder", InitializeVariableCsidlFolder, CSIDL_PERSONAL},
         {L"Privileged", InitializeVariablePrivileged, 0},
+        {L"ProcessorArchitecture", InitializeVariableSystemInfo, OS_INFO_VARIABLE_ProcessorArchitecture},
 #if defined(_WIN64)
         {L"ProgramFiles64Folder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES},
         {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILESX86},
@@ -1584,6 +1590,35 @@ static HRESULT InitializeVariableOsInfo(
         break;
     case OS_INFO_VARIABLE_TerminalServer:
         value.llValue = (VER_SUITE_TERMINAL == (ovix.wSuiteMask & VER_SUITE_TERMINAL)) && (VER_SUITE_SINGLEUSERTS != (ovix.wSuiteMask & VER_SUITE_SINGLEUSERTS)) ? 1 : 0;
+        value.Type = BURN_VARIANT_TYPE_NUMERIC;
+        break;
+    default:
+        AssertSz(FALSE, "Unknown OS info type.");
+        break;
+    }
+
+    hr = BVariantCopy(&value, pValue);
+    ExitOnFailure(hr, "Failed to set variant value.");
+
+LExit:
+    return hr;
+}
+
+static HRESULT InitializeVariableSystemInfo(
+    __in DWORD_PTR dwpData,
+    __inout BURN_VARIANT* pValue
+    )
+{
+    HRESULT hr = S_OK;
+    SYSTEM_INFO si = { };
+    BURN_VARIANT value = { };
+
+    ::GetNativeSystemInfo(&si);
+
+    switch ((OS_INFO_VARIABLE)dwpData)
+    {
+    case OS_INFO_VARIABLE_ProcessorArchitecture:
+        value.llValue = si.wProcessorArchitecture;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     default:

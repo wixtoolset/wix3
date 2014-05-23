@@ -1,3 +1,5 @@
+* BobArnson: WIXFEAT:2742 - Add ProcessorArchitecture Burn variable.
+
 * BobArnson: WIXFEAT:4378 - Add WixBundleOriginalSourceFolder variable (WixBundleOriginalSource minus file name).
 
 * BobArnson: WIXBUG:4418 - Release strings and remove dead code.
