@@ -33,6 +33,7 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * NTSuiteSmallBusinessRestricted - non-zero if OS version suite is Restricted Small Business.
 * NTSuiteWebServer - non-zero if OS version suite is Web Server.
 * PersonalFolder - gets the well-known folder for CSIDL\_PERSONAL.
+* ProcessorArchitecture - gets the native [SYSTEM_INFO.wProcessorArchitecture](http://msdn.microsoft.com/en-us/library/windows/desktop/ms724958%28v=vs.85%29.aspx).
 * Privileged - non-zero if the process could run elevated (on Vista+) or is running as an Administrator (on WinXP).
 * ProgramFilesFolder - gets the well-known folder for CSIDL\_PROGRAM\_FILESX86.
 * ProgramFiles64Folder - gets the well-known folder for CSIDL\_PROGRAM\_FILES.
