@@ -2132,16 +2132,10 @@
       <xs:choice minOccurs="0">
         <xs:element ref="Validate" minOccurs="0" />
       </xs:choice>
-      <xs:attribute name="Id" use="required">
+      <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
           <xs:documentation>Identifier for a set of product versions.  Keep this value to 27 characters or less.  If you have a large number of baselines reduce this length accordingly or you will experience MsiExceptions when building patches.</xs:documentation>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:minLength value="1" />
-            <xs:maxLength value="27" />            
-          </xs:restriction>
-        </xs:simpleType>
+        </xs:annotation>        
       </xs:attribute>
     </xs:complexType>
   </xs:element>
