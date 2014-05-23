@@ -30,11 +30,6 @@ HRESULT CacheEnsureWorkingFolder(
     __in LPCWSTR wzBundleId,
     __deref_out_z_opt LPWSTR* psczWorkingFolder
     );
-HRESULT CacheGetOriginalSourcePath(
-    __in BURN_VARIABLES* pVariables,
-    __in_z_opt LPCWSTR wzRelativePath,
-    __out_z_opt LPWSTR* psczOriginalSource
-    );
 HRESULT CacheCalculateBundleWorkingPath(
     __in_z LPCWSTR wzBundleId,
     __in LPCWSTR wzExecutableName,
