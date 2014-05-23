@@ -498,6 +498,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                             return;
                         }
 
+                        //http://wixtoolset.org/issues/4434/
+                        const int inputPatchBaselineNameLengthMax = 28;
+                        if (inputPatchBaselineNameLengthMax < baseline.Length)
+                        {
+                            throw new ArgumentException(string.Format("The transform name [{0}] is too long.  Maximum length is {1}", baseline, inputPatchBaselineNameLengthMax));
+                        }
+
                         this.inputTransforms.Add(transform, baseline);
                         this.inputTransformsOrdered.Add(transform);
                     }

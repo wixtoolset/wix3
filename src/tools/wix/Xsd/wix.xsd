@@ -2132,10 +2132,16 @@
       <xs:choice minOccurs="0">
         <xs:element ref="Validate" minOccurs="0" />
       </xs:choice>
-      <xs:attribute name="Id" type="xs:string" use="required">
+      <xs:attribute name="Id" use="required">
         <xs:annotation>
           <xs:documentation>Identifier for a set of product versions.</xs:documentation>
         </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="28" />            
+          </xs:restriction>
+        </xs:simpleType>
       </xs:attribute>
     </xs:complexType>
   </xs:element>
