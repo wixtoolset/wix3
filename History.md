@@ -1,3 +1,5 @@
+* STunney: WIXBUG:4434 - Assert maximum patch baseline id length (because of MSI limitation in transform substorage ids).
+
 * BobArnson: WIXFEAT:2742 - Add ProcessorArchitecture Burn variable.
 
 * BobArnson: WIXFEAT:4378 - Add WixBundleOriginalSourceFolder variable (WixBundleOriginalSource minus file name).
