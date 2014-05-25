@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4192 - Guard against a null.
+
 * BobArnson: WIXBUG:4418 - Release strings and remove dead code.
 
 * SeanHall: WIXFEAT:4161 - Add the PrereqSupportPackage attribute to all package types so that more than one package can be installed by the Prereq BA, and the MbaPrereqPackage can be conditionally installed.
