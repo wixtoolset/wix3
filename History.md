@@ -1,3 +1,5 @@
+## WixBuild: Version 3.9.526.0
+
 * BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
 
 * BobArnson: WIXBUG:4134 - Add <UI> overrides to WixUI localization for pt-BR.
