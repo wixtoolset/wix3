@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4134 - Add <UI> overrides to WixUI localization for pt-BR.
+
 * BobArnson: WIXBUG:4192 - Guard against a null.
 
 * BobArnson: WIXBUG:4125 - Clarify doc.
