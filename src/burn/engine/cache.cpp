@@ -106,6 +106,7 @@ extern "C" HRESULT CacheInitialize(
     LPWSTR sczCompletedFolder = NULL;
     LPWSTR sczCompletedPath = NULL;
     LPWSTR sczOriginalSource = NULL;
+    LPWSTR sczOriginalSourceFolder = NULL;
     int nCompare = 0;
 
     hr = PathForCurrentProcess(&sczCurrentPath, NULL);
@@ -133,6 +134,12 @@ extern "C" HRESULT CacheInitialize(
         {
             hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczCurrentPath, FALSE);
             ExitOnFailure(hr, "Failed to set original source variable.");
+
+            hr = PathGetDirectory(sczCurrentPath, &sczOriginalSourceFolder);
+            ExitOnFailure(hr, "Failed to get directory from original source path.");
+
+            hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, sczOriginalSourceFolder, FALSE);
+            ExitOnFailure(hr, "Failed to set original source directory variable.");
         }
     }
 
@@ -143,6 +150,7 @@ LExit:
     ReleaseStr(sczCompletedFolder);
     ReleaseStr(sczCompletedPath);
     ReleaseStr(sczOriginalSource);
+    ReleaseStr(sczOriginalSourceFolder);
 
     return hr;
 }

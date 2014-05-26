@@ -57,6 +57,7 @@ const LPCWSTR BURN_BUNDLE_VERSION = L"WixBundleVersion";
 // The following constants must stay in sync with src\wix\Binder.cs
 const LPCWSTR BURN_BUNDLE_NAME = L"WixBundleName";
 const LPCWSTR BURN_BUNDLE_ORIGINAL_SOURCE = L"WixBundleOriginalSource";
+const LPCWSTR BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER = L"WixBundleOriginalSourceFolder";
 const LPCWSTR BURN_BUNDLE_LAST_USED_SOURCE = L"WixBundleLastUsedSource";
 
 

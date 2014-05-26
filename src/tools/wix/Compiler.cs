@@ -10873,6 +10873,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Id"));
                 id = String.Empty;
             }
+            else if (27 < id.Length)
+            {
+                this.core.OnMessage(WixErrors.IdentifierTooLongError(sourceLineNumbers, node.Name, "Id", id, 27));
+            }
 
             foreach (XmlNode child in node.ChildNodes)
             {
