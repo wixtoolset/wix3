@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4192 - Guard against a null.
+
 * BobArnson: WIXBUG:4125 - Clarify doc.
 
 * STunney: WIXBUG:4434 - Assert maximum patch baseline id length (because of MSI limitation in transform substorage ids).
