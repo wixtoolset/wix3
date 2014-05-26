@@ -23,6 +23,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private string fileId;
         private ushort date;
         private ushort time;
+        private int size;
 
         /// <summary>
         /// Constructs CabinetFileInfo
@@ -30,11 +31,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <param name="fileId">File Id</param>
         /// <param name="date">Last modified date (MS-DOS time)</param>
         /// <param name="time">Last modified time (MS-DOS time)</param>
-        public CabinetFileInfo(string fileId, ushort date, ushort time)
+        public CabinetFileInfo(string fileId, ushort date, ushort time, int size)
         {
             this.fileId = fileId;
             this.date = date;
             this.time = time;
+            this.size = size;
         }
 
         /// <summary>
@@ -60,6 +62,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
         public ushort Time
         {
             get { return this.time; }
+        }
+
+        /// <summary>
+        /// Gets the size of the file in bytes.
+        /// </summary>
+        public int Size
+        {
+            get { return this.size; }
         }
     }
 }

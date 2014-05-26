@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
+
 * STunney: WIXBUG:4434 - Assert maximum patch baseline id length (because of MSI limitation in transform substorage ids).
 
 * BobArnson: WIXFEAT:2742 - Add ProcessorArchitecture Burn variable.

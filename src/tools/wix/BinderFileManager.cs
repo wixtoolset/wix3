@@ -526,12 +526,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                 {
                                     // Still valid so ensure the source time stamp hasn't changed. Thus we need
                                     // to convert the source file time stamp into a cabinet compatible data/time.
-                                    DateTime sourceFileTime = File.GetLastWriteTime(fileRow.Source);
+                                    FileInfo fileInfo = new FileInfo(fileRow.Source);
                                     ushort sourceCabDate;
                                     ushort sourceCabTime;
 
-                                    Cab.Interop.CabInterop.DateTimeToCabDateAndTime(sourceFileTime, out sourceCabDate, out sourceCabTime);
-                                    cabinetValid = (cabFileInfo.Date == sourceCabDate && cabFileInfo.Time == sourceCabTime);
+                                    Cab.Interop.CabInterop.DateTimeToCabDateAndTime(fileInfo.LastWriteTime, out sourceCabDate, out sourceCabTime);
+                                    cabinetValid = (cabFileInfo.Date == sourceCabDate && cabFileInfo.Time == sourceCabTime)
+                                        && (cabFileInfo.Size == fileInfo.Length);
                                 }
 
                                 if (!cabinetValid)
