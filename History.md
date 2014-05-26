@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4134 - Add <UI> overrides to WixUI localization for pt-BR.
+
 * STunney: WIXBUG:4434 - Assert maximum patch baseline id length (because of MSI limitation in transform substorage ids).
 
 * BobArnson: WIXFEAT:2742 - Add ProcessorArchitecture Burn variable.
