@@ -92,7 +92,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
 
             if (fdint == CabInterop.NOTIFICATIONTYPE.COPY_FILE)
             {
-                CabinetFileInfo fileInfo = new CabinetFileInfo(pfdin.Psz1, pfdin.Date, pfdin.Time);
+                CabinetFileInfo fileInfo = new CabinetFileInfo(pfdin.Psz1, pfdin.Date, pfdin.Time, pfdin.Cb);
                 this.fileInfoList.Add(fileInfo);
             }
             return 0; // tell cabinet api to skip this file

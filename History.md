@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
+
 * BobArnson: WIXBUG:4134 - Add <UI> overrides to WixUI localization for pt-BR.
 
 * BobArnson: WIXBUG:4192 - Guard against a null.
