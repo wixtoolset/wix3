@@ -313,11 +313,12 @@ public: // IBootstrapperApplication
             m_fPrereqAlreadyInstalled = TRUE;
 
             // At this point we have to assume that all prerequisite packages need to be installed, so set to false if any of them aren't installed.
-            for (UINT i = 0; i < m_cPrereqPackages; ++i)
+            for (DWORD i = 0; i < m_cPrereqPackages; ++i)
             {
                 if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled)
                 {
                     m_fPrereqAlreadyInstalled = FALSE;
+                    break;
                 }
             }
         }
@@ -437,11 +438,12 @@ public: // IBootstrapperApplication
         m_fPrereqAlreadyInstalled = TRUE;
 
         // Now that we've planned the packages, we can focus on the prerequisite packages that are supposed to be installed.
-        for (UINT i = 0; i < m_cPrereqPackages; ++i)
+        for (DWORD i = 0; i < m_cPrereqPackages; ++i)
         {
             if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled && m_rgPrereqPackages[i].fPlannedToBeInstalled)
             {
                 m_fPrereqAlreadyInstalled = FALSE;
+                break;
             }
         }
 
@@ -850,7 +852,7 @@ public: // IBootstrapperApplication
         m_fPrereqInstalled = TRUE;
         BOOL fInstalledAPackage = FALSE;
 
-        for (UINT i = 0; i < m_cPrereqPackages; ++i)
+        for (DWORD i = 0; i < m_cPrereqPackages; ++i)
         {
             if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled)
             {
@@ -861,6 +863,7 @@ public: // IBootstrapperApplication
                 else
                 {
                     m_fPrereqInstalled = FALSE;
+                    break;
                 }
             }
         }
@@ -2978,7 +2981,7 @@ private:
     STRINGDICT_HANDLE m_sdOverridableVariables;
 
     WIXSTDBA_PREREQ_PACKAGE* m_rgPrereqPackages;
-    UINT m_cPrereqPackages;
+    DWORD m_cPrereqPackages;
     STRINGDICT_HANDLE m_shPrereqSupportPackages;
 
     BOOL m_fPrereq;
