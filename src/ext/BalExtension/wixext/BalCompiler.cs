@@ -110,7 +110,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     string packageId;
                     if (!contextValues.TryGetValue("PackageId", out packageId) || String.IsNullOrEmpty(packageId))
                     {
-                        this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, parentElement.LocalName, "Id"));
+                        this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, parentElement.LocalName, "Id", attribute.LocalName));
                     }
                     else
                     {
