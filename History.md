@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4243 - use hashes to verify bundled packages by default.
+
 ## WixBuild: Version 3.9.526.0
 
 * BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
