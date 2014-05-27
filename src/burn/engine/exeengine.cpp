@@ -492,7 +492,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
         // Add the list of dependencies to ignore, if any, to the burn command line.
         if (pExecuteAction->exePackage.sczIgnoreDependencies && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
         {
-            hr = StrAllocFormatted(&sczCommand, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
+            hr = StrAllocateFormatted(&sczCommand, TRUE, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
             ExitOnFailure(hr, "Failed to append the list of dependencies to ignore to the command line.");
 
             hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, pExecuteAction->exePackage.sczIgnoreDependencies);
@@ -502,7 +502,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
         // Add the list of ancestors, if any, to the burn command line.
         if (pExecuteAction->exePackage.sczAncestors)
         {
-            hr = StrAllocFormatted(&sczCommand, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_ANCESTORS, pExecuteAction->exePackage.sczAncestors);
+            hr = StrAllocateFormatted(&sczCommand, TRUE, L"%ls -%ls=%ls", sczCommand, BURN_COMMANDLINE_SWITCH_ANCESTORS, pExecuteAction->exePackage.sczAncestors);
             ExitOnFailure(hr, "Failed to append the list of ancestors to the command line.");
 
             hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_ANCESTORS, pExecuteAction->exePackage.sczAncestors);
