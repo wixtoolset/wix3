@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4288 - do not mask error code when testing file size of payload in cache.
+
 ## WixBuild: Version 3.9.526.0
 
 * BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
