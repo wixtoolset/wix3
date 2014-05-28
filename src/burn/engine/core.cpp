@@ -1332,20 +1332,21 @@ static HRESULT DetectPackagePayloadsCached(
                 hr = PathConcat(sczCachePath, pPackagePayload->pPayload->sczFilePath, &sczPayloadCachePath);
                 ExitOnFailure(hr, "Failed to concat payload cache path.");
 
-                // TODO: should we do a full on hash verification on the file to ensure the exact right
-                //       file is cached?
                 hr = FileSize(sczPayloadCachePath, &llSize);
-                if (SUCCEEDED(hr) && static_cast<DWORD64>(llSize) == pPackagePayload->pPayload->qwFileSize)
+                if (SUCCEEDED(hr) && static_cast<DWORD64>(llSize) != pPackagePayload->pPayload->qwFileSize)
                 {
+                    hr = HRESULT_FROM_WIN32(ERROR_FILE_CORRUPT); // size did not match expectations, so cache must have the wrong file.
+                }
+
+                if (SUCCEEDED(hr))
+                {
+                    // TODO: should we do a full on hash verification on the file to ensure
+                    //       the exact right file is cached?
+
                     pPackagePayload->fCached = TRUE;
                 }
                 else
                 {
-                    if (static_cast<DWORD64>(llSize) != pPackagePayload->pPayload->qwFileSize)
-                    {
-                        hr = HRESULT_FROM_WIN32(ERROR_FILE_CORRUPT);
-                    }
-
                     LogId(REPORT_STANDARD, MSG_DETECT_PACKAGE_NOT_FULLY_CACHED, pPackage->sczId, pPackagePayload->pPayload->sczKey, hr);
 
                     cache = BURN_CACHE_STATE_PARTIAL; // found a payload that was not cached so we are partial.
