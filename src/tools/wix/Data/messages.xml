@@ -1829,11 +1829,11 @@
         </Message>
         <Message Id="UnexpectedExternalUIMessage" Number="217" SourceLineNumbers="no">
             <Instance>
-                Error executing unknown ICE action. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
+                Error executing unknown ICE action. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wixtoolset.org/documentation/error217/ for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
                 <Parameter Type="System.String" Name="message" />
             </Instance>
             <Instance>
-                Error executing ICE action '{1}'. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
+                Error executing ICE action '{1}'. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wixtoolset.org/documentation/error217/ for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
                 <Parameter Type="System.String" Name="message" />
                 <Parameter Type="System.String" Name="action" />
             </Instance>

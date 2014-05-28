@@ -1,3 +1,5 @@
+* RobMen: Point to new page for linker error 217 to fix WIXBUG:4208.
+
 ## WixBuild: Version 3.9.526.0
 
 * BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
