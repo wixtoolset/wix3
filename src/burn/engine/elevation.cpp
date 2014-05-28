@@ -263,9 +263,9 @@ extern "C" HRESULT ElevationElevate(
             hr = PipeWaitForChildConnect(&pEngineState->companionConnection);
             ExitOnFailure(hr, "Failed to connect to elevated child process.");
         }
-        else if (HRESULT_FROM_WIN32(ERROR_CANCELLED) == hr ||   // the user clicked "Cancel" on the elevation prompt or
-                 HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED) == hr) // the elevation prompt timed out, provide the notification with the option to retry.
+        else if (HRESULT_FROM_WIN32(ERROR_CANCELLED) == hr)
         {
+            // The user clicked "Cancel" on the elevation prompt or the elevation prompt timed out, provide the notification with the option to retry.
             hr = HRESULT_FROM_WIN32(ERROR_INSTALL_USEREXIT);
             nResult = UserExperienceSendError(pEngineState->userExperience.pUserExperience, BOOTSTRAPPER_ERROR_TYPE_ELEVATE, NULL, hr, NULL, MB_ICONERROR | MB_RETRYCANCEL, IDNOACTION);
         }

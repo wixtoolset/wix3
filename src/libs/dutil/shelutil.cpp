@@ -53,6 +53,7 @@ extern "C" HRESULT DAPI ShelExec(
     )
 {
     HRESULT hr = S_OK;
+    DWORD er = ERROR_SUCCESS;
     SHELLEXECUTEINFOW shExecInfo = {};
 
     shExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
@@ -66,39 +67,8 @@ extern "C" HRESULT DAPI ShelExec(
 
     if (!vpfnShellExecuteExW(&shExecInfo))
     {
-        switch (reinterpret_cast<DWORD_PTR>(shExecInfo.hInstApp))
-        {
-        case SE_ERR_FNF:
-            hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-            break;
-        case SE_ERR_PNF:
-            hr = HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND);
-            break;
-        case ERROR_BAD_FORMAT:
-            hr = HRESULT_FROM_WIN32(ERROR_BAD_FORMAT);
-            break;
-        case SE_ERR_ASSOCINCOMPLETE:
-        case SE_ERR_NOASSOC:
-            hr = HRESULT_FROM_WIN32(ERROR_NO_ASSOCIATION);
-            break;
-        case SE_ERR_DDEBUSY: __fallthrough;
-        case SE_ERR_DDEFAIL: __fallthrough;
-        case SE_ERR_DDETIMEOUT:
-            hr = HRESULT_FROM_WIN32(ERROR_DDE_FAIL);
-            break;
-        case SE_ERR_DLLNOTFOUND:
-            hr = HRESULT_FROM_WIN32(ERROR_DLL_NOT_FOUND);
-            break;
-        case SE_ERR_OOM:
-            hr = E_OUTOFMEMORY;
-            break;
-        case SE_ERR_ACCESSDENIED:
-            hr = E_ACCESSDENIED;
-            break;
-        default:
-            hr = E_FAIL;
-        }
-        ExitOnFailure1(hr, "ShellExecEx failed with return code %d", reinterpret_cast<DWORD_PTR>(shExecInfo.hInstApp));
+        er = ::GetLastError();
+        ExitOnWin32Error1(er, hr, "ShellExecEx failed with return code %d", er);
     }
 
     if (phProcess)
