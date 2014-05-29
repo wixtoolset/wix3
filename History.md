@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3736 - Add WixBundleExecutePackageCacheFolder variable.
+
 * RobMen: WIXBUG:4288 - do not mask error code when testing file size of payload in cache.
 
 * RobMen: Point to new page for linker error 217 to fix WIXBUG:4208.
