@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:3890 - put Burn command line arguments first when launching unelevated parent process since malformed user arguments created an infinite loop.
+
 * RobMen: WIXBUG:4288 - do not mask error code when testing file size of payload in cache.
 
 * RobMen: Point to new page for linker error 217 to fix WIXBUG:4208.
