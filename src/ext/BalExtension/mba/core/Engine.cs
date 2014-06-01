@@ -26,6 +26,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     {
         // Burn errs on empty strings, so declare initial buffer size.
         private const int InitialBufferSize = 80;
+        private static readonly string normalizeVersionFormatString = "{0} must be less than or equal to " + UInt16.MaxValue;
 
         private IBootstrapperEngine engine;
         private Variables<long> numericVariables;
@@ -597,25 +598,25 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             int build = version.Build;
             int revision = version.Revision;
 
-            if (major > ushort.MaxValue)
+            if (major > UInt16.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("version", "Major must be less than or equal to " + ushort.MaxValue);
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Major"));
             }
-            if (minor > ushort.MaxValue)
+            if (minor > UInt16.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("version", "Minor must be less than or equal to " + ushort.MaxValue);
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Minor"));
             }
-            if (build > ushort.MaxValue)
+            if (build > UInt16.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("version", "Build must be less than or equal to " + ushort.MaxValue);
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Build"));
             }
             if (build == -1)
             {
                 build = 0;
             }
-            if (revision > ushort.MaxValue)
+            if (revision > UInt16.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("version", "Revision must be less than or equal to " + ushort.MaxValue);
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Revision"));
             }
             if (revision == -1)
             {
