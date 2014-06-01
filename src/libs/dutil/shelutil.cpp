@@ -53,7 +53,6 @@ extern "C" HRESULT DAPI ShelExec(
     )
 {
     HRESULT hr = S_OK;
-    DWORD er = ERROR_SUCCESS;
     SHELLEXECUTEINFOW shExecInfo = {};
 
     shExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
@@ -67,8 +66,7 @@ extern "C" HRESULT DAPI ShelExec(
 
     if (!vpfnShellExecuteExW(&shExecInfo))
     {
-        er = ::GetLastError();
-        ExitOnWin32Error1(er, hr, "ShellExecEx failed with return code %d", er);
+        ExitWithLastError1(hr, "ShellExecEx failed with return code: %d", Dutil_er);
     }
 
     if (phProcess)
