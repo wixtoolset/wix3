@@ -441,9 +441,6 @@ extern "C" HRESULT ExeEngineExecutePackage(
     hr = CacheGetCompletedPath(pExecuteAction->exePackage.pPackage->fPerMachine, pExecuteAction->exePackage.pPackage->sczCacheId, &sczCachedDirectory);
     ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->exePackage.pPackage->sczId);
 
-    hr = PathBackslashTerminate(&sczCachedDirectory);
-    ExitOnFailure(hr, "Failed to backslashify.");
-
     // Best effort to set the execute package cache folder variable.
     VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
 

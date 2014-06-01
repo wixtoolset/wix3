@@ -473,9 +473,6 @@ extern "C" HRESULT MspEngineExecutePackage(
             hr = CacheGetCompletedPath(pMspPackage->fPerMachine, pMspPackage->sczCacheId, &sczCachedDirectory);
             ExitOnFailure1(hr, "Failed to get cached path for MSP package: %ls", pMspPackage->sczId);
 
-            hr = PathBackslashTerminate(&sczCachedDirectory);
-            ExitOnFailure(hr, "Failed to backslashify.");
-
             // Best effort to set the execute package cache folder variable.
             VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
 
