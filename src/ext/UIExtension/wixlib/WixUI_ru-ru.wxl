@@ -10,6 +10,7 @@
 <WixLocalization Culture="ru-ru" Codepage="1251" xmlns="http://schemas.microsoft.com/wix/2006/localization">
     <UI Dialog="AdvancedWelcomeEulaDlg" Control="Print" X="50" />
     <UI Dialog="AdvancedWelcomeEulaDlg" Control="Advanced" X="124" Width="85" />
+    <UI Dialog="InstallDirDlg" Control="Description" Y="20" Height="30" />
 
     <String Id="WixUIBack" Overridable="yes">&amp;Назад</String>
     <String Id="WixUINext" Overridable="yes">Д&amp;алее</String>
