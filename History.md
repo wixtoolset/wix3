@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4416 - Fail fast when loading an MBA on Win7 RTM with .NET 4.5.2 or greater installed.
+
 * RobMen: WIXBUG:4288 - do not mask error code when testing file size of payload in cache.
 
 * RobMen: Point to new page for linker error 217 to fix WIXBUG:4208.
