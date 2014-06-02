@@ -11,6 +11,7 @@
 #include "precomp.h"
 
 static const HRESULT E_WIXSTDBA_CONDITION_FAILED = MAKE_HRESULT(SEVERITY_ERROR, 500, 1);
+static const HRESULT E_WIXSTDBA_PREMATURE_FAILURE = MAKE_HRESULT(SEVERITY_ERROR, 500, 2);
 
 static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 
@@ -913,9 +914,16 @@ private: // privates
         hr = pThis->CreateMainWindow();
         BalExitOnFailure(hr, "Failed to create main window.");
 
-        // Okay, we're ready for packages now.
-        pThis->SetState(WIXSTDBA_STATE_INITIALIZED, hr);
-        ::PostMessageW(pThis->m_hWnd, BOOTSTRAPPER_ACTION_HELP == pThis->m_command.action ? WM_WIXSTDBA_SHOW_HELP : WM_WIXSTDBA_DETECT_PACKAGES, 0, 0);
+        if (pThis->m_hrFinal)
+        {
+            pThis->SetState(WIXSTDBA_STATE_FAILED, hr);
+        }
+        else
+        {
+            // Okay, we're ready for packages now.
+            pThis->SetState(WIXSTDBA_STATE_INITIALIZED, hr);
+            ::PostMessageW(pThis->m_hWnd, BOOTSTRAPPER_ACTION_HELP == pThis->m_command.action ? WM_WIXSTDBA_SHOW_HELP : WM_WIXSTDBA_DETECT_PACKAGES, 0, 0);
+        }
 
         // message pump
         while (0 != (fRet = ::GetMessageW(&msg, NULL, 0, 0)))
@@ -2117,7 +2125,7 @@ private: // privates
                             }
                         }
 
-                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal)
+                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal || E_WIXSTDBA_PREMATURE_FAILURE == m_hrFinal)
                         {
                             StrAllocString(&sczText, sczUnformattedText, 0);
                         }
@@ -2813,6 +2821,7 @@ public:
     CWixStandardBootstrapperApplication(
         __in HMODULE hModule,
         __in BOOL fPrereq,
+        __in LPCWSTR wzFailedMessage,
         __in IBootstrapperEngine* pEngine,
         __in const BOOTSTRAPPER_COMMAND* pCommand
         ) : CBalBaseBootstrapperApplication(pEngine, pCommand, 3, 3000)
@@ -2902,6 +2911,17 @@ public:
 
         m_hBAFModule = NULL;
         m_pBAFunction = NULL;
+
+        if (wzFailedMessage)
+        {
+            HRESULT hr = BalFormatString(wzFailedMessage, &m_sczFailedMessage);
+            if (FAILED(hr))
+            {
+                BalLogError(hr, "Failed to format premature failure message: %ls", wzFailedMessage);
+                ReleaseNullStr(m_sczFailedMessage);
+            }
+            m_hrFinal = E_WIXSTDBA_PREMATURE_FAILURE;
+        }
     }
 
 
@@ -3000,11 +3020,12 @@ private:
 
 
 //
-// CreateUserExperience - creates a new IBurnUserExperience object.
+// CreateBootstrapperApplication - creates a new IBootstrapperApplication object.
 //
 HRESULT CreateBootstrapperApplication(
     __in HMODULE hModule,
     __in BOOL fPrereq,
+    __in LPCWSTR wzFailedMessage,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication
@@ -3013,7 +3034,7 @@ HRESULT CreateBootstrapperApplication(
     HRESULT hr = S_OK;
     CWixStandardBootstrapperApplication* pApplication = NULL;
 
-    pApplication = new CWixStandardBootstrapperApplication(hModule, fPrereq, pEngine, pCommand);
+    pApplication = new CWixStandardBootstrapperApplication(hModule, fPrereq, wzFailedMessage, pEngine, pCommand);
     ExitOnNull(pApplication, hr, E_OUTOFMEMORY, "Failed to create new standard bootstrapper application object.");
 
     *ppApplication = pApplication;
