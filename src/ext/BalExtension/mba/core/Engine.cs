@@ -26,6 +26,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     {
         // Burn errs on empty strings, so declare initial buffer size.
         private const int InitialBufferSize = 80;
+        private static readonly string normalizeVersionFormatString = "{0} must be less than or equal to " + UInt16.MaxValue;
 
         private IBootstrapperEngine engine;
         private Variables<long> numericVariables;
@@ -206,8 +207,15 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         }
 
         /// <summary>
-        /// Gets or sets <see cref="Version"/> vaiables for the engine.
+        /// Gets or sets <see cref="Version"/> variables for the engine.
+        /// 
+        /// The <see cref="Version"/> class can keep track of when the build and revision fields are undefined, but the engine can't.
+        /// Therefore, the build and revision fields must be defined when setting a <see cref="Version"/> variable.
+        /// Use the NormalizeVersion method to make sure the engine can accept the Version.
+        /// 
+        /// To keep track of versions without build or revision fields, use StringVariables instead.
         /// </summary>
+        /// <exception cref="OverflowException">The given <see cref="Version"/> was invalid.</exception>
         public Variables<Version> VersionVariables
         {
             get { return this.versionVariables; }
@@ -244,7 +252,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// </summary>
         /// <param name="hwndParent">The parent window of the elevation dialog.</param>
         /// <returns>true if elevation succeeded; otherwise, false if the user cancelled.</returns>
-        /// <exception cref="Win32Exception">A Win32 error occured.</exception>
+        /// <exception cref="Win32Exception">A Win32 error occurred.</exception>
         public bool Elevate(IntPtr hwndParent)
         {
             int ret = this.engine.Elevate(hwndParent);
@@ -268,7 +276,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// </summary>
         /// <param name="input">The string to escape.</param>
         /// <returns>The escaped string.</returns>
-        /// <exception cref="Win32Exception">A Win32 error occured.</exception>
+        /// <exception cref="Win32Exception">A Win32 error occurred.</exception>
         public string EscapeString(string input)
         {
             int capacity = InitialBufferSize;
@@ -308,7 +316,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// </summary>
         /// <param name="format">The string to format.</param>
         /// <returns>The formatted string.</returns>
-        /// <exception cref="Win32Exception">A Win32 error occured.</exception>
+        /// <exception cref="Win32Exception">A Win32 error occurred.</exception>
         public string FormatString(string format)
         {
             int capacity = InitialBufferSize;
@@ -403,7 +411,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Sends progress percentages when embedded.
         /// </summary>
         /// <param name="progressPercentage">Percentage completed thus far.</param>
-        /// <param name="overallPercentage">Overall precentage completed.</param>
+        /// <param name="overallPercentage">Overall percentage completed.</param>
         public int SendEmbeddedProgress(int progressPercentage, int overallPercentage)
         {
             int result = 0;
@@ -570,6 +578,50 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             int minor = (int)((version & ((long)0xffff << 32)) >> 32);
             int build = (int)((version & ((long)0xffff << 16)) >> 16);
             int revision = (int)(version & 0xffff);
+
+            return new Version(major, minor, build, revision);
+        }
+
+        /// <summary>
+        /// Verifies that VersionVariables can pass on the given Version to the engine.
+        /// If the Build or Revision fields are undefined, they are set to zero.
+        /// </summary>
+        public static Version NormalizeVersion(Version version)
+        {
+            if (version == null)
+            {
+                throw new ArgumentNullException("version");
+            }
+
+            int major = version.Major;
+            int minor = version.Minor;
+            int build = version.Build;
+            int revision = version.Revision;
+
+            if (major > UInt16.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Major"));
+            }
+            if (minor > UInt16.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Minor"));
+            }
+            if (build > UInt16.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Build"));
+            }
+            if (build == -1)
+            {
+                build = 0;
+            }
+            if (revision > UInt16.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("version", String.Format(normalizeVersionFormatString, "Revision"));
+            }
+            if (revision == -1)
+            {
+                revision = 0;
+            }
 
             return new Version(major, minor, build, revision);
         }
