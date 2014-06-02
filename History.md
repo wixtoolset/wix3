@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:3890 - put Burn command line arguments first when launching unelevated parent process since malformed user arguments created an infinite loop.
+
 * SeanHall: WIXBUG:3951 - Document limitations of VersionVariables and create NormalizeVersion method.
 
 * RobMen: WIXBUG:4288 - do not mask error code when testing file size of payload in cache.
