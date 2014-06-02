@@ -310,15 +310,18 @@ public: // IBootstrapperApplication
         {
             hrStatus = EvaluateConditions();
             
-            m_fPrereqAlreadyInstalled = TRUE;
-
-            // At this point we have to assume that all prerequisite packages need to be installed, so set to false if any of them aren't installed.
-            for (DWORD i = 0; i < m_cPrereqPackages; ++i)
+            if (m_fPrereq)
             {
-                if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled)
+                m_fPrereqAlreadyInstalled = TRUE;
+
+                // At this point we have to assume that all prerequisite packages need to be installed, so set to false if any of them aren't installed.
+                for (DWORD i = 0; i < m_cPrereqPackages; ++i)
                 {
-                    m_fPrereqAlreadyInstalled = FALSE;
-                    break;
+                    if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled)
+                    {
+                        m_fPrereqAlreadyInstalled = FALSE;
+                        break;
+                    }
                 }
             }
         }
@@ -435,15 +438,18 @@ public: // IBootstrapperApplication
             m_pBAFunction->OnPlanComplete();
         }
 
-        m_fPrereqAlreadyInstalled = TRUE;
-
-        // Now that we've planned the packages, we can focus on the prerequisite packages that are supposed to be installed.
-        for (DWORD i = 0; i < m_cPrereqPackages; ++i)
+        if (m_fPrereq)
         {
-            if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+            m_fPrereqAlreadyInstalled = TRUE;
+
+            // Now that we've planned the packages, we can focus on the prerequisite packages that are supposed to be installed.
+            for (DWORD i = 0; i < m_cPrereqPackages; ++i)
             {
-                m_fPrereqAlreadyInstalled = FALSE;
-                break;
+                if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+                {
+                    m_fPrereqAlreadyInstalled = FALSE;
+                    break;
+                }
             }
         }
 
@@ -849,26 +855,29 @@ public: // IBootstrapperApplication
         // If a restart is required and we're not displaying a UI or we are not supposed to prompt for restart then allow the restart.
         m_fAllowRestart = m_fRestartRequired && (BOOTSTRAPPER_DISPLAY_FULL > m_command.display || BOOTSTRAPPER_RESTART_PROMPT < m_command.restart);
 
-        m_fPrereqInstalled = TRUE;
-        BOOL fInstalledAPackage = FALSE;
-
-        for (DWORD i = 0; i < m_cPrereqPackages; ++i)
+        if (m_fPrereq)
         {
-            if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+            m_fPrereqInstalled = TRUE;
+            BOOL fInstalledAPackage = FALSE;
+
+            for (DWORD i = 0; i < m_cPrereqPackages; ++i)
             {
-                if (m_rgPrereqPackages[i].fSuccessfullyInstalled)
+                if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled)
                 {
-                    fInstalledAPackage = TRUE;
-                }
-                else
-                {
-                    m_fPrereqInstalled = FALSE;
-                    break;
+                    if (m_rgPrereqPackages[i].fSuccessfullyInstalled)
+                    {
+                        fInstalledAPackage = TRUE;
+                    }
+                    else
+                    {
+                        m_fPrereqInstalled = FALSE;
+                        break;
+                    }
                 }
             }
-        }
 
-        m_fPrereqInstalled = m_fPrereqInstalled && fInstalledAPackage;
+            m_fPrereqInstalled = m_fPrereqInstalled && fInstalledAPackage;
+        }
 
         // If we are showing UI, wait a beat before moving to the final screen.
         if (BOOTSTRAPPER_DISPLAY_NONE < m_command.display)
