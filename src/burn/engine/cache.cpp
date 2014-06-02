@@ -285,7 +285,7 @@ extern "C" HRESULT CacheGetCompletedPath(
     hr = PathGetKnownFolder(fPerMachine ? CSIDL_COMMON_APPDATA : CSIDL_LOCAL_APPDATA, &sczLocalAppData);
     ExitOnFailure1(hr, "Failed to find local %hs appdata directory.", fPerMachine ? "per-machine" : "per-user");
 
-    hr = StrAllocFormatted(psczCompletedPath, L"%lsPackage Cache\\%ls", sczLocalAppData, wzCacheId);
+    hr = StrAllocFormatted(psczCompletedPath, L"%lsPackage Cache\\%ls\\", sczLocalAppData, wzCacheId);
     ExitOnFailure(hr, "Failed to format cache path.");
 
 LExit:

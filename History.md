@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3736 - Add WixBundleExecutePackageCacheFolder variable.
+
 * SeanHall: WIXBUG:3890 - put Burn command line arguments first when launching unelevated parent process since malformed user arguments created an infinite loop.
 
 * SeanHall: WIXBUG:3951 - Document limitations of VersionVariables and create NormalizeVersion method.

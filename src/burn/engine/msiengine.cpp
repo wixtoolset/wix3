@@ -1122,6 +1122,9 @@ extern "C" HRESULT MsiEngineExecutePackage(
         hr = CacheGetCompletedPath(pExecuteAction->msiPackage.pPackage->fPerMachine, pExecuteAction->msiPackage.pPackage->sczCacheId, &sczCachedDirectory);
         ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->msiPackage.pPackage->sczId);
 
+        // Best effort to set the execute package cache folder variable.
+        VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
+
         hr = PathConcat(sczCachedDirectory, pExecuteAction->msiPackage.pPackage->rgPayloads[0].pPayload->sczFilePath, &sczMsiPath);
         ExitOnFailure(hr, "Failed to build MSI path.");
     }
@@ -1258,6 +1261,9 @@ LExit:
             *pRestart = BOOTSTRAPPER_APPLY_RESTART_INITIATED;
             break;
     }
+
+    // Best effort to clear the execute package cache folder variable.
+    VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);
 
     return hr;
 }

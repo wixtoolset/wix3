@@ -249,6 +249,7 @@ LExit:
 
 extern "C" HRESULT MsuEngineExecutePackage(
     __in BURN_EXECUTE_ACTION* pExecuteAction,
+    __in BURN_VARIABLES* pVariables,
     __in BOOL fRollback,
     __in BOOL fStopWusaService,
     __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
@@ -304,6 +305,9 @@ extern "C" HRESULT MsuEngineExecutePackage(
         // get cached MSU path
         hr = CacheGetCompletedPath(TRUE, pExecuteAction->msuPackage.pPackage->sczCacheId, &sczCachedDirectory);
         ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->msuPackage.pPackage->sczId);
+
+        // Best effort to set the execute package cache folder variable.
+        VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
 
         hr = PathConcat(sczCachedDirectory, pExecuteAction->msuPackage.pPackage->rgPayloads[0].pPayload->sczFilePath, &sczMsuPath);
         ExitOnFailure(hr, "Failed to build MSU path.");
@@ -410,6 +414,9 @@ LExit:
     {
         SetServiceStartType(schWu, SERVICE_DISABLED);
     }
+
+    // Best effort to clear the execute package cache folder variable.
+    VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);
 
     return hr;
 }

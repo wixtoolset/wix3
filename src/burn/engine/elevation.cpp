@@ -193,6 +193,7 @@ static HRESULT OnExecuteMspPackage(
 static HRESULT OnExecuteMsuPackage(
     __in HANDLE hPipe,
     __in BURN_PACKAGES* pPackages,
+    __in BURN_VARIABLES* pVariables,
     __in BYTE* pbData,
     __in DWORD cbData
     );
@@ -1383,7 +1384,7 @@ static HRESULT ProcessElevatedChildMessage(
         break;
 
     case BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_MSU_PACKAGE:
-        hrResult = OnExecuteMsuPackage(pContext->hPipe, pContext->pPackages, (BYTE*)pMsg->pvData, pMsg->cbData);
+        hrResult = OnExecuteMsuPackage(pContext->hPipe, pContext->pPackages, pContext->pVariables, (BYTE*)pMsg->pvData, pMsg->cbData);
         break;
 
     case BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_PACKAGE_PROVIDER:
@@ -2125,6 +2126,7 @@ LExit:
 static HRESULT OnExecuteMsuPackage(
     __in HANDLE hPipe,
     __in BURN_PACKAGES* pPackages,
+    __in BURN_VARIABLES* pVariables,
     __in BYTE* pbData,
     __in DWORD cbData
     )
@@ -2159,7 +2161,7 @@ static HRESULT OnExecuteMsuPackage(
     ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
 
     // execute MSU package
-    hr = MsuEngineExecutePackage(&executeAction, static_cast<BOOL>(dwRollback), static_cast<BOOL>(dwStopWusaService), GenericExecuteMessageHandler, hPipe, &restart);
+    hr = MsuEngineExecutePackage(&executeAction, pVariables, static_cast<BOOL>(dwRollback), static_cast<BOOL>(dwStopWusaService), GenericExecuteMessageHandler, hPipe, &restart);
     ExitOnFailure(hr, "Failed to execute MSU package.");
 
 LExit:
