@@ -18,7 +18,6 @@
 
 static const DWORD64 DOWNLOAD_ENGINE_TWO_GIGABYTES = DWORD64(2) * 1024 * 1024 * 1024;
 static LPCWSTR DOWNLOAD_ENGINE_ACCEPT_TYPES[] = { L"*/*", NULL };
-const LPCWSTR DOWNLOAD_POLICY_REGISTRY_PATH = L"WiX\\Burn";
 
 // internal function declarations
 
@@ -144,7 +143,7 @@ extern "C" HRESULT DAPI DownloadUrl(
     ExitOnNullWithLastError(hSession, hr, "Failed to open internet session");
 
     // Make a best effort to set the download timeouts to 2 minutes or whatever policy says.
-    PolcReadNumber(DOWNLOAD_POLICY_REGISTRY_PATH, L"DownloadTimeout", 2 * 60, &dwTimeout);
+    PolcReadNumber(POLICY_BURN_REGISTRY_PATH, L"DownloadTimeout", 2 * 60, &dwTimeout);
     if (0 < dwTimeout)
     {
         dwTimeout *= 1000; // convert to milliseconds.

@@ -184,6 +184,7 @@ LExit:
     UserExperienceRemove(&engineState.userExperience);
 
     CacheRemoveWorkingFolder(engineState.registration.sczId);
+    CacheUninitialize();
 
     // If this is a related bundle (but not an update) suppress restart and return the standard restart error code.
     if (fRestart && BOOTSTRAPPER_RELATION_NONE != engineState.command.relationType && BOOTSTRAPPER_RELATION_UPDATE != engineState.command.relationType)

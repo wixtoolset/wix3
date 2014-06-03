@@ -144,6 +144,7 @@ void CacheCleanup(
     __in BOOL fPerMachine,
     __in_z LPCWSTR wzBundleId
     );
+void CacheUninitialize();
 
 #ifdef __cplusplus
 }

@@ -33,6 +33,7 @@
     <Compile Include="Burn\Burn.ParentTests.cs" />
     <Compile Include="Burn\Burn.PatchTests.cs" />
     <Compile Include="Burn\Burn.PermanentTests.cs" />
+    <Compile Include="Burn\Burn.PolicyTests.cs" />
     <Compile Include="Burn\Burn.RegistrationTests.cs" />
     <Compile Include="Burn\Burn.RelatedBundleTests.cs" />
     <Compile Include="Burn\Burn.SearchTests.cs" />
@@ -351,6 +352,18 @@
     </None>
     <None Include="..\..\data\Burn\PermanentTests\BundleA.wxs">
       <Link>Burn\PermanentTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\A.wxs">
+      <Link>Burn\PolicyTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\B.wxs">
+      <Link>Burn\PolicyTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\BundleA.wxs">
+      <Link>Burn\PolicyTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\BundleB.wxs">
+      <Link>Burn\PolicyTests\BundleA.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\SearchTests\A.wxs">
       <Link>Burn\SearchTests\A.wxs</Link>
