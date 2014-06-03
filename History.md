@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4243 - use hashes to verify bundled packages by default.
+
 * SeanHall: WIXFEAT:3736 - Add WixBundleExecutePackageCacheFolder variable.
 
 * SeanHall: WIXBUG:3890 - put Burn command line arguments first when launching unelevated parent process since malformed user arguments created an infinite loop.

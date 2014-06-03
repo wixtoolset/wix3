@@ -20614,7 +20614,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
             YesNoDefaultType compressed = YesNoDefaultType.Default;
-            YesNoType suppressSignatureVerification = YesNoType.NotSet;
+            YesNoType suppressSignatureVerification = YesNoType.Yes;
             string id = null;
             string name = null;
             string sourceFile = null;
