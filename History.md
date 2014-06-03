@@ -1,3 +1,5 @@
+* HeathS: WIXFEAT:4278 - Support redirectable package cache via policy.
+
 * SeanHall: WIXFEAT:3736 - Add WixBundleExecutePackageCacheFolder variable.
 
 * SeanHall: WIXBUG:3890 - put Burn command line arguments first when launching unelevated parent process since malformed user arguments created an infinite loop.
