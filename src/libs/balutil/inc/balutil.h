@@ -32,6 +32,8 @@ extern "C" {
 #define BalExitOnNullWithLastError(p, x, f) if (NULL == p) { DWORD Dutil_er = ::GetLastError(); x = HRESULT_FROM_WIN32(Dutil_er); if (!FAILED(x)) { x = E_FAIL; } BalLogError(x, f); ExitTrace(x, f); goto LExit; }
 #define BalExitOnNullWithLastError1(p, x, f, s) if (NULL == p) { DWORD Dutil_er = ::GetLastError(); x = HRESULT_FROM_WIN32(Dutil_er); if (!FAILED(x)) { x = E_FAIL; } BalLogError(x, f, s); ExitTrace1(x, f, s); goto LExit; }
 
+static const HRESULT E_MBAHOST_NET452_ON_WIN7RTM = MAKE_HRESULT(SEVERITY_ERROR, 501, 1);
+
 
 /*******************************************************************
  BalInitialize - remembers the engine interface to enable logging and

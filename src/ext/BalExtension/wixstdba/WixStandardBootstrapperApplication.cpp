@@ -11,7 +11,6 @@
 #include "precomp.h"
 
 static const HRESULT E_WIXSTDBA_CONDITION_FAILED = MAKE_HRESULT(SEVERITY_ERROR, 500, 1);
-static const HRESULT E_WIXSTDBA_PREMATURE_FAILURE = MAKE_HRESULT(SEVERITY_ERROR, 500, 2);
 
 static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 
@@ -49,6 +48,7 @@ enum WM_WIXSTDBA
     WM_WIXSTDBA_PLAN_PACKAGES,
     WM_WIXSTDBA_APPLY_PACKAGES,
     WM_WIXSTDBA_CHANGE_STATE,
+    WM_WIXSTDBA_SHOW_FAILURE,
 };
 
 // This enum must be kept in the same order as the vrgwzPageNames array.
@@ -917,6 +917,7 @@ private: // privates
         if (pThis->m_hrFinal)
         {
             pThis->SetState(WIXSTDBA_STATE_FAILED, hr);
+            ::PostMessageW(pThis->m_hWnd, WM_WIXSTDBA_SHOW_FAILURE, 0, 0);
         }
         else
         {
@@ -1683,6 +1684,10 @@ private: // privates
             pBA->OnChangeState(static_cast<WIXSTDBA_STATE>(lParam));
             return 0;
 
+        case WM_WIXSTDBA_SHOW_FAILURE:
+            pBA->OnShowFailure();
+            return 0;
+
         case WM_COMMAND:
             switch (LOWORD(wParam))
             {
@@ -1863,6 +1868,25 @@ private: // privates
         ReleaseStr(sczText);
 
         return SUCCEEDED(hr);
+    }
+
+
+    //
+    // OnShowFailure - display the failure page.
+    //
+    void OnShowFailure()
+    {
+        SetState(WIXSTDBA_STATE_FAILED, S_OK);
+
+        // If the UI should be visible, display it now and hide the splash screen
+        if (BOOTSTRAPPER_DISPLAY_NONE < m_command.display)
+        {
+            ::ShowWindow(m_pTheme->hwndParent, SW_SHOW);
+        }
+
+        m_pEngine->CloseSplashScreen();
+
+        return;
     }
 
 
@@ -2116,6 +2140,23 @@ private: // privates
                         {
                             StrAllocString(&sczUnformattedText, m_sczFailedMessage, 0);
                         }
+                        else if (E_MBAHOST_NET452_ON_WIN7RTM == m_hrFinal)
+                        {
+                            HRESULT hr = StrAllocString(&sczUnformattedText, L"#(loc.NET452WIN7RTMErrorMessage)", 0);
+                            if (FAILED(hr))
+                            {
+                                BalLogError(hr, "Failed to initialize NET452WIN7RTMErrorMessage loc identifier.");
+                            }
+                            else
+                            {
+                                hr = LocLocalizeString(m_pWixLoc, &sczUnformattedText);
+                                if (FAILED(hr))
+                                {
+                                    BalLogError(hr, "Failed to localize NET452WIN7RTMErrorMessage: %ls", sczUnformattedText);
+                                    ReleaseNullStr(sczUnformattedText);
+                                }
+                            }
+                        }
                         else // try to get the error message from the error code.
                         {
                             StrAllocFromError(&sczUnformattedText, m_hrFinal, NULL);
@@ -2125,9 +2166,19 @@ private: // privates
                             }
                         }
 
-                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal || E_WIXSTDBA_PREMATURE_FAILURE == m_hrFinal)
+                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal)
                         {
-                            StrAllocString(&sczText, sczUnformattedText, 0);
+                            if (sczUnformattedText)
+                            {
+                                StrAllocString(&sczText, sczUnformattedText, 0);
+                            }
+                        }
+                        else if (E_MBAHOST_NET452_ON_WIN7RTM == m_hrFinal)
+                        {
+                            if (sczUnformattedText)
+                            {
+                                BalFormatString(sczUnformattedText, &sczText);
+                            }
                         }
                         else
                         {
@@ -2821,7 +2872,7 @@ public:
     CWixStandardBootstrapperApplication(
         __in HMODULE hModule,
         __in BOOL fPrereq,
-        __in LPCWSTR wzFailedMessage,
+        __in HRESULT hrHostInitialization,
         __in IBootstrapperEngine* pEngine,
         __in const BOOTSTRAPPER_COMMAND* pCommand
         ) : CBalBaseBootstrapperApplication(pEngine, pCommand, 3, 3000)
@@ -2878,7 +2929,7 @@ public:
         m_hWnd = NULL;
 
         m_state = WIXSTDBA_STATE_INITIALIZING;
-        m_hrFinal = S_OK;
+        m_hrFinal = hrHostInitialization;
 
         m_fDowngrading = FALSE;
         m_restartResult = BOOTSTRAPPER_APPLY_RESTART_NONE;
@@ -2911,17 +2962,6 @@ public:
 
         m_hBAFModule = NULL;
         m_pBAFunction = NULL;
-
-        if (wzFailedMessage)
-        {
-            HRESULT hr = BalFormatString(wzFailedMessage, &m_sczFailedMessage);
-            if (FAILED(hr))
-            {
-                BalLogError(hr, "Failed to format premature failure message: %ls", wzFailedMessage);
-                ReleaseNullStr(m_sczFailedMessage);
-            }
-            m_hrFinal = E_WIXSTDBA_PREMATURE_FAILURE;
-        }
     }
 
 
@@ -3025,7 +3065,7 @@ private:
 HRESULT CreateBootstrapperApplication(
     __in HMODULE hModule,
     __in BOOL fPrereq,
-    __in LPCWSTR wzFailedMessage,
+    __in HRESULT hrHostInitialization,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication
@@ -3034,7 +3074,7 @@ HRESULT CreateBootstrapperApplication(
     HRESULT hr = S_OK;
     CWixStandardBootstrapperApplication* pApplication = NULL;
 
-    pApplication = new CWixStandardBootstrapperApplication(hModule, fPrereq, wzFailedMessage, pEngine, pCommand);
+    pApplication = new CWixStandardBootstrapperApplication(hModule, fPrereq, hrHostInitialization, pEngine, pCommand);
     ExitOnNull(pApplication, hr, E_OUTOFMEMORY, "Failed to create new standard bootstrapper application object.");
 
     *ppApplication = pApplication;

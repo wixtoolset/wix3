@@ -48,7 +48,7 @@
 HRESULT CreateBootstrapperApplication(
     __in HMODULE hModule,
     __in BOOL fPrereq,
-    __in LPCWSTR wzFailedMessage,
+    __in HRESULT hrHostInitialization,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication

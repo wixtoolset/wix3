@@ -16,8 +16,6 @@
 
 using namespace mscorlib;
 
-static const HRESULT E_MBAHOST_NET452_ON_WIN7RTM = MAKE_HRESULT(SEVERITY_ERROR, 501, 1);
-
 extern "C" typedef HRESULT (WINAPI *PFN_CORBINDTOCURRENTRUNTIME)(
     __in LPCWSTR pwszFileName,
     __in REFCLSID rclsid,
@@ -26,7 +24,7 @@ extern "C" typedef HRESULT (WINAPI *PFN_CORBINDTOCURRENTRUNTIME)(
     );
 
 extern "C" typedef HRESULT(WINAPI *PFN_MBAPREQ_BOOTSTRAPPER_APPLICATION_CREATE)(
-    __in LPCWSTR wzFailedMessage,
+    __in HRESULT hrHostInitialization,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication
@@ -68,7 +66,7 @@ static HRESULT CreateManagedBootstrapperApplicationFactory(
     __out IBootstrapperApplicationFactory** ppAppFactory
     );
 static HRESULT CreatePrerequisiteBA(
-    __in LPCWSTR wzFailedMessage,
+    __in HRESULT hrHostInitialization,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication
@@ -108,6 +106,7 @@ extern "C" HRESULT WINAPI BootstrapperApplicationCreate(
     )
 {
     HRESULT hr = S_OK; 
+    HRESULT hrHostInitialization = S_OK;
     _AppDomain* pAppDomain = NULL;
 
     BalInitialize(pEngine);
@@ -120,18 +119,21 @@ extern "C" HRESULT WINAPI BootstrapperApplicationCreate(
         hr = CreateManagedBootstrapperApplication(pAppDomain, pEngine, pCommand, ppBA);
         BalExitOnFailure(hr, "Failed to create the managed bootstrapper application.");
     }
-    else if (E_MBAHOST_NET452_ON_WIN7RTM == hr)
-    {
-        BalLogError(hr, "The Burn engine cannot run with an MBA under the .NET 4 CLR on Windows 7 RTM with .NET 4.5.2 (or greater) installed.");
-        
-        hr = CreatePrerequisiteBA(L"[WixBundleName] cannot run on Windows 7 RTM with .NET 4.5.2 (or greater) installed.", pEngine, pCommand, ppBA);
-        BalExitOnFailure(hr, "Failed to create the pre-requisite bootstrapper application.");
-    }
     else // fallback to the prerequisite BA.
     {
+        if (E_MBAHOST_NET452_ON_WIN7RTM == hr)
+        {
+            BalLogError(hr, "The Burn engine cannot run with an MBA under the .NET 4 CLR on Windows 7 RTM with .NET 4.5.2 (or greater) installed.");
+            hrHostInitialization = hr;
+        }
+        else
+        {
+            hrHostInitialization = S_OK;
+        }
+
         BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Loading prerequisite bootstrapper application because managed host could not be loaded, error: 0x%08x.", hr);
 
-        hr = CreatePrerequisiteBA(NULL, pEngine, pCommand, ppBA);
+        hr = CreatePrerequisiteBA(hrHostInitialization, pEngine, pCommand, ppBA);
         BalExitOnFailure(hr, "Failed to create the pre-requisite bootstrapper application.");
     }
 
@@ -564,7 +566,7 @@ LExit:
 }
 
 static HRESULT CreatePrerequisiteBA(
-    __in LPCWSTR wzFailedMessage,
+    __in HRESULT hrHostInitialization,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication
@@ -584,7 +586,7 @@ static HRESULT CreatePrerequisiteBA(
     PFN_MBAPREQ_BOOTSTRAPPER_APPLICATION_CREATE pfnCreate = reinterpret_cast<PFN_MBAPREQ_BOOTSTRAPPER_APPLICATION_CREATE>(::GetProcAddress(hModule, "MbaPrereqBootstrapperApplicationCreate"));
     ExitOnNullWithLastError1(pfnCreate, hr, "Failed to get MbaPrereqBootstrapperApplicationCreate entry-point from: %ls", sczMbapreqPath);
 
-    hr = pfnCreate(wzFailedMessage, pEngine, pCommand, &pApp);
+    hr = pfnCreate(hrHostInitialization, pEngine, pCommand, &pApp);
     ExitOnFailure(hr, "Failed to create prequisite bootstrapper app.");
 
     vhMbapreqModule = hModule;
@@ -632,7 +634,7 @@ static HRESULT VerifyNET4RuntimeIsSupported(
         }
         ExitOnWin32Error(er, hr, "Failed to get Release value.");
 
-        if (379893 >= dwRelease)
+        if (379893 <= dwRelease)
         {
             hr = E_MBAHOST_NET452_ON_WIN7RTM;
         }
