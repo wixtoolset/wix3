@@ -14,6 +14,8 @@
 #include "precomp.h"
 #include <BootstrapperCore.h> // includes the generated assembly name macros.
 
+static const DWORD NET452_RELEASE = 379893;
+
 using namespace mscorlib;
 
 extern "C" typedef HRESULT (WINAPI *PFN_CORBINDTOCURRENTRUNTIME)(
@@ -634,7 +636,7 @@ static HRESULT VerifyNET4RuntimeIsSupported(
         }
         ExitOnWin32Error(er, hr, "Failed to get Release value.");
 
-        if (379893 <= dwRelease)
+        if (NET452_RELEASE <= dwRelease)
         {
             hr = E_MBAHOST_NET452_ON_WIN7RTM;
         }

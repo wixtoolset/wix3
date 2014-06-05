@@ -10,8 +10,6 @@
 
 #include "precomp.h"
 
-static const HRESULT E_WIXSTDBA_CONDITION_FAILED = MAKE_HRESULT(SEVERITY_ERROR, 500, 1);
-
 static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 
 static const LPCWSTR WIXSTDBA_WINDOW_CLASS = L"WixStdBA";
@@ -914,7 +912,7 @@ private: // privates
         hr = pThis->CreateMainWindow();
         BalExitOnFailure(hr, "Failed to create main window.");
 
-        if (pThis->m_hrFinal)
+        if (FAILED(pThis->m_hrFinal))
         {
             pThis->SetState(WIXSTDBA_STATE_FAILED, hr);
             ::PostMessageW(pThis->m_hWnd, WM_WIXSTDBA_SHOW_FAILURE, 0, 0);
