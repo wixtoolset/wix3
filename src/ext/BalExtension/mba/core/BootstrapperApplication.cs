@@ -178,7 +178,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// DEPRECATED: This event will be merged with ApplyBegin in wix4.
         /// Fired right after ApplyBegin, providing the number of phases that the engine will go through in apply.
         /// </summary>
-        public event EventHandler<ApplyNumberOfPhasesArgs> ApplyNumberOfPhases;
+        public event EventHandler<ApplyPhaseCountArgs> ApplyPhaseCount;
 
         /// <summary>
         /// Fired when the engine is about to start the elevated process.
@@ -708,9 +708,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Called right after OnApplyBegin.
         /// </summary>
         /// <param name="args">Additional arguments for this event.</param>
-        protected virtual void OnApplyNumberOfPhases(ApplyNumberOfPhasesArgs args)
+        protected virtual void OnApplyPhaseCount(ApplyPhaseCountArgs args)
         {
-            EventHandler<ApplyNumberOfPhasesArgs> handler = this.ApplyNumberOfPhases;
+            EventHandler<ApplyPhaseCountArgs> handler = this.ApplyPhaseCount;
             if (null != handler)
             {
                 handler(this, args);
@@ -1253,9 +1253,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             return args.Result;
         }
 
-        void IBootstrapperApplication.OnApplyNumberOfPhases(int dwNumberOfApplyPhases)
+        void IBootstrapperApplication.OnApplyPhaseCount(int dwPhaseCount)
         {
-            this.OnApplyNumberOfPhases(new ApplyNumberOfPhasesArgs(dwNumberOfApplyPhases));
+            this.OnApplyPhaseCount(new ApplyPhaseCountArgs(dwPhaseCount));
         }
 
         Result IBootstrapperApplication.OnElevate()

@@ -1084,13 +1084,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     /// Additional arguments used when the engine has determined the number of phases in apply.
     /// </summary>
     [Serializable]
-    public class ApplyNumberOfPhasesArgs : EventArgs
+    public class ApplyPhaseCountArgs : EventArgs
     {
-        private int numberOfApplyPhases;
+        private int phaseCount;
 
-        public ApplyNumberOfPhasesArgs(int numberOfApplyPhases)
+        public ApplyPhaseCountArgs(int phaseCount)
         {
-            this.numberOfApplyPhases = numberOfApplyPhases;
+            this.phaseCount = phaseCount;
         }
 
         /// <summary>
@@ -1098,9 +1098,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Gets the number of phases that the engine will go through in apply.
         /// There are currently two possible phases: cache and execute.
         /// </summary>
-        public int NumberOfApplyPhases
+        public int PhaseCount
         {
-            get { return this.numberOfApplyPhases; }
+            get { return this.phaseCount; }
         }
     }
 

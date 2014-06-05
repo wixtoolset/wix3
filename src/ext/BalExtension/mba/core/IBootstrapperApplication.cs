@@ -188,8 +188,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnApplyBegin();
 
-        void OnApplyNumberOfPhases(
-            int dwNumberOfApplyPhases
+        void OnApplyPhaseCount(
+            int dwPhaseCount
             );
 
         [PreserveSig]

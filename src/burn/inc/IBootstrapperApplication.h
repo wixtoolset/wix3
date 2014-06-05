@@ -381,10 +381,10 @@ DECLARE_INTERFACE_IID_(IBootstrapperApplication, IUnknown, "53C31D56-49C0-426B-A
     STDMETHOD_(int, OnApplyBegin)() = 0;
 
     // DEPRECATED: In wix4, this will be merged with OnApplyBegin.
-    // OnApplyNumberOfPhases - called right after OnApplyBegin.
+    // OnApplyPhaseCount - called right after OnApplyBegin.
     //
-    STDMETHOD_(void, OnApplyNumberOfPhases)(
-        __in DWORD dwNumberOfApplyPhases
+    STDMETHOD_(void, OnApplyPhaseCount)(
+        __in DWORD dwPhaseCount
         ) = 0;
 
     // OnElevate - called before the engine displays an elevation prompt.
