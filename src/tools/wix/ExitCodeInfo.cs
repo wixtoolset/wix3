@@ -35,7 +35,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
             else
             {
-                this.Code = value.ToString();
+                this.Code = unchecked((uint)value).ToString();
             }
             this.Type = behavior;
         }

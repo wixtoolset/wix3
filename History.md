@@ -1,3 +1,5 @@
+* FireGiant: WIXBUG:4319 - Support full range of ExePackage exit code values.
+
 * BobArnson: WIXBUG:4442 - Add missing tables.
 
 * SeanHall: WIXBUG:4416 - Fail fast when loading an MBA on Win7 RTM with .NET 4.5.2 or greater installed.
