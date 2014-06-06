@@ -23,7 +23,6 @@
     <None Include="host.def">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="host.build" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp.h">

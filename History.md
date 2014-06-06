@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4416 - Fail fast when loading an MBA on Win7 RTM with .NET 4.5.2 or greater installed.
+
 * SeanHall: Rename IBootstrapperApplication::OnApplyNumberOfPhases to IBootstrapperApplication::OnApplyPhaseCount.
 
 * HeathS: WIXFEAT:4278 - Support redirectable package cache via policy.
