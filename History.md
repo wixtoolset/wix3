@@ -1,3 +1,5 @@
+* SeanHall: Rename IBootstrapperApplication::OnApplyNumberOfPhases to IBootstrapperApplication::OnApplyPhaseCount.
+
 * HeathS: WIXFEAT:4278 - Support redirectable package cache via policy.
 
 * RobMen: WIXBUG:4243 - use hashes to verify bundled packages by default.
