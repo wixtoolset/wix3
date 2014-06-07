@@ -620,6 +620,7 @@ static HRESULT GetPossibleTargetProductCodes(
 {
     HRESULT hr = S_OK;
     STRINGDICT_HANDLE sdUniquePossibleTargetProductCodes = NULL;
+    BOOL fCheckAll = FALSE;
     WCHAR wzPossibleTargetProductCode[MAX_GUID_CHARS + 1];
 
     // Use a dictionary to ensure we capture unique product codes. Otherwise, we could end up
@@ -642,10 +643,8 @@ static HRESULT GetPossibleTargetProductCodes(
                 hr = AddPossibleTargetProduct(sdUniquePossibleTargetProductCodes, pTargetCode->sczTargetCode, MSIINSTALLCONTEXT_NONE, prgPossibleTargetProducts, pcPossibleTargetProducts);
                 ExitOnFailure(hr, "Failed to add product code to possible target product codes.");
             }
-            else // must be an upgrade code.
+            else if (BURN_PATCH_TARGETCODE_TYPE_UPGRADE == pTargetCode->type)
             {
-                Assert(BURN_PATCH_TARGETCODE_TYPE_UPGRADE == pTargetCode->type);
-
                 // Enumerate all unique related products to the target upgrade code.
                 for (DWORD iProduct = 0; SUCCEEDED(hr); ++iProduct)
                 {
@@ -670,9 +669,22 @@ static HRESULT GetPossibleTargetProductCodes(
                 }
                 ExitOnFailure1(hr, "Failed to enumerate all products to patch related to upgrade code: %ls", pTargetCode->sczTargetCode);
             }
+            else
+            {
+                // The element does not target a specific product.
+                fCheckAll = TRUE;
+
+                break;
+            }
         }
     }
-    else // one more more patches didn't target specific products so we'll search everything on the machine.
+    else
+    {
+        fCheckAll = TRUE;
+    }
+
+    // One or more of the patches do not target a specific product so search everything on the machine.
+    if (fCheckAll)
     {
         for (DWORD iProduct = 0; SUCCEEDED(hr); ++iProduct)
         {
@@ -686,7 +698,7 @@ static HRESULT GetPossibleTargetProductCodes(
             }
             else if (E_BADCONFIGURATION == hr)
             {
-                // Skip product's with bad configuration and continue.
+                // Skip products with bad configuration and continue.
                 LogId(REPORT_STANDARD, MSG_DETECT_BAD_PRODUCT_CONFIGURATION, wzPossibleTargetProductCode);
 
                 hr = S_OK;

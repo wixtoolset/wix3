@@ -1056,14 +1056,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     XmlNode targetCode = node.SelectSingleNode("p:TargetProductCode", nsmgr);
                     WixBundlePatchTargetCodeAttributes attributes = WixBundlePatchTargetCodeAttributes.None;
 
-                    if (null != targetCode)
+                    if (ChainPackageInfo.TargetsCode(targetCode))
                     {
                         attributes = WixBundlePatchTargetCodeAttributes.TargetsProductCode;
                     }
-                    else // maybe targets and upgrade code?
+                    else // maybe targets an upgrade code?
                     {
                         targetCode = node.SelectSingleNode("p:UpgradeCode", nsmgr);
-                        if (null != targetCode)
+                        if (ChainPackageInfo.TargetsCode(targetCode))
                         {
                             attributes = WixBundlePatchTargetCodeAttributes.TargetsUpgradeCode;
                         }
@@ -1217,6 +1217,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
             Debug.Assert(!property.Contains("'"));
             return String.Format(CultureInfo.InvariantCulture, ChainPackageInfo.PatchMetadataFormat, property);
         }
-    }
 
+        private static bool TargetsCode(XmlNode node)
+        {
+            if (null != node)
+            {
+                XmlAttribute attr = node.Attributes["Validate"];
+                return null != attr && "true".Equals(attr.Value);
+            }
+
+            return false;
+        }
+    }
 }
