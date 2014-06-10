@@ -3030,7 +3030,7 @@
         </Message>
         <Message Id="AccessDeniedForSettingAttributes" Number="1013">
             <Instance>
-                Access denied; cannot set permissions on '{0}'.
+                Access denied; cannot set attributes on '{0}'.
                 <Parameter Type="System.String" Name="filePath" />
             </Instance>
         </Message>
