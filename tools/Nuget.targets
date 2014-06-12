@@ -35,7 +35,7 @@
       <Version>1.2.0</Version>
     </RestoreNugetPackage>
     <RestoreNugetPackage Include="xunit">
-      <Version>1.9.1</Version>
+      <Version>1.9.2</Version>
     </RestoreNugetPackage>
   </ItemGroup>
   <Target Name="PackageRestore"
