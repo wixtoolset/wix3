@@ -14,28 +14,26 @@ namespace WixTest.Tests
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Sql extension tests
     /// </summary>
-    [TestClass]
     public class SqlExtensionTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(3)]
         public void SqlExtensionCustomActionTest01()
         {
             string testDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\SqlExtension\RegressionTests\CustomActions");
-            string msi = Builder.BuildPackage(testDirectory, "product.wxs", "product.msi", " -ext WixSqlExtension", " -cultures:en-us -ext WixSqlExtension");
+            string msi = Builder.BuildPackage(testDirectory, "product.wxs", Path.Combine(this.TestContext.TestDirectory, "product.msi"), " -ext WixSqlExtension", " -cultures:en-us -ext WixSqlExtension");
 
             string query = "SELECT `Source` FROM `CustomAction` WHERE `Action` = 'InstallSqlData'";
-            Assert.AreEqual("ScaSchedule2", Verifier.Query(msi, query), @"Unexpected value in {0} returned by ""{1}""", msi, query);
+            Assert.True("ScaSchedule2".Equals(Verifier.Query(msi, query)), String.Format(@"Unexpected value in {0} returned by ""{1}""", msi, query));
 
             query = "SELECT `Source` FROM `CustomAction` WHERE `Action` = 'UninstallSqlData'";
-            Assert.AreEqual("ScaSchedule2", Verifier.Query(msi, query), @"Unexpected value in {0} returned by ""{1}""", msi, query);
+            Assert.True("ScaSchedule2".Equals(Verifier.Query(msi, query)), String.Format(@"Unexpected value in {0} returned by ""{1}""", msi, query));
         }
     }
 }

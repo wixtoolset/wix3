@@ -16,19 +16,17 @@ namespace WixTest.Tests.Tools.Lit.BindPaths
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     ///  Test for how Lit handles -b switch
     /// </summary>
-    [TestClass]
     public class BindPathTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Lit\BindPaths\BindPathTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can use a binder path")]
         [Priority(1)]
         public void SimpleBindPath()
@@ -55,11 +53,11 @@ namespace WixTest.Tests.Tools.Lit.BindPaths
             light.Run();
 
             string outputFileName = Path.Combine(Path.GetDirectoryName(lit.OutputFile), @"PFiles\WixTestFolder\TextFile1.txt");
-            Assert.IsTrue(File.Exists(outputFileName), "File was not created in msi layout as expected.");
-            Assert.IsTrue(File.ReadAllText(outputFileName).Equals("abc"), "File contents do not match expected.");
+            Assert.True(File.Exists(outputFileName), "File was not created in msi layout as expected.");
+            Assert.True(File.ReadAllText(outputFileName).Equals("abc"), "File contents do not match expected.");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can use named binder paths")]
         [Priority(1)]
         public void NamedBindPath()
@@ -86,8 +84,8 @@ namespace WixTest.Tests.Tools.Lit.BindPaths
             light.Run();
 
             string outputFileName = Path.Combine(Path.GetDirectoryName(lit.OutputFile), @"PFiles\WixTestFolder\TextFile1.txt");
-            Assert.IsTrue(File.Exists(outputFileName), "File was not created in msi layout as expected.");
-            Assert.IsTrue(File.ReadAllText(outputFileName).Equals("abc"), "File contents do not match expected.");
+            Assert.True(File.Exists(outputFileName), "File was not created in msi layout as expected.");
+            Assert.True(File.ReadAllText(outputFileName).Equals("abc"), "File contents do not match expected.");
         }
     }
 }

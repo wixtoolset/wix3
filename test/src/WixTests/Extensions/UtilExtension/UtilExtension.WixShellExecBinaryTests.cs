@@ -13,22 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension WixShellExecBinary element tests
     /// </summary>
-    [TestClass]
     public class WixShellExecBinaryTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\WixShellExecBinaryTests");
      
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that WixShellExecBinary executes the expected command.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void WixShellExecBinary_Install()
         {
             string sourceFile = Path.Combine(WixShellExecBinaryTests.TestDataDirectory, @"product.wxs");
@@ -38,7 +36,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(File.Exists(fileName) , "Command was not executed. File '{0}' does not exist.", fileName);
+            Assert.True(File.Exists(fileName) , String.Format("Command was not executed. File '{0}' does not exist.", fileName));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }

@@ -15,8 +15,6 @@ namespace WixTest.Verifiers.Extensions
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using System.DirectoryServices;
     using Microsoft.Web.Administration;
     using System.Security.Cryptography.X509Certificates;

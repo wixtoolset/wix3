@@ -12,16 +12,14 @@ namespace WixTest.Tests.Tools.Dark
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Regresssion tests for Dark
     /// </summary>
-    [TestClass]
     public class RegressionTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark generates the proper warning for invalid command arguments.")]
         [Priority(3)]
         public void InvalidArgument()

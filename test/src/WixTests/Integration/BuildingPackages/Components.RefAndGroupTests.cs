@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for ComponentRefs and ComponentGroups
     /// </summary>
-    [TestClass]
     public class RefAndGroupTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\RefAndGroupTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Components can be referenced")]
         [Priority(1)]
         public void ComponentRef()
@@ -39,7 +36,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "Component1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a ComponentGroups with child Components and ComponentRefs can be created and referenced")]
         [Priority(1)]
         public void ComponentGroups()
@@ -52,7 +49,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "Component2");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a ComponentGroups can be nested using the child element ComponentGroupRef")]
         [Priority(1)]
         public void NestedComponentGroups()

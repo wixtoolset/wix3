@@ -15,22 +15,20 @@ namespace WixTest.Tests.Integration.BuildingPackages.Authoring
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for Identifiers (Ids)
     /// </summary>
-    [TestClass]
     public class IdentifierTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Authoring\IdentifierTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Identifiers with long names can be defined and referenced.")]
         [Priority(1)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/index.php?func=detail&aid=1867881&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/index.php?func=detail&aid=1867881&group_id=105970&atid=642714")]
         public void LongIdentifiers()
         {
             string longDirectoryName = "Directory_01234567890123456789012345678901234567890123456789012345678901234567890123456789";
@@ -52,19 +50,19 @@ namespace WixTest.Tests.Integration.BuildingPackages.Authoring
             // verify long names in the resulting msi
             string query = string.Format("SELECT `Directory` FROM `Directory` WHERE `Directory` = '{0}'", longDirectoryName);
             string queryResult = Verifier.Query(light.OutputFile, query);
-            Assert.AreEqual(longDirectoryName, queryResult);
+            Assert.Equal(longDirectoryName, queryResult);
 
             query = string.Format("SELECT `Component` FROM `Component` WHERE `Component` = '{0}'", longComponentName);
             queryResult = Verifier.Query(light.OutputFile, query);
-            Assert.AreEqual(longComponentName, queryResult);
+            Assert.Equal(longComponentName, queryResult);
 
             query = string.Format("SELECT `File` FROM `File` WHERE `File` = '{0}'", longFileName);
             queryResult = Verifier.Query(light.OutputFile, query);
-            Assert.AreEqual(longFileName, queryResult);
+            Assert.Equal(longFileName, queryResult);
 
             query = string.Format("SELECT `Component_` FROM `FeatureComponents` WHERE `Component_` = '{0}'", longComponentName);
             queryResult = Verifier.Query(light.OutputFile, query);
-            Assert.AreEqual(longComponentName, queryResult);
+            Assert.Equal(longComponentName, queryResult);
         }
     }
 }

@@ -13,24 +13,22 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension Property element tests
     /// </summary>
-    [TestClass]
     public class PropertyTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\PropertyTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the predefined properties have the expected values.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Property_Install()
         {
             string sourceFile = Path.Combine(PropertyTests.TestDataDirectory, @"product.wxs");
@@ -84,9 +82,9 @@ namespace WixTest.Tests.Extensions.UtilExtension
         /// <param name="propertyValue">The expected value of the property</param>
         private static void VerifyPropery(string logFileName, string propertyName, string propertyValue)
         {
-            Assert.IsTrue(
+            Assert.True(
                 LogVerifier.MessageInLogFile(logFileName, string.Format("Property(S): {0} = {1}", propertyName, propertyValue)), 
-               "Property '{0}' with expected value '{1}' was not found in the log file: '{2}'", propertyName, propertyValue, logFileName);
+                String.Format("Property '{0}' with expected value '{1}' was not found in the log file: '{2}'", propertyName, propertyValue, logFileName));
         }
         #endregion
     }

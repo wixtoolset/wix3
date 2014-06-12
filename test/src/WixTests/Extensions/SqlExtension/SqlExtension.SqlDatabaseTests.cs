@@ -13,23 +13,21 @@ namespace WixTest.Tests.Extensions.SqlExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// Sql extension SqlDatabase element tests
     /// </summary>
-    [TestClass]
     public class SqlDatabaseTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\SqlExtension\SqlDatabaseTests");
         private static readonly string SQLServerHostName = Environment.ExpandEnvironmentVariables("%SQLServerHostName%");
         private static readonly string SQLServerInstanceName = Environment.ExpandEnvironmentVariables("%SQLServerInstanceName%");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (SqlDatabase, SqlFileSpec, SqlString, and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void SqlDatabase_VerifyMSITableData()
@@ -81,10 +79,10 @@ namespace WixTest.Tests.Extensions.SqlExtension
                 );
         }
        
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the database was installed correctelly.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void SqlDatabase_Install()
         {
             string sourceFile = Path.Combine(SqlDatabaseTests.TestDataDirectory, @"product.wxs");
@@ -92,19 +90,19 @@ namespace WixTest.Tests.Extensions.SqlExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "BlankDB"), "Database '{0}' was not created on Install", "BlankDB");
-            Assert.IsTrue(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "Blank[Db11"), "Database '{0}' was not created on Install", "Blank[Db11");
+            Assert.True(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "BlankDB"), String.Format("Database '{0}' was not created on Install", "BlankDB"));
+            Assert.True(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "Blank[Db11"), String.Format("Database '{0}' was not created on Install", "Blank[Db11"));
          
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "BlankDB"), "Database '{0}' was not dropped on Uninstall", "BlankDB");
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "Blank[Db11"), "Database '{0}' was not dropped on Uninstall", "Blank[Db11");
+            Assert.False(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "BlankDB"), String.Format("Database '{0}' was not dropped on Uninstall", "BlankDB"));
+            Assert.False(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "Blank[Db11"), String.Format("Database '{0}' was not dropped on Uninstall", "Blank[Db11"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the databases created were dropped on rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void SqlDatabase_InstallFailure()
         {
             string sourceFile = Path.Combine(SqlDatabaseTests.TestDataDirectory, @"product_fail.wxs");
@@ -112,11 +110,11 @@ namespace WixTest.Tests.Extensions.SqlExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "BlankDB"), "Database '{0}' was not dropped on Rollback", "BlankDB");
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "Blank[Db11"), "Database '{0}' was not dropped on Rollback", "Blank[Db11");
+            Assert.False(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "BlankDB"), String.Format("Database '{0}' was not dropped on Rollback", "BlankDB"));
+            Assert.False(SqlVerifier.DatabaseExists(SqlDatabaseTests.SQLServerHostName, SqlDatabaseTests.SQLServerInstanceName, "Blank[Db11"), String.Format("Database '{0}' was not dropped on Rollback", "Blank[Db11"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected error message is shown if the SqlDatabase element does not have a matching parent component element.")]
         [Priority(3)]
         public void SqlDatabase_MissingParentComponent()
@@ -129,7 +127,7 @@ namespace WixTest.Tests.Extensions.SqlExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected error message is shown if the SqlDatabase element does not define any of the CreateOnInstall, CreateOnUninstall, DropOnInstall or DropOnUninstall attributes")]
         [Priority(3)]
         public void SqlDatabase_MissingAttributes()

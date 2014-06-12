@@ -16,19 +16,16 @@ namespace WixTest.Tests.Tools.Light.Warnings
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for suppressing warnings
     /// </summary>
-    [TestClass]
     public class SuppressWarningsTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\Warnings");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that specific warnings can be suppressed")]
         [Priority(1)]
         public void SimpleSuppressWarnings()

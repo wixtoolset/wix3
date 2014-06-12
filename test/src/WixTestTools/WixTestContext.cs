@@ -9,23 +9,41 @@
 
 namespace WixTest
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
+    using Xunit.Sdk;
 
     /// <summary>
-    /// Contains the context for the test case.
+    /// Context for a test run.
     /// </summary>
     public class WixTestContext
     {
+        /// <summary>
+        /// Gets the unique seed for this test run.
+        /// </summary>
         public string Seed { get; internal set; }
 
+        /// <summary>
+        /// Gets the test data directory for all tests.
+        /// </summary>
+        public string DataDirectory { get; internal set; }
+
+        /// <summary>
+        /// Gets the unique name of the current test case.
+        /// </summary>
         public string TestName { get; internal set; }
 
+        /// <summary>
+        /// Gets the test directory for the current test case.
+        /// </summary>
         public string TestDirectory { get; internal set; }
 
+        /// <summary>
+        /// Gets the test data directory for the current test case.
+        /// </summary>
         public string TestDataDirectory { get; internal set; }
 
-        public List<FileSystemInfo> TestArtifacts { get; internal set; }
+        /// <summary>
+        /// Gets the test result for the current test case.
+        /// </summary>
+        public ITestResult TestResult { get; internal set; }
     }
 }

@@ -15,8 +15,6 @@ namespace WixTest
     using System.IO;
     using System.Text.RegularExpressions;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     /// <summary>
     /// A class that wraps WixUnit.
     /// </summary>

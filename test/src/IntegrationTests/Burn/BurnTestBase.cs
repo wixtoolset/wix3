@@ -9,11 +9,12 @@
 
 namespace WixTest.BurnIntegrationTests
 {
-    using System;
-    using System.Linq;
-    using System.IO;
     using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
     using Microsoft.Win32;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Base classs for all Burn tests.
@@ -25,6 +26,62 @@ namespace WixTest.BurnIntegrationTests
         public static string PerUserPayloadCacheRoot = System.Environment.ExpandEnvironmentVariables(@"%LOCALAPPDATA%\" + PayloadCacheFolder);
 
         public static string TestValueVerifyArguments = "VerifyArguments";
+
+        /// <summary>
+        /// Creates an instance of a <see cref="PackageBuilder"/>.
+        /// </summary>
+        /// <param name="name">The name of the package to create.</param>
+        /// <param name="bindPaths">Additional bind paths for building the package.</param>
+        /// <param name="preprocessorVariables">Preprocessor variables for building the package.</param>
+        /// <param name="extensions">Extensions for building the package.</param>
+        /// <returns>A new <see cref="PackageBuilder"/> initialized with the given data.</returns>
+        protected PackageBuilder CreatePackage(string name, Dictionary<string, string> bindPaths = null, Dictionary<string, string> preprocessorVariables = null, string[] extensions = null)
+        {
+            string testDataDirectory = Path.Combine(this.TestContext.TestDataDirectory, @"Integration\BurnIntegrationTests\BasicTests");
+            PackageBuilder builder = new PackageBuilder(this.TestContext.TestName, name, testDataDirectory, this.TestArtifacts);
+
+            if (null != bindPaths)
+            {
+                builder.BindPaths = bindPaths;
+            }
+
+            if (null != preprocessorVariables)
+            {
+                builder.PreprocessorVariables = preprocessorVariables;
+            }
+
+            builder.Extensions = extensions ?? WixTestBase.Extensions;
+
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Creates an instance of a <see cref="BundleBuilder"/>.
+        /// </summary>
+        /// <param name="name">The name of the bundle to create.</param>
+        /// <param name="bindPaths">Additional bind paths for building the bundle.</param>
+        /// <param name="preprocessorVariables">Preprocessor variables for building the bundle.</param>
+        /// <param name="extensions">Extensions for building the bundle.</param>
+        /// <returns>A new <see cref="BundleBuilder"/> initialized with the given data.</returns>
+        protected BundleBuilder CreateBundle(string name, Dictionary<string, string> bindPaths = null, Dictionary<string, string> preprocessorVariables = null, string[] extensions = null)
+        {
+            string testDataDirectory = Path.Combine(this.TestContext.TestDataDirectory, @"Integration\BurnIntegrationTests\BasicTests");
+            BundleBuilder builder = new BundleBuilder(this.TestContext.TestName, name, testDataDirectory, this.TestArtifacts);
+
+            if (null != bindPaths)
+            {
+                builder.BindPaths = bindPaths;
+            }
+
+            if (null != preprocessorVariables)
+            {
+                builder.PreprocessorVariables = preprocessorVariables;
+            }
+
+            builder.Extensions = extensions ?? WixTestBase.Extensions;
+
+            return builder.Build();
+        }
 
         /// <summary>
         /// Tries to load the bundle registration using the upgrade code.

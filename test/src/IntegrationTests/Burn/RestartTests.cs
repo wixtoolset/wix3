@@ -22,11 +22,9 @@ namespace WixTest.BurnIntegrationTests
         private BundleBuilder bundleA;
 
         [NamedFact(Skip="Disabling this test since it does not consistently lock the file in a way that the Windows Installer sees FilesInUse.")]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_RetryThenCancel()
         {
-            this.Initialize(dataFolder: "BasicTests");
-
             this.SetPackageRetryExecuteFilesInUse("PackageA", 1);
 
             string bundleAPath = this.GetBundleA().Output;
@@ -40,7 +38,7 @@ namespace WixTest.BurnIntegrationTests
                 installA.Install(expectedExitCode:(int)MSIExec.MSIExecReturnCode.ERROR_INSTALL_USEREXIT);
             }
 
-            this.Completed();
+            this.Complete();
         }
 
         private PackageBuilder GetPackageA()

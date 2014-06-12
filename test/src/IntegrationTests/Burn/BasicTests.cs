@@ -27,7 +27,7 @@ namespace WixTest.BurnIntegrationTests
         private BundleBuilder bundleA;
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_InstallUninstall()
         {
             // Build the packages.
@@ -62,11 +62,11 @@ namespace WixTest.BurnIntegrationTests
             Assert.False(MsiVerifier.IsPackageInstalled(packageA));
             Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.Completed();
+            this.Complete();
         }
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_InstallLockUninstallInstallUninstall()
         {
             // Build.
@@ -106,11 +106,11 @@ namespace WixTest.BurnIntegrationTests
             Assert.False(this.TryGetBundleRegistration("5802E2D0-AC39-4486-86FF-D4B7AD012EB5", out registration));
             Assert.Null(registration);
 
-            this.Completed();
+            this.Complete();
         }
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MajorUpgrade()
         {
             string v2Version = "2.0.0.0";
@@ -142,11 +142,11 @@ namespace WixTest.BurnIntegrationTests
             Assert.False(MsiVerifier.IsPackageInstalled(packageAv1));
             Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            this.Completed();
+            this.Complete();
         }
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MajorUpgradeUsingModify()
         {
             string v2Version = "2.0.0.0";
@@ -176,11 +176,11 @@ namespace WixTest.BurnIntegrationTests
             Assert.False(MsiVerifier.IsPackageInstalled(packageAv1));
             //Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            this.Completed();
+            this.Complete();
         }
 
         //[NamedFact(Skip="This test is not supported yet.")]
-        //[Trait("RuntimeTest", "true")]
+        //[RuntimeTest]
         //public void Burn_MajorUpgradeSameVersion()
         //{
         //    // Build the packages.
@@ -214,7 +214,7 @@ namespace WixTest.BurnIntegrationTests
         //}
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SharedMinorUpgrade()
         {
             string productCode = Guid.NewGuid().ToString("B").ToUpperInvariant();
@@ -270,11 +270,11 @@ namespace WixTest.BurnIntegrationTests
             installerA.Uninstall();
             Assert.False(MsiVerifier.IsProductInstalled(productCode));
 
-            this.Completed();
+            this.Complete();
         }
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MajorUpgradeRemovesPackageFixedByRepair()
         {
             string v2Version = "2.0.0.0";
@@ -317,11 +317,11 @@ namespace WixTest.BurnIntegrationTests
             Assert.False(MsiVerifier.IsPackageInstalled(packageAv1));
             Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            this.Completed();
+            this.Complete();
         }
 
         [NamedFact]
-        [Trait("RuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ValidateMultipleSourcePaths()
         {
             // Build the package.
@@ -354,7 +354,7 @@ namespace WixTest.BurnIntegrationTests
             installerA.Uninstall();
             Assert.False(MsiVerifier.IsPackageInstalled(packageA));
 
-            this.Completed();
+            this.Complete();
         }
 
         private PackageBuilder GetPackageA()

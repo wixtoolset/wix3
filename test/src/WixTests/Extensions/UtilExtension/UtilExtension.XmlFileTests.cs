@@ -13,21 +13,19 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension XmlFile element tests
     /// </summary>
-    [TestClass]
     public class XmlFileTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\XmlFileTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (XmlFile and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void XmlFile_VerifyMSITableData()
@@ -154,10 +152,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
             );
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected changes are made to the xml file on install.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void XmlFile_Install()
         {
             string sourceFile = Path.Combine(XmlFileTests.TestDataDirectory, @"product.wxs");
@@ -167,7 +165,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify that the File was created.
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"WixTestFolder\test.xml");
-            Assert.IsTrue(File.Exists(fileName), "XMLFile '{0}' was not created on Install.", fileName);
+            Assert.True(File.Exists(fileName), String.Format("XMLFile '{0}' was not created on Install.", fileName));
 
             // Verify XML File Transformation.
             VerifyXMLFileTransformation(fileName);
@@ -175,14 +173,14 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the file was removed
-            Assert.IsFalse(File.Exists(fileName), "XMLFile '{0}' was not removed on Uninstall.", fileName);
+            Assert.False(File.Exists(fileName), string.Format("XMLFile '{0}' was not removed on Uninstall.", fileName));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected changes are made to the xml file on install to a 64-bit specific folder.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void XmlFile_Install_64bit()
         {
             string sourceFile = Path.Combine(XmlFileTests.TestDataDirectory, @"product_64.wxs");
@@ -192,7 +190,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify that the File was created.
             string fileName = Path.Combine(Environment.ExpandEnvironmentVariables(@"%ProgramW6432%"), @"WixTestFolder\test.xml");
-            Assert.IsTrue(File.Exists(fileName), "XMLFile '{0}' was not created on Install.", fileName);
+            Assert.True(File.Exists(fileName), String.Format("XMLFile '{0}' was not created on Install.", fileName));
 
             // Verify XML File Transformation.
             VerifyXMLFileTransformation(fileName);
@@ -200,13 +198,13 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the file was removed
-            Assert.IsFalse(File.Exists(fileName), "XMLFile '{0}' was not removed on Uninstall.", fileName);
+            Assert.False(File.Exists(fileName), String.Format("XMLFile '{0}' was not removed on Uninstall.", fileName));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the changes made to the xml file are reverted on uninstall.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void XmlFile_ExistingFile()
         {
             string sourceFile = Path.Combine(XmlFileTests.TestDataDirectory, @"product.wxs");
@@ -231,16 +229,16 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the file was removed
-            Assert.IsTrue(File.Exists(targetFile), "XMLFile '{0}' was removed on Uninstall.", targetFile);
+            Assert.True(File.Exists(targetFile), String.Format("XMLFile '{0}' was removed on Uninstall.", targetFile));
 
             // Verify that the changes were reverted except for permenant changes
             XMLVerifier.VerifyXMLFile(targetFile, Path.Combine(XmlFileTests.TestDataDirectory, @"expected.xml"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected changes are made to the xml file on rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void XmlFile_InstallFailure()
         {
             string sourceFile = Path.Combine(XmlFileTests.TestDataDirectory, @"product_fail.wxs");
@@ -250,7 +248,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify that the file was removed
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"WixTestFolder\test.xml");
-            Assert.IsFalse(File.Exists(fileName), "XMLFile '{0}' was not removed on Rollback.", fileName);
+            Assert.False(File.Exists(fileName), String.Format("XMLFile '{0}' was not removed on Rollback.", fileName));
         }
 
         #region Helper Methods

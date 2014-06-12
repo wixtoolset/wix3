@@ -15,7 +15,7 @@
 
 
 using namespace System;
-using namespace Microsoft::VisualStudio::TestTools::UnitTesting;
+using namespace Xunit;
 
 
 namespace Microsoft

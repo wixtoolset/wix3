@@ -12,18 +12,16 @@ namespace WixTest.Tests.Tools.Candle.Input
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
      /// <summary>
     /// Test the different ways for giving input files to Candle.
     /// </summary>
-    [TestClass]
     public class InputTests : WixTests
     {
         private static readonly string TestDataDirectory = @"%WIX_ROOT%\test\Data\Tools\Candle\Input\InputTests";
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle accepts a single Windows Installer XML source (wxs) file as input")]
         [Priority(1)]
         public void SingleWxsFile()
@@ -31,7 +29,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(Path.Combine(WixTests.SharedAuthoringDirectory, "BasicProduct.wxs"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle accepts multiple Windows Installer XML source (wxs) files as input")]
         [Priority(1)]
         public void MultipleWxsFiles()
@@ -43,7 +41,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             candle.Run();
         }
                 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accept a WXS file without the wxs extension as input")]
         [Priority(2)]
         public void NoWxsExtension()
@@ -51,7 +49,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(Path.Combine(InputTests.TestDataDirectory, @"NoWxsExtension\Product"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accept a file with .foo as extension")]
         [Priority(2)]
         public void ValidFileWithUnknownExtension()
@@ -59,7 +57,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(Path.Combine(InputTests.TestDataDirectory, @"ValidFileWithUnknownExtension\Product.foo"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can handle invalid wxs, a non wix text file with a wxs extension")]
         [Priority(1)]
         public void InvalidWxsFile()
@@ -71,7 +69,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can handle empty wxs file")]
         [Priority(3)]
         public void EmptyWxsFile()

@@ -17,8 +17,6 @@ namespace WixTest.Verifiers.Extensions
     using System.IO;
     using System.Collections;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using System.Data;
     using System.Data.Sql;
     using System.Data.SqlClient;

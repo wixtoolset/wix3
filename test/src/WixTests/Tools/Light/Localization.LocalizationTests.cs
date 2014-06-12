@@ -16,19 +16,17 @@ namespace WixTest.Tests.Tools.Light.Localization
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Test MSI localization with Light
     /// </summary>
-    [TestClass]
     public class LocalizationTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\Localization\LocalizationTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an MSI can be localized")]
         [Priority(2)]
         public void Hebrew()
@@ -38,16 +36,16 @@ namespace WixTest.Tests.Tools.Light.Localization
             Light light = new Light();
             light.ObjectFiles.Add(wixobj);
             light.LocFiles.Add(Path.Combine(LocalizationTests.TestDataDirectory, @"he-il\he-il.wxl"));
-            light.OutputFile = Path.Combine(Path.Combine(this.TestContext.TestDir, Path.GetRandomFileName()), "he-il.msi");
+            light.OutputFile = Path.Combine(Path.Combine(this.TestContext.TestDirectory, Path.GetRandomFileName()), "he-il.msi");
             light.Run();
 
             Verifier.CompareResults(Path.Combine(LocalizationTests.TestDataDirectory, @"he-il\he-il.msi"), light.OutputFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that variable Ids containing dots are accepted.")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1711440&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1711440&group_id=105970&atid=642714")]
         public void ValidIdentifier()
         {
             Candle candle = new Candle();

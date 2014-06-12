@@ -11,16 +11,14 @@
 namespace WixTest.Tests.Tools.Candle.MultipleInputSwitches
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Tests how Candle handles multiple input switches.
     /// </summary>
-    [TestClass]
     public class MultipleInputSwitchesTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle handles the case when multiple switches like 'Suppress All Warnings' and 'Treat Warnings as Errors' are given. In this scenario, Candle honors the sw switch and suppresses all warnings")]
         [Priority(3)]
         public void WxAndSw()

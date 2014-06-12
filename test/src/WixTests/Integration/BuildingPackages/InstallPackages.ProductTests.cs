@@ -15,19 +15,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for the Product element
     /// </summary>
-    [TestClass]
     public class ProductTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\InstallPackages\ProductTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple MSI can be built and that the expected default values are set for optional attributes")]
         [Priority(1)]
         public void SimpleProduct()
@@ -44,7 +42,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             Verifier.VerifyResults(Path.Combine(ProductTests.TestDataDirectory, @"SimpleProduct\expected.msi"), light.OutputFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the attributes on Product can accept non-default or atypical values")]
         [Priority(1)]
         public void NonDefaultProduct()
@@ -59,7 +57,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             Verifier.VerifyResults(Path.Combine(ProductTests.TestDataDirectory, @"NonDefaultProduct\expected.msi"), light.OutputFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that valid product codes are allowed and that auto-generation produces the same Id every time")]
         [Priority(2)]
         public void ProductCodes()
@@ -87,11 +85,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
 
                 // Verify that the product code was set properly
                 string productCode = Verifier.Query(light.OutputFile, "SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'");
-                Assert.IsTrue(ids[id].IsMatch(productCode), "The product code {0} in {1} does not match the regular expression {2}", productCode, light.OutputFile, ids[id].ToString());
+                Assert.True(ids[id].IsMatch(productCode), String.Format("The product code {0} in {1} does not match the regular expression {2}", productCode, light.OutputFile, ids[id]));
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error when an invalid codepage is specified")]
         [Priority(2)]
         public void InvalidCodepage()
@@ -112,10 +110,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             }
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that attribute values with whitespace are treated as null or empty values")]
         [Priority(3)]
-        [Ignore()] // Bug
         public void AttributesWithWhitespace()
         {
             // Check the Name attribute
@@ -131,11 +128,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug", Timeout = 10*30000)]
         [Description("Verify that valid codepages are allowed")]
         [Priority(3)]
-        [Timeout(10*30000)]
-        [Ignore()] // Bug
         public void ValidCodepages()
         {
             // Test a subset of valid codepages
@@ -151,7 +146,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             codepages.Add("WiNdOwS-1252", 1252);
 
             // Randomly select 3 valid codepages
-            Random random = new Random(WixTests.Seed);
+            Random random = new Random(Settings.Seed.GetHashCode());
             EncodingInfo[] encodings = Encoding.GetEncodings();
             for (int i = 0; i < System.Math.Min(encodings.Length, 3); i++)
             {
@@ -189,10 +184,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             }
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that there is not an exception when utf-32 used for the database codepage")]
         [Priority(3)]
-        [Ignore()] // Bug
         public void Codepage_UTF32()
         {
             string codepage = "utf-32";
@@ -206,10 +200,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that there is a proper error message when x-iscii-de used for the database codepage")]
         [Priority(3)]
-        [Ignore()] // Bug
         public void Codepage_x_iscii_de()
         {
             string codepage = "x_iscii_de";
@@ -223,11 +216,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug", Timeout = 30000)]
         [Description("Verify that light doesn't hang when the codepage x-EBCDIC-KoreanExtended is used")]
         [Priority(3)]
-        [Timeout(30000)]
-        [Ignore()] // Bug
         public void Codepage_x_EBCDIC_KoreanExtended()
         {
             string codepage = "x-EBCDIC-KoreanExtended";
@@ -241,7 +232,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the UpgradeCode allows any string defined in the GUID type")]
         [Priority(3)]
         public void ValidUpgradeCodes()
@@ -253,7 +244,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             Verifier.VerifyQuery(msi, query1, "{7948847C-483E-4EF7-BCB4-8A9F98A30FE9}");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Product Id is not a valid GUID")]
         [Priority(3)]
         public void InvalidProductId()
@@ -268,7 +259,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the UpgradeCode is a '*'")]
         [Priority(3)]
         public void InvalidUpgradeCode()
@@ -282,7 +273,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Upgrade table can be created by using the Upgrade and UpgradeVersion elements")]
         [Priority(3)]
         public void UpgradeTable()
@@ -301,7 +292,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             Verifier.VerifyQuery(light.OutputFile, query1, "{D99FE599-C948-436A-829C-F8DD26CE1665}");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all of the attributes of the UpgradeVersion are used in the MSI as they are supposed to be")]
         [Priority(3)]
         public void UpgradeVersion()

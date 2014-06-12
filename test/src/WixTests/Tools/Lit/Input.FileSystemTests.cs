@@ -15,17 +15,14 @@ namespace WixTest.Tests.Tools.Lit.Input
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Lit handles different types of files.
     /// </summary>
-    [TestClass]
     public class FileSystemTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit accepts input file path given as relative path.")]
         [Priority(1)]
         public void RelativePath()
@@ -45,7 +42,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
        
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can handle a non existing input file")]
         [Priority(2)]
         public void NonExistingInputFile()
@@ -60,7 +57,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can accept non-alphanumeric characters in the filename")]
         [Priority(2)]
         public void NonAlphaNumericCharactersInFileName()
@@ -76,7 +73,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can accept read only files as input")]
         [Priority(2)]
         public void ReadOnlyInputFile()
@@ -91,23 +88,21 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit can accept files from a network share")]
         [Priority(2)]
-        [Ignore]
         public void MultipleFilesFromNetworkShare()
         {
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit accepts s large size input file.")]
         [Priority(2)]
-        [Ignore]
         public void LargeSizeInputFile()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can accept file names with single quotes")]
         [Priority(3)]
         public void FileNameWithSingleQuotes()
@@ -123,7 +118,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can accepts an input file with space in its name")]
         [Priority(3)]
         public void FileNameWithSpace()
@@ -142,18 +137,16 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit fails gracefully in case of input file on a network share with no permissions.")]
         [Priority(3)]
-        [Ignore]
         public void NetworkShareNoPermissions()
         {
         }
- 
-        [TestMethod]
+
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit can accept an input file from a URI path")]
         [Priority(3)]
-        [Ignore]
         public void URI()
         {
         }

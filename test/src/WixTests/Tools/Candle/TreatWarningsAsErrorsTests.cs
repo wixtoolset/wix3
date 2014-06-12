@@ -12,18 +12,16 @@ namespace WixTest.Tests.Tools.Candle.TreatWarningsAsErrors
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles the wx switch.
     /// </summary>
-    [TestClass]
     public class TreatWarningsAsErrorsTests : WixTests
     {
         private static string testFile = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\TreatWarningsAsErrorsTests\Product.wxs");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle honors the wx switch when specified.")]
         [Priority(2)]
         public void TreatAllWarningsAsErrorSwitch()
@@ -38,7 +36,7 @@ namespace WixTest.Tests.Tools.Candle.TreatWarningsAsErrors
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle honors the wx[N] switch when specified.")]
         [Priority(2)]
         public void TreatSpecificWarningsAsErrorSwitch()
@@ -52,7 +50,7 @@ namespace WixTest.Tests.Tools.Candle.TreatWarningsAsErrors
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle does not treat warnings as errors when wx switch is not specified.")]
         [Priority(2)]
         public void NoTreatWarningsAsErrorSwitch()
@@ -64,10 +62,9 @@ namespace WixTest.Tests.Tools.Candle.TreatWarningsAsErrors
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that Candle handles the wxall switch and displays a message that the switch is deprecated.")]
         [Priority(2)]
-        [Ignore] // Bug
         public void VerifyDeprecatedSwitch()
         {
             Candle candle = new Candle();

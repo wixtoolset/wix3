@@ -8,6 +8,8 @@
   </copyright>
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
   <ItemGroup>
     <ProjectReference Include="$(WixSrcFolder)\libs\libs.proj">
       <BuildInParallel>false</BuildInParallel>
@@ -20,9 +22,32 @@
     <ProjectReference Include="src\UnitTests\Burn\BurnUnitTest.vcxproj" />
     <ProjectReference Include="src\UnitTests\dutil\DUtilUnitTest.vcxproj" />
     <ProjectReference Include="src\IntegrationTests\Burn\BurnIntegrationTests.csproj" />
+    <ProjectReference Include="src\IntegrationTests\MsbuildIntegrationTests\MsbuildIntegrationTests.csproj" />
     <ProjectReference Include="src\WixTests\WixTests.csproj" />
     <ProjectReference Include="src\WixTestTools\WixTestTools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+
+  <UsingTask AssemblyFile="$(XunitPath)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
+
+  <ItemGroup>
+    <TestAssemblies Include="$(WixToolPath)\WixTest.BurnIntegrationTests.dll" />
+    <TestAssemblies Include="$(WixToolPath)\WixTest.MsbuildIntegrationTests.dll" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(IntegrationTests)' == '' ">
+    <TestAssemblies Include="$(WixToolPath)\BurnUnitTest.dll" />
+    <TestAssemblies Include="$(WixToolPath)\DUtilUnitTest.dll" />
+    <TestAssemblies Include="$(WixToolPath)\WixTests.dll" />
+  </ItemGroup>
+
+  <Target Name="Test">
+    <xunit Assemblies="@(TestAssemblies)" />
+  </Target>
+
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
 </Project>

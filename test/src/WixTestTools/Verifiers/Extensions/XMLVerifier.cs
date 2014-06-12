@@ -18,7 +18,7 @@ namespace WixTest.Verifiers.Extensions
     using System.Xml;
     using System.Collections;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Contains methods for XML verification
@@ -34,7 +34,7 @@ namespace WixTest.Verifiers.Extensions
         public static void VerifyElementValue(string xmlFilePath, string xpathQuery, string expectedValue)
         {
             XmlNodeList resultNode = Verifier.QueryXML(xmlFilePath, xpathQuery, new XmlNamespaceManager(new NameTable()));
-            Assert.AreEqual(1, resultNode.Count, "Expected 1 node to be returned");
+            Assert.Equal(1, resultNode.Count);
 
             string actualValue = string.Empty;
             foreach (XmlNode childNode in resultNode[0].ChildNodes)
@@ -45,7 +45,7 @@ namespace WixTest.Verifiers.Extensions
                     break;
                 }
             }
-            Assert.AreEqual(expectedValue, actualValue, "Unexpected value for query '{0}'", xpathQuery);
+            Assert.True(expectedValue == actualValue, String.Format("Unexpected value for query '{0}'", xpathQuery));
         }
 
         /// <summary>
@@ -58,19 +58,20 @@ namespace WixTest.Verifiers.Extensions
         public static void VerifyAttributeValue(string xmlFilePath, string xpathQuery, string attributeName, string expectedValue)
         {
             XmlNodeList resultNode = Verifier.QueryXML(xmlFilePath, xpathQuery, new XmlNamespaceManager(new NameTable()));
-            Assert.AreEqual(1, resultNode.Count, "Expected 1 node to be returned");
+            Assert.Equal(1, resultNode.Count);
 
             foreach (XmlAttribute attribute in resultNode[0].Attributes)
             {
                 if (attribute.Name == attributeName)
                 {
                     string actualValue = attribute.Value;
-                    Assert.AreEqual(expectedValue, actualValue, "Unexpected value for attribute '{0}'. Actual: '{1}', Expected: '{2}'.", attributeName, actualValue, expectedValue);
+                    Assert.True(expectedValue == actualValue, String.Format("Unexpected value for attribute '{0}'. Actual: '{1}', Expected: '{2}'.", attributeName, actualValue, expectedValue));
                     return;
                 }
             }
 
-            Assert.Fail("Query '{0}' output does NOT have attribute '{1}'.", xpathQuery, attributeName);
+            
+            Assert.True(false, String.Format("Query '{0}' output does NOT have attribute '{1}'.", xpathQuery, attributeName));
         }
 
         /// <summary>
@@ -94,11 +95,11 @@ namespace WixTest.Verifiers.Extensions
             XmlNodeList resultNode = Verifier.QueryXML(xmlFilePath, xpathQuery, new XmlNamespaceManager(new NameTable()));
             if (true == expected)
             {
-                Assert.AreEqual(1, resultNode.Count, "Expected 1 node to be returned");
+                Assert.Equal(1, resultNode.Count);
             }
             else
             {
-                Assert.AreEqual(0, resultNode.Count, "Expected NO node to be returned");
+                Assert.Equal(0, resultNode.Count);
             }
         }
 
@@ -112,7 +113,7 @@ namespace WixTest.Verifiers.Extensions
             string acctualFileText = File.ReadAllText(acctualXMLFilePath);
             string expectedFileText = File.ReadAllText(expectedXMLFilePath);
 
-            Assert.IsTrue(acctualFileText.Equals(expectedFileText, StringComparison.InvariantCultureIgnoreCase), "XML Files '{0}' and '{1}' are not identical", acctualFileText, expectedFileText);
+            Assert.True(acctualFileText.Equals(expectedFileText, StringComparison.InvariantCultureIgnoreCase), String.Format("XML Files '{0}' and '{1}' are not identical", acctualFileText, expectedFileText));
         }
     }
 }

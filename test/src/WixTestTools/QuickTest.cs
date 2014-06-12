@@ -12,10 +12,10 @@
 
 namespace WixTest
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Xunit;
 
     /// <summary>
     /// This class provides a quick and simple way of running a test
@@ -102,12 +102,12 @@ namespace WixTest
 
             if (this.SourceFiles.Count == 0)
             {
-                Assert.Inconclusive("There were no SourceFiles specified. At least on source file must be specified for this test to run.");
+                Assert.True(false, "There were no SourceFiles specified. At least on source file must be specified for this test to run.");
             }
             
             if (String.IsNullOrEmpty(this.ExpectedMsi))
             {
-                Assert.Inconclusive("The ExpectedMsi was not set. It must be set for this test to run.");
+                Assert.True(false, "The ExpectedMsi was not set. It must be set for this test to run.");
             }
 
             Candle candle = new Candle();

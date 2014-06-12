@@ -12,32 +12,33 @@ namespace WixTest.MsbuildIntegrationTests
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
-    using System.Threading;
     using Xunit;
 
     public class BuildTests : WixTestBase
     {
-        [Fact]
+        [NamedFact]
         public void CanBuildAndBuildWithoutChanges()
         {
-            this.Initialize(@"TestData\SimpleMsi\");
-            this.DuplicateTestDataToTestFolder();
+            this.DuplicateTestDataToTestFolder(@"Integration\MsbuildIntegrationTests\SimpleMsi");
 
             MSBuild msb = new MSBuild();
+            msb.Properties.Add("WixToolPath", Settings.WixToolsDirectory);
             msb.Properties.Add("WixTargetsPath", Settings.WixTargetsPath);
+            msb.Properties.Add("WixTasksPath", Settings.WixTasksPath);
             msb.ProjectFile = "SimpleMsi.wixproj";
 
             var result = msb.Run();
             Assert.Contains("Building target \"Compile\" completely.", result.StandardOutput);
             Assert.Contains("Building target \"Link\" completely.", result.StandardOutput);
 
-            var firstPassFiles = Directory.GetFiles(this.TestFolder, "*", SearchOption.AllDirectories).Select(p => new { Path = p, Hash = this.GetHash(p), Modified = File.GetLastWriteTime(p) }).ToList();
+            var context = this.TestContext;
+            var firstPassFiles = Directory.GetFiles(context.TestDirectory, "*", SearchOption.AllDirectories).Select(p => new { Path = p, Hash = this.GetHash(p), Modified = File.GetLastWriteTime(p) }).ToList();
 
             result = msb.Run();
             Assert.Contains("Skipping target \"Compile\" because all output files are up-to-date with respect to the input files.", result.StandardOutput);
             Assert.Contains("Skipping target \"Link\" because all output files are up-to-date with respect to the input files.", result.StandardOutput);
 
-            var secondPassFiles = Directory.GetFiles(this.TestFolder, "*", SearchOption.AllDirectories).Select(p => new { Path = p, Hash = this.GetHash(p), Modified = File.GetLastWriteTime(p) }).ToList();
+            var secondPassFiles = Directory.GetFiles(context.TestDirectory, "*", SearchOption.AllDirectories).Select(p => new { Path = p, Hash = this.GetHash(p), Modified = File.GetLastWriteTime(p) }).ToList();
             foreach (var st in secondPassFiles)
             {
                 var m = firstPassFiles.Where(f => f.Path == st.Path).SingleOrDefault();
@@ -45,21 +46,23 @@ namespace WixTest.MsbuildIntegrationTests
                 Assert.Equal(m.Hash, st.Hash);
             }
 
-            this.Completed();
+            this.Complete();
         }
 
-        [Fact]
+        [NamedFact]
         public void CanBuildAndClean()
         {
-            this.Initialize(@"TestData\SimpleMsi\");
-            this.DuplicateTestDataToTestFolder();
+            this.DuplicateTestDataToTestFolder(@"Integration\MsbuildIntegrationTests\SimpleMsi");
 
-            string binPath = Path.Combine(this.TestFolder, "bin\\");
-            string objPath = Path.Combine(this.TestFolder, "obj\\");
+            var context = this.TestContext;
+            string binPath = Path.Combine(context.TestDirectory, "bin\\");
+            string objPath = Path.Combine(context.TestDirectory, "obj\\");
 
             // Build
             MSBuild msb = new MSBuild();
+            msb.Properties.Add("WixToolPath", Settings.WixToolsDirectory);
             msb.Properties.Add("WixTargetsPath", Settings.WixTargetsPath);
+            msb.Properties.Add("WixTasksPath", Settings.WixTasksPath);
             msb.ProjectFile = "SimpleMsi.wixproj";
             var result = msb.Run();
 
@@ -79,7 +82,21 @@ namespace WixTest.MsbuildIntegrationTests
             Assert.Empty(cleanBin);
             Assert.Empty(cleanObj);
 
-            this.Completed();
+            this.Complete();
+        }
+
+        private void DuplicateTestDataToTestFolder(string dataSubDirectory)
+        {
+            var context = this.TestContext;
+            if (null != context)
+            {
+                string dataDirectory = Path.Combine(context.TestDataDirectory, dataSubDirectory);
+                foreach (var source in Directory.GetFiles(dataDirectory, "*", SearchOption.AllDirectories))
+                {
+                    var target = Path.Combine(context.TestDirectory, Path.GetFileName(source));
+                    File.Copy(source, target);
+                }
+            }
         }
 
         private byte[] GetHash(string path)

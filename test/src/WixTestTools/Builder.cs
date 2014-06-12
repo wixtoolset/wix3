@@ -132,7 +132,7 @@ namespace WixTest
         public static string BuildPackage(string workingDirectory, string[] sourceFiles, string outputFile, bool outputToTemp, string otherCandleArgs, string otherLightArgs)
         {
             // Determine where to save the output
-            string outputDirectory = workingDirectory;
+            string outputDirectory = Environment.CurrentDirectory;
 
             if (outputToTemp && Path.IsPathRooted(outputFile))
             {
@@ -259,16 +259,18 @@ namespace WixTest
         /// <param name="patchCompilerExtension">A Wix extension to pass when compiling the patch</param>
         public static void BuildPatch(string workingDirectory, string[] targetSources, string[] upgradeSources, string[] patchSources, string patchFileName, string baseline, string patchCompilerExtension)
         {
+            string outputDirectory = Environment.CurrentDirectory;
+
             // Create directories for intermediate output
-            string wixobjDirectory = Path.Combine(workingDirectory, Settings.WixobjFolder);
+            string wixobjDirectory = Path.Combine(outputDirectory, Settings.WixobjFolder);
             FileUtilities.CreateOutputDirectory(wixobjDirectory);
-            string wixoutDirectory = Path.Combine(workingDirectory, Settings.WixoutFolder);
+            string wixoutDirectory = Path.Combine(outputDirectory, Settings.WixoutFolder);
             FileUtilities.CreateOutputDirectory(wixoutDirectory);
-            string msiDirectory = Path.Combine(workingDirectory, Settings.MSIFolder);
+            string msiDirectory = Path.Combine(outputDirectory, Settings.MsiFolder);
             FileUtilities.CreateOutputDirectory(msiDirectory);
-            string mstDirectory = Path.Combine(workingDirectory, Settings.MSTFolder);
+            string mstDirectory = Path.Combine(outputDirectory, Settings.MstFolder);
             FileUtilities.CreateOutputDirectory(mstDirectory);
-            string mspDirectory = Path.Combine(workingDirectory, Settings.MSPFolder);
+            string mspDirectory = Path.Combine(outputDirectory, Settings.MspFolder);
             FileUtilities.CreateOutputDirectory(mspDirectory);
 
             // Build Target .wixout
@@ -356,11 +358,13 @@ namespace WixTest
         /// <param name="baseline">Id of the baseline layout</param>
         public static void BuildPatchFromAdminImages(string workingDirectory, string targetMsi, string upgradeMsi, string patchSource, string patchFileName, string baseline)
         {
+            string outputDirectory = Environment.CurrentDirectory;
+
             // Create directories for intermediate output
-            FileUtilities.CreateOutputDirectory(Path.Combine(workingDirectory, Settings.WixobjFolder));
-            FileUtilities.CreateOutputDirectory(Path.Combine(workingDirectory, Settings.WixoutFolder));
-            FileUtilities.CreateOutputDirectory(Path.Combine(workingDirectory, Settings.MSTFolder));
-            FileUtilities.CreateOutputDirectory(Path.Combine(workingDirectory, Settings.MSPFolder));
+            FileUtilities.CreateOutputDirectory(Path.Combine(outputDirectory, Settings.WixobjFolder));
+            FileUtilities.CreateOutputDirectory(Path.Combine(outputDirectory, Settings.WixoutFolder));
+            FileUtilities.CreateOutputDirectory(Path.Combine(outputDirectory, Settings.MstFolder));
+            FileUtilities.CreateOutputDirectory(Path.Combine(outputDirectory, Settings.MspFolder));
 
             // Build Transforms
             // string transformWixMST = Path.Combine(Settings.WixoutFolder, "transform.wixmst");

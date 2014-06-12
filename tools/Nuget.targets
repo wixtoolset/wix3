@@ -17,7 +17,7 @@
   <PropertyGroup>
     <AzureStorageBuildTasksPath>$(NugetPackageFolder)FireGiant.BuildTasks.AzureStorage.1.0.0.0\tools\</AzureStorageBuildTasksPath>
     <ExtensionPackPath>$(NugetPackageFolder)MSBuild.Extension.Pack.1.2.0\lib\net40\</ExtensionPackPath>
-    <XunitPath>$(NugetPackageFolder)xunit.1.9.1\lib\net20\</XunitPath>
+    <XunitPath>$(NugetPackageFolder)xunit.1.9.2\lib\net20\</XunitPath>
   </PropertyGroup>
 
   <!--

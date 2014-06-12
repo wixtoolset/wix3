@@ -16,20 +16,18 @@ namespace WixTest.Tests.Tools.Light.Cultures
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for cultures
     /// </summary>
-    [TestClass]
     public class CulturesTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that passing an invalid culture to light does not cause an error.")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1942991&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1942991&group_id=105970&atid=642714")]
         public void InvalidCultures()
         {
             Candle candle = new Candle();

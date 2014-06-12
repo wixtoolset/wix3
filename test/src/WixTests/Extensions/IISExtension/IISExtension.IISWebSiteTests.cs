@@ -14,20 +14,18 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// IIS extension IISWebSite element tests
     /// </summary>
-    [TestClass]
     public class IISWebSiteTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISWebSiteTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IISWebSite,CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void IISWebSite_VerifyMSITableData()
@@ -58,10 +56,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 new TableRow(IIsWebSiteColumns.Log_.ToString(), "log"));
         }
         
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the website was created and was started.Uninstall the product. Verify that the website was removed.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebSite_Install()
         {
             string sourceFile = Path.Combine(IISWebSiteTests.TestDataDirectory, @"product.wxs");
@@ -71,17 +69,17 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the website was created and was started
-            Assert.IsTrue(IISVerifier.WebSiteExists("Test web server"), "WebSite '{0}' was not created on Install", "Test web server");
-            Assert.IsTrue(IISVerifier.WebSiteStarted("Test web server"), "WebSite '{0}' was not started on Install", "Test web server");
+            Assert.True(IISVerifier.WebSiteExists("Test web server"), String.Format("WebSite '{0}' was not created on Install", "Test web server"));
+            Assert.True(IISVerifier.WebSiteStarted("Test web server"), String.Format("WebSite '{0}' was not started on Install", "Test web server"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the website was removed
-            Assert.IsFalse(IISVerifier.WebSiteExists("Test web server"), "WebSite '{0}' was not removed on Uninstall", "Test web server");
+            Assert.False(IISVerifier.WebSiteExists("Test web server"), String.Format("WebSite '{0}' was not removed on Uninstall", "Test web server"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected Candle error is shown when WebSite element has @AutoStart specified without a component parent.")]
         [Priority(3)]
         public void IISWebSite_AutoStartSpecified()

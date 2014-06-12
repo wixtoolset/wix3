@@ -37,13 +37,6 @@ static HRESULT ProcessChildMessages(
     __out DWORD* pdwResult
     );
 
-
-using namespace System;
-using namespace System::IO;
-using namespace System::Threading;
-using namespace Microsoft::VisualStudio::TestTools::UnitTesting;
-
-
 namespace Microsoft
 {
 namespace Tools
@@ -54,11 +47,16 @@ namespace Test
 {
 namespace Bootstrapper
 {
-    [TestClass]
+    using namespace System;
+    using namespace System::IO;
+    using namespace System::Threading;
+    using namespace WixTest;
+    using namespace Xunit;
+
     public ref class ElevationTest : BurnUnitTest
     {
     public:
-        [TestMethod]
+        [NamedFact]
         void ElevateTest()
         {
             HRESULT hr = S_OK;
@@ -97,7 +95,7 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to terminate elevated process.");
 
                 // check flags
-                Assert::AreEqual(S_TEST_SUCCEEDED, (HRESULT)dwResult);
+                Assert::Equal(S_TEST_SUCCEEDED, (HRESULT)dwResult);
             }
             finally
             {

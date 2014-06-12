@@ -14,21 +14,19 @@ namespace WixTest.Tests.Integration.BuildingPackages
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Regression tests for Candle/Light Integration
     /// </summary>
-    [TestClass]
     public class RegressionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\RegressionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a Directory inherits its parent directory's Name, not the ShortName")]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/index.php?func=detail&aid=1824809&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/index.php?func=detail&aid=1824809&group_id=105970&atid=642714")]
         [Priority(3)]
         public void SF1824809()
         {
@@ -41,11 +39,10 @@ namespace WixTest.Tests.Integration.BuildingPackages
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Builds an MSI with a file search. This is not currently a test because there is an open spec issue.")]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1656236&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1656236&group_id=105970&atid=642714")]
         [Priority(3)]
-        [Ignore]
         public void SF1656236()
         {
             Candle candle = new Candle();
@@ -59,7 +56,7 @@ namespace WixTest.Tests.Integration.BuildingPackages
             // Verify that the DrLocator table was generated correctly
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a Duplicate authoring of IgnoreModularization element do not cause a build failure.")]
         [Priority(3)]
         public void DuplicateIgnoreModularization()

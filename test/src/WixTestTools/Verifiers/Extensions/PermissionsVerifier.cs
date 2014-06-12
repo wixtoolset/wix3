@@ -18,13 +18,12 @@ namespace WixTest.Verifiers.Extensions
     using System.Xml;
     using System.Collections;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using System.Text;
     using System.Runtime.InteropServices;
     using System.Security.AccessControl;
     using System.Security.Principal;
     using Microsoft.Win32;
+    using Xunit;
 
     /// <summary>
     /// Contains methods for Permissions verification
@@ -76,7 +75,7 @@ namespace WixTest.Verifiers.Extensions
                 }
             }
 
-            Assert.Fail(string.Format("User '{0}' do not have the correct permessions to RegistryKey '{1}/{2}'.", userName, root.ToString(), subKey));
+            Assert.True(false, string.Format("User '{0}' do not have the correct permessions to RegistryKey '{1}/{2}'.", userName, root.ToString(), subKey));
         }
 
         /// <summary>
@@ -124,7 +123,7 @@ namespace WixTest.Verifiers.Extensions
 
             }
 
-            Assert.Fail(string.Format("User '{0}' do not have permession to File '{1}'.", userName, filePath));
+            Assert.True(false, string.Format("User '{0}' do not have permession to File '{1}'.", userName, filePath));
         }
 
         /// <summary>
@@ -168,7 +167,7 @@ namespace WixTest.Verifiers.Extensions
                 }
             }
 
-            Assert.Fail(string.Format("User '{0}' do not have permession to folder '{1}'.", userName, directoryPath));
+            Assert.True(false, string.Format("User '{0}' do not have permession to folder '{1}'.", userName, directoryPath));
         }
 
         /// <summary>
@@ -180,9 +179,9 @@ namespace WixTest.Verifiers.Extensions
         public static void VerifySharePermession(string userName, string shareName, ACCESS_MASK rights)
         {
             ACCESS_MASK accessMask = GetSharePermissions(shareName, userName);
-            Assert.IsTrue(
+            Assert.True(
                 (accessMask & rights) != 0, 
-                "User '{0}' access rights to Share '{1}' do not match expected. Actual: '{2}'. Expected: '{3}'. ", userName, shareName, accessMask, rights);
+                String.Format("User '{0}' access rights to Share '{1}' do not match expected. Actual: '{2}'. Expected: '{3}'. ", userName, shareName, accessMask, rights));
         }
 
         /// <summary>

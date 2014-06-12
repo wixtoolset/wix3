@@ -15,16 +15,15 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class OriginalSourceBundleTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A, bundle A has embedded bundle B, then uninstalls bundle A.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_InstallUninstallBundleWithEmbeddedBundle()
         {
             // Build the packages.
@@ -48,17 +47,17 @@ namespace WixTest.Tests.Burn
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
 
             // Test package is installed.
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB1));
 
             // Attempt to uninstall bundleA.
             installerA.Uninstall();
 
             // Test package is uninstalled.
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB1));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB1));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
     }
 }

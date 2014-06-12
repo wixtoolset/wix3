@@ -15,17 +15,16 @@ namespace WixTest.Tests.Burn
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
     using WixTest.Verifiers;
+    using Xunit;
 
-    [TestClass]
     public class RegistrationTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Minimal authoring for AdditionalRegistration")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MimimalAdditionalRegistration()
         {
             // Build the bundle.
@@ -37,18 +36,18 @@ namespace WixTest.Tests.Burn
             // Make sure the registry exists.
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft Corporation\Updates\~Burn_MimimalAdditionalRegistration - Bundle A"))
             {
-                Assert.AreEqual("Y", key.GetValue("ThisVersionInstalled"));
-                Assert.AreEqual("Microsoft Corporation", key.GetValue("Publisher"));
-                Assert.AreEqual("Update", key.GetValue("ReleaseType"));
+                Assert.Equal("Y", key.GetValue("ThisVersionInstalled"));
+                Assert.Equal("Microsoft Corporation", key.GetValue("Publisher"));
+                Assert.Equal("Update", key.GetValue("ReleaseType"));
             }
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Minimal authoring for AdditionalRegistration with ProductFamily inherited.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MinimalAdditionalRegistrationWithProductFamily()
         {
             // Build the bundle.
@@ -60,18 +59,18 @@ namespace WixTest.Tests.Burn
             // Make sure the registry exists.
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft Corporation\Updates\Visual Studio 11\~Burn_MinimalAdditionalRegistrationWithProductFamily - Bundle B"))
             {
-                Assert.AreEqual("Y", key.GetValue("ThisVersionInstalled"));
-                Assert.AreEqual("Microsoft Corporation", key.GetValue("Publisher"));
-                Assert.AreEqual("Update", key.GetValue("ReleaseType"));
+                Assert.Equal("Y", key.GetValue("ThisVersionInstalled"));
+                Assert.Equal("Microsoft Corporation", key.GetValue("Publisher"));
+                Assert.Equal("Update", key.GetValue("ReleaseType"));
             }
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("All attributes authored for AdditionalRegistration")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MaximumAdditionalRegistration()
         {
             // Build the bundle.
@@ -83,26 +82,28 @@ namespace WixTest.Tests.Burn
             // Make sure the registry exists.
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Updates\Visual Studio 11\KB1234567"))
             {
-                Assert.AreEqual("Y", key.GetValue("ThisVersionInstalled"));
-                Assert.AreEqual("Microsoft Corporation", key.GetValue("Publisher"));
-                Assert.AreEqual("Developer Division", key.GetValue("PublishingGroup"));
-                Assert.AreEqual("Service Pack", key.GetValue("ReleaseType"));
+                Assert.Equal("Y", key.GetValue("ThisVersionInstalled"));
+                Assert.Equal("Microsoft Corporation", key.GetValue("Publisher"));
+                Assert.Equal("Developer Division", key.GetValue("PublishingGroup"));
+                Assert.Equal("Service Pack", key.GetValue("ReleaseType"));
             }
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("No attributes are authored and required attributes not inherited.")]
-        [TestProperty("IsRuntimeTest", "true")]
-        [ExpectedException(typeof(TestException))]
+        [RuntimeTest]
         public void Burn_MissingAttributesForAddditionalRegistration()
         {
-            // Build the bundle.
-            string bundleD = new BundleBuilder(this, "BundleD") { Extensions = Extensions, AdditionalSourceFiles = this.AdditionalSourceFiles }.Build().Output;
+            Assert.Throws<TestException>(() =>
+                {
+                    // Build the bundle.
+                    string bundleD = new BundleBuilder(this, "BundleD") { Extensions = Extensions, AdditionalSourceFiles = this.AdditionalSourceFiles }.Build().Output;
+                });
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
         private string[] AdditionalSourceFiles
@@ -111,7 +112,7 @@ namespace WixTest.Tests.Burn
             {
                 return new string[]
                 {
-                    Path.Combine(this.TestDataDirectory2, "TestExe.wxs"),
+                    Path.Combine(this.TestContext.TestDataDirectory, "TestExe.wxs"),
                 };
             }
         }

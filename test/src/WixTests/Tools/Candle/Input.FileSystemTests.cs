@@ -12,26 +12,24 @@ namespace WixTest.Tests.Tools.Candle.Input
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
     
     /// <summary>
     /// Test how Candle handles different types of files.
     /// </summary>
-    [TestClass]
     public class FileSystemTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\Input\FileSystemTests");
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Candle fails gracefully in case of input file on a network share with no permissions.")]
         [Priority(3)]
-        [Ignore]
         public void NetworkShareNoPermissions()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle accepts input file path given as relative path.")]
         [Priority(1)]
         public void RelativePath()
@@ -51,7 +49,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             candle.Run();
         }
        
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can handle a non existing input file")]
         [Priority(2)]
         public void NonExistingInputFile()
@@ -67,7 +65,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accept alphanumeric characters in the filename")]
         [Priority(2)]
         public void NonAlphaNumericCharactersInFileName()
@@ -79,7 +77,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(destinationFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accept read only files as input")]
         [Priority(2)]
         public void ReadOnlyInputFile()
@@ -95,23 +93,21 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(testFile);
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Candle can accept files from a network share")]
         [Priority(2)]
-        [Ignore]
         public void MultipleFilesFromNetworkShare()
         {
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Candle accepts s large size input file.")]
         [Priority(2)]
-        [Ignore]
         public void LargeSizeInputFile()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accept file names with single quotes")]
         [Priority(3)]
         public void FileNameWithSingleQuotes()
@@ -121,7 +117,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(testFile);
         }
                
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accepts a small size input file")]
         [Priority(3)]
         public void SmallSizeInputFile()
@@ -130,7 +126,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(testFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accepts an input file with space in its name")]
         [Priority(3)]
         public void FileNameWithSpace()
@@ -139,7 +135,7 @@ namespace WixTest.Tests.Tools.Candle.Input
             Candle.Compile(testFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle accepts an input file path that is more than 256 characters")]
         [Priority(3)]
         public void LongFilePath()
@@ -161,7 +157,7 @@ namespace WixTest.Tests.Tools.Candle.Input
                 InputPath = Path.Combine(InputPath, "T");
             }
 
-            Assert.IsTrue(InputPath.Length < 248, "The output path is not less than 248 chars");
+            Assert.True(InputPath.Length < 248, "The output path is not less than 248 chars");
             Directory.CreateDirectory(InputPath);
 
             //copy wxs file to target input path
@@ -169,15 +165,14 @@ namespace WixTest.Tests.Tools.Candle.Input
 
             //make sure the input file path is between 256 and 260;
             string testFile = Path.Combine(InputPath, "Product.wxs");
-            Assert.IsTrue((testFile.Length > 256) && (testFile.Length < 260), "The intput filepath length {0} is not between 256 and 260 chars",testFile .Length );
+            Assert.True((testFile.Length > 256) && (testFile.Length < 260), String.Format("The intput filepath length {0} is not between 256 and 260 chars",testFile .Length ));
 
             Candle.Compile(testFile);
         }
-              
-        [TestMethod]
+
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Candle can accept an input file from a URI path")]
         [Priority(3)]
-        [Ignore]
         public void URI()
         {
         }

@@ -14,23 +14,21 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// IIS extension IISWebAppPool element tests
     /// </summary>
-    [TestClass]
     public class IISWebAppPoolTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISWebAppPoolTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the website was created and was started.Uninstall the product. Verify that the website was removed.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebAppPool_Install()
         {
             string sourceFile = Path.Combine(IISWebAppPoolTests.TestDataDirectory, @"product.wxs");
@@ -40,23 +38,23 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the AppPool was created and verify its properties
-            Assert.IsTrue(IISVerifier.AppPoolExists("App Pool 1"), "AppPool '{0}' was not created on Install", "App Pool 1");
+            Assert.True(IISVerifier.AppPoolExists("App Pool 1"), String.Format("AppPool '{0}' was not created on Install", "App Pool 1"));
             long acctualApppoolQueueLength = IISVerifier.AppPoolQueueLength("App Pool 1");
-            Assert.IsTrue(acctualApppoolQueueLength == 4444, "AppPool '{0}' was not created on Install", "App Pool 1", acctualApppoolQueueLength, 4444);
+            Assert.True(acctualApppoolQueueLength == 4444, String.Format("AppPool '{0}' was not created on Install", "App Pool 1", acctualApppoolQueueLength, 4444));
             string acctualProcessIdentity = IISVerifier.AppPoolProcessIdentity("App Pool 1");
-            Assert.IsTrue(acctualProcessIdentity == "SpecificUser", "AppPool '{0}' ProcessingIdentity does not match expected. Acctual: '{1}'. Expected: '{2}'.", "App Pool 1", acctualProcessIdentity, "SpecificUser");
+            Assert.True(acctualProcessIdentity == "SpecificUser", String.Format("AppPool '{0}' ProcessingIdentity does not match expected. Acctual: '{1}'. Expected: '{2}'.", "App Pool 1", acctualProcessIdentity, "SpecificUser"));
 
             // Uninstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the app pool was removed
-            Assert.IsFalse(IISVerifier.AppPoolExists("App Pool 1"), "AppPool '{0}' was not removed on Uninstall", "App Pool 1");
+            Assert.False(IISVerifier.AppPoolExists("App Pool 1"), String.Format("AppPool '{0}' was not removed on Uninstall", "App Pool 1"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cancel install of  MSI. Verify that the AppPool was not created.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebAppPool_InstallFailure()
         {
             string sourceFile = Path.Combine(IISWebAppPoolTests.TestDataDirectory, @"product_fail.wxs");
@@ -66,10 +64,10 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
             // Verify that the app pool was removed
-            Assert.IsFalse(IISVerifier.AppPoolExists("App Pool 1"), "AppPool '{0}' was not removed on Rollback", "App Pool 1");
+            Assert.False(IISVerifier.AppPoolExists("App Pool 1"), String.Format("AppPool '{0}' was not removed on Rollback", "App Pool 1"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected Candle error is shown when WebAppPool element is missing its parent component.")]
         [Priority(3)]
         public void IISWebAppPool_MissingComponentAncestor()

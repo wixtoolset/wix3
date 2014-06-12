@@ -16,18 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle Variable element
     /// </summary>
-    [TestClass]
     public class VariableTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\VariableTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable Name is required.")]
         [Priority(3)]
         public void VariableNameMissing()
@@ -39,7 +37,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable cannot be redefined.")]
         [Priority(3)]
         public void DuplicateVariableName()
@@ -55,10 +53,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable cannot be redefined.")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2980330&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2980330&group_id=105970&atid=642714")]
         public void BuiltInVariableName()
         {
             Candle candle = new Candle();
@@ -70,7 +68,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable Value is required.")]
         [Priority(3)]
         public void VariableValueMissing()
@@ -82,7 +80,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable Value cannot be empty.")]
         [Priority(3)]
         public void VariableValueEmpty()
@@ -94,14 +92,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable Name containing spaces, special characters, numbers.")]
         [Priority(2)]
         public void ValidVariableName()
         {
             string sourceFile = Path.Combine(VariableTests.TestDataDirectory, @"ValidVariableName\Product.wxs");
             string testFile = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"Bootstrapper.exe");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -113,7 +111,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             VariableTests.VerifyVariableInformation(outputDirectory, @"1234567890", @"Value3", VariableType.String);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Variable value containing spaces, special characters, numbers, expressions, .")]
         [Priority(2)]
         // bug# https://sourceforge.net/tracker/?func=detail&aid=2980315&group_id=105970&atid=642714
@@ -121,7 +119,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
         {
             string sourceFile = Path.Combine(VariableTests.TestDataDirectory, @"ValidVariableValue\Product.wxs");
             string testFile = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"Bootstrapper.exe");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -216,7 +214,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
             string burnManifestXPath = string.Format(@"//burn:Variable[@Id='{0}']", variableName);
             XmlNodeList burnManifestNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXPath);
-            Assert.AreEqual(1, burnManifestNodes.Count, "No Variable with the name: '{0}' was found in Burn_Manifest.xml.", variableName);
+            Assert.True(1 == burnManifestNodes.Count, String.Format("No Variable with the name: '{0}' was found in Burn_Manifest.xml.", variableName));
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Value", variableValue);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Type", expectedVariableTypeName);
         }

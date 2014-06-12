@@ -17,10 +17,8 @@ namespace WixTest.Tests.Wixproj
     using System.IO;
     using System.Collections.Generic;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
-    [TestClass]
     public class WixTaskTests : WixTests
     {
         private static readonly string testWiXInstallerx86 = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Wixproj\WixTaskTests\ProductWixInstallerx86\ProductWixInstallerx86.wixproj");
@@ -28,7 +26,7 @@ namespace WixTest.Tests.Wixproj
         private static readonly string testWiXLibraryx86 = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Wixproj\WixTaskTests\ProductWixLibraryx86\ProductWixLibraryx86.wixproj");
         private static readonly string testWiXLibraryx64 = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Wixproj\WixTaskTests\ProductWixLibraryx64\ProductWixLibraryx64.wixproj");
 
-        [TestMethod]
+        [NamedFact]
         [Priority(1)]
         [Description("Tests building WiX Project (candle and light tasks) with different configurations.")]
         public void BuildWiXInstaller()
@@ -46,7 +44,7 @@ namespace WixTest.Tests.Wixproj
             WixTaskTests.TestBuildWiXInstallerTasks(WixTaskTests.testWiXInstallerx64, "Build", "Release", "x64");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(1)]
         [Description("Tests rebuilding WiX Project (candle and light tasks) with different configurations.")]
         public void RebuildWiXInstaller()
@@ -64,7 +62,7 @@ namespace WixTest.Tests.Wixproj
             WixTaskTests.TestBuildWiXInstallerTasks(WixTaskTests.testWiXInstallerx64, "Rebuild", "Release", "x64");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Tests cleaning WiX Project (candle and light tasks) with different configurations.")]
         public void CleanWiXInstaller()
@@ -82,7 +80,7 @@ namespace WixTest.Tests.Wixproj
             WixTaskTests.TestCleanWiXInstaller(WixTaskTests.testWiXInstallerx64, "Release", "x64");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(1)]
         [Description("Tests building WiX Library Project (candle and lit tasks) with different configurations.")]
         public void BuildWiXLibrary()
@@ -100,7 +98,7 @@ namespace WixTest.Tests.Wixproj
             WixTaskTests.TestBuildWiXLibraryTasks(WixTaskTests.testWiXLibraryx64, "Build", "Release", "x64");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(1)]
         [Description("Tests rebuilding WiX Library Project (candle and lit tasks) with different configurations.")]
         public void RebuildWiXLibrary()
@@ -118,7 +116,7 @@ namespace WixTest.Tests.Wixproj
             WixTaskTests.TestBuildWiXLibraryTasks(WixTaskTests.testWiXLibraryx64, "Rebuild", "Release", "x64");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Tests cleaning WiX Library Project (candle and lit tasks) with different configurations.")]
         public void CleanWiXLibrary()

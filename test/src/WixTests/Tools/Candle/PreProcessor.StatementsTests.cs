@@ -14,17 +14,15 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
     using System.IO;
     using System.Xml;
     using WixTest;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Test how Candle handles preprocessing for statements.
     /// </summary>
-    [TestClass]
     public class StatementTests : WixTests
     {
         private static readonly string TestDataDirectory = @"%WIX_ROOT%\test\data\Tools\Candle\PreProcessor\StatementTests";
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess an if statement.")]
         [Priority(1)]
         public void If()
@@ -39,7 +37,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty1", "foo");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess elseif statement.")]
         [Priority(2)]
         public void ElseIf()
@@ -54,7 +52,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty2", "bar");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess else statement.")]
         [Priority(2)]
         public void Else()
@@ -69,7 +67,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty3", "baz");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess ifdef statement.")]
         [Priority(2)]
         public void IfDef()
@@ -84,7 +82,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty", "foo");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess ifndef statement.")]
         [Priority(2)]
         public void IfNDef()
@@ -96,7 +94,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(outputFile, "MyProperty", "bar");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess foreach statement.")]
         [Priority(2)]
         public void ForEach()

@@ -13,23 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-    
     using System.Diagnostics;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension WixCloseApplication element tests
     /// </summary>
-    [TestClass]
     public class WixCloseApplicationTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\WixCloseApplicationTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (WixCloseApplication and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void WixCloseApplication_VerifyMSITableData()
@@ -53,10 +50,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 new TableRow(WixCloseApplicationColumns.Property.ToString(), string.Empty));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the the application is closed when the msi is installed.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void WixCloseApplication_Install()
         {
             string sourceFile = Path.Combine(WixCloseApplicationTests.TestDataDirectory, @"product.wxs");
@@ -67,15 +64,15 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(notepadProcess.HasExited, "Notepad process was NOT closed. It was expected to.");
+            Assert.True(notepadProcess.HasExited, "Notepad process was NOT closed. It was expected to.");
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the closeapplication does not fail when the application was not found.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void WixCloseApplication_ApplicationDoesNotExisit()
         {
             string sourceFile = Path.Combine(WixCloseApplicationTests.TestDataDirectory, @"product.wxs");

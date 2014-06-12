@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.SymbolPaths
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for SymbolPath elements.
     /// </summary>
-    [TestClass]
     public class SymbolPathTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\SymbolPaths\SymbolPathTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a SymbolPath element can exist under a component")]
         [Priority(2)]
         public void ComponentSymbolPath()

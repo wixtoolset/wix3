@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for the ReserveCost element
     /// </summary>
-    [TestClass]
     public class ReserveCostTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\ReserveCostTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple use of the ReserveCost element adds the correct entry to the ReserveCost table")]
         [Priority(1)]
         public void SimpleReserveCost()
@@ -39,7 +36,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "Cost1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that ReserveCost can reserve disk cost for a specified directory and not just the parent Component's directory")]
         [Priority(1)]
         public void ReserveCostDirectory()
@@ -50,7 +47,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "TARGETDIR");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the required attributes RunFromSource and RunLocal are missing")]
         [Priority(3)]
         public void InvalidReserveCost()
@@ -65,7 +62,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the value of RunFromSource is not an integer")]
         [Priority(3)]
         public void InvalidRunFromSourceType()
@@ -79,7 +76,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the value of RunLocal is not an integer")]
         [Priority(3)]
         public void InvalidRunLocalType()

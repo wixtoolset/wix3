@@ -16,19 +16,17 @@ namespace WixTest.Tests.Tools.Light.BindFiles
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for binding files into wixouts
     /// </summary>
-    [TestClass]
     public class BindFilesTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\BindFiles\BindFilesTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light can bind files into a wixout")]
         [Priority(1)]
         public void SimpleBindFiles()
@@ -43,7 +41,7 @@ namespace WixTest.Tests.Tools.Light.BindFiles
 
             // Verify that TextFile1 was not created in the layout location
             string textFile1 = Path.Combine(Path.GetDirectoryName(light1.OutputFile), @"PFiles\WixTestFolder\TextFile1.txt");
-            Assert.IsFalse(File.Exists(textFile1), "{0} exists but it should not", textFile1);
+            Assert.False(File.Exists(textFile1), String.Format("{0} exists but it should not", textFile1));
 
             // Build the wixout into an msi and verify it
             Light light2 = new Light();
@@ -53,7 +51,7 @@ namespace WixTest.Tests.Tools.Light.BindFiles
             // Verify that TextFile1 was created in the layout location
             Verifier.VerifyResults(Path.Combine(BindFilesTests.TestDataDirectory, @"SimpleBindFiles\expected.msi"), light2.OutputFile);
             textFile1 = Path.Combine(Path.GetDirectoryName(light2.OutputFile), @"PFiles\WixTestFolder\TextFile1.txt");
-            Assert.IsTrue(File.Exists(textFile1), "{0} does not exist", textFile1);
+            Assert.True(File.Exists(textFile1), String.Format("{0} does not exist", textFile1));
         }
     }
 }

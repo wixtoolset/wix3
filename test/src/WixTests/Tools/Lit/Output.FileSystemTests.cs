@@ -15,25 +15,21 @@ namespace WixTest.Tests.Tools.Lit.Output
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Tests for Lit interaction with the file system to producing output.
     /// </summary>
-    [TestClass]
     public class FileSystemTests : WixTests
     {
-        [TestMethod]
+        [NamedFact(Skip="Ignore")]
         [Description("Verify that Lit fails gracefully in case of creating a output file on a network share with no permissions.")]
         [Priority(2)]
-        [Ignore]
         public void NetworkShareNoPermissions()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can output nonalphanumeric characters in the filename")]
         [Priority(2)]
         public void NonAlphaNumericCharactersInFileName()
@@ -46,23 +42,21 @@ namespace WixTest.Tests.Tools.Lit.Output
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit can output files to a read only share")]
         [Priority(2)]
-        [Ignore]
         public void ReadOnlyShare()
         {
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit can output files to a network share")]
         [Priority(2)]
-        [Ignore]
         public void FileToNetworkShare()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can output file names with single quotes")]
         [Priority(3)]
         public void FileNameWithSingleQuotes()
@@ -75,7 +69,7 @@ namespace WixTest.Tests.Tools.Lit.Output
             lit.Run();
         }
                
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can output a file with space in its name.")]
         [Priority(3)]
         public void FileNameWithSpace()
@@ -88,7 +82,7 @@ namespace WixTest.Tests.Tools.Lit.Output
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit output to a file path that is more than 256 characters.")]
         [Priority(3)]
         public void LongFilePath()
@@ -106,11 +100,10 @@ namespace WixTest.Tests.Tools.Lit.Output
 
             lit.Run();
         }
-              
-        [TestMethod]
+
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that Lit can output a file to a URI path.")]
         [Priority(3)]
-        [Ignore]
         public void URI()
         {
         }
@@ -123,7 +116,7 @@ namespace WixTest.Tests.Tools.Lit.Output
         private static string GetRandomString(int length)
         {
             StringBuilder stringBuilder = new StringBuilder(length);
-            Random random = new Random(WixTests.Seed);
+            Random random = new Random(Settings.Seed.GetHashCode());
 
             for (int i = 0; i < length; i++)
             {

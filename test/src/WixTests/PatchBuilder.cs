@@ -16,7 +16,7 @@ namespace WixTest.Tests
     using System.IO;
     using System.Linq;
     using WixTest.Utilities;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Provides methods for building a Patch.
@@ -97,10 +97,10 @@ namespace WixTest.Tests
         protected override PatchBuilder BuildItem()
         {
             // Create paths.
-            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.test.TestDataDirectory2, String.Concat(this.Name, ".wxs")) : this.SourceFile;
+            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.test.TestContext.TestDataDirectory, String.Concat(this.Name, ".wxs")) : this.SourceFile;
             string rootDirectory = FileUtilities.GetUniqueFileName();
             string objDirectory = Path.Combine(rootDirectory, Settings.WixobjFolder);
-            string msiDirectory = Path.Combine(rootDirectory, Settings.MSPFolder);
+            string msiDirectory = Path.Combine(rootDirectory, Settings.MspFolder);
             string wixmsp = Path.Combine(objDirectory, String.Concat(this.Name, ".wixmsp"));
             string package = Path.Combine(msiDirectory, String.Concat(this.Name, ".msp"));
 
@@ -114,7 +114,7 @@ namespace WixTest.Tests
             this.PreprocessorVariables.ToList().ForEach(kv => candle.OtherArguments = String.Concat(candle.OtherArguments, " -d", kv.Key, "=", kv.Value));
             candle.OutputFile = String.Concat(objDirectory, @"\");
             candle.SourceFiles.Add(source);
-            candle.WorkingDirectory = this.test.TestDataDirectory2;
+            candle.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             candle.Run();
 
             // Make sure the output directory is cleaned up.
@@ -128,7 +128,7 @@ namespace WixTest.Tests
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = wixmsp;
             light.SuppressMSIAndMSMValidation = true;
-            light.WorkingDirectory = this.test.TestDataDirectory2;
+            light.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             light.Run();
 
             // Make sure the output directory is cleaned up.
@@ -137,9 +137,9 @@ namespace WixTest.Tests
             // Pyro.
             Pyro pyro = new Pyro();
 
-            Assert.IsNotNull(this.TargetPaths);
-            Assert.IsNotNull(this.UpgradePaths);
-            Assert.AreEqual<int>(this.TargetPaths.Length, this.UpgradePaths.Length);
+            Assert.NotNull(this.TargetPaths);
+            Assert.NotNull(this.UpgradePaths);
+            Assert.Equal<int>(this.TargetPaths.Length, this.UpgradePaths.Length);
 
             for (int i = 0; i < this.TargetPaths.Length; ++i)
             {
@@ -150,7 +150,7 @@ namespace WixTest.Tests
                 torch.PreserveUnmodified = true;
                 torch.XmlInput = true;
                 torch.OutputFile = Path.Combine(objDirectory, String.Concat(Path.GetRandomFileName(), ".wixmst"));
-                torch.WorkingDirectory = this.test.TestDataDirectory2;
+                torch.WorkingDirectory = this.test.TestContext.TestDataDirectory;
                 torch.Run();
 
                 pyro.Baselines.Add(torch.OutputFile, this.Name);
@@ -158,7 +158,7 @@ namespace WixTest.Tests
 
             pyro.InputFile = light.OutputFile;
             pyro.OutputFile = package;
-            pyro.WorkingDirectory = this.test.TestDataDirectory2;
+            pyro.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             pyro.SuppressWarnings.Add("1079");
             pyro.Run();
 

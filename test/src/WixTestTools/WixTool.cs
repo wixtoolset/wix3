@@ -49,9 +49,9 @@ namespace WixTest
         /// <param name="toolName">The name of the tool. Eg. candle.exe</param>
         /// <param name="workingDirectory">The working directory of the tool.</param>
         public WixTool(string toolName, string workingDirectory)
-            : this(Environment.ExpandEnvironmentVariables(Settings.WixToolDirectory), toolName, workingDirectory)
+            : this(Environment.ExpandEnvironmentVariables(Settings.WixToolsDirectory), toolName, workingDirectory)
         {
-            if (String.IsNullOrEmpty(Settings.WixToolDirectory))
+            if (String.IsNullOrEmpty(Settings.WixToolsDirectory))
             {
                 throw new ArgumentException(
                     "{0} must be initialized to the WiX tools directory. Use '.' to specify the current directory.",

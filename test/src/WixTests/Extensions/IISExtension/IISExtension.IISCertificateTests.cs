@@ -14,22 +14,20 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
     using System.Security.Cryptography.X509Certificates;
+    using Xunit;
 
     /// <summary>
     /// IIS extension Certificate element tests
     /// </summary>
-    [TestClass]
     public class IISCertificateTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISCertificateTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (Certificate,CustomAction) Tables are created in the MSI and have defined data.")]
         [Priority(1)]
         public void IISCertificate_VerifyMSITableData()
@@ -93,10 +91,10 @@ namespace WixTest.Tests.Extensions.IISExtension
             Verifier.VerifyTableExists(msiFile, "CertificateHash");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that “TestCertifiate” was installed. Uninstall the MSi Verify that the certificate is removed")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISCertificate_Install()
         {
             string sourceFile = Path.Combine(IISCertificateTests.TestDataDirectory, @"product.wxs");
@@ -106,25 +104,25 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Machine certificate was installed
-            Assert.IsTrue(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), "Certificate '{0}' was not created in the LocalMachine store on Install", "machinecert");
-            Assert.IsTrue(IISVerifier.CertificateExists("User", StoreLocation.CurrentUser), "Certificate '{0}' was not created in the CurrentUser store on Install", "machinecert");
-            Assert.IsTrue(IISVerifier.CertificateExists("machineCertFromBinary", StoreLocation.LocalMachine), "Certificate '{0}' was not created in the LocalMachine store on Install", "machineCertFromBinary");
-            Assert.IsTrue(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), "Certificate '{0}' was not created in the LocalMachine store on Install", "TestCertPrivateKey");
+            Assert.True(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not created in the LocalMachine store on Install", "machinecert"));
+            Assert.True(IISVerifier.CertificateExists("User", StoreLocation.CurrentUser), String.Format("Certificate '{0}' was not created in the CurrentUser store on Install", "machinecert"));
+            Assert.True(IISVerifier.CertificateExists("machineCertFromBinary", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not created in the LocalMachine store on Install", "machineCertFromBinary"));
+            Assert.True(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not created in the LocalMachine store on Install", "TestCertPrivateKey"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Machine certificate was removed
-            Assert.IsFalse(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), "Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "machinecert");
-            Assert.IsFalse(IISVerifier.CertificateExists("User", StoreLocation.CurrentUser), "Certificate '{0}' was not removed from the CurrentUser store on Uninstall", "machinecert");
-            Assert.IsFalse(IISVerifier.CertificateExists("machineCertFromBinary", StoreLocation.LocalMachine), "Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "machineCertFromBinary");
-            Assert.IsFalse(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), "Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "TestCertPrivateKey");
+            Assert.False(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "machinecert"));
+            Assert.False(IISVerifier.CertificateExists("User", StoreLocation.CurrentUser), String.Format("Certificate '{0}' was not removed from the CurrentUser store on Uninstall", "machinecert"));
+            Assert.False(IISVerifier.CertificateExists("machineCertFromBinary", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "machineCertFromBinary"));
+            Assert.False(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "TestCertPrivateKey"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that “TestCertifiate” was installed. Uninstall the MSi Verify that the certificate is removed")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISCertificate_CertificateRef_Install()
         {
             string sourceFile = Path.Combine(IISCertificateTests.TestDataDirectory, @"CertificateRef.wxs");
@@ -134,19 +132,19 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Machine certificate was installed
-            Assert.IsTrue(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), "Certificate '{0}' was not created in the LocalMachine store on Install", "machinecert");
+            Assert.True(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not created in the LocalMachine store on Install", "machinecert"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Machine certificate was removed
-            Assert.IsFalse(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), "Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "machinecert");
+            Assert.False(IISVerifier.CertificateExists("machinecert", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not removed from the LocalMachine store on Uninstall", "machinecert"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify installtion fails")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISCertificate_WrongPassword_InstallFailure()
         {
             string sourceFile = Path.Combine(IISCertificateTests.TestDataDirectory, @"WrongPassword.wxs");
@@ -156,16 +154,16 @@ namespace WixTest.Tests.Extensions.IISExtension
             string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
             // Verify the log file for failure reason
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Failed to open PFX file"), "Could not find fail message in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Failed to open PFX file"), String.Format("Could not find fail message in log file: '{0}'.", logFile));
 
             // Verify Machine certificate was not created
-            Assert.IsFalse(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), "Certificate '{0}' was not removed from the LocalMachine store on Rollback", "TestCertPrivateKey");
+            Assert.False(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not removed from the LocalMachine store on Rollback", "TestCertPrivateKey"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify installtion fails")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISCertificate_InvalidCertificateFile_InstallFailure()
         {
             string sourceFile = Path.Combine(IISCertificateTests.TestDataDirectory, @"InvalidCertificateFile.wxs");
@@ -175,10 +173,10 @@ namespace WixTest.Tests.Extensions.IISExtension
             string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
             // Verify the log file for failure reason
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Failed to read certificate from file path"), "Could not find fail message in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Failed to read certificate from file path"), String.Format("Could not find fail message in log file: '{0}'.", logFile));
 
             // Verify Machine certificate was not created
-            Assert.IsFalse(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), "Certificate '{0}' was not removed from the LocalMachine store on Rollback", "TestCertPrivateKey");
+            Assert.False(IISVerifier.CertificateExists("TestCertPrivateKey", StoreLocation.LocalMachine), String.Format("Certificate '{0}' was not removed from the LocalMachine store on Rollback", "TestCertPrivateKey"));
         }
     }
 }

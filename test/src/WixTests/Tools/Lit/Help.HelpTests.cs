@@ -16,17 +16,14 @@ namespace WixTest.Tests.Tools.Lit.Help
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Test that the help is printed correctly
     /// </summary>
-    [TestClass]
     public class HelpTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit help text is printed correctly")]
         [Priority(2)]
         public void Help()
@@ -37,7 +34,7 @@ namespace WixTest.Tests.Tools.Lit.Help
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit ignores other commandline switches when after /?")]
         [Priority(2)]
         public void IgnoreOtherSwitches()

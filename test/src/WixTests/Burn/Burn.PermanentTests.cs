@@ -18,16 +18,15 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class PermanentTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A then removes it and ensures MSIs are still present.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PermanentInstallUninstall()
         {
             // Build the packages.
@@ -45,22 +44,22 @@ namespace WixTest.Tests.Burn
             // Install Bundle A.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
 
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
             // Uninstall bundleA.
             installerA.Uninstall();
 
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A then force uninstalls it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PermanentInstallForceUninstall()
         {
             // Build the packages.
@@ -78,24 +77,24 @@ namespace WixTest.Tests.Burn
             // Install Bundle A.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
 
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
             // Force Uninstall Bundle A.
             this.SetPackageRequestedState("PackageA", Microsoft.Tools.WindowsInstallerXml.Bootstrapper.RequestState.ForceAbsent);
             this.SetPackageRequestedState("PackageB", Microsoft.Tools.WindowsInstallerXml.Bootstrapper.RequestState.ForceAbsent);
             installerA.Uninstall();
 
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A then uninstalls it then force uninstalls it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PermanentInstallUninstallForceUninstall()
         {
             // Build the packages.
@@ -113,24 +112,24 @@ namespace WixTest.Tests.Burn
             // Install Bundle A.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
 
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
             // Uninstall Bundle A.
             installerA.Uninstall();
 
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
             // Force Uninstall Bundle A.
             this.SetPackageRequestedState("PackageA", Microsoft.Tools.WindowsInstallerXml.Bootstrapper.RequestState.ForceAbsent);
             this.SetPackageRequestedState("PackageB", Microsoft.Tools.WindowsInstallerXml.Bootstrapper.RequestState.ForceAbsent);
             installerA.Uninstall();
 
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
     }
 }

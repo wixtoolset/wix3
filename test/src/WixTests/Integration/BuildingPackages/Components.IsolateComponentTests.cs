@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for the IsoloateComponent element
     /// </summary>
-    [TestClass]
     public class IsolateComponentTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\IsolateComponentTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify simple usage of the IsolageComponent element")]
         [Priority(1)]
         public void SimpleIsolateComponent()
@@ -40,7 +37,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "IsolateTest");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Shared attribute's value is an undefined component")]
         [Priority(1)]
         public void InvalidSharedComponent()

@@ -13,20 +13,16 @@
 namespace WixTest.Tests.Tools.Lit.MultipleInputSwitches
 {
     using System;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Tests how Lit handles multiple input switches.
     /// </summary>
-    [TestClass]
     public class MultipleSwitchesTests : WixTests
     {
-        [TestMethod]
+        [NamedFact(Skip="Ignore")]
         [Description("Verify that Lit handles the case when multiple switches like 'Suppress All Warnings' and 'Treat Warnings as Errors' are given. In this scenario, Lit honors the sw switch and suppresses all warnings")]
         [Priority(3)]
-        [Ignore] // ignored until we know the right behavior
         public void WxAndSw()
         {
             Lit lit = new Lit();

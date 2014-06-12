@@ -16,22 +16,18 @@ namespace WixTest.Tests.Tools.Light.Cabs
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for reusing cabs
     /// </summary>
-    [TestClass]
     public class ReuseCabTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\Cabs\ReuseCabTests");
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that cabs can be reused")]
         [Priority(1)]
-        [Ignore] // Bug
         public void SimpleReuseCab()
         {
             Candle candle = new Candle();

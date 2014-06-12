@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for the RemoveFile element
     /// </summary>
-    [TestClass]
     public class RemoveFilesTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Files\RemoveFilesTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a file that is installed can removed on install, uninstall or both")]
         [Priority(1)]
         public void SimpleRemoveFile()
@@ -43,7 +40,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query2, "3");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that multiple files can be removed with wildcard characters")]
         [Priority(1)]
         public void WildcardRemoveFile()
@@ -54,7 +51,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query, "Test?.*");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the file to be removed can be specified in a Property")]
         [Priority(1)]
         public void RemoveFileWithProperty()
@@ -65,7 +62,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query, "TESTDIR");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the file to be removed can be specified in a Directory reference")]
         [Priority(1)]
         public void RemoveFileWithDirectory()

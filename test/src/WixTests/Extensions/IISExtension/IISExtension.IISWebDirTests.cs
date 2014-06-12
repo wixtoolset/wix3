@@ -14,20 +14,18 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// IIS extension IISWebDir element tests
     /// </summary>
-    [TestClass]
     public class IISWebDirTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISWebDirTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsWebDir,CustomAction) Tables are created in the MSI and have expected data")]
         [Priority(1)]
         public void IISWebDir_VerifyMSITableData()
@@ -53,11 +51,11 @@ namespace WixTest.Tests.Extensions.IISExtension
                 );
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the web directory was created.Uninstall MSI . Verify that the web directory was removed ")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("OSquery", "124674")]     //Vista and Above 
+        [RuntimeTest]
+        [Trait("OSquery", "124674")]     //Vista and Above 
         public void IISWebDir_Install()
         {
             string sourceFile = Path.Combine(IISWebDirTests.TestDataDirectory, @"product.wxs");
@@ -67,20 +65,20 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify WebDir was created
-            Assert.IsTrue(IISVerifier.WebDirExist("webdir", "Test web server"), "WebDir '{0}' in site '{1}' was not created on Install", "webdir", "Test web server");
+            Assert.True(IISVerifier.WebDirExist("webdir", "Test web server"), String.Format("WebDir '{0}' in site '{1}' was not created on Install", "webdir", "Test web server"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify WebDir was removed
-            Assert.IsFalse(IISVerifier.WebDirExist("webdir", "Test web server"), "WebDir '{0}' in site '{1}' was not removed on Uninstall", "webdir", "Test web server");
+            Assert.False(IISVerifier.WebDirExist("webdir", "Test web server"), String.Format("WebDir '{0}' in site '{1}' was not removed on Uninstall", "webdir", "Test web server"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI to a 64-bit specific loaction. Verify that the web directory was created. Uninstall MSI . Verify that the web directory was removed ")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void IISWebDir_Install_64bit()
         {
             string sourceFile = Path.Combine(IISWebDirTests.TestDataDirectory, @"product_64.wxs");
@@ -90,19 +88,19 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify WebDir was created
-            Assert.IsTrue(IISVerifier.WebDirExist("webdir", "Test web server"), "WebDir '{0}' in site '{1}' was not created on Install", "webdir", "Test web server");
+            Assert.True(IISVerifier.WebDirExist("webdir", "Test web server"), String.Format("WebDir '{0}' in site '{1}' was not created on Install", "webdir", "Test web server"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify WebDir was removed
-            Assert.IsFalse(IISVerifier.WebDirExist("webdir", "Test web server"), "WebDir '{0}' in site '{1}' was not removed on Uninstall", "webdir", "Test web server");
+            Assert.False(IISVerifier.WebDirExist("webdir", "Test web server"), String.Format("WebDir '{0}' in site '{1}' was not removed on Uninstall", "webdir", "Test web server"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cancel install of  MSI. Verify that the web directory was not created.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebDir_InstallFailure()
         {
             string sourceFile = Path.Combine(IISWebDirTests.TestDataDirectory, @"product_fail.wxs");
@@ -112,7 +110,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
            
             // Verify WebDir was not created
-            Assert.IsFalse(IISVerifier.WebDirExist("webdir", "Test web server"), "WebDir '{0}' in site '{1}' was created on failed install", "webdir", "Test web server");
+            Assert.False(IISVerifier.WebDirExist("webdir", "Test web server"), String.Format("WebDir '{0}' in site '{1}' was created on failed install", "webdir", "Test web server"));
         }
     }
 }

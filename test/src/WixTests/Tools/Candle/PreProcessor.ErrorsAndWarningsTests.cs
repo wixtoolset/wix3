@@ -13,17 +13,15 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
     using System;
     using System.IO;
     using WixTest;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Test how Candle handles preprocessing for errors and warnings.
     /// </summary>
-    [TestClass]
     public class ErrorsAndWarningsTests : WixTests
     {
         private static readonly string TestDataDirectory = @"%WIX_ROOT%\test\data\Tools\Candle\PreProcessor\ErrorsAndWarningsTests";
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess errors.")]
         [Priority(2)]
         public void Error()
@@ -36,7 +34,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess warnings and continue.")]
         [Priority(2)]
         public void Warning()

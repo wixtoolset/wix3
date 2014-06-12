@@ -13,11 +13,6 @@
 
 #include "precomp.h"
 
-
-using namespace System;
-using namespace Microsoft::VisualStudio::TestTools::UnitTesting;
-
-
 namespace Microsoft
 {
 namespace Tools
@@ -28,11 +23,14 @@ namespace Test
 {
 namespace Bootstrapper
 {
-    [TestClass]
+    using namespace System;
+    using namespace WixTest;
+    using namespace Xunit;
+
     public ref class ManifestTest : BurnUnitTest
     {
     public:
-        [TestMethod]
+        [NamedFact]
         void ManifestLoadXmlTest()
         {
             HRESULT hr = S_OK;
@@ -57,7 +55,7 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to parse searches from XML.");
 
                 // check variable values
-                Assert::IsTrue(VariableExistsHelper(&engineState.variables, L"Variable1"));
+                Assert::True(VariableExistsHelper(&engineState.variables, L"Variable1"));
             }
             finally
             {

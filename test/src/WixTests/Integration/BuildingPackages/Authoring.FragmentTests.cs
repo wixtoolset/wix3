@@ -15,19 +15,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Authoring
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for a Fragment
     /// </summary>
-    [TestClass]
     public class FragmentTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Authoring\FragmentTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that multiple fragments can be defined and referenced indirectly and that multiple levels of referencing is supported")]
         [Priority(1)]
         public void MultipleFragments()
@@ -37,7 +34,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Authoring
             Verifier.VerifyResults(Path.Combine(FragmentTests.TestDataDirectory, @"MultipleFragments\expected.msi"), msi, "Feature", "Component", "FeatureComponents");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if FragmentRef is used")]
         [Priority(3)]
         public void FragmentRef()

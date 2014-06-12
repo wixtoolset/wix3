@@ -15,11 +15,10 @@ namespace WixTest.Verifiers.Extensions
 {
     using System;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using System.DirectoryServices;
     using System.DirectoryServices.AccountManagement;
     using System.Security.Principal;
+    using Xunit;
 
     /// <summary>
     /// Contains methods for User account verification
@@ -105,7 +104,7 @@ namespace WixTest.Verifiers.Extensions
         {
             UserPrincipal user = GetUser(domainName, userName);
 
-            Assert.IsFalse(null == user, string.Format("User '{0}' was not found under domain '{1}'.", userName, domainName));
+            Assert.False(null == user, string.Format("User '{0}' was not found under domain '{1}'.", userName, domainName));
             user.PasswordNeverExpires = passwordNeverExpires;
             user.Enabled = !disabled;
             if (passwordExpired)
@@ -132,7 +131,7 @@ namespace WixTest.Verifiers.Extensions
 
             localMachine = new DirectoryEntry("WinNT://" + Environment.MachineName.ToString());
             localGroup = localMachine.Children.Find(groupName, "group");
-            Assert.IsFalse(null == localGroup, string.Format("Group '{0}' was not found.", groupName));
+            Assert.False(null == localGroup, string.Format("Group '{0}' was not found.", groupName));
             DirectoryEntry user = FindActiveDirectoryUser(userName);
             localGroup.Invoke("Add", new object[] { user.Path.ToString() });
         }
@@ -167,14 +166,14 @@ namespace WixTest.Verifiers.Extensions
         {
             UserPrincipal user = GetUser(domainName, userName);
 
-            Assert.IsFalse(null == user, string.Format("User '{0}' was not found under domain '{1}'.", userName, domainName));
+            Assert.False(null == user, string.Format("User '{0}' was not found under domain '{1}'.", userName, domainName));
 
-            Assert.IsTrue(passwordNeverExpires == user.PasswordNeverExpires, string.Format("Password Never Expires for user '{0}/{1}' is: '{2}', expected: '{3}'.", domainName, userName, user.PasswordNeverExpires, passwordNeverExpires));
-            Assert.IsTrue(disabled != user.Enabled, string.Format("Disappled for user '{0}/{1}' is: '{2}', expected: '{3}'.", domainName, userName, !user.Enabled, disabled));
+            Assert.True(passwordNeverExpires == user.PasswordNeverExpires, string.Format("Password Never Expires for user '{0}/{1}' is: '{2}', expected: '{3}'.", domainName, userName, user.PasswordNeverExpires, passwordNeverExpires));
+            Assert.True(disabled != user.Enabled, string.Format("Disappled for user '{0}/{1}' is: '{2}', expected: '{3}'.", domainName, userName, !user.Enabled, disabled));
 
             DateTime expirationDate = user.AccountExpirationDate.GetValueOrDefault();
             bool accountExpired = expirationDate.ToLocalTime().CompareTo(DateTime.Now) <= 0;
-            Assert.IsTrue(passwordExpired == accountExpired, string.Format("Password Expired for user '{0}/{1}' is: '{2}', expected: '{3}'.", domainName, userName, accountExpired, passwordExpired));
+            Assert.True(passwordExpired == accountExpired, string.Format("Password Expired for user '{0}/{1}' is: '{2}', expected: '{3}'.", domainName, userName, accountExpired, passwordExpired));
         }
 
         /// <summary>
@@ -315,7 +314,7 @@ namespace WixTest.Verifiers.Extensions
         private static void IsUserMemberOf(string domainName, string userName, bool shouldBeMember, params string[] groupNames)
         {
             UserPrincipal user = GetUser(domainName, userName);
-            Assert.IsFalse(null == user, string.Format("User '{0}' was not found under domain '{1}'.", userName, domainName));
+            Assert.False(null == user, string.Format("User '{0}' was not found under domain '{1}'.", userName, domainName));
 
             bool missedAGroup = false;
             string message = string.Empty;
@@ -337,7 +336,7 @@ namespace WixTest.Verifiers.Extensions
                 }
 
             }
-            Assert.IsFalse(missedAGroup, message);
+            Assert.False(missedAGroup, message);
         }
 
         /// <summary>

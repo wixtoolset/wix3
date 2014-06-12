@@ -457,6 +457,7 @@
     <None Include="..\..\data\Burn\UpdateBundleTests\BundleA.wxs">
       <Link>Burn\UpdateBundleTests\BundleA.wxs</Link>
     </None>
+    <None Include="packages.config" />
     <None Include="Tools\Light\Input.InputTests.mtx" />
     <None Include="Tools\Light\Output.OutputTests.mtx" />
   </ItemGroup>
@@ -489,7 +490,6 @@
     <Reference Include="$(OutputPath)Microsoft.Deployment.Compression.dll" />
     <Reference Include="$(OutputPath)Microsoft.Deployment.Compression.Cab.dll" />
     <Reference Include="$(OutputPath)BootstrapperCore.dll" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -502,6 +502,10 @@
       <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
       <Name>WixTestTools</Name>
     </ProjectReference>
+    <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(XunitPath)\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\data\Burn\SlipstreamTests\BundleOnlyPatchA.wxs">

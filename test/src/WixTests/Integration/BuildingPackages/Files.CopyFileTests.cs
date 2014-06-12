@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for the CopyFile element
     /// </summary>
-    [TestClass]
     public class CopyFileTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Files\CopyFileTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a file that is installed can be copied")]
         [Priority(1)]
         public void CopyInstalledFile()
@@ -39,7 +36,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query, "copytest.txt");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a file that is installed can be moved")]
         [Priority(1)]
         public void MoveInstalledFile()
@@ -52,7 +49,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query1, "1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a file that is already on the machine can be copied")]
         [Priority(1)]
         public void CopyExistingFile()
@@ -65,7 +62,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query1, "0");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a file that is already on the machine can be moved")]
         [Priority(1)]
         public void MoveExistingFile()
@@ -79,7 +76,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
         }
 
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if FileId is not a defined file")]
         [Priority(3)]
         public void CopyNonExistingFile()

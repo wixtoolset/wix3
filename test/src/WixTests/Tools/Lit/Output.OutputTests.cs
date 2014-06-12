@@ -14,17 +14,15 @@ namespace WixTest.Tests.Tools.Lit.Output
 {
     using System;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
     
     /// <summary>
     /// Test how Lit handles the Out switch.
     /// </summary>
-    [TestClass]
     public class OutputTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the default behavior when the –out switch is not provided.")]
         [Priority(1)]
         public void DefaultOutput()
@@ -36,7 +34,7 @@ namespace WixTest.Tests.Tools.Lit.Output
             lit.Run();
         }
         
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit handles the -out switch and creates the wixobj in the specified directory.")]
         [Priority(1)]
         public void OutSwitch()
@@ -49,11 +47,11 @@ namespace WixTest.Tests.Tools.Lit.Output
             lit.Run();
             if (! File .Exists (Path.Combine(outputDirectory.FullName, "SimpleFragment.wix")))
             {
-                Assert .Fail ("failed to handle -out swith of lit");
+                Assert.True(false, "failed to handle -out swith of lit");
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can create that output directory and output the wix to that directory.")]
         [Priority(1)]
         public void NonExistingOutputDirectory()
@@ -66,11 +64,11 @@ namespace WixTest.Tests.Tools.Lit.Output
             lit.Run();
             if (!File.Exists(Path.Combine(outputDirectory, "SimpleFragment.wix")))
             {
-                Assert.Fail("failed to create output directory specified in -out swith of lit");
+                Assert.True(false, "failed to create output directory specified in -out swith of lit");
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the appropriate error message is generated for output filenames containing illegal characters.")]
         [Priority(2)]
         public void InvalidOutputFileName()
@@ -92,7 +90,7 @@ namespace WixTest.Tests.Tools.Lit.Output
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the appropriate error message is generated for output filenames containing double quotes.")]
         [Priority(2)]
         public void DoubleQuotesInOutputFileName()

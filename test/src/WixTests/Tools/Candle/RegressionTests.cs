@@ -14,21 +14,19 @@ namespace WixTest.Tests.Tools.Candle
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Regresssion tests for Candle
     /// </summary>
-    [TestClass]
     public class RegressionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\RegressionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the proper error when TARGETDIR has Name='SOURCEDIR'")]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1667625&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1667625&group_id=105970&atid=642714")]
         [Priority(3)]
         public void SourceDirTest()
         {
@@ -41,10 +39,9 @@ namespace WixTest.Tests.Tools.Candle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that there is no exception from Candle when the Product element is not populated completely")]
         [Priority(2)]
-        [Ignore] // Ignored because of a bug
         public void ProductElementNotPopulated()
         {
             Candle candle = new Candle();
@@ -58,10 +55,9 @@ namespace WixTest.Tests.Tools.Candle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that there is only one error message from Candle, when the version attribute in the Product element is not populated")]
         [Priority(3)]
-        [Ignore] // Ignored because of a bug
         public void ProductVersionAttributeNotPopulated()
         {
             Candle candle = new Candle();
@@ -71,7 +67,7 @@ namespace WixTest.Tests.Tools.Candle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is no exception from Candle, when there is no Directory set for a shortcut")]
         [Priority(1)]
         public void ShortcutDirectoryNotSet()
@@ -82,10 +78,10 @@ namespace WixTest.Tests.Tools.Candle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify MinSize in FileSearch element does not generate a Candle error")]
         [Priority(1)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1648088&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1648088&group_id=105970&atid=642714")]
         public void NoErrorOnSpecifyingMinSizeInFileSearch()
         {
             Candle candle = new Candle();
@@ -94,10 +90,10 @@ namespace WixTest.Tests.Tools.Candle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the EmbedCab element cannot be specified without the Cabient attribute")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1690710&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1690710&group_id=105970&atid=642714")]
         public void EmbedCabAttrWithoutCabinetAttr()
         {
             Candle candle = new Candle();

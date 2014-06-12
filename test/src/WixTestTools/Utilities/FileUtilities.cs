@@ -116,6 +116,8 @@ namespace WixTest.Utilities
             if (Environment.CurrentDirectory != expandedDirectoryName)
             {
                 string originalWorkingdirectory = Environment.CurrentDirectory;
+
+                Directory.CreateDirectory(expandedDirectoryName);
                 Environment.CurrentDirectory = expandedDirectoryName;
 
                 Console.WriteLine("The Current Directory is {0}", expandedDirectoryName);
@@ -179,6 +181,38 @@ namespace WixTest.Utilities
             File.WriteAllBytes(fullfilename, new byte[size]);
 
             return fullfilename;
+        }
+
+        /// <summary>
+        /// Gets the directory containing the given <paramref name="filename"/>.
+        /// </summary>
+        /// <param name="filename">The filename to find in the ancestor directories.</param>
+        /// <param name="parentDirectory">The parent directory from which to start the search. The default is the current working directory.</param>
+        /// <returns>The directory containing the given <paramref name="filename"/>, or null if the file was not found in any ancestors.</returns>
+        public static string GetDirectoryNameOfFileAbove(string filename, string parentDirectory = null)
+        {
+            if (String.IsNullOrEmpty(parentDirectory))
+            {
+                parentDirectory = Environment.CurrentDirectory;
+            }
+
+            if (!Directory.Exists(parentDirectory))
+            {
+                throw new DirectoryNotFoundException("The parent directory was not found or is not a directory.");
+            }
+
+            DirectoryInfo dir = new DirectoryInfo(parentDirectory);
+            do
+            {
+                FileInfo[] files = dir.GetFiles(filename, SearchOption.TopDirectoryOnly);
+                if (null != files && 0 < files.Length)
+                {
+                    return dir.FullName;
+                }
+            }
+            while (null != (dir = dir.Parent));
+
+            return null;
         }
     }
 }
