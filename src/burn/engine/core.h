@@ -166,7 +166,8 @@ HRESULT CoreQueryRegistration(
 //    __in SIZE_T cbBuffer
 //    );
 HRESULT CoreDetect(
-    __in BURN_ENGINE_STATE* pEngineState
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in_opt HWND hwndParent
     );
 HRESULT CorePlan(
     __in BURN_ENGINE_STATE* pEngineState,

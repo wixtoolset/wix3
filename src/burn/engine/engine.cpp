@@ -646,7 +646,7 @@ static HRESULT ProcessMessage(
     switch (pmsg->message)
     {
     case WM_BURN_DETECT:
-        hr = CoreDetect(pEngineState);
+        hr = CoreDetect(pEngineState, reinterpret_cast<HWND>(pmsg->lParam));
         break;
 
     case WM_BURN_PLAN:

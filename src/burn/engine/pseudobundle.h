@@ -30,7 +30,7 @@ HRESULT PseudoBundleInitialize(
     __in_z_opt LPCWSTR wzDownloadSource,
     __in DWORD64 qwSize,
     __in BOOL fVital,
-    __in_z LPCWSTR wzInstallArguments,
+    __in_z_opt LPCWSTR wzInstallArguments,
     __in_z_opt LPCWSTR wzRepairArguments,
     __in_z_opt LPCWSTR wzUninstallArguments,
     __in_opt BURN_DEPENDENCY_PROVIDER* pDependencyProvider,

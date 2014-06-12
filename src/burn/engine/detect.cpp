@@ -13,8 +13,33 @@
 
 #include "precomp.h"
 
-// internal function definitions
+typedef struct _DETECT_AUTHENTICATION_REQUIRED_DATA
+{
+    BURN_USER_EXPERIENCE* pUX;
+    LPCWSTR wzPackageOrContainerId;
+} DETECT_AUTHENTICATION_REQUIRED_DATA;
 
+// internal function definitions
+static HRESULT AuthenticationRequired(
+    __in LPVOID pData,
+    __in HINTERNET hUrl,
+    __in long lHttpCode,
+    __out BOOL* pfRetrySend,
+    __out BOOL* pfRetry
+    );
+
+static HRESULT DetectAtomFeedUpdate(
+    __in_z LPCWSTR wzBundleId,
+    __in BURN_USER_EXPERIENCE* pUX,
+    __in BURN_UPDATE* pUpdate
+    );
+
+static HRESULT DownloadUpdateFeed(
+    __in_z LPCWSTR wzBundleId,
+    __in BURN_USER_EXPERIENCE* pUX,
+    __in BURN_UPDATE* pUpdate,
+    __out_opt LPWSTR* psczTempFile
+    );
 
 // function definitions
 
@@ -197,10 +222,8 @@ LExit:
     return hr;
 }
 
-// TODO: this function is an outline for what the future detection of updates by the
-//       engine could look like.
 extern "C" HRESULT DetectUpdate(
-    __in_z LPCWSTR /*wzBundleId*/,
+    __in_z LPCWSTR wzBundleId,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_UPDATE* pUpdate
     )
@@ -208,7 +231,6 @@ extern "C" HRESULT DetectUpdate(
     HRESULT hr = S_OK;
     int nResult = IDNOACTION;
     BOOL fBeginCalled = FALSE;
-    LPWSTR sczUpdateId = NULL;
 
     // If no update source was specified, skip update detection.
     if (!pUpdate->sczUpdateSource || !*pUpdate->sczUpdateSource)
@@ -228,27 +250,205 @@ extern "C" HRESULT DetectUpdate(
     }
     else if (IDOK == nResult)
     {
-        ExitFunction1(hr = E_NOTIMPL);
-
-        // TODO: actually check that a newer version is at the update source. For now we'll just
-        //       pretend that if a source is provided that an update is available.
-        //pUpdate->fUpdateAvailable = (pUpdate->sczUpdateSource && *pUpdate->sczUpdateSource);
-
-        //hr = StrAllocFormatted(&sczUpdateId, L"%ls.update", wzBundleId);
-        //ExitOnFailure(hr, "Failed to allocate update id.");
-
-        //// Update bundle is always considered per-user since we do not have a secure way to inform the elevated engine
-        //// about this detected bundle's data.
-        //hr = PseudoBundleInitialize(FILEMAKEVERSION(rmj, rmm, rup, 0), &pUpdate->package, FALSE, sczUpdateId, BOOTSTRAPPER_RELATION_UPDATE, BOOTSTRAPPER_PACKAGE_STATE_ABSENT, L"update.exe", pUpdate->sczUpdateSource, pUpdate->qwSize, TRUE, L"-quiet", NULL, NULL, NULL, pUpdate->pbHash, pUpdate->cbHash);
-        //ExitOnFailure(hr, "Failed to initialize update bundle.");
+        hr = DetectAtomFeedUpdate(wzBundleId, pUX, pUpdate);
+        ExitOnFailure(hr, "Failed to detect atom feed update.");
     }
 
 LExit:
     if (fBeginCalled)
     {
-        pUX->pUserExperience->OnDetectUpdateComplete(hr, /*pUpdate->fUpdateAvailable ? pUpdate->sczUpdateSource : */NULL);
+        pUX->pUserExperience->OnDetectUpdateComplete(hr, pUpdate->fUpdateAvailable ? pUpdate->sczUpdateSource : NULL);
     }
 
+    return hr;
+}
+
+static HRESULT AuthenticationRequired(
+    __in LPVOID pData,
+    __in HINTERNET hUrl,
+    __in long lHttpCode,
+    __out BOOL* pfRetrySend,
+    __out BOOL* pfRetry
+    )
+{
+    Assert(401 == lHttpCode || 407 == lHttpCode);
+
+    HRESULT hr = S_OK;
+    DWORD er = ERROR_SUCCESS;
+    BOOTSTRAPPER_ERROR_TYPE errorType = (401 == lHttpCode) ? BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_SERVER : BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_PROXY;
+    LPWSTR sczError = NULL;
+    DETECT_AUTHENTICATION_REQUIRED_DATA* pAuthenticationData = reinterpret_cast<DETECT_AUTHENTICATION_REQUIRED_DATA*>(pData);
+
+    *pfRetrySend = FALSE;
+    *pfRetry = FALSE;
+
+    hr = StrAllocFromError(&sczError, HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED), NULL);
+    ExitOnFailure(hr, "Failed to allocation error string.");
+
+    int nResult = pAuthenticationData->pUX->pUserExperience->OnError(errorType, pAuthenticationData->wzPackageOrContainerId, ERROR_ACCESS_DENIED, sczError, MB_RETRYTRYAGAIN, 0, NULL, IDNOACTION);
+    nResult = UserExperienceCheckExecuteResult(pAuthenticationData->pUX, FALSE, MB_RETRYTRYAGAIN, nResult);
+    if (IDTRYAGAIN == nResult && pAuthenticationData->pUX->hwndDetect)
+    {
+        er = ::InternetErrorDlg(pAuthenticationData->pUX->hwndDetect, hUrl, ERROR_INTERNET_INCORRECT_PASSWORD, FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA, NULL);
+        if (ERROR_SUCCESS == er || ERROR_CANCELLED == er)
+        {
+            hr = HRESULT_FROM_WIN32(ERROR_INSTALL_USEREXIT);
+        }
+        else if (ERROR_INTERNET_FORCE_RETRY == er)
+        {
+            *pfRetrySend = TRUE;
+            hr = S_OK;
+        }
+        else
+        {
+            hr = HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED);
+        }
+    }
+    else if (IDRETRY == nResult)
+    {
+        *pfRetry = TRUE;
+        hr = S_OK;
+    }
+    else
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED);
+    }
+
+LExit:
+    ReleaseStr(sczError);
+
+    return hr;
+}
+
+static HRESULT DownloadUpdateFeed(
+    __in_z LPCWSTR wzBundleId,
+    __in BURN_USER_EXPERIENCE* pUX,
+    __in BURN_UPDATE* pUpdate,
+    __out_opt LPWSTR* psczTempFile
+    )
+{
+    HRESULT hr = S_OK;
+    DOWNLOAD_SOURCE downloadSource = { };
+    DOWNLOAD_CACHE_CALLBACK cacheCallback = { };
+    DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = {};
+    DETECT_AUTHENTICATION_REQUIRED_DATA authenticationData = {};
+    LPWSTR sczUpdateId = NULL;
+    LPWSTR sczDestinationPath = NULL;
+    DWORD dwFileAttributes = 0;
+    LPWSTR sczError = NULL;
+    DWORD64 qwDownloadSize = 0;
+
+    // Always do our work in the working folder, even if cached.
+    hr = PathCreateTimeBasedTempFile(NULL, L"UpdateFeed", NULL, L"xml", &sczDestinationPath, NULL);
+    ExitOnFailure(hr, "Failed to create UpdateFeed based on current system time.");
+
+    // Do we need a means of the BA to pass in a username and password? If so, we should copy it to downloadSource here
+    hr = StrAllocString(&downloadSource.sczUrl, pUpdate->sczUpdateSource, 0);
+    ExitOnFailure(hr, "Failed to copy update url.");
+
+
+    // If the destination file already exists, clear the readonly bit to avoid E_ACCESSDENIED.
+    if (FileExistsEx(sczDestinationPath, &dwFileAttributes))
+    {
+        if (FILE_ATTRIBUTE_READONLY & dwFileAttributes)
+        {
+            dwFileAttributes &= ~FILE_ATTRIBUTE_READONLY;
+            if (!::SetFileAttributesW(sczDestinationPath, dwFileAttributes))
+            {
+                ExitWithLastError1(hr, "Failed to clear readonly bit on payload destination path: %ls", sczDestinationPath);
+            }
+        }
+    }
+
+    cacheCallback.pfnProgress = NULL; //UpdateProgressRoutine;
+    cacheCallback.pfnCancel = NULL; // TODO: set this
+    cacheCallback.pv = NULL; //pProgress;
+
+    authenticationData.pUX = pUX;
+    authenticationData.wzPackageOrContainerId = wzBundleId;
+
+    authenticationCallback.pv =  static_cast<LPVOID>(&authenticationData);
+    authenticationCallback.pfnAuthenticate = &AuthenticationRequired;
+
+    hr = DownloadUrl(&downloadSource, qwDownloadSize, sczDestinationPath, &cacheCallback, &authenticationCallback);
+    ExitOnFailure2(hr, "Failed attempt to download update feed from URL: '%ls' to: '%ls'", downloadSource.sczUrl, sczDestinationPath);
+
+    if (psczTempFile)
+    {
+        hr = StrAllocString(psczTempFile, sczDestinationPath, 0);
+        ExitOnFailure(hr, "Failed to copy temp file string.");
+    }
+
+LExit:
+    ReleaseStr(downloadSource.sczUrl);
+    ReleaseStr(downloadSource.sczUser);
+    ReleaseStr(downloadSource.sczPassword);
     ReleaseStr(sczUpdateId);
+    ReleaseStr(sczDestinationPath);
+    ReleaseStr(sczError);
+    return hr;
+}
+
+
+static HRESULT DetectAtomFeedUpdate(
+    __in_z LPCWSTR wzBundleId,
+    __in BURN_USER_EXPERIENCE* pUX,
+    __in BURN_UPDATE* pUpdate
+    )
+{
+    Assert(pUpdate && pUpdate->sczUpdateSource && *pUpdate->sczUpdateSource);
+#ifdef DEBUG
+    LogLine(REPORT_STANDARD, "DetectAtomFeedUpdate() - update location: %ls", pUpdate->sczUpdateSource);
+#endif
+
+
+    HRESULT hr = S_OK;
+    int nResult = IDNOACTION;
+    LPWSTR sczUpdateFeedTempFile = NULL;
+
+    ATOM_FEED* pAtomFeed = NULL;
+    APPLICATION_UPDATE_CHAIN* pApupChain = NULL;
+
+    hr = AtomInitialize();
+    ExitOnFailure(hr, "Failed to initialize Atom.");
+
+    hr = DownloadUpdateFeed(wzBundleId, pUX, pUpdate, &sczUpdateFeedTempFile);
+    ExitOnFailure(hr, "Failed to download update feed.");
+
+    hr = AtomParseFromFile(sczUpdateFeedTempFile, &pAtomFeed);
+    ExitOnFailure1(hr, "Failed to parse update atom feed: %ls.", sczUpdateFeedTempFile);
+
+    hr = ApupAllocChainFromAtom(pAtomFeed, &pApupChain);
+    ExitOnFailure(hr, "Failed to allocate update chain from atom feed.");
+
+    if (0 < pApupChain->cEntries)
+    {
+        for (DWORD i = 0; i < pApupChain->cEntries; ++i)
+        {
+            APPLICATION_UPDATE_ENTRY* pAppUpdateEntry = &pApupChain->rgEntries[i];
+
+            nResult = pUX->pUserExperience->OnDetectUpdate(pAppUpdateEntry->rgEnclosures->wzUrl, pAppUpdateEntry->rgEnclosures->dw64Size, pAppUpdateEntry->dw64Version, pAppUpdateEntry->wzTitle,
+                pAppUpdateEntry->wzSummary, pAppUpdateEntry->wzContentType, pAppUpdateEntry->wzContent, IDNOACTION);
+            hr = UserExperienceInterpretResult(pUX, MB_OKCANCEL, nResult);
+            ExitOnRootFailure(hr, "UX aborted detect update begin.");
+
+            if (IDOK == nResult)
+            {
+                break;
+            }
+        }
+    }
+
+LExit:
+    if (sczUpdateFeedTempFile && *sczUpdateFeedTempFile)
+    {
+        FileEnsureDelete(sczUpdateFeedTempFile);
+    }
+
+    ApupFreeChain(pApupChain);
+    AtomFreeFeed(pAtomFeed);
+    ReleaseStr(sczUpdateFeedTempFile);
+    AtomUninitialize();
+
     return hr;
 }

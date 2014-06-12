@@ -127,7 +127,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         void CloseSplashScreen();
 
-        void Detect();
+        void Detect(
+            IntPtr hwndParent
+            );
 
         void Plan(
             [MarshalAs(UnmanagedType.U4)] LaunchAction action

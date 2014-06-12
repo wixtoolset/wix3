@@ -244,7 +244,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// </summary>
         public void Detect()
         {
-            this.engine.Detect();
+            this.Detect(IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// Determine if all installation conditions are fulfilled.
+        /// </summary>
+        /// <param name="hwndParent">The parent window for the installation user interface.</param>
+        public void Detect(IntPtr hwndParent)
+        {
+            this.engine.Detect(hwndParent);
         }
 
         /// <summary>

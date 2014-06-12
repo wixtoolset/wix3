@@ -262,6 +262,32 @@ static HRESULT ProcessEntry(
         ExitOnRootFailure(hr, "Upgrade version is greater than or equal to application version.");
     }
 
+    if (pAtomEntry->wzTitle)
+    {
+        hr = StrAllocString(&pApupEntry->wzTitle, pAtomEntry->wzTitle, 0);
+        ExitOnFailure(hr, "Failed to allocate application title.");
+    }
+
+    if (pAtomEntry->wzSummary)
+    {
+        hr = StrAllocString(&pApupEntry->wzSummary, pAtomEntry->wzSummary, 0);
+        ExitOnFailure(hr, "Failed to allocate application summary.");
+    }
+
+    if (pAtomEntry->pContent)
+    {
+        if (pAtomEntry->pContent->wzType)
+        {
+            hr = StrAllocString(&pApupEntry->wzContentType, pAtomEntry->pContent->wzType, 0);
+            ExitOnFailure(hr, "Failed to allocate content type.");
+        }
+
+        if (pAtomEntry->pContent->wzValue)
+        {
+            hr = StrAllocString(&pApupEntry->wzContent, pAtomEntry->pContent->wzType, 0);
+            ExitOnFailure(hr, "Failed to allocate content.");
+        }
+    }
     // Now process the enclosures.  Assume every link in the ATOM entry is an enclosure.
     pApupEntry->rgEnclosures = static_cast<APPLICATION_UPDATE_ENCLOSURE*>(MemAlloc(sizeof(APPLICATION_UPDATE_ENCLOSURE) * pAtomEntry->cLinks, TRUE));
     ExitOnNull(pApupEntry->rgEnclosures, hr, E_OUTOFMEMORY, "Failed to allocate enclosures for application update entry.");
@@ -494,6 +520,30 @@ static HRESULT CopyEntry(
         ExitOnFailure(hr, "Failed to copy upgrade id.");
     }
 
+    if (pSrc->wzTitle)
+    {
+        hr = StrAllocString(&pDest->wzTitle, pSrc->wzTitle, 0);
+        ExitOnFailure(hr, "Failed to copy title.");
+    }
+
+    if (pSrc->wzSummary)
+    {
+        hr = StrAllocString(&pDest->wzSummary, pSrc->wzSummary, 0);
+        ExitOnFailure(hr, "Failed to copy summary.");
+    }
+
+    if (pSrc->wzContentType)
+    {
+        hr = StrAllocString(&pDest->wzContentType, pSrc->wzContentType, 0);
+        ExitOnFailure(hr, "Failed to copy content type.");
+    }
+
+    if (pSrc->wzContent)
+    {
+        hr = StrAllocString(&pDest->wzContent, pSrc->wzContent, 0);
+        ExitOnFailure(hr, "Failed to copy content.");
+    }
+
     pDest->dw64TotalSize = pSrc->dw64TotalSize;
     pDest->dw64UpgradeVersion = pSrc->dw64UpgradeVersion;
     pDest->dw64Version = pSrc->dw64Version;
@@ -580,6 +630,10 @@ static void FreeEntry(
         ReleaseStr(pEntry->wzUpgradeId);
         ReleaseStr(pEntry->wzApplicationType);
         ReleaseStr(pEntry->wzApplicationId);
+        ReleaseStr(pEntry->wzTitle);
+        ReleaseStr(pEntry->wzSummary);
+        ReleaseStr(pEntry->wzContentType);
+        ReleaseStr(pEntry->wzContent);
     }
 }
 

@@ -197,7 +197,8 @@ LExit:
 }
 
 extern "C" HRESULT CoreDetect(
-    __in BURN_ENGINE_STATE* pEngineState
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in_opt HWND hwndParent
     )
 {
     HRESULT hr = S_OK;
@@ -213,6 +214,8 @@ extern "C" HRESULT CoreDetect(
     int nResult = pEngineState->userExperience.pUserExperience->OnDetectBegin(pEngineState->registration.fInstalled, pEngineState->packages.cPackages);
     hr = UserExperienceInterpretResult(&pEngineState->userExperience, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted detect begin.");
+
+    pEngineState->userExperience.hwndDetect = hwndParent;
 
     // Always reset the detect state which means the plan should be reset too.
     DetectReset(&pEngineState->registration, &pEngineState->packages, &pEngineState->update);
@@ -354,6 +357,7 @@ LExit:
     }
 
     pEngineState->userExperience.pUserExperience->OnDetectComplete(hr);
+    pEngineState->userExperience.hwndDetect = NULL;
 
     LogId(REPORT_STANDARD, MSG_DETECT_COMPLETE, hr);
 

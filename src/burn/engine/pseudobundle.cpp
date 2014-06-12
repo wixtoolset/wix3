@@ -26,7 +26,7 @@ extern "C" HRESULT PseudoBundleInitialize(
     __in_z_opt LPCWSTR wzDownloadSource,
     __in DWORD64 qwSize,
     __in BOOL fVital,
-    __in_z LPCWSTR wzInstallArguments,
+    __in_z_opt LPCWSTR wzInstallArguments,
     __in_z_opt LPCWSTR wzRepairArguments,
     __in_z_opt LPCWSTR wzUninstallArguments,
     __in_opt BURN_DEPENDENCY_PROVIDER* pDependencyProvider,
@@ -95,8 +95,12 @@ extern "C" HRESULT PseudoBundleInitialize(
     hr = StrAllocString(&pPackage->sczCacheId, wzId, 0);
     ExitOnFailure(hr, "Failed to copy cache id for pseudo bundle.");
 
-    hr = StrAllocString(&pPackage->Exe.sczInstallArguments, wzInstallArguments, 0);
-    ExitOnFailure(hr, "Failed to copy install arguments for related bundle package");
+    // If we are a self updating bundle, we don't have to have Install arguments.
+    if (wzInstallArguments)
+    {
+        hr = StrAllocString(&pPackage->Exe.sczInstallArguments, wzInstallArguments, 0);
+        ExitOnFailure(hr, "Failed to copy install arguments for related bundle package");
+    }
 
     if (sczRelationTypeCommandLineSwitch)
     {

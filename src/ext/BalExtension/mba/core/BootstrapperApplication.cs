@@ -80,6 +80,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public event EventHandler<DetectUpdateBeginEventArgs> DetectUpdateBegin;
 
         /// <summary>
+        /// Fired when the update detection has found a potential update candidate.
+        /// </summary>
+        public event EventHandler<DetectUpdateEventArgs> DetectUpdate;
+
+        /// <summary>
         /// Fired when the update detection phase has completed.
         /// </summary>
         public event EventHandler<DetectUpdateCompleteEventArgs> DetectUpdateComplete;
@@ -451,6 +456,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         protected virtual void OnDetectUpdateBegin(DetectUpdateBeginEventArgs args)
         {
             EventHandler<DetectUpdateBeginEventArgs> handler = this.DetectUpdateBegin;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Fired when the update detection has found a potential update candidate.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnDetectUpdate(DetectUpdateEventArgs args)
+        {
+            EventHandler<DetectUpdateEventArgs> handler = this.DetectUpdate;
             if (null != handler)
             {
                 handler(this, args);
@@ -1113,6 +1131,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         {
             DetectUpdateBeginEventArgs args = new DetectUpdateBeginEventArgs(wzUpdateLocation, nRecommendation);
             this.OnDetectUpdateBegin(args);
+
+            return args.Result;
+        }
+
+        Result IBootstrapperApplication.OnDetectUpdate(string wzUpdateLocation, long dw64Size, long dw64Version, string wzTitle, string wzSummary, string wzContentType, string wzContent, int nRecommendation)
+        {
+            DetectUpdateEventArgs args = new DetectUpdateEventArgs(wzUpdateLocation, dw64Size, dw64Version, wzTitle, wzSummary, wzContentType, wzContent, nRecommendation);
+            this.OnDetectUpdate(args);
 
             return args.Result;
         }
