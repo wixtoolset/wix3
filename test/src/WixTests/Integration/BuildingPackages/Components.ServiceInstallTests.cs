@@ -16,19 +16,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for configuring Services of a component
     /// </summary>
-    [TestClass]
     public class ServiceInstallTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\ServiceInstallTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a service can be added and that values are defaulted correctly")]
         [Priority(1)]
         public void ServiceInstall()
@@ -40,7 +38,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "SrvTest1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a user account can be specified when the ServiceType is ownProcess")]
         [Priority(1)]
         public void ValidAccount()
@@ -52,11 +50,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "TestAccount");
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that a user account cannot be specified when the ServiceType is not ownProcess")]
         [Priority(1)]
-        [Ignore]
-        [TestProperty("buglink", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=3011386&group_id=105970")]
+        [Trait("buglink", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=3011386&group_id=105970")]
         public void InvalidAccount()
         {
             string sourceFile = Path.Combine(ServiceInstallTests.TestDataDirectory, @"InvalidAccount\product.wxs");
@@ -66,7 +63,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "TestAccount");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that any characters, eg. '/' and '\' can be specified as command line arguments for the service")]
         [Priority(1)]
         public void Arguments()
@@ -78,7 +75,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, @"\df/fdg");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the service description is null if this attribute's value is Yes")]
         [Priority(1)]
         public void EraseDescription1()
@@ -91,7 +88,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             //the description is "[~]" instead of null?
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the service description is not ignored if this attribute's value is No")]
         [Priority(1)]
         public void EraseDescription2()
@@ -103,7 +100,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "my descriprion");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the ErrorControl attribute is missing")]
         [Priority(1)]
         public void MissingErrorControl()
@@ -117,7 +114,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that ErrorControl can be properly set to its valid values: ignore, normal, critical")]
         [Priority(1)]
         public void ValidErrorControl()
@@ -133,7 +130,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query3, "3");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that ErrorControl cannot be set to an invalid value")]
         [Priority(3)]
         public void InvalidErrorControl()
@@ -147,7 +144,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Interactive can be set to Yes or No")]
         [Priority(1)]
         public void Interactive()
@@ -161,7 +158,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query2, "32");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the value of Name is an invalid service name")]
         [Priority(3)]
         public void Name()
@@ -175,11 +172,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that there is an error the Password attribute is set but the Account attribute is not")]
         [Priority(3)]
-        [Ignore]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=3011388&group_id=105970")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=3011388&group_id=105970")]
         public void Password()
         {
             string sourceFile = Path.Combine(ServiceInstallTests.TestDataDirectory, @"Password\product.wxs");
@@ -189,7 +185,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all Windows Installer supported enumerations for Start are allowed (auto, demand, disabled)")]
         [Priority(1)]
         public void SupportedStartValues()
@@ -205,7 +201,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query3, "4");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all Windows Installer unsupported enumerations for Start are not allowed (boot, system)")]
         [Priority(3)]
         public void UnsupportedStartValues()
@@ -222,7 +218,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all Windows Installer supported enumerations for Type are allowed (ownProcess, shareProcess)")]
         [Priority(1)]
         public void SupportedTypes()
@@ -236,7 +232,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query2, "16");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all Windows Installer supported enumerations for Type are not allowed (kernelDriver, systemDriver)")]
         [Priority(3)]
         public void UnsupportedTypes()
@@ -252,7 +248,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Id of ServiceDependency can be the name of a previously installed service")]
         [Priority(1)]
         public void ServiceDependencyId1()
@@ -264,7 +260,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "SrvTestInstalled[~][~]");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Id of ServiceDependency can be the foreign key referring to another ServiceInstall/@Id")]
         [Priority(1)]
         public void ServiceDependencyId2()
@@ -276,7 +272,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "SrvTest1[~][~]");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Id of ServiceDependency can be a group of services")]
         [Priority(1)]
         public void ServiceDependencyId3()
@@ -288,7 +284,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "SrvTestInstalled1[~]SrvTestInstalled2[~]SrvTestInstalled3[~][~]");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a ServiceInstall element can have multiple ServiceDependency children")]
         [Priority(1)]
         public void MultipleServiceDependencies()
@@ -300,20 +296,18 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "+SrvTestInstalled1[~]+SrvTestInstalled2[~]+SrvTestInstalled3[~][~]");
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that there is an error if ServiceDependency/@Id is a group of services, but ServiceDependency/@Group is 'No'")]
         [Priority(3)]
-        [Ignore]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void ServiceDependencyMissingGroupAttr()
         {
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that there is an error if ServiceDependency/@Id is not a group of services, but ServiceDependency/@Group is 'No'")]
         [Priority(3)]
-        [Ignore]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void ServiceDependencyInvalidGroupAttr()
         {
         }

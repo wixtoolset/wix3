@@ -17,19 +17,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Sequencing
     using System.IO;
     using System.Text;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for the InstallExecuteSequence table
     /// </summary>
-    [TestClass]
     public class InstallExecuteSequenceTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Sequencing\InstallExecuteSequenceTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all of the standard actions can be added to the InstallExecuteSequence table")]
         [Priority(1)]
         public void AllStandardActions()

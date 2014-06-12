@@ -16,18 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle ProductSearch element
     /// </summary>
-    [TestClass]
     public class ProductSearchTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\ProductSearchTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("ProductSearch @Variable is required.")]
         [Priority(3)]
         public void ProductSearchVariableMissing()
@@ -40,7 +38,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("ProductSearch @Guid is required.")]
         [Priority(3)]
         public void ProductSearchGuidMissing()
@@ -53,7 +51,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("ProductSearch @Guid is not a valid GUID.")]
         [Priority(3)]
         public void ProductSearchInvalidGuid()
@@ -66,10 +64,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("ProductSearch @Variable should not be a predefined variable.")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2980329&group_id=105970")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2980329&group_id=105970")]
         public void ProductSearchPredefinedVariable()
         {
             string expectedErrorMessage = @"The util:ProductSearch/@Variable attribute's value, 'ProgramFilesFolder', is one of the illegal options: 'AdminToolsFolder', 'AppDataFolder', 'CommonAppDataFolder', 'CommonFilesFolder', 'CompatibilityMode', 'DesktopFolder', 'FavoritesFolder', 'FontsFolder', 'LocalAppDataFolder', 'MyPicturesFolder', 'NTProductType', 'NTSuiteBackOffice', 'NTSuiteDataCenter', 'NTSuiteEnterprise', 'NTSuitePersonal', 'NTSuiteSmallBusiness', 'NTSuiteSmallBusinessRestricted', 'NTSuiteWebServer', 'PersonalFolder', 'Privileged', 'ProgramFilesFolder', 'ProgramMenuFolder', 'SendToFolder', 'StartMenuFolder', 'StartupFolder', 'SystemFolder', 'TempFolder', 'TemplateFolder', 'VersionMsi', 'VersionNT', 'VersionNT64', 'WindowsFolder', or 'WindowsVolume'.";
@@ -83,7 +81,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("ProductSearch @Result contains invalid value (something other than Version, Language, Statem and Assignment)")]
         [Priority(3)]
         public void ProductSearchInvalidResultValue()
@@ -96,7 +94,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cannot have dupplicate ProductSearch with the same id.")]
         [Priority(3)]
         public void DuplicateProductSearch()
@@ -115,7 +113,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a missing search.")]
         [Priority(3)]
         public void ProductSearchAfterUndefinedSearch()
@@ -132,7 +130,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a search after this search.")]
         [Priority(3)]
         public void ProductSearchRecursiveAfter()
@@ -150,13 +148,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Valid ProductSearch.")]
         [Priority(2)]
         public void ValidProductSearch()
         {
             string sourceFile = Path.Combine(ProductSearchTests.TestDataDirectory, @"ValidProductSearch\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile, new string[] { "WixUtilExtension" });
@@ -187,7 +185,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
         {
             string burnManifestXPath = string.Format(@"//burn:MsiProductSearch[@Id='{0}']", expectedId);
             XmlNodeList burnManifestNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXPath);
-            Assert.AreEqual(1, burnManifestNodes.Count, "No ProductSearch with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId);
+            Assert.True(1 == burnManifestNodes.Count, String.Format("No ProductSearch with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId));
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "ProductCode", expectedGuid);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Variable", expectedVariableName);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Type", expectedResult);

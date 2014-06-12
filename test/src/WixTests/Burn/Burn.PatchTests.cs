@@ -16,18 +16,16 @@ namespace WixTest.Tests.Burn
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
-
     using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class PatchTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream then removes it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchInstallUninstall()
         {
             string originalVersion = "1.0.0.0";
@@ -51,7 +49,7 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             // Install the patch bundle.
@@ -59,7 +57,7 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Uninstall the patch bundle.
@@ -67,19 +65,19 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             installA.Uninstall();
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs package then installs a bundle with two patches that target the package and removes it all.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchOnePackageTwoPatches()
         {
             string originalVersion = "1.0.0.0";
@@ -103,10 +101,10 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             // Install the bundle of patches and ensure all the registry keys are updated.
@@ -114,10 +112,10 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Uninstall the patch bundle and verify the keys go back to original values.
@@ -125,29 +123,29 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs patch bundle with repeated Detect phases.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchRedetect()
         {
             this.SetRedetectCount(1);
             this.Burn_PatchInstallUninstall();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with SWID tag that is patched.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchTag()
         {
             string originalVersion = "1.0.0.0";
@@ -170,30 +168,30 @@ namespace WixTest.Tests.Burn
             // Install the unpatched bundle.
             BundleInstaller installA = new BundleInstaller(this, bundleA).Install();
             actualVersion = GetTagVersion("~Burn_PatchTag - Bundle A");
-            Assert.AreEqual(originalVersion, actualVersion);
+            Assert.Equal(originalVersion, actualVersion);
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.AreEqual(originalVersion, actualVersion);
+            Assert.Equal(originalVersion, actualVersion);
 
             // Install the patch bundle.
             BundleInstaller installAPatch = new BundleInstaller(this, bundleAPatch).Install();
             actualVersion = GetTagVersion("~Burn_PatchTag - Patch Bundle A");
-            Assert.AreEqual(patchedVersion, actualVersion);
+            Assert.Equal(patchedVersion, actualVersion);
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.AreEqual(patchedVersion, actualVersion);
+            Assert.Equal(patchedVersion, actualVersion);
 
             // Uninstall the patch bundle.
             installAPatch.Uninstall();
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.AreEqual(originalVersion, actualVersion);
+            Assert.Equal(originalVersion, actualVersion);
 
             // Uninstall the original bundle and ensure all the tags are gone.
             installA.Uninstall();
             actualVersion = GetTagVersion("~Burn_PatchTag - Bundle A");
-            Assert.IsNull(actualVersion);
+            Assert.Null(actualVersion);
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.IsNull(actualVersion);
+            Assert.Null(actualVersion);
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
         private static string GetTagVersion(string tagName)

@@ -13,23 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-    
     using Microsoft.Win32;
+    using Xunit;
    
     /// <summary>
     /// Util extension EventManifest element tests
     /// </summary>
-    [TestClass]
     public class EventManifestTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\EventManifestTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (EventManifest and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void EventManifest_VerifyMSITableData()
@@ -50,10 +47,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 new TableRow(EventManifestColumns.File.ToString(), "[#event]"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Event Manifest is created upon install.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void EventManifest_Install()
         {
             string sourceFile = Path.Combine(EventManifestTests.TestDataDirectory, @"product.wxs");
@@ -62,18 +59,18 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             string registryKey = @"Software\Microsoft\Windows\CurrentVersion\WINEVT\Publishers\{1db28f2e-8f80-4027-8c5a-a11f7f10f62d}";
-            Assert.IsTrue(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not created on install.", registryKey);
+            Assert.True(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not created on install.", registryKey));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the key was removed
-            Assert.IsFalse(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not removed on uninstall.", registryKey);
+            Assert.False(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not removed on uninstall.", registryKey));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Event Manifest was removed upon rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void EventManifest_InstallFailure()
         {
             string sourceFile = Path.Combine(EventManifestTests.TestDataDirectory, @"product_fail.wxs");
@@ -84,7 +81,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string registryKey = @"Software\Microsoft\Windows\CurrentVersion\WINEVT\Publishers\{1db28f2e-8f80-4027-8c5a-a11f7f10f62d}";
             
             // Verify that the file was not created
-            Assert.IsFalse(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not removed on Rollback.", registryKey);
+            Assert.False(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not removed on Rollback.", registryKey));
         }
     }
 }

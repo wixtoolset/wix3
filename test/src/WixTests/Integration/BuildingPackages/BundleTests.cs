@@ -18,15 +18,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     using WixTest.Verifiers;
+    using Xunit;
 
     /// <summary>
     /// Base class for Bundle Tests
     /// </summary>
-    [TestClass]
     public class BundleTests : WixTests
     {
         protected static readonly string BundleSharedFilesDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\Files");
@@ -54,7 +52,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             string burnManifestFilePath = Path.Combine(embededResourcesDirectoryPath, Builder.BurnManifestFileName);
 
             // verify that file dose exist
-            Assert.IsTrue(File.Exists(burnManifestFilePath), string.Format("Burn manifest file was not created at '{0}'.", burnManifestFilePath));
+            Assert.True(File.Exists(burnManifestFilePath), string.Format("Burn manifest file was not created at '{0}'.", burnManifestFilePath));
 
             return Verifier.QueryBurnManifest(burnManifestFilePath, xpathQuery);
         }
@@ -71,7 +69,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             string burnUxManifestFilePath = Path.Combine(embededResourcesDirectoryPath, Builder.UXManifestFileName);
 
             // verify that file dose exist
-            Assert.IsTrue(File.Exists(burnUxManifestFilePath), string.Format("Burn Ux manifest file was not created at '{0}'.", burnUxManifestFilePath));
+            Assert.True(File.Exists(burnUxManifestFilePath), string.Format("Burn Ux manifest file was not created at '{0}'.", burnUxManifestFilePath));
 
             return Verifier.QueryBurnUxManifest(burnUxManifestFilePath, xpathQuery);
         }
@@ -91,12 +89,12 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
             if (null != expectedValue)
             {
-                Assert.AreEqual(expectedValue, node.Attributes[attributeName].Value,
+                Assert.True(expectedValue == node.Attributes[attributeName].Value,
                     string.Format("{0} @{1} value does not match expected. Actual: '{2}'. Expected:'{3}'.", node.Name, attributeName, node.Attributes[attributeName].Value, expectedValue));
             }
             else
             {
-                Assert.AreEqual(node.Attributes[attributeName], null, string.Format("{0} @{1} was defined it was not expected.", node.Name, attributeName));
+                Assert.True(node.Attributes[attributeName] == null, string.Format("{0} @{1} was defined it was not expected.", node.Name, attributeName));
             }
         }
 
@@ -130,7 +128,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
             if (nodeList.Count < expectedOrderedValueList.Length)
             {
-                Assert.Fail("Could not find enough elements to compare. Actual node list has '{0}'. Expected was '{1}'.", nodeList.Count, expectedOrderedValueList.Length);
+                Assert.True(false, String.Format("Could not find enough elements to compare. Actual node list has '{0}'. Expected was '{1}'.", nodeList.Count, expectedOrderedValueList.Length));
             }
 
             int i = 0;
@@ -141,7 +139,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             {
                 if (null == nodeList[i].Attributes[idAttributeName])
                 {
-                    Assert.Fail("Element '{0}' does not have attribute @'{1}.", nodeList[i].Name, idAttributeName);
+                    Assert.True(false, String.Format("Element '{0}' does not have attribute @'{1}.", nodeList[i].Name, idAttributeName));
                 }
 
                 actualOrder += string.Format("-> {0}", nodeList[i].Attributes[idAttributeName].Value);
@@ -168,7 +166,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             }
 
             // remaining unmatched values
-            Assert.Fail("'@{0}={1}' was not the found in the correct order. Expected Order: '{2}'. Actual Order: '{3}'.", idAttributeName, expectedOrderedValueList[j], expectedOrder, actualOrder);
+            Assert.True(false, String.Format("'@{0}={1}' was not the found in the correct order. Expected Order: '{2}'. Actual Order: '{3}'.", idAttributeName, expectedOrderedValueList[j], expectedOrder, actualOrder));
         }
 
         #endregion

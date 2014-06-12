@@ -16,19 +16,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for controlling services that are installed
     /// </summary>
-    [TestClass]
     public class ServiceControlTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\ServiceControlTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a service can be configured and that values are defaulted correctly")]
         [Priority(1)]
         public void ServiceControl()
@@ -44,7 +42,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query3, "StopServices");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the service has an invalid Name")]
         [Priority(3)]
         public void InvalidServiceControlName()
@@ -59,7 +57,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Wait can be set to yes or no")]
         [Priority(1)]
         public void Wait()
@@ -73,11 +71,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query2, "0");
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that there is an error for conflicting actions. See code comments for details.")]
         [Priority(1)]
-        [Ignore]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=3023803&group_id=105970")]      
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=3023803&group_id=105970")]      
         public void ConflictingActions()
         {
             // Remove and Start on install
@@ -90,7 +87,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
 
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a service argument can be specified")]
         [Priority(1)]
         public void ServiceArgument()
@@ -102,7 +99,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "Arg1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that multiple ServiceArgument can be specified")]
         [Priority(1)]
         public void MultipleServiceArguments()
@@ -114,7 +111,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query1, "Arg1[~]Arg2");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that DeleteServices action is scheduled with ServiceControl attribute Remove=both")]
         [Priority(2)]
         public void RemoveBoth()

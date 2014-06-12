@@ -11,16 +11,14 @@
 namespace WixTest.Tests.Tools.Dark.Help
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Dark handles the ? switch.
     /// </summary>
-    [TestClass]
     public class HelpTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark accepts -? option and displays the correct usage.")]
         [Priority(2)]
         public void DisplayHelp()

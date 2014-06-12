@@ -17,21 +17,19 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using Microsoft.Deployment.WindowsInstaller;
     using Microsoft.Deployment.WindowsInstaller.Package;
+    using Xunit;
 
     /// <summary>
     /// Tests for the building an MSI with an Instance Transform
     /// </summary>
-    [TestClass]
     public class InstanceTransformTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\InstanceTransforms\InstanceTransformTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Product/@Id element can use a '*' for its GUID")]
         [Priority(1)]
         public void AutoGenProductId()
@@ -52,7 +50,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
         }
 
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error when two instances have the same Id")]
         [Priority(2)]
         public void DuplicateInstanceIds()
@@ -70,7 +68,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Instance/@ProductCode element can use a '*' for its GUID")]
         [Priority(3)]
         public void AutoGenInstanceProductCode()
@@ -96,7 +94,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
                 using (View view = msiDatabase.OpenView("Select `Value` FROM `Property` WHERE `Property` = 'ProductCode'"))
                 {
                     view.Execute();
-                    Record record = view.Fetch();
+                    var record = view.Fetch();
 
                     if (null != record)
                     {
@@ -104,12 +102,12 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
                     }
                 }
 
-                Assert.AreNotEqual("{4014E041-A968-4DE3-B43C-322DF9A19359}", transformProductCode, "The product code was not transformed by the instance transform.");
+                Assert.False("{4014E041-A968-4DE3-B43C-322DF9A19359}".Equals(transformProductCode), "The product code was not transformed by the instance transform.");
             }
         }
 
         //{E8441024-BBDA-4D08-B8B1-039C269CD374}
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Instance/@UpgradeCode element can supply a GUID and modify the base Product/@UpgradeCode")]
         [Priority(4)]
         public void InstanceUpgradeCode()
@@ -135,7 +133,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
                 using (View view = msiDatabase.OpenView("Select `Value` FROM `Property` WHERE `Property` = 'UpgradeCode'"))
                 {
                     view.Execute();
-                    using (Record record = view.Fetch())
+                    using (var record = view.Fetch())
                     {
                         if (null != record)
                         {
@@ -144,7 +142,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
                     }
                 }
 
-                Assert.AreEqual("{E8441024-BBDA-4D08-B8B1-039C269CD374}", transformUpgradeCode, "The upgrade code was not transformed by the instance transform.");
+                Assert.True("{E8441024-BBDA-4D08-B8B1-039C269CD374}".Equals(transformUpgradeCode), "The upgrade code was not transformed by the instance transform.");
             }
         }
         /// <summary>
@@ -163,10 +161,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstanceTransforms
             using (View view = msiDatabase.OpenView("SELECT `Name`, `Data` FROM `_Storages` WHERE `Name` = '{0}'", transform))
             {
                 view.Execute();
-                Record record = view.Fetch();
+                var record = view.Fetch();
                 if (record == null)
                 {
-                    Assert.Fail("Transform {0} not found in {1}", transform, msi);
+                    Assert.True(false, String.Format("Transform {0} not found in {1}", transform, msi));
                 }
                 using (record)
                 {

@@ -12,18 +12,16 @@ namespace WixTest.Tests.Tools.Dark.BinaryPath
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Dark handles the -x switch.
     /// </summary>
-    [TestClass]
     public class BinaryPathTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Dark\BinaryPath\BinaryPathTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark generates the expected error for a missing path after the -x switch.")]
         [Priority(2)]
         public void MissingBinaryPath()
@@ -36,7 +34,7 @@ namespace WixTest.Tests.Tools.Dark.BinaryPath
             dark.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark fails gracefully when given -x option with read only path.")]
         [Priority(2)]
         public void ExportBinariesToReadOnlyPath()

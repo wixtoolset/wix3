@@ -13,23 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-
     using System.Security.AccessControl;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension PermissionEx element tests
     /// </summary>
-    [TestClass]
     public class PermissionExTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\PermissionExTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (SecureObjects and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void PermissionEx_VerifyMSITableData()
@@ -86,10 +83,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                new TableRow(SecureObjectsColumns.Permission.ToString(), "63", false));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the right permessions are created on install.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PermissionEx_Install()
         {
             string sourceFile = Path.Combine(PermissionExTests.TestDataDirectory, @"product.wxs");
@@ -117,11 +114,11 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the right permessions are created on install to a 64-bit specific folder.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void PermissionEx_Install_64bit()
         {
             string sourceFile = Path.Combine(PermissionExTests.TestDataDirectory, @"product_64.wxs");
@@ -149,10 +146,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the right permessions are created on Repair.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PermissionEx_Repair()
         {
             string sourceFile = Path.Combine(PermissionExTests.TestDataDirectory, @"product.wxs");
@@ -198,10 +195,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that files are not uninstalled during rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PermissionEx_ExistingFile()
         {
             // install the file
@@ -217,12 +214,12 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify File Permessions
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"WixTestFolder\MynewService.exe");
-            Assert.IsTrue(File.Exists(fileName), "File '{0}' was removed during Rollback.", fileName);
+            Assert.True(File.Exists(fileName), String.Format("File '{0}' was removed during Rollback.", fileName));
 
             MSIExec.UninstallProduct(msiFile1, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the correct error message is displayed when the GroupRef element does not have a parent Component element.")]
         [Priority(3)]
         public void PermissionEx_GroupRefMissingParentComponent()
@@ -235,7 +232,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the correct error message is displayed when the User element does not have a parent Component element.")]
         [Priority(3)]
         public void PermissionEx_UserfMissingParentComponent()

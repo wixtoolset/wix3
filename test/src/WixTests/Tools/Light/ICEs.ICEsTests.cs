@@ -16,19 +16,16 @@ namespace WixTest.Tests.Tools.Light.ICEs
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for running only the specified ICEs
     /// </summary>
-    [TestClass]
     public class ICEsTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\ICEs\ICEsTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light will only run the ICE specified by the -ice switch")]
         [Priority(1)]
         public void SimpleICE()

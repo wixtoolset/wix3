@@ -15,22 +15,20 @@ namespace WixTest.Tests.Extensions.NetFXExtension
     using System.Text;
     using System.Diagnostics;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// NetFX extension NativeImage element tests
     /// </summary>
-    [TestClass]
     public class NativeImageTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\NetFXExtension\NativeImageTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (NetFxNativeImage,CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void NativeImage_VerifyMSITableData()
@@ -70,10 +68,10 @@ namespace WixTest.Tests.Extensions.NetFXExtension
              new TableRow(NetFxNativeImageColumns.Directory_ApplicationBase.ToString(), string.Empty));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the file was ngened and exists in the nativeimage folder.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void NativeImage_Install()
         {
             string sourceFile = Path.Combine(NativeImageTests.TestDataDirectory, @"product.wxs");
@@ -84,23 +82,23 @@ namespace WixTest.Tests.Extensions.NetFXExtension
             // make sure all the assymblies have been ngened
             NgenQueuedBinaries(NetFXVerifier.FrameworkArch.x86);
 
-            Assert.IsTrue(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x86), "Native Image '{0}' was not created on Install", "WixTasks.dll");
+            Assert.True(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x86), String.Format("Native Image '{0}' was not created on Install", "WixTasks.dll"));
             // Verify actions in the log file 
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitUninstall"), "Could not find NetFxExecuteNativeImageUninstall Doing message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageUninstall"), "Could not find NetFxExecuteNativeImageUninstall Skipping message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitInstall"), "Could not find NetFxExecuteNativeImageInstall Doing message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageInstall"), "Could not find NetFxExecuteNativeImageInstall Skipping message in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitUninstall"), String.Format("Could not find NetFxExecuteNativeImageUninstall Doing message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageUninstall"), String.Format("Could not find NetFxExecuteNativeImageUninstall Skipping message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitInstall"), String.Format("Could not find NetFxExecuteNativeImageInstall Doing message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageInstall"), String.Format("Could not find NetFxExecuteNativeImageInstall Skipping message in log file: '{0}'.", logFile));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsFalse(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x86), "Native Image '{0}' was not removed on Uninstall", "WixTasks.dll");
+            Assert.False(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x86), String.Format("Native Image '{0}' was not removed on Uninstall", "WixTasks.dll"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the file was ngened and exists in the 64 bit nativeimage folder.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void NativeImage_Install_64bit()
         {
             string sourceFile = Path.Combine(NativeImageTests.TestDataDirectory, @"product_64.wxs");
@@ -110,23 +108,23 @@ namespace WixTest.Tests.Extensions.NetFXExtension
 
             // make sure all the assymblies have been ngened
             NgenQueuedBinaries(NetFXVerifier.FrameworkArch.x64);
-            Assert.IsTrue(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x64), "Native Image '{0}' was not created on Install", "WixTasks.dll");
+            Assert.True(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x64), String.Format("Native Image '{0}' was not created on Install", "WixTasks.dll"));
 
             // Verify actions in the log file 
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitUninstall"), "Could not find NetFxExecuteNativeImageUninstall Doing message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageUninstall"), "Could not find NetFxExecuteNativeImageUninstall Skipping message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitInstall"), "Could not find NetFxExecuteNativeImageInstall Doing message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageInstall"), "Could not find NetFxExecuteNativeImageInstall Skipping message in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitUninstall"), String.Format("Could not find NetFxExecuteNativeImageUninstall Doing message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageUninstall"), String.Format("Could not find NetFxExecuteNativeImageUninstall Skipping message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageCommitInstall"), String.Format("Could not find NetFxExecuteNativeImageInstall Doing message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageInstall"), String.Format("Could not find NetFxExecuteNativeImageInstall Skipping message in log file: '{0}'.", logFile));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsFalse(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x64), "Native Image '{0}' was not removed on Uninstall", "WixTasks.dll");
+            Assert.False(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x64), String.Format("Native Image '{0}' was not removed on Uninstall", "WixTasks.dll"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify using the msilog that the correct actions were skipped and performed.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void NativeImage_DisableWindowsInstallerRollback_Install()
         {
             string sourceFile = Path.Combine(NativeImageTests.TestDataDirectory, @"product.wxs");
@@ -138,18 +136,18 @@ namespace WixTest.Tests.Extensions.NetFXExtension
             string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify actions in the log file 
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageUninstall"), "Could not find NetFxExecuteNativeImageUninstall Doing message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageCommitUninstall"), "Could not find NetFxExecuteNativeImageCommitUninstall Skipping message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageInstall"), "Could not find NetFxExecuteNativeImageInstall Doing message in log file: '{0}'.", logFile);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageCommitInstall"), "Could not find NetFxExecuteNativeImageCommitInstall Skipping message in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageUninstall"), String.Format("Could not find NetFxExecuteNativeImageUninstall Doing message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageCommitUninstall"), String.Format("Could not find NetFxExecuteNativeImageCommitUninstall Skipping message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Doing action: NetFxExecuteNativeImageInstall"), String.Format("Could not find NetFxExecuteNativeImageInstall Doing message in log file: '{0}'.", logFile));
+            Assert.True(LogVerifier.MessageInLogFile(logFile, "Skipping action: NetFxExecuteNativeImageCommitInstall"), String.Format("Could not find NetFxExecuteNativeImageCommitInstall Skipping message in log file: '{0}'.", logFile));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
         
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the netfx roolback removes the nativeimages.")]
         [Priority(3)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void NativeImage_InstallFailure()
         {
             string sourceFile = Path.Combine(NativeImageTests.TestDataDirectory, @"product_fail.wxs");
@@ -160,13 +158,13 @@ namespace WixTest.Tests.Extensions.NetFXExtension
             // make sure all the assymblies have been ngened
             NgenQueuedBinaries(NetFXVerifier.FrameworkArch.x86);
 
-            Assert.IsFalse(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x86), "Native Image '{0}' was not removed on Rollback", "WixTasks.dll");
+            Assert.False(NetFXVerifier.NativeImageExists("WixTasks.dll", NetFXVerifier.FrameworkVersion.NetFX20, NetFXVerifier.FrameworkArch.x86), String.Format("Native Image '{0}' was not removed on Rollback", "WixTasks.dll"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify using the log that the NGEN is picked from the latest frmework folder.")]
         [Priority(3)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void NativeImage_VerifyNgenPath()
         {
             string sourceFile = Path.Combine(NativeImageTests.TestDataDirectory, @"product.wxs");
@@ -175,15 +173,15 @@ namespace WixTest.Tests.Extensions.NetFXExtension
             string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             string expectedPath = GetNgenPath(NetFXVerifier.FrameworkArch.x86);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, expectedPath), "Could not find expected ngen path in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, expectedPath), String.Format("Could not find expected ngen path in log file: '{0}'.", logFile));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify using the log that the NGEN command line contains the following”/Debug /Profile /NoDependencies.")]
         [Priority(3)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void NativeImage_VerifyCommandLineParameters()
         {
             string sourceFile = Path.Combine(NativeImageTests.TestDataDirectory, @"product.wxs");
@@ -191,17 +189,16 @@ namespace WixTest.Tests.Extensions.NetFXExtension
 
             string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(logFile, @"ngen[\.]exe\sinstall(.*)WiXTasks[\.]dll(.*)/Debug\s/Profile\s/NoDependencies"), "Could not find expected CommandLine paramters in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFileRegex(logFile, @"ngen[\.]exe\sinstall(.*)WiXTasks[\.]dll(.*)/Debug\s/Profile\s/NoDependencies"), String.Format("Could not find expected CommandLine paramters in log file: '{0}'.", logFile));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestCleanup]
-        public override void CleanUp()
+        protected override void TestUninitialize()
         {
+            base.TestUninitialize();
+
             NativeImageTests.EnableWindowsInstallerRollBack();
-            // make sure to call the base class cleanup method
-            base.CleanUp();
         }
 
         #region Helper Methods

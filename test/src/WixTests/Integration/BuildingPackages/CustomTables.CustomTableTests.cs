@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.CustomTables
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for custom tables
     /// </summary>
-    [TestClass]
     public class CustomTableTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\CustomTables\CustomTableTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a custom table can be created")]
         [Priority(1)]
         public void SimpleCustomTable()
@@ -37,7 +34,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.CustomTables
             Verifier.VerifyResults(Path.Combine(CustomTableTests.TestDataDirectory, @"SimpleCustomTable\expected.msi"), msi, "CustomTable1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a null values in a custom table triggers an error if Nullable='yes' is not specified")]
         [Priority(1)]
         public void NullValues()
@@ -52,7 +49,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.CustomTables
             light.ExpectedExitCode = 53;
             light.Run();
         }
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that invalid type in a custom table triggers an error if wrong type is specified")]
         [Priority(1)]
         public void InvalidType()

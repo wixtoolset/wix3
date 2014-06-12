@@ -16,7 +16,7 @@ namespace WixTest.Verifiers
     using System;
     using System.IO;
     using System.Security.Cryptography;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// The FileVerifier contains methods for verification for files and directories
@@ -53,7 +53,7 @@ namespace WixTest.Verifiers
             string fileHash1 = ComputeFileSHA1Hash(file1Path);
             string fileHash2 = ComputeFileSHA1Hash(file2Path);
 
-            Assert.AreEqual(fileHash1, fileHash2, "Files '{0}' and '{1}' have diffrent hash values. The files are not identical.", file1Path, file2Path);
+            Assert.True(fileHash1 == fileHash2, String.Format("Files '{0}' and '{1}' have diffrent hash values. The files are not identical.", file1Path, file2Path));
         }
     }
 }

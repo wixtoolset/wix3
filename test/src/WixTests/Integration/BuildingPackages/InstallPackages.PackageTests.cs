@@ -18,19 +18,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for the Package element as it applies to the Product element
     /// </summary>
-    [TestClass]
     public class PackageTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\InstallPackages\PackageTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple MSI can be built and that the expected default values are set")]
         [Priority(1)]
         public void SimplePackage()
@@ -41,11 +39,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             string packageDesc = Verifier.GetMsiSummaryInformationProperty(msi, Verifier.MsiSummaryInformationProperty.Subject);
             string packageInstallVer = Verifier.GetMsiSummaryInformationProperty (msi, Verifier.MsiSummaryInformationProperty.Schema);
 
-            Assert.IsTrue("This package is used for testing purposes" == packageDesc, packageDesc + "didn't match the expected string in wix source file");
-            Assert.IsTrue("201" == packageInstallVer, packageInstallVer + "didn't match the expected string in wix source file");
+            Assert.True("This package is used for testing purposes" == packageDesc, packageDesc + "didn't match the expected string in wix source file");
+            Assert.True("201" == packageInstallVer, packageInstallVer + "didn't match the expected string in wix source file");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a package can compress its files in a cab")]
         [Priority(1)]
         public void CompressedPackage()
@@ -60,10 +58,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             Verifier.VerifyResults(Path.Combine(PackageTests.TestDataDirectory, @"CompressedPackage\expected.msi"), light.OutputFile);
 
             string expectedCab = Path.Combine(Path.GetDirectoryName(light.OutputFile), "product.cab");
-            Assert.IsTrue(File.Exists(expectedCab), "The expected cab file {0} does not exist", expectedCab);
+            Assert.True(File.Exists(expectedCab), String.Format("The expected cab file {0} does not exist", expectedCab));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a package Id can be static or auto-generated")]
         [Priority(2)]
         public void PackageIds()
@@ -91,11 +89,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
 
                 // Verify that the package code was set properly
                 string packageId = Verifier.GetMsiSummaryInformationProperty (light.OutputFile, Verifier.MsiSummaryInformationProperty.PackageCode);
-                Assert.IsTrue(ids[id].IsMatch(packageId), "The Summary Info property {0} in {1} with a value of {2} does not match the regular expression {3}", (int)Verifier.MsiSummaryInformationProperty.PackageCode , light.OutputFile, packageId, ids[id].ToString()); 
+                Assert.True(ids[id].IsMatch(packageId), String.Format("The Summary Info property {0} in {1} with a value of {2} does not match the regular expression {3}", (int)Verifier.MsiSummaryInformationProperty.PackageCode , light.OutputFile, packageId, ids[id])); 
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a package can support any of the three platforms intel, intel64 and x64")]
         [Priority(2)]
         public void Platforms()
@@ -117,11 +115,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
                 Light light = new Light(candle);
                 light.Run();
                 platformValue = Verifier.GetMsiSummaryInformationProperty(light.OutputFile, Verifier.MsiSummaryInformationProperty.TargetPlatformAndLanguage);
-                Assert.IsTrue(platformValue.ToLower().Contains("intel") || platformValue.ToLower ().Contains("intel64") || platformValue.ToLower ().Contains("x64"), "platform Value didn't match.expected:{0},actual:{1}.", value, platformValue);
+                Assert.True(platformValue.ToLower().Contains("intel") || platformValue.ToLower ().Contains("intel64") || platformValue.ToLower ().Contains("x64"), String.Format("platform Value didn't match.expected:{0},actual:{1}.", value, platformValue));
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if an invalid platform is specified")]
         [Priority(3)]
         public void InvalidPlatform()
@@ -133,7 +131,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that install privileges can be specified on a package")]
         [Priority(3)]
         public void InstallPrivileges()
@@ -146,16 +144,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             {
                 if (0 != installPrivileges)
                 {
-                    Assert.Fail("Setting install Privileges failed.");
+                    Assert.True(false, String.Format("Setting install Privileges failed."));
                 }
             }
             else
             {
-                Assert.Fail("Failed to fetch wordcount from msi");
+                Assert.True(false, String.Format("Failed to fetch wordcount from msi"));
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the source can be an admin image")]
         [Priority(2)]
         public void AdminImage()
@@ -173,23 +171,22 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             {
                 if (4 != adminImage)
                 {
-                    Assert.Fail("Setting Admin Image failed.");
+                    Assert.True(false, String.Format("Setting Admin Image failed."));
                 }
             }
             else
             {
-                Assert.Fail("Failed to fetch wordcount from msi");
+                Assert.True(false, String.Format("Failed to fetch wordcount from msi"));
             }
         }
 
-        [TestMethod]
-        [Timeout(3600000)]
+        [NamedFact(Timeout = 3600000)]
         [Description("Verify that installer version can be set to any valid version")]
         [Priority(2)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2990011&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2990011&group_id=105970&atid=642714")]
         public void InstallerVersion()
         {
-            Random random = new Random(WixTests.Seed);
+            Random random = new Random(Settings.Seed.GetHashCode());
             for (int i = 1; i < 10; i++)
             {
                 string version = random.Next (100,500).ToString ();
@@ -205,11 +202,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
                 Light light = new Light(candle);
                 light.Run();
                 string packageInstallVer = Verifier.GetMsiSummaryInformationProperty(light.OutputFile, Verifier.MsiSummaryInformationProperty.Schema);
-                Assert.IsTrue(version == packageInstallVer, packageInstallVer + "didn't match the expected installer version");
+                Assert.True(version == packageInstallVer, packageInstallVer + "didn't match the expected installer version");
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an invalid installer version cannot be set")]
         [Priority(3)]
         public void InvalidInstallerVersion()
@@ -224,7 +221,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that short filenames can be in the source")]
         [Priority(3)]
         public void ShortNames()
@@ -237,12 +234,12 @@ namespace WixTest.Tests.Integration.BuildingPackages.InstallPackages
             {
                 if (1 != shortname)
                 {
-                    Assert.Fail("Setting short file name failed.");
+                    Assert.True(false, String.Format("Setting short file name failed."));
                 }
             }
             else
             {
-                Assert.Fail("Failed to fetch wordcount from msi");
+                Assert.True(false, String.Format("Failed to fetch wordcount from msi"));
             }
         }
     }

@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for configuring the SFPCatalog table
     /// </summary>
-    [TestClass]
     public class SFPCatalogTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\SFPCatalogTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the SFP Catalog table can be configured")]
         [Priority(1)]
         public void SFPCatalog()
@@ -39,7 +36,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "Test1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an SFP File can be specified")]
         [Priority(1)]
         public void SFPFile()

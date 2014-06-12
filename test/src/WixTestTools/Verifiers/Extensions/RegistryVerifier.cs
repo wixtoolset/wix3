@@ -14,11 +14,10 @@
 namespace WixTest.Verifiers.Extensions
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Microsoft.Win32;
     using System.Runtime.InteropServices;
     using System.Text;
+    using Xunit;
 
     /// <summary>
     /// Contains methods for Registry verification
@@ -97,9 +96,9 @@ namespace WixTest.Verifiers.Extensions
             }
 
             // do the validation
-            Assert.IsTrue(actualValue.Trim().Equals(expectedValue.Trim(), StringComparison.InvariantCultureIgnoreCase),
-                "Registry Key '{0}\\{1}' does NOT have the expected value; Actual: '{2}', Expected: '{3}'.",
-                keyName, valueName, actualValue, expectedValue);
+            Assert.True(actualValue.Trim().Equals(expectedValue.Trim(), StringComparison.InvariantCultureIgnoreCase),
+                String.Format("Registry Key '{0}\\{1}' does NOT have the expected value; Actual: '{2}', Expected: '{3}'.",
+                keyName, valueName, actualValue, expectedValue));
         }
        
         #region  P/Invoke declarations

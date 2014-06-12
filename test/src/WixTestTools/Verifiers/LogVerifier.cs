@@ -17,7 +17,7 @@ namespace WixTest.Verifiers
     using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// The LogVerifier can verify a log file for given regular expressions.
@@ -150,8 +150,8 @@ namespace WixTest.Verifiers
         /// <param name="ignoreCase">Perform case insensitive match</param>
         public void AssertTextInLog(string regex, bool ignoreCase)
         {
-            Assert.IsTrue(EntireFileAtOncestr(regex),
-                "The log does not contain a match to the regular expression \"{0}\" ", regex);
+            Assert.True(EntireFileAtOncestr(regex),
+                String.Format("The log does not contain a match to the regular expression \"{0}\" ", regex));
         }
 
         /// <summary>
@@ -161,8 +161,8 @@ namespace WixTest.Verifiers
         /// <param name="ignoreCase">Perform case insensitive match</param>
         public void AssertTextInLog(Regex regex, bool ignoreCase)
         {
-            Assert.IsTrue(EntireFileAtOnce(regex) >= 1,
-                "The log does not contain a match to the regular expression \"{0}\" ", regex.ToString());
+            Assert.True(EntireFileAtOnce(regex) >= 1,
+                String.Format("The log does not contain a match to the regular expression \"{0}\" ", regex.ToString()));
         }
 
         /// <summary>
@@ -193,8 +193,8 @@ namespace WixTest.Verifiers
         /// <param name="ignoreCase">Perform case insensitive match</param>
         public void AssertTextNotInLog(Regex regex, bool ignoreCase)
         {
-            Assert.IsTrue(EntireFileAtOnce(regex) < 1,
-                "The log contain a match to the regular expression \"{0}\" ", regex.ToString());
+            Assert.True(EntireFileAtOnce(regex) < 1,
+                String.Format("The log contain a match to the regular expression \"{0}\" ", regex.ToString()));
         }
 
         /// <summary>
@@ -204,8 +204,8 @@ namespace WixTest.Verifiers
         /// <param name="ignoreCase">Perform case insensitive match</param>
         public void AssertTextNotInLog(string regex, bool ignoreCase)
         {
-            Assert.IsFalse(EntireFileAtOncestr(regex),
-                "The log does not contain a match to the regular expression \"{0}\" ", regex);
+            Assert.False(EntireFileAtOncestr(regex),
+                String.Format("The log does not contain a match to the regular expression \"{0}\" ", regex));
         }
 
         /// <summary>

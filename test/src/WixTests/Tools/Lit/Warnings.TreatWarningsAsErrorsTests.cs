@@ -14,17 +14,14 @@ namespace WixTest.Tests.Tools.Lit.Warnings
 {
     using System;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Lit handles the wx switch.
     /// </summary>
-    [TestClass]
     public class TreatWarningsAsErrorsTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit honors the wx switch when specified.")]
         [Priority(2)]
         public void TreatAllWarningsAsErrorSwitch()
@@ -38,7 +35,7 @@ namespace WixTest.Tests.Tools.Lit.Warnings
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit honors the wx[N] switch when specified.")]
         [Priority(2)]
         public void TreatSpecificWarningsAsErrorSwitch()
@@ -52,7 +49,7 @@ namespace WixTest.Tests.Tools.Lit.Warnings
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit does not treat warnings as errors when wx switch is not specified.")]
         [Priority(2)]
         public void NoTreatWarningsAsErrorSwitch()
@@ -65,7 +62,7 @@ namespace WixTest.Tests.Tools.Lit.Warnings
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit handles the wxall switch and displays a message that the switch is deprecated.")]
         [Priority(2)]
         public void VerifyDeprecatedSwitch()

@@ -16,25 +16,23 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle Payload element
     /// </summary>
-    [TestClass]
     public class PayloadTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\PayloadTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Name is optional and will default to the SourceFile file name")]
         [Priority(2)]
         public void PayloadNameNotSpecified()
         {
             string sourceFile = Path.Combine(PayloadTests.TestDataDirectory, @"PayloadNameNotSpecified\Product.wxs");
             string testFile = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"Bootstrapper.exe");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -43,14 +41,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             UXTests.VerifyUXPayloadInformation(outputDirectory, testFile, "Bootstrapper.exe");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Name can be explicitly defined.")]
         [Priority(2)]
         public void PayloadNameSpecified()
         {
             string sourceFile = Path.Combine(PayloadTests.TestDataDirectory, @"PayloadNameSpecified\Product.wxs");
             string testFile = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"Bootstrapper.exe");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -59,7 +57,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             UXTests.VerifyUXPayloadInformation(outputDirectory, testFile, "Setup.exe");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Payload SourceFile attribute has an invalid file name")]
         [Priority(3)]
         public void PayloadInvalidSourceFile()
@@ -74,10 +72,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Payload SourceFile attribute has an invalid file name")]
         [Priority(3)]
-        [TestProperty("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2980332&group_id=105970&atid=642714")]
+        [Trait("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2980332&group_id=105970&atid=642714")]
         public void PayloadInvalidName()
         {
             Candle candle = new Candle();
@@ -87,14 +85,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("SourceFile can be defined as relative to the current working directory")]
         [Priority(2)]
         public void PayloadRelativeSourceFilePath()
         {
             string sourceFile = Path.Combine(PayloadTests.TestDataDirectory, @"PayloadRelativeSourceFilePath\Product.wxs");
             string testFile = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"Bootstrapper.exe");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // Copy a file to the current directory. This file is used to verify relative paths in source files.
             File.Copy(testFile, Path.Combine(outputDirectory, "Bootstrapper.exe"), true);
@@ -106,15 +104,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             UXTests.VerifyUXPayloadInformation(outputDirectory, testFile, "Bootstrapper.exe");
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("SourceFile can be defined as a UNC path.")]
         [Priority(3)]
-        [Ignore]
         public void PayloadUNCSourceFile()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Nonexistent SourceFile produces an error.")]
         [Priority(3)]
         public void PayloadNonexistentSourceFilePath()
@@ -129,7 +126,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("SourceFile attribute is not defined.")]
         [Priority(3)]
         // bug# https://sourceforge.net/tracker/?func=detail&aid=2980338&group_id=105970&atid=642714
@@ -142,7 +139,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("SourceFile attribute can not be empty.")]
         [Priority(3)]
         public void PayloadEmptySourceFileAttribute()
@@ -154,7 +151,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("PayloadGroup Id attribute is required.")]
         [Priority(3)]
         public void PayloadGroupMissingId()
@@ -166,7 +163,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("PayloadGroup Id attribute is required.")]
         [Priority(3)]
         public void PayloadGroupDuplicateId()
@@ -182,7 +179,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if two child Payloads are the same file")]
         [Priority(3)]
         public void PayloadGroupDuplicatePayloads()
@@ -198,7 +195,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if two child PayloadGroups contain the same file")]
         [Priority(3)]
         public void PayloadGroupDuplicatePayloadInPayloadGroups()
@@ -214,7 +211,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if two child Payloads are the same file")]
         [Priority(3)]
         public void PayloadGroupDuplicatePayloadGroupRefs()
@@ -230,7 +227,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cannot have recursive ref to same payload group")]
         [Priority(3)]
         public void PayloadGroupRecursiveRefs()
@@ -246,7 +243,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Nested PayloadGroups are allowed.")]
         [Priority(2)]
         public void NestedPayloadGroups()
@@ -257,7 +254,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             string PayloadFile3 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile3.txt");
             string PayloadFile4 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile4.txt");
             string PayloadFile5 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile5.txt");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -270,7 +267,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             UXTests.VerifyUXPayloadInformation(outputDirectory, PayloadFile5, "PayloadFile5.txt", false);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if a PayloadGroupRef element is missing an Id")]
         [Priority(3)]
         public void PayloadGroupRefMissingId()
@@ -282,7 +279,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if a PayloadGroupRef is pointing to a missing Payload")]
         [Priority(3)]
         public void MissingPayloadGroupRef()
@@ -297,7 +294,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Payload can have @DownloadURL.")]
         [Priority(2)]
         public void ValidPayloadDownloadURL()
@@ -307,7 +304,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             string PayloadFile2 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile2.txt");
             string PayloadFile3 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile3.txt");
             string PayloadFile4 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile4.txt");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);

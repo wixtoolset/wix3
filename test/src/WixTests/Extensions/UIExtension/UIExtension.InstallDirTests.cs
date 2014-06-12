@@ -12,20 +12,18 @@ namespace WixTest.Tests.Extensions.UIExtension
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
+    using Xunit;
 
     /// <summary>
     /// NetFX extension InstallDir element tests
     /// </summary>
-    [TestClass]
     public class InstallDirTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UIExtension\InstallDirTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the CustomAction Table is created in the MSI and has the expected data.")]
         [Priority(1)]
         public void InstallDir_VerifyMSITableData()
@@ -38,11 +36,10 @@ namespace WixTest.Tests.Extensions.UIExtension
                 new CustomActionTableData("WixUIPrintEula", 65, "WixUIWixca", "PrintEula"));
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify using the msilog that the correct actions was executed.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "false")]
-        [Ignore]
+        [Trait("RuntimeTest", "false")]
         public void InstallDir_ChangeInstallDir()
         {
         }

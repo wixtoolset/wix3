@@ -14,19 +14,16 @@ namespace WixTest.Tests.Tools.Lit.Localization
 {
     using System;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
      /// <summary>
     /// Test the different ways for giving input files to Candle.
     /// </summary>
-    [TestClass]
     public class LocalizationTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Lit\Localization\LocalizationTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit accepts a single Windows Installer XML include (wxs) file as input")]
         [Priority(1)]
         public void SingleWxlFile()
@@ -39,7 +36,7 @@ namespace WixTest.Tests.Tools.Lit.Localization
             Verifier.VerifyWixLibLocString(lit.OutputFile,"en-us","String1","String1(en-us)");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit accepts multiple Windows Installer XML object (wxs) files as input")]
         [Priority(2)]
         public void MultipleWxlFiles()

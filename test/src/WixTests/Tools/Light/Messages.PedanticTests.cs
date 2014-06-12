@@ -16,17 +16,14 @@ namespace WixTest.Tests.Tools.Light.Messages
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for pedantic output
     /// </summary>
-    [TestClass]
     public class PedanticTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light prints pedantic output")]
         [Priority(1)]
         public void SimplePedantic()

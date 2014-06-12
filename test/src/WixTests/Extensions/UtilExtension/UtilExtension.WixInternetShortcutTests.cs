@@ -13,23 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-
     using IWshRuntimeLibrary;
+    using Xunit;
 
     /// <summary>
     /// Util extension WixInternetShortcut element tests
     /// </summary>
-    [TestClass]
     public class WixInternetShortcutTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\WixInternetShortcutTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (WixInternetShortcut and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void WixInternetShortcut_VerifyMSITableData()
@@ -73,10 +70,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 );
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the msi installs and the shortcuts were created.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void WixInternetShortcut_Install()
         {
             string sourceFile = Path.Combine(WixInternetShortcutTests.TestDataDirectory, @"product.wxs");
@@ -100,16 +97,16 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string link10Location = Path.Combine(programMenuPath, "ARP.url");
 
             // Verify that the Internet short cuts were created
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link1Location), "Shortcut '{0}' was not created on Install.", link1Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link2Location), "Shortcut '{0}' was not created on Install.", link2Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link3Location), "Shortcut '{0}' was not created on Install.", link3Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link4Location), "Shortcut '{0}' was not created on Install.", link4Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link5Location), "Shortcut '{0}' was not created on Install.", link5Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link6Location), "Shortcut '{0}' was not created on Install.", link6Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link7Location), "Shortcut '{0}' was not created on Install.", link7Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link8Location), "Shortcut '{0}' was not created on Install.", link8Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link9Location), "Shortcut '{0}' was not created on Install.", link9Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link10Location), "Shortcut '{0}' was not created on Install.", link10Location);
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link1Location), String.Format("Shortcut '{0}' was not created on Install.", link1Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link2Location), String.Format("Shortcut '{0}' was not created on Install.", link2Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link3Location), String.Format("Shortcut '{0}' was not created on Install.", link3Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link4Location), String.Format("Shortcut '{0}' was not created on Install.", link4Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link5Location), String.Format("Shortcut '{0}' was not created on Install.", link5Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link6Location), String.Format("Shortcut '{0}' was not created on Install.", link6Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link7Location), String.Format("Shortcut '{0}' was not created on Install.", link7Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link8Location), String.Format("Shortcut '{0}' was not created on Install.", link8Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link9Location), String.Format("Shortcut '{0}' was not created on Install.", link9Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link10Location), String.Format("Shortcut '{0}' was not created on Install.", link10Location));
 
             // verify the shortcuts have the right targets
             WixInternetShortcutTests.VerifyInterNetShortCutTarget(link9Location, "http://blogs.msdn.com/windows_installer_team/default.aspx", LinkType.URL);
@@ -118,23 +115,23 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the Internet short cuts were removed
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link1Location), "Shortcut '{0}' was not removed on Uninstall.", link1Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link2Location), "Shortcut '{0}' was not removed on Uninstall.", link2Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link3Location), "Shortcut '{0}' was not removed on Uninstall.", link3Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link4Location), "Shortcut '{0}' was not removed on Uninstall.", link4Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link5Location), "Shortcut '{0}' was not removed on Uninstall.", link5Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link6Location), "Shortcut '{0}' was not removed on Uninstall.", link6Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link7Location), "Shortcut '{0}' was not removed on Uninstall.", link7Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link8Location), "Shortcut '{0}' was not removed on Uninstall.", link8Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link9Location), "Shortcut '{0}' was not removed on Uninstall.", link9Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link10Location), "Shortcut '{0}' was not removed on Uninstall.", link10Location);
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link1Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link1Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link2Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link2Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link3Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link3Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link4Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link4Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link5Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link5Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link6Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link6Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link7Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link7Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link8Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link8Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link9Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link9Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link10Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link10Location));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the msi installs to a 64-bit specific folder and the shortcuts were created.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void WixInternetShortcut_Install_64bit()
         {
             string sourceFile = Path.Combine(WixInternetShortcutTests.TestDataDirectory, @"product_64.wxs");
@@ -148,8 +145,8 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string link2Target = Environment.ExpandEnvironmentVariables("file:///%SystemDrive%/Windows/system32/notepad.exe");
 
             // Verify that the Internet short cuts were created
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link1Location), "Shortcut '{0}' was not created on Install.", link1Location);
-            Assert.IsTrue(WixInternetShortcutTests.InterNetShortCutExists(link2Location), "Shortcut '{0}' was not created on Install.", link2Location);
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link1Location), String.Format("Shortcut '{0}' was not created on Install.", link1Location));
+            Assert.True(WixInternetShortcutTests.InterNetShortCutExists(link2Location), String.Format("Shortcut '{0}' was not created on Install.", link2Location));
             
             // verify the shortcuts have the right targets
             WixInternetShortcutTests.VerifyInterNetShortCutTarget(link1Location, link1Target, LinkType.Link);
@@ -158,14 +155,14 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the Internet short cuts were removed
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link1Location), "Shortcut '{0}' was not removed on Uninstall.", link1Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link2Location), "Shortcut '{0}' was not removed on Uninstall.", link2Location);
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link1Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link1Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link2Location), String.Format("Shortcut '{0}' was not removed on Uninstall.", link2Location));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Internet shortcuts are removed after rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void WixInternetShortcut_InstallFailure()
         {
             string sourceFile = Path.Combine(WixInternetShortcutTests.TestDataDirectory, @"product_fail.wxs");
@@ -189,16 +186,16 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string link10Location = Path.Combine(programMenuPath, "ARP.url");
 
             // Verify that the Internet short cuts were removed
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link1Location), "Shortcut '{0}' was not removed on Rollback.", link1Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link2Location), "Shortcut '{0}' was not removed on Rollback.", link2Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link3Location), "Shortcut '{0}' was not removed on Rollback.", link3Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link4Location), "Shortcut '{0}' was not removed on Rollback.", link4Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link5Location), "Shortcut '{0}' was not removed on Rollback.", link5Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link6Location), "Shortcut '{0}' was not removed on Rollback.", link6Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link7Location), "Shortcut '{0}' was not removed on Rollback.", link7Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link8Location), "Shortcut '{0}' was not removed on Rollback.", link8Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link9Location), "Shortcut '{0}' was not removed on Rollback.", link9Location);
-            Assert.IsFalse(WixInternetShortcutTests.InterNetShortCutExists(link10Location), "Shortcut '{0}' was not removed on Rollback.", link10Location);
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link1Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link1Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link2Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link2Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link3Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link3Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link4Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link4Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link5Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link5Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link6Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link6Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link7Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link7Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link8Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link8Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link9Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link9Location));
+            Assert.False(WixInternetShortcutTests.InterNetShortCutExists(link10Location), String.Format("Shortcut '{0}' was not removed on Rollback.", link10Location));
         }
 
         #region Helper Methods
@@ -235,18 +232,18 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 {
                     WshShell shell = new WshShell();
                     IWshShortcut link = (IWshShortcut)shell.CreateShortcut(path);
-                    Assert.IsTrue(link.TargetPath.Equals(target), "Shourtcut '{0}' target does not match expected. Actual: '{1}'. Expected: '{2}'.", path, link.TargetPath, target);
+                    Assert.True(link.TargetPath.Equals(target), String.Format("Shourtcut '{0}' target does not match expected. Actual: '{1}'. Expected: '{2}'.", path, link.TargetPath, target));
                 }
                 else if (linkType == LinkType.URL)
                 {
                     WshShell shell = new WshShell();
                     WshURLShortcut link = (WshURLShortcut)shell.CreateShortcut(path);
-                    Assert.IsTrue(link.TargetPath.Equals(target), "URL Shourtcut '{0}' target does not match expected. Actual: '{1}'. Expected: '{2}'.", path, link.TargetPath, target);
+                    Assert.True(link.TargetPath.Equals(target), String.Format("URL Shourtcut '{0}' target does not match expected. Actual: '{1}'. Expected: '{2}'.", path, link.TargetPath, target));
                 }
             }
             else
             {
-                Assert.Fail("File '{0}' was not found; it was expected to.", path);
+                Assert.True(false, String.Format("File '{0}' was not found; it was expected to.", path));
             }
         }
          #endregion

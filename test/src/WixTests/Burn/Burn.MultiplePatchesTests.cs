@@ -15,16 +15,15 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class MultiplePatchesTests: BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A, patch bundle B, then uninstalls bundle A.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_InstallUninstallPatchBundle()
         {
             const string patchVersion = "1.0.1.0";
@@ -57,8 +56,8 @@ namespace WixTest.Tests.Burn
             // Install the msi bundles.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
             // Test both packages are installed.
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB1)); 
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB1)); 
             
             
             // Install the patch bundle.
@@ -69,26 +68,26 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(patchVersion, actualVersion);
+                Assert.Equal(patchVersion, actualVersion);
 
                 actualVersion = root.GetValue("B") as string;
-                Assert.AreEqual(patchVersion, actualVersion);
+                Assert.Equal(patchVersion, actualVersion);
 
                 actualVersion = root.GetValue("B2") as string;
-                Assert.AreEqual(patchVersion, actualVersion);
+                Assert.Equal(patchVersion, actualVersion);
             }
 
             // Attempt to uninstall bundleA.
             installerA.Uninstall();
 
             // Test that uninstalling bundle A detected and would remove bundle B.
-            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(installerA.LastLogFile, @"Detected related bundle: \{[0-9A-Za-z\-]{36}\}, type: Patch, scope: PerMachine, version: 1\.0\.1\.0, operation: Remove"));
+            Assert.True(LogVerifier.MessageInLogFileRegex(installerA.LastLogFile, @"Detected related bundle: \{[0-9A-Za-z\-]{36}\}, type: Patch, scope: PerMachine, version: 1\.0\.1\.0, operation: Remove"));
 
             // Test both packages are uninstalled.
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA1));
-            Assert.IsNull(this.GetTestRegistryRoot());
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA1));
+            Assert.Null(this.GetTestRegistryRoot());
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace WixTest
             string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.DataFolder, String.Concat(this.Name, ".wxs")) : this.SourceFile;
             string rootDirectory = FileUtilities.GetUniqueFileName();
             string objDirectory = Path.Combine(rootDirectory, Settings.WixobjFolder);
-            string msiDirectory = Path.Combine(rootDirectory, Settings.MSIFolder);
+            string msiDirectory = Path.Combine(rootDirectory, Settings.MsiFolder);
             string package = Path.Combine(msiDirectory, String.Concat(this.Name, ".msi"));
 
             // Add the root directory to be cleaned up.

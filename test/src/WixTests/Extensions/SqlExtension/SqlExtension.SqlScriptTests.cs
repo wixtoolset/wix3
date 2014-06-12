@@ -13,23 +13,21 @@ namespace WixTest.Tests.Extensions.SqlExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// Sql extension SqlScript element tests
     /// </summary>
-    [TestClass]
     public class SqlScriptTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\SqlExtension\SqlScriptTests");
         private static readonly string SQLServerHostName = Environment.ExpandEnvironmentVariables("%SQLServerHostName%");
         private static readonly string SQLServerInstanceName = Environment.ExpandEnvironmentVariables("%SQLServerInstanceName%");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (SqlScript and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void SqlScript_VerifyMSITableData()
@@ -58,10 +56,10 @@ namespace WixTest.Tests.Extensions.SqlExtension
                 new TableRow(SqlScriptColumns.Sequence.ToString(), "1", false));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the msi installs and the database was created.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void SqlScript_Install()
         {
             string sourceFile = Path.Combine(SqlScriptTests.TestDataDirectory, @"product.wxs");
@@ -69,18 +67,18 @@ namespace WixTest.Tests.Extensions.SqlExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), "Database '{0}' was not created on Install", "BlankDB12");
-            Assert.IsTrue(SqlVerifier.TableExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12", "TestTable2"), "Table '{0}:{1}' was not created on Install", "BlankDB12", "TestTable2");
+            Assert.True(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), String.Format("Database '{0}' was not created on Install", "BlankDB12"));
+            Assert.True(SqlVerifier.TableExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12", "TestTable2"), String.Format("Table '{0}:{1}' was not created on Install", "BlankDB12", "TestTable2"));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), "Database '{0}' was not dropped on Uninstall", "BlankDB12");
+            Assert.False(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), String.Format("Database '{0}' was not dropped on Uninstall", "BlankDB12"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Rollback actions are executed correctelly when install fails.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void SqlScript_InstallFailure()
         {
             string sourceFile = Path.Combine(SqlScriptTests.TestDataDirectory, @"product_fail.wxs");
@@ -88,13 +86,13 @@ namespace WixTest.Tests.Extensions.SqlExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), "Database '{0}' was not dropped on Rollback", "BlankDB12");
+            Assert.False(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), String.Format("Database '{0}' was not dropped on Rollback", "BlankDB12"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the installtion fails, and created objects are droped if the SqlScript is invalid.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void SqlScript_InvalidSqlScript()
         {
             string sourceFile = Path.Combine(SqlScriptTests.TestDataDirectory, @"InvalidSqlScript.wxs");
@@ -102,10 +100,10 @@ namespace WixTest.Tests.Extensions.SqlExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
-            Assert.IsFalse(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), "Database '{0}' was not dropped on Rollback", "BlankDB12");
+            Assert.False(SqlVerifier.DatabaseExists(SqlScriptTests.SQLServerHostName, SqlScriptTests.SQLServerInstanceName, "BlankDB12"), String.Format("Database '{0}' was not dropped on Rollback", "BlankDB12"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the correct error message is displayed when the wrong attributes are defined.")]
         [Priority(3)]
         public void SqlScript_InvaildAttribute()
@@ -120,7 +118,7 @@ namespace WixTest.Tests.Extensions.SqlExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected error message is shown if the SqlScript element does not have a matching parent component element.")]
         [Priority(3)]
         public void SqlScript_MissingParentComponent()
@@ -133,7 +131,7 @@ namespace WixTest.Tests.Extensions.SqlExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected error message is shown if the SqlScript element defined the deprecated child element Binary.")]
         [Priority(3)]
         public void SqlScript_DeprecatedBinaryElement()

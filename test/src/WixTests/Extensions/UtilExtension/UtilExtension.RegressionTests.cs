@@ -14,22 +14,20 @@ namespace WixTest.Tests
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Sql extension tests
     /// </summary>
-    [TestClass]
     public class RegressionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\RegressionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that using util:ServiceConfig without the -out paramter does not cause a light error.")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1951034&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1951034&group_id=105970&atid=642714")]
         public void ValidServiceConfig()
         {
             Candle candle = new Candle();

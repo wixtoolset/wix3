@@ -13,154 +13,87 @@ namespace WixTest
     using System;
 
     /// <summary>
-    /// Contains settings such as default directories
+    /// Contains settings such as default directories.
     /// </summary>
     public static class Settings
     {
-
-        /// <summary>
-        /// The build flavor to run tests against
-        /// </summary>
-        private static string flavor = String.Empty;
-
-        /// <summary>
-        /// The default location for MSBuild
-        /// </summary>
-        private static string msBuildDirectory = String.Empty;
-
-        /// <summary>
-        /// The location of the wix.targets file
-        /// </summary>
-        private static string wixTargetsPath = String.Empty;
-
-        /// <summary>
-        /// The location of the WixTasks.dll file
-        /// </summary>
-        private static string wixTasksPath = String.Empty;
-
-        /// <summary>
-        /// The default location for the WiX tools
-        /// </summary>
-        private static string wixToolDirectory = String.Empty;
+        static Settings()
+        {
+            Settings.Flavor = String.Empty;
+            Settings.MSBuildDirectory = String.Empty;
+            Settings.WixTargetsPath = String.Empty;
+            Settings.WixTasksPath = String.Empty;
+            Settings.WixToolsDirectory = String.Empty;
+        }
 
         /// <summary>
         /// Folder for extracted files
         /// </summary>
-        public const string ExtractedFilesFolder = "extracted";
+        public static readonly string ExtractedFilesFolder = "extracted";
 
         /// <summary>
         /// Folder for .msi file types
         /// </summary>
-        public const string MSIFolder = "msis";
+        public static readonly string MsiFolder = "msis";
 
         /// <summary>
         /// Folder for .msm file types
         /// </summary>
-        public const string MSMFolder = "msms";
+        public static readonly string MsmFolder = "msms";
 
         /// <summary>
         /// Folder for .msp file types
         /// </summary>
-        public const string MSPFolder = "msps";
+        public static readonly string MspFolder = "msps";
 
         /// <summary>
         /// Folder for .mst file types
         /// </summary>
-        public const string MSTFolder = "msts";
+        public static readonly string MstFolder = "msts";
 
         /// <summary>
         /// Folder for .wixobj file types
         /// </summary>
-        public const string WixobjFolder = "wixobjs";
+        public static readonly string WixobjFolder = "wixobjs";
 
         /// <summary>
         /// Folder for .wixout file types
         /// </summary>
-        public const string WixoutFolder = "wixouts";
+        public static readonly string WixoutFolder = "wixouts";
 
         /// <summary>
-        /// The build flavor to run tests against
+        /// Gets the unique seed for the current test run.
         /// </summary>
-        public static string Flavor
-        {
-            get
-            {
-                return Settings.flavor;
-            }
-
-            set
-            {
-                Settings.flavor = value;
-            }
-        }
+        public static string Seed { get; internal set; }
 
         /// <summary>
-        /// The default location for MSBuild
+        /// The build flavor for test runs.
         /// </summary>
-        public static string MSBuildDirectory
-        {
-            get
-            {
-                return Settings.msBuildDirectory;
-            }
-
-            set
-            {
-                Settings.msBuildDirectory = value;
-            }
-        }
+        public static string Flavor {get; set; }
 
         /// <summary>
-        /// The location for the WiX build output
+        /// The default location for MSBuild.
         /// </summary>
-        public static string WixBuildDirectory { get; set; }
+        public static string MSBuildDirectory { get; internal set; }
 
         /// <summary>
-        /// The location of the wix.targets file
+        /// The location for the WiX build output.
         /// </summary>
-        public static string WixTargetsPath
-        {
-            get
-            {
-                return Settings.wixTargetsPath;
-            }
-
-            set
-            {
-                Settings.wixTargetsPath = value;
-            }
-        }
+        public static string WixBuildDirectory { get; internal set; }
 
         /// <summary>
-        /// The location of the WixTasks.dll file
+        /// The location of the wix.targets file.
         /// </summary>
-        public static string WixTasksPath
-        {
-            get
-            {
-                return Settings.wixTasksPath;
-            }
-
-            set
-            {
-                Settings.wixTasksPath = value;
-            }
-        }
+        public static string WixTargetsPath { get; internal set; }
 
         /// <summary>
-        /// The location for the WiX tools
+        /// The location of the WixTasks.dll file.
         /// </summary>
-        public static string WixToolDirectory
-        {
-            get
-            {
-                return Settings.wixToolDirectory;
-            }
+        public static string WixTasksPath { get; internal set; }
 
-            set
-            {
-                Settings.wixToolDirectory = value;
-            }
-        }
+        /// <summary>
+        /// The location for the WiX tools directory.
+        /// </summary>
+        public static string WixToolsDirectory { get; internal set; }
     }
 }

@@ -203,7 +203,7 @@ namespace WixTest.Burn.LayoutManager
         private void CopyEngineAndUxFiles()
         {
             // copy all of the Burn engine files
-            string srcBinDir = WixTest.Settings.WixToolDirectory;
+            string srcBinDir = WixTest.Settings.WixToolsDirectory;
             string srcBurnEngineFile = Path.Combine(srcBinDir, this.BurnstubExeFilename);
             string destBurnEngineFile = Path.Combine(this.LayoutFolder, this.BurnstubExeFilename);
             CopyFile(srcBurnEngineFile, destBurnEngineFile);

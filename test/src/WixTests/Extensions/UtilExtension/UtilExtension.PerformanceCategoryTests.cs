@@ -13,23 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-    
     using Microsoft.Win32;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension PerformanceCategory element tests
     /// </summary>
-    [TestClass]
     public class PerformanceCategoryTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\PerformanceCategoryTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (PerformanceCategory and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void PerformanceCategory_VerifyMSITableData()
@@ -56,10 +53,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 new TableRow(PerformanceCategoryColumns.ConstantData.ToString(), constantData));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Performance counter is created upon install.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PerformanceCategory_Install()
         {
             string sourceFile = Path.Combine(PerformanceCategoryTests.TestDataDirectory, @"product.wxs");
@@ -68,19 +65,19 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             string registryKey = @"system\currentcontrolset\services\InstrumentationDemo";
-            Assert.IsTrue(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not created on install.", registryKey);
+            Assert.True(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not created on install.", registryKey));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the file was removed
-            Assert.IsFalse(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not removed on uninstall.", registryKey);
+            Assert.False(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not removed on uninstall.", registryKey));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Performance counter is created upon install to a 64bit-specific folder.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void PerformanceCategory_Install_64bit()
         {
             string sourceFile = Path.Combine(PerformanceCategoryTests.TestDataDirectory, @"product_64.wxs");
@@ -89,18 +86,18 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             string registryKey = @"system\currentcontrolset\services\InstrumentationDemo";
-            Assert.IsTrue(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not created on install.", registryKey);
+            Assert.True(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not created on install.", registryKey));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the file was removed
-            Assert.IsFalse(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not removed on uninstall.", registryKey);
+            Assert.False(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not removed on uninstall.", registryKey));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Performance counter was removed upon rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PerformanceCategory_InstallFailure()
         {
             string sourceFile = Path.Combine(PerformanceCategoryTests.TestDataDirectory, @"product_fail.wxs");
@@ -111,7 +108,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string registryKey = @"system\currentcontrolset\services\InstrumentationDemo";
             
             // Verify that the file was not created
-            Assert.IsFalse(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not removed on Rollback.", registryKey);
+            Assert.False(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not removed on Rollback.", registryKey));
         }
     }
 }

@@ -14,17 +14,14 @@ namespace WixTest.Tests.Integration.BuildingPackages
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Smoke tests for Candle/Light Integration
     /// </summary>
-    [TestClass]
     public class SmokeTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("A small, typical case scenario for using Candle and Light")]
         [Priority(1)]
         public void Scenario01()
@@ -35,7 +32,7 @@ namespace WixTest.Tests.Integration.BuildingPackages
             Verifier.VerifyResults(Path.Combine(WixTests.SharedBaselinesDirectory, @"MSIs\BasicProduct.msi"), msi);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("A scenario for using Candle and Light that exercises several features")]
         [Priority(1)]
         public void Scenario02()

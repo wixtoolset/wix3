@@ -16,19 +16,16 @@ namespace WixTest.Tests.Tools.Light.BindPaths
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Test for setting bind paths
     /// </summary>
-    [TestClass]
     public class BindPathTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\BindPaths\BindPathTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light can use a bind path")]
         [Priority(1)]
         public void SimpleBindPath()
@@ -44,7 +41,7 @@ namespace WixTest.Tests.Tools.Light.BindPaths
             Verifier.VerifyResults(Path.Combine(BindPathTests.TestDataDirectory, @"SimpleBindPath\expected.msi"), light.OutputFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light can use named bind paths")]
         [Priority(1)]
         public void NamedBindPath()

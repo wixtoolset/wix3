@@ -11,18 +11,16 @@
 namespace WixTest.Tests.Tools.Candle.SuppressSchemaValidation
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles the SS switch.
     /// </summary>
-    [TestClass]
     public class SuppressSchemaValidationTests : WixTests
     {
         private static string testFile = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\SuppressSchemaValidationTests\Product.wxs");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can handle the SS switch and not validate the schema.")]
         [Priority(2)]
         public void SuppressSchemaValidation()
@@ -35,7 +33,7 @@ namespace WixTest.Tests.Tools.Candle.SuppressSchemaValidation
             candle.Run();
        }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle does schema validation when the SS switch is not specified.")]
         [Priority(2)]
         public void DoNotSuppressSchemaValidation()

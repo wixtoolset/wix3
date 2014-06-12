@@ -14,19 +14,16 @@ namespace WixTest.Tests.Tools.Lit.Input
 {
     using System;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     ///  Test how Lit handles different input files
     /// </summary>
-    [TestClass]
     public class InputTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Lit\Input\InputTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit accepts a single Windows Installer XML source (wxs) file as input")]
         [Priority(0)]
         public void SingleWixObjFile()
@@ -38,7 +35,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit accepts multiple Windows Installer XML object (.wix) files as input")]
         [Priority(0)]
         public void MultipleWixObjFiles()
@@ -50,7 +47,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
                
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can accept a WixObj file without the .wixobj extension as input")]
         [Priority(2)]
         public void NoWixObjExtension()
@@ -64,7 +61,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can accept a file with .foo as extension")]
         [Priority(2)]
         public void ValidFileWithUnknownExtension()
@@ -78,7 +75,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can handle invalid WixObj, a non wix text file with a wixobj extension")]
         [Priority(1)]
         public void InvalidWixObjFile()
@@ -90,7 +87,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can handle invalid WixObj, a non wix text file with a wixobj extension")]
         [Priority(1)]
         public void WildcardInput()
@@ -113,7 +110,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             Verifier.VerifyWixLibProperty(lit.OutputFile, "Property4", "Property4_Value");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can handle response file")]
         [Priority(3)]
         public void ResponseFile()
@@ -127,7 +124,7 @@ namespace WixTest.Tests.Tools.Lit.Input
             Verifier.VerifyWixLibLocString(lit.OutputFile, "en-us", "String1", "String1(en-us)");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can handle empty wixobj file")]
         [Priority(3)]
         public void EmptyWixObjFile()

@@ -18,10 +18,9 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class ForwardCompatibleTests : BurnTests
     {
         const string V2 = "2.0.0.0";
@@ -37,10 +36,10 @@ namespace WixTest.Tests.Burn
         private BundleBuilder bundleC;
         private BundleBuilder bundleCv2;
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v2 of a bundle then does a passthrough install and uninstall of v1 with parent.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatibleInstallV1UninstallV1()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleA");
@@ -55,41 +54,41 @@ namespace WixTest.Tests.Burn
 
             // Install the v2 bundle.
             BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
 
             // Install the v1 bundle with a parent which should passthrough to v2.
             BundleInstaller installerAv1 = new BundleInstaller(this, bundleA).Install(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v1 bundle with the same parent which should passthrough to v2 and remove parent.
             installerAv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent));
+            Assert.False(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v2 bundle and all should be removed.
             installerAv2.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v2 of a bundle then does a passthrough install v1 with parent then uninstall of v2.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatibleInstallV1UninstallV2()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleA");
@@ -104,42 +103,42 @@ namespace WixTest.Tests.Burn
 
             // Install the v2 bundle.
             BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
 
             // Install the v1 bundle with a parent which should passthrough to v2.
             BundleInstaller installerAv1 = new BundleInstaller(this, bundleA).Install(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v2 bundle.
             installerAv2.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v1 bundle with passthrough and all should be removed.
             installerAv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v1 of a bundle with a parent then upgrades it then uninstalls without parent then actually uninstalls with parent.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatibleMajorUpgrade()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleA");
@@ -155,46 +154,46 @@ namespace WixTest.Tests.Burn
 
             // Install the v1 bundle with a parent.
             BundleInstaller installerAv1 = new BundleInstaller(this, bundleA).Install(arguments: parentSwitch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Upgrade with the v2 bundle.
             BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v2 bundle and nothing should happen because there is still a parent.
             installerAv2.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v1 bundle with passthrough and all should be removed.
             installerAv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v1 of a bundle with two parents then upgrades it then uninstalls twice to actually uninstall.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatibleParentTwiceMajorUpgrade()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleA");
@@ -212,64 +211,64 @@ namespace WixTest.Tests.Burn
 
             // Install the v1 bundle with a parent.
             BundleInstaller installerAv1 = new BundleInstaller(this, bundleA).Install(arguments: parentSwitch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Install the v1 bundle with a second parent.
             installerAv1.Install(arguments: parent2Switch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Upgrade with the v2 bundle.
             BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v2 bundle and nothing should happen because there is still a parent.
             installerAv2.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall one parent of the v1 bundle and nothing should happen because there is still a parent.
             installerAv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent2));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent2));
 
             // Uninstall the v1 bundle with passthrough with second parent and all should be removed.
             installerAv1.Uninstall(arguments: parent2Switch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v1 of a bundle with two parents then upgrades it with a third parent then uninstalls thrice to actually uninstall.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatibleParentThriceMajorUpgrade()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleA");
@@ -289,74 +288,74 @@ namespace WixTest.Tests.Burn
 
             // Install the v1 bundle with a parent.
             BundleInstaller installerAv1 = new BundleInstaller(this, bundleA).Install(arguments: parentSwitch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent2));
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent3));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
+            Assert.False(this.DependencyDependentExists(providerId, parent2));
+            Assert.False(this.DependencyDependentExists(providerId, parent3));
 
             // Install the v1 bundle with a second parent.
             installerAv1.Install(arguments: parent2Switch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent2));
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent3));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent2));
+            Assert.False(this.DependencyDependentExists(providerId, parent3));
 
             // Upgrade with the v2 bundle.
             BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install(arguments: parent3Switch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent2));
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent3));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent2));
+            Assert.True(this.DependencyDependentExists(providerId, parent3));
 
             // Uninstall the v2 bundle and nothing should happen because there are still two other parents.
             installerAv2.Uninstall(arguments: parent3Switch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent2));
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent3));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent2));
+            Assert.False(this.DependencyDependentExists(providerId, parent3));
 
             // Uninstall one parent of the v1 bundle and nothing should happen because there is still a parent.
             installerAv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent));
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent2));
-            Assert.IsFalse(this.DependencyDependentExists(providerId, parent3));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.False(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.DependencyDependentExists(providerId, parent2));
+            Assert.False(this.DependencyDependentExists(providerId, parent3));
 
             // Uninstall the v1 bundle with passthrough with second parent and all should be removed.
             installerAv1.Uninstall(arguments: parent2Switch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v1 of a per-user bundle with two parents then upgrades it then uninstalls twice to actually uninstall.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatiblePerUserParentTwiceMajorUpgrade()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleC");
@@ -374,64 +373,64 @@ namespace WixTest.Tests.Burn
 
             // Install the v1 bundle with a parent.
             BundleInstaller installerCv1 = new BundleInstaller(this, bundleC).Install(arguments: parentSwitch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageC));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageCv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageCv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Install the v1 bundle with a second parent.
             installerCv1.Install(arguments: parent2Switch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageC));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageCv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageCv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Upgrade with the v2 bundle.
             BundleInstaller installerCv2 = new BundleInstaller(this, bundleCv2).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageC));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageCv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageCv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v2 bundle and nothing should happen because there is still a parent.
             installerCv2.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageC));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageCv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageCv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall one parent of the v1 bundle and nothing should happen because there is still a parent.
             installerCv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageC));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageCv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageCv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent2));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent2));
 
             // Uninstall the v1 bundle with passthrough with second parent and all should be removed.
             installerCv1.Uninstall(arguments: parent2Switch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageC));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageCv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageCv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs v1 of a bundle with a parent then upgrades with parent:none then successfully uninstalls with A's parent.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ForwardCompatibleMajorUpgradeParentNone()
         {
             string providerId = String.Concat("~", this.TestContext.TestName, "_BundleA");
@@ -447,31 +446,31 @@ namespace WixTest.Tests.Burn
 
             // Install the v1 bundle with a parent.
             BundleInstaller installerAv1 = new BundleInstaller(this, bundleA).Install(arguments: parentSwitch);
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
             string actualProviderVersion;
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual("1.0.0.0", actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal("1.0.0.0", actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Upgrade with the v2 bundle but prevent self parent being registered.
             BundleInstaller installerAv2 = new BundleInstaller(this, bundleAv2).Install(arguments: "-parent:none");
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsTrue(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
-            Assert.AreEqual(V2, actualProviderVersion);
-            Assert.IsTrue(this.DependencyDependentExists(providerId, parent));
+            Assert.True(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.Equal(V2, actualProviderVersion);
+            Assert.True(this.DependencyDependentExists(providerId, parent));
 
             // Uninstall the v1 bundle with passthrough and all should be removed.
             installerAv1.Uninstall(arguments: parentSwitch);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageAv2));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageAv2));
 
-            Assert.IsFalse(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
+            Assert.False(this.TryGetDependencyProviderValue(providerId, "Version", out actualProviderVersion));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
         private PackageBuilder GetPackageA()

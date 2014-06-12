@@ -14,7 +14,7 @@ namespace WixTest.Tests
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Base class for builders.
@@ -89,7 +89,7 @@ namespace WixTest.Tests
         public T Build()
         {
             T t = this.BuildItem();
-            Assert.IsFalse(String.IsNullOrEmpty(t.Output), "A builder must specify its output.");
+            Assert.False(String.IsNullOrEmpty(t.Output), "A builder must specify its output.");
 
             if (!t.NeverGetsInstalled)
             {

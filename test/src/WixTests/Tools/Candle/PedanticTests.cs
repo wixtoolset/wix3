@@ -11,18 +11,16 @@
 namespace WixTest.Tests.Tools.Candle.Pedantic
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles the Pedantic switch.
     /// </summary>
-    [TestClass]
     public class PedanticTests : WixTests
     {
         private static readonly string TestFile = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\PedanticTests\Product.wxs");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle honors the pedantic switch when specified.")]
         [Priority(2)]
         public void PedanticSwitch()
@@ -37,7 +35,7 @@ namespace WixTest.Tests.Tools.Candle.Pedantic
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle does not print pedantic messages when Pedantic switch is not specified.")]
         [Priority(2)]
         public void NoPedanticSwitch()

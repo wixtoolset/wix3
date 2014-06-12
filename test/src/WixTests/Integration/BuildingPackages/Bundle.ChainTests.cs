@@ -15,25 +15,22 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System;
     using System.Collections.Generic;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for Bundle Chain element
     /// </summary>
-    [TestClass]
     public class ChainTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\ChainTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify output of a Chain element with 1 Package child elements")]
         [Priority(2)]
         public void ChainPackageChild()
         {
             string sourceFile = Path.Combine(ChainTests.TestDataDirectory, @"ChainPackageChild\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -45,13 +42,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             PackageTests.VerifyExePackageInformation(outputDirectory, "ExePackage.exe", "ExePackage", null, false, false, string.Empty, string.Empty, string.Empty, null, BundleTests.ExePackageFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify output of a Chain element with 1 PackageGroupRef child elements")]
         [Priority(2)]
         public void ChainPackageGroupRefChild()
         {
             string sourceFile = Path.Combine(ChainTests.TestDataDirectory, @"ChainPackageGroupRefChild\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -63,15 +60,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             PackageTests.VerifyExePackageInformation(outputDirectory, "ExePackage.exe", "ExePackage", null, false, false, string.Empty, string.Empty, string.Empty, null, BundleTests.ExePackageFile);
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("50 Package child elements.")]
         [Priority(3)]
-        [Ignore]
         public void ChainMultiplePackageChildren()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if two sibling Packages are the same Id")]
         [Priority(3)]
         public void ChainDuplicatePackages()
@@ -87,7 +83,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if two sibling PackageGroups contain the same Id")]
         [Priority(3)]
         public void ChainDuplicatePackageInPackageGroups()
@@ -104,7 +100,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if two sibling PackageGroupRefs reference the same PackageGroup")]
         [Priority(3)]
         public void ChainDuplicatePackageGroupRefs()

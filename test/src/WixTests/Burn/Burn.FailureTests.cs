@@ -18,16 +18,15 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class FailureTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Cancels Package B very, very early.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_CancelVeryEarly()
         {
             // Build the packages.
@@ -47,16 +46,16 @@ namespace WixTest.Tests.Burn
 
             // Install the bundle and hopefully it fails.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install(expectedExitCode: ErrorCodes.ERROR_INSTALL_USEREXIT);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Cancels Package B very, very late.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_CancelVeryLate()
         {
             // Build the packages.
@@ -76,16 +75,16 @@ namespace WixTest.Tests.Burn
 
             // Install the bundle and hopefully it fails.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install(expectedExitCode: ErrorCodes.ERROR_INSTALL_USEREXIT);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Cancels Package A being executed while Package B still being cached.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_CancelExecuteWhileCaching()
         {
             // Build the packages.
@@ -106,16 +105,16 @@ namespace WixTest.Tests.Burn
 
             // Install the bundle and hopefully it fails.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install(expectedExitCode: ErrorCodes.ERROR_INSTALL_USEREXIT);
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle C with missing non-vital package successfully.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MissingNonVitalPackage()
         {
             // Build the packages.
@@ -135,16 +134,16 @@ namespace WixTest.Tests.Burn
 
             // Install the bundle.
             BundleInstaller installerC = new BundleInstaller(this, bundleC).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(LogVerifier.MessageInLogFileRegex(installerC.LastLogFile, "Skipping apply of package: PackageA due to cache error: 0x80070002. Continuing..."));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(LogVerifier.MessageInLogFileRegex(installerC.LastLogFile, "Skipping apply of package: PackageA due to cache error: 0x80070002. Continuing..."));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
             // Uninstall bundle.
             installerC.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
     }

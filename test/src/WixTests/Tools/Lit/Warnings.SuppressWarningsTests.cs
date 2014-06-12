@@ -14,17 +14,14 @@ namespace WixTest.Tests.Tools.Lit.Warnings
 {
     using System;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Lit handles the suppress warning switch.
     /// </summary>
-    [TestClass]
     public class SuppressWarningsTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit honors the sw switch when specified.")]
         [Priority(2)]
         public void SuppressSpecificWarnings()
@@ -36,7 +33,7 @@ namespace WixTest.Tests.Tools.Lit.Warnings
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit does not suppress warnings when the sw switch is not specified.")]
         [Priority(2)]
         public void NoSuppressWarningsSwitch()
@@ -48,7 +45,7 @@ namespace WixTest.Tests.Tools.Lit.Warnings
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that all warnings are suppressed with the sw switch.")]
         [Priority(2)]
         public void SuppressAllWarningsSwitch()
@@ -60,7 +57,7 @@ namespace WixTest.Tests.Tools.Lit.Warnings
             lit.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit honors the swall switch when specified and displays that the switch is deprecated.")]
         [Priority(2)]
         public void VerifyDeprecatedSwitch()

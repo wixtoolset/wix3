@@ -15,13 +15,11 @@ namespace WixTest.Tests.Burn
     using System;
     using System.Collections.Generic;
     using System.IO;
-
     using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
     using WixTest.Verifiers;
+    using Xunit;
 
-    [TestClass]
     public class SlipstreamTests : BurnTests
     {
         private const string V101 = "1.0.1.0";
@@ -37,10 +35,10 @@ namespace WixTest.Tests.Burn
         private BundleBuilder bundleAReverse;
         private BundleBuilder bundleB;
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream then removes it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamInstallUninstall()
         {
             const string patchedVersion = V101;
@@ -50,25 +48,25 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             install.Uninstall();
 
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream then installs a bundle with only the patch then patch only and slipstream should stay.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamInstallReferenceCountUninstall()
         {
             const string patchedVersion = V101;
@@ -81,48 +79,48 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Install the bundle with only the patch. This is basically a no-op.
             BundleInstaller installPatch = new BundleInstaller(this, bundlePatchA).Install();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Uninstall the bundle with only the patch. This should also basically be a no-op.
             installPatch.Uninstall();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Finally uninstall the original bundle and that should clean everything off.
             install.Uninstall();
 
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream then repairs it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamRepair()
         {
             const string patchedVersion = V101;
@@ -131,11 +129,11 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Delete the installed file and registry key.
@@ -151,23 +149,23 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload repaired at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload repaired at: ", packageSourceCodeInstalled));
 
             // Clean up.
             install.Uninstall();
 
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream patch chained before the MSI then repairs.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamReverseRepair()
         {
             const string patchedVersion = V101;
@@ -178,11 +176,11 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion, "Patch A should not have been installed.");
+                Assert.True(patchedVersion == actualVersion, "Patch A should not have been installed.");
             }
 
             // Repair the bundle and send the patch along for the ride.
@@ -194,25 +192,25 @@ namespace WixTest.Tests.Burn
 
             install.Repair();
 
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload *still* installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload *still* installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion, "Patch A should have been installed during the repair.");
+                Assert.True(patchedVersion.Equals(actualVersion), "Patch A should have been installed during the repair.");
             }
 
             install.Uninstall(); // uninstall just to make sure no error occur removing the package without the patch.
 
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with package then installs bundle with slipstream forcing repair.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamRepairOnlyPatch()
         {
             const string unpatchedVersion = "1.0.0.0";
@@ -227,11 +225,11 @@ namespace WixTest.Tests.Burn
 
             // Verify the package is installed correctly.
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(unpatchedVersion, actualVersion);
+                Assert.Equal(unpatchedVersion, actualVersion);
             }
 
             // Delete the installed file and registry key so we have something to repair.
@@ -247,11 +245,11 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Clean up.
@@ -260,25 +258,25 @@ namespace WixTest.Tests.Burn
             install.Uninstall();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(unpatchedVersion, actualVersion);
+                Assert.Equal(unpatchedVersion, actualVersion);
             }
 
             installOnlyPackage.Uninstall();
 
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with package then installs bundle with slipstream before the package forcing repair.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamReverseRepairOnlyPatch()
         {
             const string unpatchedVersion = "1.0.0.0";
@@ -293,11 +291,11 @@ namespace WixTest.Tests.Burn
 
             // Verify the package is installed correctly.
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(unpatchedVersion, actualVersion);
+                Assert.Equal(unpatchedVersion, actualVersion);
             }
 
             // Delete the installed file and registry key so we have something to repair.
@@ -313,11 +311,11 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Clean up.
@@ -326,25 +324,25 @@ namespace WixTest.Tests.Burn
             install.Uninstall();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(unpatchedVersion, actualVersion);
+                Assert.Equal(unpatchedVersion, actualVersion);
             }
 
             installOnlyPackage.Uninstall();
 
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Package A payload should have been removed by uninstall from: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream then removes it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamRemovePatchAlone()
         {
             const string patchedVersion = V101;
@@ -353,33 +351,33 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Remove only the slipstream patch and ensure the version is back to default.
             this.SetPackageRequestedState("patchA", RequestState.Absent);
             install.Modify();
 
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload *still* installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload *still* installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual("1.0.0.0", actualVersion, "Patch A should have been removed and so the registry key would go back to default version.");
+                Assert.True("1.0.0.0".Equals(actualVersion), "Patch A should have been removed and so the registry key would go back to default version.");
             }
 
             install.Uninstall(); // uninstall just to make sure no error occur removing the package without the patch.
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstreamed package A and package B then removes both package A and patch A at same time.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamRemovePackageAndPatch()
         {
             const string patchedVersion = V101;
@@ -389,15 +387,15 @@ namespace WixTest.Tests.Burn
             BundleInstaller install = new BundleInstaller(this, bundleB).Install();
 
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package A payload installed at: ", packageSourceCodeInstalled));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"B\B.wxs");
-            Assert.IsTrue(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package B payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(File.Exists(packageSourceCodeInstalled), String.Concat("Should have found Package B payload installed at: ", packageSourceCodeInstalled));
 
             // Remove package A and its patch should go with it.
             this.SetPackageRequestedState("packageA", RequestState.Absent);
@@ -408,22 +406,22 @@ namespace WixTest.Tests.Burn
             this.ResetPackageStates("patchA");
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("After modify, should *not* have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("After modify, should *not* have found Package A payload installed at: ", packageSourceCodeInstalled));
 
             // Remove.
             install.Uninstall();
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"B\B.wxs");
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("After uninstall bundle, should *not* have found Package B payload installed at: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("After uninstall bundle, should *not* have found Package B payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstreamed package A and package B and trigger error rollback.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_SlipstreamFailureRollback()
         {
             // Create a folder with same name as the file to be installed in package B, this will trigger error in B and rollback A
@@ -439,22 +437,22 @@ namespace WixTest.Tests.Burn
 
             // Nothing should exist after the rollback
             string packageSourceCodeInstalled = this.GetTestInstallFolder(@"A\A.wxs");
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Should NOT have found Package A payload installed at: ", packageSourceCodeInstalled));
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Should NOT have found Package A payload installed at: ", packageSourceCodeInstalled));
 
             packageSourceCodeInstalled = this.GetTestInstallFolder(@"B\B.wxs");
-            Assert.IsFalse(File.Exists(packageSourceCodeInstalled), String.Concat("Should NOT have found Package B payload installed at: ", packageSourceCodeInstalled));
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should NOT exist after rollback.");
+            Assert.False(File.Exists(packageSourceCodeInstalled), String.Concat("Should NOT have found Package B payload installed at: ", packageSourceCodeInstalled));
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should NOT exist after rollback.");
             
             // Delete the directory
             Directory.Delete(errorTriggeringFolder);
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle using automatic slipstreaming then removes it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_AutomaticSlipstreamInstallUninstall()
         {
             const string originalVersion = "1.0.0.0";
@@ -482,30 +480,30 @@ namespace WixTest.Tests.Burn
             {
                 // Product A should've slipstreamed both patches.
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
 
                 // Product B should've only slipstreamed patch B.
                 actualVersion = root.GetValue("B") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
 
                 actualVersion = root.GetValue("B2") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             install.Uninstall();
 
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with package that is doing a major upgrade and has a patch slipstreamed to it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_MajorUpgradeWithSlipstream()
         {
             const string originalVersion = "1.0.0.0";
@@ -528,31 +526,31 @@ namespace WixTest.Tests.Burn
             // Install the original MSI.
             MSIExec.InstallProduct(originalPackageA, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(originalPackageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(originalPackageA));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 // Original Product A should be present.
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             // Now install the bundle that should upgrade the MSI and apply the patch.
             BundleInstaller install = new BundleInstaller(this, bundleA).Install();
 
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(originalPackageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(upgradePackageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(originalPackageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(upgradePackageA));
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 // Product A should've slipstreamed with its patch.
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             install.Uninstall();
 
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
         private PackageBuilder GetPackageA()

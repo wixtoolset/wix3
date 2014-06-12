@@ -16,18 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle FileSearch element
     /// </summary>
-    [TestClass]
     public class FileSearchTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\FileSearchTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("FileSearch Variable is required.")]
         [Priority(3)]
         public void FileSearchVariableMissing()
@@ -40,7 +38,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("FileSearch Path is required.")]
         [Priority(3)]
         public void FileSearchPathMissing()
@@ -53,10 +51,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("FileSearch @Path contains an invalid  Path.")]
         [Priority(3)]
-        [TestProperty("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2980327&group_id=105970&atid=642714")]
+        [Trait("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2980327&group_id=105970&atid=642714")]
         public void FileSearchInvalidPath()
         {
             string sourceFile = Path.Combine(FileSearchTests.TestDataDirectory, @"FileSearchInvalidPath\Product.wxs");
@@ -69,10 +67,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("FileSearch @Variable should not be a predefined variable.")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2980329&group_id=105970")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2980329&group_id=105970")]
         public void FileSearchPredefinedVariable()
         {
             string expectedErrorMessage = @"The util:FileSearch/@Variable attribute's value, 'AdminToolsFolder', is one of the illegal options: 'AdminToolsFolder', 'AppDataFolder', 'CommonAppDataFolder', 'CommonFilesFolder', 'CompatibilityMode', 'DesktopFolder', 'FavoritesFolder', 'FontsFolder', 'LocalAppDataFolder', 'MyPicturesFolder', 'NTProductType', 'NTSuiteBackOffice', 'NTSuiteDataCenter', 'NTSuiteEnterprise', 'NTSuitePersonal', 'NTSuiteSmallBusiness', 'NTSuiteSmallBusinessRestricted', 'NTSuiteWebServer', 'PersonalFolder', 'Privileged', 'ProgramFilesFolder', 'ProgramMenuFolder', 'SendToFolder', 'StartMenuFolder', 'StartupFolder', 'SystemFolder', 'TempFolder', 'TemplateFolder', 'VersionMsi', 'VersionNT', 'VersionNT64', 'WindowsFolder', or 'WindowsVolume'.";
@@ -86,7 +84,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("FileSearch @Result contains invalid value (something other than Exists)")]
         [Priority(3)]
         public void FileSearchInvalidResultValue()
@@ -99,7 +97,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cannot have dupplicate FileSearch with the same id.")]
         [Priority(3)]
         public void DuplicateFileSearch()
@@ -118,7 +116,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a missing search.")]
         [Priority(3)]
         public void FileSearchAfterUndefinedSearch()
@@ -135,7 +133,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a search after this search.")]
         [Priority(3)]
         public void FileSearchRecursiveAfter()
@@ -153,13 +151,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Valid FileSearch.")]
         [Priority(2)]
         public void ValidFileSearch()
         {
             string sourceFile = Path.Combine(FileSearchTests.TestDataDirectory, @"ValidFileSearch\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile, new string[] { "WixUtilExtension" });
@@ -187,7 +185,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
         {
             string burnManifestXPath = string.Format(@"//burn:FileSearch[@Id='{0}']", expectedId);
             XmlNodeList burnManifestNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXPath);
-            Assert.AreEqual(1, burnManifestNodes.Count, "No FileSearch with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId);
+            Assert.True(1 == burnManifestNodes.Count, String.Format("No FileSearch with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId));
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Path", expectedPath);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Variable", expectedVariableName);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Type", expectedResult);

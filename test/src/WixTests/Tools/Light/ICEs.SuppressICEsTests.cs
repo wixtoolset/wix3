@@ -16,19 +16,16 @@ namespace WixTest.Tests.Tools.Light.ICEs
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for suppressing ICEs
     /// </summary>
-    [TestClass]
     public class SuppressICEsTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\ICEs\SuppressICEsTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an ICE can be suppressed")]
         [Priority(1)]
         public void SimpleSuppressICE()

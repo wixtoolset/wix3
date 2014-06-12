@@ -17,19 +17,17 @@ namespace WixTest.Tests.Wixproj
     using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for Wix projects
     /// </summary>
-    [TestClass]
     public class WixprojTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Wixproj\WixprojTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple MSI gets built")]
         [Priority(2)]
         public void SimpleInstaller()
@@ -41,10 +39,10 @@ namespace WixTest.Tests.Wixproj
             wixproj.Run();
 
             string expectedMSI = Path.Combine(wixproj.OutputPath, "WixProject.msi");
-            Assert.IsTrue(File.Exists(expectedMSI), "Could not find the expected output file {0}", expectedMSI);
+            Assert.True(File.Exists(expectedMSI), String.Format("Could not find the expected output file {0}", expectedMSI));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the proper parameters get passed to the tasks when building an MSI")]
         [Priority(1)]
         public void InstallerWithParameters()
@@ -73,7 +71,7 @@ namespace WixTest.Tests.Wixproj
             wixproj.AssertTaskSubstring("Light", "-v");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the wixproj references are imported correctly")]
         [Priority(1)]
         public void WixprojWithReferences()
@@ -83,10 +81,10 @@ namespace WixTest.Tests.Wixproj
             wixproj.Run();
 
             string expectedMSI = Path.Combine(wixproj.OutputPath, "WixProject.msi");
-            Assert.IsTrue(File.Exists(expectedMSI), "Could not find the expected output file {0}", expectedMSI);
+            Assert.True(File.Exists(expectedMSI), String.Format("Could not find the expected output file {0}", expectedMSI));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple MSM gets built")]
         [Priority(2)]
         public void SimpleMergeModule()
@@ -97,10 +95,10 @@ namespace WixTest.Tests.Wixproj
             wixproj.Run();
 
             string expectedMSM = Path.Combine(wixproj.OutputPath, "WixProject.msm");
-            Assert.IsTrue(File.Exists(expectedMSM), "Could not find the expected output file {0}", expectedMSM);
+            Assert.True(File.Exists(expectedMSM), String.Format("Could not find the expected output file {0}", expectedMSM));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the proper parameters get passed to the tasks when building an MSI")]
         [Priority(2)]
         public void MergeModuleWithParameters()
@@ -118,7 +116,7 @@ namespace WixTest.Tests.Wixproj
             wixproj.AssertTaskSubstring("Light", "-dWixVar2=2");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple Wixlib gets built")]
         [Priority(2)]
         public void SimpleLibrary()
@@ -128,10 +126,10 @@ namespace WixTest.Tests.Wixproj
             wixproj.Run();
 
             string expectedWixlib = Path.Combine(wixproj.OutputPath, "WixProject.wixlib");
-            Assert.IsTrue(File.Exists(expectedWixlib), "Could not find the expected output file {0}", expectedWixlib);
+            Assert.True(File.Exists(expectedWixlib), String.Format("Could not find the expected output file {0}", expectedWixlib));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the proper parameters get passed to the tasks when building a Wixlib")]
         [Priority(2)]
         public void LibraryWithParameters()

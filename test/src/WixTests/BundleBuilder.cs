@@ -35,7 +35,7 @@ namespace WixTest.Tests
         protected override BundleBuilder BuildItem()
         {
             // Create paths.
-            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.test.TestDataDirectory2, String.Concat(this.Name, ".wxs")) : this.SourceFile;
+            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.test.TestContext.TestDataDirectory, String.Concat(this.Name, ".wxs")) : this.SourceFile;
             string rootDirectory = FileUtilities.GetUniqueFileName();
             string objDirectory = Path.Combine(rootDirectory, Settings.WixobjFolder);
             string exeDirectory = Path.Combine(rootDirectory, "Bundles");
@@ -52,7 +52,7 @@ namespace WixTest.Tests
             candle.OutputFile = String.Concat(objDirectory, @"\");
             candle.SourceFiles.Add(source);
             candle.SourceFiles.AddRange(this.AdditionalSourceFiles);
-            candle.WorkingDirectory = this.test.TestDataDirectory2;
+            candle.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             candle.Run();
 
             // Make sure the output directory is cleaned up.
@@ -66,7 +66,7 @@ namespace WixTest.Tests
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = bundle;
             light.SuppressMSIAndMSMValidation = true;
-            light.WorkingDirectory = this.test.TestDataDirectory2;
+            light.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             light.Run();
 
             // Make sure the output directory is cleaned up.

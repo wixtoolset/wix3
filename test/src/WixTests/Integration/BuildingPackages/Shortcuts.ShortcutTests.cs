@@ -15,19 +15,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Shortcuts
     using System;
     using System.IO;
     using System.Text;
-
     using WixTest;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Tests for shortcuts
     /// </summary>
-    [TestClass]
     public class ShortcutTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Shortcuts\ShortcutTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple shortcut can be created")]
         [Priority(1)]
         public void SimpleShortcut()

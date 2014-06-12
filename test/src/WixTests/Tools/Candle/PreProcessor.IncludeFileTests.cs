@@ -14,18 +14,17 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
     using System.IO;
     using System.Text;
     using System.Xml;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
     
     /// <summary>
     /// Test how Candle handles preprocessing include files.
     /// </summary>
-    [TestClass]
     public class IncludeFileTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\PreProcessor\IncludeFileTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can search a specified absolute path for include files.")]
         [Priority(2)]
         public void SearchIncludeFilesWithAbsolutePath()
@@ -44,7 +43,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty1", "foo");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can search a specified relative path for include files.")]
         [Priority(2)]
         public void SearchIncludeFilesWithRelativePath()
@@ -64,7 +63,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty1", "foo");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can handle the case where the include file is missing.")]
         [Priority(2)]
         public void MissingIncludeFiles()
@@ -74,7 +73,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
 
             if (File.Exists(nonExistentWxiFile))
             {
-                Assert.Inconclusive("Test cannot continue as Include file {0} exists", nonExistentWxiFile);
+                Assert.True(false, String.Format("Test cannot continue as Include file {0} exists", nonExistentWxiFile));
             }
 
             string testFile = Path.Combine(IncludeFileTests.TestDataDirectory, @"SearchIncludeFiles\Product.wxs");
@@ -87,7 +86,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess multiple include files included in the wxs file.")]
         [Priority(2)]
         public void MultipleIncludeFiles()
@@ -101,7 +100,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(outputFile, "MyProperty3", "baz");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess nested include files included in the wxs file.")]
         [Priority(2)]
         public void NestedIncludeFiles()
@@ -111,7 +110,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(outputFile, "MyProperty1", "foo");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess include files that contain environment variables.")]
         [Priority(2)]
         public void IncludeFilesWithEnvVariables()

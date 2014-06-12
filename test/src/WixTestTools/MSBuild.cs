@@ -14,7 +14,7 @@ namespace WixTest
     using System.Collections.Generic;
     using System.IO;
     using System.Text.RegularExpressions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// A class that wraps MSBuild.
@@ -196,7 +196,7 @@ namespace WixTest
             }
 
             // Assert that the substring is contained in the task output
-            Assert.IsTrue(containsSubstring, "The substring '{0}' is not contained in the {1} task's output '{2}'", substring, task, taskOutput);
+            Assert.True(containsSubstring, String.Format("The substring '{0}' is not contained in the {1} task's output '{2}'", substring, task, taskOutput));
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace WixTest
             }
 
             // Assert that the substring is contained in the task output
-            Assert.IsFalse(containsSubstring, "The substring '{0}' is contained in the {1} task's output '{2}'", substring, task, taskOutput);
+            Assert.False(containsSubstring, String.Format("The substring '{0}' is contained in the {1} task's output '{2}'", substring, task, taskOutput));
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace WixTest
             string taskOutput = match.Groups["taskOutput"].Value;
 
             // Assert that the task is contained in the build output
-            Assert.IsTrue(match.Success, "The task '{0}' is not contained in the WixprojMSBuild's output '{1}'", task, this.Result.StandardOutput);
+            Assert.True(match.Success, String.Format("The task '{0}' is not contained in the WixprojMSBuild's output '{1}'", task, this.Result.StandardOutput));
         }
 
         /// <summary>

@@ -34,10 +34,10 @@ namespace WixTest.Tests
         protected override PackageBuilder BuildItem()
         {
             // Create paths.
-            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.test.TestDataDirectory2, String.Concat(this.Name, ".wxs")) : this.SourceFile;
+            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.test.TestContext.TestDataDirectory, String.Concat(this.Name, ".wxs")) : this.SourceFile;
             string rootDirectory = FileUtilities.GetUniqueFileName();
             string objDirectory = Path.Combine(rootDirectory, Settings.WixobjFolder);
-            string msiDirectory = Path.Combine(rootDirectory, Settings.MSIFolder);
+            string msiDirectory = Path.Combine(rootDirectory, Settings.MsiFolder);
             string package = Path.Combine(msiDirectory, String.Concat(this.Name, ".msi"));
 
             // Add the root directory to be cleaned up.
@@ -51,7 +51,7 @@ namespace WixTest.Tests
             candle.OutputFile = String.Concat(objDirectory, @"\");
             candle.SourceFiles.Add(source);
             candle.SourceFiles.AddRange(this.AdditionalSourceFiles);
-            candle.WorkingDirectory = this.test.TestDataDirectory2;
+            candle.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             candle.Run();
 
             // Make sure the output directory is cleaned up.
@@ -60,12 +60,12 @@ namespace WixTest.Tests
             // Link.
             Light light = new Light();
             light.Extensions.AddRange(this.Extensions);
-            light.OtherArguments = String.Concat("-b data=", Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\"));
+            light.OtherArguments = String.Concat("-b data=", this.test.TestContext.DataDirectory);
             this.BindPaths.ToList().ForEach(kv => light.OtherArguments = String.Concat(light.OtherArguments, " -b ", kv.Key, "=", kv.Value));
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = package;
             light.SuppressMSIAndMSMValidation = true;
-            light.WorkingDirectory = this.test.TestDataDirectory2;
+            light.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             light.Run();
 
             // Make sure the output directory is cleaned up.

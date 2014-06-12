@@ -15,19 +15,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Conditions
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for conditions as they apply to Components
     /// </summary>
-    [TestClass]
     public class ComponentConditionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Conditions\ComponentConditionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a condition for a component can be specified")]
         [Priority(1)]
         public void SimpleCondition()

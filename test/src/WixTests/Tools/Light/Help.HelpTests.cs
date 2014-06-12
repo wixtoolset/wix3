@@ -16,19 +16,16 @@ namespace WixTest.Tests.Tools.Light.Help
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Test that the help is printed correctly
     /// </summary>
-    [TestClass]
     public class HelpTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\Help\HelpTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light help text is printed correctly")]
         [Priority(2)]
         public void Help()

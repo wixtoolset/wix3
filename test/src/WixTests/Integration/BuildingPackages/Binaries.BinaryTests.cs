@@ -15,19 +15,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Binaries
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for embedded binaries
     /// </summary>
-    [TestClass]
     public class BinaryTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Binaries\BinaryTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that binary data can be embedded in an MSI")]
         [Priority(1)]
         public void SimpleBinary()
@@ -45,7 +42,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Binaries
             dark.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a large file 512M(512,000,000 bytes) can be embedded in an MSI")]
         [Priority(2)]
         public void LargeBinary()
@@ -68,7 +65,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Binaries
             File.Delete(filename);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a 0 byte file can be embedded in an MSI")]
         [Priority(3)]
         public void SmallBinary()

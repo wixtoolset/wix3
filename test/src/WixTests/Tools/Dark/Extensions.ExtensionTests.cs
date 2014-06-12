@@ -12,16 +12,14 @@ namespace WixTest.Tests.Tools.Dark.Extensions
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Dark handles the -ext switch.
     /// </summary>
-    [TestClass]
     public class ExtensionTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark generates the correct error for a missing extension after -ext switch.")]
         [Priority(2)]
         public void MissingExtension()
@@ -34,7 +32,7 @@ namespace WixTest.Tests.Tools.Dark.Extensions
             dark.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark generates the correct error for an invalid extension file after -ext switch.")]
         [Priority(2)]
         public void InvalidExtension()

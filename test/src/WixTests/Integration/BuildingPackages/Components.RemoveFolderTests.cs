@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for the CreateFolder 
     /// </summary>
-    [TestClass]
     public class RemoveFolderTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\RemoveFolderTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple use of the RemoveFolder element adds the correct entry to the RemoveFile table")]
         [Priority(1)]
         public void SimpleRemoveFolder()
@@ -36,7 +33,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest.BuildMsiTest(Path.Combine(RemoveFolderTests.TestDataDirectory, @"SimpleRemoveFolder\product.wxs"), Path.Combine(RemoveFolderTests.TestDataDirectory, @"SimpleRemoveFolder\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that multiple duplicate RemoveFolder elements cannot exist as children of Component")]
         [Priority(1)]
         public void DuplicateRemoveFolders()
@@ -51,7 +48,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Directory attribute is used with the Property attribute")]
         [Priority(1)]
         public void DirectoryAttributeWithPropertyAttribute()

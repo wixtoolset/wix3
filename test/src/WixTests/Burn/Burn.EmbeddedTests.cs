@@ -15,16 +15,15 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class EmbeddedTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A which installs bundle B as an embedded bundle, then removes A, which removes B.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_InstallUninstall()
         {
             string v2Version = "2.0.0.0";
@@ -49,23 +48,23 @@ namespace WixTest.Tests.Burn
 
             // Install the parent bundle that will install the embedded bundle.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageC));
 
             // Attempt to uninstall bundleA, which will uninstall bundleB since it is a patch related bundle.
             installerA.Uninstall();
 
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageC));
 
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle Bv1, then installs BundleA which installs bundle Bv2 as an embedded bundle which does a major upgrade of Bv1.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_InstallUninstallMajorUpgrade()
         {
             string v2Version = "2.0.0.0";
@@ -93,20 +92,20 @@ namespace WixTest.Tests.Burn
 
             // Install Bv1
             BundleInstaller installerBv1 = new BundleInstaller(this, bundleBv1).Install();
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
             // Install the bundle containing the upgraded embedded bundle.
             BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageB));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageC));
 
             // Attempt to uninstall bundleA, which will uninstall bundleBv2 since it is a patch related bundle.
             installerA.Uninstall();
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsFalse(MsiVerifier.IsPackageInstalled(packageC));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.False(MsiVerifier.IsPackageInstalled(packageC));
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
     }
 }

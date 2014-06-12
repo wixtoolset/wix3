@@ -16,17 +16,14 @@ namespace WixTest.Tests.Tools.Light.Messages
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for verbose output
     /// </summary>
-    [TestClass]
     public class VerboseTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light prints verbose output")]
         [Priority(1)]
         public void SimpleVerbose()

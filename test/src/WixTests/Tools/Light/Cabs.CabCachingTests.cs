@@ -16,22 +16,19 @@ namespace WixTest.Tests.Tools.Light.Cabs
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for cab caching
     /// </summary>
-    [TestClass]
     public class CabCachingTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\Cabs\CabCachingTests");
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignored because of a bug")]
         [Description("Verify that Light can bind files into a wixout")]
         [Priority(1)]
-        [Ignore] // Bug
         public void SimpleCabCaching()
         {
             Candle candle = new Candle();
@@ -44,10 +41,10 @@ namespace WixTest.Tests.Tools.Light.Cabs
             light.Run();
 
             string cachedCab = Path.Combine(light.CachedCabsPath, "product.cab");
-            Assert.IsTrue(File.Exists(cachedCab), "The cabinet file was not cached in {0}", cachedCab);
+            Assert.True(File.Exists(cachedCab), String.Format("The cabinet file was not cached in {0}", cachedCab));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that passing an existing file path instead of a directory path as a cab cache path results in the expected error message")]
         [Priority(2)]
         public void InvalidCabCache()

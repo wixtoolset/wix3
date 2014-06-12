@@ -16,18 +16,17 @@ namespace WixTest.Tests.Burn
     using System.IO;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Tools.WindowsInstallerXml;
     using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class PolicyTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle A using default settings, changes the package cache, and installs bundle B.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_RedirectPackageCache()
         {
             const string PolicyName = "PackageCache";
@@ -56,15 +55,15 @@ namespace WixTest.Tests.Burn
                 policy.DeleteValue(PolicyName);
 
                 BundleInstaller installerA = new BundleInstaller(this, bundleA).Install();
-                Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
+                Assert.True(MsiVerifier.IsPackageInstalled(packageA));
 
                 // Install the second bundle which has a shared package using the redirected package cache.
                 string path = Path.Combine(Path.GetTempPath(), "Package Cache");
                 policy.SetValue(PolicyName, path);
 
                 BundleInstaller installerB = new BundleInstaller(this, bundleB).Install();
-                Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-                Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+                Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+                Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
                 // The first bundle should leave package A behind.
                 installerA.Uninstall();
@@ -72,7 +71,7 @@ namespace WixTest.Tests.Burn
                 // Now make sure that the second bundle removes packages from either cache directory.
                 installerB.Uninstall();
 
-                this.CleanTestArtifacts = true;
+                this.Complete();
             }
             finally
             {

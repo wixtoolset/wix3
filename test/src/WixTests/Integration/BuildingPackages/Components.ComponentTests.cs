@@ -16,19 +16,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for Components
     /// </summary>
-    [TestClass]
     public class ComponentTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\ComponentTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple Component can be defined and that the expected default values are set")]
         [Priority(1)]
         public void SimpleComponent()
@@ -38,7 +36,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyResults(Path.Combine(ComponentTests.TestDataDirectory, @"SimpleComponent\expected.msi"), msi, "Component");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Components/ComponentGroups can be referenced and that ComponentGroups can be nested")]
         [Priority(1)]
         public void ComponentRefsAndGroups()
@@ -48,7 +46,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyResults(Path.Combine(ComponentTests.TestDataDirectory, @"ComponentRefsAndGroups\expected.msi"), msi, "Component", "Directory", "FeatureComponents");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a floating component can be defined. The component ties itself to a Directory and a Feature through its attributes.")]
         [Priority(1)]
         public void FloatingComponent()
@@ -61,7 +59,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "WixTestFolder");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if a floating component references an undefined directory")]
         [Priority(3)]
         public void InvalidFloatingComponent()
@@ -77,7 +75,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that circular references are detected amongst ComponentRefs and ComponentGroupRefs")]
         [Priority(2)]
         public void CircularReferences()
@@ -94,7 +92,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error for an invalid component Id")]
         [Priority(2)]
         public void InvalidId()
@@ -107,7 +105,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component's GUID can be set to an empty string to make it an unmanaged component")]
         [Priority(2)]
         public void UnmanagedComponent()
@@ -119,7 +117,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, null);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error for a component without a GUID")]
         [Priority(2)]
         public void MissingComponentGuid()
@@ -132,7 +130,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component's resources are tied to the component's DiskId")]
         [Priority(2)]
         public void DiskIdInheritance()
@@ -145,7 +143,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error for an invalid component GUID")]
         [Priority(3)]
         public void InvalidComponentGuid()
@@ -158,7 +156,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component's resources are tied to the component's DiskId unless DiskId is explicitly set on a resource")]
         [Priority(2)]
         public void DiskIdInheritanceOverride()
@@ -171,7 +169,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component's directory can be set as the keypath")]
         [Priority(2)]
         public void ComponentKeyPath()
@@ -182,7 +180,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "0");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be shared")]
         [Priority(2)]
         public void Shared()
@@ -193,7 +191,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "2048");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be marked as 64 bit")]
         [Priority(2)]
         public void Win64()
@@ -204,7 +202,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "256");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Win64 attribute overrides the command line -platforms/arch switch. All scenarios should be verified.")]
         [Priority(2)]
         public void Win64Override()
@@ -215,10 +213,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyResults(Path.Combine(ComponentTests.TestDataDirectory, @"Win64Component\expected.msi"), msi_32bit, "Component");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that generated GUIDs for components take into account the bitness (32-bit vs 64-bit)")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1833513&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1833513&group_id=105970&atid=642714")]
         public void Win64ComponentGeneratedGUID()
         {
             string testDirectory = Path.Combine(ComponentTests.TestDataDirectory, "Win64ComponentGeneratedGUID");
@@ -229,10 +227,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             string query = "SELECT `ComponentId` FROM `Component` WHERE `Component` = 'Component1'";
             string component_32bit_GUID = Verifier.Query(msi_32bit, query);
             string component_64bit_GUID = Verifier.Query(msi_64bit, query);
-            Assert.AreNotEqual(component_32bit_GUID, component_64bit_GUID);
+            Assert.NotEqual(component_32bit_GUID, component_64bit_GUID);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the component GUID is set to PUT-GUID-HERE")]
         [Priority(3)]
         public void PutGuidHere()
@@ -245,7 +243,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a floating component's directory can be set as the keypath")]
         [Priority(3)]
         public void FloatingComponentKeyPath()
@@ -256,7 +254,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "Component1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if a component is tied to an undefined feature")]
         [Priority(3)]
         public void InvalidComponentFeature()
@@ -273,7 +271,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be tied to a feature by using the Feature attribute and tied to another feature through a ComponentRef")]
         [Priority(3)]
         public void ComponentFeatureAndReferenced()
@@ -286,7 +284,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query2, "test");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the component is set as the keypath and it contains a resource that is set as a keypath")]
         [Priority(3)]
         public void TwoKeyPaths()
@@ -300,7 +298,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that registry reflection can be disabled")]
         [Priority(3)]
         public void DisableRegistryReflection()
@@ -311,7 +309,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "512");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the run location of a component can be set to local, source or either")]
         [Priority(3)]
         public void Location()
@@ -326,7 +324,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query3, "2");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the component run location is not set to local, source or either")]
         [Priority(3)]
         public void InvalidLocation()
@@ -340,7 +338,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be set to never be overwritten")]
         [Priority(3)]
         public void NeverOverwrite()
@@ -351,7 +349,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "128");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be set be permanent (never uninstalled)")]
         [Priority(3)]
         public void Permanent()
@@ -362,10 +360,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "16");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be set be permanent and unmanaged (no GUID)")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2987553&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2987553&group_id=105970&atid=642714")]
         public void PermanentUnmanagedComponent()
         {
             //there is a error when set be permanent and unmanaged (no GUID)
@@ -381,10 +379,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an unmanaged component cannot be marked as shared")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2987094&group_id=105970")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2987094&group_id=105970")]
         public void UnmanagedSharedComponent()
         {
             Candle candle = new Candle();
@@ -394,7 +392,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the component's key file is marked to have its reference count incremented")]
         [Priority(3)]
         public void SharedDllRefCount()
@@ -404,12 +402,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             string query = "SELECT `Attributes` FROM `Component` WHERE `Component` = 'test'";
             Verifier.VerifyQuery(msi, query, "8");
         }
-        
-        [TestMethod]
+
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that there is an error if the component's key file is not a DLL but the SharedDllRefCount attribute is set to 'yes'")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2987594&group_id=105970&atid=642714")]
-        [Ignore]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2987594&group_id=105970&atid=642714")]
         public void InvalidSharedDllRefCount()
         {
             //no erroe come up
@@ -419,7 +416,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "8");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be marked as Transitive")]
         [Priority(3)]
         public void Transitive()
@@ -430,7 +427,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             Verifier.VerifyQuery(msi, query, "64");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a component can be marked to be uninstall when it is superseded")]
         [Priority(3)]
         public void UninstallWhenSuperseded()

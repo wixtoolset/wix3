@@ -16,10 +16,8 @@ namespace WixTest.Tests.Integration.BuildingPackages.Permissions
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using DTF = Microsoft.Deployment.WindowsInstaller;
     using WixTest;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using DTF = Microsoft.Deployment.WindowsInstaller;
 
     /// <summary>
     /// Tests for PermissionEx (setting ACLs on File, Registry, CreateFolder
@@ -27,12 +25,11 @@ namespace WixTest.Tests.Integration.BuildingPackages.Permissions
     /// <remarks>
     /// PermissionEx is new in Windows Installer 5.0
     /// </remarks>
-    [TestClass]
     public class PermissionExTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Permissions\PermissionExTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify PermissionEx can be used on Files")]
         [Priority(2)]
         public void FilePermissionEx()
@@ -54,7 +51,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Permissions
             Verifier.VerifyResults(Path.Combine(PermissionExTests.TestDataDirectory, @"FilePermissionEx\expected.msi"), light.OutputFile, "MsiLockPermissionsEx");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify PermissionEx can be used on Registry")]
         [Priority(2)]
         public void RegistryPermissionEx()
@@ -76,7 +73,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Permissions
             Verifier.VerifyResults(Path.Combine(PermissionExTests.TestDataDirectory, @"RegistryPermissionEx\expected.msi"), light.OutputFile, "MsiLockPermissionsEx");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify PermissionEx can be used on CreateFolder")]
         [Priority(2)]
         public void CreateFolderPermissionEx()
@@ -98,7 +95,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Permissions
             Verifier.VerifyResults(Path.Combine(PermissionExTests.TestDataDirectory, @"CreateFolderPermissionEx\expected.msi"), light.OutputFile, "MsiLockPermissionsEx");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify PermissionEx can be used twice on one File")]
         [Priority(2)]
         public void PermissionExTwiceOnOneFile()

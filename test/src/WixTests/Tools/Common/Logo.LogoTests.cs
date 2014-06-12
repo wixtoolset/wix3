@@ -16,21 +16,21 @@ namespace WixTest.Tests.Tools.Common.Logo
     using System.IO;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Test how different Wix tools handle the NoLogo switch.
     /// </summary>
-    [TestClass]
     public class LogoTests : WixTests
     {
         private static readonly string LogoOutputRegexString = @"Microsoft \(R\) Windows Installer Xml {0} version 3\.6\.\d\d\d\d.0" + Environment.NewLine + @"Copyright \(C\) Microsoft Corporation\. All rights reserved\.";
         private List<WixTool> wixTools;
         
-        [TestInitialize]
-        public void TestInitialize()
+        protected override void TestInitialize()
         {
+            base.TestInitialize();
+
             wixTools = new List<WixTool>();
             wixTools.Add(new Candle());
             wixTools.Add(new Dark());
@@ -41,7 +41,7 @@ namespace WixTest.Tests.Tools.Common.Logo
             wixTools.Add(new Torch());
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that different Wix tools print the Logo information.")]
         [Priority(2)]
         public void PrintLogo()
@@ -55,7 +55,7 @@ namespace WixTest.Tests.Tools.Common.Logo
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that different Wix tools do not print the Logo information.")]
         [Priority(2)]
         public void PrintWithoutLogo()
@@ -79,11 +79,11 @@ namespace WixTest.Tests.Tools.Common.Logo
                 }
             }
 
-            Assert.IsFalse(missingLogo, errorMessage);
+            Assert.False(missingLogo, errorMessage);
         }
 
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that logo is printed before any other warnings/messages.")]
         [Priority(2)]
         public void LogoPrintingOrder()
@@ -106,7 +106,7 @@ namespace WixTest.Tests.Tools.Common.Logo
                 }
             }
 
-            Assert.IsFalse(missingLogo, errorMessage);
+            Assert.False(missingLogo, errorMessage);
         }
     }
 }
