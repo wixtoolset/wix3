@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:3838 - Since the compiler coerces null values to empty strings, check for those in ColumnDefinition.
+
 * FireGiant: WIXBUG:4319 - Support full range of ExePackage exit code values.
 
 * BobArnson: WIXBUG:4442 - Add missing tables.
