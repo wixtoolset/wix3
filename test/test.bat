@@ -62,7 +62,7 @@ if not "!COMMAND!"=="" (
         if not "!EXITCODE!"=="0" set EXITCODE=%ERRORLEVEL%
     )
 ) else (
-    call msbuild "%~dp0\test.proj" /p:Configuration=%FLAVOR%
+    call msbuild "%~dp0\test\All.testproj" /p:Configuration=%FLAVOR%
     if not "!EXITCODE!"=="0" set EXITCODE=%ERRORLEVEL%
 )
 
