@@ -1,3 +1,4 @@
+* jchoover: WIXFEAT:4190 - Added support for self updating bundles.
 ## WixBuild: Version 3.9.616.0
 
 * HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.

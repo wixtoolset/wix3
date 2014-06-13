@@ -54,7 +54,7 @@ enum BOOTSTRAPPER_ERROR_TYPE
     BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_SERVER,   // error occurred trying to authenticate with HTTP server.
     BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_PROXY,    // error occurred trying to authenticate with HTTP proxy.
     BOOTSTRAPPER_ERROR_TYPE_APPLY,              // error occurred during apply.
-    BOOTSTRAPPER_ERROR_TYPE_UPDATE,             // error occurred during updating.
+// {?}    BOOTSTRAPPER_ERROR_TYPE_UPDATE,             // error occurred during updating.
 };
 
 
@@ -198,13 +198,13 @@ DECLARE_INTERFACE_IID_(IBootstrapperApplication, IUnknown, "53C31D56-49C0-426B-A
     //
     //  IDNOACTION instructs the engine to process further update candidates.
     STDMETHOD_(int, OnDetectUpdate)(
-        __in_z LPCWSTR wzUpdateLocation,
+        __in_z_opt LPCWSTR wzUpdateLocation,
         __in DWORD64 dw64Size,
         __in DWORD64 dw64Version,
-        __in_z LPCWSTR wzTitle,
-        __in_z LPCWSTR wzSummary,
-        __in_z LPCWSTR wzContentType,
-        __in_z LPCWSTR wzContent,
+        __in_z_opt LPCWSTR wzTitle,
+        __in_z_opt LPCWSTR wzSummary,
+        __in_z_opt LPCWSTR wzContentType,
+        __in_z_opt LPCWSTR wzContent,
         __in int nRecommendation
         ) = 0;
 

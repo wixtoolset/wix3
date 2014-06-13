@@ -334,7 +334,6 @@ static HRESULT DownloadUpdateFeed(
     DETECT_AUTHENTICATION_REQUIRED_DATA authenticationData = {};
     LPWSTR sczUpdateId = NULL;
     LPWSTR sczDestinationPath = NULL;
-    DWORD dwFileAttributes = 0;
     LPWSTR sczError = NULL;
     DWORD64 qwDownloadSize = 0;
 
@@ -345,20 +344,6 @@ static HRESULT DownloadUpdateFeed(
     // Do we need a means of the BA to pass in a username and password? If so, we should copy it to downloadSource here
     hr = StrAllocString(&downloadSource.sczUrl, pUpdate->sczUpdateSource, 0);
     ExitOnFailure(hr, "Failed to copy update url.");
-
-
-    // If the destination file already exists, clear the readonly bit to avoid E_ACCESSDENIED.
-    if (FileExistsEx(sczDestinationPath, &dwFileAttributes))
-    {
-        if (FILE_ATTRIBUTE_READONLY & dwFileAttributes)
-        {
-            dwFileAttributes &= ~FILE_ATTRIBUTE_READONLY;
-            if (!::SetFileAttributesW(sczDestinationPath, dwFileAttributes))
-            {
-                ExitWithLastError1(hr, "Failed to clear readonly bit on payload destination path: %ls", sczDestinationPath);
-            }
-        }
-    }
 
     cacheCallback.pfnProgress = NULL; //UpdateProgressRoutine;
     cacheCallback.pfnCancel = NULL; // TODO: set this
@@ -427,13 +412,16 @@ static HRESULT DetectAtomFeedUpdate(
         {
             APPLICATION_UPDATE_ENTRY* pAppUpdateEntry = &pApupChain->rgEntries[i];
 
-            nResult = pUX->pUserExperience->OnDetectUpdate(pAppUpdateEntry->rgEnclosures->wzUrl, pAppUpdateEntry->rgEnclosures->dw64Size, pAppUpdateEntry->dw64Version, pAppUpdateEntry->wzTitle,
+            nResult = pUX->pUserExperience->OnDetectUpdate(pAppUpdateEntry->rgEnclosures ? pAppUpdateEntry->rgEnclosures->wzUrl : NULL, 
+                pAppUpdateEntry->rgEnclosures ? pAppUpdateEntry->rgEnclosures->dw64Size : 0, 
+                pAppUpdateEntry->dw64Version, pAppUpdateEntry->wzTitle,
                 pAppUpdateEntry->wzSummary, pAppUpdateEntry->wzContentType, pAppUpdateEntry->wzContent, IDNOACTION);
             hr = UserExperienceInterpretResult(pUX, MB_OKCANCEL, nResult);
             ExitOnRootFailure(hr, "UX aborted detect update begin.");
 
             if (IDOK == nResult)
             {
+                pUpdate->fUpdateAvailable = TRUE;
                 break;
             }
         }
