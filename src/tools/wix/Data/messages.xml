@@ -2007,7 +2007,7 @@
                 <Parameter Type="System.String" Name="version" />
             </Instance>
             <Instance>
-                Invalid product version '{0}' in package '{1}'. Products in a bundle must have a major version less than 256, a minor version less than 256, a build version less than 65536, and a revision less than 65536.
+                Invalid product version '{0}' in package '{1}'. When included in a bundle, all product version fields in an MSI package must be less than 65536.
                 <Parameter Type="System.String" Name="version" />
                 <Parameter Type="System.String" Name="packagePath" />
             </Instance>
