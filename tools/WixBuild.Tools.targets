@@ -482,4 +482,9 @@
     </ItemGroup>
   </Target>
 
+  <!-- Sentinel value that indicates WixBuild.Tools.Targets has been initialized. -->
+  <PropertyGroup>
+    <WixBuildToolsTargetsDefined>true</WixBuildToolsTargetsDefined>
+  </PropertyGroup>
+
 </Project>

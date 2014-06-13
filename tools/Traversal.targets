@@ -8,8 +8,8 @@
   </copyright>
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <Import Project="WixBuild.props" />
-  <Import Project="WixBuild.Tools.targets"/>
+  <Import Project="WixBuild.props" Condition=" '$(WixBuildPropertiesDefined)'!='true' " />
+  <Import Project="WixBuild.Tools.targets" Condition=" '$(WixBuildToolsTargetsDefined)'!='true' " />
 
   <PropertyGroup>
     <BuildInParallel Condition="'$(BuildInParallel)' == ''">true</BuildInParallel>
