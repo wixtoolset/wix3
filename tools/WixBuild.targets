@@ -11,7 +11,7 @@
 
   <Import Project="WixBuild.props" Condition=" '$(WixBuildPropertiesDefined)'!='true' " />
   <Import Project="WixBuild$(MSBuildProjectExtension).targets" Condition=" Exists('WixBuild$(MSBuildProjectExtension).targets') " />
-  <Import Project="WixBuild.Tools.targets" />
+  <Import Project="WixBuild.Tools.targets" Condition=" '$(WixBuildToolsTargetsDefined)'!='true' " />
   <Import Project="WixBuild.VisualStudioSdk.targets" Condition=" '$(TargetVisualStudio)'!='' " />
 
   <!-- Add the CleanVersionFiles to common clean dependencies. -->
