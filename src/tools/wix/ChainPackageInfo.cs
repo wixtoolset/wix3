@@ -604,6 +604,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     this.Language = ChainPackageInfo.GetProperty(db, "ProductLanguage");
                     this.Version = ChainPackageInfo.GetProperty(db, "ProductVersion");
 
+                    if (!Common.IsValidModuleOrBundleVersion(this.Version))
+                    {
+                        core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                    }
+
                     if (String.IsNullOrEmpty(this.CacheId))
                     {
                         this.CacheId = String.Format("{0}v{1}", this.ProductCode, this.Version);

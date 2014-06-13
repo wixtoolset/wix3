@@ -316,6 +316,26 @@ namespace Microsoft.Tools.WindowsInstallerXml
         }
 
         /// <summary>
+        /// Verifies the given string is a valid module or bundle version.
+        /// </summary>
+        /// <param name="version">The version to verify.</param>
+        /// <returns>True if version is a valid module or bundle version.</returns>
+        public static bool IsValidModuleOrBundleVersion(string version)
+        {
+            if (!Common.IsValidBinderVariable(version))
+            {
+                Version ver = new Version(version);
+
+                if (65535 < ver.Major || 65535 < ver.Minor || 65535 < ver.Build || 65535 < ver.Revision)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Generate a new Windows Installer-friendly guid.
         /// </summary>
         /// <returns>A new guid.</returns>
