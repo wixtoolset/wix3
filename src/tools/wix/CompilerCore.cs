@@ -629,17 +629,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <returns>True if version is a valid module or bundle version.</returns>
         public static bool IsValidModuleOrBundleVersion(string version)
         {
-            if (!Common.IsValidBinderVariable(version))
-            {
-                Version ver = new Version(version);
-
-                if (65535 < ver.Major || 65535 < ver.Minor || 65535 < ver.Build || 65535 < ver.Revision)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return Common.IsValidModuleOrBundleVersion(version);
         }
 
         /// <summary>
