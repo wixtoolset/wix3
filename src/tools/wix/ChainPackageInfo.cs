@@ -1101,7 +1101,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // Determine target ProductCodes and/or UpgradeCodes.
             foreach (XmlNode node in doc.SelectNodes("/p:MsiPatch/p:TargetProduct", nsmgr))
             {
-                // If this patch targes a product code, this is the best case.
+                // If this patch targets a product code, this is the best case.
                 XmlNode targetCode = node.SelectSingleNode("p:TargetProductCode", nsmgr);
                 WixBundlePatchTargetCodeAttributes attributes = WixBundlePatchTargetCodeAttributes.None;
 
@@ -1116,7 +1116,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         attributes = WixBundlePatchTargetCodeAttributes.TargetsUpgradeCode;
                     }
-                    else // this patch targets a unknown number of products
+                    else // this patch targets an unknown number of products
                     {
                         this.TargetUnspecified = true;
                     }

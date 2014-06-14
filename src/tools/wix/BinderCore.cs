@@ -88,7 +88,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <exception cref="ArgumentNullException"><paramref name="name"> is null or an empty string.</exception>
         public T GetProperty<T>(string name, T defaultValue = default(T))
         {
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
             }
@@ -137,7 +137,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <exception cref="ArgumentNullException"><paramref name="name"> is null or an empty string.</exception>
         internal void SetProperty<T>(string name, T value)
         {
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
             }

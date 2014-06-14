@@ -152,7 +152,7 @@ extern "C" HRESULT MspEngineDetectInitialize(
 
     // Loop through possible target products, testing the collective patch applicability against each product in
     // the appropriate context. Store the result with the appropriate patch package.
-    for (UINT iSearch = 0; iSearch < cPossibleTargetProducts; ++iSearch)
+    for (DWORD iSearch = 0; iSearch < cPossibleTargetProducts; ++iSearch)
     {
         const POSSIBLE_TARGETPRODUCT* pPossibleTargetProduct = rgPossibleTargetProducts + iSearch;
 
@@ -785,7 +785,7 @@ static HRESULT AddPossibleTargetProduct(
             hr = S_OK;
         }
 
-        (*prgPossibleTargetProducts)[*pcPossibleTargetProducts].context = context;
+        pPossibleTargetProduct->context = context;
 
         ++(*pcPossibleTargetProducts);
     }
