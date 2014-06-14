@@ -2514,6 +2514,7 @@
       SuppressLayout="$(SuppressLayout)"
       SuppressLocalization="$(SuppressLocalization)"
       SuppressMsiAssemblyTableProcessing="$(SuppressMsiAssemblyTableProcessing)"
+      SuppressPatchSequenceData="$(SuppressPatchSequenceData)"
       SuppressPdbOutput="$(SuppressPdbOutput)"
       SuppressSchemaValidation="$(LinkerSuppressSchemaValidation)"
       SuppressValidation="$(SuppressValidation)"

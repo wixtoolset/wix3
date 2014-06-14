@@ -161,6 +161,11 @@ namespace WixTest
         private bool suppressMSIAndMSMValidation;
 
         /// <summary>
+        /// -spsd
+        /// </summary>
+        private bool suppressPatchSequenceData;
+
+        /// <summary>
         /// -sma
         /// </summary>
         private bool suppressProcessingMSIAsmTable;
@@ -397,6 +402,12 @@ namespace WixTest
                 if (this.SuppressLayout)
                 {
                     arguments.Append(" -sl");
+                }
+
+                // SuppressPatchSequenceData
+                if (this.SuppressPatchSequenceData)
+                {
+                    arguments.Append(" -spsd");
                 }
 
                 // SuppressMSIAndMSMValidation
@@ -725,6 +736,15 @@ namespace WixTest
         }
 
         /// <summary>
+        /// -spsd
+        /// </summary>
+        public bool SuppressPatchSequenceData
+        {
+            get { return this.suppressPatchSequenceData; }
+            set { this.suppressPatchSequenceData = value; }
+        }
+
+        /// <summary>
         /// -sma
         /// </summary>
         public bool SuppressProcessingMSIAsmTable
@@ -866,6 +886,7 @@ namespace WixTest
             this.SuppressFileInfo = false;
             this.SuppressIntermediateFileVersionCheck = false;
             this.SuppressLayout = false;
+            this.SuppressPatchSequenceData = false;
             this.SuppressMSIAndMSMValidation = false;
             this.SuppressProcessingMSIAsmTable = false;
             this.SuppressSchemaValidation = false;

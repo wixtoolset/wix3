@@ -93,6 +93,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
         // as outlined in RFC 4122, this is our namespace for generating name-based (version 3) UUIDs
         private static readonly Guid WixComponentGuidNamespace = new Guid("{3064E5C6-FB63-4FE9-AC49-E446A792EFA5}");
 
+        internal static readonly string PARAM_SPSD_NAME = "SuppressPatchSequenceData";
+
         // The following constants must stay in sync with src\burn\engine\core.h
         private const string BURN_BUNDLE_NAME = "WixBundleName";
         private const string BURN_BUNDLE_ORIGINAL_SOURCE = "WixBundleOriginalSource";
@@ -114,6 +116,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private bool suppressFileHashAndInfo;
         private StringCollection suppressICEs;
         private bool suppressLayout;
+        private bool suppressPatchSequenceData;
         private bool suppressWixPdb;
         private bool suppressValidation;
 
@@ -477,6 +480,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         this.suppressWixPdb = true;
                     }
+                    else if (parameter.Equals("spsd", StringComparison.Ordinal))
+                    {
+                        this.suppressPatchSequenceData = true;
+                    }
                     else if (parameter.Equals("sval", StringComparison.Ordinal))
                     {
                         this.suppressValidation = true;
@@ -579,6 +586,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             this.core = new BinderCore(this.MessageHandler);
             this.FileManager.MessageHandler = this.core;
+
+            // Add properties we need to pass to other classes.
+            if (this.suppressPatchSequenceData)
+            {
+                // Avoid unnecessary boxing if false.
+                this.core.SetProperty(Binder.PARAM_SPSD_NAME, true);
+            }
 
             foreach (BinderExtension extension in this.extensions)
             {

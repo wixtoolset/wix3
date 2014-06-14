@@ -95,7 +95,7 @@ namespace WixTest.Tests.Burn
             bindPaths.Add("patchA", patchA);
             bindPaths.Add("patchA2", patchA2);
 
-            string bundlePatch = new BundleBuilder(this, "PatchBundleA2") { BindPaths = bindPaths, Extensions = WixTests.Extensions }.Build().Output;
+            string bundlePatch = new BundleBuilder(this, "PatchBundleA2") { BindPaths = bindPaths, Extensions = WixTests.Extensions, SuppressPatchSequenceData = true }.Build().Output;
 
             // Install the original MSI and ensure the registry keys that get patched are as expected.
             MSIExec.InstallProduct(packageA, MSIExec.MSIExecReturnCode.SUCCESS);
