@@ -21,7 +21,7 @@
       <Component Id="Component1" Guid="00030829-0000-0000-C000-000000000046" DiskId="1">
         <File Source="$(env.WIX_ROOT)\test\data\SharedData\Files\TextFile1.txt" KeyPath="yes"/>
 
-        <util:User Id="CurrentUser" Name="[LogonUser]" Domain="[%USERDOMAIN]" Vital="no">
+        <util:User Id="CurrentUser" Name="[LogonUser]" Domain="[%USERDOMAIN]" RemoveOnUninstall="no" Vital="no">
           <util:GroupRef Id="ShouldNotExist" />
         </util:User>
 

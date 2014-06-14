@@ -253,7 +253,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"NonVitalUserGroup.wxs");
             string msiFile = Builder.BuildPackage(sourceFile, "test.msi", "WixUtilExtension");
 
-            string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
+            MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
     }
 }
