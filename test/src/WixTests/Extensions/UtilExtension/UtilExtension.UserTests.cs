@@ -243,5 +243,17 @@ namespace WixTest.Tests.Extensions.UtilExtension
             Assert.True(LogVerifier.MessageInLogFile(logFile, string.Format("ConfigureUsers:  Error 0x80070035: Failed to check existence of domain: {0}, user: testName1",Environment.GetEnvironmentVariable("tempdomain"))) ||
                 LogVerifier.MessageInLogFile(logFile, "CreateUser:  Error 0x80070005: failed to create user: testName1"), String.Format("Could not find CreateUser error message in log file: '{0}'.", logFile));
         }
+
+        [NamedFact]
+        [Description("Verify that adding a user to a non-existent group does not fail the install when non-vital.")]
+        [Priority(2)]
+        [RuntimeTest]
+        public void User_NonVitalUserGroup()
+        {
+            string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"NonVitalUserGroup.wxs");
+            string msiFile = Builder.BuildPackage(sourceFile, "test.msi", "WixUtilExtension");
+
+            string logFile = MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
+        }
     }
 }
