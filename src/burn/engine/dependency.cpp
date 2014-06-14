@@ -900,10 +900,13 @@ static void CalculateDependencyActionStates(
                 switch (pPackage->currentState)
                 {
                 case BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE:
-                    if (PackageProviderExists(pPackage))
+                    if (!PackageProviderExists(pPackage))
                     {
-                        *pDependencyExecuteAction = BURN_DEPENDENCY_ACTION_REGISTER;
+                        break;
                     }
+                    __fallthrough;
+                case BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED:
+                    *pDependencyExecuteAction = BURN_DEPENDENCY_ACTION_REGISTER;
                     break;
                 }
                 break;

@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.
+
 * BobArnson: WIXBUG:4443 - Ensure that MsiPackages in a Bundle have ProductVersions that fit in a QWORD, how Burn represents a four-field version number with each field a WORD.
 
 * BobArnson: WIXBUG:3838 - Since the compiler coerces null values to empty strings, check for those in ColumnDefinition.
