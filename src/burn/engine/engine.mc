@@ -365,6 +365,13 @@ Language=English
 Plan skipped related bundle: %1!ls!, type: %2!hs!, provider key: %3!ls!, because an embedded bundle with the same provider key is being installed.
 .
 
+MessageId=217
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_DEPENDENT_BUNDLE_REPAIR
+Language=English
+Plan skipped dependent bundle repair: %1!ls!, type: %2!hs!, because no packages are being executed during this uninstall operation.
+.
+
 MessageId=299
 Severity=Success
 SymbolicName=MSG_PLAN_COMPLETE
