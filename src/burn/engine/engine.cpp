@@ -40,7 +40,7 @@ static HRESULT RunEmbedded(
     __in BURN_ENGINE_STATE* pEngineState
     );
 static HRESULT RunRunOnce(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in const BURN_REGISTRATION* pRegistration,
     __in int nCmdShow
     );
 static HRESULT RunApplication(
@@ -158,7 +158,7 @@ extern "C" HRESULT EngineRun(
         break;
 
     case BURN_MODE_RUNONCE:
-        hr = RunRunOnce(wzCommandLine, nCmdShow);
+        hr = RunRunOnce(&engineState.registration, nCmdShow);
         ExitOnFailure(hr, "Failed to run RunOnce mode.");
         break;
 
@@ -529,7 +529,7 @@ LExit:
 }
 
 static HRESULT RunRunOnce(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in const BURN_REGISTRATION* pRegistration,
     __in int nCmdShow
     )
 {
@@ -537,23 +537,9 @@ static HRESULT RunRunOnce(
     LPWSTR sczNewCommandLine = NULL;
     LPWSTR sczBurnPath = NULL;
     HANDLE hProcess = NULL;
-    int argc = 0;
-    LPWSTR* argv = NULL;
 
-    // rebuild the command line without the runonce switch
-    if (wzCommandLine && *wzCommandLine)
-    {
-        argv = ::CommandLineToArgvW(wzCommandLine, &argc);
-        ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
-
-        for (int i = 0; i < argc; ++i)
-        {
-            if (!((argv[i][0] == L'-' || argv[i][0] == L'/') && CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_RUNONCE, -1)))
-            {
-                PathCommandLineAppend(&sczNewCommandLine, argv[i]);
-            }
-        }
-    }
+    hr = RegistrationGetResumeCommandLine(pRegistration, &sczNewCommandLine);
+    ExitOnFailure(hr, "Unable to get resume command line from the registry");
 
     // and re-launch
     hr = PathForCurrentProcess(&sczBurnPath, NULL);
@@ -563,11 +549,6 @@ static HRESULT RunRunOnce(
     ExitOnFailure1(hr, "Failed to re-launch bundle process after RunOnce: %ls", sczBurnPath);
 
 LExit:
-    if (argv)
-    {
-        ::LocalFree(argv);
-    }
-
     ReleaseHandle(hProcess);
     ReleaseStr(sczNewCommandLine);
     ReleaseStr(sczBurnPath);

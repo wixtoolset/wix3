@@ -1,3 +1,5 @@
+* ErnestT: WIXBUG:4427 - Update resume command handling to support more than 260 characters.
+
 * HeathS: WIXBUG:4425 - Prevent embedded bundles from starting simultaneously after reboot.
 
 * BobArnson: WIXBUG:4443 - Ensure that MsiPackages in a Bundle have ProductVersions that fit in a QWORD, how Burn represents a four-field version number with each field a WORD.

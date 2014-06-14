@@ -214,6 +214,10 @@ HRESULT RegistrationLoadState(
     __out_bcount(*pcbBuffer) BYTE** ppbBuffer,
     __out DWORD* pcbBuffer
     );
+HRESULT RegistrationGetResumeCommandLine(
+    __in const BURN_REGISTRATION* pRegistration,
+    __deref_out_z LPWSTR* psczResumeCommandLine
+    );
 
 
 #if defined(__cplusplus)
