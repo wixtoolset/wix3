@@ -130,6 +130,7 @@ enum SCAU_ATTRIBUTES
 
     SCAU_DONT_REMOVE_ON_UNINSTALL = 0x00000100,
     SCAU_DONT_CREATE_USER = 0x00000200,
+    SCAU_NON_VITAL = 0x00000400,
 };
 
 // sql database attributes definitions

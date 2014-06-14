@@ -957,6 +957,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     {
                         user.CreateUser = Util.YesNoType.no;
                     }
+
+                    if (UtilCompiler.UserNonVital == (attributes & UtilCompiler.UserNonVital))
+                    {
+                        user.Vital = Util.YesNoType.no;
+                    }
                 }
 
                 if (null != row[1])
