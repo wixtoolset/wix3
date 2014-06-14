@@ -1895,7 +1895,11 @@ LExit:
         ::CoUninitialize();
     }
 
-    if (FAILED(hr))
+    if (SCAU_NON_VITAL & iAttributes)
+    {
+        er = ERROR_SUCCESS;
+    }
+    else if (FAILED(hr))
     {
         er = ERROR_INSTALL_FAILURE;
     }
