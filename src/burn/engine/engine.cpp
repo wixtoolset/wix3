@@ -514,6 +514,12 @@ static HRESULT RunEmbedded(
     hr = PipeChildConnect(&pEngineState->embeddedConnection, FALSE);
     ExitOnFailure(hr, "Failed to connect to parent of embedded process.");
 
+    // Do not register the bundle to automatically restart if embedded.
+    if (BOOTSTRAPPER_DISPLAY_EMBEDDED == pEngineState->command.display)
+    {
+        pEngineState->registration.fDisableResume = TRUE;
+    }
+
     // Now run the application like normal.
     hr = RunNormal(hInstance, pEngineState);
     ExitOnFailure(hr, "Failed to run bootstrapper application embedded.");

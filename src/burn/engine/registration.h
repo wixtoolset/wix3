@@ -100,6 +100,7 @@ typedef struct _BURN_REGISTRATION
 {
     BOOL fPerMachine;
     BOOL fRegisterArp;
+    BOOL fDisableResume;
     BOOL fInstalled;
     LPWSTR sczId;
     LPWSTR sczTag;

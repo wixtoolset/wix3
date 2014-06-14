@@ -1142,7 +1142,9 @@ static HRESULT UpdateResumeMode(
     // If the engine is active write the run key so we resume if there is an unexpected
     // power loss. Also, if a restart was initiated in the middle of the chain then
     // ensure the run key exists (it should since going active would have written it).
-    if (BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated)
+    // Do not write the run key when embedded since the containing bundle
+    // is expected to detect for and restart the embedded bundle.
+    if ((BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated) && !pRegistration->fDisableResume)
     {
         // append RunOnce switch
         hr = StrAllocFormatted(&sczResumeCommandLine, L"%ls /%ls", pRegistration->sczResumeCommandLine, BURN_COMMANDLINE_SWITCH_RUNONCE);
