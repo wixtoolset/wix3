@@ -11,7 +11,10 @@ namespace WixTest
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
+    using System.Linq;
+    using WixTest.Utilities;
 
     /// <summary>
     /// Base class for builders.
@@ -32,6 +35,8 @@ namespace WixTest
             this.Extensions = new string[0];
             this.PreprocessorVariables = new Dictionary<string, string>();
             this.BindPaths = new Dictionary<string, string>();
+
+            this.TestArtifacts = new List<FileSystemInfo>();
         }
 
         /// <summary>
@@ -81,6 +86,11 @@ namespace WixTest
         public IDictionary<string, string> BindPaths { get; set; }
 
         /// <summary>
+        /// Gets the list of test artifacts created by the builder.
+        /// </summary>
+        public List<FileSystemInfo> TestArtifacts { get; private set; }
+
+        /// <summary>
         /// Gets the last built output.
         /// </summary>
         public string Output { get; protected set; }
@@ -103,6 +113,70 @@ namespace WixTest
             }
 
             return t;
+        }
+
+        /// <summary>
+        /// Disassembles the built item.
+        /// </summary>
+        /// <returns>The directory containing the disassembled package source.</returns>
+        /// <exception cref="InvalidOperationException">The item has not been built yet.</exception>
+        /// <exception cref="TestException">Failed to disassemble the item.</exception>
+        public virtual string Disassemble()
+        {
+            if (String.IsNullOrEmpty(this.Output))
+            {
+                throw new InvalidOperationException("The item has not been built yet.");
+            }
+
+            string outputPath = Path.Combine(Environment.CurrentDirectory, FileUtilities.GetUniqueFileName());
+            Directory.CreateDirectory(outputPath);
+
+            Dark dark = new Dark();
+            dark.BinaryPath = outputPath;
+            dark.Extensions = this.Extensions.ToList();
+            dark.InputFile = this.Output;
+            dark.OutputFile = outputPath;
+            dark.WorkingDirectory = outputPath;
+            Result result = dark.Run();
+
+            DirectoryInfo outputDirectory = new DirectoryInfo(dark.OutputFile);
+            this.TestArtifacts.Add(outputDirectory);
+
+            if (0 != result.ExitCode)
+            {
+                throw new TestException(String.Format("Failed to disassemble '{0}'.", this.Output), result);
+            }
+
+            return dark.OutputFile;
+        }
+
+        /// <summary>
+        /// Cleans up any test artifacts remaining.
+        /// </summary>
+        public void CleanUp()
+        {
+            foreach (FileSystemInfo artifact in this.TestArtifacts)
+            {
+                if (artifact.Exists)
+                {
+                    try
+                    {
+                        DirectoryInfo dir = artifact as DirectoryInfo;
+                        if (null != dir)
+                        {
+                            dir.Delete(true);
+                        }
+                        else
+                        {
+                            artifact.Delete();
+                        }
+                    }
+                    catch
+                    {
+                        Debug.WriteLine(String.Format("Failed to delete '{0}'.", artifact.FullName));
+                    }
+                }
+            }
         }
 
         /// <summary>

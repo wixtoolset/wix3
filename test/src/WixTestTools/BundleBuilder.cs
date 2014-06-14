@@ -24,10 +24,8 @@ namespace WixTest
         public BundleBuilder(string testName, string name, string dataFolder, List<FileSystemInfo> artifacts)
             : base(testName, name, dataFolder)
         {
-            this.Artifacts = artifacts;
+            this.TestArtifacts.AddRange(artifacts);
         }
-
-        public List<FileSystemInfo> Artifacts { get; private set; }
 
         /// <summary>
         /// Builds the package.
@@ -42,7 +40,7 @@ namespace WixTest
             string bundle = Path.Combine(exeDirectory, String.Concat(this.Name, ".exe"));
 
             // Add the root directory to be cleaned up.
-            this.Artifacts.Add(new DirectoryInfo(rootDirectory));
+            this.TestArtifacts.Add(new DirectoryInfo(rootDirectory));
 
             // Compile.
             Candle candle = new Candle();
@@ -56,7 +54,7 @@ namespace WixTest
             candle.Run();
 
             // Make sure the output directory is cleaned up.
-            this.Artifacts.Add(new DirectoryInfo(objDirectory));
+            this.TestArtifacts.Add(new DirectoryInfo(objDirectory));
 
             // Link.
             Light light = new Light();
@@ -70,7 +68,7 @@ namespace WixTest
             light.Run();
 
             // Make sure the output directory is cleaned up.
-            this.Artifacts.Add(new DirectoryInfo(exeDirectory));
+            this.TestArtifacts.Add(new DirectoryInfo(exeDirectory));
 
             this.Output = light.OutputFile;
             return this;

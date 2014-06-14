@@ -14,6 +14,9 @@ namespace WixTest.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using WixTest.Utilities;
     using Xunit;
 
     /// <summary>
@@ -97,6 +100,41 @@ namespace WixTest.Tests
             }
 
             return t;
+        }
+
+        /// <summary>
+        /// Disassembles the built item.
+        /// </summary>
+        /// <returns>The directory containing the disassembled package source.</returns>
+        /// <exception cref="InvalidOperationException">The item has not been built yet.</exception>
+        /// <exception cref="TestException">Failed to disassemble the item.</exception>
+        public virtual string Disassemble()
+        {
+            if (String.IsNullOrEmpty(this.Output))
+            {
+                throw new InvalidOperationException("The item has not been built yet.");
+            }
+
+            string outputPath = Path.Combine(Environment.CurrentDirectory, FileUtilities.GetUniqueFileName());
+            Directory.CreateDirectory(outputPath);
+
+            Dark dark = new Dark();
+            dark.BinaryPath = outputPath;
+            dark.Extensions = this.Extensions.ToList();
+            dark.InputFile = this.Output;
+            dark.OutputFile = outputPath;
+            dark.WorkingDirectory = outputPath;
+            Result result = dark.Run();
+
+            DirectoryInfo outputDirectory = new DirectoryInfo(dark.OutputFile);
+            this.test.TestArtifacts.Add(outputDirectory);
+
+            if (0 != result.ExitCode)
+            {
+                throw new TestException(String.Format("Failed to disassemble '{0}'.", this.Output), result);
+            }
+
+            return dark.OutputFile;
         }
 
         /// <summary>
