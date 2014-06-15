@@ -610,6 +610,18 @@ extern "C" HRESULT CoreApply(
         fRegistered = TRUE;
     }
 
+    // For async execution, tell the parent process that it can stop waiting since registration is complete
+    if (BURN_MODE_EMBEDDED_ASYNC == pEngineState->mode && INVALID_HANDLE_VALUE != pEngineState->embeddedConnection.hPipe)
+    {
+        DWORD dwResult = 0;
+
+        hr = PipePostMessage(pEngineState->embeddedConnection.hPipe, static_cast<DWORD>(BURN_PIPE_MESSAGE_TYPE_COMPLETE), &dwResult, sizeof(dwResult));
+        ExitOnFailure(hr, "Failed to send completion over the pipe.");
+
+        LogStringLine(REPORT_STANDARD, "Posted message to parent process to signal that the parent process can stop waiting");
+        PipeConnectionUninitialize(&pEngineState->embeddedConnection);
+    }
+
     // Cache.
     if (pEngineState->plan.cCacheActions)
     {
@@ -1163,6 +1175,22 @@ static HRESULT ParseCommandLine(
                 }
 
                 *pMode = BURN_MODE_EMBEDDED;
+
+                ++i;
+
+                hr = ParsePipeConnection(argv + i, pEmbeddedConnection);
+                ExitOnFailure(hr, "Failed to parse embedded connection.");
+
+                i += 2;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_EMBEDDED_ASYNC, -1))
+            {
+                if (i + 3 >= argc)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Must specify the embedded name, token and parent process id.");
+                }
+
+                *pMode = BURN_MODE_EMBEDDED_ASYNC;
 
                 ++i;
 

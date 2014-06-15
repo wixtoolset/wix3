@@ -150,7 +150,8 @@ extern "C" HRESULT EngineRun(
         ExitOnFailure(hr, "Failed to run per-machine mode.");
         break;
 
-    case BURN_MODE_EMBEDDED:
+    case BURN_MODE_EMBEDDED: __fallthrough;
+    case BURN_MODE_EMBEDDED_ASYNC:
         fRunNormal = TRUE;
 
         hr = RunEmbedded(hInstance, &engineState);

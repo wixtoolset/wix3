@@ -1,3 +1,5 @@
+* ErnestT: Make parent bundle wait for asynchronous child execution to complete.
+
 * ErnestT: WIXBUG:4322 - Add cache only execution mode to Burn.
 
 * HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.

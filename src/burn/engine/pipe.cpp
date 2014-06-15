@@ -110,6 +110,26 @@ LExit:
 }
 
 /*******************************************************************
+PipePostMessage -
+
+*******************************************************************/
+extern "C" HRESULT PipePostMessage(
+    __in HANDLE hPipe,
+    __in DWORD dwMessage,
+    __in_bcount_opt(cbData) LPVOID pvData,
+    __in DWORD cbData
+    )
+{
+    HRESULT hr = S_OK;
+
+    hr = WritePipeMessage(hPipe, dwMessage, pvData, cbData);
+    ExitOnFailure(hr, "Failed to write message to pipe.");
+
+LExit:
+    return hr;
+}
+
+/*******************************************************************
  PipePumpMessages - 
 
 *******************************************************************/

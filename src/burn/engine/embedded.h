@@ -36,6 +36,13 @@ HRESULT EmbeddedRunBundle(
     __out DWORD* pdwExitCode
     );
 
+HRESULT EmbeddedRunBundleAsync(
+    __in LPCWSTR wzExecutablePath,
+    __in LPCWSTR wzArguments,
+    __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
+    __in LPVOID pvContext
+    );
+
 #ifdef __cplusplus
 }
 #endif

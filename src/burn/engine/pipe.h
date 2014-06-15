@@ -74,6 +74,12 @@ HRESULT PipeSendMessage(
     __in_opt LPVOID pvContext,
     __out DWORD* pdwResult
     );
+HRESULT PipePostMessage(
+    __in HANDLE hPipe,
+    __in DWORD dwMessage,
+    __in_bcount_opt(cbData) LPVOID pvData,
+    __in DWORD cbData
+    );
 HRESULT PipePumpMessages(
     __in HANDLE hPipe,
     __in_opt PFN_PIPE_MESSAGE_CALLBACK pfnCallback,

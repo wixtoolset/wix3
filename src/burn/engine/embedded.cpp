@@ -26,6 +26,14 @@ struct BURN_EMBEDDED_CALLBACK_CONTEXT
 
 // internal function declarations
 
+static HRESULT EmbeddedRunBundleHelper(
+    __in LPCWSTR wzExecutablePath,
+    __in LPCWSTR wzArguments,
+    __in BOOL fAsync,
+    __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
+    __in LPVOID pvContext,
+    __out_opt DWORD* pdwExitCode
+    );
 static HRESULT ProcessEmbeddedMessages(
     __in BURN_PIPE_MESSAGE* pMsg,
     __in_opt LPVOID pvContext,
@@ -61,6 +69,40 @@ extern "C" HRESULT EmbeddedRunBundle(
     )
 {
     HRESULT hr = S_OK;
+
+    hr = EmbeddedRunBundleHelper(wzExecutablePath, wzArguments, FALSE, pfnGenericMessageHandler, pvContext, pdwExitCode);
+    ExitOnFailure(hr, "Failed to run embedded bundle.");
+
+LExit:
+    return hr;
+}
+
+extern "C" HRESULT EmbeddedRunBundleAsync(
+    __in LPCWSTR wzExecutablePath,
+    __in LPCWSTR wzArguments,
+    __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
+    __in LPVOID pvContext
+    )
+{
+    HRESULT hr = S_OK;
+
+    hr = EmbeddedRunBundleHelper(wzExecutablePath, wzArguments, TRUE, pfnGenericMessageHandler, pvContext, NULL);
+    ExitOnFailure(hr, "Failed to run embedded bundle asynchronously.");
+
+LExit:
+    return hr;
+}
+
+static HRESULT EmbeddedRunBundleHelper(
+    __in LPCWSTR wzExecutablePath,
+    __in LPCWSTR wzArguments,
+    __in BOOL fAsync,
+    __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
+    __in LPVOID pvContext,
+    __out_opt DWORD* pdwExitCode
+    )
+{
+    HRESULT hr = S_OK;
     DWORD dwCurrentProcessId = ::GetCurrentProcessId();
     HANDLE hCreatedPipesEvent = NULL;
     LPWSTR sczCommand = NULL;
@@ -75,13 +117,15 @@ extern "C" HRESULT EmbeddedRunBundle(
     context.pfnGenericMessageHandler = pfnGenericMessageHandler;
     context.pvContext = pvContext;
 
+    LPCWSTR wzCommandLineSwitch = fAsync ? BURN_COMMANDLINE_SWITCH_EMBEDDED_ASYNC : BURN_COMMANDLINE_SWITCH_EMBEDDED;
+
     hr = PipeCreateNameAndSecret(&connection.sczName, &connection.sczSecret);
     ExitOnFailure(hr, "Failed to create embedded pipe name and client token.");
 
     hr = PipeCreatePipes(&connection, FALSE, &hCreatedPipesEvent);
     ExitOnFailure(hr, "Failed to create embedded pipe.");
 
-    hr = StrAllocateFormatted(&sczCommand, TRUE, L"%ls -%ls %ls %ls %u", wzArguments, BURN_COMMANDLINE_SWITCH_EMBEDDED, connection.sczName, connection.sczSecret, dwCurrentProcessId);
+    hr = StrAllocFormatted(&sczCommand, L"%ls -%ls %ls %ls %u", wzArguments, wzCommandLineSwitch, connection.sczName, connection.sczSecret, dwCurrentProcessId);
     ExitOnFailure(hr, "Failed to allocate embedded command.");
 
     if (!::CreateProcessW(wzExecutablePath, sczCommand, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
@@ -99,9 +143,12 @@ extern "C" HRESULT EmbeddedRunBundle(
     hr = PipePumpMessages(connection.hPipe, ProcessEmbeddedMessages, &context, &result);
     ExitOnFailure(hr, "Failed to process messages from embedded message.");
 
-    // Get the return code from the embedded process.
-    hr = ProcWaitForCompletion(connection.hProcess, INFINITE, pdwExitCode);
-    ExitOnFailure1(hr, "Failed to wait for embedded executable: %ls", wzExecutablePath);
+    if (pdwExitCode && !fAsync)
+    {
+        // Get the return code from the embedded process.
+        hr = ProcWaitForCompletion(connection.hProcess, INFINITE, pdwExitCode);
+        ExitOnFailure1(hr, "Failed to wait for embedded executable: %ls", wzExecutablePath);
+    }
 
 LExit:
     ReleaseHandle(pi.hThread);

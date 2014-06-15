@@ -402,8 +402,20 @@ extern "C" HRESULT ExeEnginePlanAddPackage(
 
         pAction->type = BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE;
         pAction->exePackage.pPackage = pPackage;
-        pAction->exePackage.fFireAndForget = (BOOTSTRAPPER_ACTION_UPDATE_REPLACE == pPlan->action || fAsync);
         pAction->exePackage.action = pPackage->execute;
+
+        if (BOOTSTRAPPER_ACTION_UPDATE_REPLACE == pPlan->action)
+        {
+            pAction->exePackage.executionMode = BURN_EXE_PACKAGE_EXECUTION_MODE_FIRE_AND_FORGET;
+        }
+        else if (fAsync)
+        {
+            pAction->exePackage.executionMode = BURN_EXE_PACKAGE_EXECUTION_MODE_ASYNCHRONOUS;
+        }
+        else
+        {
+            pAction->exePackage.executionMode = BURN_EXE_PACKAGE_EXECUTION_MODE_SYNCHRONOUS;
+        }
 
         if (pPackage->Exe.sczIgnoreDependencies)
         {
@@ -553,12 +565,19 @@ extern "C" HRESULT ExeEngineExecutePackage(
     // Log before we add the secret pipe name and client token for embedded processes.
     LogId(REPORT_STANDARD, MSG_APPLYING_PACKAGE, LoggingRollbackOrExecute(fRollback), pExecuteAction->exePackage.pPackage->sczId, LoggingActionStateToString(pExecuteAction->exePackage.action), sczExecutablePath, sczCommandObfuscated);
 
-    if (!pExecuteAction->exePackage.fFireAndForget && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    if (BURN_EXE_PACKAGE_EXECUTION_MODE_SYNCHRONOUS == pExecuteAction->exePackage.executionMode && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
     {
         hr = EmbeddedRunBundle(sczExecutablePath, sczCommand, pfnGenericMessageHandler, pvContext, &dwExitCode);
         ExitOnFailure1(hr, "Failed to run bundle as embedded from path: %ls", sczExecutablePath);
     }
-    else if (!pExecuteAction->exePackage.fFireAndForget && BURN_EXE_PROTOCOL_TYPE_NETFX4 == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    else if (BURN_EXE_PACKAGE_EXECUTION_MODE_ASYNCHRONOUS == pExecuteAction->exePackage.executionMode && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    {
+        hr = EmbeddedRunBundleAsync(sczExecutablePath, sczCommand, pfnGenericMessageHandler, pvContext);
+        ExitOnFailure1(hr, "Failed to run bundle asynchronously from path: %ls", sczExecutablePath);
+
+        ExitFunction();
+    }
+    else if (BURN_EXE_PACKAGE_EXECUTION_MODE_SYNCHRONOUS == pExecuteAction->exePackage.executionMode && BURN_EXE_PROTOCOL_TYPE_NETFX4 == pExecuteAction->exePackage.pPackage->Exe.protocol)
     {
         hr = NetFxRunChainer(sczExecutablePath, sczCommand, pfnGenericMessageHandler, pvContext, &dwExitCode);
         ExitOnFailure1(hr, "Failed to run netfx chainer: %ls", sczExecutablePath);
@@ -578,7 +597,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
             ExitWithLastError1(hr, "Failed to CreateProcess on path: %ls", sczExecutablePath);
         }
 
-        if (pExecuteAction->exePackage.fFireAndForget)
+        if (BURN_EXE_PACKAGE_EXECUTION_MODE_FIRE_AND_FORGET == pExecuteAction->exePackage.executionMode || BURN_EXE_PACKAGE_EXECUTION_MODE_ASYNCHRONOUS == pExecuteAction->exePackage.executionMode)
         {
             ::WaitForInputIdle(pi.hProcess, 5000);
             ExitFunction();

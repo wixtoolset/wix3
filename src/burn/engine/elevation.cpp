@@ -651,8 +651,8 @@ extern "C" HRESULT ElevationExecuteExePackage(
     hr = BuffWriteNumber(&pbData, &cbData, fRollback);
     ExitOnFailure(hr, "Failed to write rollback.");
 
-    hr = BuffWriteNumber(&pbData, &cbData, pExecuteAction->exePackage.fFireAndForget);
-    ExitOnFailure(hr, "Failed to write 'fire and forget' to message buffer.");
+    hr = BuffWriteNumber(&pbData, &cbData, (DWORD)pExecuteAction->exePackage.executionMode);
+    ExitOnFailure(hr, "Failed to write exe package execution mode to message buffer.");
 
     hr = BuffWriteString(&pbData, &cbData, pExecuteAction->exePackage.sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to write the list of dependencies to ignore to the message buffer.");
@@ -1870,7 +1870,6 @@ static HRESULT OnExecuteExePackage(
     SIZE_T iData = 0;
     LPWSTR sczPackage = NULL;
     DWORD dwRollback = 0;
-    DWORD dwFireAndForget = 0;
     BURN_EXECUTE_ACTION executeAction = { };
     LPWSTR sczIgnoreDependencies = NULL;
     LPWSTR sczAncestors = NULL;
@@ -1888,10 +1887,8 @@ static HRESULT OnExecuteExePackage(
     hr = BuffReadNumber(pbData, cbData, &iData, &dwRollback);
     ExitOnFailure(hr, "Failed to read rollback.");
 
-    hr = BuffReadNumber(pbData, cbData, &iData, &dwFireAndForget);
-    ExitOnFailure(hr, "Failed to read 'fire and forget'.");
-
-    executeAction.exePackage.fFireAndForget = (0 != dwFireAndForget);
+    hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&executeAction.exePackage.executionMode);
+    ExitOnFailure(hr, "Failed to read exe package execution mode.");
 
     hr = BuffReadString(pbData, cbData, &iData, &sczIgnoreDependencies);
     ExitOnFailure(hr, "Failed to read the list of dependencies to ignore.");
