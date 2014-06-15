@@ -18,6 +18,7 @@
 // const
 
 const DWORD BITSENGINE_NO_PROGRESS_TIMEOUT = 2 * 60;
+const DWORD BITSENGINE_MSG_WAIT_TIMEOUT = 1;
 
 // functions
 
@@ -172,7 +173,9 @@ public:
         ::ResetEvent(m_hComplete);
     }
 
-    HRESULT WaitForCompletion()
+    HRESULT WaitForCompletion(
+        __in IBackgroundCopyJob* pJob
+        )
     {
         HRESULT hr = S_OK;
         HANDLE rghEvents[1] = { m_hComplete };
@@ -183,7 +186,7 @@ public:
         {
             fMessageProcessed = FALSE;
 
-            switch (::MsgWaitForMultipleObjects(countof(rghEvents), rghEvents, FALSE, INFINITE, QS_ALLINPUT))
+            switch (::MsgWaitForMultipleObjects(countof(rghEvents), rghEvents, FALSE, BITSENGINE_MSG_WAIT_TIMEOUT * 1000, QS_ALLINPUT))
             {
             case WAIT_OBJECT_0:
                 break;
@@ -193,10 +196,19 @@ public:
                 fMessageProcessed = TRUE;
                 break;
 
+            case WAIT_TIMEOUT:
+                // Call the progress callback periodically if we are not transferring to ensure that cancelling is responsive
+                // (progress callback is also handles cancelling).  Note that if we are transferring, IBackgroundCopyCallback
+                // methods handle progress/cancelling.  If we are not transferring, the IBackgroundCopyCallback methods may
+                // not be called until the job times out (minutes for a foreground job, weeks for a background job).
+                SendProgressIfNotTransferring(pJob);
+                fMessageProcessed = TRUE;
+                break;
+
             default:
                 ExitWithLastError(hr, "Failed while waiting for download.");
             }
-        } while(fMessageProcessed);
+        } while (fMessageProcessed);
 
     LExit:
         return hr;
@@ -230,6 +242,30 @@ private:
 
     LExit:
         return hr;
+    }
+
+    void SendProgressIfNotTransferring(
+        __in IBackgroundCopyJob* pJob
+        )
+    {
+        HRESULT hr = S_OK;
+        BG_JOB_STATE state = BG_JOB_STATE_ERROR;
+
+        ::EnterCriticalSection(&m_cs);
+
+        hr = pJob->GetState(&state);
+        ExitOnFailure(hr, "Failed to get BITS job state.");
+
+        if (BG_JOB_STATE_TRANSFERRING != state)
+        {
+            hr = SendProgress(pJob);
+            ExitOnFailure(hr, "Failure while sending progress.");
+        }
+
+    LExit:
+        ::LeaveCriticalSection(&m_cs);
+
+        ProcessResult(BG_ERROR_CONTEXT_NONE, hr);
     }
 
     void ProcessResult(
@@ -345,7 +381,7 @@ extern "C" HRESULT BitsDownloadUrl(
         hr = pJob->Resume();
         ExitOnFailure(hr, "Falied to start BITS job.");
 
-        hr = pBitsCallback->WaitForCompletion();
+        hr = pBitsCallback->WaitForCompletion(pJob);
         ExitOnFailure(hr, "Failed while waiting for BITS download.");
 
         // See if there are any errors.

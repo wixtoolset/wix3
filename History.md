@@ -1,3 +1,5 @@
+* ErnestT: WIXBUG:4429 - Fix responsiveness problems when cancelling during a BITS download that is not transferring (in a transient error state for example).
+
 * HeathS: WIXBUG:4428 - Add detection for Visual Studio 14.0.
 
 * ErnestT: WIXBUG:4427 - Update resume command handling to support more than 260 characters.
