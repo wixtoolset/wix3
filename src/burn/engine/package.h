@@ -226,6 +226,10 @@ typedef struct _BURN_PACKAGE
             BOOL fRepairable;
             BURN_EXE_PROTOCOL_TYPE protocol;
 
+            BOOL fAsyncInstall;
+            BOOL fAsyncRepair;
+            BOOL fAsyncUninstall;
+
             BURN_EXE_EXIT_CODE* rgExitCodes;
             DWORD cExitCodes;
         } Exe;

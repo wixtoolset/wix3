@@ -1,3 +1,5 @@
+* ErnestT: WIXBUG:4322 - Add cache only execution mode to Burn.
+
 * HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.
 
 * BobArnson: WIXBUG:4443 - Ensure that MsiPackages in a Bundle have ProductVersions that fit in a QWORD, how Burn represents a four-field version number with each field a WORD.

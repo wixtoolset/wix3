@@ -21376,6 +21376,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
             BundlePackageAttributes attributes = BundlePackageAttributes.None;
             PayloadInfoRow remotePayload = null;
             YesNoType slipstream = YesNoType.NotSet;
+            YesNoType asyncInstall = YesNoType.NotSet;
+            YesNoType asyncRepair = YesNoType.NotSet;
+            YesNoType asyncUninstall = YesNoType.NotSet;
 
             string[] expectedNetFx4Args = new string[] { "/q", "/norestart", "/chainingpackage" };
 
@@ -21499,6 +21502,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         case "Slipstream":
                             slipstream = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             allowed = (packageType == ChainPackageType.Msp);
+                            break;
+                        case "AsyncInstall":
+                            asyncInstall = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            allowed = (packageType == ChainPackageType.Exe);
+                            break;
+                        case "AsyncRepair":
+                            asyncRepair = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            allowed = (packageType == ChainPackageType.Exe);
+                            break;
+                        case "AsyncUninstall":
+                            asyncUninstall = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            allowed = (packageType == ChainPackageType.Exe);
                             break;
                         default:
                             allowed = false;
@@ -21808,6 +21823,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 if (YesNoType.NotSet != displayInternalUI)
                 {
                     row[22] = (YesNoType.Yes == displayInternalUI) ? 1 : 0;
+                }
+
+                if (YesNoType.NotSet != asyncInstall)
+                {
+                    row[23] = (YesNoType.Yes == asyncInstall) ? 1 : 0;
+                }
+
+                if (YesNoType.NotSet != asyncRepair)
+                {
+                    row[24] = (YesNoType.Yes == asyncRepair) ? 1 : 0;
+                }
+
+                if (YesNoType.NotSet != asyncUninstall)
+                {
+                    row[25] = (YesNoType.Yes == asyncUninstall) ? 1 : 0;
                 }
 
                 this.CreateChainPackageMetaRows(sourceLineNumbers, parentType, parentId, ComplexReferenceChildType.Package, id, previousType, previousId, after);

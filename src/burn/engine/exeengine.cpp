@@ -86,6 +86,27 @@ extern "C" HRESULT ExeEngineParsePackageFromXml(
         ExitOnFailure(hr, "Failed to get @Protocol.");
     }
 
+    // @AsyncInstall
+    hr = XmlGetYesNoAttribute(pixnExePackage, L"AsyncInstall", &pPackage->Exe.fAsyncInstall);
+    if (E_NOTFOUND != hr)
+    {
+        ExitOnFailure(hr, "Failed to get @AsyncInstall.");
+    }
+
+    // @AsyncRepair
+    hr = XmlGetYesNoAttribute(pixnExePackage, L"AsyncRepair", &pPackage->Exe.fAsyncRepair);
+    if (E_NOTFOUND != hr)
+    {
+        ExitOnFailure(hr, "Failed to get @AsyncRepair.");
+    }
+
+    // @AsyncUninstall
+    hr = XmlGetYesNoAttribute(pixnExePackage, L"AsyncUninstall", &pPackage->Exe.fAsyncUninstall);
+    if (E_NOTFOUND != hr)
+    {
+        ExitOnFailure(hr, "Failed to get @AsyncUninstall.");
+    }
+
     // select exit code nodes
     hr = XmlSelectNodes(pixnExePackage, L"ExitCode", &pixnNodes);
     ExitOnFailure(hr, "Failed to select exit code nodes.");
@@ -338,6 +359,7 @@ extern "C" HRESULT ExeEnginePlanAddPackage(
 {
     HRESULT hr = S_OK;
     BURN_EXECUTE_ACTION* pAction = NULL;
+    BOOL fAsync = FALSE;
 
     // add wait for cache
     if (hCacheEvent)
@@ -363,9 +385,24 @@ extern "C" HRESULT ExeEnginePlanAddPackage(
             ExitOnFailure(hr, "Failed to append execute action.");
         }
 
+        switch (pPackage->execute)
+        {
+        case BOOTSTRAPPER_ACTION_STATE_INSTALL:
+            fAsync = pPackage->Exe.fAsyncInstall;
+            break;
+
+        case BOOTSTRAPPER_ACTION_STATE_REPAIR:
+            fAsync = pPackage->Exe.fAsyncRepair;
+            break;
+
+        case BOOTSTRAPPER_ACTION_STATE_UNINSTALL:
+            fAsync = pPackage->Exe.fAsyncUninstall;
+            break;
+        }
+
         pAction->type = BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE;
         pAction->exePackage.pPackage = pPackage;
-        pAction->exePackage.fFireAndForget = (BOOTSTRAPPER_ACTION_UPDATE_REPLACE == pPlan->action);
+        pAction->exePackage.fFireAndForget = (BOOTSTRAPPER_ACTION_UPDATE_REPLACE == pPlan->action || fAsync);
         pAction->exePackage.action = pPackage->execute;
 
         if (pPackage->Exe.sczIgnoreDependencies)

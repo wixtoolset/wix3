@@ -771,6 +771,21 @@
           <xs:documentation>Indicates the communication protocol the package supports for extended progress and error reporting. The default is "none".</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="AsyncInstall" type="YesNoTypeUnion">
+        <xs:annotation>
+          <xs:documentation>Specifies whether the install command will be executed asynchronously without waiting for the execution to finish. The default is "no".</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="AsyncRepair" type="YesNoTypeUnion">
+        <xs:annotation>
+          <xs:documentation>Specifies whether the repair command will be executed asynchronously without waiting for the execution to finish. The default is "no".</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="AsyncUninstall" type="YesNoTypeUnion">
+        <xs:annotation>
+          <xs:documentation>Specifies whether the uninstall command will be executed asynchronously without waiting for the execution to finish. The default is "no".</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="RollbackBoundary">

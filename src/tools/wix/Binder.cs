@@ -4431,6 +4431,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         {
                             writer.WriteAttributeString("Protocol", package.Protocol);
                         }
+                        writer.WriteAttributeString("AsyncInstall", package.AsyncInstall ? "yes" : "no");
+                        writer.WriteAttributeString("AsyncRepair", package.AsyncRepair ? "yes" : "no");
+                        writer.WriteAttributeString("AsyncUninstall", package.AsyncUninstall ? "yes" : "no");
                     }
                     else if (Compiler.ChainPackageType.Msi == package.ChainPackageType)
                     {

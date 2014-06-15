@@ -58,6 +58,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
             object enableFeatureSelectionData = chainPackageRow[20];
             object forcePerMachineData = chainPackageRow[21];
             object displayInternalUIData = chainPackageRow[22];
+            object asyncInstallData = chainPackageRow[23];
+            object asyncRepairData = chainPackageRow[24];
+            object asyncUninstallData = chainPackageRow[25];
 
             BundlePackageAttributes attributes = (null == attributesData) ? 0 : (BundlePackageAttributes)attributesData;
 
@@ -127,6 +130,24 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 displayInternalUI = (1 == (int)displayInternalUIData) ? YesNoType.Yes : YesNoType.No;
             }
 
+            YesNoType asyncInstall = YesNoType.NotSet;
+            if (null != asyncInstallData)
+            {
+                asyncInstall = (1 == (int)asyncInstallData) ? YesNoType.Yes : YesNoType.No;
+            }
+
+            YesNoType asyncRepair = YesNoType.NotSet;
+            if (null != asyncRepairData)
+            {
+                asyncRepair = (1 == (int)asyncRepairData) ? YesNoType.Yes : YesNoType.No;
+            }
+
+            YesNoType asyncUninstall = YesNoType.NotSet;
+            if (null != asyncUninstallData)
+            {
+                asyncUninstall = (1 == (int)asyncUninstallData) ? YesNoType.Yes : YesNoType.No;
+            }
+
             this.Id = id;
             this.ChainPackageType = (Compiler.ChainPackageType)Enum.Parse(typeof(Compiler.ChainPackageType), packageType, true);
             PayloadInfoRow packagePayload;
@@ -157,6 +178,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.RollbackLogPathVariable = rollbackPathVariable;
 
             this.DisplayInternalUI = (YesNoType.Yes == displayInternalUI);
+            this.AsyncInstall = (YesNoType.Yes == asyncInstall);
+            this.AsyncRepair = (YesNoType.Yes == asyncRepair);
+            this.AsyncUninstall = (YesNoType.Yes == asyncUninstall);
 
             this.Payloads = new List<PayloadInfoRow>();
             this.RelatedPackages = new List<RelatedPackage>();
@@ -554,6 +578,24 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get { return (string)this.Fields[31].Data; }
             private set { this.Fields[31].Data = value; }
+        }
+
+        public bool AsyncInstall
+        {
+            get { return (null != this.Fields[32].Data) && (1 == (int)this.Fields[32].Data); }
+            private set { this.Fields[32].Data = value ? 1 : 0; }
+        }
+
+        public bool AsyncRepair
+        {
+            get { return (null != this.Fields[33].Data) && (1 == (int)this.Fields[33].Data); }
+            private set { this.Fields[33].Data = value ? 1 : 0; }
+        }
+
+        public bool AsyncUninstall
+        {
+            get { return (null != this.Fields[34].Data) && (1 == (int)this.Fields[34].Data); }
+            private set { this.Fields[34].Data = value ? 1 : 0; }
         }
 
         public long Size { get; private set; }
