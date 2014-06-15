@@ -38,6 +38,7 @@ static PFN_MSIENUMRELATEDPRODUCTSW vpfnMsiEnumRelatedProductsW = ::MsiEnumRelate
 
 // MSI 3.0+
 static PFN_MSIDETERMINEPATCHSEQUENCEW vpfnMsiDeterminePatchSequenceW = NULL;
+static PFN_MSIDETERMINEAPPLICABLEPATCHESW vpfnMsiDetermineApplicablePatchesW = NULL;
 static PFN_MSIENUMPRODUCTSEXW vpfnMsiEnumProductsExW = NULL;
 static PFN_MSIGETPATCHINFOEXW vpfnMsiGetPatchInfoExW = NULL;
 static PFN_MSIGETPRODUCTINFOEXW vpfnMsiGetProductInfoExW = NULL;
@@ -46,6 +47,7 @@ static PFN_MSISOURCELISTADDSOURCEEXW vpfnMsiSourceListAddSourceExW = NULL;
 
 static HMODULE vhMsiDll = NULL;
 static PFN_MSIDETERMINEPATCHSEQUENCEW vpfnMsiDeterminePatchSequenceWFromLibrary = NULL;
+static PFN_MSIDETERMINEAPPLICABLEPATCHESW vpfnMsiDetermineApplicablePatchesWFromLibrary = NULL;
 static PFN_MSIENUMPRODUCTSEXW vpfnMsiEnumProductsExWFromLibrary = NULL;
 static PFN_MSIGETPATCHINFOEXW vpfnMsiGetPatchInfoExWFromLibrary = NULL;
 static PFN_MSIGETPRODUCTINFOEXW vpfnMsiGetProductInfoExWFromLibrary = NULL;
@@ -127,7 +129,7 @@ void UninitializeMessageData(
 
 
 /********************************************************************
- WiuInitialize - initializes wioutil
+ WiuInitialize - initializes wiutil
 
 *********************************************************************/
 extern "C" HRESULT DAPI WiuInitialize(
@@ -146,6 +148,12 @@ extern "C" HRESULT DAPI WiuInitialize(
     if (NULL == vpfnMsiDeterminePatchSequenceW)
     {
         vpfnMsiDeterminePatchSequenceW = vpfnMsiDeterminePatchSequenceWFromLibrary;
+    }
+
+    vpfnMsiDetermineApplicablePatchesWFromLibrary = reinterpret_cast<PFN_MSIDETERMINEAPPLICABLEPATCHESW>(::GetProcAddress(vhMsiDll, "MsiDetermineApplicablePatchesW"));
+    if (NULL == vpfnMsiDetermineApplicablePatchesW)
+    {
+        vpfnMsiDetermineApplicablePatchesW = vpfnMsiDetermineApplicablePatchesWFromLibrary;
     }
 
     vpfnMsiEnumProductsExWFromLibrary = reinterpret_cast<PFN_MSIENUMPRODUCTSEXW>(::GetProcAddress(vhMsiDll, "MsiEnumProductsExW"));
@@ -202,6 +210,7 @@ extern "C" void DAPI WiuUninitialize(
         vpfnMsiGetProductInfoExWFromLibrary = NULL;
         vpfnMsiGetPatchInfoExWFromLibrary = NULL;
         vpfnMsiEnumProductsExWFromLibrary = NULL;
+        vpfnMsiDetermineApplicablePatchesWFromLibrary = NULL;
         vpfnMsiDeterminePatchSequenceWFromLibrary = NULL;
         vpfnMsiSourceListAddSourceExWFromLibrary = NULL;
     }
@@ -524,6 +533,28 @@ extern "C" HRESULT DAPI WiuDeterminePatchSequence(
 
     er = vpfnMsiDeterminePatchSequenceW(wzProductCode, wzUserSid, context, cPatchInfo, pPatchInfo);
     ExitOnWin32Error(er, hr, "Failed to determine patch sequence for product code.");
+
+LExit:
+    return hr;
+}
+
+
+extern "C" HRESULT DAPI WiuDetermineApplicablePatches(
+    __in_z LPCWSTR wzProductPackagePath,
+    __in PMSIPATCHSEQUENCEINFOW pPatchInfo,
+    __in DWORD cPatchInfo
+    )
+{
+    HRESULT hr = S_OK;
+    DWORD er = ERROR_SUCCESS;
+
+    if (!vpfnMsiDetermineApplicablePatchesW)
+    {
+        ExitFunction1(hr = E_NOTIMPL);
+    }
+
+    er = vpfnMsiDetermineApplicablePatchesW(wzProductPackagePath, cPatchInfo, pPatchInfo);
+    ExitOnWin32Error(er, hr, "Failed to determine applicable patches for product package.");
 
 LExit:
     return hr;

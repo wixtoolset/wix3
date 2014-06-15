@@ -2520,6 +2520,7 @@
       NoLogo="$(LinkerNoLogo)"
       OutputAsXml="$(OutputAsXml)"
       OutputFile="$(TargetDir)%(CultureGroup.OutputFolder)$(TargetName)$(TargetExt)"
+      SuppressPatchSequenceData="$(SuppressPatchSequenceData)"
       PdbOutputFile="$(PdbOutputFile)"
       Pedantic="$(LinkerPedantic)"
       ReferencePaths="$(ReferencePaths)"

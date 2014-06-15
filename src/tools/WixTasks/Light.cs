@@ -72,6 +72,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         private bool suppressLayout;
         private bool suppressLocalization;
         private bool suppressMsiAssemblyTableProcessing;
+        private bool suppressPatchSequenceData;
         private bool suppressPdbOutput;
         private bool suppressSchemaValidation;
         private bool suppressValidation;
@@ -240,6 +241,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         {
             get { return this.outputFile; }
             set { this.outputFile = value; }
+        }
+
+        public bool SuppressPatchSequenceData
+        {
+            get { return this.suppressPatchSequenceData; }
+            set { this.suppressPatchSequenceData = value; }
         }
 
         [Output]
@@ -488,6 +495,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             commandLineBuilder.AppendIfTrue("-sl", this.SuppressLayout);
             commandLineBuilder.AppendIfTrue("-sloc", this.SuppressLocalization);
             commandLineBuilder.AppendIfTrue("-spdb", this.SuppressPdbOutput);
+            commandLineBuilder.AppendIfTrue("-spsd", this.SuppressPatchSequenceData);
             commandLineBuilder.AppendIfTrue("-ss", this.SuppressSchemaValidation);
             commandLineBuilder.AppendIfTrue("-sts", this.SuppressTagSectionIdAttributeOnTuples);
             commandLineBuilder.AppendIfTrue("-sui", this.SuppressDefaultUISequenceActions);

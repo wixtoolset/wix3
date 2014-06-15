@@ -26,6 +26,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     {
         private bool encounteredError;
         private TableDefinitionCollection tableDefinitions;
+        private Dictionary<string, object> additionalProperties;
 
         /// <summary>
         /// Event for messages.
@@ -40,6 +41,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             this.tableDefinitions = Installer.GetTableDefinitions();
             this.MessageHandler = messageHandler;
+            this.additionalProperties = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -75,6 +77,31 @@ namespace Microsoft.Tools.WindowsInstallerXml
         }
 
         /// <summary>
+        /// Gets the value of the additional property by <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the additional property.</param>
+        /// <param name="defaultValue">The value to return if not found.</param>
+        /// <typeparam name="T">The type of the additional property value.</param>
+        /// <returns>
+        /// The value of the additional property or the <paramref name="defaultValue"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="name"> is null or an empty string.</exception>
+        public T GetProperty<T>(string name, T defaultValue = default(T))
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name");
+            }
+
+            if (this.additionalProperties.ContainsKey(name))
+            {
+                return (T)this.additionalProperties[name];
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// Sends a message to the message delegate if there is one.
         /// </summary>
         /// <param name="mea">Message event arguments.</param>
@@ -98,6 +125,30 @@ namespace Microsoft.Tools.WindowsInstallerXml
             else if (null != errorEventArgs)
             {
                 throw new WixException(errorEventArgs);
+            }
+        }
+
+        /// <summary>
+        /// Sets the value of the additional property by <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The name of the additional property.</param>
+        /// <param name="value">The value of the additional property.</param>
+        /// <typeparam name="T">The type of the additional property value.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"> is null or an empty string.</exception>
+        internal void SetProperty<T>(string name, T value)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name");
+            }
+
+            if (this.additionalProperties.ContainsKey(name))
+            {
+                this.additionalProperties[name] = value;
+            }
+            else
+            {
+                this.additionalProperties.Add(name, value);
             }
         }
     }

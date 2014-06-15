@@ -29,6 +29,11 @@ namespace WixTest.Tests
         }
 
         /// <summary>
+        /// Gets or sets whether or not to suppress patch sequence data.
+        /// </summary>
+        public bool SuppressPatchSequenceData { get; set; }
+
+        /// <summary>
         /// Builds the package.
         /// </summary>
         /// <returns>The path to the built MSI package.</returns>
@@ -65,6 +70,7 @@ namespace WixTest.Tests
             this.BindPaths.ToList().ForEach(kv => light.OtherArguments = String.Concat(light.OtherArguments, " -b ", kv.Key, "=", kv.Value));
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = bundle;
+            light.SuppressPatchSequenceData = this.SuppressPatchSequenceData;
             light.SuppressMSIAndMSMValidation = true;
             light.WorkingDirectory = this.test.TestContext.TestDataDirectory;
             light.Run();

@@ -19,6 +19,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Text;
     using System.Xml;
     using Microsoft.Tools.WindowsInstallerXml.Msi;
     using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
@@ -31,6 +32,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private const string PropertySqlFormat = "SELECT `Value` FROM `Property` WHERE `Property` = '{0}'";
         private const string PatchMetadataFormat = "SELECT `Value` FROM `MsiPatchMetadata` WHERE `Property` = '{0}'";
 
+        private static readonly Encoding XmlOutputEncoding = new UTF8Encoding(false);
+
+        private BinderCore core;
         private PayloadInfoRow packagePayload;
 
         public ChainPackageInfo(Row chainPackageRow, Table wixGroupTable, Dictionary<string, PayloadInfoRow> allPayloads, Dictionary<string, ContainerInfo> containers, BinderFileManager fileManager, BinderCore core, Output bundle) : base(chainPackageRow.SourceLineNumbers, bundle.Tables["ChainPackageInfo"])
@@ -127,12 +131,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 displayInternalUI = (1 == (int)displayInternalUIData) ? YesNoType.Yes : YesNoType.No;
             }
 
+            this.core = core;
+
             this.Id = id;
             this.ChainPackageType = (Compiler.ChainPackageType)Enum.Parse(typeof(Compiler.ChainPackageType), packageType, true);
             PayloadInfoRow packagePayload;
             if (!allPayloads.TryGetValue(payloadId, out packagePayload))
             {
-                core.OnMessage(WixErrors.IdentifierNotFound("Payload", payloadId));
+                this.core.OnMessage(WixErrors.IdentifierNotFound("Payload", payloadId));
                 return;
             }
             this.PackagePayload = packagePayload;
@@ -198,16 +204,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
             switch (this.ChainPackageType)
             {
                 case Compiler.ChainPackageType.Msi:
-                    this.ResolveMsiPackage(fileManager, core, allPayloads, containers, suppressLooseFilePayloadGeneration, enableFeatureSelection, forcePerMachine, bundle);
+                    this.ResolveMsiPackage(fileManager, allPayloads, containers, suppressLooseFilePayloadGeneration, enableFeatureSelection, forcePerMachine, bundle);
                     break;
                 case Compiler.ChainPackageType.Msp:
-                    this.ResolveMspPackage(core, bundle);
+                    this.ResolveMspPackage(bundle);
                     break;
                 case Compiler.ChainPackageType.Msu:
-                    this.ResolveMsuPackage(core);
+                    this.ResolveMsuPackage();
                     break;
                 case Compiler.ChainPackageType.Exe:
-                    this.ResolveExePackage(core);
+                    this.ResolveExePackage();
                     break;
             }
 
@@ -572,8 +578,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Initializes package state from the MSI contents.
         /// </summary>
-        /// <param name="core">BinderCore for messages.</param>
-        private void ResolveMsiPackage(BinderFileManager fileManager, BinderCore core, Dictionary<string, PayloadInfoRow> allPayloads, Dictionary<string, ContainerInfo> containers, YesNoType suppressLooseFilePayloadGeneration, YesNoType enableFeatureSelection, YesNoType forcePerMachine, Output bundle)
+        private void ResolveMsiPackage(BinderFileManager fileManager, Dictionary<string, PayloadInfoRow> allPayloads, Dictionary<string, ContainerInfo> containers, YesNoType suppressLooseFilePayloadGeneration, YesNoType enableFeatureSelection, YesNoType forcePerMachine, Output bundle)
         {
             string sourcePath = this.PackagePayload.FullFileName;
             bool longNamesInImage = false;
@@ -606,7 +611,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     if (!Common.IsValidModuleOrBundleVersion(this.Version))
                     {
-                        core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
                     }
 
                     if (String.IsNullOrEmpty(this.CacheId))
@@ -621,13 +626,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     this.Manufacturer = ChainPackageInfo.GetProperty(db, "Manufacturer");
 
-                    this.VerifyMsiProperties(core);
+                    this.VerifyMsiProperties();
 
                     if (YesNoType.Yes == forcePerMachine)
                     {
                         if (YesNoDefaultType.No == this.PerMachine)
                         {
-                            core.OnMessage(WixWarnings.PerUserButForcingPerMachine(this.PackagePayload.SourceLineNumbers, sourcePath));
+                            this.core.OnMessage(WixWarnings.PerUserButForcingPerMachine(this.PackagePayload.SourceLineNumbers, sourcePath));
                             this.PerMachine = YesNoDefaultType.Yes; // ensure that we think the MSI is per-machine.
                         }
 
@@ -640,21 +645,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         {
                             if (YesNoDefaultType.No == this.PerMachine)
                             {
-                                core.OnMessage(WixErrors.PerUserButAllUsersEquals1(this.PackagePayload.SourceLineNumbers, sourcePath));
+                                this.core.OnMessage(WixErrors.PerUserButAllUsersEquals1(this.PackagePayload.SourceLineNumbers, sourcePath));
                             }
                         }
                         else if (allusers.Equals("2", StringComparison.Ordinal))
                         {
-                            core.OnMessage(WixWarnings.DiscouragedAllUsersValue(this.PackagePayload.SourceLineNumbers, sourcePath, (YesNoDefaultType.Yes == this.PerMachine) ? "machine" : "user"));
+                            this.core.OnMessage(WixWarnings.DiscouragedAllUsersValue(this.PackagePayload.SourceLineNumbers, sourcePath, (YesNoDefaultType.Yes == this.PerMachine) ? "machine" : "user"));
                         }
                         else
                         {
-                            core.OnMessage(WixErrors.UnsupportedAllUsersValue(this.PackagePayload.SourceLineNumbers, sourcePath, allusers));
+                            this.core.OnMessage(WixErrors.UnsupportedAllUsersValue(this.PackagePayload.SourceLineNumbers, sourcePath, allusers));
                         }
                     }
                     else if (YesNoDefaultType.Yes == this.PerMachine) // not forced per-machine and no ALLUSERS property, flip back to per-user
                     {
-                        core.OnMessage(WixWarnings.ImplicitlyPerUser(this.PackagePayload.SourceLineNumbers, sourcePath));
+                        this.core.OnMessage(WixWarnings.ImplicitlyPerUser(this.PackagePayload.SourceLineNumbers, sourcePath));
                         this.PerMachine = YesNoDefaultType.No;
                     }
 
@@ -983,7 +988,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
             catch (Microsoft.Deployment.WindowsInstaller.InstallerException e)
             {
-                core.OnMessage(WixErrors.UnableToReadPackageInformation(this.PackagePayload.SourceLineNumbers, sourcePath, e.Message));
+                this.core.OnMessage(WixErrors.UnableToReadPackageInformation(this.PackagePayload.SourceLineNumbers, sourcePath, e.Message));
             }
         }
 
@@ -1014,8 +1019,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Initializes package state from the MSP contents.
         /// </summary>
-        /// <param name="core">BinderCore for messages.</param>
-        private void ResolveMspPackage(BinderCore core, Output bundle)
+        private void ResolveMspPackage(Output bundle)
         {
             string sourcePath = this.PackagePayload.FullFileName;
 
@@ -1042,52 +1046,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     this.Manufacturer = ChainPackageInfo.GetPatchMetadataProperty(db, "ManufacturerName");
                 }
 
-                this.PatchXml = Microsoft.Deployment.WindowsInstaller.Installer.ExtractPatchXmlData(sourcePath);
-
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(this.PatchXml);
-
-                XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-                nsmgr.AddNamespace("p", "http://www.microsoft.com/msi/patch_applicability.xsd");
-
-                foreach (XmlNode node in doc.SelectNodes("/p:MsiPatch/p:TargetProduct", nsmgr))
-                {
-                    // If this patch targes a product code, this is the best case.
-                    XmlNode targetCode = node.SelectSingleNode("p:TargetProductCode", nsmgr);
-                    WixBundlePatchTargetCodeAttributes attributes = WixBundlePatchTargetCodeAttributes.None;
-
-                    if (null != targetCode)
-                    {
-                        attributes = WixBundlePatchTargetCodeAttributes.TargetsProductCode;
-                    }
-                    else // maybe targets and upgrade code?
-                    {
-                        targetCode = node.SelectSingleNode("p:UpgradeCode", nsmgr);
-                        if (null != targetCode)
-                        {
-                            attributes = WixBundlePatchTargetCodeAttributes.TargetsUpgradeCode;
-                        }
-                        else // this patch targets a unknown number of products
-                        {
-                            this.TargetUnspecified = true;
-                        }
-                    }
-
-                    Table table = bundle.EnsureTable(core.TableDefinitions["WixBundlePatchTargetCode"]);
-                    WixBundlePatchTargetCodeRow row = (WixBundlePatchTargetCodeRow)table.CreateRow(this.PackagePayload.SourceLineNumbers, false);
-                    row.MspPackageId = this.PackagePayload.Id;
-                    row.TargetCode = targetCode.InnerText;
-                    row.Attributes = attributes;
-
-                    if (this.TargetCodes.TryAdd(row))
-                    {
-                        table.Rows.Add(row);
-                    }
-                }
+                this.ProcessPatchXml(sourcePath, bundle);
             }
             catch (Microsoft.Deployment.WindowsInstaller.InstallerException e)
             {
-                core.OnMessage(WixErrors.UnableToReadPackageInformation(this.PackagePayload.SourceLineNumbers, sourcePath, e.Message));
+                this.core.OnMessage(WixErrors.UnableToReadPackageInformation(this.PackagePayload.SourceLineNumbers, sourcePath, e.Message));
                 return;
             }
 
@@ -1100,8 +1063,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Initializes package state from the MSU contents.
         /// </summary>
-        /// <param name="core">BinderCore for messages.</param>
-        private void ResolveMsuPackage(BinderCore core)
+        private void ResolveMsuPackage()
         {
             this.PerMachine = YesNoDefaultType.Yes; // MSUs are always per-machine.
 
@@ -1114,8 +1076,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Initializes package state from the EXE contents.
         /// </summary>
-        /// <param name="core">BinderCore for messages.</param>
-        private void ResolveExePackage(BinderCore core)
+        private void ResolveExePackage()
         {
             if (String.IsNullOrEmpty(this.CacheId))
             {
@@ -1127,11 +1088,86 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // TODO: Future version could add Manufacturer to table definition.
         }
 
+        private void ProcessPatchXml(string sourcePath, Output bundle)
+        {
+            string patchXml = Microsoft.Deployment.WindowsInstaller.Installer.ExtractPatchXmlData(sourcePath);
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(patchXml);
+
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+            nsmgr.AddNamespace("p", "http://www.microsoft.com/msi/patch_applicability.xsd");
+
+            // Determine target ProductCodes and/or UpgradeCodes.
+            foreach (XmlNode node in doc.SelectNodes("/p:MsiPatch/p:TargetProduct", nsmgr))
+            {
+                // If this patch targets a product code, this is the best case.
+                XmlNode targetCode = node.SelectSingleNode("p:TargetProductCode", nsmgr);
+                WixBundlePatchTargetCodeAttributes attributes = WixBundlePatchTargetCodeAttributes.None;
+
+                if (ChainPackageInfo.TargetsCode(targetCode))
+                {
+                    attributes = WixBundlePatchTargetCodeAttributes.TargetsProductCode;
+                }
+                else // maybe targets an upgrade code?
+                {
+                    targetCode = node.SelectSingleNode("p:UpgradeCode", nsmgr);
+                    if (ChainPackageInfo.TargetsCode(targetCode))
+                    {
+                        attributes = WixBundlePatchTargetCodeAttributes.TargetsUpgradeCode;
+                    }
+                    else // this patch targets an unknown number of products
+                    {
+                        this.TargetUnspecified = true;
+                    }
+                }
+
+                Table table = bundle.EnsureTable(this.core.TableDefinitions["WixBundlePatchTargetCode"]);
+                WixBundlePatchTargetCodeRow row = (WixBundlePatchTargetCodeRow)table.CreateRow(this.PackagePayload.SourceLineNumbers, false);
+                row.MspPackageId = this.PackagePayload.Id;
+                row.TargetCode = targetCode.InnerText;
+                row.Attributes = attributes;
+
+                if (this.TargetCodes.TryAdd(row))
+                {
+                    table.Rows.Add(row);
+                }
+            }
+
+            // Suppress patch sequence data for improved performance.
+            if (this.core.GetProperty<bool>(Binder.PARAM_SPSD_NAME))
+            {
+                XmlNode root = doc.DocumentElement;
+                foreach (XmlNode node in root.SelectNodes("p:SequenceData", nsmgr))
+                {
+                    root.RemoveChild(node);
+                }
+            }
+
+            // Save the XML as compact as possible.
+            using (StringWriter writer = new StringWriter())
+            {
+                XmlWriterSettings settings = new XmlWriterSettings()
+                {
+                    Encoding = ChainPackageInfo.XmlOutputEncoding,
+                    Indent = false,
+                    NewLineChars = string.Empty,
+                    NewLineHandling = NewLineHandling.Replace,
+                };
+
+                using (XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
+                {
+                    doc.WriteTo(xmlWriter);
+                }
+
+                this.PatchXml = writer.ToString();
+            }
+        }
+
         /// <summary>
         /// Verifies that only allowed properties are passed to the MSI.
         /// </summary>
-        /// <param name="core">BinderCore for messages.</param>
-        private void VerifyMsiProperties(BinderCore core)
+        private void VerifyMsiProperties()
         {
             foreach (string disallowed in new string[] { "ACTION", "ALLUSERS", "REBOOT", "REINSTALL", "REINSTALLMODE" })
             {
@@ -1139,7 +1175,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     if (disallowed.Equals(propertyInfo.Name, StringComparison.Ordinal))
                     {
-                        core.OnMessage(WixErrors.DisallowedMsiProperty(this.PackagePayload.SourceLineNumbers, disallowed));
+                        this.core.OnMessage(WixErrors.DisallowedMsiProperty(this.PackagePayload.SourceLineNumbers, disallowed));
                     }
                 }
             }
@@ -1217,6 +1253,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
             Debug.Assert(!property.Contains("'"));
             return String.Format(CultureInfo.InvariantCulture, ChainPackageInfo.PatchMetadataFormat, property);
         }
-    }
 
+        private static bool TargetsCode(XmlNode node)
+        {
+            if (null != node)
+            {
+                XmlAttribute attr = node.Attributes["Validate"];
+                return null != attr && "true".Equals(attr.Value);
+            }
+
+            return false;
+        }
+    }
 }

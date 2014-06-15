@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="PatchC.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
+    <Patch AllowRemoval="yes" Classification="Update" ClientPatchId="$(var.TestName)_PatchC" Description="Patch C in test $(var.TestName)" DisplayName="$(var.TestName) - Patch C" Manufacturer="Microsoft Corporation" MinorUpdateTargetRTM="yes">
+        <Media Id="100" Cabinet="C" EmbedCab="yes">
+            <PatchBaseline Id="PatchC">
+                <Validate ProductId="no" UpgradeCode="no" />
+            </PatchBaseline>
+        </Media>
+
+        <PatchFamily Id="C" Version="$(var.Version)" Supersede="yes">
+          <swid:TagRef Regid="regid.1995-08.com.example" />
+
+          <ComponentRef Id="RegistryComponent"/>
+          <PropertyRef Id="TestVersion"/>
+        </PatchFamily>
+    </Patch>
+</Wix>
