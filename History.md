@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
+
 * HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.
 
 * HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.

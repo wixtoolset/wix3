@@ -49,6 +49,11 @@ HRESULT CacheCaclulateContainerWorkingPath(
     __in BURN_CONTAINER* pContainer,
     __deref_out_z LPWSTR* psczWorkingPath
     );
+HRESULT CacheGetRootCompletedPath(
+    __in BOOL fPerMachine,
+    __in BOOL fForceInitialize,
+    __deref_out_z LPWSTR* psczRootCompletedPath
+    );
 HRESULT CacheGetCompletedPath(
     __in BOOL fPerMachine,
     __in_z LPCWSTR wzCacheId,

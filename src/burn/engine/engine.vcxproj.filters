@@ -126,6 +126,9 @@
     <ClCompile Include="relatedbundle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="approvedexe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp.h">
@@ -249,6 +252,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="relatedbundle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="approvedexe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

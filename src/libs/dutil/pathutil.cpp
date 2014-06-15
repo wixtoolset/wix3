@@ -26,7 +26,7 @@ DAPI_(HRESULT) PathCommandLineAppend(
     BOOL fRequiresQuoting = FALSE;
     DWORD dwMaxEscapedSize = 0;
 
-    // Loop through the argugment determining if it needs to be quoted and what the maximum
+    // Loop through the argument determining if it needs to be quoted and what the maximum
     // size would be if there are escape characters required.
     for (LPCWSTR pwz = wzArgument; *pwz; ++pwz)
     {
@@ -549,7 +549,7 @@ DAPI_(HRESULT) PathCreateTempFile(
     if (INVALID_HANDLE_VALUE == hTempFile)
     {
         hr = StrAlloc(&sczTempFile, MAX_PATH);
-        ExitOnFailure(hr, "failed to allocate memory for the temp path");
+        ExitOnFailure(hr, "Failed to allocate memory for the temp path");
 
         if (!::GetTempFileNameW(sczTempPath, L"TMP", 0, sczTempFile))
         {
@@ -946,5 +946,90 @@ DAPI_(HRESULT) PathCompress(
 LExit:
     ReleaseFile(hPath);
 
+    return hr;
+}
+
+DAPI_(HRESULT) PathCanonicalizePath(
+    __in_z LPCWSTR wzPath,
+    __deref_out_z LPWSTR* psczCanonicalized
+    )
+{
+    HRESULT hr = S_OK;
+    int cch = MAX_PATH + 1;
+
+    hr = StrAlloc(psczCanonicalized, cch);
+    ExitOnFailure(hr, "Failed to allocate string for the canonicalized path.");
+
+    if (::PathCanonicalizeW(*psczCanonicalized, wzPath))
+    {
+        hr = S_OK;
+    }
+    else
+    {
+        hr = HRESULT_FROM_WIN32(::GetLastError());
+    }
+
+LExit:
+    return hr;
+}
+
+DAPI_(HRESULT) PathDirectoryContainsPath(
+    __in_z LPCWSTR wzDirectory,
+    __in_z LPCWSTR wzPath
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczPath = NULL;
+    LPWSTR sczDirectory = NULL;
+    LPWSTR sczOriginalPath = NULL;
+    LPWSTR sczOriginalDirectory = NULL;
+
+    hr = PathCanonicalizePath(wzPath, &sczOriginalPath);
+    ExitOnFailure(hr, "Failed to canonicalize the path.");
+
+    hr = PathCanonicalizePath(wzDirectory, &sczOriginalDirectory);
+    ExitOnFailure(hr, "Failed to canonicalize the directory.");
+
+    if (!sczOriginalPath || !*sczOriginalPath)
+    {
+        ExitFunction1(hr = S_FALSE);
+    }
+    if (!sczOriginalDirectory || !*sczOriginalDirectory)
+    {
+        ExitFunction1(hr = S_FALSE);
+    }
+
+    sczPath = sczOriginalPath;
+    sczDirectory = sczOriginalDirectory;
+
+    for (; *sczDirectory;)
+    {
+        if (!*sczPath)
+        {
+            ExitFunction1(hr = S_FALSE);
+        }
+
+        if (CSTR_EQUAL != ::CompareStringW(LOCALE_NEUTRAL, NORM_IGNORECASE, sczDirectory, 1, sczPath, 1))
+        {
+            ExitFunction1(hr = S_FALSE);
+        }
+
+        ++sczDirectory;
+        ++sczPath;
+    }
+
+    --sczDirectory;
+    if (('\\' == *sczDirectory && *sczPath) || '\\' == *sczPath)
+    {
+        hr = S_OK;
+    }
+    else
+    {
+        hr = S_FALSE;
+    }
+
+LExit:
+    ReleaseStr(sczOriginalPath);
+    ReleaseStr(sczOriginalDirectory);
     return hr;
 }

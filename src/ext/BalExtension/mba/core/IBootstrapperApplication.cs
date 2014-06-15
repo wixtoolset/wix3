@@ -387,6 +387,15 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             int hrStatus,
             [MarshalAs(UnmanagedType.U4)] ApplyRestart restart
             );
+
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.I4)]
+        Result OnLaunchApprovedExeBegin();
+
+        void OnLaunchApprovedExeComplete(
+            int hrStatus,
+            int processId
+            );
     }
 
     /// <summary>

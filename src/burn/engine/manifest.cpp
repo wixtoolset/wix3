@@ -65,21 +65,21 @@ extern "C" HRESULT ManifestLoadXmlFromBuffer(
         hr = XmlGetYesNoAttribute(pixnChain, L"DisableRollback", &pEngineState->fDisableRollback);
         if (E_NOTFOUND != hr)
         {
-            ExitOnFailure(hr, "Failed to to get Chain/@DisableRollback");
+            ExitOnFailure(hr, "Failed to get Chain/@DisableRollback");
         }
 
         // parse disable system restore
         hr = XmlGetYesNoAttribute(pixnChain, L"DisableSystemRestore", &pEngineState->fDisableSystemRestore);
         if (E_NOTFOUND != hr)
         {
-            ExitOnFailure(hr, "Failed to to get Chain/@DisableSystemRestore");
+            ExitOnFailure(hr, "Failed to get Chain/@DisableSystemRestore");
         }
 
         // parse parallel cache
         hr = XmlGetYesNoAttribute(pixnChain, L"ParallelCache", &pEngineState->fParallelCacheAndExecute);
         if (E_NOTFOUND != hr)
         {
-            ExitOnFailure(hr, "Failed to to get Chain/@ParallelCache");
+            ExitOnFailure(hr, "Failed to get Chain/@ParallelCache");
         }
     }
 
@@ -122,6 +122,10 @@ extern "C" HRESULT ManifestLoadXmlFromBuffer(
     // parse packages
     hr = PackagesParseFromXml(&pEngineState->packages, &pEngineState->payloads, pixeBundle);
     ExitOnFailure(hr, "Failed to parse packages.");
+
+    // parse approved exes for elevation
+    hr = ApprovedExesParseFromXml(&pEngineState->approvedExes, pixeBundle);
+    ExitOnFailure(hr, "Failed to parse approved exes.");
 
 LExit:
     ReleaseObject(pixnChain);

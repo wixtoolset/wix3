@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="apply.cpp" />
+    <ClCompile Include="approvedexe.cpp" />
     <ClCompile Include="bitsengine.cpp" />
     <ClCompile Include="catalog.cpp" />
     <ClCompile Include="detect.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="..\inc\IBootstrapperEngine.h" />
     <ClInclude Include="..\inc\IBootstrapperApplication.h" />
     <ClInclude Include="apply.h" />
+    <ClInclude Include="approvedexe.h" />
     <ClInclude Include="bitsengine.h" />
     <ClInclude Include="catalog.h" />
     <ClInclude Include="detect.h" />

@@ -14,7 +14,7 @@
 #include "precomp.h"
 
 static const LPCWSTR BUNDLE_WORKING_FOLDER_NAME = L".be";
-static const LPCWSTR UNVERFIED_CACHE_FOLDER_NAME = L".unverified";
+static const LPCWSTR UNVERIFIED_CACHE_FOLDER_NAME = L".unverified";
 static const LPCWSTR PACKAGE_CACHE_FOLDER_NAME = L"Package Cache";
 static const DWORD FILE_OPERATION_RETRY_COUNT = 3;
 static const DWORD FILE_OPERATION_RETRY_WAIT = 2000;
@@ -279,6 +279,27 @@ extern "C" HRESULT CacheCaclulateContainerWorkingPath(
     ExitOnFailure(hr, "Failed to append SHA1 hash as container unverified path.");
 
 LExit:
+    return hr;
+}
+
+extern "C" HRESULT CacheGetRootCompletedPath(
+    __in BOOL fPerMachine,
+    __in BOOL fForceInitialize,
+    __deref_out_z LPWSTR* psczRootCompletedPath
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (fForceInitialize)
+    {
+        hr = CreateCompletedPath(fPerMachine, L"", psczRootCompletedPath);
+    }
+    else
+    {
+        hr = GetRootPath(fPerMachine, TRUE, psczRootCompletedPath);
+    }
+
+//LExit:
     return hr;
 }
 
@@ -1003,7 +1024,7 @@ extern "C" void CacheCleanup(
     WIN32_FIND_DATAW wfd = { };
     DWORD cFileName = 0;
 
-    hr = CacheGetCompletedPath(fPerMachine, UNVERFIED_CACHE_FOLDER_NAME, &sczFolder);
+    hr = CacheGetCompletedPath(fPerMachine, UNVERIFIED_CACHE_FOLDER_NAME, &sczFolder);
     if (SUCCEEDED(hr))
     {
         hr = DirEnsureDeleteEx(sczFolder, DIR_DELETE_FILES | DIR_DELETE_RECURSE | DIR_DELETE_SCHEDULE);
@@ -1243,7 +1264,7 @@ static HRESULT CreateUnverifiedPath(
     HRESULT hr = S_OK;
     LPWSTR sczUnverifiedCacheFolder = NULL;
 
-    hr = CacheGetCompletedPath(fPerMachine, UNVERFIED_CACHE_FOLDER_NAME, &sczUnverifiedCacheFolder);
+    hr = CacheGetCompletedPath(fPerMachine, UNVERIFIED_CACHE_FOLDER_NAME, &sczUnverifiedCacheFolder);
     ExitOnFailure(hr, "Failed to get cache directory.");
 
     if (!fUnverifiedCacheFolderCreated)
