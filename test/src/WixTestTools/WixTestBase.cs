@@ -311,9 +311,9 @@ namespace WixTest
 
         private void CleanUp()
         {
+            BundleBuilder.CleanupByUninstalling();
             PackageBuilder.CleanupByUninstalling();
             MSIExec.UninstallAllInstalledProducts();
-            BundleBuilder.CleanupByUninstalling();
 
             MsiVerifier.Reset();
 

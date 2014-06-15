@@ -217,9 +217,9 @@ namespace WixTest.Tests.Burn
             bindPaths.Add("patchC", patchC);
 
             string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = extensions }.Build().Output;
-            BundleBuilder bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
-            BundleBuilder bundleBPatch = new BundleBuilder(this, "PatchBundleB") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
-            BundleBuilder bundleCPatch = new BundleBuilder(this, "PatchBundleC") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
+            WixTest.BundleBuilder bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
+            WixTest.BundleBuilder bundleBPatch = new BundleBuilder(this, "PatchBundleB") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
+            WixTest.BundleBuilder bundleCPatch = new BundleBuilder(this, "PatchBundleC") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
 
             // Disassemble the patch bundles and check for PatchTargetCode elements.
             XmlNodeList nodes = PatchTests.GetPatchTargetCodes(bundleAPatch);
@@ -237,7 +237,7 @@ namespace WixTest.Tests.Burn
             this.Complete();
         }
 
-        private static XmlNodeList GetPatchTargetCodes(BundleBuilder bundle)
+        private static XmlNodeList GetPatchTargetCodes(WixTest.BundleBuilder bundle)
         {
             string path = Path.Combine(bundle.Disassemble(), @"UX\manifest.xml");
 
