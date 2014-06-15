@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4424 - Allow user custom actions to be independently non-vital.
+
 * HeathS: WIXBUG:4420 - Suppress patch sequence data to optimize patch performance
 
 * HeathS: WIXBUG:4366 - Correctly enum all products for non-specific patches

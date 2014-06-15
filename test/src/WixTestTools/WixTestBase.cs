@@ -159,6 +159,7 @@ namespace WixTest
             }
 
             this.TestUninitialize();
+            this.CleanUp();
         }
 
         void IDisposable.Dispose()
