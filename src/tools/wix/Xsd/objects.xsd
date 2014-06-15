@@ -78,7 +78,7 @@
             <xs:documentation>Row in a table</xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence maxOccurs="32">
+            <xs:sequence maxOccurs="unbounded">
                 <xs:element ref="field" />
             </xs:sequence>
             <xs:attribute name="op">

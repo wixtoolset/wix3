@@ -2949,6 +2949,14 @@
           <Parameter Type="System.Int32" Name="depth" />
         </Instance>
       </Message>
+      <Message Id="TooManyColumnsInRealTable" Number="386" SourceLineNumbers="no">
+        <Instance>
+          The table '{0}' contains {1} columns which is not supported by Windows Installer.  Windows Installer supports a maximum of {2} columns.
+          <Parameter Type="System.String" Name="tableName" />
+          <Parameter Type="System.Int32" Name="columnCount" />
+          <Parameter Type="System.Int32" Name="supportedColumnCount" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">
