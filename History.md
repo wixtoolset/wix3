@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.
+
 * HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.
 
 * ErnestT: WIXBUG:4430 - Do not repair dependent bundles if no packages are executed.
