@@ -26,7 +26,7 @@
 
     <xs:element name="tableDefinition">
         <xs:complexType>
-            <xs:sequence maxOccurs="32">
+            <xs:sequence maxOccurs="unbounded">
                 <xs:element ref="columnDefinition" />
             </xs:sequence>
             <xs:attribute name="createSymbols" type="TablesYesNoType">

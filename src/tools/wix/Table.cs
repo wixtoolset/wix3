@@ -385,6 +385,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 return;
             }
 
+            if (TableDefinition.MaxColumnsInRealTable < this.tableDefinition.Columns.Count)
+            {
+                throw new WixException(WixErrors.TooManyColumnsInRealTable(this.tableDefinition.Name, this.tableDefinition.Columns.Count, TableDefinition.MaxColumnsInRealTable));
+            }
+
             // tack on the table header, and flush before we start writing bytes directly to the stream
             writer.Write(this.tableDefinition.ToIdtDefinition(keepAddedColumns));
             writer.Flush();

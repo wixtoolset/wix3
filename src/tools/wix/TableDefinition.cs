@@ -25,6 +25,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
     /// </summary>
     public sealed class TableDefinition : IComparable<TableDefinition>
     {
+        /// <summary>
+        /// Tracks the maximum number of columns supported in a real table.
+        /// This is a Windows Installer limitation.
+        /// </summary>
+        public const int MaxColumnsInRealTable = 32;
+
         private bool createSymbols;
         private string name;
         private bool unreal;
