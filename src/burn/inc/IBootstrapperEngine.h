@@ -21,6 +21,8 @@
 #define IDSUSPEND  103
 #define IDRELOAD_BOOTSTRAPPER 104
 
+// Note that ordering of the enumeration values is important.
+// Some code paths use < or > comparisions and simply reording values will break those comparisons.
 enum BOOTSTRAPPER_ACTION
 {
     BOOTSTRAPPER_ACTION_UNKNOWN,

@@ -1233,7 +1233,7 @@ extern "C" HRESULT PlanRelatedBundlesBegin(
         switch (pRelatedBundle->relationType)
         {
         case BOOTSTRAPPER_RELATION_UPGRADE:
-            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL < pPlan->action)
+            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && (BOOTSTRAPPER_ACTION_UNINSTALL < pPlan->action || BOOTSTRAPPER_ACTION_CACHE == pPlan->action))
             {
                 pRelatedBundle->package.requested = (pRegistration->qwVersion > pRelatedBundle->qwVersion) ? BOOTSTRAPPER_REQUEST_STATE_ABSENT : BOOTSTRAPPER_REQUEST_STATE_NONE;
             }
