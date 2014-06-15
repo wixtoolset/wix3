@@ -1,3 +1,7 @@
+* ErnestT: WIXBUG:4427 - Update resume command handling to support more than 260 characters.
+
+* HeathS: WIXBUG:4425 - Prevent embedded bundles from starting simultaneously after reboot.
+
 * HeathS: WIXBUG:4424 - Allow user custom actions to be independently non-vital.
 
 * HeathS: WIXBUG:4420 - Suppress patch sequence data to optimize patch performance

@@ -351,6 +351,7 @@ extern "C" HRESULT ElevationSessionBegin(
     __in HANDLE hPipe,
     __in_z LPCWSTR wzEngineWorkingPath,
     __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume,
     __in BURN_VARIABLES* pVariables,
     __in DWORD dwRegistrationOperations,
     __in BURN_DEPENDENCY_REGISTRATION_ACTION dependencyRegistrationAction,
@@ -368,6 +369,9 @@ extern "C" HRESULT ElevationSessionBegin(
 
     hr = BuffWriteString(&pbData, &cbData, wzResumeCommandLine);
     ExitOnFailure(hr, "Failed to write resume command line to message buffer.");
+
+    hr = BuffWriteNumber(&pbData, &cbData, fDisableResume);
+    ExitOnFailure(hr, "Failed to write resume flag.");
 
     hr = BuffWriteNumber(&pbData, &cbData, dwRegistrationOperations);
     ExitOnFailure(hr, "Failed to write registration operations to message buffer.");
@@ -399,7 +403,8 @@ LExit:
 *******************************************************************/
 extern "C" HRESULT ElevationSessionResume(
     __in HANDLE hPipe,
-    __in_z LPCWSTR wzResumeCommandLine
+    __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume
     )
 {
     HRESULT hr = S_OK;
@@ -410,6 +415,9 @@ extern "C" HRESULT ElevationSessionResume(
     // serialize message data
     hr = BuffWriteString(&pbData, &cbData, wzResumeCommandLine);
     ExitOnFailure(hr, "Failed to write resume command line to message buffer.");
+
+    hr = BuffWriteNumber(&pbData, &cbData, fDisableResume);
+    ExitOnFailure(hr, "Failed to write resume flag.");
 
     // send message
     hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_SESSION_RESUME, pbData, cbData, NULL, NULL, &dwResult);
@@ -1603,6 +1611,9 @@ static HRESULT OnSessionBegin(
     hr = BuffReadString(pbData, cbData, &iData, &pRegistration->sczResumeCommandLine);
     ExitOnFailure(hr, "Failed to read resume command line.");
 
+    hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&pRegistration->fDisableResume);
+    ExitOnFailure(hr, "Failed to read resume flag.");
+
     hr = BuffReadNumber(pbData, cbData, &iData, &dwRegistrationOperations);
     ExitOnFailure(hr, "Failed to read registration operations.");
 
@@ -1637,6 +1648,9 @@ static HRESULT OnSessionResume(
     // deserialize message data
     hr = BuffReadString(pbData, cbData, &iData, &pRegistration->sczResumeCommandLine);
     ExitOnFailure(hr, "Failed to read resume command line.");
+
+    hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&pRegistration->fDisableResume);
+    ExitOnFailure(hr, "Failed to read resume flag.");
 
     // suspend session in per-machine process
     hr = RegistrationSessionResume(pRegistration);

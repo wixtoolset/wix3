@@ -323,7 +323,7 @@ extern "C" HRESULT ApplyRegister(
         // resume previous session
         if (pEngineState->registration.fPerMachine)
         {
-            hr =  ElevationSessionResume(pEngineState->companionConnection.hPipe, pEngineState->registration.sczResumeCommandLine);
+            hr = ElevationSessionResume(pEngineState->companionConnection.hPipe, pEngineState->registration.sczResumeCommandLine, pEngineState->registration.fDisableResume);
             ExitOnFailure(hr, "Failed to resume registration session in per-machine process.");
         }
         else
@@ -340,7 +340,7 @@ extern "C" HRESULT ApplyRegister(
         // begin new session
         if (pEngineState->registration.fPerMachine)
         {
-            hr = ElevationSessionBegin(pEngineState->companionConnection.hPipe, sczEngineWorkingPath, pEngineState->registration.sczResumeCommandLine, &pEngineState->variables, pEngineState->plan.dwRegistrationOperations, pEngineState->plan.dependencyRegistrationAction, pEngineState->plan.qwEstimatedSize);
+            hr = ElevationSessionBegin(pEngineState->companionConnection.hPipe, sczEngineWorkingPath, pEngineState->registration.sczResumeCommandLine, pEngineState->registration.fDisableResume, &pEngineState->variables, pEngineState->plan.dwRegistrationOperations, pEngineState->plan.dependencyRegistrationAction, pEngineState->plan.qwEstimatedSize);
             ExitOnFailure(hr, "Failed to begin registration session in per-machine process.");
         }
         else

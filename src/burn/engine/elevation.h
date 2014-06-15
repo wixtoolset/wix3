@@ -40,6 +40,7 @@ HRESULT ElevationSessionBegin(
     __in HANDLE hPipe,
     __in_z LPCWSTR wzEngineWorkingPath,
     __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume,
     __in BURN_VARIABLES* pVariables,
     __in DWORD dwRegistrationOperations,
     __in BURN_DEPENDENCY_REGISTRATION_ACTION dependencyRegistrationAction,
@@ -47,7 +48,8 @@ HRESULT ElevationSessionBegin(
     );
 HRESULT ElevationSessionResume(
     __in HANDLE hPipe,
-    __in_z LPCWSTR wzResumeCommandLine
+    __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume
     );
 HRESULT ElevationSessionEnd(
     __in HANDLE hPipe,
