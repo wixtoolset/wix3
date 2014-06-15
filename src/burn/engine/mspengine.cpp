@@ -22,6 +22,7 @@
 struct POSSIBLE_TARGETPRODUCT
 {
     WCHAR wzProductCode[39];
+    LPWSTR pszLocalPackage;
     MSIINSTALLCONTEXT context;
 };
 
@@ -131,8 +132,8 @@ extern "C" HRESULT MspEngineDetectInitialize(
     AssertSz(pPackages->cPatchInfo, "MspEngineDetectInitialize() should only be called if there are MSP packages.");
 
     HRESULT hr = S_OK;
-    POSSIBLE_TARGETPRODUCT* rgPossibleTargetProductCodes = NULL;
-    DWORD cPossibleTargetProductCodes = 0;
+    POSSIBLE_TARGETPRODUCT* rgPossibleTargetProducts = NULL;
+    DWORD cPossibleTargetProducts = 0;
 
 #ifdef DEBUG
     // All patch info should be initialized to zero.
@@ -146,18 +147,28 @@ extern "C" HRESULT MspEngineDetectInitialize(
 
     // Figure out which product codes to target on the machine. In the worst case all products on the machine
     // will be returned.
-    hr = GetPossibleTargetProductCodes(pPackages, &rgPossibleTargetProductCodes, &cPossibleTargetProductCodes);
+    hr = GetPossibleTargetProductCodes(pPackages, &rgPossibleTargetProducts, &cPossibleTargetProducts);
     ExitOnFailure(hr, "Failed to get possible target product codes.");
 
     // Loop through possible target products, testing the collective patch applicability against each product in
     // the appropriate context. Store the result with the appropriate patch package.
-    for (UINT iSearch = 0; iSearch < cPossibleTargetProductCodes; ++iSearch)
+    for (DWORD iSearch = 0; iSearch < cPossibleTargetProducts; ++iSearch)
     {
-        POSSIBLE_TARGETPRODUCT* pPossibleTargetProduct = rgPossibleTargetProductCodes + iSearch;
+        const POSSIBLE_TARGETPRODUCT* pPossibleTargetProduct = rgPossibleTargetProducts + iSearch;
 
         LogId(REPORT_STANDARD, MSG_DETECT_CALCULATE_PATCH_APPLICABILITY, pPossibleTargetProduct->wzProductCode, LoggingMsiInstallContext(pPossibleTargetProduct->context));
 
-        hr = WiuDeterminePatchSequence(pPossibleTargetProduct->wzProductCode, NULL, pPossibleTargetProduct->context, pPackages->rgPatchInfo, pPackages->cPatchInfo);
+        if (pPossibleTargetProduct->pszLocalPackage)
+        {
+            // Ignores current machine state to determine just patch applicability.
+            // Superseded and obsolesced patches will be planned separately.
+            hr = WiuDetermineApplicablePatches(pPossibleTargetProduct->pszLocalPackage, pPackages->rgPatchInfo, pPackages->cPatchInfo);
+        }
+        else
+        {
+            hr = WiuDeterminePatchSequence(pPossibleTargetProduct->wzProductCode, NULL, pPossibleTargetProduct->context, pPackages->rgPatchInfo, pPackages->cPatchInfo);
+        }
+
         if (SUCCEEDED(hr))
         {
             for (DWORD iPatchInfo = 0; iPatchInfo < pPackages->cPatchInfo; ++iPatchInfo)
@@ -183,7 +194,14 @@ extern "C" HRESULT MspEngineDetectInitialize(
     }
 
 LExit:
-    ReleaseMem(rgPossibleTargetProductCodes);
+    if (rgPossibleTargetProducts)
+    {
+        for (DWORD i = 0; i < cPossibleTargetProducts; ++i)
+        {
+            ReleaseStr(rgPossibleTargetProducts[i].pszLocalPackage);
+        }
+        MemFree(rgPossibleTargetProducts);
+    }
 
     return hr;
 }
@@ -620,6 +638,7 @@ static HRESULT GetPossibleTargetProductCodes(
 {
     HRESULT hr = S_OK;
     STRINGDICT_HANDLE sdUniquePossibleTargetProductCodes = NULL;
+    BOOL fCheckAll = FALSE;
     WCHAR wzPossibleTargetProductCode[MAX_GUID_CHARS + 1];
 
     // Use a dictionary to ensure we capture unique product codes. Otherwise, we could end up
@@ -642,10 +661,8 @@ static HRESULT GetPossibleTargetProductCodes(
                 hr = AddPossibleTargetProduct(sdUniquePossibleTargetProductCodes, pTargetCode->sczTargetCode, MSIINSTALLCONTEXT_NONE, prgPossibleTargetProducts, pcPossibleTargetProducts);
                 ExitOnFailure(hr, "Failed to add product code to possible target product codes.");
             }
-            else // must be an upgrade code.
+            else if (BURN_PATCH_TARGETCODE_TYPE_UPGRADE == pTargetCode->type)
             {
-                Assert(BURN_PATCH_TARGETCODE_TYPE_UPGRADE == pTargetCode->type);
-
                 // Enumerate all unique related products to the target upgrade code.
                 for (DWORD iProduct = 0; SUCCEEDED(hr); ++iProduct)
                 {
@@ -670,9 +687,22 @@ static HRESULT GetPossibleTargetProductCodes(
                 }
                 ExitOnFailure1(hr, "Failed to enumerate all products to patch related to upgrade code: %ls", pTargetCode->sczTargetCode);
             }
+            else
+            {
+                // The element does not target a specific product.
+                fCheckAll = TRUE;
+
+                break;
+            }
         }
     }
-    else // one more more patches didn't target specific products so we'll search everything on the machine.
+    else
+    {
+        fCheckAll = TRUE;
+    }
+
+    // One or more of the patches do not target a specific product so search everything on the machine.
+    if (fCheckAll)
     {
         for (DWORD iProduct = 0; SUCCEEDED(hr); ++iProduct)
         {
@@ -686,7 +716,7 @@ static HRESULT GetPossibleTargetProductCodes(
             }
             else if (E_BADCONFIGURATION == hr)
             {
-                // Skip product's with bad configuration and continue.
+                // Skip products with bad configuration and continue.
                 LogId(REPORT_STANDARD, MSG_DETECT_BAD_PRODUCT_CONFIGURATION, wzPossibleTargetProductCode);
 
                 hr = S_OK;
@@ -715,6 +745,7 @@ static HRESULT AddPossibleTargetProduct(
     )
 {
     HRESULT hr = S_OK;
+    LPWSTR pszLocalPackage = NULL;
 
     // Only add this possible target code if we haven't queried for it already.
     if (E_NOTFOUND == DictKeyExists(sdUniquePossibleTargetProductCodes, wzPossibleTargetProductCode))
@@ -736,15 +767,32 @@ static HRESULT AddPossibleTargetProduct(
         hr = MemEnsureArraySize(reinterpret_cast<LPVOID*>(prgPossibleTargetProducts), *pcPossibleTargetProducts + 1, sizeof(POSSIBLE_TARGETPRODUCT), 3);
         ExitOnFailure(hr, "Failed to grow array of possible target products.");
 
-        hr = ::StringCchCopyW((*prgPossibleTargetProducts)[*pcPossibleTargetProducts].wzProductCode, countof(prgPossibleTargetProducts[*pcPossibleTargetProducts]->wzProductCode), wzPossibleTargetProductCode);
+        POSSIBLE_TARGETPRODUCT *const pPossibleTargetProduct = *prgPossibleTargetProducts + *pcPossibleTargetProducts;
+
+        hr = ::StringCchCopyW(pPossibleTargetProduct->wzProductCode, countof(pPossibleTargetProduct->wzProductCode), wzPossibleTargetProductCode);
         ExitOnFailure(hr, "Failed to copy possible target product code.");
 
-        (*prgPossibleTargetProducts)[*pcPossibleTargetProducts].context = context;
+        // Attempt to get the local package path so we can more quickly determine patch applicability later.
+        hr = WiuGetProductInfoEx(wzPossibleTargetProductCode, NULL, context, INSTALLPROPERTY_LOCALPACKAGE, &pszLocalPackage);
+        if (SUCCEEDED(hr))
+        {
+            pPossibleTargetProduct->pszLocalPackage = pszLocalPackage;
+            pszLocalPackage = NULL;
+        }
+        else
+        {
+            // Will instead call MsiDeterminePatchSequence later.
+            hr = S_OK;
+        }
+
+        pPossibleTargetProduct->context = context;
 
         ++(*pcPossibleTargetProducts);
     }
 
 LExit:
+    ReleaseStr(pszLocalPackage);
+
     return hr;
 }
 

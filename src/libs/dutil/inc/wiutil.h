@@ -171,6 +171,11 @@ typedef UINT (WINAPI *PFN_MSIDETERMINEPATCHSEQUENCEW)(
     __in DWORD cPatchInfo,
     __in PMSIPATCHSEQUENCEINFOW pPatchInfo
     );
+typedef UINT (WINAPI *PFN_MSIDETERMINEAPPLICABLEPATCHESW)(
+    __in_z LPCWSTR wzProductPackagePath,
+    __in DWORD cPatchInfo,
+    __in PMSIPATCHSEQUENCEINFOW pPatchInfo
+    );
 typedef UINT (WINAPI *PFN_MSIINSTALLPRODUCTW)(
     __in LPCWSTR szPackagePath,
     __in_opt LPCWSTR szCommandLine
@@ -297,6 +302,11 @@ HRESULT DAPI WiuDeterminePatchSequence(
     __in_z LPCWSTR wzProductCode,
     __in_z_opt LPCWSTR wzUserSid,
     __in MSIINSTALLCONTEXT context,
+    __in PMSIPATCHSEQUENCEINFOW pPatchInfo,
+    __in DWORD cPatchInfo
+    );
+HRESULT DAPI WiuDetermineApplicablePatches(
+    __in_z LPCWSTR wzProductPackagePath,
     __in PMSIPATCHSEQUENCEINFOW pPatchInfo,
     __in DWORD cPatchInfo
     );
