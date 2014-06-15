@@ -1,3 +1,5 @@
+* ErnestT: WIXBUG:4430 - Do not repair dependent bundles if no packages are executed.
+
 * ErnestT: WIXBUG:4429 - Fix responsiveness problems when cancelling during a BITS download that is not transferring (in a transient error state for example).
 
 * HeathS: WIXBUG:4428 - Add detection for Visual Studio 14.0.
