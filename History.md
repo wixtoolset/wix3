@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4428 - Add detection for Visual Studio 14.0.
+
 * ErnestT: WIXBUG:4427 - Update resume command handling to support more than 260 characters.
 
 * HeathS: WIXBUG:4425 - Prevent embedded bundles from starting simultaneously after reboot.
