@@ -64,6 +64,7 @@ HRESULT ApprovedExesFindById(
     __out BURN_APPROVED_EXE** ppApprovedExe
     );
 HRESULT ApprovedExesLaunch(
+    __in BURN_VARIABLES* pVariables,
     __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe,
     __out DWORD* pdwProcessId
     );

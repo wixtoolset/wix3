@@ -150,26 +150,42 @@ LExit:
 }
 
 extern "C" HRESULT ApprovedExesLaunch(
+    __in BURN_VARIABLES* pVariables,
     __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe,
     __out DWORD* pdwProcessId
     )
 {
     HRESULT hr = S_OK;
+    LPWSTR sczArgumentsFormatted = NULL;
+    LPWSTR sczArgumentsObfuscated = NULL;
     LPWSTR sczCommand = NULL;
+    LPWSTR sczCommandObfuscated = NULL;
     LPWSTR sczExecutableDirectory = NULL;
-    STARTUPINFOW si = {};
-    PROCESS_INFORMATION pi = {};
+    STARTUPINFOW si = { };
+    PROCESS_INFORMATION pi = { };
 
     // build command
     if (pLaunchApprovedExe->sczArguments && *pLaunchApprovedExe->sczArguments)
     {
-        hr = StrAllocFormatted(&sczCommand, L"\"%ls\" %s", pLaunchApprovedExe->sczExecutablePath, pLaunchApprovedExe->sczArguments);
+        hr = VariableFormatString(pVariables, pLaunchApprovedExe->sczArguments, &sczArgumentsFormatted, NULL);
+        ExitOnFailure(hr, "Failed to format argument string.");
+
+        hr = StrAllocateFormatted(&sczCommand, TRUE, L"\"%ls\" %s", pLaunchApprovedExe->sczExecutablePath, sczArgumentsFormatted);
+        ExitOnFailure(hr, "Failed to create executable command.");
+
+        hr = VariableFormatStringObfuscated(pVariables, pLaunchApprovedExe->sczArguments, &sczArgumentsObfuscated, NULL);
+        ExitOnFailure(hr, "Failed to format obfuscated argument string.");
+
+        hr = StrAllocFormatted(&sczCommandObfuscated, L"\"%ls\" %s", pLaunchApprovedExe->sczExecutablePath, sczArgumentsObfuscated);
     }
     else
     {
         hr = StrAllocFormatted(&sczCommand, L"\"%ls\"", pLaunchApprovedExe->sczExecutablePath);
+        ExitOnFailure(hr, "Failed to create executable command.");
+
+        hr = StrAllocFormatted(&sczCommandObfuscated, L"\"%ls\"", pLaunchApprovedExe->sczExecutablePath);
     }
-    ExitOnFailure(hr, "Failed to create executable command.");
+    ExitOnFailure(hr, "Failed to create obfuscated executable command.");
 
     // Try to get the directory of the executable so we can set the current directory of the process to help those executables
     // that expect stuff to be relative to them.  Best effort only.
@@ -178,6 +194,8 @@ extern "C" HRESULT ApprovedExesLaunch(
     {
         ReleaseNullStr(sczExecutableDirectory);
     }
+
+    LogId(REPORT_STANDARD, MSG_LAUNCHING_APPROVED_EXE, pLaunchApprovedExe->sczExecutablePath, sczCommandObfuscated);
 
     si.cb = sizeof(si);
     if (!::CreateProcessW(pLaunchApprovedExe->sczExecutablePath, sczCommand, NULL, NULL, FALSE, CREATE_NEW_PROCESS_GROUP, NULL, sczExecutableDirectory, &si, &pi))
@@ -193,7 +211,10 @@ extern "C" HRESULT ApprovedExesLaunch(
     }
 
 LExit:
+    ReleaseStr(sczArgumentsFormatted);
+    ReleaseStr(sczArgumentsObfuscated);
     ReleaseStr(sczCommand);
+    ReleaseStr(sczCommandObfuscated);
     ReleaseStr(sczExecutableDirectory);
 
     ReleaseHandle(pi.hThread);
@@ -208,42 +229,38 @@ extern "C" HRESULT ApprovedExesVerifySecureLocation(
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR sczProgramFilesFolder = NULL;
-    LPWSTR sczProgramFiles64Folder = NULL;
-    LPWSTR sczRootCacheFolder = NULL;
+    LPWSTR scz = NULL;
 
-    hr = VariableGetString(pVariables, L"ProgramFiles64Folder", &sczProgramFiles64Folder);
-    if (SUCCEEDED(hr))
+    const LPCWSTR vrgSecureFolderVariables[] = {
+        L"ProgramFiles64Folder",
+        L"ProgramFilesFolder",
+    };
+
+    for (DWORD i = 0; i < countof(vrgSecureFolderVariables); ++i)
     {
-        hr = PathDirectoryContainsPath(sczProgramFiles64Folder, pLaunchApprovedExe->sczExecutablePath);
-        if (S_OK == hr)
+        LPCWSTR wzSecureFolderVariable = vrgSecureFolderVariables[i];
+
+        hr = VariableGetString(pVariables, wzSecureFolderVariable, &scz);
+        if (SUCCEEDED(hr))
         {
-            ExitFunction();
+            hr = PathDirectoryContainsPath(scz, pLaunchApprovedExe->sczExecutablePath);
+            if (S_OK == hr)
+            {
+                ExitFunction();
+            }
+        }
+        else if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure1(hr, "Failed to get the variable: %ls", wzSecureFolderVariable);
         }
     }
-    else if (E_NOTFOUND != hr)
-    {
-        ExitOnFailure(hr, "Failed to get the ProgramFiles64 folder.");
-    }
 
-    hr = VariableGetString(pVariables, L"ProgramFilesFolder", &sczProgramFilesFolder);
-    if (SUCCEEDED(hr))
-    {
-        hr = PathDirectoryContainsPath(sczProgramFilesFolder, pLaunchApprovedExe->sczExecutablePath);
-        if (S_OK == hr)
-        {
-            ExitFunction();
-        }
-    }
-    else if (E_NOTFOUND != hr)
-    {
-        ExitOnFailure(hr, "Failed to get the ProgramFiles folder.");
-    }
-
-    hr = CacheGetRootCompletedPath(TRUE, TRUE, &sczRootCacheFolder);
+    // The problem with using a Variable for the root package cache folder is that it might not have been secured yet.
+    // Getting it through CacheGetRootCompletedPath makes sure it has been secured.
+    hr = CacheGetRootCompletedPath(TRUE, TRUE, &scz);
     ExitOnFailure(hr, "Failed to get the root package cache folder.");
 
-    hr = PathDirectoryContainsPath(sczRootCacheFolder, pLaunchApprovedExe->sczExecutablePath);
+    hr = PathDirectoryContainsPath(scz, pLaunchApprovedExe->sczExecutablePath);
     if (S_OK == hr)
     {
         ExitFunction();
@@ -252,9 +269,7 @@ extern "C" HRESULT ApprovedExesVerifySecureLocation(
     hr = S_FALSE;
 
 LExit:
-    ReleaseStr(sczProgramFilesFolder);
-    ReleaseStr(sczProgramFiles64Folder);
-    ReleaseStr(sczRootCacheFolder);
+    ReleaseStr(scz);
 
     return hr;
 }

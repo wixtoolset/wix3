@@ -966,7 +966,7 @@ DAPI_(HRESULT) PathCanonicalizePath(
     }
     else
     {
-        hr = HRESULT_FROM_WIN32(::GetLastError());
+        ExitFunctionWithLastError(hr);
     }
 
 LExit:

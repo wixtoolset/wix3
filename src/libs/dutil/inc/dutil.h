@@ -121,6 +121,8 @@ void DAPI Dutil_RootFailure(__in_z LPCSTR szFile, __in int iLine, __in HRESULT h
 #define ExitFunction()        { goto LExit; }
 #define ExitFunction1(x)          { x; goto LExit; }
 
+#define ExitFunctionWithLastError(x) { x = HRESULT_FROM_WIN32(::GetLastError()); goto LExit; }
+
 #define ExitOnLastError(x, s) { DWORD Dutil_er = ::GetLastError(); x = HRESULT_FROM_WIN32(Dutil_er); if (FAILED(x)) { Dutil_RootFailure(__FILE__, __LINE__, x); ExitTrace(x, s); goto LExit; } }
 #define ExitOnLastError1(x, f, s) { DWORD Dutil_er = ::GetLastError(); x = HRESULT_FROM_WIN32(Dutil_er); if (FAILED(x)) { Dutil_RootFailure(__FILE__, __LINE__, x); ExitTrace1(x, f, s); goto LExit; } }
 #define ExitOnLastError2(x, f, s, t) { DWORD Dutil_er = ::GetLastError(); x = HRESULT_FROM_WIN32(Dutil_er); if (FAILED(x)) { Dutil_RootFailure(__FILE__, __LINE__, x); ExitTrace2(x, f, s, t); goto LExit; } }

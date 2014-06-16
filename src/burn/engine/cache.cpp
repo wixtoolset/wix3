@@ -299,7 +299,6 @@ extern "C" HRESULT CacheGetRootCompletedPath(
         hr = GetRootPath(fPerMachine, TRUE, psczRootCompletedPath);
     }
 
-//LExit:
     return hr;
 }
 

@@ -2557,9 +2557,6 @@ private: // privates
         {
             hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS, &sczUnformattedArguments);
             BalExitOnFailure1(hr, "Failed to get launch arguments '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS);
-
-            hr = BalFormatString(sczUnformattedArguments, &sczArguments);
-            BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
         }
 
         if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_HIDDEN))
@@ -2570,7 +2567,7 @@ private: // privates
         if (sczLaunchTargetElevatedId && !m_fTriedToLaunchElevated)
         {
             m_fTriedToLaunchElevated = TRUE;
-            hr = m_pEngine->LaunchApprovedExe(m_hWnd, sczLaunchTargetElevatedId, sczArguments, 0);
+            hr = m_pEngine->LaunchApprovedExe(m_hWnd, sczLaunchTargetElevatedId, sczUnformattedArguments, 0);
             if (FAILED(hr))
             {
                 BalLogError(hr, "Failed to launch elevated target: %ls", sczLaunchTargetElevatedId);
@@ -2581,6 +2578,9 @@ private: // privates
         }
         else
         {
+            hr = BalFormatString(sczUnformattedArguments, &sczArguments);
+            BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
+
             hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
             BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
 

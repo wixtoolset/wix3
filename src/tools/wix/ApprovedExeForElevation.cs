@@ -29,13 +29,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.Attributes = wixApprovedExeForElevationRow.Attributes;
         }
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
-        public string Key { get; set; }
+        public string Key { get; private set; }
 
-        public string ValueName { get; set; }
+        public string ValueName { get; private set; }
 
-        public BundleApprovedExeForElevationAttributes Attributes { get; set; }
+        public BundleApprovedExeForElevationAttributes Attributes { get; private set; }
 
         public bool Win64
         {

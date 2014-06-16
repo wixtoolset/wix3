@@ -1045,7 +1045,7 @@ extern "C" HRESULT ElevationLaunchApprovedExe(
     BYTE* pbData = NULL;
     SIZE_T cbData = 0;
     DWORD dwResult = 0;
-    BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT context = {};
+    BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT context = { };
 
     // Serialize message data.
     hr = BuffWriteString(&pbData, &cbData, pLaunchApprovedExe->sczId);
@@ -2621,16 +2621,18 @@ static HRESULT OnLaunchApprovedExe(
     hr = ApprovedExesFindById(pApprovedExes, pLaunchApprovedExe->sczId, &pApprovedExe);
     ExitOnFailure1(hr, "The per-user process requested unknown approved exe with id: %ls", pLaunchApprovedExe->sczId);
 
+    LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_SEARCH, pApprovedExe->sczKey, pApprovedExe->sczValueName ? pApprovedExe->sczValueName : L"", pApprovedExe->fWin64 ? L"yes" : L"no");
+
     if (pApprovedExe->fWin64)
     {
         samDesired |= KEY_WOW64_64KEY;
     }
 
     hr = RegOpen(HKEY_LOCAL_MACHINE, pApprovedExe->sczKey, samDesired, &hKey);
-    ExitOnFailure2(hr, "Failed to open the registry key for the approved exe path: HKLM\\%ls (Win64=%ls)", pApprovedExe->sczKey, pApprovedExe->fWin64 ? L"yes" : L"no");
+    ExitOnFailure(hr, "Failed to open the registry key for the approved exe path.");
 
     hr = RegReadString(hKey, pApprovedExe->sczValueName, &pLaunchApprovedExe->sczExecutablePath);
-    ExitOnFailure2(hr, "Failed to read the value for the approved exe path: %ls (Win64=%ls)", pApprovedExe->sczValueName, pApprovedExe->fWin64 ? L"yes" : L"no");
+    ExitOnFailure(hr, "Failed to read the value for the approved exe path.");
 
     hr = ApprovedExesVerifySecureLocation(pVariables, pLaunchApprovedExe);
     ExitOnFailure1(hr, "Failed to verify the executable path is in a secure location: %ls", pLaunchApprovedExe->sczExecutablePath);
@@ -2640,7 +2642,7 @@ static HRESULT OnLaunchApprovedExe(
         ExitFunction1(hr = HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED));
     }
 
-    hr = ApprovedExesLaunch(pLaunchApprovedExe, &dwProcessId);
+    hr = ApprovedExesLaunch(pVariables, pLaunchApprovedExe, &dwProcessId);
     ExitOnFailure1(hr, "Failed to launch approved exe: %ls", pLaunchApprovedExe->sczExecutablePath);
 
     //send process id over pipe

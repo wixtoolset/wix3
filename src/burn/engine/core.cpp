@@ -709,7 +709,7 @@ extern "C" HRESULT CoreLaunchApprovedExe(
     BOOL fActivated = FALSE;
     DWORD dwProcessId = 0;
 
-    LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_BEGIN);
+    LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_BEGIN, pLaunchApprovedExe->sczId);
 
     hr = UserExperienceActivateEngine(&pEngineState->userExperience, &fActivated);
     ExitOnFailure(hr, "Engine cannot start LaunchApprovedExe because it is busy with another action.");
