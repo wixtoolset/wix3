@@ -1,3 +1,5 @@
+## WixBuild: Version 3.9.616.0
+
 * HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.
 
 * HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.
