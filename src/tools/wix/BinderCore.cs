@@ -142,14 +142,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 throw new ArgumentNullException("name");
             }
 
-            if (this.additionalProperties.ContainsKey(name))
-            {
-                this.additionalProperties[name] = value;
-            }
-            else
-            {
-                this.additionalProperties.Add(name, value);
-            }
+            this.additionalProperties[name] = value;
         }
     }
 }
