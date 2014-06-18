@@ -15,6 +15,7 @@ namespace WixTest
     using System.IO;
     using System.Linq;
     using WixTest.Utilities;
+    using Xunit;
 
     /// <summary>
     /// Base class for builders.
@@ -23,26 +24,33 @@ namespace WixTest
     {
         private static Stack<BuiltItem> BuiltItems = new Stack<BuiltItem>();
 
-        public BuilderBase(string testName, string name, string dataFolder)
+        /// <summary>
+        /// Creates a new instance of the builder class.
+        /// </summary>
+        /// <param name="testName">The name of the test.</param>
+        /// <param name="name">The name of the test item to build. The default is the <paramref name="testName"/>.</param>
+        /// <param name="dataDirectory">The root directory in which test source can be found.</param>
+        /// <param name="testArtifacts">Optional list of files and directories created by the test case.</param>
+        public BuilderBase(string testName, string name, string dataDirectory, List<FileSystemInfo> testArtifacts = null)
         {
             this.TestName = testName;
             this.Name = name ?? testName;
-            this.DataFolder = dataFolder;
+            this.TestDataDirectory = dataDirectory;
 
-            this.SourceFile = Path.Combine(this.DataFolder, String.Concat(this.Name, ".wxs"));
+            this.SourceFile = Path.Combine(this.TestDataDirectory, String.Concat(this.Name, ".wxs"));
 
             this.AdditionalSourceFiles = new string[0];
             this.Extensions = new string[0];
             this.PreprocessorVariables = new Dictionary<string, string>();
             this.BindPaths = new Dictionary<string, string>();
 
-            this.TestArtifacts = new List<FileSystemInfo>();
+            this.TestArtifacts = testArtifacts ?? new List<FileSystemInfo>();
         }
 
         /// <summary>
         /// Name of the output, defaults to the name of the test.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
         /// <summary>
         /// Name of the test that requested the build.
@@ -50,9 +58,9 @@ namespace WixTest
         public string TestName { get; private set; }
 
         /// <summary>
-        /// Default folder to find data for the builder.
+        /// Default directory to find data for the builder.
         /// </summary>
-        public string DataFolder { get; set; }
+        public string TestDataDirectory { get; private set; }
 
         /// <summary>
         /// Primary source file to build, defaults to the DataFolder + Name of the test + ".wxs".
@@ -102,10 +110,7 @@ namespace WixTest
         public T Build()
         {
             T t = this.BuildItem();
-            if (String.IsNullOrEmpty(t.Output))
-            {
-                throw new InvalidOperationException("A builder must specify its output.");
-            }
+            Assert.False(String.IsNullOrEmpty(this.Output));
 
             if (!t.NeverGetsInstalled)
             {
@@ -113,6 +118,36 @@ namespace WixTest
             }
 
             return t;
+        }
+
+        /// <summary>
+        /// Disassembles the built item.
+        /// </summary>
+        /// <returns>The directory containing the disassembled package source.</returns>
+        /// <exception cref="InvalidOperationException">The item has not been built yet.</exception>
+        /// <exception cref="TestException">Failed to disassemble the item.</exception>
+        public virtual string Disassemble()
+        {
+            string outputPath = Path.Combine(Environment.CurrentDirectory, FileUtilities.GetUniqueFileName());
+            Directory.CreateDirectory(outputPath);
+
+            Dark dark = new Dark();
+            dark.BinaryPath = outputPath;
+            dark.Extensions = this.Extensions.ToList();
+            dark.InputFile = this.Output;
+            dark.OutputFile = outputPath;
+            dark.WorkingDirectory = outputPath;
+            Result result = dark.Run();
+
+            DirectoryInfo outputDirectory = new DirectoryInfo(dark.OutputFile);
+            this.TestArtifacts.Add(outputDirectory);
+
+            if (0 != result.ExitCode)
+            {
+                throw new TestException(String.Format("Failed to disassemble '{0}'.", this.Output), result);
+            }
+
+            return dark.OutputFile;
         }
 
         /// <summary>
