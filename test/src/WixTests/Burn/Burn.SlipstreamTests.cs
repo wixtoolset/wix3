@@ -24,16 +24,16 @@ namespace WixTest.Tests.Burn
     {
         private const string V101 = "1.0.1.0";
 
-        private PackageBuilder packageA;
-        private PackageBuilder packageAv101;
-        private PatchBuilder patchA;
-        private PackageBuilder packageB;
+        private WixTest.PackageBuilder packageA;
+        private WixTest.PackageBuilder packageAv101;
+        private WixTest.PatchBuilder patchA;
+        private WixTest.PackageBuilder packageB;
 
-        private BundleBuilder bundleA;
-        private BundleBuilder bundleOnlyA;
-        private BundleBuilder bundleOnlyPatchA;
-        private BundleBuilder bundleAReverse;
-        private BundleBuilder bundleB;
+        private WixTest.BundleBuilder bundleA;
+        private WixTest.BundleBuilder bundleOnlyA;
+        private WixTest.BundleBuilder bundleOnlyPatchA;
+        private WixTest.BundleBuilder bundleAReverse;
+        private WixTest.BundleBuilder bundleB;
 
         [NamedFact]
         [Priority(2)]
@@ -553,17 +553,17 @@ namespace WixTest.Tests.Burn
             this.Complete();
         }
 
-        private PackageBuilder GetPackageA()
+        private WixTest.PackageBuilder GetPackageA()
         {
             return (null != this.packageA) ? this.packageA : this.packageA = new PackageBuilder(this, "A") { Extensions = Extensions }.Build();
         }
 
-        private PackageBuilder GetPackageAv101()
+        private WixTest.PackageBuilder GetPackageAv101()
         {
             return (null != this.packageAv101) ? this.packageAv101 : this.packageAv101 = new PackageBuilder(this, "A") { PreprocessorVariables = new Dictionary<string, string>() { { "Version", V101 } }, NeverGetsInstalled = true }.Build();
         }
 
-        private PatchBuilder GetPatchA()
+        private WixTest.PatchBuilder GetPatchA()
         {
             if (null == this.patchA)
             {
@@ -576,12 +576,12 @@ namespace WixTest.Tests.Burn
             return this.patchA;
         }
 
-        private PackageBuilder GetPackageB()
+        private WixTest.PackageBuilder GetPackageB()
         {
             return (null != this.packageB) ? this.packageB : this.packageB = new PackageBuilder(this, "B") { Extensions = Extensions }.Build();
         }
 
-        private BundleBuilder GetBundleA()
+        private WixTest.BundleBuilder GetBundleA()
         {
             if (null == this.bundleA)
             {
@@ -595,7 +595,7 @@ namespace WixTest.Tests.Burn
             return this.bundleA;
         }
 
-        private BundleBuilder GetBundleOnlyA()
+        private WixTest.BundleBuilder GetBundleOnlyA()
         {
             if (null == this.bundleOnlyA)
             {
@@ -608,7 +608,7 @@ namespace WixTest.Tests.Burn
             return this.bundleOnlyA;
         }
 
-        private BundleBuilder GetBundleOnlyPatchA()
+        private WixTest.BundleBuilder GetBundleOnlyPatchA()
         {
             if (null == this.bundleOnlyPatchA)
             {
@@ -621,7 +621,7 @@ namespace WixTest.Tests.Burn
             return this.bundleOnlyPatchA;
         }
 
-        private BundleBuilder GetBundleAReverse()
+        private WixTest.BundleBuilder GetBundleAReverse()
         {
             if (null == this.bundleAReverse)
             {
@@ -635,7 +635,7 @@ namespace WixTest.Tests.Burn
             return this.bundleAReverse;
         }
 
-        private BundleBuilder GetBundleB()
+        private WixTest.BundleBuilder GetBundleB()
         {
             if (null == this.bundleB)
             {

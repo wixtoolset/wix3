@@ -21,11 +21,22 @@ namespace WixTest
     /// </summary>
     public class BundleBuilder : BuilderBase<BundleBuilder>
     {
-        public BundleBuilder(string testName, string name, string dataFolder, List<FileSystemInfo> artifacts)
-            : base(testName, name, dataFolder)
+        /// <summary>
+        /// Creates a new instance of the <see cref="BundleBuilder"/> class.
+        /// </summary>
+        /// <param name="testName">The name of the test.</param>
+        /// <param name="name">The name of the test bundle to build. The default is the <paramref name="testName"/>.</param>
+        /// <param name="dataDirectory">The root directory in which test source can be found.</param>
+        /// <param name="testArtifacts">Optional list of files and directories created by the test case.</param>
+        public BundleBuilder(string testName, string name, string dataDirectory, List<FileSystemInfo> testArtifacts = null)
+            : base(testName, name, dataDirectory, testArtifacts)
         {
-            this.TestArtifacts.AddRange(artifacts);
         }
+
+        /// <summary>
+        /// Gets or sets whether or not to suppress patch sequence data.
+        /// </summary>
+        public bool SuppressPatchSequenceData { get; set; }
 
         /// <summary>
         /// Builds the package.
@@ -50,7 +61,7 @@ namespace WixTest
             candle.OutputFile = String.Concat(objDirectory, @"\");
             candle.SourceFiles.Add(this.SourceFile);
             candle.SourceFiles.AddRange(this.AdditionalSourceFiles);
-            candle.WorkingDirectory = this.DataFolder;
+            candle.WorkingDirectory = this.TestDataDirectory;
             candle.Run();
 
             // Make sure the output directory is cleaned up.
@@ -63,8 +74,9 @@ namespace WixTest
             this.BindPaths.ToList().ForEach(kv => light.OtherArguments = String.Concat(light.OtherArguments, " -b ", kv.Key, "=", kv.Value));
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = bundle;
+            light.SuppressPatchSequenceData = this.SuppressPatchSequenceData;
             light.SuppressMSIAndMSMValidation = true;
-            light.WorkingDirectory = this.DataFolder;
+            light.WorkingDirectory = this.TestDataDirectory;
             light.Run();
 
             // Make sure the output directory is cleaned up.

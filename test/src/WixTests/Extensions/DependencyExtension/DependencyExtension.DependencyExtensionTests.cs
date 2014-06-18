@@ -15,7 +15,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
     using System.Diagnostics;
     using System.IO;
     using System.Text;
-    using WixTest;
+    using WixTest.Tests;
     using WixTest.Utilities;
     using WixTest.Verifiers;
     using Microsoft.Win32;
@@ -162,7 +162,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
         /// <returns>The path to the build MSI package.</returns>
         private string BuildPackage(string name, string version)
         {
-            PackageBuilder builder = new PackageBuilder(this.TestContext.TestName, name, this.TestContext.TestDataDirectory, this.TestArtifacts) { Extensions = DependencyExtensionTests.Extensions };
+            PackageBuilder builder = new PackageBuilder(this, name) { Extensions = DependencyExtensionTests.Extensions };
             if (!String.IsNullOrEmpty(version))
             {
                 builder.PreprocessorVariables.Add("Version", version);

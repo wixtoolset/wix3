@@ -18,12 +18,18 @@ namespace WixTest
     /// <summary>
     /// Provides methods for building an MSI.
     /// </summary>
-    public class PackageBuilder : BuilderBase<PackageBuilder>
+    public class PackageBuilder: BuilderBase<PackageBuilder>
     {
-        public PackageBuilder(string testName, string name, string dataFolder, List<FileSystemInfo> artifacts)
-            : base(testName, name, dataFolder)
+        /// <summary>
+        /// Creates a new instance of the <see cref="PackageBuilder"/> class.
+        /// </summary>
+        /// <param name="testName">The name of the test.</param>
+        /// <param name="name">The name of the test package to build. The default is the <paramref name="testName"/>.</param>
+        /// <param name="dataDirectory">The root directory in which test source can be found.</param>
+        /// <param name="testArtifacts">Optional list of files and directories created by the test case.</param>
+        public PackageBuilder(string testName, string name, string dataDirectory, List<FileSystemInfo> testArtifacts = null)
+            : base(testName, name, dataDirectory, testArtifacts)
         {
-            this.TestArtifacts.AddRange(artifacts);
         }
 
         /// <summary>
@@ -33,7 +39,7 @@ namespace WixTest
         protected override PackageBuilder BuildItem()
         {
             // Create paths.
-            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.DataFolder, String.Concat(this.Name, ".wxs")) : this.SourceFile;
+            string source = String.IsNullOrEmpty(this.SourceFile) ? Path.Combine(this.TestDataDirectory, String.Concat(this.Name, ".wxs")) : this.SourceFile;
             string rootDirectory = FileUtilities.GetUniqueFileName();
             string objDirectory = Path.Combine(rootDirectory, Settings.WixobjFolder);
             string msiDirectory = Path.Combine(rootDirectory, Settings.MsiFolder);
@@ -50,7 +56,7 @@ namespace WixTest
             candle.OutputFile = String.Concat(objDirectory, @"\");
             candle.SourceFiles.Add(source);
             candle.SourceFiles.AddRange(this.AdditionalSourceFiles);
-            candle.WorkingDirectory = this.DataFolder;
+            candle.WorkingDirectory = this.TestDataDirectory;
             candle.Run();
 
             // Make sure the output directory is cleaned up.
@@ -64,7 +70,7 @@ namespace WixTest
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = package;
             light.SuppressMSIAndMSMValidation = true;
-            light.WorkingDirectory = this.DataFolder;
+            light.WorkingDirectory = this.TestDataDirectory;
             light.Run();
 
             // Make sure the output directory is cleaned up.
