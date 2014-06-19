@@ -13,6 +13,8 @@
     <PlatformToolset Condition="$(VS2013Available)">v120</PlatformToolset>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <!-- turn off deprecation warning -->
+    <DisableSpecificCompilerWarnings>4996</DisableSpecificCompilerWarnings>
   </PropertyGroup>
 
   <PropertyGroup>
