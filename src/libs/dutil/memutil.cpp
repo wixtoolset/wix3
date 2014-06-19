@@ -40,7 +40,7 @@ extern "C" LPVOID DAPI MemAlloc(
     )
 {
 //    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
-    AssertSz(cbSize > 0, "MemAlloc() called with invalid size");
+    AssertSz(0 < cbSize, "MemAlloc() called with invalid size");
     return ::HeapAlloc(::GetProcessHeap(), fZero ? HEAP_ZERO_MEMORY : 0, cbSize);
 }
 
@@ -52,7 +52,7 @@ extern "C" LPVOID DAPI MemReAlloc(
     )
 {
 //    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
-    AssertSz(cbSize > 0, "MemReAlloc() called with invalid size");
+    AssertSz(0 < cbSize, "MemReAlloc() called with invalid size");
     return ::HeapReAlloc(::GetProcessHeap(), fZero ? HEAP_ZERO_MEMORY : 0, pv, cbSize);
 }
 
@@ -64,47 +64,54 @@ extern "C" HRESULT DAPI MemReAllocSecure(
     __out LPVOID* ppvNew
     )
 {
-    SIZE_T cbOldSize = 0;
-    SIZE_T cbNewSize = 0;
-    SIZE_T cbCount = 0;
+//    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
+    AssertSz(ppvNew, "MemReAllocSecure() called with uninitialized pointer");
+    AssertSz(0 < cbSize, "MemReAllocSecure() called with invalid size");
+
     HRESULT hr = S_OK;
+    DWORD dwFlags = HEAP_REALLOC_IN_PLACE_ONLY;
     LPVOID pvNew = NULL;
 
-//    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
-    AssertSz(0 < cbSize, "MemReAllocSecure() called with invalid size");
-    AssertSz(NULL != ppvNew, "MemReAllocSecure() called with uninitialized pointer");
-    pvNew = ::HeapReAlloc(::GetProcessHeap(), HEAP_REALLOC_IN_PLACE_ONLY, pv, cbSize);
-    if (NULL == pvNew)
+    dwFlags = fZero ? HEAP_ZERO_MEMORY : 0;
+    pvNew = ::HeapReAlloc(::GetProcessHeap(), dwFlags, pv, cbSize);
+    if (!pvNew)
     {
         pvNew = MemAlloc(cbSize, fZero);
         if (pvNew)
         {
-            cbOldSize = MemSize(pv);
-            if (-1 == cbOldSize)
+            const SIZE_T cbCurrent = MemSize(pv);
+            if (-1 == cbCurrent)
             {
-                hr = E_INVALIDARG;
-                MemFree(pvNew);
-                ExitOnFailure(hr, "Failed to get size of source");
+                ExitOnFailure(hr = E_INVALIDARG, "Failed to get memory size");
             }
-            cbNewSize = MemSize(pvNew);
-            if (-1 == cbNewSize)
+
+            // HeapReAlloc may allocate more memory than requested.
+            const SIZE_T cbNew = MemSize(pvNew);
+            if (-1 == cbNew)
             {
-                cbNewSize = cbSize;
+                ExitOnFailure(hr = E_INVALIDARG, "Failed to get memory size");
             }
-            cbCount = cbNewSize;
-            if (cbCount > cbOldSize)
+
+            cbSize = cbNew;
+            if (cbSize > cbCurrent)
             {
-                cbCount = cbOldSize;
+                cbSize = cbCurrent;
             }
-            memcpy_s(pvNew, cbSize, pv, cbCount);
-            SecureZeroMemory(pv, cbOldSize);
+
+            memcpy_s(pvNew, cbNew, pv, cbSize);
+
+            SecureZeroMemory(pv, cbCurrent);
             MemFree(pv);
         }
     }
-    
-    ExitOnNull1(pvNew, hr, E_OUTOFMEMORY, "failed to reallocate, size: %u", cbSize);
+    ExitOnNull(pvNew, hr, E_OUTOFMEMORY, "Failed to reallocate memory");
+
     *ppvNew = pvNew;
+    pvNew = NULL;
+
 LExit:
+    ReleaseMem(pvNew);
+
     return hr;
 }
 
