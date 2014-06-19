@@ -32,9 +32,6 @@ namespace Bootstrapper
         public WixTestBase,
         public IDisposable
     {
-    private:
-        BOOL fDisposed = FALSE;
-
     public: 
         // Run code before running the first test in the class
         BurnUnitTest()
