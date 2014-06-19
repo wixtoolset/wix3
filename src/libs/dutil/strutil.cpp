@@ -909,26 +909,28 @@ extern "C" HRESULT DAPI StrAllocateFormattedArgs(
     Assert(ppwz && wzFormat && *wzFormat);
 
     HRESULT hr = S_OK;
-    DWORD_PTR cch = 0;
+    SIZE_T cch = 0;
     LPWSTR pwzOriginal = NULL;
-    DWORD_PTR cchOriginal = 0;
+    SIZE_T cbOriginal = 0;
+    SIZE_T cchOriginal = 0;
 
     if (*ppwz)
     {
-        cch = MemSize(*ppwz);  // get the count in bytes so we can check if it failed (returns -1)
-        if (-1 == cch)
+        cbOriginal = MemSize(*ppwz);  // get the count in bytes so we can check if it failed (returns -1)
+        if (-1 == cbOriginal)
         {
             hr = E_INVALIDARG;
             ExitOnFailure(hr, "failed to get size of destination string");
         }
-        cch /= sizeof(WCHAR);  //convert the count in bytes to count in characters
 
+        cch = cbOriginal / sizeof(WCHAR);  //convert the count in bytes to count in characters
         cchOriginal = lstrlenW(*ppwz);
     }
 
     if (0 == cch)   // if there is no space in the string buffer
     {
         cch = 256;
+
         hr = StrAllocate(ppwz, cch, fZeroOnRealloc);
         ExitOnFailure1(hr, "failed to allocate string to format: %ls", wzFormat);
     }
@@ -939,25 +941,34 @@ extern "C" HRESULT DAPI StrAllocateFormattedArgs(
         hr = ::StringCchVPrintfW(*ppwz, cch, wzFormat, args);
         if (STRSAFE_E_INSUFFICIENT_BUFFER == hr)
         {
-            if (!pwzOriginal && !fZeroOnRealloc)
+            if (!pwzOriginal)
             {
                 // this allows you to pass the original string as a formatting argument and not crash
                 // save the original string and free it after the printf is complete
                 pwzOriginal = *ppwz;
                 *ppwz = NULL;
+
                 // StringCchVPrintfW starts writing to the string...
                 // NOTE: this hack only works with sprintf(&pwz, "%s ...", pwz, ...);
                 pwzOriginal[cchOriginal] = 0;
             }
+
             cch *= 2;
+
             hr = StrAllocate(ppwz, cch, fZeroOnRealloc);
             ExitOnFailure1(hr, "failed to allocate string to format: %ls", wzFormat);
+
             hr = S_FALSE;
         }
     } while (S_FALSE == hr);
     ExitOnFailure(hr, "failed to format string");
 
 LExit:
+    if (pwzOriginal && fZeroOnRealloc)
+    {
+        SecureZeroMemory(pwzOriginal, cbOriginal);
+    }
+
     ReleaseStr(pwzOriginal);
 
     return hr;
