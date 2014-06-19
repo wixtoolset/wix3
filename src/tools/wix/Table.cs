@@ -163,6 +163,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 case "WixAction":
                     row = new WixActionRow(sourceLineNumbers, this);
                     break;
+                case "WixApprovedExeForElevation":
+                    row = new WixApprovedExeForElevationRow(sourceLineNumbers, this);
+                    break;
                 case "WixBundle":
                     row = new WixBundleRow(sourceLineNumbers, this);
                     break;

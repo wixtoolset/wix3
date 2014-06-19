@@ -147,6 +147,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         void Quit(
             [MarshalAs(UnmanagedType.U4)] int dwExitCode
             );
+
+        void LaunchApprovedExe(
+            IntPtr hwndParent,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzApprovedExeForElevationId,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzArguments,
+            [MarshalAs(UnmanagedType.U4)] int dwWaitForInputIdleTimeout
+            );
     }
 
     /// <summary>

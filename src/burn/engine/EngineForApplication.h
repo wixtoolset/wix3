@@ -30,6 +30,7 @@ enum WM_BURN
     WM_BURN_PLAN,
     WM_BURN_ELEVATE,
     WM_BURN_APPLY,
+    WM_BURN_LAUNCH_APPROVED_EXE,
     WM_BURN_QUIT,
 
     WM_BURN_LAST, // this enum value must always be last.

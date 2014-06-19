@@ -30,7 +30,7 @@
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>rpcrt4.lib;dutil.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>rpcrt4.lib;dutil.lib;shlwapi.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />

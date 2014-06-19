@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
+
 ## WixBuild: Version 3.9.616.0
 
 * HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.

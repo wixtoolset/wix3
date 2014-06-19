@@ -3660,6 +3660,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.ResolveDelayedFields(bundle, delayedFields, variableCache, null);
             }
 
+            // Process WixApprovedExeForElevation rows.
+            Table wixApprovedExeForElevationTable = bundle.Tables["WixApprovedExeForElevation"];
+            List<ApprovedExeForElevation> approvedExesForElevation = new List<ApprovedExeForElevation>();
+            if (null != wixApprovedExeForElevationTable && 0 < wixApprovedExeForElevationTable.Rows.Count)
+            {
+                foreach (WixApprovedExeForElevationRow wixApprovedExeForElevationRow in wixApprovedExeForElevationTable.Rows)
+                {
+                    ApprovedExeForElevation approvedExeForElevation = new ApprovedExeForElevation(wixApprovedExeForElevationRow);
+                    approvedExesForElevation.Add(approvedExeForElevation);
+                }
+            }            
+
             // Set the overridable bundle provider key.
             this.SetBundleProviderKey(bundle, bundleInfo);
 
@@ -3727,7 +3739,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             string manifestPath = Path.Combine(this.TempFilesLocation, "bundle-manifest.xml");
-            this.CreateBurnManifest(bundleFile, bundleInfo, bundleUpdateRow, updateRegistrationInfo, manifestPath, allRelatedBundles, allVariables, orderedSearches, allPayloads, chain, containers, catalogs, bundle.Tables["WixBundleTag"]);
+            this.CreateBurnManifest(bundleFile, bundleInfo, bundleUpdateRow, updateRegistrationInfo, manifestPath, allRelatedBundles, allVariables, orderedSearches, allPayloads, chain, containers, catalogs, bundle.Tables["WixBundleTag"], approvedExesForElevation);
 
             this.UpdateBurnResources(bundleTempPath, bundleFile, bundleInfo);
 
@@ -4146,7 +4158,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
         }
 
-        private void CreateBurnManifest(string outputPath, WixBundleRow bundleInfo, WixBundleUpdateRow updateRow, WixUpdateRegistrationRow updateRegistrationInfo, string path, List<RelatedBundleInfo> allRelatedBundles, List<VariableInfo> allVariables, List<WixSearchInfo> orderedSearches, Dictionary<string, PayloadInfoRow> allPayloads, ChainInfo chain, Dictionary<string, ContainerInfo> containers, Dictionary<string, CatalogInfo> catalogs, Table wixBundleTagTable)
+        private void CreateBurnManifest(string outputPath, WixBundleRow bundleInfo, WixBundleUpdateRow updateRow, WixUpdateRegistrationRow updateRegistrationInfo, string path, List<RelatedBundleInfo> allRelatedBundles, List<VariableInfo> allVariables, List<WixSearchInfo> orderedSearches, Dictionary<string, PayloadInfoRow> allPayloads, ChainInfo chain, Dictionary<string, ContainerInfo> containers, Dictionary<string, CatalogInfo> catalogs, Table wixBundleTagTable, List<ApprovedExeForElevation> approvedExesForElevation)
         {
             string executableName = Path.GetFileName(outputPath);
 
@@ -4570,6 +4582,29 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         writer.WriteStartElement("PatchTargetCode");
                         writer.WriteAttributeString("TargetCode", targetCode.TargetCode);
                         writer.WriteAttributeString("Product", targetCode.TargetsProductCode ? "yes" : "no");
+                        writer.WriteEndElement();
+                    }
+                }
+
+                // write the ApprovedExeForElevation elements
+                if (0 < approvedExesForElevation.Count)
+                {
+                    foreach (ApprovedExeForElevation approvedExeForElevation in approvedExesForElevation)
+                    {
+                        writer.WriteStartElement("ApprovedExeForElevation");
+                        writer.WriteAttributeString("Id", approvedExeForElevation.Id);
+                        writer.WriteAttributeString("Key", approvedExeForElevation.Key);
+
+                        if (!String.IsNullOrEmpty(approvedExeForElevation.ValueName))
+                        {
+                            writer.WriteAttributeString("ValueName", approvedExeForElevation.ValueName);
+                        }
+
+                        if (approvedExeForElevation.Win64)
+                        {
+                            writer.WriteAttributeString("Win64", "yes");
+                        }
+
                         writer.WriteEndElement();
                     }
                 }
