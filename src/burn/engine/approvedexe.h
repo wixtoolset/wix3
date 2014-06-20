@@ -52,10 +52,10 @@ HRESULT ApprovedExesParseFromXml(
     __in IXMLDOMNode* pixnBundle
     );
 
-HRESULT ApprovedExesUninitialize(
+void ApprovedExesUninitialize(
     __in BURN_APPROVED_EXES* pApprovedExes
     );
-HRESULT ApprovedExesUninitializeLaunch(
+void ApprovedExesUninitializeLaunch(
     __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe
     );
 HRESULT ApprovedExesFindById(

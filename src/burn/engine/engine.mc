@@ -797,7 +797,7 @@ MessageId=600
 Severity=Success
 SymbolicName=MSG_LAUNCH_APPROVED_EXE_BEGIN
 Language=English
-Launch approved exe begin, id: %1!ls!
+LaunchApprovedExe begin, id: %1!ls!
 .
 
 MessageId=601
@@ -818,5 +818,5 @@ MessageId=699
 Severity=Success
 SymbolicName=MSG_LAUNCH_APPROVED_EXE_COMPLETE
 Language=English
-Launch approved exe complete, result: 0x%1!x!, processId: %2!lu!
+LaunchApprovedExe complete, result: 0x%1!x!, processId: %2!lu!
 .

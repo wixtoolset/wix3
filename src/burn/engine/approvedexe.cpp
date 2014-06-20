@@ -90,7 +90,7 @@ LExit:
     return hr;
 }
 
-extern "C" HRESULT ApprovedExesUninitialize(
+extern "C" void ApprovedExesUninitialize(
     __in BURN_APPROVED_EXES* pApprovedExes
     )
 {
@@ -106,10 +106,9 @@ extern "C" HRESULT ApprovedExesUninitialize(
         }
         MemFree(pApprovedExes->rgApprovedExes);
     }
-    return S_OK;
 }
 
-extern "C" HRESULT ApprovedExesUninitializeLaunch(
+extern "C" void ApprovedExesUninitializeLaunch(
     __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe
     )
 {
@@ -120,7 +119,6 @@ extern "C" HRESULT ApprovedExesUninitializeLaunch(
         ReleaseStr(pLaunchApprovedExe->sczId);
         MemFree(pLaunchApprovedExe);
     }
-    return S_OK;
 }
 
 extern "C" HRESULT ApprovedExesFindById(
@@ -211,9 +209,9 @@ extern "C" HRESULT ApprovedExesLaunch(
     }
 
 LExit:
-    ReleaseStr(sczArgumentsFormatted);
+    StrSecureZeroFreeString(sczArgumentsFormatted);
     ReleaseStr(sczArgumentsObfuscated);
-    ReleaseStr(sczCommand);
+    StrSecureZeroFreeString(sczCommand);
     ReleaseStr(sczCommandObfuscated);
     ReleaseStr(sczExecutableDirectory);
 

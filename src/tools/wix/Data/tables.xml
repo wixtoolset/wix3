@@ -1682,7 +1682,7 @@
       <columnDefinition name="Id" type="string" length="0" category="identifier" primaryKey="yes" />
       <columnDefinition name="Key" type="string" length="0" />
       <columnDefinition name="Value" type="string" length="0" nullable="yes" />
-      <columnDefinition name="Attributes" type="number" length="4" minValue="0" maxValue="2147483647" />
+      <columnDefinition name="Attributes" type="number" length="4" minValue="0" maxValue="1" />
     </tableDefinition>
     <tableDefinition name="WixBundleUpdate" unreal="yes">
         <columnDefinition name="Location" type="string" length="0" />
