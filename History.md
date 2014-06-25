@@ -1,3 +1,29 @@
+* SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
+
+## WixBuild: Version 3.9.616.0
+
+* HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.
+
+* HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.
+
+* ErnestT: WIXBUG:4430 - Do not repair dependent bundles if no packages are executed.
+
+* ErnestT: WIXBUG:4429 - Fix responsiveness problems when cancelling during a BITS download that is not transferring (in a transient error state for example).
+
+* HeathS: WIXBUG:4428 - Add detection for Visual Studio 14.0.
+
+* ErnestT: WIXBUG:4427 - Update resume command handling to support more than 260 characters.
+
+* HeathS: WIXBUG:4425 - Prevent embedded bundles from starting simultaneously after reboot.
+
+* HeathS: WIXBUG:4424 - Allow user custom actions to be independently non-vital.
+
+* HeathS: WIXBUG:4420 - Suppress patch sequence data to optimize patch performance
+
+* HeathS: WIXBUG:4366 - Correctly enum all products for non-specific patches
+
+* BobArnson: WIXBUG:4443 - Ensure that MsiPackages in a Bundle have ProductVersions that fit in a QWORD, how Burn represents a four-field version number with each field a WORD.
+
 * BobArnson: WIXBUG:3838 - Since the compiler coerces null values to empty strings, check for those in ColumnDefinition.
 
 * FireGiant: WIXBUG:4319 - Support full range of ExePackage exit code values.

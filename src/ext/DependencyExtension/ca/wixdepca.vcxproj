@@ -41,7 +41,7 @@
 
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\wcautil;$(WixRoot)src\libs\deputil\inc</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>msi.lib;dutil.lib;deputil.lib;wcautil.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>msi.lib;shlwapi.lib;dutil.lib;deputil.lib;wcautil.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1327,10 +1327,14 @@ extern "C" HRESULT PlanRelatedBundlesComplete(
     hr = DictCreateStringList(&sdProviderKeys, pPlan->cExecuteActions, DICT_FLAG_CASEINSENSITIVE);
     ExitOnFailure(hr, "Failed to create dictionary for planned packages.");
 
+    BOOL fExecutingAnyPackage = FALSE;
+
     for (DWORD i = 0; i < pPlan->cExecuteActions; ++i)
     {
         if (BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE == pPlan->rgExecuteActions[i].type && BOOTSTRAPPER_ACTION_STATE_NONE != pPlan->rgExecuteActions[i].exePackage.action)
         {
+            fExecutingAnyPackage = TRUE;
+
             BURN_PACKAGE* pPackage = pPlan->rgExecuteActions[i].packageProvider.pPackage;
             if (BURN_PACKAGE_TYPE_EXE == pPackage->type && BURN_EXE_PROTOCOL_TYPE_BURN == pPackage->Exe.protocol)
             {
@@ -1340,6 +1344,23 @@ extern "C" HRESULT PlanRelatedBundlesComplete(
                     const BURN_DEPENDENCY_PROVIDER* pProvider = pPackage->rgDependencyProviders;
                     DictAddKey(sdProviderKeys, pProvider->sczKey);
                 }
+            }
+        }
+        else
+        {
+            switch (pPlan->rgExecuteActions[i].type)
+            {
+            case BURN_EXECUTE_ACTION_TYPE_MSI_PACKAGE:
+                fExecutingAnyPackage |= (BOOTSTRAPPER_ACTION_STATE_NONE != pPlan->rgExecuteActions[i].msiPackage.action);
+                break;
+
+            case BURN_EXECUTE_ACTION_TYPE_MSP_TARGET:
+                fExecutingAnyPackage |= (BOOTSTRAPPER_ACTION_STATE_NONE != pPlan->rgExecuteActions[i].mspTarget.action);
+                break;
+
+            case BURN_EXECUTE_ACTION_TYPE_MSU_PACKAGE:
+                fExecutingAnyPackage |= (BOOTSTRAPPER_ACTION_STATE_NONE != pPlan->rgExecuteActions[i].msuPackage.action);
+                break;
             }
         }
     }
@@ -1366,6 +1387,13 @@ extern "C" HRESULT PlanRelatedBundlesComplete(
             {
                 hr = S_OK;
             }
+        }
+
+        // For an uninstall, there is no need to repair dependent bundles if no packages are executing.
+        if (!fExecutingAnyPackage && BOOTSTRAPPER_RELATION_DEPENDENT == pRelatedBundle->relationType && BOOTSTRAPPER_REQUEST_STATE_REPAIR == pRelatedBundle->package.requested && BOOTSTRAPPER_ACTION_UNINSTALL == pPlan->action)
+        {
+            pRelatedBundle->package.requested = BOOTSTRAPPER_REQUEST_STATE_NONE;
+            LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_DEPENDENT_BUNDLE_REPAIR, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
         }
 
         if (BOOTSTRAPPER_RELATION_ADDON == pRelatedBundle->relationType || BOOTSTRAPPER_RELATION_PATCH == pRelatedBundle->relationType)
@@ -1787,9 +1815,6 @@ extern "C" HRESULT PlanSetResumeCommand(
     HRESULT hr = S_OK;
 
     // build the resume command-line.
-    hr = StrAllocFormatted(&pRegistration->sczResumeCommandLine, L"\"%ls\"", pRegistration->sczCacheExecutablePath);
-    ExitOnFailure(hr, "Failed to copy executable path to resume command-line.");
-
     hr = CoreRecreateCommandLine(&pRegistration->sczResumeCommandLine, action, pCommand->display, pCommand->restart, pCommand->relationType, pCommand->fPassthrough, pRegistration->sczActiveParent, pRegistration->sczAncestors, pLog->sczPath, pCommand->wzCommandLine);
     ExitOnFailure(hr, "Failed to recreate resume command-line.");
 

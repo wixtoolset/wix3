@@ -25,10 +25,10 @@ namespace WixTest.Tests.Burn
     {
         private const string V2 = "2.0.0.0";
 
-        private PackageBuilder packageA;
-        private PackageBuilder packageAv2;
-        private BundleBuilder bundleA;
-        private BundleBuilder bundleAv2;
+        private WixTest.PackageBuilder packageA;
+        private WixTest.PackageBuilder packageAv2;
+        private WixTest.BundleBuilder bundleA;
+        private WixTest.BundleBuilder bundleAv2;
 
         [NamedFact]
         [Priority(2)]
@@ -200,17 +200,17 @@ namespace WixTest.Tests.Burn
             }
         }
 
-        private PackageBuilder GetPackageA()
+        private WixTest.PackageBuilder GetPackageA()
         {
             return (null != this.packageA) ? this.packageA : this.packageA = new PackageBuilder(this, "A") { Extensions = Extensions }.Build();
         }
 
-        private PackageBuilder GetPackageAv2()
+        private WixTest.PackageBuilder GetPackageAv2()
         {
             return (null != this.packageAv2) ? this.packageAv2 : this.packageAv2 = new PackageBuilder(this, "A") { Extensions = Extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", V2 } } }.Build();
         }
 
-        private BundleBuilder GetBundleA(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleA(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {
@@ -221,7 +221,7 @@ namespace WixTest.Tests.Burn
             return (null != this.bundleA) ? this.bundleA : this.bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = Extensions }.Build();
         }
 
-        private BundleBuilder GetBundleAv2(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleAv2(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {

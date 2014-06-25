@@ -70,7 +70,7 @@ namespace WixTest.Tests.Examples
             string testDirectory = Path.Combine(this.TestContext.DataDirectory, @"Examples\ExampleTest3");
 
             // Build the MSI that will be run against Smoke. Pass the -sval argument to delay validation until Smoke is run
-            string msi = Builder.BuildPackage(testDirectory, "product.wxs", Path.Combine(this.TestContext.TestDataDirectory, "product.msi"), null, "-sval");
+            string msi = Builder.BuildPackage(testDirectory, "product.wxs", Path.Combine(this.TestContext.TestDirectory, "product.msi"), null, "-sval");
 
             // Create a new Smoke object
             Smoke smoke = new Smoke();

@@ -113,6 +113,11 @@ namespace WixTest
                         theTestClass.TestInitialize(this.Namespace, this.Class, this.Method);
                         result = base.Execute(testClass);
                     }
+                    catch (Exception ex)
+                    {
+                        // Return test failure to avoid extra break when debugging.
+                        result = new FailedResult(this.testMethod, ex, null);
+                    }
                     finally
                     {
                         theTestClass.TestUninitialize(result);

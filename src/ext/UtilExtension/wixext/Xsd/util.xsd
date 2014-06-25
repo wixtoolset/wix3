@@ -1269,6 +1269,11 @@
           <xs:documentation>Indicates whether or not to create the user.  User creation can be skipped if all that is desired is to join a user to groups.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="Vital" type="YesNoType" default="yes">
+        <xs:annotation>
+          <xs:documentation>Indicates whether failure to create the user or add the user to a group fails the installation. The default value is "yes".</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="XmlFile">

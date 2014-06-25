@@ -117,6 +117,7 @@ typedef struct _BURN_ENGINE_STATE
     BURN_PAYLOADS payloads;
     BURN_PACKAGES packages;
     BURN_UPDATE update;
+    BURN_APPROVED_EXES approvedExes;
 
     HWND hMessageWindow;
     HANDLE hMessageWindowThread;
@@ -180,6 +181,10 @@ HRESULT CoreElevate(
 HRESULT CoreApply(
     __in BURN_ENGINE_STATE* pEngineState,
     __in_opt HWND hwndParent
+    );
+HRESULT CoreLaunchApprovedExe(
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe
     );
 HRESULT CoreQuit(
     __in BURN_ENGINE_STATE* pEngineState,

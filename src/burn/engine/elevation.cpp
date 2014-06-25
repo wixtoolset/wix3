@@ -40,11 +40,13 @@ typedef enum _BURN_ELEVATION_MESSAGE_TYPE
     BURN_ELEVATION_MESSAGE_TYPE_LOAD_COMPATIBLE_PACKAGE,
     BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_EMBEDDED_CHILD,
     BURN_ELEVATION_MESSAGE_TYPE_CLEAN_PACKAGE,
+    BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE,
 
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_PROGRESS,
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_ERROR,
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_MSI_MESSAGE,
     BURN_ELEVATION_MESSAGE_TYPE_EXECUTE_FILES_IN_USE,
+    BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE_PROCESSID,
 } BURN_ELEVATION_MESSAGE_TYPE;
 
 
@@ -62,12 +64,18 @@ typedef struct _BURN_ELEVATION_MSI_MESSAGE_CONTEXT
     LPVOID pvContext;
 } BURN_ELEVATION_MSI_MESSAGE_CONTEXT;
 
+typedef struct _BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT
+{
+    DWORD dwProcessId;
+} BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT;
+
 typedef struct _BURN_ELEVATION_CHILD_MESSAGE_CONTEXT
 {
     DWORD dwLoggingTlsId;
     HANDLE hPipe;
     HANDLE* phLock;
     BOOL* pfDisabledAutomaticUpdates;
+    BURN_APPROVED_EXES* pApprovedExes;
     BURN_CONTAINERS* pContainers;
     BURN_PACKAGES* pPackages;
     BURN_PAYLOADS* pPayloads;
@@ -97,6 +105,11 @@ static HRESULT ProcessGenericExecuteMessages(
     __out DWORD* pdwResult
     );
 static HRESULT ProcessMsiPackageMessages(
+    __in BURN_PIPE_MESSAGE* pMsg,
+    __in_opt LPVOID pvContext,
+    __out DWORD* pdwResult
+    );
+static HRESULT ProcessLaunchApprovedExeMessages(
     __in BURN_PIPE_MESSAGE* pMsg,
     __in_opt LPVOID pvContext,
     __out DWORD* pdwResult
@@ -219,6 +232,13 @@ static int MsiExecuteMessageHandler(
     );
 static HRESULT OnCleanPackage(
     __in BURN_PACKAGES* pPackages,
+    __in BYTE* pbData,
+    __in DWORD cbData
+    );
+static HRESULT OnLaunchApprovedExe(
+    __in HANDLE hPipe,
+    __in BURN_APPROVED_EXES* pApprovedExes,
+    __in BURN_VARIABLES* pVariables,
     __in BYTE* pbData,
     __in DWORD cbData
     );
@@ -351,6 +371,7 @@ extern "C" HRESULT ElevationSessionBegin(
     __in HANDLE hPipe,
     __in_z LPCWSTR wzEngineWorkingPath,
     __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume,
     __in BURN_VARIABLES* pVariables,
     __in DWORD dwRegistrationOperations,
     __in BURN_DEPENDENCY_REGISTRATION_ACTION dependencyRegistrationAction,
@@ -368,6 +389,9 @@ extern "C" HRESULT ElevationSessionBegin(
 
     hr = BuffWriteString(&pbData, &cbData, wzResumeCommandLine);
     ExitOnFailure(hr, "Failed to write resume command line to message buffer.");
+
+    hr = BuffWriteNumber(&pbData, &cbData, fDisableResume);
+    ExitOnFailure(hr, "Failed to write resume flag.");
 
     hr = BuffWriteNumber(&pbData, &cbData, dwRegistrationOperations);
     ExitOnFailure(hr, "Failed to write registration operations to message buffer.");
@@ -399,7 +423,8 @@ LExit:
 *******************************************************************/
 extern "C" HRESULT ElevationSessionResume(
     __in HANDLE hPipe,
-    __in_z LPCWSTR wzResumeCommandLine
+    __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume
     )
 {
     HRESULT hr = S_OK;
@@ -410,6 +435,9 @@ extern "C" HRESULT ElevationSessionResume(
     // serialize message data
     hr = BuffWriteString(&pbData, &cbData, wzResumeCommandLine);
     ExitOnFailure(hr, "Failed to write resume command line to message buffer.");
+
+    hr = BuffWriteNumber(&pbData, &cbData, fDisableResume);
+    ExitOnFailure(hr, "Failed to write resume flag.");
 
     // send message
     hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_SESSION_RESUME, pbData, cbData, NULL, NULL, &dwResult);
@@ -1007,6 +1035,41 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT ElevationLaunchApprovedExe(
+    __in HANDLE hPipe,
+    __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe,
+    __out DWORD* pdwProcessId
+    )
+{
+    HRESULT hr = S_OK;
+    BYTE* pbData = NULL;
+    SIZE_T cbData = 0;
+    DWORD dwResult = 0;
+    BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT context = { };
+
+    // Serialize message data.
+    hr = BuffWriteString(&pbData, &cbData, pLaunchApprovedExe->sczId);
+    ExitOnFailure(hr, "Failed to write approved exe id to message buffer.");
+
+    hr = BuffWriteString(&pbData, &cbData, pLaunchApprovedExe->sczArguments);
+    ExitOnFailure(hr, "Failed to write approved exe arguments to message buffer.");
+
+    hr = BuffWriteNumber(&pbData, &cbData, pLaunchApprovedExe->dwWaitForInputIdleTimeout);
+    ExitOnFailure(hr, "Failed to write approved exe WaitForInputIdle timeout to message buffer.");
+
+    // Send the message.
+    hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE, pbData, cbData, ProcessLaunchApprovedExeMessages, &context, &dwResult);
+    ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE message to per-machine process.");
+
+    hr = (HRESULT)dwResult;
+    *pdwProcessId = context.dwProcessId;
+
+LExit:
+    ReleaseBuffer(pbData);
+
+    return hr;
+}
+
 /*******************************************************************
  ElevationChildPumpMessages - 
 
@@ -1015,6 +1078,7 @@ extern "C" HRESULT ElevationChildPumpMessages(
     __in DWORD dwLoggingTlsId,
     __in HANDLE hPipe,
     __in HANDLE hCachePipe,
+    __in BURN_APPROVED_EXES* pApprovedExes,
     __in BURN_CONTAINERS* pContainers,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PAYLOADS* pPayloads,
@@ -1046,6 +1110,7 @@ extern "C" HRESULT ElevationChildPumpMessages(
     context.hPipe = hPipe;
     context.phLock = phLock;
     context.pfDisabledAutomaticUpdates = pfDisabledAutomaticUpdates;
+    context.pApprovedExes = pApprovedExes;
     context.pContainers = pContainers;
     context.pPackages = pPackages;
     context.pPayloads = pPayloads;
@@ -1330,6 +1395,39 @@ LExit:
     return hr;
 }
 
+static HRESULT ProcessLaunchApprovedExeMessages(
+    __in BURN_PIPE_MESSAGE* pMsg,
+    __in_opt LPVOID pvContext,
+    __out DWORD* pdwResult
+    )
+{
+    HRESULT hr = S_OK;
+    SIZE_T iData = 0;
+    BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT* pContext = static_cast<BURN_ELEVATION_LAUNCH_APPROVED_EXE_MESSAGE_CONTEXT*>(pvContext);
+    DWORD dwProcessId = 0;
+
+    // Process the message.
+    switch (pMsg->dwMessage)
+    {
+    case BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE_PROCESSID:
+        // read message parameters
+        hr = BuffReadNumber((BYTE*)pMsg->pvData, pMsg->cbData, &iData, &dwProcessId);
+        ExitOnFailure(hr, "Failed to read approved exe process id.");
+        pContext->dwProcessId = dwProcessId;
+        break;
+
+    default:
+        hr = E_INVALIDARG;
+        ExitOnRootFailure(hr, "Invalid launch approved exe message.");
+        break;
+    }
+
+    *pdwResult = static_cast<DWORD>(hr);
+
+LExit:
+    return hr;
+}
+
 static HRESULT ProcessElevatedChildMessage(
     __in BURN_PIPE_MESSAGE* pMsg,
     __in_opt LPVOID pvContext,
@@ -1401,6 +1499,10 @@ static HRESULT ProcessElevatedChildMessage(
 
     case BURN_ELEVATION_MESSAGE_TYPE_CLEAN_PACKAGE:
         hrResult = OnCleanPackage(pContext->pPackages, (BYTE*)pMsg->pvData, pMsg->cbData);
+        break;
+
+    case BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE:
+        hrResult = OnLaunchApprovedExe(pContext->hPipe, pContext->pApprovedExes, pContext->pVariables, (BYTE*)pMsg->pvData, pMsg->cbData);
         break;
 
     default:
@@ -1603,6 +1705,9 @@ static HRESULT OnSessionBegin(
     hr = BuffReadString(pbData, cbData, &iData, &pRegistration->sczResumeCommandLine);
     ExitOnFailure(hr, "Failed to read resume command line.");
 
+    hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&pRegistration->fDisableResume);
+    ExitOnFailure(hr, "Failed to read resume flag.");
+
     hr = BuffReadNumber(pbData, cbData, &iData, &dwRegistrationOperations);
     ExitOnFailure(hr, "Failed to read registration operations.");
 
@@ -1637,6 +1742,9 @@ static HRESULT OnSessionResume(
     // deserialize message data
     hr = BuffReadString(pbData, cbData, &iData, &pRegistration->sczResumeCommandLine);
     ExitOnFailure(hr, "Failed to read resume command line.");
+
+    hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&pRegistration->fDisableResume);
+    ExitOnFailure(hr, "Failed to read resume flag.");
 
     // suspend session in per-machine process
     hr = RegistrationSessionResume(pRegistration);
@@ -2476,5 +2584,76 @@ static HRESULT OnCleanPackage(
 
 LExit:
     ReleaseStr(sczPackage);
+    return hr;
+}
+
+static HRESULT OnLaunchApprovedExe(
+    __in HANDLE hPipe,
+    __in BURN_APPROVED_EXES* pApprovedExes,
+    __in BURN_VARIABLES* pVariables,
+    __in BYTE* pbData,
+    __in DWORD cbData
+    )
+{
+    HRESULT hr = S_OK;
+    SIZE_T iData = 0;
+    BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe = NULL;
+    BURN_APPROVED_EXE* pApprovedExe = NULL;
+    REGSAM samDesired = KEY_QUERY_VALUE;
+    HKEY hKey = NULL;
+    DWORD dwProcessId = 0;
+    BYTE* pbSendData = NULL;
+    SIZE_T cbSendData = 0;
+    DWORD dwResult = 0;
+
+    pLaunchApprovedExe = (BURN_LAUNCH_APPROVED_EXE*)MemAlloc(sizeof(BURN_LAUNCH_APPROVED_EXE), TRUE);
+
+    // deserialize message data
+    hr = BuffReadString(pbData, cbData, &iData, &pLaunchApprovedExe->sczId);
+    ExitOnFailure(hr, "Failed to read approved exe id.");
+
+    hr = BuffReadString(pbData, cbData, &iData, &pLaunchApprovedExe->sczArguments);
+    ExitOnFailure(hr, "Failed to read approved exe arguments.");
+
+    hr = BuffReadNumber(pbData, cbData, &iData, &pLaunchApprovedExe->dwWaitForInputIdleTimeout);
+    ExitOnFailure(hr, "Failed to read approved exe WaitForInputIdle timeout.");
+
+    hr = ApprovedExesFindById(pApprovedExes, pLaunchApprovedExe->sczId, &pApprovedExe);
+    ExitOnFailure1(hr, "The per-user process requested unknown approved exe with id: %ls", pLaunchApprovedExe->sczId);
+
+    LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_SEARCH, pApprovedExe->sczKey, pApprovedExe->sczValueName ? pApprovedExe->sczValueName : L"", pApprovedExe->fWin64 ? L"yes" : L"no");
+
+    if (pApprovedExe->fWin64)
+    {
+        samDesired |= KEY_WOW64_64KEY;
+    }
+
+    hr = RegOpen(HKEY_LOCAL_MACHINE, pApprovedExe->sczKey, samDesired, &hKey);
+    ExitOnFailure(hr, "Failed to open the registry key for the approved exe path.");
+
+    hr = RegReadString(hKey, pApprovedExe->sczValueName, &pLaunchApprovedExe->sczExecutablePath);
+    ExitOnFailure(hr, "Failed to read the value for the approved exe path.");
+
+    hr = ApprovedExesVerifySecureLocation(pVariables, pLaunchApprovedExe);
+    ExitOnFailure1(hr, "Failed to verify the executable path is in a secure location: %ls", pLaunchApprovedExe->sczExecutablePath);
+    if (S_FALSE == hr)
+    {
+        LogStringLine(REPORT_STANDARD, "The executable path is not in a secure location: %ls", pLaunchApprovedExe->sczExecutablePath);
+        ExitFunction1(hr = HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED));
+    }
+
+    hr = ApprovedExesLaunch(pVariables, pLaunchApprovedExe, &dwProcessId);
+    ExitOnFailure1(hr, "Failed to launch approved exe: %ls", pLaunchApprovedExe->sczExecutablePath);
+
+    //send process id over pipe
+    hr = BuffWriteNumber(&pbSendData, &cbSendData, dwProcessId);
+    ExitOnFailure(hr, "Failed to write the approved exe process id to message buffer.");
+
+    hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE_PROCESSID, pbSendData, cbSendData, NULL, NULL, &dwResult);
+    ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_LAUNCH_APPROVED_EXE_PROCESSID message to per-user process.");
+
+LExit:
+    ReleaseBuffer(pbSendData);
+    ApprovedExesUninitializeLaunch(pLaunchApprovedExe);
     return hr;
 }

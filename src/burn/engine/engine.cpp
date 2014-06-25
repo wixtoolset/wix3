@@ -40,7 +40,7 @@ static HRESULT RunEmbedded(
     __in BURN_ENGINE_STATE* pEngineState
     );
 static HRESULT RunRunOnce(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in const BURN_REGISTRATION* pRegistration,
     __in int nCmdShow
     );
 static HRESULT RunApplication(
@@ -158,7 +158,7 @@ extern "C" HRESULT EngineRun(
         break;
 
     case BURN_MODE_RUNONCE:
-        hr = RunRunOnce(wzCommandLine, nCmdShow);
+        hr = RunRunOnce(&engineState.registration, nCmdShow);
         ExitOnFailure(hr, "Failed to run RunOnce mode.");
         break;
 
@@ -292,6 +292,7 @@ static void UninitializeEngineState(
     ::DeleteCriticalSection(&pEngineState->userExperience.csEngineActive);
     UserExperienceUninitialize(&pEngineState->userExperience);
 
+    ApprovedExesUninitialize(&pEngineState->approvedExes);
     UpdateUninitialize(&pEngineState->update);
     VariablesUninitialize(&pEngineState->variables);
     SearchesUninitialize(&pEngineState->searches);
@@ -476,7 +477,7 @@ static HRESULT RunElevated(
     LogRedirect(RedirectLoggingOverPipe, pEngineState);
 
     // Pump messages from parent process.
-    hr = ElevationChildPumpMessages(pEngineState->dwElevatedLoggingTlsId, pEngineState->companionConnection.hPipe, pEngineState->companionConnection.hCachePipe, &pEngineState->containers, &pEngineState->packages, &pEngineState->payloads, &pEngineState->variables, &pEngineState->registration, &pEngineState->userExperience, &hLock, &fDisabledAutomaticUpdates, &pEngineState->userExperience.dwExitCode, &pEngineState->fRestart);
+    hr = ElevationChildPumpMessages(pEngineState->dwElevatedLoggingTlsId, pEngineState->companionConnection.hPipe, pEngineState->companionConnection.hCachePipe, &pEngineState->approvedExes, &pEngineState->containers, &pEngineState->packages, &pEngineState->payloads, &pEngineState->variables, &pEngineState->registration, &pEngineState->userExperience, &hLock, &fDisabledAutomaticUpdates, &pEngineState->userExperience.dwExitCode, &pEngineState->fRestart);
     LogRedirect(NULL, NULL); // reset logging so the next failure gets written to "log buffer" for the failure log.
     ExitOnFailure(hr, "Failed to pump messages from parent process.");
 
@@ -514,6 +515,12 @@ static HRESULT RunEmbedded(
     hr = PipeChildConnect(&pEngineState->embeddedConnection, FALSE);
     ExitOnFailure(hr, "Failed to connect to parent of embedded process.");
 
+    // Do not register the bundle to automatically restart if embedded.
+    if (BOOTSTRAPPER_DISPLAY_EMBEDDED == pEngineState->command.display)
+    {
+        pEngineState->registration.fDisableResume = TRUE;
+    }
+
     // Now run the application like normal.
     hr = RunNormal(hInstance, pEngineState);
     ExitOnFailure(hr, "Failed to run bootstrapper application embedded.");
@@ -523,7 +530,7 @@ LExit:
 }
 
 static HRESULT RunRunOnce(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in const BURN_REGISTRATION* pRegistration,
     __in int nCmdShow
     )
 {
@@ -531,23 +538,9 @@ static HRESULT RunRunOnce(
     LPWSTR sczNewCommandLine = NULL;
     LPWSTR sczBurnPath = NULL;
     HANDLE hProcess = NULL;
-    int argc = 0;
-    LPWSTR* argv = NULL;
 
-    // rebuild the command line without the runonce switch
-    if (wzCommandLine && *wzCommandLine)
-    {
-        argv = ::CommandLineToArgvW(wzCommandLine, &argc);
-        ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
-
-        for (int i = 0; i < argc; ++i)
-        {
-            if (!((argv[i][0] == L'-' || argv[i][0] == L'/') && CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_RUNONCE, -1)))
-            {
-                PathCommandLineAppend(&sczNewCommandLine, argv[i]);
-            }
-        }
-    }
+    hr = RegistrationGetResumeCommandLine(pRegistration, &sczNewCommandLine);
+    ExitOnFailure(hr, "Unable to get resume command line from the registry");
 
     // and re-launch
     hr = PathForCurrentProcess(&sczBurnPath, NULL);
@@ -557,11 +550,6 @@ static HRESULT RunRunOnce(
     ExitOnFailure1(hr, "Failed to re-launch bundle process after RunOnce: %ls", sczBurnPath);
 
 LExit:
-    if (argv)
-    {
-        ::LocalFree(argv);
-    }
-
     ReleaseHandle(hProcess);
     ReleaseStr(sczNewCommandLine);
     ReleaseStr(sczBurnPath);
@@ -659,6 +647,10 @@ static HRESULT ProcessMessage(
 
     case WM_BURN_APPLY:
         hr = CoreApply(pEngineState, reinterpret_cast<HWND>(pmsg->lParam));
+        break;
+
+    case WM_BURN_LAUNCH_APPROVED_EXE:
+        hr = CoreLaunchApprovedExe(pEngineState, reinterpret_cast<BURN_LAUNCH_APPROVED_EXE*>(pmsg->lParam));
         break;
 
     case WM_BURN_QUIT:

@@ -18,7 +18,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BuilderBase.cs" />
     <Compile Include="BundleBuilder.cs" />
     <Compile Include="BundleInstaller.cs" />
     <Compile Include="BundleRegistration.cs" />
@@ -330,7 +329,6 @@
     </None>
     <None Include="..\..\data\Burn\PatchTests\BundleB.wxs">
       <Link>Burn\PatchTests\BundleB.wxs</Link>
-      <SubType>Designer</SubType>
     </None>
     <None Include="..\..\data\Burn\PatchTests\PatchA.wxs">
       <Link>Burn\PatchTests\PatchA.wxs</Link>
@@ -338,11 +336,23 @@
     <None Include="..\..\data\Burn\PatchTests\PatchA2.wxs">
       <Link>Burn\PatchTests\PatchA2.wxs</Link>
     </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchB.wxs">
+      <Link>Burn\PatchTests\PatchB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchC.wxs">
+      <Link>Burn\PatchTests\PatchC.wxs</Link>
+    </None>
     <None Include="..\..\data\Burn\PatchTests\PatchBundleA.wxs">
       <Link>Burn\PatchTests\PatchBundleA.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\PatchTests\PatchBundleA2.wxs">
       <Link>Burn\PatchTests\PatchBundleA2.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchBundleB.wxs">
+      <Link>Burn\PatchTests\PatchBundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchBundleC.wxs">
+      <Link>Burn\PatchTests\PatchBundleC.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\PermanentTests\A.wxs">
       <Link>Burn\PermanentTests\A.wxs</Link>

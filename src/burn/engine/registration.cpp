@@ -39,6 +39,7 @@ const LPCWSTR REGISTRY_BUNDLE_NO_REMOVE = L"NoRemove";
 const LPCWSTR REGISTRY_BUNDLE_SYSTEM_COMPONENT = L"SystemComponent";
 const LPCWSTR REGISTRY_BUNDLE_QUIET_UNINSTALL_STRING = L"QuietUninstallString";
 const LPCWSTR REGISTRY_BUNDLE_UNINSTALL_STRING = L"UninstallString";
+const LPCWSTR REGISTRY_BUNDLE_RESUME_COMMAND_LINE = L"BundleResumeCommandLine";
 
 // internal function declarations
 
@@ -972,6 +973,36 @@ extern "C" HRESULT RegistrationLoadState(
     return hr;
 }
 
+/*******************************************************************
+RegistrationGetResumeCommandLine - Gets the resume command line from the registry
+
+*******************************************************************/
+extern "C" HRESULT RegistrationGetResumeCommandLine(
+    __in const BURN_REGISTRATION* pRegistration,
+    __deref_out_z LPWSTR* psczResumeCommandLine
+    )
+{
+    HRESULT hr = S_OK;
+    HKEY hkRegistration = NULL;
+
+    // open registration key
+    hr = RegOpen(pRegistration->hkRoot, pRegistration->sczRegistrationKey, KEY_QUERY_VALUE, &hkRegistration);
+    if (SUCCEEDED(hr))
+    {
+        hr = RegReadString(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE, psczResumeCommandLine);
+    }
+
+    // Not finding the key or value is okay.
+    if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
+    {
+        hr = S_OK;
+    }
+
+    ReleaseRegKey(hkRegistration);
+
+    return hr;
+}
+
 
 // internal helper functions
 
@@ -1142,7 +1173,9 @@ static HRESULT UpdateResumeMode(
     // If the engine is active write the run key so we resume if there is an unexpected
     // power loss. Also, if a restart was initiated in the middle of the chain then
     // ensure the run key exists (it should since going active would have written it).
-    if (BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated)
+    // Do not write the run key when embedded since the containing bundle
+    // is expected to detect for and restart the embedded bundle.
+    if ((BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated) && !pRegistration->fDisableResume)
     {
         // append RunOnce switch
         hr = StrAllocFormatted(&sczResumeCommandLine, L"%ls /%ls", pRegistration->sczResumeCommandLine, BURN_COMMANDLINE_SWITCH_RUNONCE);
@@ -1154,6 +1187,9 @@ static HRESULT UpdateResumeMode(
 
         hr = RegWriteString(hkRun, pRegistration->sczId, sczResumeCommandLine);
         ExitOnFailure(hr, "Failed to write run key value.");
+
+        hr = RegWriteString(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE, pRegistration->sczResumeCommandLine);
+        ExitOnFailure(hr, "Failed to write resume command line value.");
     }
     else // delete run key value
     {
@@ -1172,6 +1208,16 @@ static HRESULT UpdateResumeMode(
                 er = ERROR_SUCCESS;
             }
             ExitOnWin32Error(er, hr, "Failed to delete run key value.");
+        }
+
+        if (hkRegistration)
+        {
+            er = ::RegDeleteValueW(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE);
+            if (ERROR_FILE_NOT_FOUND == er)
+            {
+                er = ERROR_SUCCESS;
+            }
+            ExitOnWin32Error(er, hr, "Failed to delete resume command line value.");
         }
     }
 

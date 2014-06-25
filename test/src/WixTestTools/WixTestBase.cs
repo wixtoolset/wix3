@@ -159,6 +159,7 @@ namespace WixTest
             }
 
             this.TestUninitialize();
+            this.CleanUp();
         }
 
         void IDisposable.Dispose()
@@ -310,9 +311,9 @@ namespace WixTest
 
         private void CleanUp()
         {
+            BundleBuilder.CleanupByUninstalling();
             PackageBuilder.CleanupByUninstalling();
             MSIExec.UninstallAllInstalledProducts();
-            BundleBuilder.CleanupByUninstalling();
 
             MsiVerifier.Reset();
 
@@ -323,21 +324,24 @@ namespace WixTest
             {
                 foreach (FileSystemInfo artifact in this.TestArtifacts)
                 {
-                    try
+                    if (artifact.Exists)
                     {
-                        DirectoryInfo dir = artifact as DirectoryInfo;
-                        if (null != dir)
+                        try
                         {
-                            dir.Delete(true);
+                            DirectoryInfo dir = artifact as DirectoryInfo;
+                            if (null != dir)
+                            {
+                                dir.Delete(true);
+                            }
+                            else
+                            {
+                                artifact.Delete();
+                            }
                         }
-                        else
+                        catch
                         {
-                            artifact.Delete();
+                            Debug.WriteLine(String.Format("Failed to delete '{0}'.", artifact.FullName));
                         }
-                    }
-                    catch
-                    {
-                        Debug.WriteLine(String.Format("Failed to delete '{0}'.", artifact.FullName));
                     }
                 }
             }

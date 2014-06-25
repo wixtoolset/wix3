@@ -25,16 +25,16 @@ namespace WixTest.Tests.Burn
     {
         const string V2 = "2.0.0.0";
 
-        private PackageBuilder packageA;
-        private PackageBuilder packageAv2;
-        private PackageBuilder packageB;
-        private PackageBuilder packageC;
-        private PackageBuilder packageCv2;
-        private BundleBuilder bundleA;
-        private BundleBuilder bundleAv2;
-        private BundleBuilder bundleB;
-        private BundleBuilder bundleC;
-        private BundleBuilder bundleCv2;
+        private WixTest.PackageBuilder packageA;
+        private WixTest.PackageBuilder packageAv2;
+        private WixTest.PackageBuilder packageB;
+        private WixTest.PackageBuilder packageC;
+        private WixTest.PackageBuilder packageCv2;
+        private WixTest.BundleBuilder bundleA;
+        private WixTest.BundleBuilder bundleAv2;
+        private WixTest.BundleBuilder bundleB;
+        private WixTest.BundleBuilder bundleC;
+        private WixTest.BundleBuilder bundleCv2;
 
         [NamedFact]
         [Priority(2)]
@@ -473,7 +473,7 @@ namespace WixTest.Tests.Burn
             this.Complete();
         }
 
-        private PackageBuilder GetPackageA()
+        private WixTest.PackageBuilder GetPackageA()
         {
             if (null == this.packageA)
             {
@@ -483,7 +483,7 @@ namespace WixTest.Tests.Burn
             return this.packageA;
         }
 
-        private PackageBuilder GetPackageAv2()
+        private WixTest.PackageBuilder GetPackageAv2()
         {
             if (null == this.packageAv2)
             {
@@ -493,7 +493,7 @@ namespace WixTest.Tests.Burn
             return this.packageAv2;
         }
 
-        private BundleBuilder GetBundleA(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleA(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {
@@ -509,7 +509,7 @@ namespace WixTest.Tests.Burn
             return this.bundleA;
         }
 
-        private BundleBuilder GetBundleAv2(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleAv2(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {
@@ -525,7 +525,7 @@ namespace WixTest.Tests.Burn
             return this.bundleAv2;
         }
 
-        private PackageBuilder GetPackageB()
+        private WixTest.PackageBuilder GetPackageB()
         {
             if (null == this.packageB)
             {
@@ -535,7 +535,7 @@ namespace WixTest.Tests.Burn
             return this.packageB;
         }
 
-        private BundleBuilder GetBundleB(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleB(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {
@@ -551,7 +551,7 @@ namespace WixTest.Tests.Burn
             return this.bundleB;
         }
 
-        private PackageBuilder GetPackageC()
+        private WixTest.PackageBuilder GetPackageC()
         {
             if (null == this.packageC)
             {
@@ -561,7 +561,7 @@ namespace WixTest.Tests.Burn
             return this.packageC;
         }
 
-        private PackageBuilder GetPackageCv2()
+        private WixTest.PackageBuilder GetPackageCv2()
         {
             if (null == this.packageCv2)
             {
@@ -571,7 +571,7 @@ namespace WixTest.Tests.Burn
             return this.packageCv2;
         }
 
-        private BundleBuilder GetBundleC(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleC(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {
@@ -587,7 +587,7 @@ namespace WixTest.Tests.Burn
             return this.bundleC;
         }
 
-        private BundleBuilder GetBundleCv2(Dictionary<string, string> bindPaths = null)
+        private WixTest.BundleBuilder GetBundleCv2(Dictionary<string, string> bindPaths = null)
         {
             if (null == bindPaths)
             {

@@ -322,6 +322,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public event EventHandler<ExecuteProgressEventArgs> ExecuteProgress;
 
         /// <summary>
+        /// Fired when the engine is about to launch the preapproved executable.
+        /// </summary>
+        public event EventHandler<LaunchApprovedExeBeginArgs> LaunchApprovedExeBegin;
+
+        /// <summary>
+        /// Fired when the engine has completed launching the preapproved executable.
+        /// </summary>
+        public event EventHandler<LaunchApprovedExeCompleteArgs> LaunchApprovedExeComplete;
+
+        /// <summary>
         /// Specifies whether this bootstrapper should run asynchronously. The default is true.
         /// </summary>
         public virtual bool AsyncExecution
@@ -1087,7 +1097,33 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             }
         }
 
-        #region IBurnUserExperience Members
+        /// <summary>
+        /// Called by the engine before trying to launch the preapproved executable.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnLaunchApprovedExeBegin(LaunchApprovedExeBeginArgs args)
+        {
+            EventHandler<LaunchApprovedExeBeginArgs> handler = this.LaunchApprovedExeBegin;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Called by the engine after trying to launch the preapproved executable.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnLaunchApprovedExeComplete(LaunchApprovedExeCompleteArgs args)
+        {
+            EventHandler<LaunchApprovedExeCompleteArgs> handler = this.LaunchApprovedExeComplete;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        #region IBootstrapperApplication Members
 
         void IBootstrapperApplication.OnStartup()
         {
@@ -1477,6 +1513,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             this.OnExecuteProgress(args);
 
             return args.Result;
+        }
+
+        Result IBootstrapperApplication.OnLaunchApprovedExeBegin()
+        {
+            LaunchApprovedExeBeginArgs args = new LaunchApprovedExeBeginArgs();
+            this.OnLaunchApprovedExeBegin(args);
+
+            return args.Result;
+        }
+
+        void IBootstrapperApplication.OnLaunchApprovedExeComplete(int hrStatus, int processId)
+        {
+            this.OnLaunchApprovedExeComplete(new LaunchApprovedExeCompleteArgs(hrStatus, processId));
         }
 
         #endregion

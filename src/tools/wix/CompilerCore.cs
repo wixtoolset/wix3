@@ -629,17 +629,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <returns>True if version is a valid module or bundle version.</returns>
         public static bool IsValidModuleOrBundleVersion(string version)
         {
-            if (!Common.IsValidBinderVariable(version))
-            {
-                Version ver = new Version(version);
-
-                if (65535 < ver.Major || 65535 < ver.Minor || 65535 < ver.Build || 65535 < ver.Revision)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return Common.IsValidModuleOrBundleVersion(version);
         }
 
         /// <summary>
@@ -738,6 +728,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
             variableRow.Type = type;
             variableRow.Hidden = hidden;
             variableRow.Persisted = persisted;
+        }
+
+        /// <summary>
+        /// Creates a WixApprovedExeForElevation row in the active session.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source and line number of current row.</param>
+        public void CreateWixApprovedExeForElevationRow(SourceLineNumberCollection sourceLineNumbers, string id, string key, string valueName, BundleApprovedExeForElevationAttributes attributes)
+        {
+            WixApprovedExeForElevationRow wixApprovedExeForElevationRow = (WixApprovedExeForElevationRow)this.CreateRow(sourceLineNumbers, "WixApprovedExeForElevation");
+            wixApprovedExeForElevationRow.Id = id;
+            wixApprovedExeForElevationRow.Key = key;
+            wixApprovedExeForElevationRow.ValueName = valueName;
+            wixApprovedExeForElevationRow.Attributes = attributes;
         }
 
         /// <summary>

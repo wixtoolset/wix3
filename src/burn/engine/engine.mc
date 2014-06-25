@@ -365,6 +365,13 @@ Language=English
 Plan skipped related bundle: %1!ls!, type: %2!hs!, provider key: %3!ls!, because an embedded bundle with the same provider key is being installed.
 .
 
+MessageId=217
+Severity=Success
+SymbolicName=MSG_PLAN_SKIPPED_DEPENDENT_BUNDLE_REPAIR
+Language=English
+Plan skipped dependent bundle repair: %1!ls!, type: %2!hs!, because no packages are being executed during this uninstall operation.
+.
+
 MessageId=299
 Severity=Success
 SymbolicName=MSG_PLAN_COMPLETE
@@ -784,4 +791,32 @@ Severity=Warning
 SymbolicName=MSG_STATE_NOT_SAVED
 Language=English
 The state file could not be saved, error: 0x%1!x!. Continuing...
+.
+
+MessageId=600
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_BEGIN
+Language=English
+LaunchApprovedExe begin, id: %1!ls!
+.
+
+MessageId=601
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_SEARCH
+Language=English
+Searching registry for approved exe path, key: %1!ls!, value: '%2!ls!', win64: %3!ls!
+.
+
+MessageId=602
+Severity=Success
+SymbolicName=MSG_LAUNCHING_APPROVED_EXE
+Language=English
+Launching approved exe, path: '%1!ls!', 'command: %2!ls!'
+.
+
+MessageId=699
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_COMPLETE
+Language=English
+LaunchApprovedExe complete, result: 0x%1!x!, processId: %2!lu!
 .

@@ -63,6 +63,7 @@
     <Compile Include="MSBuildMessage.cs" />
     <Compile Include="HeatArguments.cs" />
     <Compile Include="Heat.cs" />
+    <Compile Include="PatchBuilder.cs" />
     <Compile Include="RuntimeTestAttribute.cs" />
     <Compile Include="NamedFactAttribute.cs" />
     <Compile Include="PackageBuilder.cs" />

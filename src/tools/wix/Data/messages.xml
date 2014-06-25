@@ -2006,6 +2006,11 @@
                 Invalid product version '{0}'. Product version must have a major version less than 256, a minor version less than 256, and a build version less than 65536.
                 <Parameter Type="System.String" Name="version" />
             </Instance>
+            <Instance>
+                Invalid product version '{0}' in package '{1}'. When included in a bundle, all product version fields in an MSI package must be less than 65536.
+                <Parameter Type="System.String" Name="version" />
+                <Parameter Type="System.String" Name="packagePath" />
+            </Instance>
         </Message>
         <Message Id="InvalidKeypathChange" Number="243">
             <Instance>
@@ -2942,6 +2947,14 @@
         <Instance>
           Include files cannot be nested more deeply than {0} times. Make sure included files don't accidentally include themselves.
           <Parameter Type="System.Int32" Name="depth" />
+        </Instance>
+      </Message>
+      <Message Id="TooManyColumnsInRealTable" Number="386" SourceLineNumbers="no">
+        <Instance>
+          The table '{0}' contains {1} columns which is not supported by Windows Installer.  Windows Installer supports a maximum of {2} columns.
+          <Parameter Type="System.String" Name="tableName" />
+          <Parameter Type="System.Int32" Name="columnCount" />
+          <Parameter Type="System.Int32" Name="supportedColumnCount" />
         </Instance>
       </Message>
     </Class>
