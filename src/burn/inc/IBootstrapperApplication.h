@@ -54,7 +54,6 @@ enum BOOTSTRAPPER_ERROR_TYPE
     BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_SERVER,   // error occurred trying to authenticate with HTTP server.
     BOOTSTRAPPER_ERROR_TYPE_HTTP_AUTH_PROXY,    // error occurred trying to authenticate with HTTP proxy.
     BOOTSTRAPPER_ERROR_TYPE_APPLY,              // error occurred during apply.
-// {?}    BOOTSTRAPPER_ERROR_TYPE_UPDATE,             // error occurred during updating.
 };
 
 
