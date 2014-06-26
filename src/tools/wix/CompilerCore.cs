@@ -731,6 +731,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
         }
 
         /// <summary>
+        /// Creates a WixApprovedExeForElevation row in the active session.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source and line number of current row.</param>
+        public void CreateWixApprovedExeForElevationRow(SourceLineNumberCollection sourceLineNumbers, string id, string key, string valueName, BundleApprovedExeForElevationAttributes attributes)
+        {
+            WixApprovedExeForElevationRow wixApprovedExeForElevationRow = (WixApprovedExeForElevationRow)this.CreateRow(sourceLineNumbers, "WixApprovedExeForElevation");
+            wixApprovedExeForElevationRow.Id = id;
+            wixApprovedExeForElevationRow.Key = key;
+            wixApprovedExeForElevationRow.ValueName = valueName;
+            wixApprovedExeForElevationRow.Attributes = attributes;
+        }
+
+        /// <summary>
         /// Creates a WixCatalog row in the active section.
         /// </summary>
         /// <param name="sourceLineNumbers">Source and line number of current row.</param>

@@ -41,7 +41,7 @@
 
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\wcautil</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>msi.lib;dutil$(MultiTargetTargetNameSuffix).lib;wcautil$(MultiTargetTargetNameSuffix).lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>msi.lib;shlwapi.lib;dutil$(MultiTargetTargetNameSuffix).lib;wcautil$(MultiTargetTargetNameSuffix).lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemGroup>

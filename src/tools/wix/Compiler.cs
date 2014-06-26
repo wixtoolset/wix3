@@ -19783,6 +19783,86 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
         }
 
+
+        /// <summary>
+        /// Parses an ApprovedExeForElevation element.
+        /// </summary>
+        /// <param name="node">Element to parse</param>
+        private void ParseApprovedExeForElevation(XmlNode node)
+        {
+            SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
+            string id = null;
+            string key = null;
+            string valueName = null;
+            YesNoType win64 = YesNoType.NotSet;
+
+            foreach (XmlAttribute attrib in node.Attributes)
+            {
+                if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
+                {
+                    switch (attrib.LocalName)
+                    {
+                        case "Id":
+                            id = this.core.GetAttributeIdentifierValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Key":
+                            key = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Value":
+                            valueName = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Win64":
+                            win64 = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            break;
+                        default:
+                            this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
+                            break;
+                    }
+                }
+                else
+                {
+                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                }
+            }
+
+            if (null == id)
+            {
+                this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Id"));
+            }
+
+            if (null == key)
+            {
+                this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Key"));
+            }
+
+            BundleApprovedExeForElevationAttributes attributes = BundleApprovedExeForElevationAttributes.None;
+
+            if (win64 == YesNoType.Yes)
+            {
+                attributes |= BundleApprovedExeForElevationAttributes.Win64;
+            }
+
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                if (XmlNodeType.Element == child.NodeType)
+                {
+                    if (child.NamespaceURI == this.schema.TargetNamespace)
+                    {
+                        this.core.UnexpectedElement(node, child);
+                    }
+                    else
+                    {
+                        this.core.UnsupportedExtensionElement(node, child);
+                    }
+                }
+            }
+
+            if (!this.core.EncounteredError)
+            {
+                this.core.CreateWixApprovedExeForElevationRow(sourceLineNumbers, id, key, valueName, attributes);
+            }
+        }
+
         /// <summary>
         /// Parses a Bundle element.
         /// </summary>
@@ -19955,6 +20035,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         switch (child.LocalName)
                         {
+                            case "ApprovedExeForElevation":
+                                this.ParseApprovedExeForElevation(child);
+                                break;
                             case "BootstrapperApplication":
                                 if (baSeen)
                                 {

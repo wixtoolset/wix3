@@ -144,12 +144,18 @@ HRESULT ElevationCleanPackage(
     __in HANDLE hPipe,
     __in BURN_PACKAGE* pPackage
     );
+HRESULT ElevationLaunchApprovedExe(
+    __in HANDLE hPipe,
+    __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe,
+    __out DWORD* pdwProcessId
+    );
 
 // Child (per-machine process) side functions.
 HRESULT ElevationChildPumpMessages(
     __in DWORD dwLoggingTlsId,
     __in HANDLE hPipe,
     __in HANDLE hCachePipe,
+    __in BURN_APPROVED_EXES* pApprovedExes,
     __in BURN_CONTAINERS* pContainers,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PAYLOADS* pPayloads,

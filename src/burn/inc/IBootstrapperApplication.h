@@ -741,6 +741,21 @@ DECLARE_INTERFACE_IID_(IBootstrapperApplication, IUnknown, "53C31D56-49C0-426B-A
         __in HRESULT hrStatus,
         __in BOOTSTRAPPER_APPLY_RESTART restart
         ) = 0;
+
+    // OnLaunchApprovedExeBegin - called before trying to launch the preapproved executable.
+    // 
+    STDMETHOD_(int, OnLaunchApprovedExeBegin)() = 0;
+
+
+    // OnLaunchApprovedExeComplete - called after trying to launch the preapproved executable.
+    //
+    // Parameters:
+    //  dwProcessId is only valid if the operation succeeded.
+    //
+    STDMETHOD_(void, OnLaunchApprovedExeComplete)(
+        __in HRESULT hrStatus,
+        __in DWORD dwProcessId
+        ) = 0;
 };
 
 

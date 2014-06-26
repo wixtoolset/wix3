@@ -792,3 +792,31 @@ SymbolicName=MSG_STATE_NOT_SAVED
 Language=English
 The state file could not be saved, error: 0x%1!x!. Continuing...
 .
+
+MessageId=600
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_BEGIN
+Language=English
+LaunchApprovedExe begin, id: %1!ls!
+.
+
+MessageId=601
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_SEARCH
+Language=English
+Searching registry for approved exe path, key: %1!ls!, value: '%2!ls!', win64: %3!ls!
+.
+
+MessageId=602
+Severity=Success
+SymbolicName=MSG_LAUNCHING_APPROVED_EXE
+Language=English
+Launching approved exe, path: '%1!ls!', 'command: %2!ls!'
+.
+
+MessageId=699
+Severity=Success
+SymbolicName=MSG_LAUNCH_APPROVED_EXE_COMPLETE
+Language=English
+LaunchApprovedExe complete, result: 0x%1!x!, processId: %2!lu!
+.

@@ -73,6 +73,7 @@
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="ApprovedExeForElevation" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="Log" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Catalog" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="BootstrapperApplication" minOccurs="0" maxOccurs="1" />
@@ -252,6 +253,46 @@
           </xs:documentation>
         </xs:annotation>
       </xs:anyAttribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ApprovedExeForElevation">
+    <xs:annotation>
+      <xs:documentation>Provides information about an .exe so that the BA can request the engine to run it elevated from any secure location.</xs:documentation>
+      <xs:appinfo>
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="Bundle" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="Id" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>The identifier of the ApprovedExeForElevation element.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Key" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            The key path.
+            For security purposes, the root key will be HKLM and Variables are not supported.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Value" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            The value name.
+            For security purposes, Variables are not supported.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Win64" type="YesNoTypeUnion">
+        <xs:annotation>
+          <xs:documentation>
+            Instructs the search to look in the 64-bit registry when the value is 'yes'.
+            When the value is 'no', the search looks in the 32-bit registry.
+            The default value is 'no'.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="Log">
