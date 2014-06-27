@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4457 - Add support for temporary object columns in DTF.
+
 * jchoover: WIXFEAT:4190 - Added support for self updating bundles.
 
 * SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
