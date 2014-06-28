@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4458 - Make DTF set the current directory for a managed custom action to the AppDomain's BaseDirectory.
+
 * jchoover: WIXFEAT:4190 - Added support for self updating bundles.
 
 * SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
