@@ -545,13 +545,13 @@ extern "C" HRESULT MspEngineExecutePackage(
     {
     case BOOTSTRAPPER_ACTION_STATE_INSTALL: __fallthrough;
     case BOOTSTRAPPER_ACTION_STATE_REPAIR:
-        hr = StrAllocateConcat(&sczProperties, L" PATCH=\"", 0, TRUE);
+        hr = StrAllocConcatSecure(&sczProperties, L" PATCH=\"", 0);
         ExitOnFailure(hr, "Failed to add PATCH property on install.");
 
-        hr = StrAllocateConcat(&sczProperties, sczPatches, 0, TRUE);
+        hr = StrAllocConcatSecure(&sczProperties, sczPatches, 0);
         ExitOnFailure(hr, "Failed to add patches to PATCH property on install.");
 
-        hr = StrAllocateConcat(&sczProperties, L"\" REBOOT=ReallySuppress", 0, TRUE);
+        hr = StrAllocConcatSecure(&sczProperties, L"\" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reboot suppression property on install.");
 
         hr = WiuConfigureProductEx(pExecuteAction->mspTarget.sczTargetProductCode, INSTALLLEVEL_DEFAULT, INSTALLSTATE_DEFAULT, sczProperties, &restart);
@@ -559,11 +559,11 @@ extern "C" HRESULT MspEngineExecutePackage(
         break;
 
     case BOOTSTRAPPER_ACTION_STATE_UNINSTALL:
-        hr = StrAllocateConcat(&sczProperties, L" REBOOT=ReallySuppress", 0, TRUE);
+        hr = StrAllocConcatSecure(&sczProperties, L" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reboot suppression property on uninstall.");
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-        hr = StrAllocateFormatted(&sczProperties, TRUE, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocFormattedSecure(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuRemovePatches(sczPatches, pExecuteAction->mspTarget.sczTargetProductCode, sczProperties, &restart);

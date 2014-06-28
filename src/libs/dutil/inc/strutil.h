@@ -31,7 +31,11 @@ HRESULT DAPI StrAlloc(
     __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
     __in DWORD_PTR cch
     );
-HRESULT DAPI StrAllocate(
+HRESULT DAPI StrAllocSecure(
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch
+    );
+HRESULT DAPI StrCoreAlloc(
     __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
     __in DWORD_PTR cch,
     __in BOOL fZeroOnRealloc
@@ -59,7 +63,12 @@ HRESULT DAPI StrAllocString(
     __in_z LPCWSTR wzSource,
     __in DWORD_PTR cchSource
     );
-HRESULT DAPI StrAllocateString(
+HRESULT DAPI StrAllocStringSecure(
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    );
+HRESULT DAPI StrCoreAllocString(
     __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
     __in_z LPCWSTR wzSource,
     __in DWORD_PTR cchSource,
@@ -92,7 +101,12 @@ HRESULT DAPI StrAllocConcat(
     __in_z LPCWSTR wzSource,
     __in DWORD_PTR cchSource
     );
-HRESULT DAPI StrAllocateConcat(
+HRESULT DAPI StrAllocConcatSecure(
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    );
+HRESULT DAPI StrCoreAllocConcat(
     __deref_out_z LPWSTR* ppwz,
     __in_z LPCWSTR wzSource,
     __in DWORD_PTR cchSource,
@@ -108,7 +122,12 @@ HRESULT __cdecl StrAllocFormatted(
     __in __format_string LPCWSTR wzFormat,
     ...
     );
-HRESULT __cdecl StrAllocateFormatted(
+HRESULT __cdecl StrAllocFormattedSecure(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    );
+HRESULT __cdecl StrCoreAllocFormatted(
     __deref_out_z LPWSTR* ppwz,
     __in BOOL fZeroOnRealloc,
     __in __format_string LPCWSTR wzFormat,
@@ -124,7 +143,12 @@ HRESULT DAPI StrAllocFormattedArgs(
     __in __format_string LPCWSTR wzFormat,
     __in va_list args
     );
-HRESULT DAPI StrAllocateFormattedArgs(
+HRESULT DAPI StrAllocFormattedArgsSecure(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    __in va_list args
+    );
+HRESULT DAPI StrCoreAllocFormattedArgs(
     __deref_out_z LPWSTR* ppwz,
     __in BOOL fZeroOnRealloc,
     __in __format_string LPCWSTR wzFormat,
