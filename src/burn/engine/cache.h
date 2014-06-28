@@ -44,7 +44,7 @@ HRESULT CacheCalculatePayloadWorkingPath(
     __in BURN_PAYLOAD* pPayload,
     __deref_out_z LPWSTR* psczWorkingPath
     );
-HRESULT CacheCaclulateContainerWorkingPath(
+HRESULT CacheCalculateContainerWorkingPath(
     __in_z LPCWSTR wzBundleId,
     __in BURN_CONTAINER* pContainer,
     __deref_out_z LPWSTR* psczWorkingPath

@@ -264,7 +264,7 @@ LExit:
     return hr;
 }
 
-extern "C" HRESULT CacheCaclulateContainerWorkingPath(
+extern "C" HRESULT CacheCalculateContainerWorkingPath(
     __in_z LPCWSTR wzBundleId,
     __in BURN_CONTAINER* pContainer,
     __deref_out_z LPWSTR* psczWorkingPath
@@ -849,6 +849,7 @@ extern "C" HRESULT CacheCompletePayload(
     hr = VerifyFileAgainstPayload(pPayload, sczCachedPath);
     if (SUCCEEDED(hr))
     {
+        ::DecryptFileW(sczCachedPath, 0);  // Let's try to make sure it's not encrypted.
         LogId(REPORT_STANDARD, MSG_VERIFIED_EXISTING_PAYLOAD, pPayload->sczKey, sczCachedPath);
         ExitFunction();
     }
@@ -890,6 +891,8 @@ extern "C" HRESULT CacheCompletePayload(
 
     hr = FileEnsureMoveWithRetry(sczUnverifiedPayloadPath, sczCachedPath, TRUE, TRUE, FILE_OPERATION_RETRY_COUNT, FILE_OPERATION_RETRY_WAIT);
     ExitOnFailure1(hr, "Failed to move verified file to complete payload path: %ls", sczCachedPath);
+
+    ::DecryptFileW(sczCachedPath, 0);  // Let's try to make sure it's not encrypted.
 
 LExit:
     ReleaseStr(sczUnverifiedPayloadPath);
@@ -1499,7 +1502,7 @@ static HRESULT ResetPathPermissions(
     hr = AclSetSecurityWithRetry(wzPath, SE_FILE_OBJECT, dwSetSecurity, pSid, NULL, &acl, NULL, FILE_OPERATION_RETRY_COUNT, FILE_OPERATION_RETRY_WAIT);
     ExitOnWin32Error1(er, hr, "Failed to reset the ACL on cached file: %ls", wzPath);
 
-    ::SetFileAttributesW(wzPath, FILE_ATTRIBUTE_NORMAL); // let's try to reset any possible read-only/system bits.
+    ::SetFileAttributesW(wzPath, FILE_ATTRIBUTE_NORMAL); // Let's try to reset any possible read-only/system bits.
 
 LExit:
     ReleaseMem(pSid);

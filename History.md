@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4459 - Make Burn decrypt encrypted payloads after moving/copying to the package cache.
+
 * jchoover: WIXFEAT:4190 - Added support for self updating bundles.
 
 * SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
