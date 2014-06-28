@@ -21,5 +21,5 @@
   <String Id="FailureRestartText">You must restart your computer to complete the rollback of the software.</String>
   <String Id="FailureRestartButton">&amp;Restart</String>
   <String Id="FailureCloseButton">&amp;Close</String>
-  <String Id="NET452WIN7RTMErrorMessage">[WixBundleName] cannot run on Windows 7 RTM with .NET 4.5.2 (or greater) installed.</String>
+  <String Id="NET452WIN7RTMErrorMessage">[WixBundleName] cannot run on Windows 7 RTM with .NET 4.5.2 installed. Install Windows 7 SP1 to run in a supported environment.</String>
 </WixLocalization>
