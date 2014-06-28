@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4457 - Add support for temporary object columns in DTF.
+
 * SeanHall: WIXBUG:4459 - Make Burn decrypt encrypted payloads after moving/copying to the package cache.
 
 * SeanHall: WIXBUG:4458 - Make DTF set the current directory for a managed custom action to the AppDomain's BaseDirectory.
