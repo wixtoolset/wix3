@@ -2547,7 +2547,7 @@ static HRESULT AddAcquireContainer(
     LPWSTR sczContainerWorkingPath = NULL;
     BURN_CACHE_ACTION* pAcquireContainerAction = NULL;
 
-    hr = CacheCaclulateContainerWorkingPath(pPlan->wzBundleId, pContainer, &sczContainerWorkingPath);
+    hr = CacheCalculateContainerWorkingPath(pPlan->wzBundleId, pContainer, &sczContainerWorkingPath);
     ExitOnFailure(hr, "Failed to calculate unverified path for container.");
 
     hr = AppendCacheAction(pPlan, &pAcquireContainerAction);

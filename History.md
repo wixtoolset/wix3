@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4459 - Make Burn decrypt encrypted payloads after moving/copying to the package cache.
+
 * SeanHall: WIXBUG:4458 - Make DTF set the current directory for a managed custom action to the AppDomain's BaseDirectory.
 
 * jchoover: WIXFEAT:4190 - Added support for self updating bundles.
