@@ -1,3 +1,5 @@
+## WixBuild: Version 3.9.702.0
+
 * HeathS: WIXBUG:4457 - Add support for temporary object columns in DTF.
 
 * SeanHall: WIXBUG:4459 - Make Burn decrypt encrypted payloads after moving/copying to the package cache.
