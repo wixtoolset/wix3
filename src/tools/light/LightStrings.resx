@@ -125,28 +125,28 @@
               (default: current directory)
               prefix the path with 'name=' where 'name' is the name of your
               named bindpath.
-   -bf        bind files into a wixout (only valid with -xo option)
+   -bf        bind files into a wixout (only valid with -xo option) (deprecated)
    -binder &lt;classname&gt;  specify a specific custom binder to use provided by
-                        an extension
+                        an extension (deprecated)
    -cultures:&lt;cultures&gt;  semicolon or comma delimited list of localized
              string cultures to load from .wxl files and libraries.
              Precedence of cultures is from left to right.
    -d&lt;name&gt;[=&lt;value&gt;]  define a wix variable, with or without a value.
-   -dut       drop unreal tables from the output image
+   -dut       drop unreal tables from the output image (deprecated)
    -ext &lt;extension&gt;  extension assembly or "class, assembly"
    -loc &lt;loc.wxl&gt;  read localization strings from .wxl file
    -nologo    skip printing light logo information
    -notidy    do not delete temporary files (useful for debugging)
    -o[ut]     specify output file (default: write to current directory)
    -pedantic  show pedantic messages
-   -sadmin    suppress default admin sequence actions
-   -sadv      suppress default adv sequence actions
+   -sadmin    suppress default admin sequence actions (deprecated)
+   -sadv      suppress default adv sequence actions (deprecated)
    -sloc      suppress localization
-   -sma       suppress processing the data in MsiAssembly table
-   -ss        suppress schema validation of documents (performance boost)
-   -sts       suppress tagging sectionId attribute on rows
-   -sui       suppress default UI sequence actions
-   -sv        suppress intermediate file version mismatch checking
+   -sma       suppress processing the data in MsiAssembly table (deprecated)
+   -ss        suppress schema validation of documents (performance boost) (deprecated)
+   -sts       suppress tagging sectionId attribute on rows (deprecated)
+   -sui       suppress default UI sequence actions (deprecated)
+   -sv        suppress intermediate file version mismatch checking (deprecated)
    -sw[N]     suppress all warnings or a specific message ID
               (example: -sw1009 -sw1103)
    -swall     suppress all warnings (deprecated)
