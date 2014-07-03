@@ -536,6 +536,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if (parameter.Equals("binder", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("binder"));
+
                         if (!CommandLine.IsValidArg(args, ++i))
                         {
                             this.messageHandler.Display(this, WixErrors.IllegalBinderClassName());
@@ -546,6 +548,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if (parameter.Equals("bf", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("bf"));
+
                         this.bindFiles = true;
                     }
                     else if (parameter.StartsWith("cultures:", StringComparison.Ordinal))
@@ -575,6 +579,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if (parameter.Equals("dut", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("dut"));
                         this.dropUnrealTables = true;
                     }
                     else if (parameter.Equals("ext", StringComparison.Ordinal))
@@ -621,10 +626,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if (parameter.Equals("sadmin", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sadmin"));
                         this.suppressAdminSequence = true;
                     }
                     else if (parameter.Equals("sadv", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sadv"));
                         this.suppressAdvertiseSequence = true;
                     }
                     else if (parameter.Equals("sloc", StringComparison.Ordinal))
@@ -633,22 +640,27 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if (parameter.Equals("sma", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sma"));
                         this.suppressMsiAssemblyTable = true;
                     }
                     else if (parameter.Equals("ss", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("ss"));
                         this.suppressSchema = true;
                     }
                     else if (parameter.Equals("sts", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sts"));
                         this.sectionIdOnRows = false;
                     }
                     else if (parameter.Equals("sui", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sui"));
                         this.suppressUISequence = true;
                     }
                     else if (parameter.Equals("sv", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sv"));
                         this.suppressVersionCheck = true;
                     }
                     else if (parameter.Equals("swall", StringComparison.Ordinal))
