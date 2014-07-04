@@ -1,3 +1,5 @@
+* champloo: WIXBUG:4097 - Fixes uncaught UnauthorizedAccessException in RecursiveFileAttributes.
+
 * RobMen: WIXFEAT:4188 - deprecate switches removed in WiX v4.0
 
 ## WixBuild: Version 3.9.702.0
