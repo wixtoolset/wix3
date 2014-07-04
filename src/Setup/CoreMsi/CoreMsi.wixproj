@@ -37,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\chm\chm.helpproj">
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
     <ProjectReference Include="..\Icons\setupicons.vcxproj" />
     <ProjectReference Include="..\CommonLib\CommonLib.wixproj" />
   </ItemGroup>

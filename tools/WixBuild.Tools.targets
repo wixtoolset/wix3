@@ -323,10 +323,6 @@
     <GenerateWixIncludeDependsOn>
       PrepareGenerateWixInclude
     </GenerateWixIncludeDependsOn>
-    <PrepareForBuildDependsOn>
-      $(PrepareForBuildDependsOn);
-      GenerateWixInclude
-    </PrepareForBuildDependsOn>
   </PropertyGroup>
   <Target
     Name="GenerateWixInclude"
