@@ -139,7 +139,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     if (!removedReadOnly) // should only need to unmark readonly once - there's no point in doing it again and again
                     {
                         removedReadOnly = true;
-                        RecursiveFileAttributes(path, FileAttributes.ReadOnly, false); // toasting will fail if any files are read-only. Try changing them to not be.
+                        RecursiveFileAttributes(path, FileAttributes.ReadOnly, false, messageHandler); // toasting will fail if any files are read-only. Try changing them to not be.
                     }
                     else
                     {
@@ -423,12 +423,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// </summary>
         /// <param name="path">The directory path to start deleting from.</param>
         /// <param name="fileAttribute">The FileAttribute to change on each file.</param>
+        /// <param name="messageHandler">The message handler.</param>
         /// <param name="markAttribute">If true, add the attribute to each file. If false, remove it.</param>
-        private static void RecursiveFileAttributes(string path, FileAttributes fileAttribute, bool markAttribute)
+        private static void RecursiveFileAttributes(string path, FileAttributes fileAttribute, bool markAttribute, IMessageHandler messageHandler)
         {
             foreach (string subDirectory in Directory.GetDirectories(path))
             {
-                RecursiveFileAttributes(subDirectory, fileAttribute, markAttribute);
+                RecursiveFileAttributes(subDirectory, fileAttribute, markAttribute, messageHandler);
             }
 
             foreach (string filePath in Directory.GetFiles(path))
@@ -442,7 +443,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     attributes = attributes ^ fileAttribute; // remove from list of attributes
                 }
-                File.SetAttributes(filePath, attributes);
+
+                try
+                {
+                    File.SetAttributes(filePath, attributes);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    messageHandler.OnMessage(WixWarnings.AccessDeniedForSettingAttributes(null, filePath));
+                }
             }
         }
 

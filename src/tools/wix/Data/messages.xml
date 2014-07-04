@@ -3041,6 +3041,12 @@
                 <Parameter Type="System.String" Name="filePath" />
             </Instance>
         </Message>
+        <Message Id="AccessDeniedForSettingAttributes" Number="1013">
+            <Instance>
+                Access denied; cannot set attributes on '{0}'.
+                <Parameter Type="System.String" Name="filePath" />
+            </Instance>
+        </Message>
         <Message Id="UnknownAction" Number="1024">
             <Instance>
                 The {0} table contains an action '{1}' which is not a known custom action, dialog, or standard action.  This action will be left out of the decompiled output.
