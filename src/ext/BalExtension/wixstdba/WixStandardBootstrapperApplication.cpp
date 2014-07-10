@@ -2578,8 +2578,11 @@ private: // privates
         }
         else
         {
-            hr = BalFormatString(sczUnformattedArguments, &sczArguments);
-            BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
+            if (sczUnformattedArguments)
+            {
+                hr = BalFormatString(sczUnformattedArguments, &sczArguments);
+                BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
+            }
 
             hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
             BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
