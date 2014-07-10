@@ -119,6 +119,12 @@
       <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
     </CreateItem>
 
+    <CreateItem
+     Include="@(ReferenceComWrappersToCopyLocal)"
+     Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.dll' or '%(ReferenceComWrappersToCopyLocal.extension)' == '.exe' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
+	
     <!--
   Items to include in the CA package:
      - Reference assemblies marked CopyLocal
@@ -133,7 +139,7 @@
       <Output TaskParameter="Include" ItemName="IntermediateCAAssembly" />
     </CreateItem>
 
-  <CreateItem Include="@(IntermediateAssembly->'%(RootDir)%(Directory)$(TargetCAFileName)')">
+    <CreateItem Include="@(IntermediateAssembly->'%(RootDir)%(Directory)$(TargetCAFileName)')">
       <Output TaskParameter="Include" ItemName="IntermediateCAPackage" />
     </CreateItem>
 
