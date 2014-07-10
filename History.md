@@ -1,3 +1,5 @@
+* flcdrg: WIXBUG:4437 - Adds CopyLocal COM reference assemblies to the list of assemblies to be included in managed CA.
+
 * champloo: WIXBUG:4097 - Fixes uncaught UnauthorizedAccessException in RecursiveFileAttributes.
 
 * RobMen: WIXFEAT:4188 - deprecate switches removed in WiX v4.0
