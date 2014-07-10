@@ -3971,5 +3971,11 @@
                 Multiple Cabinets with Large Files are splitting simultaneously. This current cabinet is waiting on a shared resource and splitting will resume when the other splitting has completed.
             </Instance>
         </Message>
+        <Message Id="ValidatedDatabase" Number="9034" SourceLineNumbers="no">
+            <Instance>
+                Validation complete: {0}ms elapsed.
+                <Parameter Type="System.Int64" Name="size" />
+            </Instance>
+        </Message>
     </Class>
 </Messages>

@@ -1989,11 +1989,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // validate the output if there is an MSI validator
             if (null != this.validator)
             {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+              
                 // set the output file for source line information
                 this.validator.Output = output;
 
                 this.core.OnMessage(WixVerboses.ValidatingDatabase());
                 this.core.EncounteredError = !this.validator.Validate(tempDatabaseFile);
+              
+                stopwatch.Stop();
+                this.core.OnMessage(WixVerboses.ValidatedDatabase(stopwatch.ElapsedMilliseconds));
 
                 // stop processing if an error previously occurred
                 if (this.core.EncounteredError)
