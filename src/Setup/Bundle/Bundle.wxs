@@ -28,7 +28,7 @@
           <Payload Name='BootstrapperCore.config' SourceFile='WixBA.BootstrapperCore.config' />
 
           <Payload SourceFile='WixBA.dll' />
-          <Payload SourceFile='License.htm' />
+          <Payload SourceFile='..\..\..\License.txt' />
         </BootstrapperApplicationRef>
 
         <Variable Name='InstallFolder' Type='string' Value='[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)' />
