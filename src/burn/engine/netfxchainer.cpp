@@ -382,7 +382,7 @@ extern "C" HRESULT NetFxRunChainer(
     hr = CreateNetFxChainer(sczSectionName, sczEventName, &pNetfxChainer);
     ExitOnFailure(hr, "Failed to create netfx chainer.");
 
-    hr = StrAllocateFormatted(&sczCommand, TRUE, L"%ls /pipe %ls", wzArguments, sczSectionName);
+    hr = StrAllocFormattedSecure(&sczCommand, L"%ls /pipe %ls", wzArguments, sczSectionName);
     ExitOnFailure(hr, "Failed to allocate netfx chainer arguments.");
 
     si.cb = sizeof(si);

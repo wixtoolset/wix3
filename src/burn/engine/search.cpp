@@ -1098,7 +1098,7 @@ static HRESULT MsiProductSearch(
         // if we actually found a related product then use its upgrade code for the rest of the search
         if (1 == dwRelatedProducts)
         {
-            hr = StrAllocateString(&sczGuid, rgsczRelatedProductCodes[0], 0, TRUE);
+            hr = StrAllocStringSecure(&sczGuid, rgsczRelatedProductCodes[0], 0);
             ExitOnFailure(hr, "Failed to copy upgrade code.");
         }
         else
