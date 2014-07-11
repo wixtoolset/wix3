@@ -168,7 +168,7 @@ extern "C" HRESULT ApprovedExesLaunch(
         hr = VariableFormatString(pVariables, pLaunchApprovedExe->sczArguments, &sczArgumentsFormatted, NULL);
         ExitOnFailure(hr, "Failed to format argument string.");
 
-        hr = StrAllocateFormatted(&sczCommand, TRUE, L"\"%ls\" %s", pLaunchApprovedExe->sczExecutablePath, sczArgumentsFormatted);
+        hr = StrAllocFormattedSecure(&sczCommand, L"\"%ls\" %s", pLaunchApprovedExe->sczExecutablePath, sczArgumentsFormatted);
         ExitOnFailure(hr, "Failed to create executable command.");
 
         hr = VariableFormatStringObfuscated(pVariables, pLaunchApprovedExe->sczArguments, &sczArgumentsObfuscated, NULL);
