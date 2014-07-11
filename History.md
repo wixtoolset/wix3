@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4467 - Create path2utl for path functions that require shlwapi.lib.
+
 * SeanHall: WIXBUG:4470 - Check whether the LaunchArguments are null before trying to format them.
 
 * flcdrg: WIXBUG:4437 - Adds CopyLocal COM reference assemblies to the list of assemblies to be included in managed CA.

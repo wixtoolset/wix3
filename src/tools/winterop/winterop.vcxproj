@@ -30,7 +30,7 @@
 
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>crypt32.lib;cabinet.lib;msi.lib;dutil.lib;shlwapi.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>crypt32.lib;cabinet.lib;msi.lib;dutil.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemGroup>

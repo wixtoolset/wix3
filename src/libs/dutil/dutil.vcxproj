@@ -81,6 +81,7 @@
     <ClCompile Include="memutil.cpp" />
     <ClCompile Include="metautil.cpp" />
     <ClCompile Include="osutil.cpp" />
+    <ClCompile Include="path2utl.cpp" />
     <ClCompile Include="pathutil.cpp" />
     <ClCompile Include="perfutil.cpp" />
     <ClCompile Include="polcutil.cpp" />

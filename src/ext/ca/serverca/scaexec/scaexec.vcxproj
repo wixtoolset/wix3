@@ -40,7 +40,7 @@
 
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\wcautil</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>activeds.lib;adsiid.lib;crypt32.lib;msi.lib;netapi32.lib;shlwapi.lib;Ws2_32.lib;dutil.lib;wcautil.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>activeds.lib;adsiid.lib;crypt32.lib;msi.lib;netapi32.lib;Ws2_32.lib;dutil.lib;wcautil.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemGroup>
