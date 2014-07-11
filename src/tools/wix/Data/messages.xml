@@ -3973,7 +3973,7 @@
         </Message>
         <Message Id="ValidatedDatabase" Number="9034" SourceLineNumbers="no">
             <Instance>
-                Validation complete: {0}ms elapsed.
+                Validation complete: {0:N0}ms elapsed.
                 <Parameter Type="System.Int64" Name="size" />
             </Instance>
         </Message>
