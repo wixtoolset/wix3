@@ -16,6 +16,10 @@
     <Cultures>neutral</Cultures>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(OFFICIAL_WIX_BUILD)'!='' ">
+    <DefaultCompressionLevel>high</DefaultCompressionLevel>
+  </PropertyGroup>
+
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);WixBundleCompressed=$(WixBundleCompressed)</DefineConstants>
     <DefineConstants Condition="$(VS2010Available)">$(DefineConstants);VS2010Available=true</DefineConstants>

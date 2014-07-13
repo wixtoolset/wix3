@@ -1,3 +1,5 @@
+* BobArnson: Use MediaTemplate in WiX setup. Include native SDK packages when the corresponding compiler is present, not just when the corresponding SDK is present. (The SDK is needed only to create the C++ custom action templates.)
+
 * SeanHall: WIXBUG:4467 - Create path2utl for path functions that require shlwapi.lib.
 
 * SeanHall: WIXBUG:4470 - Check whether the LaunchArguments are null before trying to format them.
