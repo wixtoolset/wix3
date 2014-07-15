@@ -2618,7 +2618,7 @@ static BURN_CACHE_ACTION* ProcessSharedPayload(
         if (BURN_CACHE_ACTION_TYPE_ACQUIRE_PAYLOAD == pCacheAction->type &&
             pCacheAction->resolvePayload.pPayload == pPayload)
         {
-            AssertSz(!pAcquireAction, "There should at most one acquire cache action per payload.");
+            AssertSz(!pAcquireAction, "There should be at most one acquire cache action per payload.");
             pAcquireAction = pCacheAction;
         }
         else if (BURN_CACHE_ACTION_TYPE_CACHE_PAYLOAD == pCacheAction->type &&
