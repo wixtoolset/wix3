@@ -1686,7 +1686,7 @@ static HRESULT RemoveBundleOrPackage(
     {
         // Try to remove root package cache in the off chance it is now empty.
         hr = GetRootPath(fPerMachine, TRUE, &sczRootCacheDirectory);
-        ExitOnFailure1(hr, "Failed to get %hs package cache root directory.", fPerMachine ? "per-mac+ine" : "per-user");
+        ExitOnFailure1(hr, "Failed to get %hs package cache root directory.", fPerMachine ? "per-machine" : "per-user");
         DirEnsureDeleteEx(sczRootCacheDirectory, DIR_DELETE_SCHEDULE);
 
         // GetRootPath returns S_FALSE if the package cache is redirected elsewhere.

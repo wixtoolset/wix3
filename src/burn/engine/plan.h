@@ -508,14 +508,6 @@ HRESULT PlanSetResumeCommand(
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_LOGGING* pLog
     );
-//HRESULT AppendExecuteWaitAction(
-//    __in BURN_PLAN* pPlan,
-//    __in HANDLE hEvent
-//    );
-//HRESULT AppendExecuteCheckpointAction(
-//    __in BURN_PLAN* pPlan,
-//    __in DWORD dwId
-//    );
 
 #ifdef DEBUG
 void PlanDump(

@@ -1387,8 +1387,8 @@ static HRESULT DownloadPayload(
     DOWNLOAD_SOURCE* pDownloadSource = pProgress->pContainer ? &pProgress->pContainer->downloadSource : &pProgress->pPayload->downloadSource;
     DWORD64 qwDownloadSize = pProgress->pContainer ? pProgress->pContainer->qwFileSize : pProgress->pPayload->qwFileSize;
     DOWNLOAD_CACHE_CALLBACK cacheCallback = { };
-    DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = {};
-    APPLY_AUTHENTICATION_REQUIRED_DATA authenticationData = {};
+    DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = { };
+    APPLY_AUTHENTICATION_REQUIRED_DATA authenticationData = { };
 
     DWORD dwLogId = pProgress->pContainer ? (pProgress->pPayload ? MSG_ACQUIRE_CONTAINER_PAYLOAD : MSG_ACQUIRE_CONTAINER) : pProgress->pPackage ? MSG_ACQUIRE_PACKAGE_PAYLOAD : MSG_ACQUIRE_BUNDLE_PAYLOAD;
     LogId(REPORT_STANDARD, dwLogId, wzPackageOrContainerId, wzPayloadId, "download", pDownloadSource->sczUrl);

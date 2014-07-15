@@ -330,8 +330,8 @@ static HRESULT DownloadUpdateFeed(
     HRESULT hr = S_OK;
     DOWNLOAD_SOURCE downloadSource = { };
     DOWNLOAD_CACHE_CALLBACK cacheCallback = { };
-    DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = {};
-    DETECT_AUTHENTICATION_REQUIRED_DATA authenticationData = {};
+    DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = { };
+    DETECT_AUTHENTICATION_REQUIRED_DATA authenticationData = { };
     LPWSTR sczUpdateId = NULL;
     LPWSTR sczDestinationPath = NULL;
     LPWSTR sczError = NULL;
