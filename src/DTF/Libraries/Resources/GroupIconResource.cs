@@ -92,7 +92,7 @@ namespace Microsoft.Deployment.Resources
         {
             this.rawGroupIconInfo = new GroupIconInfo();
             this.icons = new List<Resource>();
-            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read))
+            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 this.rawGroupIconInfo.ReadFromFile(fs);
 

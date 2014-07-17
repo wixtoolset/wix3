@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4466 - Open icons with read-sharing in DTF.
+
 * BobArnson: WIXBUG:4476 - Add x64 deputil.lib to NativeSdkMsi.
 
 * BobArnson: Use MediaTemplate in WiX setup. Include native SDK packages when the corresponding compiler is present, not just when the corresponding SDK is present. (The SDK is needed only to create the C++ custom action templates.)
