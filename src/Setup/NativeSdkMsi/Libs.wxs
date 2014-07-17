@@ -41,6 +41,9 @@
             <Component>
                 <File Id="wcautil_x64.lib" Source="!(bindpath.x64)\$(var.VisualStudioTargetVersion)\wcautil.lib"/>
             </Component>
+            <Component>
+                <File Id="deputil_x64.lib" Source="!(bindpath.x64)\$(var.VisualStudioTargetVersion)\deputil.lib"/>
+            </Component>
         </ComponentGroup>
     </Fragment>
 </Wix>
