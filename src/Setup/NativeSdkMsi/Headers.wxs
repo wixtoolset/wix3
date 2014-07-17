@@ -68,6 +68,9 @@
                 <File Source="atomutil.h" />
             </Component>
             <Component>
+                <File Source="butil.h" />
+            </Component>
+            <Component>
                 <File Source="buffutil.h" />
             </Component>
             <Component>
@@ -92,6 +95,9 @@
                 <File Source="dirutil.h" />
             </Component>
             <Component>
+                <File Source="dlutil.h" />
+            </Component>
+            <Component>
                 <File Source="dutil.h" />
             </Component>
             <Component>
@@ -104,7 +110,13 @@
                 <File Source="gdiputil.h" />
             </Component>
             <Component>
+                <File Source="iis7util.h" />
+            </Component>
+            <Component>
                 <File Source="inetutil.h" />
+            </Component>
+            <Component>
+                <File Source="iniutil.h" />
             </Component>
             <Component>
                 <File Source="jsonutil.h" />
@@ -131,6 +143,9 @@
                 <File Source="perfutil.h" />
             </Component>
             <Component>
+                <File Source="polcutil.h" />
+            </Component>
+            <Component>
                 <File Source="procutil.h" />
             </Component>
             <Component>
@@ -146,6 +161,9 @@
                 <File Source="reswutil.h" />
             </Component>
             <Component>
+                <File Source="rmutil.h" />
+            </Component>
+            <Component>
                 <File Source="rssutil.h" />
             </Component>
             <Component>
@@ -158,7 +176,13 @@
                 <File Source="sqlutil.h" />
             </Component>
             <Component>
+                <File Source="srputil.h" />
+            </Component>
+            <Component>
                 <File Source="strutil.h" />
+            </Component>
+            <Component>
+                <File Source="svcutil.h" />
             </Component>
             <Component>
                 <File Source="thmutil.h" />
@@ -176,6 +200,9 @@
                 <File Source="wiutil.h" />
             </Component>
             <Component>
+                <File Source="wuautil.h" />
+            </Component>
+            <Component>
                 <File Source="xmlutil.h" />
             </Component>
         </ComponentGroup>
@@ -183,6 +210,12 @@
 
     <Fragment>
         <ComponentGroup Id="WcautilHeaderComponents" Directory="SdkIncFolder">
+            <Component>
+                <File Source="custommsierrors.h" />
+            </Component>
+            <Component>
+                <File Source="wcalog.h" />
+            </Component>
             <Component>
                 <File Source="wcautil.h" />
             </Component>
