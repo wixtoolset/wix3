@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4471 - Add warning about late RemoveExistingProducts scheduling with PerfCounterManifest.
+
 * RobMen: WIXBUG:4468 - fix missed suppression of suppress signature verification of MSI packages.
 
 * SeanHall: WIXBUG:4472 - Try to clean the downloaded update bundle from the cache.
