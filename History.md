@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 * BobArnson: Use MediaTemplate in WiX setup. Include native SDK packages when the corresponding compiler is present, not just when the corresponding SDK is present. (The SDK is needed only to create the C++ custom action templates.)
 
 * BobArnson: WIXBUG:4460 - Switch license from HTML to plain text.
@@ -5,6 +6,9 @@
 * BobArnson: WIXBUG:4471 - Add warning about late RemoveExistingProducts scheduling with PerfCounterManifest.
 
 * RobMen: WIXBUG:4468 - fix missed suppression of suppress signature verification of MSI packages.
+=======
+* BobArnson: WIXBUG:4473 - Remove Wui.csproj from Wix.sln.
+>>>>>>> 812022d2e6ea6897068f63962470a705a7d8a14e
 
 * SeanHall: WIXBUG:4472 - Try to clean the downloaded update bundle from the cache.
 
