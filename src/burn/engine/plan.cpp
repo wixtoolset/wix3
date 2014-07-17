@@ -1513,7 +1513,7 @@ extern "C" HRESULT PlanCleanPackage(
         // The following are all different reasons why the package should be cleaned from the cache.
         // The else-ifs are used to make the conditions easier to see (rather than have them combined
         // in one huge condition).
-        if ((BURN_CACHE_TYPE_YES > pPackage->cacheType) && (BOOTSTRAPPER_ACTION_UPDATE_REPLACE != pPlan->action))  // easy, package is not supposed to stay cached.
+        if (BURN_CACHE_TYPE_YES > pPackage->cacheType)  // easy, package is not supposed to stay cached.
         {
             fPlanCleanPackage = TRUE;
         }
