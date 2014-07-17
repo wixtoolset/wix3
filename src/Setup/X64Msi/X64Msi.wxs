@@ -18,7 +18,7 @@
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
-        <Media Id="1" Cabinet="wix64.cab" CompressionLevel="high" />
+        <MediaTemplate CabinetTemplate="wix64{0}.cab" />
 
         <DirectoryRef Id="SdkFolder" />
         

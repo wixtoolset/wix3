@@ -1,3 +1,5 @@
+* BobArnson: Use MediaTemplate in WiX setup. Include native SDK packages when the corresponding compiler is present, not just when the corresponding SDK is present. (The SDK is needed only to create the C++ custom action templates.)
+
 * BobArnson: WIXBUG:4460 - Switch license from HTML to plain text.
 
 * BobArnson: WIXBUG:4471 - Add warning about late RemoveExistingProducts scheduling with PerfCounterManifest.

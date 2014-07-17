@@ -18,9 +18,7 @@
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
-        <Media Id="1" Cabinet="votive.cab" CompressionLevel="high" />
-
-        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+        <MediaTemplate CabinetTemplate="votiv{0}.cab" />
 
         <Feature Id="VotiveFeature" Title="Votive 200x" Level="1">
             <?if $(var.BuildVotive2010)=true ?>
