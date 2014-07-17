@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4468 - fix missed suppression of suppress signature verification of MSI packages.
+
 * SeanHall: WIXBUG:4472 - Try to clean the downloaded update bundle from the cache.
 
 * SeanHall: WIXBUG:4467 - Create path2utl for path functions that require shlwapi.lib.
