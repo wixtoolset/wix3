@@ -28,7 +28,7 @@
           <Payload Name='BootstrapperCore.config' SourceFile='WixBA.BootstrapperCore.config' />
 
           <Payload SourceFile='WixBA.dll' />
-          <Payload SourceFile='License.htm' />
+          <Payload SourceFile='..\..\..\License.txt' />
         </BootstrapperApplicationRef>
 
         <Variable Name='InstallFolder' Type='string' Value='[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)' />
@@ -71,7 +71,7 @@
 
     <Fragment>
         <PackageGroup Id='NativeSdkPackages'>
-            <?ifdef VS2010SdkAvailable ?>
+            <?ifdef VS2010Available ?>
             <MsiPackage Vital='yes' Name='data\nsdk2010.msi' SourceFile='data\nsdk2010.msi'
                         InstallCondition='VS2010InstallFolder'
                         >
@@ -79,7 +79,7 @@
             </MsiPackage>
             <?endif?>
 
-            <?ifdef VS2012SdkAvailable ?>
+            <?ifdef VS2012Available ?>
             <MsiPackage Vital='yes' Name='data\nsdk2012.msi' SourceFile='data\nsdk2012.msi'
                         InstallCondition='VS2012InstallFolder'
                         >
@@ -87,7 +87,7 @@
             </MsiPackage>
             <?endif?>
 
-            <?ifdef VS2013SdkAvailable ?>
+            <?ifdef VS2013Available ?>
             <MsiPackage Vital='yes' Name='data\nsdk2013.msi' SourceFile='data\nsdk2013.msi'
                         InstallCondition='VS2013InstallFolder'
                         >

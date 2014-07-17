@@ -18,9 +18,7 @@
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
-        <Media Id="1" Cabinet="msdk.cab" CompressionLevel="high" />
-
-        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+        <MediaTemplate CabinetTemplate="msdk{0}.cab" />
 
         <Feature Id="ManagedSdkFeature" Title="Managed SDK" Level="1">
             <Component Directory="SdkFolder">
