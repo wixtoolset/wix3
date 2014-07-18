@@ -1,3 +1,5 @@
+* BobArnson: Install native SDK packages when VS Express SKUs (VC++ Express v10 or Windows Desktop Express v11/v12), in addition to Professional and later.
+
 * BobArnson: WIXBUG:4466 - Open icons with read-sharing in DTF.
 
 * BobArnson: WIXBUG:4476 - Add x64 deputil.lib to NativeSdkMsi.
