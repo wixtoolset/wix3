@@ -1,4 +1,4 @@
-* BobArnson: WIXBUG:4474 - Add missing headers; relocate headers to sdk\inc; add missing file and correct typo to point to deputil directory.
+* BobArnson: WIXBUG:4474 - Add missing headers; add missing file and correct typo to point to deputil directory.
 
 * BobArnson: WIXBUG:4476 - Add x64 deputil.lib to NativeSdkMsi.
 
