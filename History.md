@@ -1,3 +1,5 @@
+* jchoover: Fixed some memory leaks in the engine.
+
 * BobArnson: WIXBUG:4466 - Open icons with read-sharing in DTF.
 
 * BobArnson: WIXBUG:4476 - Add x64 deputil.lib to NativeSdkMsi.
