@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4456 - Look at different things on opposite sides of an expression.
+
 * jchoover: Fixed some memory leaks in the engine.
 
 * BobArnson: WIXBUG:4466 - Open icons with read-sharing in DTF.
