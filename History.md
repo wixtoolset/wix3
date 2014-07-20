@@ -1,5 +1,7 @@
 * jchoover: Switch WixBA over to using engine updates.
 
+* BobArnson: Install native SDK packages when VS Express SKUs (VC++ Express v10 or Windows Desktop Express v11/v12), in addition to Professional and later.
+
 * BobArnson: WIXBUG:4456 - Look at different things on opposite sides of an expression.
 
 * jchoover: Fixed some memory leaks in the engine.
