@@ -100,8 +100,7 @@ extern "C" HRESULT DAPI ApupAllocChainFromAtom(
             hr = ProcessEntry(pFeed->rgEntries + i, pChain->wzDefaultApplicationId, pChain->rgEntries + pChain->cEntries);
             ExitOnFailure(hr, "Failed to process ATOM entry.");
 
-            // If parsing failed, don't inc the cEntries
-            if ( S_FALSE != hr)
+            if (S_FALSE != hr)
             {
                 ++pChain->cEntries;
             }
@@ -118,10 +117,11 @@ extern "C" HRESULT DAPI ApupAllocChainFromAtom(
         {
             pChain->rgEntries = static_cast<APPLICATION_UPDATE_ENTRY*>(MemReAlloc(pChain->rgEntries, sizeof(APPLICATION_UPDATE_ENTRY) * pChain->cEntries, FALSE));
             ExitOnNull(pChain->rgEntries, hr, E_OUTOFMEMORY, "Failed to reallocate memory for update entries.");
-        }else
+        }
+        else
         {
-             ReleaseNullMem(pChain->rgEntries);
-        }        
+            ReleaseNullMem(pChain->rgEntries);
+        }
     }
 
     *ppChain = pChain;
