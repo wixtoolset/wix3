@@ -100,11 +100,28 @@ extern "C" HRESULT DAPI ApupAllocChainFromAtom(
             hr = ProcessEntry(pFeed->rgEntries + i, pChain->wzDefaultApplicationId, pChain->rgEntries + pChain->cEntries);
             ExitOnFailure(hr, "Failed to process ATOM entry.");
 
-            ++pChain->cEntries;
+            // If parsing failed, don't inc the cEntries
+            if ( S_FALSE != hr)
+            {
+                ++pChain->cEntries;
+            }
         }
 
         // Sort the chain by descending version and ascending total size.
         qsort_s(pChain->rgEntries, pChain->cEntries, sizeof(APPLICATION_UPDATE_ENTRY), CompareEntries, NULL);
+    }
+
+    // Trim the unused entries from the end, if any of the entries failed to parse or validate
+    if (pChain->cEntries != pFeed->cEntries) 
+    {
+        if (pChain->cEntries > 0)
+        {
+            pChain->rgEntries = static_cast<APPLICATION_UPDATE_ENTRY*>(MemReAlloc(pChain->rgEntries, sizeof(APPLICATION_UPDATE_ENTRY) * pChain->cEntries, FALSE));
+            ExitOnNull(pChain->rgEntries, hr, E_OUTOFMEMORY, "Failed to reallocate memory for update entries.");
+        }else
+        {
+             ReleaseNullMem(pChain->rgEntries);
+        }        
     }
 
     *ppChain = pChain;
@@ -175,6 +192,7 @@ extern "C" void DAPI ApupFreeChain(
             FreeEntry(pChain->rgEntries + i);
         }
 
+        ReleaseMem(pChain->rgEntries);
         ReleaseStr(pChain->wzDefaultApplicationType);
         ReleaseStr(pChain->wzDefaultApplicationId);
         ReleaseMem(pChain);
@@ -284,7 +302,7 @@ static HRESULT ProcessEntry(
 
         if (pAtomEntry->pContent->wzValue)
         {
-            hr = StrAllocString(&pApupEntry->wzContent, pAtomEntry->pContent->wzType, 0);
+            hr = StrAllocString(&pApupEntry->wzContent, pAtomEntry->pContent->wzValue, 0);
             ExitOnFailure(hr, "Failed to allocate content.");
         }
     }
