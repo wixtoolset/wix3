@@ -156,6 +156,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             // This update should be either larger than ours (so we are out of date), the same as ours (so we are current)
             // or smaller than ours (we have a private build). If we really wanted to, we could leave the e.Result alone and
             // enumerate all of the updates.
+            WixBA.Model.Engine.Log(LogLevel.Verbose, String.Format("Potential update v{0} from '{1}'; current version: v{2}", e.Version, e.UpdateLocation, WixBA.Model.Version));
             if (e.Version > WixBA.Model.Version)
             {
                 WixBA.Model.Engine.SetUpdate(null, e.UpdateLocation, e.Size, UpdateHashType.None, null);
@@ -167,7 +168,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                 this.State = UpdateState.Current;
                 e.Result = Result.Cancel;
             }
-
         }
 
         private void DetectUpdateComplete(object sender, Bootstrapper.DetectUpdateCompleteEventArgs e)
@@ -176,7 +176,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 this.State = UpdateState.Failed;
                 WixBA.Model.Engine.Detect();
-            } else if (UpdateState.Checking == this.State) 
+            }
+            else if (UpdateState.Checking == this.State) 
             {
                 this.State = UpdateState.Current;
             }
