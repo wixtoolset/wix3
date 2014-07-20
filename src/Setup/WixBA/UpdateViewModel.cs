@@ -172,7 +172,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         private void DetectUpdateComplete(object sender, Bootstrapper.DetectUpdateCompleteEventArgs e)
         {
-            if (((int) Result.Cancel != e.Status) && ((int) Result.Ok != e.Status))
+            if ((UpdateState.Failed != this.State) && !Hresult.Succeeded(e.Status))
             {
                 this.State = UpdateState.Failed;
                 WixBA.Model.Engine.Detect();
