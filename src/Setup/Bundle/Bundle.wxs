@@ -38,6 +38,10 @@
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\10.0' Value='InstallDir' Variable='VS2010InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\11.0' Value='InstallDir' Variable='VS2012InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\12.0' Value='InstallDir' Variable='VS2013InstallFolder' />
+        
+        <util:ComponentSearch Guid="{B455E8D3-90CB-47F6-AB7B-9B31E5DE6266}" Variable="VS2010VCExpressInstalled" />
+        <util:ComponentSearch Guid="{55C6B9D6-A824-4AFC-8D08-20E581B6F42C}" Variable="VS2012WDExpressInstalled" />
+        <util:ComponentSearch Guid="{6C65247B-900C-45AD-8ED8-3F20E668348E}" Variable="VS2013WDExpressInstalled" />
 
         <util:RegistrySearchRef Id="NETFRAMEWORK35_SP_LEVEL" />
 
@@ -73,7 +77,7 @@
         <PackageGroup Id='NativeSdkPackages'>
             <?ifdef VS2010Available ?>
             <MsiPackage Vital='yes' Name='data\nsdk2010.msi' SourceFile='data\nsdk2010.msi'
-                        InstallCondition='VS2010InstallFolder'
+                        InstallCondition='VS2010InstallFolder OR VS2010VCExpressInstalled'
                         >
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
@@ -81,7 +85,7 @@
 
             <?ifdef VS2012Available ?>
             <MsiPackage Vital='yes' Name='data\nsdk2012.msi' SourceFile='data\nsdk2012.msi'
-                        InstallCondition='VS2012InstallFolder'
+                        InstallCondition='VS2012InstallFolder OR VS2012WDExpressInstalled'
                         >
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
@@ -89,7 +93,7 @@
 
             <?ifdef VS2013Available ?>
             <MsiPackage Vital='yes' Name='data\nsdk2013.msi' SourceFile='data\nsdk2013.msi'
-                        InstallCondition='VS2013InstallFolder'
+                        InstallCondition='VS2013InstallFolder OR VS2013WDExpressInstalled'
                         >
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
