@@ -1438,7 +1438,7 @@ extern "C" HRESULT PlanRelatedBundlesComplete(
             }
 
             // If we are going to take any action on this package, add progress for it.
-            if (BOOTSTRAPPER_ACTION_STATE_NONE != pRelatedBundle->package.execute || BOOTSTRAPPER_ACTION_STATE_NONE != pRelatedBundle->package.execute)
+            if (BOOTSTRAPPER_ACTION_STATE_NONE != pRelatedBundle->package.execute || BOOTSTRAPPER_ACTION_STATE_NONE != pRelatedBundle->package.rollback)
             {
                 LoggingIncrementPackageSequence();
 
