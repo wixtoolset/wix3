@@ -41,29 +41,24 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
     public class UpdateViewModel : PropertyNotifyBase
     {
         private RootViewModel root;
-
-        private readonly string AppSyndicationNamespace = "http://appsyndication.org/2006/appsyn";
-
         private UpdateState state;
-        private BackgroundWorker worker;
-
         private ICommand updateCommand;
+        
 
         public UpdateViewModel(RootViewModel root)
         {
             this.root = root;
             WixBA.Model.Bootstrapper.DetectUpdateBegin += this.DetectUpdateBegin;
-            WixBA.Model.Bootstrapper.DetectComplete += DetectComplete;
+            WixBA.Model.Bootstrapper.DetectUpdate += this.DetectUpdate;
+            WixBA.Model.Bootstrapper.DetectUpdateComplete += this.DetectUpdateComplete;
 
             this.State = UpdateState.Initializing;
 
-            this.worker = new BackgroundWorker();
-            this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
         }
 
         public bool CheckingEnabled
         {
-            get { return this.State == UpdateState.Initializing || this.State == UpdateState.Checking; }
+            get { return this.State == UpdateState.Initializing || this.State == UpdateState.Checking || this.State == UpdateState.Unknown; }
         }
 
         public bool IsUpToDate
@@ -148,102 +143,43 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         private void DetectUpdateBegin(object sender, Bootstrapper.DetectUpdateBeginEventArgs e)
         {
-            this.State = UpdateState.Checking;
+            if (UpdateState.Failed != this.State)
+            {
+                this.State = UpdateState.Checking;
+                e.Result = Result.Ok;
+            }
+        }
+        
+        private void DetectUpdate(object sender, Bootstrapper.DetectUpdateEventArgs e)
+        {
+            // The list of updates is sorted in descending version, so the first callback should be the largest update available.
+            // This update should be either larger than ours (so we are out of date), the same as ours (so we are current)
+            // or smaller than ours (we have a private build). If we really wanted to, we could leave the e.Result alone and
+            // enumerate all of the updates.
+            if (e.Version > WixBA.Model.Version)
+            {
+                WixBA.Model.Engine.SetUpdate(null, e.UpdateLocation, e.Size, UpdateHashType.None, null);
+                this.State = UpdateState.Available;
+                e.Result = Result.Ok;
+            }
+            else if (e.Version <= WixBA.Model.Version)
+            {
+                this.State = UpdateState.Current;
+                e.Result = Result.Cancel;
+            }
 
-            this.worker.RunWorkerAsync(e.UpdateLocation);
         }
 
-        private void DetectComplete(object sender, Bootstrapper.DetectCompleteEventArgs e)
+        private void DetectUpdateComplete(object sender, Bootstrapper.DetectUpdateCompleteEventArgs e)
         {
-            // If we never started checking, assume we're up to date.
-            if (UpdateState.Initializing == this.State)
+            if ((UpdateState.Failed != this.State) && !Hresult.Succeeded(e.Status))
+            {
+                this.State = UpdateState.Failed;
+                WixBA.Model.Engine.Detect();
+            } else if (UpdateState.Checking == this.State) 
             {
                 this.State = UpdateState.Current;
             }
-        }
-
-        /// <summary>
-        /// Worker thread to check for updates.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Arguments.</param>
-        private void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            bool succeeded = false;
-            string updateFeedUrl = (string)e.Argument;
-
-            try
-            {
-                HttpWebRequest request = WixBA.Model.CreateWebRequest(updateFeedUrl);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    SyndicationFeed feed;
-                    using (XmlReader reader = XmlReader.Create(response.GetResponseStream()))
-                    {
-                        feed = SyndicationFeed.Load(reader);
-                    }
-
-                    var updates = from entry in feed.Items
-                                  from link in entry.Links
-                                  from extension in entry.ElementExtensions
-                                  where String.Equals(link.RelationshipType, "enclosure", StringComparison.Ordinal) &&
-                                        String.Equals(extension.OuterNamespace, this.AppSyndicationNamespace, StringComparison.Ordinal) &&
-                                        String.Equals(extension.OuterName, "version", StringComparison.Ordinal)
-                                  select new Update()
-                                  {
-                                      Url = link.Uri.AbsoluteUri,
-                                      Size = link.Length,
-                                      Version = new Version(extension.GetObject<string>())
-                                  };
-
-                    Update update = updates.Where(u => u.Version > WixBA.Model.Version).OrderByDescending(u => u.Version).FirstOrDefault();
-                    if (update == null)
-                    {
-                        WixBA.Model.Engine.SetUpdate(null, null, 0, UpdateHashType.None, null);
-                        this.State = UpdateState.Current;
-                    }
-                    else
-                    {
-                        WixBA.Model.Engine.SetUpdate(null, update.Url, update.Size, UpdateHashType.None, null);
-                        this.State = UpdateState.Available;
-                    }
-
-                    succeeded = true;
-                }
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (FormatException)
-            {
-            }
-            catch (OverflowException)
-            {
-            }
-            catch (WebException)
-            {
-            }
-            catch (XmlException)
-            {
-            }
-
-            if (!succeeded)
-            {
-                WixBA.Model.Engine.SetUpdate(null, null, 0, UpdateHashType.None, null);
-                this.State = UpdateState.Failed;
-            }
-        }
-
-        /// <summary>
-        /// Helper class to store AppSyndication URLs associated with their version.
-        /// </summary>
-        private class Update
-        {
-            public string Url { get; set; }
-            public long Size { get; set; }
-            public Version Version { get; set; }
         }
     }
 }
