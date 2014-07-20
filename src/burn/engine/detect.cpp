@@ -420,11 +420,14 @@ static HRESULT DetectAtomFeedUpdate(
             switch (nResult)
             {
                 case IDNOACTION:
+                    hr = S_OK;
                     continue;
                 case IDOK:   
                     pUpdate->fUpdateAvailable = TRUE;
+                    hr = S_OK;
                     break;
                 case IDCANCEL:
+                    hr = S_FALSE;
                     break;
                 default:
                     ExitOnRootFailure(hr = E_INVALIDDATA, "UX aborted detect update begin.");
