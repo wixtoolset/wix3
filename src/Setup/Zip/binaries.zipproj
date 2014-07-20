@@ -154,6 +154,9 @@
     <Stage Include="$(OutputPath)BootstrapperCore.config">
       <StageSubDirectory>sdk</StageSubDirectory>
     </Stage>
+    <Stage Include="$(OutputPath)BootstrapperCore.xml">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
 
     <!-- DTF binaries -->
     <Stage Include="$(OutputPath)wix.ca.targets">
@@ -238,7 +241,7 @@
       <StageSubDirectory>sdk\inc</StageSubDirectory>
       <Hardlink>false</Hardlink>
     </Stage>
-    <Stage Include="$(WixRoot)src\libs\deptuil\inc\*.h">
+    <Stage Include="$(WixRoot)src\libs\deputil\inc\*.h">
       <StageSubDirectory>sdk\inc</StageSubDirectory>
       <Hardlink>false</Hardlink>
     </Stage>

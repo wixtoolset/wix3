@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4474 - Add missing headers; add missing file and correct typo to point to deputil directory.
+
 * jchoover: Switch WixBA over to using engine updates.
 
 * BobArnson: Install native SDK packages when VS Express SKUs (VC++ Express v10 or Windows Desktop Express v11/v12), in addition to Professional and later.

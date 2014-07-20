@@ -29,7 +29,7 @@
 
     <Fragment>
         <DirectoryRef Id="SdkFolder">
-            <Directory Id="VisualStudioTargetSdkFolder" Name ="VS$(var.VisualStudioTargetVersion)">
+            <Directory Id="VisualStudioTargetSdkFolder" Name="VS$(var.VisualStudioTargetVersion)">
                 <Directory Id="SdkIncFolder" Name="inc" />
                 <Directory Id="SdkLibFolder" Name="lib">
                     <Directory Id="SdkX86LibFolder" Name="x86" />
