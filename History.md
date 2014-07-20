@@ -1,3 +1,5 @@
+* jchoover: Switch WixBA over to using engine updates.
+
 * BobArnson: WIXBUG:4456 - Look at different things on opposite sides of an expression.
 
 * jchoover: Fixed some memory leaks in the engine.
