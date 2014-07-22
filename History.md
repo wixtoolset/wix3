@@ -1,3 +1,5 @@
+## WixBuild: Version 3.9.721.0
+
 ## WixBuild: Version 3.9.720.0
 
 * BobArnson: WIXBUG:4474 - Add missing headers; add missing file and correct typo to point to deputil directory.
