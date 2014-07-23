@@ -116,5 +116,7 @@ static HRESULT OpenPolicyKey(
     ExitOnFailure(hr, "Failed to open policy registry key.");
 
 LExit:
+    ReleaseStr(sczPath);
+
     return hr;
 }

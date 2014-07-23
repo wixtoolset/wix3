@@ -332,6 +332,11 @@ extern "C" HRESULT DAPI FileVersionFromString(
     *pdwVerMajor = 0;
     *pdwVerMinor = 0;
 
+    if ((L'v' == *pwz) || (L'V' == *pwz))
+    {
+        ++pwz;
+    }
+
     dw = wcstoul(pwz, (WCHAR**)&pwz, 10);
     if (pwz && (L'.' == *pwz && dw < 0x10000) || !*pwz)
     {

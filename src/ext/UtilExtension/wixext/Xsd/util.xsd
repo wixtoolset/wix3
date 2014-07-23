@@ -656,7 +656,12 @@
       <xs:appinfo>
         <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="File" />
       </xs:appinfo>
-      <xs:documentation>Used to install Perfmon Counter Manifests.</xs:documentation>
+      <xs:documentation>
+        Used to install Perfmon Counter Manifests.
+        Note that this functionality cannot be used with major upgrades that are scheduled after the InstallExecute,
+        InstallExecuteAgain, or InstallFinalize actions. For more information on major upgrade scheduling, see
+        <html:a href="http://msdn.microsoft.com/en-us/library/aa371197.aspx">RemoveExistingProducts Action</html:a>.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="ResourceFileDirectory" type="xs:string" use="optional">

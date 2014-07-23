@@ -184,7 +184,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
 
                     // print friendly message saying what file is being validated
                     Console.WriteLine(Path.GetFileName(inputFile));
-
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+                    
                     try
                     {
                         validator.Validate(Path.GetFullPath(inputFile));
@@ -195,6 +196,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     finally
                     {
+                        stopwatch.Stop();
+                        this.messageHandler.Display(this, WixVerboses.ValidatedDatabase(stopwatch.ElapsedMilliseconds));
+                      
                         if (this.tidy)
                         {
                             if (!validator.DeleteTempFiles())

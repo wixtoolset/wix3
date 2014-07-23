@@ -21451,7 +21451,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             int installSize = CompilerCore.IntegerNotSet;
             string msuKB = null;
             YesNoType suppressLooseFilePayloadGeneration = YesNoType.NotSet;
-            YesNoType suppressSignatureVerification = YesNoType.NotSet;
+            YesNoType suppressSignatureVerification = YesNoType.Yes;
             YesNoDefaultType compressed = YesNoDefaultType.Default;
             YesNoType displayInternalUI = YesNoType.NotSet;
             YesNoType enableFeatureSelection = YesNoType.NotSet;

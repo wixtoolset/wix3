@@ -14,6 +14,11 @@
     <DefineSolutionProperties>false</DefineSolutionProperties>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Cultures>neutral</Cultures>
+    <LinkerVerboseOutput>true</LinkerVerboseOutput>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OFFICIAL_WIX_BUILD)'!='' ">
+    <DefaultCompressionLevel>high</DefaultCompressionLevel>
   </PropertyGroup>
 
   <PropertyGroup>

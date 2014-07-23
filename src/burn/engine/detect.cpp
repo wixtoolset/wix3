@@ -416,14 +416,23 @@ static HRESULT DetectAtomFeedUpdate(
                 pAppUpdateEntry->rgEnclosures ? pAppUpdateEntry->rgEnclosures->dw64Size : 0, 
                 pAppUpdateEntry->dw64Version, pAppUpdateEntry->wzTitle,
                 pAppUpdateEntry->wzSummary, pAppUpdateEntry->wzContentType, pAppUpdateEntry->wzContent, IDNOACTION);
-            hr = UserExperienceInterpretResult(pUX, MB_OKCANCEL, nResult);
-            ExitOnRootFailure(hr, "UX aborted detect update begin.");
 
-            if (IDOK == nResult)
+            switch (nResult)
             {
-                pUpdate->fUpdateAvailable = TRUE;
-                break;
+                case IDNOACTION:
+                    hr = S_OK;
+                    continue;
+                case IDOK:   
+                    pUpdate->fUpdateAvailable = TRUE;
+                    hr = S_OK;
+                    break;
+                case IDCANCEL:
+                    hr = S_FALSE;
+                    break;
+                default:
+                    ExitOnRootFailure(hr = E_INVALIDDATA, "UX aborted detect update begin.");
             }
+            break;
         }
     }
 

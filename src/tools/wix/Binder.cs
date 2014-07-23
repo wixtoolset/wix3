@@ -317,6 +317,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     string parameter = arg.Substring(1);
                     if (parameter.Equals("bcgg", StringComparison.Ordinal))
                     {
+                        consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.backwardsCompatibleGuidGen = true;
                     }
                     else if (parameter.Equals("cc", StringComparison.Ordinal))
@@ -449,6 +450,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                     else if (parameter.Equals("sa", StringComparison.Ordinal))
                     {
+                        consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.suppressAssemblies = true;
                     }
                     else if (parameter.Equals("sacl", StringComparison.Ordinal))
@@ -461,11 +463,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                     else if (parameter.Equals("sf", StringComparison.Ordinal))
                     {
+                        consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.suppressAssemblies = true;
                         this.suppressFileHashAndInfo = true;
                     }
                     else if (parameter.Equals("sh", StringComparison.Ordinal))
                     {
+                        consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.suppressFileHashAndInfo = true;
                     }
                     else if (parameter.StartsWith("sice:", StringComparison.Ordinal))
@@ -478,6 +482,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                     else if (parameter.Equals("spdb", StringComparison.Ordinal))
                     {
+                        consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.suppressWixPdb = true;
                     }
                     else if (parameter.Equals("spsd", StringComparison.Ordinal))
@@ -1989,11 +1994,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // validate the output if there is an MSI validator
             if (null != this.validator)
             {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+              
                 // set the output file for source line information
                 this.validator.Output = output;
 
                 this.core.OnMessage(WixVerboses.ValidatingDatabase());
                 this.core.EncounteredError = !this.validator.Validate(tempDatabaseFile);
+              
+                stopwatch.Stop();
+                this.core.OnMessage(WixVerboses.ValidatedDatabase(stopwatch.ElapsedMilliseconds));
 
                 // stop processing if an error previously occurred
                 if (this.core.EncounteredError)
