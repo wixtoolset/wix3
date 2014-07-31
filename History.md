@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4481 - Switch the WiX bundle to have an Uninstall/Change button in ARP, to avoid having Uninstall kick off immediately while the user could click the Update button and kick off an update install. Also, disable Update during apply phase.
+
 ## WixBuild: Version 3.9.721.0
 
 ## WixBuild: Version 3.9.720.0
