@@ -205,7 +205,7 @@ HRESULT CoreRecreateCommandLine(
     __in BOOL fPassthrough,
     __in_z_opt LPCWSTR wzActiveParent,
     __in_z_opt LPCWSTR wzAncestors,
-    __in_z_opt LPCWSTR wzApppendLogPath,
+    __in_z_opt LPCWSTR wzAppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
     );
 
