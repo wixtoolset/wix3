@@ -984,20 +984,41 @@ extern "C" HRESULT RegistrationGetResumeCommandLine(
 {
     HRESULT hr = S_OK;
     HKEY hkRegistration = NULL;
+    LPWSTR sczRegCommandLine = NULL;
+    int argc = 0;
+    LPWSTR* argv = NULL;
 
-    // open registration key
+    // Open registration key.
     hr = RegOpen(pRegistration->hkRoot, pRegistration->sczRegistrationKey, KEY_QUERY_VALUE, &hkRegistration);
-    if (SUCCEEDED(hr))
-    {
-        hr = RegReadString(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE, psczResumeCommandLine);
-    }
-
-    // Not finding the key or value is okay.
     if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
     {
-        hr = S_OK;
+        // Not finding the key or value is okay.
+        ExitFunction1(hr = S_OK);
+    }
+    ExitOnFailure(hr, "Failed to open the bundle registration key");
+
+    hr = RegReadString(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE, &sczRegCommandLine);
+    ExitOnFailure(hr, "Failed to get the resume command line value");
+
+    // Rebuild the command line without the runonce switch.
+    argv = ::CommandLineToArgvW(sczRegCommandLine, &argc);
+    ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
+
+    for (int i = 0; i < argc; ++i)
+    {
+        if (!((argv[i][0] == L'-' || argv[i][0] == L'/') && CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_RUNONCE, -1)))
+        {
+            PathCommandLineAppend(psczResumeCommandLine, argv[i]);
+        }
     }
 
+LExit:
+    if (argv)
+    {
+        ::LocalFree(argv);
+    }
+
+    ReleaseStr(sczRegCommandLine);
     ReleaseRegKey(hkRegistration);
 
     return hr;

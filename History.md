@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4486 - Put the bundle's executable path back into the resume command line.
+
 ## WixBuild: Version 3.9.721.0
 
 ## WixBuild: Version 3.9.720.0
