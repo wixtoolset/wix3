@@ -72,7 +72,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 if (this.updateCommand == null)
                 {
-                    this.updateCommand = new RelayCommand(param => WixBA.Plan(LaunchAction.UpdateReplace), param => this.State == UpdateState.Available);
+                    this.updateCommand = new RelayCommand(param => WixBA.Plan(LaunchAction.UpdateReplace), param => this.State == UpdateState.Available && this.root.State != InstallationState.Applying);
                 }
 
                 return this.updateCommand;
