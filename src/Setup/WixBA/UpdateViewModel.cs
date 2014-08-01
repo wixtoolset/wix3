@@ -58,7 +58,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         public bool CheckingEnabled
         {
-            get { return this.State == UpdateState.Initializing || this.State == UpdateState.Checking || this.State == UpdateState.Unknown; }
+            get { return this.State == UpdateState.Initializing || this.State == UpdateState.Checking; }
         }
 
         public bool IsUpToDate
@@ -143,7 +143,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         private void DetectUpdateBegin(object sender, Bootstrapper.DetectUpdateBeginEventArgs e)
         {
-            if (UpdateState.Failed != this.State)
+            // Don't check for updates if the first check failed (no retry), or if we are being ran as an uninstall.
+            if ((UpdateState.Failed != this.State) && (LaunchAction.Uninstall != WixBA.Model.Command.Action))
             {
                 this.State = UpdateState.Checking;
                 e.Result = Result.Ok;
@@ -177,9 +178,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                 this.State = UpdateState.Failed;
                 WixBA.Model.Engine.Detect();
             }
-            else if (UpdateState.Checking == this.State) 
+            else if ((UpdateState.Checking == this.State) || (UpdateState.Initializing == this.State))
             {
-                this.State = UpdateState.Current;
+                if (LaunchAction.Uninstall != WixBA.Model.Command.Action)
+                {
+                    this.State = UpdateState.Current;
+                }
+                else
+                {
+                    this.State = UpdateState.Unknown;
+                }
             }
         }
     }
