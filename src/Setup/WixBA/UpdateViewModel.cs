@@ -143,8 +143,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         private void DetectUpdateBegin(object sender, Bootstrapper.DetectUpdateBeginEventArgs e)
         {
-            // Don't check for updates if the first check failed (no retry), or if we are being ran as an uninstall.
-            if ((UpdateState.Failed != this.State) && (LaunchAction.Uninstall != WixBA.Model.Command.Action))
+            // Don't check for updates if the first check failed (no retry), 
+            // if we are being ran as an uninstall,
+            // or if were not under a full UI.
+            if ((UpdateState.Failed != this.State) && (LaunchAction.Uninstall != WixBA.Model.Command.Action) && (Display.Full == WixBA.Model.Command.Display))
             {
                 this.State = UpdateState.Checking;
                 e.Result = Result.Ok;
@@ -173,22 +175,20 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         private void DetectUpdateComplete(object sender, Bootstrapper.DetectUpdateCompleteEventArgs e)
         {
+            // Failed to process an update, re-queue a detect to allow the existing bundle to still install.
             if ((UpdateState.Failed != this.State) && !Hresult.Succeeded(e.Status))
             {
                 this.State = UpdateState.Failed;
+                WixBA.Model.Engine.Log(LogLevel.Verbose, String.Format("Failed to locate an update, status of 0x{0:X8}. Re-detecting with updates disabled.", e.Status));
                 WixBA.Model.Engine.Detect();
             }
-            else if ((UpdateState.Checking == this.State) || (UpdateState.Initializing == this.State))
+            // If were uninstalling, we don't want to check or show an update
+            // If we are checking, then the feed didn't find any valid enclosures
+            // If we are initializing, were either uninstalling or not a full UI
+            else if ((LaunchAction.Uninstall == WixBA.Model.Command.Action) || (UpdateState.Initializing == this.State) || (UpdateState.Checking == this.State))
             {
-                if (LaunchAction.Uninstall != WixBA.Model.Command.Action)
-                {
-                    this.State = UpdateState.Current;
-                }
-                else
-                {
-                    this.State = UpdateState.Unknown;
-                }
-            }
+                this.State = UpdateState.Unknown;
+            }            
         }
     }
 }
