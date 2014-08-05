@@ -146,7 +146,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             // Don't check for updates if:
             //   the first check failed (no retry)
             //   if we are being run as an uninstall
-            //   if were not under a full UI.
+            //   if we are not under a full UI.
             if ((UpdateState.Failed != this.State) && (LaunchAction.Uninstall != WixBA.Model.Command.Action) && (Display.Full == WixBA.Model.Command.Display))
             {
                 this.State = UpdateState.Checking;
@@ -183,9 +183,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                 WixBA.Model.Engine.Log(LogLevel.Verbose, String.Format("Failed to locate an update, status of 0x{0:X8}. Re-detecting with updates disabled.", e.Status));
                 WixBA.Model.Engine.Detect();
             }
-            // If were uninstalling, we don't want to check or show an update
+            // If we are uninstalling, we don't want to check or show an update
             // If we are checking, then the feed didn't find any valid enclosures
-            // If we are initializing, were either uninstalling or not a full UI
+            // If we are initializing, we're either uninstalling or not a full UI
             else if ((LaunchAction.Uninstall == WixBA.Model.Command.Action) || (UpdateState.Initializing == this.State) || (UpdateState.Checking == this.State))
             {
                 this.State = UpdateState.Unknown;

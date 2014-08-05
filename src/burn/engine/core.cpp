@@ -837,7 +837,7 @@ extern "C" HRESULT CoreRecreateCommandLine(
     __in BOOL fPassthrough,
     __in_z_opt LPCWSTR wzActiveParent,
     __in_z_opt LPCWSTR wzAncestors,
-    __in_z_opt LPCWSTR wzApppendLogPath,
+    __in_z_opt LPCWSTR wzAppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
     )
 {
@@ -925,9 +925,9 @@ extern "C" HRESULT CoreRecreateCommandLine(
         ExitOnFailure(hr, "Failed to append passthrough to command-line.");
     }
 
-    if (wzApppendLogPath && *wzApppendLogPath)
+    if (wzAppendLogPath && *wzAppendLogPath)
     {
-        hr = StrAllocFormatted(&scz, L" /%ls \"%ls\"", BURN_COMMANDLINE_SWITCH_LOG_APPEND, wzApppendLogPath);
+        hr = StrAllocFormatted(&scz, L" /%ls \"%ls\"", BURN_COMMANDLINE_SWITCH_LOG_APPEND, wzAppendLogPath);
         ExitOnFailure(hr, "Failed to format append log command-line for command-line.");
 
         hr = StrAllocConcat(psczCommandLine, scz, 0);
