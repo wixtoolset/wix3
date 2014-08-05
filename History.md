@@ -1,5 +1,7 @@
 * jchoover: WIXBUG:4481 - Better handle update detection when the feed isn't available or is malformed and when uninstalling.
 
+* BobArnson: WIXBUG:4486 - When writing to the Run/RunOnce key to handle in-chain reboots, include the cached bundle stub.
+
 ## WixBuild: Version 3.9.721.0
 
 ## WixBuild: Version 3.9.720.0

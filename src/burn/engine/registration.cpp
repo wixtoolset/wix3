@@ -1178,7 +1178,7 @@ static HRESULT UpdateResumeMode(
     if ((BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated) && !pRegistration->fDisableResume)
     {
         // append RunOnce switch
-        hr = StrAllocFormatted(&sczResumeCommandLine, L"%ls /%ls", pRegistration->sczResumeCommandLine, BURN_COMMANDLINE_SWITCH_RUNONCE);
+        hr = StrAllocFormatted(&sczResumeCommandLine, L"\"%ls\" /%ls", pRegistration->sczCacheExecutablePath, BURN_COMMANDLINE_SWITCH_RUNONCE);
         ExitOnFailure(hr, "Failed to format resume command line for RunOnce.");
 
         // write run key
