@@ -143,9 +143,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
 
         private void DetectUpdateBegin(object sender, Bootstrapper.DetectUpdateBeginEventArgs e)
         {
-            // Don't check for updates if the first check failed (no retry), 
-            // if we are being ran as an uninstall,
-            // or if were not under a full UI.
+            // Don't check for updates if:
+            //   the first check failed (no retry)
+            //   if we are being run as an uninstall
+            //   if were not under a full UI.
             if ((UpdateState.Failed != this.State) && (LaunchAction.Uninstall != WixBA.Model.Command.Action) && (Display.Full == WixBA.Model.Command.Display))
             {
                 this.State = UpdateState.Checking;

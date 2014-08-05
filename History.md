@@ -1,3 +1,5 @@
+* jchoover: WIXBUG:4481 - Better handle update detection when the feed isn't available or is malformed and when uninstalling.
+
 ## WixBuild: Version 3.9.721.0
 
 ## WixBuild: Version 3.9.720.0
