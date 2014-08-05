@@ -6644,7 +6644,7 @@
   <xs:element name="ServiceInstall">
     <xs:annotation>
       <xs:documentation>
-                Adds and removes services for parent Component.
+                Adds services for parent Component.  Use the ServiceControl element to remove services.
             </xs:documentation>
       <xs:appinfo>
         <xse:msiRef table="ServiceInstall" href="http://msdn.microsoft.com/library/aa371637.aspx" />
@@ -6665,7 +6665,7 @@
         </xs:element>
         <xs:element ref="ServiceDependency">
           <xs:annotation>
-            <xs:documentation>ordered list of dependencies when installing services</xs:documentation>
+            <xs:documentation>Ordered list of dependencies when installing services.</xs:documentation>
           </xs:annotation>
         </xs:element>
         <xs:element ref="ServiceConfig" />
@@ -6699,7 +6699,7 @@
       </xs:attribute>
       <xs:attribute name="Type" use="required">
         <xs:annotation>
-          <xs:documentation>The Windows Installer does not currently support kernelDriver or systemDriver</xs:documentation>
+          <xs:documentation>The Windows Installer does not currently support kernelDriver or systemDriver.</xs:documentation>
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:NMTOKEN">
