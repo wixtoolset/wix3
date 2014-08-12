@@ -3077,6 +3077,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 throw new WixException(WixErrors.MissingBundleInformation("WixBundle"));
             }
 
+            // Ensure there is one and only one row in the WixBootstrapperApplication table.
+            // The compiler and linker behavior should have colluded to get
+            // this behavior.
+            Table baTable = bundle.Tables["WixBootstrapperApplication"];
+            if (null == baTable || 1 != baTable.Rows.Count)
+            {
+                throw new WixException(WixErrors.MissingBundleInformation("WixBootstrapperApplication"));
+            }
+
             // Ensure there is one and only one row in the WixChain table.
             // The compiler and linker behavior should have colluded to get
             // this behavior.
@@ -3320,6 +3329,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
             ContainerInfo defaultAttachedContainer = new ContainerInfo("WixAttachedContainer", "bundle-attached.cab", "attached", null, this.FileManager);
             containers.Add(defaultAttachedContainer.Id, defaultAttachedContainer);
 
+            Row baRow = baTable.Rows[0];
+            string baPayloadId = (string)baRow[0];
+
             // Create lists of which payloads go in each container or are layout only.
             foreach (Row row in wixGroupTable.Rows)
             {
@@ -3335,7 +3347,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     if (Enum.GetName(typeof(ComplexReferenceParentType), ComplexReferenceParentType.Container) == rowParentType)
                     {
                         ContainerInfo container = containers[rowParentName];
-                        container.Payloads.Add(payload);
+
+                        // Make sure the BA DLL is the first payload.
+                        if (payload.Id.Equals(baPayloadId))
+                        {
+                            container.Payloads.Insert(0, payload);
+                        }
+                        else
+                        {
+                            container.Payloads.Add(payload);
+                        }
 
                         payload.Container = container.Id;
                         payloadsAddedToContainers.Add(rowChildName, false);
