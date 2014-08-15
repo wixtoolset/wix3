@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4491 - Make sure the BA DLL is the first payload in the UX container.
+
 ## WixBuild: Version 3.9.805.0
 
 * jchoover: WIXBUG:4481 - Better handle update detection when the feed isn't available or is malformed and when uninstalling.
