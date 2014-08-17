@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4497 - Undeprecate "-spdb" command-line switch.
+
 * SeanHall: WIXBUG:4491 - Make sure the BA DLL is the first payload in the UX container.
 
 ## WixBuild: Version 3.9.805.0

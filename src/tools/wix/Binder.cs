@@ -482,7 +482,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                     else if (parameter.Equals("spdb", StringComparison.Ordinal))
                     {
-                        consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.suppressWixPdb = true;
                     }
                     else if (parameter.Equals("spsd", StringComparison.Ordinal))
