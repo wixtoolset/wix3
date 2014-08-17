@@ -68,6 +68,7 @@
 
     <!-- extensions -->
     <Stage Include="$(OutputPath)WixBalExtension.dll" />
+    <Stage Include="$(OutputPath)WixComPlusExtension.dll" />
     <Stage Include="$(OutputPath)WixDifxAppExtension.dll" />
     <Stage Include="$(OutputPath)WixDependencyExtension.dll" />
     <Stage Include="$(OutputPath)WixDirectXExtension.dll" />
