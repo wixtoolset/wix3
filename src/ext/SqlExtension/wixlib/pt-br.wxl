@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="pt-br.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="pt-br" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="msierrSQLFailedCreateDatabase" Overridable="yes">Error [2]: falha ao criar o Banco de Dados: [3], detalhes: [4].</String>
+	<String Id="msierrSQLFailedDropDatabase" Overridable="yes">Error [2]: falha ao remover o Banco de Dados: [3], detalhes: [4].</String>
+	<String Id="msierrSQLFailedConnectDatabase" Overridable="yes">Falhou a ligação ao Banco de Dados.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrSQLFailedExecString" Overridable="yes">Erro [2]: falha ao executar o comando de SQL, detalhes: [3], Comando: [4] Conteúdo: [5]</String>
+	<String Id="msierrSQLDatabaseAlreadyExists" Overridable="yes">O Banco de Dados [3] já existe. Deseja continuar?</String>
+
+	<String Id="ConfigureSql" Overridable="yes">Configurando o Servidor de SQL</String>
+	<String Id="CreateDatabase" Overridable="yes">Criando os Bancos de Dados</String>
+	<String Id="DropDatabase" Overridable="yes">Removendo os Bancos de Dados</String>
+	<String Id="ExecuteSqlStrings" Overridable="yes">Executando comandos de SQL</String>
+	<String Id="RollbackExecuteSqlStrings" Overridable="yes">Revertendo os comandos de SQL</String>
+</WixLocalization>

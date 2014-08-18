@@ -32,6 +32,8 @@
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="es-es.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />
+	<EmbeddedResource Include="pt-pt.wxl" />
+	<EmbeddedResource Include="pt-br.wxl" />
   </ItemGroup>
 
   <ItemGroup>
