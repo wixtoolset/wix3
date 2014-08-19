@@ -63,10 +63,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
             ////    "roots" : [ "~" ],
             ////    "files" :
             ////    [
-            ////      { "name" : "wix36.exe", "contentType" : "application/octet-stream", "show" : true },
-            ////      { "name" : "data/wix36.msi", "contentType" : "application/octet-stream"  },
-            ////      { "name" : "data/wix36.cab", "contentType" : "application/octet-stream"  },
-            ////      { "name" : "wix36-binaries.zip", "contentType" : "application/octet-stream", "show" : true, "protected" : true }
+            ////      { "name" : "wix36.exe", "contentType" : "application/octet-stream", "size" : 100, "show" : true },
+            ////      { "name" : "data/wix36.msi", "contentType" : "application/octet-stream", "size" : 110 },
+            ////      { "name" : "data/wix36.cab", "contentType" : "application/octet-stream", "size" : 120 },
+            ////      { "name" : "wix36-binaries.zip", "contentType" : "application/octet-stream", "size" : 130, "show" : true, "protected" : true }
             ////    ]
             ////}
             StringBuilder json = new StringBuilder();
@@ -97,12 +97,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
             for (int i = 0; i < this.UploadFiles.Length; ++i)
             {
                 ITaskItem item = this.UploadFiles[i];
-                string filename = Path.GetFileName(item.ItemSpec);
+                FileInfo file = new FileInfo(item.ItemSpec);
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("  {");
-                sb.AppendFormat(" \"name\" : \"{0}\"", Path.Combine(item.GetMetadata("relativefolder"), filename)).Replace("\\", "/");
-                sb.AppendFormat(", \"contentType\" : \"{0}\"", String.IsNullOrEmpty(item.GetMetadata("contenttype")) ? this.GuessContentType(Path.GetExtension(item.ItemSpec)) : item.GetMetadata("contenttype"));
+                sb.AppendFormat(" \"name\" : \"{0}\"", Path.Combine(item.GetMetadata("relativefolder"), file.Name)).Replace("\\", "/");
+                sb.AppendFormat(", \"contentType\" : \"{0}\"", String.IsNullOrEmpty(item.GetMetadata("contenttype")) ? this.GuessContentType(file.Extension) : item.GetMetadata("contenttype"));
+                sb.AppendFormat(", \"size\" : {0}", file.Length);
 
                 if (!String.IsNullOrEmpty(item.GetMetadata("title")))
                 {

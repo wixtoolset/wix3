@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4501 - Add file size to upload metadata for use in releases feed.
+
 * RobMen: WIXBUG:4497 - Undeprecate "-spdb" command-line switch.
 
 * SeanHall: WIXBUG:4491 - Make sure the BA DLL is the first payload in the UX container.
