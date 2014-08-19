@@ -1,3 +1,5 @@
+## WixBuild: Version 3.9.818.0
+
 * RobMen: WIXBUG:4501 - Add file size to upload metadata for use in releases feed.
 
 * RobMen: WIXBUG:4497 - Undeprecate "-spdb" command-line switch.
