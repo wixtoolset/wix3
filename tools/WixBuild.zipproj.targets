@@ -65,7 +65,7 @@
         <Hardlink>%(Stage.Hardlink)</Hardlink>
       </_Stage>
       <_Stage Include="@(Stage)" Condition=" '%(Stage.StageSubDirectory)'=='' ">
-        <TargetPath>$(IntermediateOutputPath)$([MSBuild]::MakeRelative($(OutputPath), %(Identity)))</TargetPath>
+        <TargetPath>$(IntermediateOutputPath)%(Stage.Filename)%(Stage.Extension)</TargetPath>
         <Hardlink>%(Stage.Hardlink)</Hardlink>
       </_Stage>
     </ItemGroup>
