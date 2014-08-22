@@ -302,20 +302,23 @@ extern "C" HRESULT DAPI UriProtocol(
     Assert(pProtocol);
 
     HRESULT hr = S_OK;
+	LPWSTR wzUriLower = NULL;
+    hr = StrAllocStringToLowerInvariant(&wzUriLower, wzUri, 0);
+    ExitOnFailure(hr, "Failed to allocate copy of string in lowercase.");
 
-    if (L'f' == wzUri[0] && L'i' == wzUri[1] && L'l' == wzUri[2] && L'e' == wzUri[3] && L':' == wzUri[4] && L'/' == wzUri[5] && L'/' == wzUri[6])
+    if (L'f' == wzUriLower[0] && L'i' == wzUriLower[1] && L'l' == wzUriLower[2] && L'e' == wzUriLower[3] && L':' == wzUriLower[4] && L'/' == wzUriLower[5] && L'/' == wzUriLower[6])
     {
         *pProtocol = URI_PROTOCOL_FILE;
     }
-    else if (L'f' == wzUri[0] && L't' == wzUri[1] && L'p' == wzUri[2] && L':' == wzUri[3] && L'/' == wzUri[4] && L'/' == wzUri[5])
+    else if (L'f' == wzUriLower[0] && L't' == wzUriLower[1] && L'p' == wzUriLower[2] && L':' == wzUriLower[3] && L'/' == wzUriLower[4] && L'/' == wzUriLower[5])
     {
-        *pProtocol = URI_PROTOCOL_FILE;
+        *pProtocol = URI_PROTOCOL_FTP;
     }
-    else if (L'h' == wzUri[0] && L't' == wzUri[1] && L't' == wzUri[2] && L'p' == wzUri[3] && L':' == wzUri[4] && L'/' == wzUri[5] && L'/' == wzUri[6])
+    else if (L'h' == wzUriLower[0] && L't' == wzUriLower[1] && L't' == wzUriLower[2] && L'p' == wzUriLower[3] && L':' == wzUriLower[4] && L'/' == wzUriLower[5] && L'/' == wzUriLower[6])
     {
         *pProtocol = URI_PROTOCOL_HTTP;
     }
-    else if (L'h' == wzUri[0] && L't' == wzUri[1] && L't' == wzUri[2] && L'p' == wzUri[3] && L'S' == wzUri[4] && L':' == wzUri[5] && L'/' == wzUri[6] && L'/' == wzUri[7])
+    else if (L'h' == wzUriLower[0] && L't' == wzUriLower[1] && L't' == wzUriLower[2] && L'p' == wzUriLower[3] && L's' == wzUriLower[4] && L':' == wzUriLower[5] && L'/' == wzUriLower[6] && L'/' == wzUriLower[7])
     {
         *pProtocol = URI_PROTOCOL_HTTPS;
     }
@@ -324,7 +327,7 @@ extern "C" HRESULT DAPI UriProtocol(
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
 
-//LExit:
+LExit:
     return hr;
 }
 
