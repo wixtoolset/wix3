@@ -845,6 +845,9 @@ extern "C" HRESULT CoreRecreateCommandLine(
     LPWSTR scz = NULL;
     LPCWSTR wzRelationTypeCommandLine = CoreRelationTypeToCommandLineString(relationType);
 
+    hr = StrAllocString(psczCommandLine, L"", 0);
+    ExitOnFailure(hr, "Failed to empty command line.");
+
     switch (display)
     {
     case BOOTSTRAPPER_DISPLAY_NONE:
