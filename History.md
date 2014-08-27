@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4502 - Get MakeSfxCA to sort the Export table according to the PE/COFF spec.
+
 ## WixBuild: Version 3.9.818.0
 
 * RobMen: WIXBUG:4501 - Add file size to upload metadata for use in releases feed.
