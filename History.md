@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4507 - Fix crash in mbapreq when installing PrereqSupportPackages and related bundles are detected.
+
 ## WixBuild: Version 3.9.818.0
 
 * RobMen: WIXBUG:4501 - Add file size to upload metadata for use in releases feed.

@@ -189,7 +189,6 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
 typedef struct _WIXSTDBA_PREREQ_PACKAGE
 {
     LPWSTR sczPackageId;
-    BAL_INFO_PACKAGE* pPackage;
     BOOL fAlwaysInstall;
     BOOL fWasAlreadyInstalled;
     BOOL fPlannedToBeInstalled;
@@ -287,7 +286,8 @@ public: // IBootstrapperApplication
         )
     {
         WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
-        HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage);
+        BAL_INFO_PACKAGE* pPackage = NULL;
+        HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
         if (SUCCEEDED(hr) && BOOTSTRAPPER_PACKAGE_STATE_PRESENT == state)
         {
             // If the prerequisite package is already installed, remember that.
@@ -362,6 +362,7 @@ public: // IBootstrapperApplication
     {
         HRESULT hr = S_OK;
         WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage = NULL;
 
         // If we're planning to install a prerequisite, install it. The prerequisite needs to be installed
         // in all cases (even uninstall!) so the BA can load next.
@@ -369,16 +370,16 @@ public: // IBootstrapperApplication
         {
             // Only install prerequisite packages, and check the InstallCondition on prerequisite support packages.
             BOOL fInstall = FALSE;
-            hr = GetPrereqPackage(wzPackageId, &pPrereqPackage);
-            if (SUCCEEDED(hr) && pPrereqPackage->pPackage)
+            hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
+            if (SUCCEEDED(hr) && pPackage)
             {
                 if (pPrereqPackage->fAlwaysInstall)
                 {
                     fInstall = TRUE;
                 }
-                else if(pPrereqPackage->pPackage->sczInstallCondition && *pPrereqPackage->pPackage->sczInstallCondition)
+                else if(pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
                 {
-                    hr = m_pEngine->EvaluateCondition(pPrereqPackage->pPackage->sczInstallCondition, &fInstall);
+                    hr = m_pEngine->EvaluateCondition(pPackage->sczInstallCondition, &fInstall);
                     if (FAILED(hr))
                     {
                         fInstall = FALSE;
@@ -759,7 +760,8 @@ public: // IBootstrapperApplication
         int nResult = __super::OnExecutePackageComplete(wzPackageId, hrExitCode, restart, nRecommendation);
 
         WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
-        HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage);
+        BAL_INFO_PACKAGE* pPackage;
+        HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
         if (SUCCEEDED(hr))
         {
             pPrereqPackage->fSuccessfullyInstalled = TRUE;
@@ -1318,8 +1320,6 @@ private: // privates
         pPrereqPackage = m_rgPrereqPackages;
         pPrereqPackage->sczPackageId = m_sczPrereqPackage;
         pPrereqPackage->fAlwaysInstall = TRUE;
-        hr = BalInfoFindPackageById(&m_Bundle.packages, pPrereqPackage->sczPackageId, &pPrereqPackage->pPackage);
-        // Ignore error.
         hr = DictAddValue(m_shPrereqSupportPackages, pPrereqPackage);
         ExitOnFailure1(hr, "Failed to add \"%ls\" to the prerequisite package dictionary.", pPrereqPackage->sczPackageId);
 
@@ -1352,7 +1352,6 @@ private: // privates
             {
                 pPrereqPackage = &m_rgPrereqPackages[i + 1];
                 pPrereqPackage->sczPackageId = pPackage->sczId;
-                pPrereqPackage->pPackage = pPackage;
                 hr = DictAddValue(m_shPrereqSupportPackages, pPrereqPackage);
                 ExitOnFailure1(hr, "Failed to add \"%ls\" to the prerequisite package dictionary.", pPrereqPackage->sczPackageId);
             }
@@ -1464,13 +1463,16 @@ private: // privates
 
     HRESULT GetPrereqPackage(
         __in_z LPCWSTR wzPackageId,
-        __out WIXSTDBA_PREREQ_PACKAGE** ppPrereqPackage
+        __out WIXSTDBA_PREREQ_PACKAGE** ppPrereqPackage,
+        __out BAL_INFO_PACKAGE** ppPackage
         )
     {
         HRESULT hr = E_NOTFOUND;
         WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage = NULL;
 
         Assert(wzPackageId && *wzPackageId);
+        Assert(ppPackage);
         Assert(ppPrereqPackage);
 
         if (m_shPrereqSupportPackages)
@@ -1479,12 +1481,16 @@ private: // privates
             if (E_NOTFOUND != hr)
             {
                 ExitOnFailure(hr, "Failed to check the dictionary of prerequisite packages.");
+
+                // Ignore error.
+                BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
             }
         }
 
         if (pPrereqPackage)
         {
             *ppPrereqPackage = pPrereqPackage;
+            *ppPackage = pPackage;
         }
     LExit:
         return hr;
