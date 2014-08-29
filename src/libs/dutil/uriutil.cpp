@@ -302,23 +302,32 @@ extern "C" HRESULT DAPI UriProtocol(
     Assert(pProtocol);
 
     HRESULT hr = S_OK;
-	LPWSTR wzUriLower = NULL;
-    hr = StrAllocStringToLowerInvariant(&wzUriLower, wzUri, 0);
-    ExitOnFailure(hr, "Failed to allocate copy of string in lowercase.");
 
-    if (L'f' == wzUriLower[0] && L'i' == wzUriLower[1] && L'l' == wzUriLower[2] && L'e' == wzUriLower[3] && L':' == wzUriLower[4] && L'/' == wzUriLower[5] && L'/' == wzUriLower[6])
+    if (wcslen(wzUri) < 6)
     {
-        *pProtocol = URI_PROTOCOL_FILE;
+        *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
-    else if (L'f' == wzUriLower[0] && L't' == wzUriLower[1] && L'p' == wzUriLower[2] && L':' == wzUriLower[3] && L'/' == wzUriLower[4] && L'/' == wzUriLower[5])
+    if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 6, L"ftp://", 6))
     {
         *pProtocol = URI_PROTOCOL_FTP;
     }
-    else if (L'h' == wzUriLower[0] && L't' == wzUriLower[1] && L't' == wzUriLower[2] && L'p' == wzUriLower[3] && L':' == wzUriLower[4] && L'/' == wzUriLower[5] && L'/' == wzUriLower[6])
+    else if (wcslen(wzUri) < 7)
+    {
+        *pProtocol = URI_PROTOCOL_UNKNOWN;
+    }
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 7, L"file://", 7))
+    {
+        *pProtocol = URI_PROTOCOL_FILE;
+    }
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 7, L"http://", 7))
     {
         *pProtocol = URI_PROTOCOL_HTTP;
     }
-    else if (L'h' == wzUriLower[0] && L't' == wzUriLower[1] && L't' == wzUriLower[2] && L'p' == wzUriLower[3] && L's' == wzUriLower[4] && L':' == wzUriLower[5] && L'/' == wzUriLower[6] && L'/' == wzUriLower[7])
+    else if (wcslen(wzUri) < 8)
+    {
+        *pProtocol = URI_PROTOCOL_UNKNOWN;
+    }
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 8, L"https://", 8))
     {
         *pProtocol = URI_PROTOCOL_HTTPS;
     }
@@ -327,7 +336,6 @@ extern "C" HRESULT DAPI UriProtocol(
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
 
-LExit:
     return hr;
 }
 

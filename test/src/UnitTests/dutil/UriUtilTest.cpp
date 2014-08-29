@@ -24,8 +24,32 @@ namespace CfgTests
 		{
 			HRESULT hr = S_OK;
 
-			LPCWSTR uri = L"https://localhost/";
+			LPCWSTR uri = L"a";
 			URI_PROTOCOL uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
+			hr = UriProtocol(uri, &uriProtocol);
+			ExitOnFailure(hr, "Failed to determine UriProtocol");
+			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_UNKNOWN, (int)uriProtocol);
+
+			uri = L"not a real scheme://localhost/";
+			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
+			hr = UriProtocol(uri, &uriProtocol);
+			ExitOnFailure(hr, "Failed to determine UriProtocol");
+			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_UNKNOWN, (int)uriProtocol);
+
+			uri = L"https:/";
+			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
+			hr = UriProtocol(uri, &uriProtocol);
+			ExitOnFailure(hr, "Failed to determine UriProtocol");
+			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_UNKNOWN, (int)uriProtocol);
+
+			uri = L"https://";
+			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
+			hr = UriProtocol(uri, &uriProtocol);
+			ExitOnFailure(hr, "Failed to determine UriProtocol");
+			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_HTTPS, (int)uriProtocol);
+
+			uri = L"https://localhost/";
+			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
 			hr = UriProtocol(uri, &uriProtocol);
 			ExitOnFailure(hr, "Failed to determine UriProtocol");
 			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_HTTPS, (int)uriProtocol);
@@ -47,6 +71,12 @@ namespace CfgTests
 			hr = UriProtocol(uri, &uriProtocol);
 			ExitOnFailure(hr, "Failed to determine UriProtocol");
 			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_HTTP, (int)uriProtocol);
+
+			uri = L"http:/";
+			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
+			hr = UriProtocol(uri, &uriProtocol);
+			ExitOnFailure(hr, "Failed to determine UriProtocol");
+			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_UNKNOWN, (int)uriProtocol);
 
 			uri = L"http://localhost/";
 			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
@@ -83,6 +113,12 @@ namespace CfgTests
 			hr = UriProtocol(uri, &uriProtocol);
 			ExitOnFailure(hr, "Failed to determine UriProtocol");
 			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_FTP, (int)uriProtocol);
+
+			uri = L"ftp:/";
+			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
+			hr = UriProtocol(uri, &uriProtocol);
+			ExitOnFailure(hr, "Failed to determine UriProtocol");
+			Assert::Equal((int)URI_PROTOCOL::URI_PROTOCOL_UNKNOWN, (int)uriProtocol);
 
 			uri = L"ftp://localhost/";
 			uriProtocol = URI_PROTOCOL::URI_PROTOCOL_UNKNOWN;
