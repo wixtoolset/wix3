@@ -302,16 +302,17 @@ extern "C" HRESULT DAPI UriProtocol(
     Assert(pProtocol);
 
     HRESULT hr = S_OK;
+    int wzUriLen = wcslen(wzUri);
 
-    if (wcslen(wzUri) < 6)
+    if (wzUriLen < 6)
     {
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
-    if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 6, L"ftp://", 6))
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 6, L"ftp://", 6))
     {
         *pProtocol = URI_PROTOCOL_FTP;
     }
-    else if (wcslen(wzUri) < 7)
+    else if (wzUriLen < 7)
     {
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
@@ -323,7 +324,7 @@ extern "C" HRESULT DAPI UriProtocol(
     {
         *pProtocol = URI_PROTOCOL_HTTP;
     }
-    else if (wcslen(wzUri) < 8)
+    else if (wzUriLen < 8)
     {
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
