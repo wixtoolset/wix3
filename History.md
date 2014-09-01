@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
+
 * SeanHall: WIXBUG:4507 - Fix crash in mbapreq when installing PrereqSupportPackages and related bundles are detected.
 
 * SeanHall: WIXBUG:4502 - Get MakeSfxCA to sort the Export table according to the PE/COFF spec.
