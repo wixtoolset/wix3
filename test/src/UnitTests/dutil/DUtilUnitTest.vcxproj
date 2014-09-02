@@ -32,6 +32,11 @@
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc</ProjectAdditionalIncludeDirectories>
     <ProjectAdditionalLinkLibraries>rpcrt4.lib;dutil.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Link>
+      <AdditionalDependencies>urlmon.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="DictUtilTest.cpp" />
@@ -40,6 +45,7 @@
     <ClCompile Include="IniUtilTest.cpp" />
     <ClCompile Include="MemUtilTest.cpp" />
     <ClCompile Include="StrUtilTest.cpp" />
+    <ClCompile Include="UriUtilTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp.h" />
