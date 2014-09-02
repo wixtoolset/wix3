@@ -24,6 +24,7 @@
     <EmbeddedResource Include="de-de.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />
     <EmbeddedResource Include="pt-br.wxl" />
+    <EmbeddedResource Include="es-es.wxl" />
   </ItemGroup>
 
   <ItemGroup>

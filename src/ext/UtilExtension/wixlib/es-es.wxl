@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<copyright file="en-us.wxl" company="Outercurve Foundation">
+Copyright (c) 2004, Outercurve Foundation.
+This software is released under Microsoft Reciprocal License (MS-RL).
+The license and further copyright text can be found in the file
+LICENSE.TXT at the root directory of the distribution.
+</copyright>
+-->
+<WixLocalization Culture="es-es" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="msierrUSRFailedUserCreate" Overridable="yes">No se pudo crear el usuario.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">No se pudo crear el usuario debido a contraseña inválida.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">No se pudo agregar el usuario al grupo.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrUSRFailedUserCreateExists" Overridable="yes">No se pudo crear el usuario debido a que este ya existe.  ([2]   [3]   [4]   [5])</String>
+
+	<String Id="msierrSMBFailedCreate" Overridable="yes">No se pudo crear el recurso de red compartido.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrSMBFailedDrop" Overridable="yes">No se pudo eliminar el recurso de red compartido.  ([2]   [3]   [4]   [5])</String>
+
+	<String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">No se pudo registrar la DLL con PerfMon.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">No se pudo eliminar el registro de la DLL con PerfMon.  ([2]   [3]   [4]   [5])</String>
+
+	<String Id="msierrInstallPerfCounterData" Overridable="yes">No se pudo instalar los contadores de desempeño.  ([2]   [3]   [4]   [5])</String>
+	<String Id="msierrUninstallPerfCounterData" Overridable="yes">No se pudo desinstalar los contadores de desempeño.  ([2]   [3]   [4]   [5])</String>
+
+	<String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">No se pudo crear el descriptor de seguridad para [3]\[4], error de sistema: [2]</String>
+	<String Id="msierrSecureObjectsFailedSet" Overridable="yes">No se pudo establecer el descriptor de seguridad en el objeto [3], error de sistema: [2]</String>
+	<String Id="msierrSecureObjectsUnknownType" Overridable="yes">Tipo de objeto desconocido [3], error de sistema: [2]</String>
+
+	<String Id="msierrXmlFileFailedRead" Overridable="yes">Hubo un problema mientras se configuraban los archivos XML.</String>
+	<String Id="msierrXmlFileFailedOpen" Overridable="yes">No se pudo abrir el archivo XML [3], error de sistema: [2]</String>
+	<String Id="msierrXmlFileFailedSelect" Overridable="yes">No se pudo encontrar el nodo: [3] en el archivo XML: [4], error de sistema: [2]</String>
+	<String Id="msierrXmlFileFailedSave" Overridable="yes">No se pudo guardar los cambios al archivo XML [3], error de sistema: [2]</String>
+
+	<String Id="msierrXmlConfigFailedRead" Overridable="yes">Ocurrió un problema mientras se configuraban los archivos XML.</String>
+	<String Id="msierrXmlConfigFailedOpen" Overridable="yes">No se pudo abrir el archivo XML [3], error de sistema: [2]</String>
+	<String Id="msierrXmlConfigFailedSelect" Overridable="yes">No se pudo encontrar el nodo: [3] en el archivo XML: [4], error de sistema: [2]</String>
+	<String Id="msierrXmlConfigFailedSave" Overridable="yes">No se pudo guardar los cambios al archivo XML [3], error de sistema: [2]</String>
+</WixLocalization>
