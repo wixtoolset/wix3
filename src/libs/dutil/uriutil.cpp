@@ -302,20 +302,33 @@ extern "C" HRESULT DAPI UriProtocol(
     Assert(pProtocol);
 
     HRESULT hr = S_OK;
+    int wzUriLen = wcslen(wzUri);
 
-    if (L'f' == wzUri[0] && L'i' == wzUri[1] && L'l' == wzUri[2] && L'e' == wzUri[3] && L':' == wzUri[4] && L'/' == wzUri[5] && L'/' == wzUri[6])
+    if (wzUriLen < 6)
+    {
+        *pProtocol = URI_PROTOCOL_UNKNOWN;
+    }
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 6, L"ftp://", 6))
+    {
+        *pProtocol = URI_PROTOCOL_FTP;
+    }
+    else if (wzUriLen < 7)
+    {
+        *pProtocol = URI_PROTOCOL_UNKNOWN;
+    }
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 7, L"file://", 7))
     {
         *pProtocol = URI_PROTOCOL_FILE;
     }
-    else if (L'f' == wzUri[0] && L't' == wzUri[1] && L'p' == wzUri[2] && L':' == wzUri[3] && L'/' == wzUri[4] && L'/' == wzUri[5])
-    {
-        *pProtocol = URI_PROTOCOL_FILE;
-    }
-    else if (L'h' == wzUri[0] && L't' == wzUri[1] && L't' == wzUri[2] && L'p' == wzUri[3] && L':' == wzUri[4] && L'/' == wzUri[5] && L'/' == wzUri[6])
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 7, L"http://", 7))
     {
         *pProtocol = URI_PROTOCOL_HTTP;
     }
-    else if (L'h' == wzUri[0] && L't' == wzUri[1] && L't' == wzUri[2] && L'p' == wzUri[3] && L'S' == wzUri[4] && L':' == wzUri[5] && L'/' == wzUri[6] && L'/' == wzUri[7])
+    else if (wzUriLen < 8)
+    {
+        *pProtocol = URI_PROTOCOL_UNKNOWN;
+    }
+    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzUri, 8, L"https://", 8))
     {
         *pProtocol = URI_PROTOCOL_HTTPS;
     }
@@ -324,7 +337,6 @@ extern "C" HRESULT DAPI UriProtocol(
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
 
-//LExit:
     return hr;
 }
 

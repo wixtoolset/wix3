@@ -30,7 +30,7 @@
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>rpcrt4.lib;dutil.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>rpcrt4.lib;dutil.lib;urlmon.lib;wininet.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -40,6 +40,7 @@
     <ClCompile Include="IniUtilTest.cpp" />
     <ClCompile Include="MemUtilTest.cpp" />
     <ClCompile Include="StrUtilTest.cpp" />
+    <ClCompile Include="UriUtilTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp.h" />
@@ -54,6 +55,5 @@
       <HintPath>$(XunitPath)\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
-
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
 </Project>
