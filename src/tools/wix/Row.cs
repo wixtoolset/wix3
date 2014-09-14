@@ -578,7 +578,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             // to shred the entire condition into the identifiers that need to be 
                             // modularized.  Let's break it down piece by piece:
                             //
-                            // 1. Look for the operators: NOT, EQV, XOR, OR, AND, IMP (plus a space).  Note that the
+                            // 1. Look for the operators: NOT, EQV, XOR, OR, AND, IMP.  Note that the 
                             //    regular expression is case insensitive so we don't have to worry about
                             //    all the permutations of these strings.
                             // 2. Look for quoted strings.  Quoted strings are just text and are ignored 
@@ -588,7 +588,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             //    strings these enviroment variable references are ignored outright.
                             // 4. Match all identifiers that are things that need to be modularized.  Note
                             //    the special characters (!, $, ?, &) that denote Component and Feature states.
-                            regex = new Regex(@"NOT\s|EQV\s|XOR\s|OR\s|AND\s|IMP\s|"".*?""|%[a-zA-Z_][a-zA-Z0-9_\.]*|(?<identifier>[!$\?&]?[a-zA-Z_][a-zA-Z0-9_\.]*)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
+                            regex = new Regex(@"NOT|EQV|XOR|OR|AND|IMP|"".*?""|%[a-zA-Z_][a-zA-Z0-9_\.]*|(?<identifier>[!$\?&]?[a-zA-Z_][a-zA-Z0-9_\.]*)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
 
                             // less performant version of the above with captures showing where everything lives
                             // regex = new Regex(@"(?<operator>NOT|EQV|XOR|OR|AND|IMP)|(?<string>"".*?"")|(?<environment>%[a-zA-Z_][a-zA-Z0-9_\.]*)|(?<identifier>[!$\?&]?[a-zA-Z_][a-zA-Z0-9_\.]*)",RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
