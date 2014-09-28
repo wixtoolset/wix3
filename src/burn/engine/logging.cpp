@@ -447,6 +447,27 @@ extern "C" LPCSTR LoggingRestartToString(
     }
 }
 
+extern "C" LPCSTR LoggingResumeModeToString(
+    __in BURN_RESUME_MODE resumeMode
+    )
+{
+    switch (resumeMode)
+    {
+    case BURN_RESUME_MODE_NONE:
+        return "None";
+    case BURN_RESUME_MODE_ACTIVE:
+        return "Active";
+    case BURN_RESUME_MODE_SUSPEND:
+        return "Suspend";
+    case BURN_RESUME_MODE_ARP:
+        return "ARP";
+    case BURN_RESUME_MODE_REBOOT_PENDING:
+        return "Reboot Pending";
+    default:
+        return "Invalid";
+    }
+}
+
 extern "C" LPCSTR LoggingRelationTypeToString(
     __in BOOTSTRAPPER_RELATION_TYPE type
     )

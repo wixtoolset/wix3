@@ -1,3 +1,5 @@
+* HeathS: Add logging for hash verification and registration issues.
+
 ## WixBuild: Version 3.9.901.0
 
 * BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
