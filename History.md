@@ -1,3 +1,5 @@
+* HeathS: Redefine Exit\* macros as variadic macros
+
 ## WixBuild: Version 3.9.901.0
 
 * BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
