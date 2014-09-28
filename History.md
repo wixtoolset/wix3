@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4542 - Pad package sequence number log file names for proper sorting
+
 ## WixBuild: Version 3.9.901.0
 
 * BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
