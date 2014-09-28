@@ -243,8 +243,8 @@ DAPI_(HRESULT) ThemeInitialize(
     // Initialize GDI+ and common controls.
     vgsi.SuppressBackgroundThread = TRUE;
 
-    Gdiplus::Status gdiStatus = Gdiplus::GdiplusStartup(&vgdiToken, &vgsi, &vgso);
-    ExitOnGdipFailure(gdiStatus, hr, "Failed to initialize GDI+.");
+    hr = GdipInitialize(&vgsi, &vgdiToken, &vgso);
+    ExitOnFailure(hr, "Failed to initialize GDI+.");
 
     icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
     icex.dwICC = ICC_STANDARD_CLASSES | ICC_PROGRESS_CLASS | ICC_LISTVIEW_CLASSES | ICC_TREEVIEW_CLASSES | ICC_TAB_CLASSES | ICC_LINK_CLASS;
@@ -273,7 +273,7 @@ DAPI_(void) ThemeUninitialize()
 
     if (vgdiToken)
     {
-        Gdiplus::GdiplusShutdown(vgdiToken);
+        GdipUninitialize(vgdiToken);
         vgdiToken = 0;
     }
 

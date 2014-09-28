@@ -34,7 +34,7 @@
 
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(ProjectDir)..\inc;$(ProjectDir)..\engine\inc</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>cabinet.lib;crypt32.lib;msi.lib;rpcrt4.lib;shlwapi.lib;wininet.lib;wintrust.lib;wuguid.lib;dutil.lib;deputil.lib;engine.lib;engine.res</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>cabinet.lib;crypt32.lib;msi.lib;rpcrt4.lib;shlwapi.lib;wininet.lib;wintrust.lib;wuguid.lib;dutil.lib;deputil.lib;engine.lib;engine.res;gdiplus.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemDefinitionGroup>

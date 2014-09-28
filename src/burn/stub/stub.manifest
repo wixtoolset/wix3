@@ -2,9 +2,10 @@
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" manifestVersion="1.0">
  <assemblyIdentity name="setup.exe" version="1.0.0.0" processorArchitecture="x86" type="win32"/>
  <description>WiX Toolset Bootstrapper</description>
+ <asmv3:application><asmv3:windowsSettings><ws:dpiAware xmlns:ws="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</ws:dpiAware></asmv3:windowsSettings></asmv3:application>
  <dependency><dependentAssembly><assemblyIdentity type="win32" name="Microsoft.Windows.Common-Controls" version="6.0.0.0" processorArchitecture="X86" publicKeyToken="6595b64144ccf1df" language="*" /></dependentAssembly></dependency>
  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1"><application>
   <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>

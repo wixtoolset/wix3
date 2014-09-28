@@ -2,6 +2,8 @@
 
 #include "precomp.h"
 
+using namespace Gdiplus;
+
 #define BURN_SPLASHSCREEN_CLASS_WINDOW L"WixBurnSplashScreen"
 #define IDB_SPLASHSCREEN 1
 
@@ -9,9 +11,9 @@
 
 struct SPLASHSCREEN_INFO
 {
-    HBITMAP hBitmap;
-    POINT pt;
-    SIZE size;
+    Bitmap* pBitmap;
+    Point pt;
+    Size size;
 };
 
 struct SPLASHSCREEN_CONTEXT
@@ -33,6 +35,10 @@ static LRESULT CALLBACK WndProc(
     __in UINT uMsg,
     __in WPARAM wParam,
     __in LPARAM lParam
+    );
+static void OnPaint(
+    __in HDC hdc,
+    __in SPLASHSCREEN_INFO* pSplashScreen
     );
 static HRESULT LoadSplashScreen(
     __in HMODULE hInstance,
@@ -109,9 +115,13 @@ static DWORD WINAPI ThreadProc(
     )
 {
     HRESULT hr = S_OK;
-    SPLASHSCREEN_CONTEXT* pContext = static_cast<SPLASHSCREEN_CONTEXT*>(pvContext);
 
-    SPLASHSCREEN_INFO splashScreenInfo = { };
+    ULONG_PTR token = 0;
+    GdiplusStartupInput input;
+    GdiplusStartupOutput output = { };
+
+    SPLASHSCREEN_CONTEXT* pContext = static_cast<SPLASHSCREEN_CONTEXT*>(pvContext);
+    SPLASHSCREEN_INFO splashScreen = { };
 
     WNDCLASSW wc = { };
     BOOL fRegistered = TRUE;
@@ -120,7 +130,12 @@ static DWORD WINAPI ThreadProc(
     BOOL fRet = FALSE;
     MSG msg = { };
 
-    hr = LoadSplashScreen(pContext->hInstance, &splashScreenInfo);
+    input.GdiplusVersion = 1;
+
+    hr = GdipInitialize(&input, &token, &output);
+    ExitOnFailure(hr, "Failed to initialize GDI+.");
+
+    hr = LoadSplashScreen(pContext->hInstance, &splashScreen);
     ExitOnFailure(hr, "Failed to load splash screen.");
 
     // Register the window class and create the window.
@@ -135,7 +150,7 @@ static DWORD WINAPI ThreadProc(
 
     fRegistered = TRUE;
 
-    hWnd = ::CreateWindowExW(WS_EX_TOOLWINDOW, wc.lpszClassName, pContext->wzCaption, WS_POPUP | WS_VISIBLE, splashScreenInfo.pt.x, splashScreenInfo.pt.y, splashScreenInfo.size.cx, splashScreenInfo.size.cy, HWND_DESKTOP, NULL, pContext->hInstance, &splashScreenInfo);
+    hWnd = ::CreateWindowExW(WS_EX_TOOLWINDOW, wc.lpszClassName, pContext->wzCaption, WS_POPUP | WS_VISIBLE, splashScreen.pt.X, splashScreen.pt.Y, splashScreen.size.Width, splashScreen.size.Height, HWND_DESKTOP, NULL, pContext->hInstance, &splashScreen);
     ExitOnNullWithLastError(hWnd, hr, "Failed to create window.");
 
     // Return the splash screen window and free the main thread waiting for us to be initialized.
@@ -163,9 +178,14 @@ LExit:
         ::UnregisterClassW(BURN_SPLASHSCREEN_CLASS_WINDOW, pContext->hInstance);
     }
 
-    if (splashScreenInfo.hBitmap)
+    if (splashScreen.pBitmap)
     {
-        ::DeleteObject(splashScreenInfo.hBitmap);
+        delete splashScreen.pBitmap;
+    }
+    
+    if (token)
+    {
+        GdipUninitialize(token);
     }
 
     return hr;
@@ -179,7 +199,7 @@ static LRESULT CALLBACK WndProc(
     )
 {
     LRESULT lres = 0;
-    SPLASHSCREEN_INFO* pImage = reinterpret_cast<SPLASHSCREEN_INFO*>(::GetWindowLongW(hWnd, GWLP_USERDATA));
+    SPLASHSCREEN_INFO* pSplashScreen = reinterpret_cast<SPLASHSCREEN_INFO*>(::GetWindowLongW(hWnd, GWLP_USERDATA));
 
     switch (uMsg)
     {
@@ -203,18 +223,41 @@ static LRESULT CALLBACK WndProc(
         return 0;
 
     case WM_ERASEBKGND:
-        {
-        HDC hdc = reinterpret_cast<HDC>(wParam);
-        HDC hdcMem = ::CreateCompatibleDC(hdc);
-        HBITMAP hDefaultBitmap = static_cast<HBITMAP>(::SelectObject(hdcMem, pImage->hBitmap));
-        ::StretchBlt(hdc, 0, 0, pImage->size.cx, pImage->size.cy, hdcMem, 0, 0, pImage->size.cx, pImage->size.cy, SRCCOPY);
-        ::SelectObject(hdcMem, hDefaultBitmap);
-        ::DeleteDC(hdcMem);
-        }
+        // The splash screen image will be repainted in its entirety.
         return 1;
+
+    case WM_PAINT:
+        {
+        PAINTSTRUCT ps = { };
+
+        HDC hdc = BeginPaint(hWnd, &ps);
+        OnPaint(hdc, pSplashScreen);
+        EndPaint(hWnd, &ps);
+        }
+        return 0;
     }
 
     return ::DefWindowProcW(hWnd, uMsg, wParam, lParam);
+}
+ 
+static void OnPaint(
+    __in HDC hdc,
+    __in SPLASHSCREEN_INFO* pSplashScreen
+    )
+{
+    // Use high-quality bicubuc stretching from GDI+ which looks better than GDI.
+    Graphics graphics(hdc);
+    graphics.SetInterpolationMode(InterpolationModeHighQualityBicubic);
+
+    Rect dst(0, 0, pSplashScreen->size.Width, pSplashScreen->size.Height);
+    Status status = graphics.DrawImage(pSplashScreen->pBitmap, dst);
+
+#if DEBUG
+    HRESULT hr = GdipHresultFromStatus(status);
+    TraceError(hr, "Failed to draw splash screen bitmap.");
+#else
+    UNREFERENCED_PARAMETER(status);
+#endif
 }
 
 static HRESULT LoadSplashScreen(
@@ -223,31 +266,47 @@ static HRESULT LoadSplashScreen(
     )
 {
     HRESULT hr = S_OK;
-    BITMAP bmp = { };
     POINT ptCursor = { };
     HMONITOR hMonitor = NULL;
-    MONITORINFO mi = { };
+    MONITORINFOEXW mi;
+    HDC hdc = NULL;
+    UINT dpiX = 0;
+    UINT dpiY = 0;
 
-    pSplashScreen->hBitmap = ::LoadBitmapW(hInstance, MAKEINTRESOURCEW(IDB_SPLASHSCREEN));
-    ExitOnNullWithLastError(pSplashScreen->hBitmap, hr, "Failed to load splash screen bitmap.");
+    pSplashScreen->pBitmap = Bitmap::FromResource(hInstance, MAKEINTRESOURCEW(IDB_SPLASHSCREEN));
+    ExitOnNull(pSplashScreen->pBitmap, hr, E_INVALIDDATA, "Failed to find the splash screen bitmap.");
+    ExitOnGdipFailure(pSplashScreen->pBitmap->GetLastStatus(), hr, "Failed to load the splash screen bitmap.");
 
-    ::GetObject(pSplashScreen->hBitmap, sizeof(bmp), static_cast<void*>(&bmp));
-    pSplashScreen->pt.x = CW_USEDEFAULT;
-    pSplashScreen->pt.y = CW_USEDEFAULT;
-    pSplashScreen->size.cx = bmp.bmWidth;
-    pSplashScreen->size.cy = bmp.bmHeight;
+    pSplashScreen->pt.X = CW_USEDEFAULT;
+    pSplashScreen->pt.Y = CW_USEDEFAULT;
+    pSplashScreen->size.Width = pSplashScreen->pBitmap->GetWidth();
+    pSplashScreen->size.Height = pSplashScreen->pBitmap->GetHeight();
 
-    // Center the window on the monitor with the mouse.
+    // Stretch and center the window on the monitor with the mouse.
     if (::GetCursorPos(&ptCursor))
     {
         hMonitor = ::MonitorFromPoint(ptCursor, MONITOR_DEFAULTTONEAREST);
         if (hMonitor)
         {
+            ZeroMemory(&mi, sizeof(mi));
             mi.cbSize = sizeof(mi);
+
             if (::GetMonitorInfoW(hMonitor, &mi))
             {
-                pSplashScreen->pt.x = mi.rcWork.left + (mi.rcWork.right  - mi.rcWork.left - pSplashScreen->size.cx) / 2;
-                pSplashScreen->pt.y = mi.rcWork.top  + (mi.rcWork.bottom - mi.rcWork.top  - pSplashScreen->size.cy) / 2;
+                hdc = ::CreateDCW(L"DISPLAY", mi.szDevice, NULL, NULL);
+                if (hdc)
+                {
+                    dpiX = ::GetDeviceCaps(hdc, LOGPIXELSX);
+                    dpiY = ::GetDeviceCaps(hdc, LOGPIXELSY);
+
+                    pSplashScreen->size.Width = pSplashScreen->size.Width * dpiX / 96;
+                    pSplashScreen->size.Height = pSplashScreen->size.Height * dpiY / 96;
+
+                    ::ReleaseDC(NULL, hdc);
+                }
+
+                pSplashScreen->pt.X = mi.rcWork.left + (mi.rcWork.right  - mi.rcWork.left - pSplashScreen->size.Width) / 2;
+                pSplashScreen->pt.Y = mi.rcWork.top  + (mi.rcWork.bottom - mi.rcWork.top  - pSplashScreen->size.Height) / 2;
             }
         }
     }

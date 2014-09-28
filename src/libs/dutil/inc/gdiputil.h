@@ -10,6 +10,16 @@
 extern "C" {
 #endif
 
+HRESULT DAPI GdipInitialize(
+    __in const Gdiplus::GdiplusStartupInput* pInput,
+    __out ULONG_PTR* pToken,
+    __out_opt Gdiplus::GdiplusStartupOutput *pOutput
+    );
+
+void DAPI GdipUninitialize(
+    __in ULONG_PTR token
+    );
+
 HRESULT DAPI GdipBitmapFromResource(
     __in_opt HINSTANCE hinst,
     __in_z LPCSTR szId,
