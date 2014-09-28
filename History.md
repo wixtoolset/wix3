@@ -1,3 +1,5 @@
+* HeathS: Add Windows "Threshold" support to burn stub.
+
 ## WixBuild: Version 3.9.901.0
 
 * BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
