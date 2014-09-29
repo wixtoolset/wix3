@@ -3779,6 +3779,11 @@
                 <Parameter Type="System.String" Name="dominantValue" />
             </Instance>
         </Message>
+        <Message Id="NoDifferencesInTransform" Number="1147">
+            <Instance>
+                The transform did not contain any valid product changes and will not be included in the patch.
+            </Instance>
+        </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">

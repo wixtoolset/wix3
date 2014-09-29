@@ -1,3 +1,5 @@
+* SamuelS: WIXFEAT:4543 - Allow Pyro to exclude empty patch transforms.
+
 ## WixBuild: Version 3.9.901.0
 
 * BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
