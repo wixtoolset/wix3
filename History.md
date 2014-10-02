@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.
+
 ## WixBuild: Version 3.9.901.0
 
 * BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.

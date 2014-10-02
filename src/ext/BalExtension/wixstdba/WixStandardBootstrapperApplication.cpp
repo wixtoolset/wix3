@@ -1669,6 +1669,7 @@ private: // privates
             {
             LRESULT lres = ThemeDefWindowProc(pBA ? pBA->m_pTheme : NULL, hWnd, uMsg, wParam, lParam);
             ::SetWindowLongPtrW(hWnd, GWLP_USERDATA, 0);
+            ::PostQuitMessage(0);
             return lres;
             }
 
@@ -1688,10 +1689,6 @@ private: // privates
             {
                 return 0;
             }
-            break;
-
-        case WM_DESTROY:
-            ::PostQuitMessage(0);
             break;
 
         case WM_WIXSTDBA_SHOW_HELP:
