@@ -1,3 +1,7 @@
+* RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.
+
+* HeathS: Add Windows "Threshold" support to burn stub.
+
 * RobMen: WIXBUG:4513 - Fix condition keyword detection in modularization regex.
 
 ## WixBuild: Version 3.9.901.0
