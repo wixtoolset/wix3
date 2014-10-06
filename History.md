@@ -1,3 +1,5 @@
+## WixBuild: Version 3.9.1006.0
+
 * RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.
 
 * HeathS: Add Windows "Threshold" support to burn stub.
