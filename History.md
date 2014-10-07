@@ -1,3 +1,5 @@
+* BMurri: WIXBUG:3750 - Add LaunchWorkingDir to wixstdba to facilitate processes that require a different working folder.
+
 * RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.
 
 * HeathS: Add Windows "Threshold" support to burn stub.
