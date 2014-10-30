@@ -188,6 +188,16 @@ extern "C" HRESULT LoggingSetPackageVariable(
     HRESULT hr = S_OK;
     LPWSTR sczLogPath = NULL;
 
+    // make sure that no MSI log-files are created when logging has been disabled via Log element
+    if (BURN_LOGGING_STATE_DISABLED == pLog->state)
+    {
+        if (psczLogPath)
+	{
+            *psczLogPath = NULL;
+	}
+        goto LExit;
+    }
+
     if ((!fRollback && pPackage->sczLogPathVariable && *pPackage->sczLogPathVariable) ||
         (fRollback && pPackage->sczRollbackLogPathVariable && *pPackage->sczRollbackLogPathVariable))
     {
