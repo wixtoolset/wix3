@@ -13,6 +13,7 @@
     <TargetPath>$(OutputPath_x86)$(TargetName)$(TargetExt)</TargetPath>
 
     <IntermediateDocumentsFolder>$(IntermediateOutputPath)documents\</IntermediateDocumentsFolder>
+    <IntermediateDocumentsPreprocessedFolder>$(IntermediateOutputPath)intermediate\</IntermediateDocumentsPreprocessedFolder>
     <IntermediateBuildFolder>$(IntermediateOutputPath)out\</IntermediateBuildFolder>
   </PropertyGroup>
 
@@ -56,17 +57,34 @@
           DependsOnTargets="_ProcessXsdToDocuments"
           Inputs="@(SchemaContent);@(DocumentContent);@(LayoutContent)"
           Outputs="$(IntermediateOutputPath)$(TargetName).hhp">
+
+    <!-- ignore static content for markup since content types in repo aren't always correct -->
+    <ItemGroup>
+      <_Ignore Include="@(FileContent->'$(IntermediateDocumentsPreProcessedFolder)%(RecursiveDir)')" />
+      <_Ignore Include="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)')" />
+    </ItemGroup>
+
+    <RemoveDuplicates Inputs="@(_Ignore)">
+      <Output TaskParameter="Filtered" ItemName="_UniqueIgnore" />
+    </RemoveDuplicates>
+
     <!-- copy the documents to the intermediate folder to be interleaved with the generated XSD documents -->
     <Copy SourceFiles="@(DocumentContent)" DestinationFiles="@(DocumentContent->'$(IntermediateDocumentsFolder)%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true" UseHardlinksIfPossible="false" />
 
-    <Exec Command="&quot;$(OutputPath_x86)doccompiler.exe&quot; &quot;$(IntermediateDocumentsFolder)\&quot; &quot;$(IntermediateBuildFolder)\&quot; &quot;$(LayoutsFolder)&quot; -appendmdtoc &quot;$(IntermediateDocumentsFolder)\index.html.md&quot; -htmlhelp &quot;$(IntermediateOutputPath)$(TargetName).hhp&quot;" />
+    <!-- replace all uri's starting with ~/ by a relative uri into the IntermediateDocumentsPreprocessedFolder folder -->
+    <Exec Command="&quot;$(OutputPath_x86)tildetorelative.exe&quot; &quot;$(IntermediateDocumentsFolder)\&quot; &quot;$(IntermediateDocumentsPreprocessedFolder)\&quot;" />
+
+    <!-- Convert the Markdown and Html files and generate the HtmlHelpProject. -->
+    <Exec Command="&quot;$(OutputPath_x86)doccompiler.exe&quot; &quot;$(IntermediateDocumentsPreprocessedFolder)\&quot; &quot;$(IntermediateBuildFolder)\&quot; &quot;$(LayoutsFolder)&quot; -appendmdtoc &quot;$(IntermediateDocumentsPreprocessedFolder)\index.html.md&quot; @(_UniqueIgnore->'-ignore &quot;%(RootDir)%(Directory)\&quot;', ' ') -ignorexsdsimpletypeintoc -htmlhelp &quot;$(IntermediateOutputPath)$(TargetName).hhp&quot;" />
   </Target>
 
   <Target Name="_ProcessFileContent"
           Inputs="@(FileContent)"
           Outputs="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)%(Filename)%(Extension)')">
-    <!-- "processing" file content is easy, it just gets duplicated into the intermediate build location. -->
+    <!-- "processing" file content is easy, it just gets duplicated into the intermediate build locations. -->
+    <Copy SourceFiles="@(FileContent)" DestinationFiles="@(FileContent->'$(IntermediateDocumentsPreProcessedFolder)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
     <Copy SourceFiles="@(FileContent)" DestinationFiles="@(FileContent->'$(IntermediateBuildFolder)%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
   </Target>

@@ -39,6 +39,13 @@ static HRESULT GetIgnoredDependents(
     __deref_inout STRINGDICT_HANDLE* psdIgnoredDependents
     );
 
+static HRESULT GetProviderInformation(
+    __in HKEY hkRoot,
+    __in_z LPCWSTR wzProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczId
+    );
+
 static void CalculateDependencyActionStates(
     __in const BURN_PACKAGE* pPackage,
     __in const BOOTSTRAPPER_ACTION action,
@@ -72,6 +79,10 @@ static void UnregisterPackageDependency(
     __in BOOL fPerMachine,
     __in const BURN_PACKAGE* pPackage,
     __in_z LPCWSTR wzDependentProviderKey
+    );
+
+static BOOL PackageProviderExists(
+    __in const BURN_PACKAGE* pPackage
     );
 
 
@@ -164,6 +175,49 @@ LExit:
     ReleaseObject(pixnNode);
     ReleaseObject(pixnNodes);
 
+    return hr;
+}
+
+extern "C" HRESULT DependencyDetectProviderKeyPackageId(
+    __in const BURN_PACKAGE* pPackage,
+    __deref_opt_out_z_opt LPWSTR* psczProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczId
+    )
+{
+    HRESULT hr = E_NOTFOUND;
+    LPWSTR wzProviderKey = NULL;
+    HKEY hkRoot = pPackage->fPerMachine ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
+
+    for (DWORD i = 0; i < pPackage->cDependencyProviders; ++i)
+    {
+        const BURN_DEPENDENCY_PROVIDER* pProvider = &pPackage->rgDependencyProviders[i];
+
+        // Find the first package id registered for the provider key.
+        hr = GetProviderInformation(hkRoot, pProvider->sczKey, psczProviderKey, psczId);
+        if (E_NOTFOUND == hr)
+        {
+            continue;
+        }
+        ExitOnFailure(hr, "Failed to get the package provider information.");
+    }
+
+    // Older bundles may not have written the id so try the default.
+    if (BURN_PACKAGE_TYPE_MSI == pPackage->type)
+    {
+        wzProviderKey = pPackage->Msi.sczProductCode;
+    }
+
+    if (wzProviderKey)
+    {
+        hr = GetProviderInformation(hkRoot, wzProviderKey, psczProviderKey, psczId);
+        if (E_NOTFOUND == hr)
+        {
+            ExitFunction();
+        }
+        ExitOnFailure(hr, "Failed to get the package default provider information.");
+    }
+
+LExit:
     return hr;
 }
 
@@ -351,8 +405,11 @@ extern "C" HRESULT DependencyPlanPackageBegin(
         pPackage->execute = BOOTSTRAPPER_ACTION_STATE_NONE;
         pPackage->rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
     }
-    else // use the calculated dependency actions as the provider actions if there are any non-imported providers
-    {    // that will need to be registered.
+    // Use the calculated dependency actions as the provider actions if there
+    // are any non-imported providers that need to be registered and the package
+    // is current (not obsolete).
+    else if (BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE != pPackage->currentState)
+    {
         BOOL fAllImportedProviders = TRUE; // assume all providers were imported.
         for (DWORD i = 0; i < pPackage->cDependencyProviders; ++i)
         {
@@ -723,7 +780,6 @@ static HRESULT GetIgnoredDependents(
 {
     HRESULT hr = S_OK;
     LPWSTR sczIgnoreDependencies = NULL;
-    LPWSTR wzContext = NULL;
 
     // Create the dictionary and add the bundle provider key initially.
     hr = DictCreateStringList(psdIgnoredDependents, INITIAL_STRINGDICT_SIZE, DICT_FLAG_CASEINSENSITIVE);
@@ -747,12 +803,8 @@ static HRESULT GetIgnoredDependents(
     {
         ExitOnFailure1(hr, "Failed to get the package property: %ls", DEPENDENCY_IGNOREDEPENDENCIES);
 
-        // Parse through the semicolon-delimited tokens and add to the string dictionary.
-        for (LPCWSTR wzToken = ::wcstok_s(sczIgnoreDependencies, vcszIgnoreDependenciesDelim, &wzContext); wzToken; wzToken = ::wcstok_s(NULL, vcszIgnoreDependenciesDelim, &wzContext))
-        {
-            hr = DictAddKey(*psdIgnoredDependents, wzToken);
-            ExitOnFailure1(hr, "Failed to add the provider key \"%ls\" to the list of ignored dependencies.", wzToken);
-        }
+        hr = DependencyAddIgnoreDependencies(*psdIgnoredDependents, sczIgnoreDependencies);
+        ExitOnFailure(hr, "Failed to add the authored ignored dependencies to the cumulative list of ignored dependencies.");
     }
     else
     {
@@ -761,6 +813,55 @@ static HRESULT GetIgnoredDependents(
 
 LExit:
     ReleaseStr(sczIgnoreDependencies);
+
+    return hr;
+}
+
+/********************************************************************
+ GetProviderId - Gets the ID of the package given the provider key.
+
+*********************************************************************/
+static HRESULT GetProviderInformation(
+    __in HKEY hkRoot,
+    __in_z LPCWSTR wzProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczProviderKey,
+    __deref_opt_out_z_opt LPWSTR* psczId
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczId = NULL;
+
+    hr = DepGetProviderInformation(hkRoot, wzProviderKey, &sczId, NULL, NULL);
+    if (E_NOTFOUND == hr)
+    {
+        ExitFunction();
+    }
+    ExitOnFailure(hr, "Failed to get the provider key package id.");
+
+    // If the id was registered return it and exit.
+    if (sczId && *sczId)
+    {
+        if (psczProviderKey)
+        {
+            hr = StrAllocString(psczProviderKey, wzProviderKey, 0);
+            ExitOnFailure(hr, "Failed to copy the provider key.");
+        }
+
+        if (psczId)
+        {
+            *psczId = sczId;
+            sczId = NULL;
+        }
+
+        ExitFunction();
+    }
+    else
+    {
+        hr = E_NOTFOUND;
+    }
+
+LExit:
+    ReleaseStr(sczId);
 
     return hr;
 }
@@ -792,18 +893,40 @@ static void CalculateDependencyActionStates(
         switch (pPackage->execute)
         {
         case BOOTSTRAPPER_ACTION_STATE_NONE:
-            // Register the bundle with the package if requested but already installed.
             switch (pPackage->requested)
             {
-            case BOOTSTRAPPER_REQUEST_STATE_PRESENT: __fallthrough;
-            case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
+            case BOOTSTRAPPER_REQUEST_STATE_NONE:
+                // Register if a newer, compatible package is already installed.
                 switch (pPackage->currentState)
                 {
+                case BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE:
+                    if (!PackageProviderExists(pPackage))
+                    {
+                        break;
+                    }
+                    __fallthrough;
+                case BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED:
+                    *pDependencyExecuteAction = BURN_DEPENDENCY_ACTION_REGISTER;
+                    break;
+                }
+                break;
+            case BOOTSTRAPPER_REQUEST_STATE_PRESENT: __fallthrough;
+            case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
+                // Register if the package is requested but already installed.
+                switch (pPackage->currentState)
+                {
+                case BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE:
+                    if (!PackageProviderExists(pPackage))
+                    {
+                        break;
+                    }
+                    __fallthrough;
                 case BOOTSTRAPPER_PACKAGE_STATE_PRESENT: __fallthrough;
                 case BOOTSTRAPPER_PACKAGE_STATE_SUPERSEDED:
                     *pDependencyExecuteAction = BURN_DEPENDENCY_ACTION_REGISTER;
                     break;
                 }
+                break;
             }
             break;
         case BOOTSTRAPPER_ACTION_STATE_UNINSTALL:
@@ -841,6 +964,7 @@ static void CalculateDependencyActionStates(
             *pDependencyRollbackAction = BURN_DEPENDENCY_ACTION_REGISTER;
             break;
         }
+        break;
     }
 }
 
@@ -915,10 +1039,20 @@ static HRESULT RegisterPackageProvider(
     )
 {
     HRESULT hr = S_OK;
+    LPWSTR wzId = NULL;
     HKEY hkRoot = pPackage->fPerMachine ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
 
     if (pPackage->rgDependencyProviders)
     {
+        if (BURN_PACKAGE_TYPE_MSI == pPackage->type)
+        {
+            wzId = pPackage->Msi.sczProductCode;
+        }
+        else if (BURN_PACKAGE_TYPE_MSP == pPackage->type)
+        {
+            wzId = pPackage->Msp.sczPatchCode;
+        }
+
         for (DWORD i = 0; i < pPackage->cDependencyProviders; ++i)
         {
             const BURN_DEPENDENCY_PROVIDER* pProvider = &pPackage->rgDependencyProviders[i];
@@ -927,7 +1061,7 @@ static HRESULT RegisterPackageProvider(
             {
                 LogId(REPORT_VERBOSE, MSG_DEPENDENCY_PACKAGE_REGISTER, pProvider->sczKey, pProvider->sczVersion, pPackage->sczId);
 
-                hr = DepRegisterDependency(hkRoot, pProvider->sczKey, pProvider->sczVersion, pProvider->sczDisplayName, NULL, 0);
+                hr = DepRegisterDependency(hkRoot, pProvider->sczKey, pProvider->sczVersion, pProvider->sczDisplayName, wzId, 0);
                 ExitOnFailure1(hr, "Failed to register the package dependency provider: %ls", pProvider->sczKey);
             }
         }
@@ -1062,4 +1196,16 @@ static void UnregisterPackageDependency(
             }
         }
     }
+}
+
+/********************************************************************
+ PackageProviderExists - Checks if a package provider is registered.
+
+*********************************************************************/
+static BOOL PackageProviderExists(
+    __in const BURN_PACKAGE* pPackage
+    )
+{
+    HRESULT hr = DependencyDetectProviderKeyPackageId(pPackage, NULL, NULL);
+    return SUCCEEDED(hr);
 }

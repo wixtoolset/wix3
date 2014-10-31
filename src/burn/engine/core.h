@@ -40,11 +40,13 @@ const LPCWSTR BURN_COMMANDLINE_SWITCH_RELATED_UPDATE = L"burn.related.update";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_PASSTHROUGH = L"burn.passthrough";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_DISABLE_UNELEVATE = L"burn.disable.unelevate";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES = L"burn.ignoredependencies";
+const LPCWSTR BURN_COMMANDLINE_SWITCH_ANCESTORS = L"burn.ancestors";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_PREFIX = L"burn.";
 
 const LPCWSTR BURN_BUNDLE_LAYOUT_DIRECTORY = L"WixBundleLayoutDirectory";
 const LPCWSTR BURN_BUNDLE_ACTION = L"WixBundleAction";
 const LPCWSTR BURN_BUNDLE_ACTIVE_PARENT = L"WixBundleActiveParent";
+const LPCWSTR BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER = L"WixBundleExecutePackageCacheFolder";
 const LPCWSTR BURN_BUNDLE_FORCED_RESTART_PACKAGE = L"WixBundleForcedRestartPackage";
 const LPCWSTR BURN_BUNDLE_INSTALLED = L"WixBundleInstalled";
 const LPCWSTR BURN_BUNDLE_ELEVATED = L"WixBundleElevated";
@@ -56,6 +58,7 @@ const LPCWSTR BURN_BUNDLE_VERSION = L"WixBundleVersion";
 // The following constants must stay in sync with src\wix\Binder.cs
 const LPCWSTR BURN_BUNDLE_NAME = L"WixBundleName";
 const LPCWSTR BURN_BUNDLE_ORIGINAL_SOURCE = L"WixBundleOriginalSource";
+const LPCWSTR BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER = L"WixBundleOriginalSourceFolder";
 const LPCWSTR BURN_BUNDLE_LAST_USED_SOURCE = L"WixBundleLastUsedSource";
 
 
@@ -114,6 +117,7 @@ typedef struct _BURN_ENGINE_STATE
     BURN_PAYLOADS payloads;
     BURN_PACKAGES packages;
     BURN_UPDATE update;
+    BURN_APPROVED_EXES approvedExes;
 
     HWND hMessageWindow;
     HANDLE hMessageWindowThread;
@@ -163,7 +167,8 @@ HRESULT CoreQueryRegistration(
 //    __in SIZE_T cbBuffer
 //    );
 HRESULT CoreDetect(
-    __in BURN_ENGINE_STATE* pEngineState
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in_opt HWND hwndParent
     );
 HRESULT CorePlan(
     __in BURN_ENGINE_STATE* pEngineState,
@@ -176,6 +181,10 @@ HRESULT CoreElevate(
 HRESULT CoreApply(
     __in BURN_ENGINE_STATE* pEngineState,
     __in_opt HWND hwndParent
+    );
+HRESULT CoreLaunchApprovedExe(
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe
     );
 HRESULT CoreQuit(
     __in BURN_ENGINE_STATE* pEngineState,
@@ -195,7 +204,8 @@ HRESULT CoreRecreateCommandLine(
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
     __in BOOL fPassthrough,
     __in_z_opt LPCWSTR wzActiveParent,
-    __in_z_opt LPCWSTR wzApppendLogPath,
+    __in_z_opt LPCWSTR wzAncestors,
+    __in_z_opt LPCWSTR wzAppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
     );
 

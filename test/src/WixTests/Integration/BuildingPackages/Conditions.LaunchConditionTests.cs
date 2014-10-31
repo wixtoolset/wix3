@@ -15,19 +15,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Conditions
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for defining launch conditions
     /// </summary>
-    [TestClass]
     public class LaunchConditionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Conditions\LaunchConditionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a launch condition can be specified")]
         [Priority(1)]
         public void SimpleCondition()

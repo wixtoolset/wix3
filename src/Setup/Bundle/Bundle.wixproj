@@ -9,9 +9,9 @@
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.8</ProductVersion>
+    <ProductVersion>3.9</ProductVersion>
     <ProjectGuid>{196D63B1-29D8-4B4D-9C9C-4F043099066B}</ProjectGuid>
-    <OutputName>WiX38</OutputName>
+    <OutputName>WiX39</OutputName>
     <OutputType>Bundle</OutputType>
     <Cultures>en-us</Cultures>
   </PropertyGroup>
@@ -28,16 +28,13 @@
 
   <ItemGroup>
     <BindInputPaths Include="$(MSBuildProjectDirectory)" />
-    <BindInputPaths Include="$(WixRoot)src\Votive\votive2010\Icons" />
+    <BindInputPaths Include="$(WixRoot)src\Votive\votive2010\src\Icons" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CoreMsi\CoreMsi.wixproj" />
     <ProjectReference Include="..\X64Msi\X64Msi.wixproj" />
     <ProjectReference Include="..\ManagedSdkMsi\ManagedSdkMsi.wixproj" />
-    <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2008.wixproj" Condition="$(VS2008Available)">
-      <Properties>VisualStudioTargetVersion=2008</Properties>
-    </ProjectReference>
     <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2010.wixproj" Condition="$(VS2010Available)">
       <Properties>VisualStudioTargetVersion=2010</Properties>
     </ProjectReference>

@@ -9,8 +9,17 @@
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 
+  <PropertyGroup Condition=" $(StaticAnalysisEnabled) and $(VS2013Available) ">
+    <PlatformToolset Condition="$(VS2013Available)">v120</PlatformToolset>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <!-- turn off deprecation warning -->
+    <DisableSpecificCompilerWarnings>4996</DisableSpecificCompilerWarnings>
+  </PropertyGroup>
+
   <PropertyGroup>
-    <!-- If VS2012 available and we're not explicitly setting the toolset, use VS2012. -->
+    <!-- If available and we're not explicitly setting the toolset, use VS2013; otherwise fall back to VS2012 then VS2010. -->
+    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2013Available) ">v120_xp</PlatformToolset>
     <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2012Available) ">v110_xp</PlatformToolset>
     <ProjectSubSystem Condition=" '$(ProjectSubSystem)'=='' ">Windows</ProjectSubSystem>
   </PropertyGroup>
@@ -19,7 +28,6 @@
 
   <!-- Multi-target static libraries get a suffix to prevent collisions. -->
   <PropertyGroup>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v90' ">2008</MultiTargetDirSuffix>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v100' ">2010</MultiTargetDirSuffix>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110_xp' ">2012</MultiTargetDirSuffix>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120_xp' ">2013</MultiTargetDirSuffix>
@@ -64,6 +72,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-YlprecompDefine</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>$(ArmPreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -13,22 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension CAQuietExec element tests
     /// </summary>
-    [TestClass]
     public class CAQuietExecTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\CAQuietExecTests");
      
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that CAQuietExec executes the expected command.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void CAQuietExec_Install()
         {
             string sourceFile = Path.Combine(CAQuietExecTests.TestDataDirectory, @"product.wxs");
@@ -55,8 +53,8 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(File.Exists(immediateOutputFileName), "Immediate Command was not executed. File '{0}' does not exist.", immediateOutputFileName);
-            Assert.IsTrue(File.Exists(deferredOutputFileName), "Deferred Command was not executed. File '{0}' does not exist.", deferredOutputFileName);
+            Assert.True(File.Exists(immediateOutputFileName), String.Format("Immediate Command was not executed. File '{0}' does not exist.", immediateOutputFileName));
+            Assert.True(File.Exists(deferredOutputFileName), String.Format("Deferred Command was not executed. File '{0}' does not exist.", deferredOutputFileName));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }

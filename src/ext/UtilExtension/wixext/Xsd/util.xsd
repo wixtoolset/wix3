@@ -656,7 +656,12 @@
       <xs:appinfo>
         <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="File" />
       </xs:appinfo>
-      <xs:documentation>Used to install Perfmon Counter Manifests.</xs:documentation>
+      <xs:documentation>
+        Used to install Perfmon Counter Manifests.
+        Note that this functionality cannot be used with major upgrades that are scheduled after the InstallExecute,
+        InstallExecuteAgain, or InstallFinalize actions. For more information on major upgrade scheduling, see
+        <html:a href="http://msdn.microsoft.com/en-us/library/aa371197.aspx">RemoveExistingProducts Action</html:a>.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="ResourceFileDirectory" type="xs:string" use="optional">
@@ -819,9 +824,19 @@
     </xs:annotation>
     <xs:complexType>
       <xs:attributeGroup ref="SearchCommonAttributes" />
-      <xs:attribute name="Guid" type="xs:string" use="required">
+      <xs:attribute name="Guid" type="xs:string">
         <xs:annotation>
-          <xs:documentation>ProductCode to search for.</xs:documentation>
+          <xs:documentation>The Guid attribute has been deprecated; use the ProductCode or UpgradeCode attribute instead. If this attribute is used, it is assumed to be a ProductCode.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ProductCode" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>The ProductCode to use for the search. This attribute must be omitted if UpgradeCode is specified.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="UpgradeCode" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>The UpgradeCode to use for the search. This attribute must be omitted if ProductCode is specified. Note that if multiple products are found, the highest versioned product will be used for the result.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Result">
@@ -882,7 +897,7 @@
                 create properties for the Directory hierarchy in your package until later, in the CostFinalize action.</html:p>
                 <html:p>An easy workaround for a typical use case of removing a folder during uninstall is to write the directory
                 path to the registry and to load it during uninstall. See 
-                <html:a href="http://robmensching.com/blog/posts/2010/5/2/The-WiX-toolsets-Remember-Property-pattern">The WiX toolset's "Remember Property" pattern</html:a>
+                <html:a href="http://robmensching.com/blog/posts/2010/5/2/the-wix-toolsets-remember-property-pattern">The WiX toolset's "Remember Property" pattern</html:a>
                 for an example.</html:p>
                 <html:p>If you use custom actions to set properties, ensure that they are scheduled before the WixRemoveFoldersEx custom action.</html:p>
               </xse:remarks>
@@ -1196,12 +1211,12 @@
       <xs:attribute name="Id" type="xs:string" use="required" />
       <xs:attribute name="Name" use="required" type="xs:string">
         <xs:annotation>
-          <xs:documentation>A <a href="http://msdn2.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</a> string that contains the name of the user account.</xs:documentation>
+          <xs:documentation>A <a href="http://msdn.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</a> string that contains the name of the user account.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Domain" type="xs:string">
         <xs:annotation>
-          <xs:documentation>A <a href="http://msdn2.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</a> string that contains the local machine or Active Directory domain for the user.</xs:documentation>
+          <xs:documentation>A <a href="http://msdn.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</a> string that contains the local machine or Active Directory domain for the user.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Password" type="xs:string">
@@ -1234,6 +1249,11 @@
           <xs:documentation>Indicates whether or not the user can logon as a serivce.  User creation can be skipped if all that is desired is to set this access right on the user.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="LogonAsBatchJob" type="YesNoType">
+        <xs:annotation>
+          <xs:documentation>Indicates whether or not the user can logon as a batch job.  User creation can be skipped if all that is desired is to set this access right on the user.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
       <xs:attribute name="UpdateIfExists" type="YesNoType">
         <xs:annotation>
           <xs:documentation>Indicates if the user account properties should be updated if the user already exists.</xs:documentation>
@@ -1252,6 +1272,11 @@
       <xs:attribute name="CreateUser" type="YesNoType">
         <xs:annotation>
           <xs:documentation>Indicates whether or not to create the user.  User creation can be skipped if all that is desired is to join a user to groups.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Vital" type="YesNoType" default="yes">
+        <xs:annotation>
+          <xs:documentation>Indicates whether failure to create the user or add the user to a group fails the installation. The default value is "yes".</xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>

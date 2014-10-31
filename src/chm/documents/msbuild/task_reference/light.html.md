@@ -411,6 +411,14 @@ The following table describes the parameters that are specific to the <b>Light</
   </tr>
 
   <tr>
+    <td><b>SuppressPatchSequenceData</b></td>
+
+    <td>Optional <b>boolean</b> parameter.<br />
+    <br />
+    Specifies that the linker should suppress patch sequence data in patch XML to decrease bundle size and increase patch applicability performance (patch packages themselves are not modified).</td>
+  </tr>
+
+  <tr>
     <td><b>SuppressPdbOutput</b></td>
 
     <td>Optional <b>boolean</b> parameter.<br />

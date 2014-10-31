@@ -38,7 +38,7 @@ The following table describes each of the built-in dialogs that is defined in th
   </tr>
   <tr>
     <td><b>ExitDlg</b></td>
-    <td>A dialog that displays a summary dialog after setup completes successfully. It can also optionally display a checkbox and custom text. For details about how to add a checkbox and custom text to this dialog, see <a href="~/wixui/WixUI_customizations.html">Customizing Built-in WixUI Dialog Sets</a> and <a href="~/howtos/ui_and_localization/run_program_after_install.html">How To: Run the Installed Application After Setup</a>.</td>
+    <td>A dialog that displays a summary dialog after setup completes successfully. It can also optionally display a checkbox and custom text. For details about how to add a checkbox and custom text to this dialog, see [Customizing Built-in WixUI Dialog Sets](~/wixui/WixUI_customizations.html) and [How To: Run the Installed Application After Setup](~/howtos/ui_and_localization/run_program_after_install.html).</td>
   </tr>
   <tr>
     <td><b>FatalError</b></td>

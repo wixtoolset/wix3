@@ -375,7 +375,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         private void LaunchLicense()
         {
             string folder = IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            WixBA.LaunchUrl(IO.Path.Combine(folder, "License.htm"));
+            WixBA.LaunchUrl(IO.Path.Combine(folder, "License.txt"));
         }
 
         private void DetectBegin(object sender, DetectBeginEventArgs e)

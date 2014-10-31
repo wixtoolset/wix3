@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  <copyright file="SimpleMsi.wixproj" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>3.9</ProductVersion>
+    <ProjectGuid>{822B8D17-3932-43E5-B410-22A5257995FA}</ProjectGuid>
+    <OutputName>SimpleMsi</OutputName>
+    <OutputType>Package</OutputType>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
+    <SuppressValidation>true</SuppressValidation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SimpleMsi.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixTagExtension" />
+  </ItemGroup>
+
+  <Import Project="$(WixTargetsPath)" />
+</Project>

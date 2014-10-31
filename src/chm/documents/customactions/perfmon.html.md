@@ -9,7 +9,7 @@ The PerfCounter element (part of WiXUtilExtension) allows you to register your p
 
 * Your performance DLL - The DLL must export Open, Collect, and Close methods. See MSDN for more detail.
 * Performance registry values - The registry must contain keys pointing to your DLL and its Open, Collect, and Close methods. These are created using the Registry element.
-* Perfmon INI and H text files - These contain the text descriptions to display in the UI. See MSDN for lodctr documentation. <a href='http://msdn2.microsoft.com/library/aa371878.aspx' target="_blank">This MSDN documentation</a> is a good place to start. See below for samples re-purposed from MSDN.
+* Perfmon INI and H text files - These contain the text descriptions to display in the UI. See MSDN for lodctr documentation. <a href='http://msdn.microsoft.com/library/aa371878.aspx' target="_blank">This MSDN documentation</a> is a good place to start. See below for samples re-purposed from MSDN.
 * The RegisterPerfmon custom action - You can link with the WiXUtilExtension.dll to ensure that the custom actions are included in your final MSI. See [Using Standard Custom Actions](using_standard_customactions.html). The custom action calls (Un)LoadPerfCounterTextStrings to register your counters with Windows&#65533; Perfmon API. To invoke the custom action, you create a PerfCounter element nested within the File element for the Perfmon.INI file. The PerfCounter element contains a single attribute: Name. The Name attribute should match the name in the Registry and in the .INI file. See below for sample WIX usage of the &lt;PerfCounter&gt; element.
 
 ## Sample WIX source fragment and PerfCounter.ini

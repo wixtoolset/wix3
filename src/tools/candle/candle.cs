@@ -434,10 +434,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if ("sfdvital" == parameter)
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sfdvital"));
                         this.suppressFilesVitalByDefault = true;
                     }
                     else if ("ss" == parameter)
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sfdvital"));
                         this.suppressSchema = true;
                     }
                     else if ("swall" == parameter)
@@ -510,6 +512,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if ("trace" == parameter)
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("trace"));
                         this.messageHandler.SourceTrace = true;
                     }
                     else if ("v" == parameter)

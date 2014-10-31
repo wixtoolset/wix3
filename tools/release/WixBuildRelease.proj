@@ -12,7 +12,7 @@
   <Import Project="..\WixBuild.Version.targets" />
   <Import Project="..\Nuget.targets" />
 
-  <UsingTask AssemblyFile="$(MSBuildCommunityTasksPath)MSBuild.Community.Tasks.dll" TaskName="FtpUpload" />
+  <UsingTask AssemblyFile="$(AzureStorageBuildTasksPath)FireGiant.BuildTasks.AzureStorage.dll" TaskName="UploadBlobs" />
 
   <!--
   ================================================================================================
@@ -39,13 +39,11 @@
       <ProjectFolder>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\..\))</ProjectFolder>
 
       <ProjectHistoryFile>$(ProjectFolder)History.md</ProjectHistoryFile>
-      <ProjectFeedFile>$(MSBuildThisFileDirectory)wix$(MajorMinorVersionDottedString).feed</ProjectFeedFile>
     </PropertyGroup>
 
     <Error Text="Cannot locate project's private/public keypair at: $(OfficialBuildPrivateKeyPair). Ensure that the OfficialBuildPrivateKeyPair arguments are correct." Condition=" !Exists('$(OfficialBuildPrivateKeyPair)') " />
 
     <Error Text="Cannot locate project's History.md file at: $(ProjectHistoryFile). Ensure that the Major and Minor arguments are correct." Condition=" !Exists('$(ProjectHistoryFile)') " />
-    <Error Text="Cannot locate project's feed file at: $(ProjectFeedFile). Ensure that the Major and Minor arguments are correct." Condition=" !Exists('$(ProjectFeedFile)') " />
   </Target>
 
   <!--
@@ -77,36 +75,6 @@
     </MSBuild>
 
     <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(ProjectHistoryFile) $(Version) //nologo"
-          WorkingDirectory="$(ProjectFolder)" />
-  </Target>
-
-  <!--
-  ================================================================================================
-  UpdateFeed
-
-    Updates a project's .feed file with the build version and changes from History.md.
-
-  ================================================================================================
-  -->
-  <Target Name="UpdateFeed"
-          Condition=" $(SkipUpdateFeed)=='' "
-          DependsOnTargets="GetReleasedFiles">
-    <ItemGroup>
-      <CoreMsi Include="@(ReleasedFiles)" Condition=" '%(Filename)%(Extension)'=='core.msi' " />
-      <CoreExe Include="@(ReleasedFiles)" Condition=" '%(Extension)'=='.exe' " />
-    </ItemGroup>
-
-    <RemoveDuplicates Inputs="@(CoreMsi)">
-      <Output TaskParameter="Filtered"
-              ItemName="CoreMsiFiltered"/>
-    </RemoveDuplicates>
-
-    <RemoveDuplicates Inputs="@(CoreExe)">
-      <Output TaskParameter="Filtered"
-              ItemName="CoreExeFiltered"/>
-    </RemoveDuplicates>
-
-    <Exec Command="cscript $(MSBuildThisFileDirectory)atomUpdate.js $(ProjectHistoryFile) $(ProjectFeedFile) @(CoreMsiFiltered) @(CoreExeFiltered) //nologo"
           WorkingDirectory="$(ProjectFolder)" />
   </Target>
 
@@ -144,6 +112,24 @@
 
   <!--
   ================================================================================================
+  CalculateUploadBlobs
+
+    Calculates the UploadBlob items from the released files.
+
+  ================================================================================================
+  -->
+  <Target Name="CalculateUploadBlobs"
+          DependsOnTargets="GetReleasedFiles">
+    <ItemGroup>
+      <UploadBlob Include="@(ReleasedFiles)">
+        <Container>%(Container)</Container>
+        <BlobName>%(RelativeUploadFolder)%(Filename)%(Extension)</BlobName>
+      </UploadBlob>
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ================================================================================================
   UploadFiles
 
     Uploads the released files from a project's build.
@@ -152,31 +138,20 @@
   -->
   <Target Name="UploadFiles"
           Condition=" $(SkipUploadFiles)=='' "
-          DependsOnTargets="GetReleasedFiles">
+          DependsOnTargets="GetReleasedFiles;CalculateUploadBlobs">
 
-    <FtpUpload RemoteUri="$(ReleaseFtpUrl)"
-               Username="$(ReleaseUsername)"
-               Password="$(ReleasePassword)"
-               LocalFiles="@(ReleasedFiles)"
-               RemoteFiles="@(ReleasedFiles->'%(RelativeUploadFolder)%(Filename)%(Extension)')" />
+    <Message Importance="Normal" Text="Uploading: @(UploadBlob) to: %(Container) at: %(BlobName)." />
 
-    <!--<Exec Command="$(CurlExe) -ftp-create-dirs -silent -show-error -C - -T %(ReleasedFiles.Identity) -u $(ReleaseUsername):$(ReleasePassword) $(ReleaseFtpUrl)%(RelativeUploadFolder)"
-           WorkingDirectory="$(ProjectFolder)" />-->
-  </Target>
+    <UploadBlobs StorageAccount="$(StorageAccount)"
+                 StorageAuthentication="$(StorageAuthentication)"
+                 StorageEmulator="$(StorageUseEmulator)"
+                 Container="%(Container)"
+                 Public="true"
+                 Blobs="@(UploadBlob)">
+      <Output TaskParameter="Uploaded" ItemName="UploadedBlob" />
+    </UploadBlobs>
 
-  <!--
-  ================================================================================================
-  UploadFeed
-
-    Uploads the feed a project's build.
-
-  ================================================================================================
-  -->
-  <Target Name="UploadFeed"
-          Condition=" $(SkipUploadFeed)=='' "
-          DependsOnTargets="GetReleasedFiles">
-    <Exec Command="$(CurlExe) --ftp-create-dirs --silent --show-error -T $(ProjectFeedFile) -u $(ReleaseUsername):$(ReleasePassword) $(ReleaseFtpUrl)"
-          WorkingDirectory="$(ProjectFolder)" />
+    <Message Importance="Normal" Text="Upload complete." />
   </Target>
 
   <!--

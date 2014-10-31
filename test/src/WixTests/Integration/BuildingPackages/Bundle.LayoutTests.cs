@@ -15,20 +15,18 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System;
     using System.Collections.Generic;
     using System.IO;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle Layout elements (LayoutDirectory, LayoutFile, LayoutDirectoryRef)
     /// </summary>
-    [TestClass]
     public class LayoutTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\LayoutTests");
 
         /* LayoutDirectory tests */
 
-        [TestMethod]
+        [NamedFact]
         [Description("@Name is required.")]
         [Priority(3)]
         public void LayoutDirectoryNameMissing()
@@ -40,10 +38,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the LayoutDirectory Name attribute has an invalid directory name")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2980722&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2980722&group_id=105970&atid=642714")]
         public void LayoutDirectoryInvalidName()
         {
             Candle candle = new Candle();
@@ -53,7 +51,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the LayoutDirecotory is redifined.")]
         [Priority(3)]
         public void DuplicateLayoutDirectory()
@@ -71,14 +69,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
         /* LayoutFile tests */
 
-        [TestMethod]
+        [NamedFact]
         [Description("@SourceFile can be defined as relative to the current working directory")]
         [Priority(2)]
         public void LayoutFileRelativeSourceFilePath()
         {
             string sourceFile = Path.Combine(LayoutTests.TestDataDirectory, @"LayoutFileRelativeSourceFilePath\Product.wxs");
             string testFile = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"LayoutDirectory\RootOfLayoutDirectory.txt");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // Copy a file to the current directory. This file is used to verify relative paths in source files.
             File.Copy(testFile, Path.Combine(outputDirectory, "RootOfLayoutDirectory.txt"), true);
@@ -90,7 +88,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             LayoutTests.VerifyLayoutDirectory(Path.Combine(outputDirectory, @"OutputDirectory"), null, new string[] { "RootOfLayoutDirectory.txt" });
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("@SourceFile is required.")]
         [Priority(3)]
         public void LayoutFileSourceFileMissing()
@@ -102,15 +100,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("@SourceFile can be defined as a UNC path.")]
         [Priority(3)]
-        [Ignore]
         public void LayoutFileUNCSourceFile()
         {
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Layout @Name attribute has an invalid file name")]
         [Priority(3)]
         public void LayoutFileInvalidName()
@@ -122,10 +119,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Layout @SourceFile attribute has an invalid file name")]
         [Priority(3)]
-        [TestProperty("Bug Link","https://sourceforge.net/tracker/index.php?func=detail&aid=2980803&group_id=105970&atid=642714")]
+        [Trait("Bug Link","https://sourceforge.net/tracker/index.php?func=detail&aid=2980803&group_id=105970&atid=642714")]
         public void LayoutFileInvalidSourceFile()
         {
             string candleOutput = Candle.Compile(Path.Combine(LayoutTests.TestDataDirectory, @"LayoutFileInvalidSourceFile\Product.wxs"));
@@ -138,7 +135,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the Layout @SourceFile attribute points to a file that does not exist.")]
         [Priority(3)]
         public void LayoutFileNonexistentSourceFile()
@@ -153,7 +150,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the LayoutFile is redifined.")]
         [Priority(3)]
         public void DuplicateLayoutFile()
@@ -170,7 +167,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
         /* LayoutDirectoryRef tests */
 
-        [TestMethod]
+        [NamedFact]
         [Description("@Id is required.")]
         [Priority(3)]
         public void LayoutDirectoryRefIdMissing()
@@ -182,7 +179,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if @Id points to a nonexisting LayoutDirectory.")]
         [Priority(3)]
         public void LayoutDirectoryRefNonexistingId()
@@ -197,10 +194,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if @Id points to a nonexisting LayoutDirectory.")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2981229&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2981229&group_id=105970&atid=642714")]
         public void RecursiveLayoutDirectoryRef()
         {
             string candleOutput = Candle.Compile(Path.Combine(LayoutTests.TestDataDirectory, @"RecursiveLayoutDirectoryRef\Product.wxs"));
@@ -213,7 +210,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if the same LayoutDirectory is referenced twice.")]
         [Priority(3)]
         public void DuplicateLayoutDirectoryRef()
@@ -230,14 +227,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
         /* General Layout tests */
 
-        [TestMethod]
+        [NamedFact]
         [Description("Nested LayoutDirectories are allowed")]
         [Priority(2)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2981263&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2981263&group_id=105970&atid=642714")]
         public void NestedLayoutDirectories()
         {
             string sourceFile = Path.Combine(LayoutTests.TestDataDirectory, @"NestedLayoutDirectories\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -259,14 +256,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             LayoutTests.VerifyLayoutDirectory(layoutDirInFragment2, null, new string[] { "Renamed.txt" });
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Empty LayoutDirectory is created correctelly.")]
         [Priority(2)]
-        [TestProperty("Bug Link","https://sourceforge.net/tracker/?func=detail&aid=2980757&group_id=105970&atid=642714")]
+        [Trait("Bug Link","https://sourceforge.net/tracker/?func=detail&aid=2980757&group_id=105970&atid=642714")]
         public void EmptyLayoutDirectory()
         {
             string sourceFile = Path.Combine(LayoutTests.TestDataDirectory, @"EmptyLayoutDirectory\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -286,26 +283,26 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
         /// <param name="expectedFiles">List of expected files of the layout directory.</param>
         public static void VerifyLayoutDirectory(string directoryPath, string[] expectedSubdirectories, string[] expectedFiles)
         {
-            Assert.IsTrue(Directory.Exists(directoryPath), string.Format(@"Layout Directory '{0}' was not created as expected.", directoryPath));
+            Assert.True(Directory.Exists(directoryPath), string.Format(@"Layout Directory '{0}' was not created as expected.", directoryPath));
 
             int expectedSubdirectoriesCount = null == expectedSubdirectories ? 0 : expectedSubdirectories.Length;
             int expectedFilesCount = null == expectedFiles ? 0 : expectedFiles.Length;
 
-            Assert.AreEqual(Directory.GetDirectories(directoryPath).Length, expectedSubdirectoriesCount, string.Format(@"Layout Directory '{0}' has more sub directories than expected.", directoryPath));
+            Assert.True(Directory.GetDirectories(directoryPath).Length == expectedSubdirectoriesCount, string.Format(@"Layout Directory '{0}' has more sub directories than expected.", directoryPath));
             if (null != expectedSubdirectories)
             {
                 foreach (string subdirectoryName in expectedSubdirectories)
                 {
-                    Assert.IsTrue(Directory.Exists(Path.Combine(directoryPath, subdirectoryName)), string.Format(@"Layout Subdirectory '{0}\{1}' was not created as expected.", directoryPath, subdirectoryName));
+                    Assert.True(Directory.Exists(Path.Combine(directoryPath, subdirectoryName)), string.Format(@"Layout Subdirectory '{0}\{1}' was not created as expected.", directoryPath, subdirectoryName));
                 }
             }
 
-            Assert.AreEqual(Directory.GetFiles(directoryPath).Length, expectedFilesCount, string.Format(@"Layout Directory '{0}' has more files than expected.", directoryPath));
+            Assert.True(Directory.GetFiles(directoryPath).Length == expectedFilesCount, string.Format(@"Layout Directory '{0}' has more files than expected.", directoryPath));
             if (null != expectedFiles)
             {
                 foreach (string fileName in expectedFiles)
                 {
-                    Assert.IsTrue(File.Exists(Path.Combine(directoryPath, fileName)), string.Format(@"Layout File '{0}\{1}' was not created as expected.", directoryPath, fileName));
+                    Assert.True(File.Exists(Path.Combine(directoryPath, fileName)), string.Format(@"Layout File '{0}\{1}' was not created as expected.", directoryPath, fileName));
                 }
             }
         }

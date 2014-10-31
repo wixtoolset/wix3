@@ -17,9 +17,8 @@ namespace WixTest.Verifiers.Extensions
     using System.IO;
     using System.Collections;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using System.Runtime.InteropServices;
+    using Xunit;
 
     /// <summary>
     /// Contains methods for Service verification
@@ -53,7 +52,7 @@ namespace WixTest.Verifiers.Extensions
                 }
             }
 
-            Assert.IsFalse(failed, message);
+            Assert.False(failed, message);
         }
 
         /// <summary>

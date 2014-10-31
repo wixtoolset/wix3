@@ -73,6 +73,7 @@
     </xs:annotation>
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="ApprovedExeForElevation" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="Log" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Catalog" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="BootstrapperApplication" minOccurs="0" maxOccurs="1" />
@@ -252,6 +253,46 @@
           </xs:documentation>
         </xs:annotation>
       </xs:anyAttribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ApprovedExeForElevation">
+    <xs:annotation>
+      <xs:documentation>Provides information about an .exe so that the BA can request the engine to run it elevated from any secure location.</xs:documentation>
+      <xs:appinfo>
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="Bundle" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="Id" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>The identifier of the ApprovedExeForElevation element.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Key" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            The key path.
+            For security purposes, the root key will be HKLM and Variables are not supported.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Value" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            The value name.
+            For security purposes, Variables are not supported.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Win64" type="YesNoTypeUnion">
+        <xs:annotation>
+          <xs:documentation>
+            Instructs the search to look in the 64-bit registry when the value is 'yes'.
+            When the value is 'no', the search looks in the 32-bit registry.
+            The default value is 'no'.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="Log">
@@ -669,6 +710,7 @@
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="Payload" />
         <xs:element ref="PayloadGroupRef" />
+        <xs:element ref="RemotePayload" />
         <xs:any namespace="##other" processContents="lax">
           <xs:annotation>
             <xs:documentation>
@@ -874,9 +916,9 @@
         <xs:documentation>A condition to evaluate before installing the package. The package will only be installed if the condition evaluates to true. If the condition evaluates to false and the bundle is being installed, repaired, or modified, the package will be uninstalled.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Cache" type="YesNoTypeUnion">
+    <xs:attribute name="Cache" type="YesNoAlwaysTypeUnion">
       <xs:annotation>
-        <xs:documentation>Whether to cache the package.</xs:documentation>
+        <xs:documentation>Whether to cache the package. The default is "yes".</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="CacheId" type="xs:string">
@@ -899,7 +941,7 @@
         <xs:documentation>
           Specifies the description to place in the bootstrapper application data manifest for the package. By default, ExePackages
           use the FileName field from the version information, MsiPackages use the ARPCOMMENTS property, and MspPackages use
-          the Description patch metadata property. Other package types must use this attribute to define a desciption in the
+          the Description patch metadata property. Other package types must use this attribute to define a description in the
           bootstrapper application data manifest.
         </xs:documentation>
       </xs:annotation>
@@ -932,7 +974,7 @@
       <xs:annotation>
         <xs:documentation>
             Specifies whether the package must succeed for the chain to continue. The default "yes"
-            inidicates that if the package fails then the chain will fail and rollback or stop. If
+            indicates that if the package fails then the chain will fail and rollback or stop. If
             "no" is specified then the chain will continue even if the package reports failure.
         </xs:documentation>
       </xs:annotation>
@@ -945,10 +987,12 @@
     <xs:attribute name="SuppressSignatureVerification" type="YesNoTypeUnion">
       <xs:annotation>
         <xs:documentation>
-          By default, a Bundle will use a package's Authenticode signature to verify the contents. If the package does not
-          have an Authenticode signature then the Bundle will use a hash of the package instead. Set this attribute to "yes"
-          to suppress the default behavior and force the Bundle to always use the hash of the package even when the package
-          is signed.
+          By default, a Bundle will use the hash of a package to verify its contents. If this attribute is explicitly set to "no"
+          and the package is signed with an Authenticode signature the Bundle will verify the contents of the package using the
+          signature instead. Therefore, the default for this attribute could be considered to be "yes". It is unusual for "yes" to
+          be the default of an attribute. In this case, the default was changed in WiX v3.9 after experiencing real world issues
+          with Windows verifying Authenticode signatures. Since the Authenticode signatures are no more secure than hashing the
+          packages directly, the default was changed.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -1286,10 +1330,11 @@
   </xs:element>
   <xs:element name="RemotePayload">
     <xs:annotation>
-      <xs:documentation>Describes a information about a remote file payload that is not available at the time of building the bundle.  
+      <xs:documentation>Describes information about a remote file payload that is not available at the time of building the bundle.  
       The parent must specify DownloadUrl and must not specify SourceFile when using this element.</xs:documentation>
       <xs:appinfo>
         <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="MsuPackage" />
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -1305,7 +1350,7 @@
       </xs:attribute>
       <xs:attribute name="Description" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>Description of the file from version resouces.</xs:documentation>
+          <xs:documentation>Description of the file from version resources.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Hash" type="HexType" use="required">
@@ -2144,6 +2189,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="All" minOccurs="0" />
           <xs:element ref="BinaryRef" minOccurs="0" maxOccurs="unbounded" />
           <xs:element ref="ComponentRef" minOccurs="0" maxOccurs="unbounded" />
           <xs:element ref="CustomActionRef" minOccurs="0" maxOccurs="unbounded" />
@@ -2282,17 +2328,17 @@
       </xs:attribute>
       <xs:attribute name="AllowMajorVersionMismatches" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether the major versions between the upgrade and target images match. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductVersionMajorMismatches</html:a> for more information.</xs:documentation>
+          <xs:documentation>Use this to set whether the major versions between the upgrade and target images match. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductVersionMajorMismatches</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="AllowProductCodeMismatches" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether the product code between the upgrade and target images match. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductCodeMismatches</html:a> for more information.</xs:documentation>
+          <xs:documentation>Use this to set whether the product code between the upgrade and target images match. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">AllowProductCodeMismatches</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="CleanWorkingFolder" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether Patchwiz should clean the temp folder when finished. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">DontRemoveTempFolderWhenFinished</html:a> for more information.	</xs:documentation>
+          <xs:documentation>Use this to set whether Patchwiz should clean the temp folder when finished. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">DontRemoveTempFolderWhenFinished</html:a> for more information.	</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Codepage" type="xs:string">
@@ -2302,22 +2348,22 @@
       </xs:attribute>
       <xs:attribute name="OutputPath" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The full path, including file name, of the patch package file that is to be generated. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">PatchOutputPath</html:a> for more information.</xs:documentation>
+          <xs:documentation>The full path, including file name, of the patch package file that is to be generated. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">PatchOutputPath</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceList" type="xs:string">
         <xs:annotation>
-          <xs:documentation>Used to locate the .msp file for the patch if the cached copy is unavailable. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">PatchSourceList</html:a> for more information.</xs:documentation>
+          <xs:documentation>Used to locate the .msp file for the patch if the cached copy is unavailable. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">PatchSourceList</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SymbolFlags" type="xs:int">
         <xs:annotation>
-          <xs:documentation>An 8-digit hex integer representing the combination of patch symbol usage flags to use when creating a binary file patch. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">ApiPatchingSymbolFlags</html:a> for more information.</xs:documentation>
+          <xs:documentation>An 8-digit hex integer representing the combination of patch symbol usage flags to use when creating a binary file patch. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">ApiPatchingSymbolFlags</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="WholeFilesOnly" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Use this to set whether changing files should be included in their entirety. See <html:a href="http://msdn2.microsoft.com/library/aa370890.aspx" target="_blank">IncludeWholeFilesOnly</html:a> for more information.</xs:documentation>
+          <xs:documentation>Use this to set whether changing files should be included in their entirety. See <html:a href="http://msdn.microsoft.com/library/aa370890.aspx" target="_blank">IncludeWholeFilesOnly</html:a> for more information.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>
@@ -3974,7 +4020,12 @@
       </xs:attribute>
       <xs:attribute name="Win64" type="YesNoTypeUnion">
         <xs:annotation>
-          <xs:documentation>Instructs the search to look in the 64-bit registry when the value is 'yes'. When the value is 'no', the search looks in the 32-bit registry. The default value depends on the value of the Package/@Platform attribute: if the @Platform attribute value is 'x86', the default @Win64 attribute value is 'no'; otherwise, the default value is 'yes'.</xs:documentation>
+          <xs:documentation>Instructs the search to look in the 64-bit registry when the value is 'yes'. When the value is 'no', the search looks in the 32-bit registry.
+          The default value is based on the platform set by the -arch switch to candle.exe
+          or the InstallerPlatform property in a .wixproj MSBuild project: 
+          For x86 and ARM, the default value is 'no'. 
+          For x64 and IA64, the default value is 'yes'.
+          </xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>
@@ -4891,7 +4942,7 @@
       </xs:attribute>
       <xs:attribute name="Source" type="xs:string">
         <xs:annotation>
-          <xs:documentation>Specifies the path to the File in the build process. Overrides default source path set by parent directories and Name attribute. This attribute must be set if no source information can be gathered from parent directories. For more information, see <html:a href="specifying_source_files.htm">Specifying source files</html:a>.</xs:documentation>
+          <xs:documentation>Specifies the path to the File in the build process. Overrides default source path set by parent directories and Name attribute. This attribute must be set if no source information can be gathered from parent directories. For more information, see <html:a href="~/howtos/general/specifying_source_files.html">Specifying source files</html:a>.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="src" type="xs:string">
@@ -6593,7 +6644,7 @@
   <xs:element name="ServiceInstall">
     <xs:annotation>
       <xs:documentation>
-                Adds and removes services for parent Component.
+                Adds services for parent Component.  Use the ServiceControl element to remove services.
             </xs:documentation>
       <xs:appinfo>
         <xse:msiRef table="ServiceInstall" href="http://msdn.microsoft.com/library/aa371637.aspx" />
@@ -6614,7 +6665,7 @@
         </xs:element>
         <xs:element ref="ServiceDependency">
           <xs:annotation>
-            <xs:documentation>ordered list of dependencies when installing services</xs:documentation>
+            <xs:documentation>Ordered list of dependencies when installing services.</xs:documentation>
           </xs:annotation>
         </xs:element>
         <xs:element ref="ServiceConfig" />
@@ -6648,7 +6699,7 @@
       </xs:attribute>
       <xs:attribute name="Type" use="required">
         <xs:annotation>
-          <xs:documentation>The Windows Installer does not currently support kernelDriver or systemDriver</xs:documentation>
+          <xs:documentation>The Windows Installer does not currently support kernelDriver or systemDriver.</xs:documentation>
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:NMTOKEN">
@@ -7578,10 +7629,13 @@
         <xs:annotation>
           <xs:documentation>
                         Set this attribute to 'yes' to mark this as a 64-bit component. This attribute facilitates
-                        the installation of packages that include both 32-bit and 64-bit components.  If this bit
-                        is not set, the component is registered as a 32-bit component.  If this is a 64-bit
-                        component replacing a 32-bit component, set this bit and assign a new GUID in the Guid attribute.
-                    </xs:documentation>
+                        the installation of packages that include both 32-bit and 64-bit components.  If this is a 64-bit
+                        component replacing a 32-bit component, set this attribute to 'yes' and assign a new GUID in the Guid attribute.
+          The default value is based on the platform set by the -arch switch to candle.exe
+          or the InstallerPlatform property in a .wixproj MSBuild project: 
+          For x86 and ARM, the default value is 'no'. 
+          For x64 and IA64, the default value is 'yes'.
+          </xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax">
@@ -7683,6 +7737,17 @@
         </xs:annotation>
       </xs:anyAttribute>
     </xs:complexType>
+  </xs:element>
+  <xs:element name="All">
+    <xs:annotation>
+      <xs:documentation>Used only for PatchFamilies to include all changes between the baseline and upgraded packages in a patch.</xs:documentation>
+      <xs:appinfo>
+        <xse:remarks>
+          <html:p>Warning: this is intended for testing purposes only. Shipping a patch with all changes negates the benefits of using patch families for including only specific changes.</html:p>
+          <html:p>Because changing the ProductCode is not supported in a patch, the ProductCode property is automatically removed from the transform.</html:p>
+        </xse:remarks>
+      </xs:appinfo>
+    </xs:annotation>
   </xs:element>
   <xs:element name="BinaryRef">
     <xs:annotation>
@@ -7938,7 +8003,7 @@
 
                         Do not specify this attribute (or the LongName attribute) if this directory represents
                         the same directory as the parent (see the Windows Installer SDK's
-                        <html:a href="http://msdn2.microsoft.com/library/Aa368295.aspx" target="_blank">Directory table</html:a>
+                        <html:a href="http://msdn.microsoft.com/library/Aa368295.aspx" target="_blank">Directory table</html:a>
                         topic for more information about the "." operator).
 
                         In prior versions of the WiX toolset, this attribute specified the short directory name.
@@ -8094,7 +8159,7 @@
           </xs:attribute>
           <xs:attribute name="Property" type="xs:string" use="required">
             <xs:annotation>
-              <xs:documentation>When the FindRelatedProducts action detects a related product installed on the system, it appends the product code to the property specified in this field.  Windows Installer documentation for the <html:a href="http://msdn2.microsoft.com/library/aa372379.aspx" target="_blank">Upgrade table</html:a> states that the property specified in this field must be a public property and must be added to the <html:a href="http://msdn2.microsoft.com/library/aa371571.aspx" target="_blank">SecureCustomProperties</html:a> property.  WiX automatically appends the property specified in this field to the SecureCustomProperties property when creating an MSI.  Each UpgradeVersion must have a unique Property value.  After the FindRelatedProducts action is run, the value of this property is a list of product codes, separated by semicolons (;), detected on the system.</xs:documentation>
+              <xs:documentation>When the FindRelatedProducts action detects a related product installed on the system, it appends the product code to the property specified in this field.  Windows Installer documentation for the <html:a href="http://msdn.microsoft.com/library/aa372379.aspx" target="_blank">Upgrade table</html:a> states that the property specified in this field must be a public property and must be added to the <html:a href="http://msdn.microsoft.com/library/aa371571.aspx" target="_blank">SecureCustomProperties</html:a> property.  WiX automatically appends the property specified in this field to the SecureCustomProperties property when creating an MSI.  Each UpgradeVersion must have a unique Property value.  After the FindRelatedProducts action is run, the value of this property is a list of product codes, separated by semicolons (;), detected on the system.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="MigrateFeatures" type="YesNoTypeUnion">
@@ -9011,7 +9076,11 @@
               <xs:documentation>
                                 Specifies that a script custom action targets a 64-bit platform. Valid only when used with
                                 the Script, VBScriptCall, and JScriptCall attributes.
-                            </xs:documentation>
+          The default value is based on the platform set by the -arch switch to candle.exe
+          or the InstallerPlatform property in a .wixproj MSBuild project: 
+          For x86 and ARM, the default value is 'no'. 
+          For x64 and IA64, the default value is 'yes'.
+              </xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="TerminalServerAware" type="YesNoTypeUnion">
@@ -11206,7 +11275,7 @@
       </xs:attribute>
       <xs:attribute name="Text" type="xs:string">
         <xs:annotation>
-          <xs:documentation>A localizable string used to set the initial text contained in a control. This attribute can contain a formatted string that is processed at install time to insert the values of properties using [PropertyName] syntax. Also supported are environment variables, file installation paths, and component installation directories; see <html:a href="http://msdn2.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</html:a> for details.</xs:documentation>
+          <xs:documentation>A localizable string used to set the initial text contained in a control. This attribute can contain a formatted string that is processed at install time to insert the values of properties using [PropertyName] syntax. Also supported are environment variables, file installation paths, and component installation directories; see <html:a href="http://msdn.microsoft.com/library/aa368609.aspx" target="_blank">Formatted</html:a> for details.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Help" type="xs:string">
@@ -12794,6 +12863,22 @@
     </xs:annotation>
     <xs:restriction base="xs:NMTOKEN">
       <xs:enumeration value="default" />
+      <xs:enumeration value="no" />
+      <xs:enumeration value="yes" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="YesNoAlwaysTypeUnion">
+    <xs:annotation>
+      <xs:documentation>Values of this type will either be "always", "yes", or "no".</xs:documentation>
+    </xs:annotation>
+    <xs:union memberTypes="YesNoAlwaysType PreprocessorVariables"/>
+  </xs:simpleType>
+  <xs:simpleType name="YesNoAlwaysType">
+    <xs:annotation>
+      <xs:documentation>Values of this type will either be "always", "yes", or "no".</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="always" />
       <xs:enumeration value="no" />
       <xs:enumeration value="yes" />
     </xs:restriction>

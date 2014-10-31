@@ -69,8 +69,17 @@ namespace WixBuild.Tools.DocCompiler
             Uri outputUri = new Uri(commandLine.OutputFolder);
             List<IndexedDocument> indexedDocs = new List<IndexedDocument>();
 
+            // Build up a list of directories to ignore when processing documents.
+            var ignored = commandLine.Ignored.Select(dir => Path.Combine(commandLine.InputFolder, dir));
+
             foreach (string documentPath in Directory.GetFiles(commandLine.InputFolder, "*.*", SearchOption.AllDirectories))
             {
+                // Skip processing if the document path is ignored.
+                if (ignored.Any(str => documentPath.StartsWith(str, StringComparison.OrdinalIgnoreCase)))
+                {
+                    break;
+                }
+
                 Document doc = Document.Create(documentPath, commandLine.InputFolder);
                 string documentOutputPath = Path.Combine(commandLine.OutputFolder, doc.RelativeOutputPath);
                 string content = doc.Content;
@@ -114,7 +123,7 @@ namespace WixBuild.Tools.DocCompiler
 
             if (!String.IsNullOrEmpty(commandLine.AppendMarkdownTableOfContentsFile))
             {
-                AppendMarkdownTableOfContents(ordered, commandLine.AppendMarkdownTableOfContentsFile);
+                AppendMarkdownTableOfContents(ordered, commandLine.AppendMarkdownTableOfContentsFile, commandLine.IgnoreXsdSimpleTypeInTableOfContents);
             }
 
             if (!String.IsNullOrEmpty(commandLine.HtmlHelpProjectFile))
@@ -394,7 +403,7 @@ namespace WixBuild.Tools.DocCompiler
             }
         }
 
-        private void AppendMarkdownTableOfContents(List<IndexedDocument> ordered, string tocFile)
+        private void AppendMarkdownTableOfContents(List<IndexedDocument> ordered, string tocFile, bool ignoreXsdSimpleTypes)
         {
             using (StreamWriter sw = File.AppendText(tocFile))
             {
@@ -406,6 +415,15 @@ namespace WixBuild.Tools.DocCompiler
                     {
                         continue;
                     }
+
+                    if (ignoreXsdSimpleTypes)
+                    {
+                        if (doc.TitleHtmlSafe.EndsWith(" (Simple Type)") && Path.GetFileName(doc.SourcePath).StartsWith("simple_type_", StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+                    }
+
 
                     // prepend with the correct number of spaces to get the Markdown list
                     // indent correct.

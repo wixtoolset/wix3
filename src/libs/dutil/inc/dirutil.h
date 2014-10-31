@@ -13,12 +13,12 @@
 
 #pragma once
 
-enum DIR_DELETE
+typedef enum DIR_DELETE
 {
     DIR_DELETE_FILES = 1,
     DIR_DELETE_RECURSE = 2,
     DIR_DELETE_SCHEDULE = 4,
-};
+} DIR_DELETE;
 
 #ifdef __cplusplus
 extern "C" {

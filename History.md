@@ -1,243 +1,247 @@
-﻿## WixBuild: Version 3.8.1128.0
+## WixBuild: Version 3.9.1006.0
 
-* RobMen: RTM WiX Toolset v3.8.
+* RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.
 
-* AVishnyakov, BMurri: WIXFeature:4144 - Icons for WiX Visual Studio 2012/2013 templates.
+* HeathS: Add Windows "Threshold" support to burn stub.
 
-## WixBuild: Version 3.8.1125.0
+* RobMen: WIXBUG:4513 - Fix condition keyword detection in modularization regex.
 
-* BobArnson: WIXBUG:4201 - Correct the list of themes that support showing the bundle version.
+## WixBuild: Version 3.9.901.0
 
-* BobArnson: WIXBUG:4198 - Use the Release value for .NET 4.5.1 on Windows 8.1 rather than that of the downlevel redistributable.
+* BobArnson: WIXBUG:4510 - Empty the post-reboot resume command line when recreating it.
 
-* BobArnson: WIXBUG:4197 - Add VS2013 detection properties and custom actions to the doc. Add missing VS2012 entries.
+* SeanHall: WIXBUG:4507 - Fix crash in mbapreq when installing PrereqSupportPackages and related bundles are detected.
 
-## WixBuild: Version 3.8.1114.0
+* SeanHall: WIXBUG:4502 - Get MakeSfxCA to sort the Export table according to the PE/COFF spec.
 
-* BobArnson: WIXBUG:4185 - Correct VSIXInstaller.exe FileSearch name for VS2013.
+## WixBuild: Version 3.9.818.0
 
-* BobArnson: WIXBUG:4180 - Add .NET Framework 4.5.1 package groups.
+* RobMen: WIXBUG:4501 - Add file size to upload metadata for use in releases feed.
 
-* RjvdBoon: WIXBUG:4111;4170 - Generate URLs in the manual with forward slashes instead of backward slashes.
+* RobMen: WIXBUG:4497 - Undeprecate "-spdb" command-line switch.
 
-* BobArnson: WIXBUG:4175 - Add detection of VS/VWD 2013 for VsixPackage.
+* SeanHall: WIXBUG:4491 - Make sure the BA DLL is the first payload in the UX container.
 
-* BobArnson: WIXBUG:3872 - Add a block in the WiX BA when .NET 3.5.1 isn't present.
+## WixBuild: Version 3.9.805.0
 
-## WixBuild: Version 3.8.1031.0
+* jchoover: WIXBUG:4481 - Better handle update detection when the feed isn't available or is malformed and when uninstalling.
 
-* BobArnson: WIXBUG:4160 - Add DTF assemblies Melt.exe needs for "pdb melting" to the toolset bin directory.
+* BobArnson: WIXBUG:4486 - When writing to the Run/RunOnce key to handle in-chain reboots, include the cached bundle stub.
 
-* BMurri: WIXBUG:4061 - Call RtlGetVersion out of ntdll.dll to get OS version
+## WixBuild: Version 3.9.721.0
 
-* BMurri: WIXBUG:4032 - Enable heat to accomodate COM relative paths and foreign servers.
+## WixBuild: Version 3.9.720.0
 
-* BobArnson: WIXBUG:3807 - Add AssemblyFoldersEx key.
+* BobArnson: WIXBUG:4474 - Add missing headers; add missing file and correct typo to point to deputil directory.
 
-* BobArnson: WIXBUG:3737 - Block with specific message attempt to use RemotePayload outside ExePackage.
+* jchoover: Switch WixBA over to using engine updates.
 
-* BobArnson: WIXBUG:3830 - Remove obsolete PreProcExampleExtension.
+* BobArnson: Install native SDK packages when VS Express SKUs (VC++ Express v10 or Windows Desktop Express v11/v12), in addition to Professional and later.
 
-* BobArnson: WIXBUG:4158 - Add error message rather than throwing an exception.
+* BobArnson: WIXBUG:4456 - Look at different things on opposite sides of an expression.
 
-* BobArnson: WIXBUG:3870 - Clarify Directory/@ComponentGuidGenerationSeed documentation.
+* jchoover: Fixed some memory leaks in the engine.
 
-* BobArnson: WIXBUG:4142 - Add message for WixLocalization namespace problems.
+* BobArnson: WIXBUG:4466 - Open icons with read-sharing in DTF.
 
-## WixBuild: Version 3.8.1021.0
+* BobArnson: WIXBUG:4476 - Add x64 deputil.lib to NativeSdkMsi.
 
-* BobArnson: Fix WIXBUG:3839 and WIXBUG:4093.
-  * Add projects to build version-specific templates for VS2012 and VS2013.
-  * Correct paths to native SDK libraries.
+* BobArnson: Use MediaTemplate in WiX setup. Include native SDK packages when the corresponding compiler is present, not just when the corresponding SDK is present. (The SDK is needed only to create the C++ custom action templates.)
 
-* BobArnson: WIXBUG:4146 - Fill in missing searches and verify GUIDs.
+* BobArnson: WIXBUG:4460 - Switch license from HTML to plain text.
 
-* RobMen: WIXFEAT:4091 - build and setup libs for VS2013.
+* BobArnson: WIXBUG:4471 - Add warning about late RemoveExistingProducts scheduling with PerfCounterManifest.
 
-* BobArnson: WIXBUG:4146 - Fill in missing searches and verify GUIDs.
+* RobMen: WIXBUG:4468 - fix missed suppression of suppress signature verification of MSI packages.
 
-* BobArnson: WIXBUG:4152 - Remove WixPdbPath property and -sbuildinfo switch.
+* BobArnson: WIXBUG:4473 - Remove Wui.csproj from Wix.sln.
 
-* BobArnson: WIXBUG:3165 - Add x64 package to write x64 registry values.
+* SeanHall: WIXBUG:4472 - Try to clean the downloaded update bundle from the cache.
 
-## WixBuild: Version 3.8.1014.0
+* SeanHall: WIXBUG:4467 - Create path2utl for path functions that require shlwapi.lib.
 
-* BobArnson: Handle the case when you have SQLCE v4.0 installed without matching SDK but do have SQLCE v3.5 and its SDK installed.
+* SeanHall: WIXBUG:4470 - Check whether the LaunchArguments are null before trying to format them.
 
-## WixBuild: Version 3.8.1007.0
+* flcdrg: WIXBUG:4437 - Adds CopyLocal COM reference assemblies to the list of assemblies to be included in managed CA.
 
-* BMurri: WIXBUG:4104 - Wrong language ID for Slovenian specified on site
+* champloo: WIXBUG:4097 - Fixes uncaught UnauthorizedAccessException in RecursiveFileAttributes.
 
-* RobMen: Reorganize source code to better match reality.
+* RobMen: WIXFEAT:4188 - deprecate switches removed in WiX v4.0
 
-* RobMen: Fix parallel build when building wix.proj.
+## WixBuild: Version 3.9.702.0
 
-* BobArnson: WIXBUG:4073 - write v3.8 value under HKLM\SOFTWARE\Microsoft\Windows Installer XML\3.x with installation directory.
+* HeathS: WIXBUG:4457 - Add support for temporary object columns in DTF.
 
-* BobArnson: WIXBUG:4120 - Remove SetupBld.
+* SeanHall: WIXBUG:4459 - Make Burn decrypt encrypted payloads after moving/copying to the package cache.
 
-* BobArnson: WIXBUG:4128 - Add Win8/8.1 compatibility GUIDs to stub.manifest.
+* SeanHall: WIXBUG:4458 - Make DTF set the current directory for a managed custom action to the AppDomain's BaseDirectory.
 
-* RobMen: WIXBUG:4103 - use [#FileId] in Shortcut how-tos.
+* jchoover: WIXFEAT:4190 - Added support for self updating bundles.
 
-* BMurri: WIXBUG:4062 - Heat harvesting is URL Encoding parenthesis in “Content” filenames resulting in LGHT0103 errors.
+* SeanHall: WIXFEAT:3249 - Allow BA to run elevated async process through the engine.
 
-* BMurri: WIXBUG:4072 - NullReferenceException in pyro.exe.
+## WixBuild: Version 3.9.616.0
 
-## WixBuild: Version 3.8.826.0
+* HeathS: WIXBUG:4422 - Ref-count superseded products when provider already exists.
 
-* RobMen: WIXBUG:4083 - Website manual cannot be navigated.
+* HeathS: WIXBUG:4431 - Fix objects schema to allow unbounded columns.
 
-## WixBuild: Version 3.8.819.0
+* ErnestT: WIXBUG:4430 - Do not repair dependent bundles if no packages are executed.
 
-* BobArnson: SFBUG:2474 - Allow bind-time variables in Publish/@Property.
+* ErnestT: WIXBUG:4429 - Fix responsiveness problems when cancelling during a BITS download that is not transferring (in a transient error state for example).
 
-* BobArnson: SFBUG:3352 - Throw a better error message for unexpected attributes.
+* HeathS: WIXBUG:4428 - Add detection for Visual Studio 14.0.
 
-## WixBuild: Version 3.8.722.0
+* ErnestT: WIXBUG:4427 - Update resume command handling to support more than 260 characters.
 
-* BobArnson:
-  * Add Visual Studio 2012 Express for Windows Desktop detection properties to WixVSExtension.
-  * Add Visual Studio 2013 Preview detection properties to WixVSExtension.
+* HeathS: WIXBUG:4425 - Prevent embedded bundles from starting simultaneously after reboot.
 
-* BMurri: Bug in delta patching (large file optimize was incorrect)
+* HeathS: WIXBUG:4424 - Allow user custom actions to be independently non-vital.
 
-## WixBuild: Version 3.8.715.0
+* HeathS: WIXBUG:4420 - Suppress patch sequence data to optimize patch performance
 
-* BMurri: SFBUG:3324 - Fix issues caused when different files have differing numbers of old versions.
+* HeathS: WIXBUG:4366 - Correctly enum all products for non-specific patches
 
-* BMurri: Describe new help system and how to add new topics.
+* BobArnson: WIXBUG:4443 - Ensure that MsiPackages in a Bundle have ProductVersions that fit in a QWORD, how Burn represents a four-field version number with each field a WORD.
 
-* BMurri: SFBUG:3342 - Fix unhandled exception when unbinding transforms containing tables with null primary keys.
+* BobArnson: WIXBUG:3838 - Since the compiler coerces null values to empty strings, check for those in ColumnDefinition.
 
-* BMurri: SFBUG:3329 - xmlns attributes may have either the name or the prefix set to xmlns.
+* FireGiant: WIXBUG:4319 - Support full range of ExePackage exit code values.
 
-* BMurri: Fix links and cleanup documentation formating.
+* BobArnson: WIXBUG:4442 - Add missing tables.
 
-## WixBuild: Version 3.8.708.0
+* SeanHall: WIXBUG:4416 - Fail fast when loading an MBA on Win7 RTM with .NET 4.5.2 or greater installed.
 
-* BobArnson: SFBUG:1747 - Handle missing tables and system tables that exist only when SQL queries are being run when determining row counts.
+* SeanHall: Rename IBootstrapperApplication::OnApplyNumberOfPhases to IBootstrapperApplication::OnApplyPhaseCount.
 
-* BobArnson: SFBUG:2235 - Use overload of WaitHandle.WaitOne that's available on .NET 2.0.
+* HeathS: WIXFEAT:4278 - Support redirectable package cache via policy.
 
-* BobArnson: SFBUG:1677 - Update conditions for Firewall custom actions to support Windows 2003 Server SP1.
+* RobMen: WIXBUG:4243 - use hashes to verify bundled packages by default.
 
-## WixBuild: Version 3.8.628.0
+* SeanHall: WIXFEAT:3736 - Add WixBundleExecutePackageCacheFolder variable.
 
-* RobMen: Updated release system.
+* SeanHall: WIXBUG:3890 - put Burn command line arguments first when launching unelevated parent process since malformed user arguments created an infinite loop.
 
-* MiCarls: SFBUG:3288 - Fix unhandled exception when harvesting unsupported registry types from .reg files.
+* SeanHall: WIXBUG:3951 - Document limitations of VersionVariables and create NormalizeVersion method.
 
-* Corfe83: SFBUG:3283 - Allow wix tools to load remote wix extensions / other assemblies
+* RobMen: WIXBUG:4288 - do not mask error code when testing file size of payload in cache.
 
-* BobArnson: SFBUG:3116 - Add @HideTarget to custom actions and @Hidden to custom action data properties.
+* RobMen: Point to new page for linker error 217 to fix WIXBUG:4208.
 
-* RobMen: New help build system.
+## WixBuild: Version 3.9.526.0
 
-## WixBuild: Version 3.8.611.0
+* BobArnson: WIXBUG:3701 - Add a check for file size when verifying cab cache.
 
-* BorisDachev: SFBUG:3066 - harvest project links in MSBuild 4.0 correctly.
+* BobArnson: WIXBUG:4134 - Add <UI> overrides to WixUI localization for pt-BR.
 
-* BMurri: SFBUG:3285 - Explicitly set enable32BitAppOnWin64 in IIS7 AppPools.
+* BobArnson: WIXBUG:4192 - Guard against a null.
 
-* NeilSleighthold: Add probing for default sub language of the detected primary language.
+* BobArnson: WIXBUG:4125 - Clarify doc.
 
-* BarryNolte: SFBUG:3296 - quote NETFX4.5 log path.
+* STunney: WIXBUG:4434 - Assert maximum patch baseline id length (because of MSI limitation in transform substorage ids).
 
-* BarryNolte: SFBUG:3288 - improve heat.exe error message for unhandled registry types.
+* BobArnson: WIXFEAT:2742 - Add ProcessorArchitecture Burn variable.
 
-* PatOShea - SFBUG:2485;3119;3020;3223 - fixed links in html documentation.
+* BobArnson: WIXFEAT:4378 - Add WixBundleOriginalSourceFolder variable (WixBundleOriginalSource minus file name).
 
-## WixBuild: Version 3.8.520.0
+* BobArnson: WIXBUG:4418 - Release strings and remove dead code.
 
-* StefanAgner: SFBUG:3074 - fix harvesting to correctly handle WinForms.resx by changing current directory.
+* SeanHall: WIXFEAT:4161 - Add the PrereqSupportPackage attribute to all package types so that more than one package can be installed by the Prereq BA, and the MbaPrereqPackage can be conditionally installed.
 
-* BobArnson: SFBUG:3262 - Implement MediaTemplate/@CompressionLevel.
+* SeanHall: WIXFEAT:4413 - Add IBootstrapperApplication::OnApplyNumberOfPhases.
 
-* BobArnson: SFBUG:3266 - reword error message to avoid implying required values can be omitted.
+* BobArnson: WIXBUG:4215 - Clarify all the elements that switch bitness based on -arch/InstallerPlatform.
 
-* BobArnson: SFBUG:3256 - be a bit more lax about accepting binder variables anywhere in version strings.
+* SeanHall: WIXBUG:3835 - Fix progress bug when extracting multiple packages from a container.
 
-* BobArnson: SFBUG:3248 - alias UI and Control elements in .wxl files for LocUtil.
+* BobArnson: WIXBUG:4410 - Fix MediaTemplate/@CompressionLevel and ensure that when it's not specified, the default compression level takes effect.
 
-* BobArnson: SFBUG:3233 - verify bundle version elements are <=UInt16 once all binder variables are resolved.
+* BobArnson: WIXBUG:4394 - Enforce a maximum include nesting depth of 1024 to avoid stack overflows when files include themselves.
 
-* JCHoover: SFFEAT:727 - Added support for ActionData messages (ACTIONSTART) within WixStdBA.
+* johnbuuck: WIXBUG:4279 - Add support for MSBuild version 12.0.
 
-* JCHoover: SFEAT:629 - skip shortcut scheduling if the CA is unable to create CLSID_InternetShortcut or CLSID_ShellLink.
+* mavxg: WIXFEAT:4373 - Add LogonAsBatchJob to WixUtilExtension.User
 
-* Corfe83: SFBUG:3251 - Fix heat to no longer hang with ProgIds whose CurVer is their own ProgId.
+* SeanHall: WIXFEAT:4329 - Change the type of the Cache attribute to the new YesNoAlwaysType, and make the engine always cache a package if Cache is set to always.
 
-## WixBuild: Version 3.8.514.0
+* SeanHall: WIXBUG:3978 - Add InstallCondition to BootstrapperApplicationData.xml.
 
-* JCHoover: SFFEAT:636;668 - support wildcard ProductCode and configuring UpgradeCode in InstanceTransforms.
+* HeathS: Don't fail uninstall when planned package was removed by related bundle. Don't repair dependent bundles when upgrading a patch or addon bundle.
 
-* JHennessey: Add assemblyPublicKeyTokenPreservedCase and assemblyFullNamePreservedCase binder variables.
+* AndySt: Update Registration key was being deleted during a bundle to bundle upgrade. Added version check so that only if the version was the same would the key be deleted.
 
-* RobMen: Add support for integration tests on xUnit.net and convert one Burn test.
+* AndySt: Skip the repair of the related bundle if it has the same provider key as an embedded bundle that is being installed, so only V2 of the patch bundle is on the machine at the end.
 
-* NeilSleightholm: Add HyperlinkSidebar, HyperlinkLarge and RtfLarge themes to wixstdba.
+* AndySt: Add /DisableSystemRestore switch and /OriginalSource switch /OriginalSource is used when authoring embedded bundles so it can look to the parent's original location instead of the package cached location that it is run from.
 
-## WixBuild: Version 3.8.506.0
+* HeathS: Make sure enough memory is allocated for compatible packages.
 
-* NeilSleightholm: SFBUG:3289 - fix 'heat reg' output to not generate candle CNDL1138 warnings.
+* HeathS: Uninstall compatible orphaned MSI packages.
 
-* RobMen: Add support for xUnit.net based tests.
+* HeathS: Allow package downgrades for related bundles with proper ref-counting. Make sure packages register their identities in the provider registry.
 
-## WixBuild: Version 3.8.422.0
+## WixBuild: Version 3.9.421.0
 
-* JoshuaKwan: Added strings in Error table for errors 1610,1611,1651 but not localized yet.
+* steveOgilvie/BobArnson: Add to WixStdBA the WixBundleFileVersion variable that's set to the file version of the bundle .exe.
 
-## WixBuild: Version 3.8.415.0
+* SeanHall: WIXBUG:4163 - For references to Microsoft.Deployment.WindowsInstaller.dll in managed Custom Action projects, set Private=True in case it's installed in the GAC.
 
-* RobMen: SFBUG:3263 - correctly register bundle when present in cache but pending removal on restart.
+* BobArnson: WIXBUG:4361 - Clarify error message.
 
-## WixBuild: Version 3.8.408.0
+* BobArnson: WIXBUG:4384 - Add MsuPackage back as supporting RemotePayload.
 
-* RobMen: SFBUG:3178 - make NETFX v3.5 default base for WiX toolset.
+* STunney/BobArnson: WIXFEAT:4239 - Add option to not extract the .msi when melting .wixpdbs. Don't leave temporary cabinet files behind (unless -notidy is in effect).
 
-* RobMen: SFBUG:3222 - fix Manufacturer in WiX installs.
+* BobArnson: WIXBUG:4331 - guard against null registry keys
 
-* NeilSleightholm: Add support for BA functions to wixstdba.
+* BobArnson: WIXBUG:4301 - don't cross the HRESULTs and Win32 error codes; it would be bad.
 
-* RobMen: Allow WebApplication to be defined under WebDir element.
+* SeanHall: WIXBUG:3914 - !(bind.packageVersion.PackageID) isn't expanded in bundle.
 
-## WixBuild: Version 3.8.401.0
+* RobMen: WIXBUG:4228 - send TRUE to WM_ENDSESSION to correctly inform applications to close.
 
-* RobMen: Add arguments and ability to hide launch target in wixstdba.
+* RobMen: WIXBUG:4285 - Fix typo in documentation.
 
-* NeilSleightholm: Add support for additional controls on the install and options pages.
+* RobMen: WIXFEAT:4234 - Remove ClickThrough.
 
-* NeilSleightholm: Add support for an auto generated version number to the preprocessor.
+* SeanHall: WIXFEAT:4233 - Add ProductCode, UpgradeCode, and Version to BootstrapperApplicationData.xml.
 
-* NeilSleightholm: SFBUG:3191 - document NETFX v4.5 properties.
+* WIXBUG:3883 - Retry on IIS ERROR_TRANSACTIONAL_CONFLICT too
 
-* NeilSleightholm: SFBUG:3221 - use correct function to get user language in LocProbeForFile().
+* SeanHall: WIXFEAT:4292 - Don't assume downgrade if already detected major upgrade.
 
-## WixBuild: Version 3.8.326.0
+## WixBuild: Version 3.9.120.0
 
-* BruceCran: Use v110_xp instead of v110 for VS2012 to retain compatibility with XP.
+* BobArnson: WIXBUG:4271 - Warn when using a RemotePayload package that isn't explicitly set @Compressed="no".
 
-* RobMen: SFBUG:3160 - pass "files in use" message to BA correctly.
+* BobArnson: WIXBUG:4263 - Add WixMsmqExtension.dll back to binaries .zip.
 
-* BobArnson: SFBUG:3236 - Enable Lux in binaries.zip and setup.
+* BobArnson: WIXBUG:4272 - Omit custom (and therefore un-Google-able) HRESULT for failed launch conditions on the failed page of WixStdBA.
 
-* RobMen: Enhance wixstdba to display user and warning MSI messages.
+* BobArnson: WIXBUG:4077 - Add log entry for the bal:Condition message itself.
 
-## WixBuild: Version 3.8.305.0
+## WixBuild: Version 3.9.16.0
 
-* RobMen: Add PromptToContinue attribute to CloseApplications.
+* rjvdboon: WIXBUG:4089 - Remove SimpleTypes from help table of contents.
 
-* RobMen: Enhance wixstdba progress text for related bundles.
+* jchoover: WIXFEAT:4194 - Move DownloadUrl functionality from engine to dutil.
 
-## WixBuild: Version 3.8.225.0
+* jhennessey: WIXFEAT:3169 - Add support for upgrade code-based product search.
 
-* RobMen: Add EndSession, TerminateProcess and Timeout attributes to CloseApplications.
+* jchoover: WIXFEAT:4193 - Added searching for bundles via upgrade code and querying bundle properties via provider code.
 
-* RobMen: Support transparent .pngs for Images in thmutil.
+## WixBuild: Version 3.9.10.0
 
-* RobMen: SFBUG:3216 - fix build to handle multiple platform SDK include paths.
+* BMurri: WIXBUG:4225 - DTF: InstallPathMap didn't accept identifiers differing only by case.
 
-* RobMen: WiX v3.8
+## WixBuild: Version 3.9.02.0
 
-## WixBuild: Version 3.8.0.0
+* BMurri: WIXBUG:4174 - Prevent unneeded build errors when generating delta patches with long file ids.
+
+* BMurri: WIXBUG:3326 - project harvester now unescapes linked files with spaces.
+
+* BobArnson: Support building on VS2013 only. Make SQL CE optional.
+
+* RobMen: WiX v3.9
+
+## WixBuild: Version 3.9.0.0

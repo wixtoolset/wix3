@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-enum JSON_TOKEN
+typedef enum JSON_TOKEN
 {
     JSON_TOKEN_NONE,
     JSON_TOKEN_ARRAY_START,
@@ -27,7 +27,7 @@ enum JSON_TOKEN
     JSON_TOKEN_OBJECT_VALUE,
     JSON_TOKEN_OBJECT_END,
     JSON_TOKEN_VALUE,
-};
+} JSON_TOKEN;
 
 typedef struct _JSON_VALUE
 {

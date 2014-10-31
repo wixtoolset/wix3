@@ -21,20 +21,56 @@ namespace Microsoft.Tools.WindowsInstallerXml
     /// </summary>
     internal class CatalogInfo
     {
-        public CatalogInfo(Row row, string payloadId)
-        {
-            this.Initialize((string)row[0], (string)row[1], payloadId);
-        }
+        private WixCatalogRow wixCatalogRow;
 
-        private void Initialize(string id, string sourceFile, string payloadId)
+        public CatalogInfo(WixCatalogRow wixCatalogRow, string payloadId)
         {
-            this.Id = id;
-            this.FileInfo = new FileInfo(sourceFile);
+            this.wixCatalogRow = wixCatalogRow;
             this.PayloadId = payloadId;
+
+            this.Initialize();            
         }
 
-        public string Id { get; private set; }
-        public FileInfo FileInfo { get; private set; }
+        private void Initialize()
+        {
+            FileInfo fileInfo = this.FileInfo;
+            if (null == fileInfo)
+            {
+                //We need these statements because the old code created the FileInfo here,
+                //which could have thrown an exception.
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the catalog identifier.
+        /// </summary>
+        /// <value>The catalog identifier.</value>
+        public string Id
+        {
+            get { return this.wixCatalogRow.Id; }
+            private set { this.wixCatalogRow.Id = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the source file.
+        /// </summary>
+        /// <value>The source file.</value>
+        public FileInfo FileInfo
+        {
+            get
+            {
+                return new FileInfo(this.wixCatalogRow.SourceFile);
+            }
+            private set
+            {
+                this.wixCatalogRow.SourceFile = value.FullName;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the payload identifier.
+        /// </summary>
+        /// <value>The payload identifier.</value>
         public string PayloadId { get; private set; }
     }
 }

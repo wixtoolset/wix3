@@ -304,6 +304,9 @@
    -sice:&lt;ICE&gt;  suppress an internal consistency evaluator (ICE)
    -sl        suppress layout
    -spdb      suppress outputting the WixPdb
+   -spsd      suppress patch sequence data in patch XML to decrease bundle
+              size and increase patch applicability performance
+              (patch packages themselves are not modified)
    -sval      suppress MSI/MSM validation</value>
   </data>
 </root>

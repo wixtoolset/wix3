@@ -28,7 +28,9 @@
     <WixVariable Id='WixMbaPrereqPackageId' Value='ignored' />
     <WixVariable Id='WixMbaPrereqLicenseUrl' Value='ignored' />
     <Chain>
-      <MspPackage Id="PatchA" Name="~$(var.TestName)_PatchA.msp" Compressed="yes"  SourceFile="!(bindpath.patchA)" Vital="yes" PerMachine="yes"/>
+      <MspPackage Id="PatchA" Name="~$(var.TestName)_PatchA.msp" Compressed="yes"  SourceFile="!(bindpath.patchA)" Vital="yes" PerMachine="yes">
+        <dep:Provides Key="$(var.TestName)_PatchA" Version="$(var.Version)" />
+      </MspPackage>
     </Chain>
   </Bundle>
 </Wix>

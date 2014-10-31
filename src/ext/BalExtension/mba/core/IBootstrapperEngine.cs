@@ -40,7 +40,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [PreserveSig]
         int GetVariableString(
             [MarshalAs(UnmanagedType.LPWStr)] string wzVariable,
-            [MarshalAs(UnmanagedType.LPWStr), Out] StringBuilder wzValue,
+                                              IntPtr wzValue,
             [MarshalAs(UnmanagedType.U4)] ref int pcchValue
             );
 
@@ -117,7 +117,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         void SetVariableString(
             [MarshalAs(UnmanagedType.LPWStr)] string wzVariable,
-            [MarshalAs(UnmanagedType.LPWStr)] string wzValue
+                                              IntPtr wzValue
             );
 
         void SetVariableVersion(
@@ -127,7 +127,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         void CloseSplashScreen();
 
-        void Detect();
+        void Detect(
+            IntPtr hwndParent
+            );
 
         void Plan(
             [MarshalAs(UnmanagedType.U4)] LaunchAction action
@@ -144,6 +146,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         void Quit(
             [MarshalAs(UnmanagedType.U4)] int dwExitCode
+            );
+
+        void LaunchApprovedExe(
+            IntPtr hwndParent,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzApprovedExeForElevationId,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzArguments,
+            [MarshalAs(UnmanagedType.U4)] int dwWaitForInputIdleTimeout
             );
     }
 

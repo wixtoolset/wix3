@@ -16,11 +16,11 @@
 extern "C" {
 #endif
 
-enum PATH_EXPAND
+typedef enum PATH_EXPAND
 {
     PATH_EXPAND_ENVIRONMENT = 0x0001,
     PATH_EXPAND_FULLPATH    = 0x0002,
-};
+} PATH_EXPAND;
 
 
 /*******************************************************************
@@ -205,6 +205,23 @@ DAPI_(HRESULT) PathCompare(
                 support compression.
 *******************************************************************/
 DAPI_(HRESULT) PathCompress(
+    __in_z LPCWSTR wzPath
+    );
+
+/*******************************************************************
+PathCanonicalizePath - wrapper around PathCanonicalizeW.
+*******************************************************************/
+DAPI_(HRESULT) PathCanonicalizePath(
+    __in_z LPCWSTR wzPath,
+    __deref_out_z LPWSTR* psczCanonicalized
+    );
+
+/*******************************************************************
+PathDirectoryContainsPath - checks if wzPath is located inside
+                            wzDirectory.
+*******************************************************************/
+DAPI_(HRESULT) PathDirectoryContainsPath(
+    __in_z LPCWSTR wzDirectory,
     __in_z LPCWSTR wzPath
     );
 

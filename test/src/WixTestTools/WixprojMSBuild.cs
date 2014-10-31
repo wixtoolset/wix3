@@ -14,7 +14,6 @@ namespace WixTest
     using System.Collections.Generic;
     using System.IO;
     using System.Text.RegularExpressions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// A class that uses MSBuild to build a .wixproj
@@ -70,7 +69,7 @@ namespace WixTest
         {
             this.ExpectedExitCode = 0;
             this.Properties.Add("DefineSolutionProperties", "false");
-            this.Properties.Add("WixToolPath", Settings.WixToolDirectory);
+            this.Properties.Add("WixToolPath", Settings.WixToolsDirectory);
 
             if (!String.IsNullOrEmpty(Settings.WixTargetsPath))
             {

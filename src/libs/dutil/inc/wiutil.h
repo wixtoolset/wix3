@@ -33,21 +33,21 @@ extern "C" {
 #define ReleaseNullMsi(h) if (h) { ::MsiCloseHandle(h); h = NULL; }
 
 
-enum WIU_RESTART
+typedef enum WIU_RESTART
 {
     WIU_RESTART_NONE,
     WIU_RESTART_REQUIRED,
     WIU_RESTART_INITIATED,
-};
+} WIU_RESTART;
 
-enum WIU_MSI_EXECUTE_MESSAGE_TYPE
+typedef enum WIU_MSI_EXECUTE_MESSAGE_TYPE
 {
     WIU_MSI_EXECUTE_MESSAGE_NONE,
     WIU_MSI_EXECUTE_MESSAGE_PROGRESS,
     WIU_MSI_EXECUTE_MESSAGE_ERROR,
     WIU_MSI_EXECUTE_MESSAGE_MSI_MESSAGE,
     WIU_MSI_EXECUTE_MESSAGE_MSI_FILES_IN_USE,
-};
+} WIU_MSI_EXECUTE_MESSAGE_TYPE;
 
 
 // structures
@@ -168,6 +168,11 @@ typedef UINT (WINAPI *PFN_MSIDETERMINEPATCHSEQUENCEW)(
     __in_z LPCWSTR wzProductCode,
     __in_z_opt LPCWSTR wzUserSid,
     __in MSIINSTALLCONTEXT context,
+    __in DWORD cPatchInfo,
+    __in PMSIPATCHSEQUENCEINFOW pPatchInfo
+    );
+typedef UINT (WINAPI *PFN_MSIDETERMINEAPPLICABLEPATCHESW)(
+    __in_z LPCWSTR wzProductPackagePath,
     __in DWORD cPatchInfo,
     __in PMSIPATCHSEQUENCEINFOW pPatchInfo
     );
@@ -300,6 +305,11 @@ HRESULT DAPI WiuDeterminePatchSequence(
     __in PMSIPATCHSEQUENCEINFOW pPatchInfo,
     __in DWORD cPatchInfo
     );
+HRESULT DAPI WiuDetermineApplicablePatches(
+    __in_z LPCWSTR wzProductPackagePath,
+    __in PMSIPATCHSEQUENCEINFOW pPatchInfo,
+    __in DWORD cPatchInfo
+    );
 HRESULT DAPI WiuEnumProducts(
     __in DWORD iProductIndex,
     __out_ecount(MAX_GUID_CHARS + 1) LPWSTR wzProductCode
@@ -318,6 +328,12 @@ HRESULT DAPI WiuEnumRelatedProducts(
     __in_z LPCWSTR wzUpgradeCode,
     __in DWORD iProductIndex,
     __out_ecount(MAX_GUID_CHARS + 1) LPWSTR wzProductCode
+    );
+HRESULT DAPI WiuEnumRelatedProductCodes(
+    __in_z LPCWSTR wzUpgradeCode,
+    __deref_out_ecount_opt(pcRelatedProducts) LPWSTR** prgsczProductCodes,
+    __out DWORD* pcRelatedProducts,
+    __in BOOL fReturnHighestVersionOnly
     );
 HRESULT DAPI WiuEnableLog(
     __in DWORD dwLogMode,

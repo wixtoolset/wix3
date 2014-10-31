@@ -15,22 +15,18 @@ namespace WixTest.Tests.Extensions.DependencyExtension
     using System.Diagnostics;
     using System.IO;
     using System.Text;
-
-    using WixTest;
+    using WixTest.Tests;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public sealed class DependencyExtensionTests : WixTests
     {
-        private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\DependencyExtension\DependencyExtensionTests");
-
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install products A then B, and uninstall in reverse order as normal.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_Install()
         {
             string packageA = BuildPackage("A", null);
@@ -44,36 +40,36 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             MSIExec.UninstallProduct(packageA, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install product B without dependency A installed and fail.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_MissingDependency()
         {
             string packageB = BuildPackage("B", null);
 
             string logB = MSIExec.InstallProduct(packageB, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logB, @"WixDependencyRequire:  The dependency ""Microsoft.WiX.DependencyExtension_MissingDependency.A,v1.0"" is missing or is not the required version."));
+            Assert.True(LogVerifier.MessageInLogFile(logB, @"WixDependencyRequire:  The dependency ""Microsoft.WiX.DependencyExtension_MissingDependency.A,v1.0"" is missing or is not the required version."));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install product B without dependency A installed and override.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_MissingDependencyOverride()
         {
             string packageB = BuildPackage("B", null);
 
             string logB = InstallProductWithProperties(packageB, MSIExec.MSIExecReturnCode.SUCCESS, "DISABLEDEPENDENCYCHECK=1");
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logB, @"Skipping action: WixDependencyRequire (condition is false)"));
+            Assert.True(LogVerifier.MessageInLogFile(logB, @"Skipping action: WixDependencyRequire (condition is false)"));
 
             MSIExec.UninstallProduct(packageB, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install products A then B, and uninstall A while B is still present and appear to succeed.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_UninstallDependency()
         {
             string packageA = BuildPackage("A", null);
@@ -84,17 +80,17 @@ namespace WixTest.Tests.Extensions.DependencyExtension
 
             // Now attempt the uninstall of dependency package A.
             string logA = MSIExec.UninstallProduct(packageA, MSIExec.MSIExecReturnCode.SUCCESS);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logA, @"WixDependencyCheck:  Found dependent"));
+            Assert.True(LogVerifier.MessageInLogFile(logA, @"WixDependencyCheck:  Found dependent"));
 
             // Uninstall in reverse order.
             MSIExec.UninstallProduct(packageB, MSIExec.MSIExecReturnCode.SUCCESS);
             MSIExec.UninstallProduct(packageA, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install products A then B, and uninstall A while B is still present and override.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_UninstallDependencyOverrideAll()
         {
             string packageA = BuildPackage("A", null);
@@ -105,15 +101,15 @@ namespace WixTest.Tests.Extensions.DependencyExtension
 
             // Now attempt the uninstall of dependency package A.
             string logA = UninstallProductWithProperties(packageA, MSIExec.MSIExecReturnCode.SUCCESS, "IGNOREDEPENDENCIES=ALL");
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logA, @"Skipping action: WixDependencyCheck (condition is false)"));
+            Assert.True(LogVerifier.MessageInLogFile(logA, @"Skipping action: WixDependencyCheck (condition is false)"));
 
             MSIExec.UninstallProduct(packageB, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install products A then B, and uninstall A while B is still present and override.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_UninstallDependencyOverrideSpecific()
         {
             string packageA = BuildPackage("A", null);
@@ -131,10 +127,10 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             MSIExec.UninstallProduct(packageB, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Install products A then B, upgrades A, then attempts to uninstall A while B is still present.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void DependencyExtension_UninstallUpgradedDependency()
         {
             string packageA = BuildPackage("A", null);
@@ -146,11 +142,11 @@ namespace WixTest.Tests.Extensions.DependencyExtension
 
             // Build the upgraded dependency A1 and make sure A was removed.
             MSIExec.InstallProduct(packageA1, MSIExec.MSIExecReturnCode.SUCCESS);
-            Assert.IsFalse(IsPackageInstalled(packageA));
+            Assert.False(IsPackageInstalled(packageA));
 
             // Now attempt the uninstall of upgraded dependency package A1.
             string logA = MSIExec.UninstallProduct(packageA1, MSIExec.MSIExecReturnCode.SUCCESS);
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logA, @"WixDependencyCheck:  Found dependent"));
+            Assert.True(LogVerifier.MessageInLogFile(logA, @"WixDependencyCheck:  Found dependent"));
 
             // Uninstall in reverse order.
             MSIExec.UninstallProduct(packageB, MSIExec.MSIExecReturnCode.SUCCESS);
@@ -166,7 +162,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
         /// <returns>The path to the build MSI package.</returns>
         private string BuildPackage(string name, string version)
         {
-            PackageBuilder builder = new PackageBuilder(this.TestContext.TestName, name, this.TestDirectory, this.TestArtifacts) { Extensions = DependencyExtensionTests.Extensions };
+            PackageBuilder builder = new PackageBuilder(this, name) { Extensions = DependencyExtensionTests.Extensions };
             if (!String.IsNullOrEmpty(version))
             {
                 builder.PreprocessorVariables.Add("Version", version);
@@ -190,10 +186,10 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             string caller = stack.GetFrame(1).GetMethod().Name;
 
             // Create paths.
-            string source = Path.Combine(TestDataDirectory, String.Concat(name, ".wxs"));
+            string source = Path.Combine(this.TestContext.TestDataDirectory, String.Concat(name, ".wxs"));
             string rootDirectory = FileUtilities.GetUniqueFileName();
             string objDirectory = Path.Combine(rootDirectory, Settings.WixobjFolder);
-            string msiDirectory = Path.Combine(rootDirectory, Settings.MSIFolder);
+            string msiDirectory = Path.Combine(rootDirectory, Settings.MsiFolder);
             string wixmst = Path.Combine(objDirectory, String.Concat(name, ".wixmst"));
             string wixmsp = Path.Combine(objDirectory, String.Concat(name, ".wixmsp"));
             string package = Path.Combine(msiDirectory, String.Concat(name, ".msp"));
@@ -211,7 +207,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             }
             candle.OutputFile = String.Concat(objDirectory, @"\");
             candle.SourceFiles.Add(source);
-            candle.WorkingDirectory = TestDataDirectory;
+            candle.WorkingDirectory = this.TestContext.TestDataDirectory;
             candle.Run();
 
             // Make sure the output directory is cleaned up.
@@ -223,7 +219,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             light.ObjectFiles = candle.ExpectedOutputFiles;
             light.OutputFile = wixmsp;
             light.SuppressMSIAndMSMValidation = true;
-            light.WorkingDirectory = TestDataDirectory;
+            light.WorkingDirectory = this.TestContext.TestDataDirectory;
             light.Run();
 
             // Make sure the output directory is cleaned up.
@@ -236,7 +232,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             torch.PreserveUnmodified = true;
             torch.XmlInput = true;
             torch.OutputFile = wixmst;
-            torch.WorkingDirectory = TestDataDirectory;
+            torch.WorkingDirectory = this.TestContext.TestDataDirectory;
             torch.Run();
 
             // Pyro.
@@ -244,7 +240,7 @@ namespace WixTest.Tests.Extensions.DependencyExtension
             pyro.Baselines.Add(torch.OutputFile, name);
             pyro.InputFile = light.OutputFile;
             pyro.OutputFile = package;
-            pyro.WorkingDirectory = TestDataDirectory;
+            pyro.WorkingDirectory = this.TestContext.TestDataDirectory;
             pyro.SuppressWarnings.Add("1079");
             pyro.Run();
 

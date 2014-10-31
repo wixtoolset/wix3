@@ -61,6 +61,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnDetectUpdateBegin(
             [MarshalAs(UnmanagedType.LPWStr)] string wzUpdateLocation,
+             [MarshalAs(UnmanagedType.I4)] int nRecommendation
+            );
+
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.I4)]
+        Result OnDetectUpdate(
+            [MarshalAs(UnmanagedType.LPWStr)] string wzUpdateLocation,
+            [MarshalAs(UnmanagedType.U8)] long dw64Size,
+            [MarshalAs(UnmanagedType.U8)] long dw64Version,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzTitle,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzSummary,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzContentType,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzContent,
             [MarshalAs(UnmanagedType.I4)] int nRecommendation
             );
 
@@ -84,6 +97,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnDetectPackageBegin(
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId
+            );
+
+        [return: MarshalAs(UnmanagedType.I4)]
+        Result OnDetectCompatiblePackage(
+            [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
+            [MarshalAs(UnmanagedType.LPWStr)] string wzCompatiblePackageId
             );
 
         [PreserveSig]
@@ -144,6 +163,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
+        Result OnPlanCompatiblePackage(
+            [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
+            [MarshalAs(UnmanagedType.U4)] ref RequestState pRequestedState
+            );
+
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.I4)]
         Result OnPlanTargetMsiPackage(
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
             [MarshalAs(UnmanagedType.LPWStr)] string wzProductCode,
@@ -174,6 +200,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnApplyBegin();
+
+        void OnApplyPhaseCount(
+            int dwPhaseCount
+            );
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
@@ -356,6 +386,15 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         Result OnApplyComplete(
             int hrStatus,
             [MarshalAs(UnmanagedType.U4)] ApplyRestart restart
+            );
+
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.I4)]
+        Result OnLaunchApprovedExeBegin();
+
+        void OnLaunchApprovedExeComplete(
+            int hrStatus,
+            int processId
             );
     }
 

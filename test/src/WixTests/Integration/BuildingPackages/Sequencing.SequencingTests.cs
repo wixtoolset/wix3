@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Sequencing
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// General tests for sequencing
     /// </summary>
-    [TestClass]
     public class SequencingTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Sequencing\SequencingTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a custom action can be sequenced")]
         [Priority(1)]
         public void SimpleSequencing()

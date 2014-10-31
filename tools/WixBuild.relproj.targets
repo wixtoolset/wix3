@@ -14,12 +14,14 @@
   <UsingTask AssemblyFile="$(ExtensionPackPath)MSBuild.ExtensionPack.dll" TaskName="Zip" />
 
   <PropertyGroup>
-    <IntermediateDocumentsFolder>$(BaseIntermediateOutputPath)chm\documents\</IntermediateDocumentsFolder>
+    <IntermediateDocumentsFolder>$(BaseIntermediateOutputPath)chm\intermediate\</IntermediateDocumentsFolder>
     <HistoryFile>$(WixRoot)History.md</HistoryFile>
-    <BaseReleaseFolder>$(BaseOutputPath)upload\</BaseReleaseFolder>
-    <ReleaseFolder>$(BaseReleaseFolder)releases\$(FullBuildVersionString)\</ReleaseFolder>
-    <ReleaseMetadataFolder>$(BaseReleaseFolder)staged\</ReleaseMetadataFolder>
-    <ReleaseDocumentsFolder>$(BaseReleaseFolder)staged\</ReleaseDocumentsFolder>
+    <ReleasesContainerFolder>$(BaseOutputPath)upload\releases\</ReleasesContainerFolder>
+    <StagedContainerFolder>$(BaseOutputPath)upload\staged\</StagedContainerFolder>
+
+    <ReleaseFolder>$(ReleasesContainerFolder)v$(FullBuildVersionString)\</ReleaseFolder>
+    <ReleaseMetadataFolder>$(StagedContainerFolder)</ReleaseMetadataFolder>
+    <ReleaseDocumentsFolder>$(StagedContainerFolder)</ReleaseDocumentsFolder>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -197,9 +199,15 @@
           DependsOnTargets="$(GetReleasedFilesDependsOn)"
           Returns="@(ReleasedFiles)">
     <ItemGroup>
-      <_ScannedReleasedFiles Include="$(BaseReleaseFolder)**" />
-      <ReleasedFiles Include="@(_ScannedReleasedFiles)">
-        <RelativeUploadFolder>$([MSBuild]::MakeRelative($(BaseReleaseFolder), %(RecursiveDir)).Replace("\", "/"))</RelativeUploadFolder>
+      <_ScannedReleaseFiles Include="$(ReleasesContainerFolder)**" />
+      <_ScannedStagedFiles Include="$(StagedContainerFolder)**" />
+      <ReleasedFiles Include="@(_ScannedReleaseFiles)">
+        <Container>releases</Container>
+        <RelativeUploadFolder>%(RecursiveDir)</RelativeUploadFolder>
+      </ReleasedFiles>
+      <ReleasedFiles Include="@(_ScannedStagedFiles)">
+        <Container>staged</Container>
+        <RelativeUploadFolder>%(RecursiveDir)</RelativeUploadFolder>
       </ReleasedFiles>
     </ItemGroup>
   </Target>

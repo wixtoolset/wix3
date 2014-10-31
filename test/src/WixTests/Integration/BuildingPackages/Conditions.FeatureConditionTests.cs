@@ -15,19 +15,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Conditions
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for conditions as they apply to features
     /// </summary>
-    [TestClass]
     public class FeatureConditionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Conditions\FeatureConditionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a condition for a feature can be specified")]
         [Priority(1)]
         public void SimpleCondition()

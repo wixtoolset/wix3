@@ -1,1 +1,0 @@
-%~dp0test.bat -enableruntimetests -testlist RunTimeBVTs.testlist %*

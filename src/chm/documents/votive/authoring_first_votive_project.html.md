@@ -16,7 +16,7 @@ In this tutorial, we will create a C# Windows Form Application and then use WiX 
 ## Step 2: Create the installer for the application
 
 1. Click <b>File</b>, then click <b>New</b>, then click <b>Project.</b>
-1. Choose the <b>Windows Installer XML</b> node in the <b>Project types</b> tree, then select <b>WiX Project</b>
+1. Choose the <b>Windows Installer XML</b> node in the <b>Project types</b> tree, then select <b>Setup Project</b>
 1. Name your project &quot;MySetup&quot; and press OK.
 1. In the <b>MySetup</b> project, right-click on the <b>References</b> node and choose <b>Add Reference...</b>.
 1. Navigate to the <b>Projects</b> tab, click on the <b>MyApplication</b> project, and click the <b>Add</b> 

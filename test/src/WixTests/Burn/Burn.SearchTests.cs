@@ -18,16 +18,15 @@ namespace WixTest.Tests.Burn
     using Microsoft.Deployment.WindowsInstaller;
     using WixTest.Utilities;
     using WixTest.Verifiers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class SearchTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Tests all possible results for a ComponentSearch.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_ComponentSearchResults()
         {
             // Build the packages.
@@ -47,13 +46,13 @@ namespace WixTest.Tests.Burn
             BundleInstaller installerB = new BundleInstaller(this, bundleB).Install();
 
             // PackageB will be installed if all ComponentSearches worked.
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageA));
-            Assert.IsTrue(MsiVerifier.IsPackageInstalled(packageB));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageA));
+            Assert.True(MsiVerifier.IsPackageInstalled(packageB));
 
             // Uninstall the main bundle and add-on.
             installerA.Uninstall();
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
     }
 }

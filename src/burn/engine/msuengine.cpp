@@ -18,17 +18,20 @@
 
 #define WU_S_REBOOT_REQUIRED        0x00240005L
 #define WU_S_ALREADY_INSTALLED      0x00240006L
-#define WU_E_NOT_APPLICABLE         0x80240017L
 
 
 // function definitions
 static HRESULT EnsureWUServiceEnabled(
+    __in BOOL fStopWusaService,
     __out SC_HANDLE* pschWu,
     __out BOOL* pfPreviouslyDisabled
     );
 static HRESULT SetServiceStartType(
     __in SC_HANDLE sch,
     __in DWORD stratType
+    );
+static HRESULT StopWUService(
+    __in SC_HANDLE schWu
     );
 
 
@@ -246,7 +249,9 @@ LExit:
 
 extern "C" HRESULT MsuEngineExecutePackage(
     __in BURN_EXECUTE_ACTION* pExecuteAction,
+    __in BURN_VARIABLES* pVariables,
     __in BOOL fRollback,
+    __in BOOL fStopWusaService,
     __in PFN_GENERICMESSAGEHANDLER pfnGenericMessageHandler,
     __in LPVOID pvContext,
     __out BOOTSTRAPPER_APPLY_RESTART* pRestart
@@ -256,6 +261,7 @@ extern "C" HRESULT MsuEngineExecutePackage(
     int nResult = IDNOACTION;
     LPWSTR sczCachedDirectory = NULL;
     LPWSTR sczMsuPath = NULL;
+    LPWSTR sczWindowsPath = NULL;
     LPWSTR sczSystemPath = NULL;
     LPWSTR sczWusaPath = NULL;
     LPWSTR sczCommand = NULL;
@@ -265,12 +271,29 @@ extern "C" HRESULT MsuEngineExecutePackage(
     PROCESS_INFORMATION pi = { };
     GENERIC_EXECUTE_MESSAGE message = { };
     DWORD dwExitCode = 0;
+    BOOL fUseSysNativePath = FALSE;
+
+#if !defined(_WIN64)
+    hr = ProcWow64(::GetCurrentProcess(), &fUseSysNativePath);
+    ExitOnFailure(hr, "Failed to determine WOW64 status.");
+#endif
 
     *pRestart = BOOTSTRAPPER_APPLY_RESTART_NONE;
 
     // get wusa.exe path
-    hr = PathGetKnownFolder(CSIDL_SYSTEM, &sczSystemPath);
-    ExitOnFailure(hr, "Failed to find System32 directory.");
+    if (fUseSysNativePath)
+    {
+        hr = PathGetKnownFolder(CSIDL_WINDOWS, &sczWindowsPath);
+        ExitOnFailure(hr, "Failed to find Windows directory.");
+
+        hr = PathConcat(sczWindowsPath, L"SysNative\\", &sczSystemPath);
+        ExitOnFailure(hr, "Failed to append SysNative directory.");
+    }
+    else
+    {
+        hr = PathGetKnownFolder(CSIDL_SYSTEM, &sczSystemPath);
+        ExitOnFailure(hr, "Failed to find System32 directory.");
+    }
 
     hr = PathConcat(sczSystemPath, L"wusa.exe", &sczWusaPath);
     ExitOnFailure(hr, "Failed to allocate WUSA.exe path.");
@@ -282,6 +305,9 @@ extern "C" HRESULT MsuEngineExecutePackage(
         // get cached MSU path
         hr = CacheGetCompletedPath(TRUE, pExecuteAction->msuPackage.pPackage->sczCacheId, &sczCachedDirectory);
         ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->msuPackage.pPackage->sczId);
+
+        // Best effort to set the execute package cache folder variable.
+        VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
 
         hr = PathConcat(sczCachedDirectory, pExecuteAction->msuPackage.pPackage->rgPayloads[0].pPayload->sczFilePath, &sczMsuPath);
         ExitOnFailure(hr, "Failed to build MSU path.");
@@ -313,7 +339,7 @@ extern "C" HRESULT MsuEngineExecutePackage(
 
     LogId(REPORT_STANDARD, MSG_APPLYING_PACKAGE, LoggingRollbackOrExecute(fRollback), pExecuteAction->msuPackage.pPackage->sczId, LoggingActionStateToString(pExecuteAction->msuPackage.action), sczMsuPath ? sczMsuPath : pExecuteAction->msuPackage.pPackage->Msu.sczKB, sczCommand);
 
-    hr = EnsureWUServiceEnabled(&schWu, &fWuWasDisabled);
+    hr = EnsureWUServiceEnabled(fStopWusaService, &schWu, &fWuWasDisabled);
     ExitOnFailure(hr, "Failed to ensure WU service was enabled to install MSU package.");
 
     // create process
@@ -357,9 +383,8 @@ extern "C" HRESULT MsuEngineExecutePackage(
     switch (dwExitCode)
     {
     case S_OK: __fallthrough;
-    case WU_S_ALREADY_INSTALLED: __fallthrough;
     case S_FALSE: __fallthrough;
-    case WU_E_NOT_APPLICABLE:
+    case WU_S_ALREADY_INSTALLED:
         hr = S_OK;
         break;
 
@@ -378,6 +403,7 @@ LExit:
     ReleaseStr(sczCachedDirectory);
     ReleaseStr(sczMsuPath);
     ReleaseStr(sczSystemPath);
+    ReleaseStr(sczWindowsPath);
     ReleaseStr(sczWusaPath);
     ReleaseStr(sczCommand);
 
@@ -389,10 +415,14 @@ LExit:
         SetServiceStartType(schWu, SERVICE_DISABLED);
     }
 
+    // Best effort to clear the execute package cache folder variable.
+    VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);
+
     return hr;
 }
 
 static HRESULT EnsureWUServiceEnabled(
+    __in BOOL fStopWusaService,
     __out SC_HANDLE* pschWu,
     __out BOOL* pfPreviouslyDisabled
     )
@@ -406,12 +436,18 @@ static HRESULT EnsureWUServiceEnabled(
     schSCM = ::OpenSCManagerW(NULL, NULL, SC_MANAGER_ALL_ACCESS);
     ExitOnNullWithLastError(schSCM, hr, "Failed to open service control manager.");
 
-    schWu = ::OpenServiceW(schSCM, L"wuauserv", SERVICE_QUERY_CONFIG | SERVICE_CHANGE_CONFIG | SERVICE_QUERY_STATUS );
+    schWu = ::OpenServiceW(schSCM, L"wuauserv", SERVICE_QUERY_CONFIG | SERVICE_CHANGE_CONFIG | SERVICE_QUERY_STATUS | SERVICE_STOP );
     ExitOnNullWithLastError(schWu, hr, "Failed to open WU service.");
 
     if (!::QueryServiceStatus(schWu, &serviceStatus) )
     {
         ExitWithLastError(hr, "Failed to query status of WU service.");
+    }
+
+    // Stop service if requested to.
+    if (SERVICE_STOPPED != serviceStatus.dwCurrentState && fStopWusaService)
+    {
+        hr = StopWUService(schWu);
     }
 
     // If the service is not running then it might be disabled so let's check.
@@ -451,6 +487,22 @@ static HRESULT SetServiceStartType(
     if (!::ChangeServiceConfigW(sch, SERVICE_NO_CHANGE, startType, SERVICE_NO_CHANGE, NULL, NULL, NULL, NULL, NULL, NULL, NULL))
     {
         ExitWithLastError(hr, "Failed to set service start type.");
+    }
+
+LExit:
+    return hr;
+}
+
+static HRESULT StopWUService(
+    __in SC_HANDLE schWu
+    )
+{
+    HRESULT hr = S_OK;
+    SERVICE_STATUS serviceStatus = { };
+
+    if(!::ControlService(schWu, SERVICE_CONTROL_STOP, &serviceStatus))
+    {
+        ExitWithLastError(hr, "Failed to stop wusa service.");
     }
 
 LExit:

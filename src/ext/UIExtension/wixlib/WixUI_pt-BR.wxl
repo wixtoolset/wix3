@@ -8,6 +8,11 @@
   </copyright>
 -->
 <WixLocalization Culture="pt-br" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <UI Dialog="ErrorDlg" Control="R" Width="80" />
+    <UI Dialog="FilesInUse" Control="Retry" X="280" Width="80" />
+    <UI Dialog="FilesInUse" Control="Ignore" X="211" />
+    <UI Dialog="FilesInUse" Control="Exit" X="142" />
+
     <String Id="WixUIBack" Overridable="yes">&amp;Voltar</String>
     <String Id="WixUINext" Overridable="yes">&amp;Avançar</String>
     <String Id="WixUICancel" Overridable="yes">Cancelar</String>

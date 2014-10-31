@@ -16,11 +16,7 @@
 
 // constants
 
-#define WINXP_MSI_DRIVER_INSTALL_FIX
-#ifdef WINXP_MSI_DRIVER_INSTALL_FIX
 const LPCWSTR REGISTRY_RUN_KEY = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-#endif
-
 const LPCWSTR REGISTRY_RUN_ONCE_KEY = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce";
 const LPCWSTR REGISTRY_REBOOT_PENDING_FORMAT = L"%ls.RebootRequired";
 const LPCWSTR REGISTRY_BUNDLE_INSTALLED = L"Installed";
@@ -43,6 +39,7 @@ const LPCWSTR REGISTRY_BUNDLE_NO_REMOVE = L"NoRemove";
 const LPCWSTR REGISTRY_BUNDLE_SYSTEM_COMPONENT = L"SystemComponent";
 const LPCWSTR REGISTRY_BUNDLE_QUIET_UNINSTALL_STRING = L"QuietUninstallString";
 const LPCWSTR REGISTRY_BUNDLE_UNINSTALL_STRING = L"UninstallString";
+const LPCWSTR REGISTRY_BUNDLE_RESUME_COMMAND_LINE = L"BundleResumeCommandLine";
 
 // internal function declarations
 
@@ -393,6 +390,7 @@ extern "C" void RegistrationUninitialize(
     }
 
     ReleaseStr(pRegistration->sczDetectedProviderKeyBundleId);
+    ReleaseStr(pRegistration->sczAncestors);
     RelatedBundlesUninitialize(&pRegistration->relatedBundles);
 
     // clear struct
@@ -975,6 +973,36 @@ extern "C" HRESULT RegistrationLoadState(
     return hr;
 }
 
+/*******************************************************************
+RegistrationGetResumeCommandLine - Gets the resume command line from the registry
+
+*******************************************************************/
+extern "C" HRESULT RegistrationGetResumeCommandLine(
+    __in const BURN_REGISTRATION* pRegistration,
+    __deref_out_z LPWSTR* psczResumeCommandLine
+    )
+{
+    HRESULT hr = S_OK;
+    HKEY hkRegistration = NULL;
+
+    // open registration key
+    hr = RegOpen(pRegistration->hkRoot, pRegistration->sczRegistrationKey, KEY_QUERY_VALUE, &hkRegistration);
+    if (SUCCEEDED(hr))
+    {
+        hr = RegReadString(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE, psczResumeCommandLine);
+    }
+
+    // Not finding the key or value is okay.
+    if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
+    {
+        hr = S_OK;
+    }
+
+    ReleaseRegKey(hkRegistration);
+
+    return hr;
+}
+
 
 // internal helper functions
 
@@ -1109,22 +1137,19 @@ static HRESULT UpdateResumeMode(
     DWORD er = ERROR_SUCCESS;
     HKEY hkRebootRequired = NULL;
     HKEY hkRun = NULL;
-    LPWSTR sczRunOnceCommandLine = NULL;
-    LPCWSTR sczRunOrRunOnceKey = REGISTRY_RUN_ONCE_KEY;
-#ifdef WINXP_MSI_DRIVER_INSTALL_FIX
-    // On XP the resume-key is written to Run path instead of RunOnce,
-    // as an MSI-package that contains a driver-install might trigger
-    // premature execution of the RunOnce key.  As there is no need
-    // for elevation prior to Vista, the run-key should suffice.
+    LPWSTR sczResumeCommandLine = NULL;
+    LPCWSTR sczResumeKey = REGISTRY_RUN_ONCE_KEY;
     OS_VERSION osv = OS_VERSION_UNKNOWN;
     DWORD dwServicePack = 0;
 
+    // On Windows XP and Server 2003, write the resume information to the Run key
+    // instead of RunOnce. That avoids the problem that driver installation might
+    // trigger RunOnce commands to be executed before the reboot.
     OsGetVersion(&osv, &dwServicePack);
     if (osv < OS_VERSION_VISTA)
     {
-        sczRunOrRunOnceKey = REGISTRY_RUN_KEY;
+        sczResumeKey = REGISTRY_RUN_KEY;
     }
-#endif
 
     // write resume information
     if (hkRegistration)
@@ -1148,22 +1173,27 @@ static HRESULT UpdateResumeMode(
     // If the engine is active write the run key so we resume if there is an unexpected
     // power loss. Also, if a restart was initiated in the middle of the chain then
     // ensure the run key exists (it should since going active would have written it).
-    if (BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated)
+    // Do not write the run key when embedded since the containing bundle
+    // is expected to detect for and restart the embedded bundle.
+    if ((BURN_RESUME_MODE_ACTIVE == resumeMode || fRestartInitiated) && !pRegistration->fDisableResume)
     {
         // append RunOnce switch
-        hr = StrAllocFormatted(&sczRunOnceCommandLine, L"%ls /%ls", pRegistration->sczResumeCommandLine, BURN_COMMANDLINE_SWITCH_RUNONCE);
+        hr = StrAllocFormatted(&sczResumeCommandLine, L"\"%ls\" /%ls", pRegistration->sczCacheExecutablePath, BURN_COMMANDLINE_SWITCH_RUNONCE);
         ExitOnFailure(hr, "Failed to format resume command line for RunOnce.");
 
         // write run key
-        hr = RegCreate(pRegistration->hkRoot, sczRunOrRunOnceKey, KEY_WRITE, &hkRun);
+        hr = RegCreate(pRegistration->hkRoot, sczResumeKey, KEY_WRITE, &hkRun);
         ExitOnFailure(hr, "Failed to create run key.");
 
-        hr = RegWriteString(hkRun, pRegistration->sczId, sczRunOnceCommandLine);
+        hr = RegWriteString(hkRun, pRegistration->sczId, sczResumeCommandLine);
         ExitOnFailure(hr, "Failed to write run key value.");
+
+        hr = RegWriteString(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE, pRegistration->sczResumeCommandLine);
+        ExitOnFailure(hr, "Failed to write resume command line value.");
     }
     else // delete run key value
     {
-        hr = RegOpen(pRegistration->hkRoot, sczRunOrRunOnceKey, KEY_WRITE, &hkRun);
+        hr = RegOpen(pRegistration->hkRoot, sczResumeKey, KEY_WRITE, &hkRun);
         if (E_FILENOTFOUND == hr || E_PATHNOTFOUND == hr)
         {
             hr = S_OK;
@@ -1179,10 +1209,20 @@ static HRESULT UpdateResumeMode(
             }
             ExitOnWin32Error(er, hr, "Failed to delete run key value.");
         }
+
+        if (hkRegistration)
+        {
+            er = ::RegDeleteValueW(hkRegistration, REGISTRY_BUNDLE_RESUME_COMMAND_LINE);
+            if (ERROR_FILE_NOT_FOUND == er)
+            {
+                er = ERROR_SUCCESS;
+            }
+            ExitOnWin32Error(er, hr, "Failed to delete resume command line value.");
+        }
     }
 
 LExit:
-    ReleaseStr(sczRunOnceCommandLine);
+    ReleaseStr(sczResumeCommandLine);
     ReleaseRegKey(hkRebootRequired);
     ReleaseRegKey(hkRun);
 
@@ -1435,17 +1475,44 @@ static HRESULT RemoveUpdateRegistration(
 {
     HRESULT hr = S_OK;
     LPWSTR sczKey = NULL;
+    LPWSTR sczPackageVersion = NULL;
+    HKEY hkKey = NULL;
+    BOOL fDeleteRegKey = TRUE;
 
     hr = FormatUpdateRegistrationKey(pRegistration, &sczKey);
     ExitOnFailure(hr, "Failed to format key for update registration.");
 
-    hr = RegDelete(pRegistration->hkRoot, sczKey, REG_KEY_DEFAULT, FALSE);
-    if (E_FILENOTFOUND != hr)
+    // Only delete if the uninstalling bundle's PackageVersion is the same as the
+    // PackageVersion in the update registration key.
+    // This is to support build to build upgrades
+    hr = RegOpen(pRegistration->hkRoot, sczKey, KEY_QUERY_VALUE, &hkKey);
+    if (SUCCEEDED(hr))
     {
-        ExitOnFailure1(hr, "Failed to remove update registration key: %ls", sczKey);
+        hr = RegReadString(hkKey, L"PackageVersion", &sczPackageVersion);
+        if (SUCCEEDED(hr))
+        {
+            if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, 0, sczPackageVersion, -1, pRegistration->sczDisplayVersion, -1))
+            {
+                fDeleteRegKey = FALSE;
+            }
+        }
+        ReleaseRegKey(hkKey);
+    }
+
+    // Unable to open the key or read the value is okay.
+    hr = S_OK;
+
+    if (fDeleteRegKey)
+    {
+        hr = RegDelete(pRegistration->hkRoot, sczKey, REG_KEY_DEFAULT, FALSE);
+        if (E_FILENOTFOUND != hr)
+        {
+            ExitOnFailure1(hr, "Failed to remove update registration key: %ls", sczKey);
+        }
     }
 
 LExit:
+    ReleaseStr(sczPackageVersion);
     ReleaseStr(sczKey);
 
     return hr;
@@ -1468,7 +1535,7 @@ static HRESULT RegWriteStringVariable(
     ExitOnFailure1(hr, "Failed to write %ls value.", wzName);
 
 LExit:
-    ReleaseStr(sczValue);
+    StrSecureZeroFreeString(sczValue);
 
     return hr;
 }

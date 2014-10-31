@@ -6,7 +6,7 @@
 //   The license and further copyright text can be found in the file
 //   LICENSE.TXT at the root directory of the distribution.
 // </copyright>
-//
+// 
 // <summary>
 // Bootstrapper Application Layer retry utility.
 // </summary>
@@ -17,11 +17,11 @@
 extern "C" {
 #endif
 
-enum BALRETRY_TYPE
+typedef enum BALRETRY_TYPE
 {
     BALRETRY_TYPE_CACHE,
     BALRETRY_TYPE_EXECUTE,
-};
+} BALRETRY_TYPE;
 
 /*******************************************************************
  BalRetryInitialize - initialize the retry count and timeout between

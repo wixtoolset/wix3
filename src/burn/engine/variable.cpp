@@ -47,6 +47,7 @@ enum OS_INFO_VARIABLE
     OS_INFO_VARIABLE_NTSuiteWebServer,
     OS_INFO_VARIABLE_CompatibilityMode,
     OS_INFO_VARIABLE_TerminalServer,
+    OS_INFO_VARIABLE_ProcessorArchitecture,
 };
 
 enum SET_VARIABLE
@@ -99,6 +100,10 @@ static HRESULT InitializeVariableVersionNT(
     __inout BURN_VARIANT* pValue
     );
 static HRESULT InitializeVariableOsInfo(
+    __in DWORD_PTR dwpData,
+    __inout BURN_VARIANT* pValue
+    );
+static HRESULT InitializeVariableSystemInfo(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
     );
@@ -232,6 +237,7 @@ extern "C" HRESULT VariableInitialize(
         {L"NTSuiteWebServer", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteWebServer},
         {L"PersonalFolder", InitializeVariableCsidlFolder, CSIDL_PERSONAL},
         {L"Privileged", InitializeVariablePrivileged, 0},
+        {L"ProcessorArchitecture", InitializeVariableSystemInfo, OS_INFO_VARIABLE_ProcessorArchitecture},
 #if defined(_WIN64)
         {L"ProgramFiles64Folder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES},
         {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILESX86},
@@ -259,6 +265,7 @@ extern "C" HRESULT VariableInitialize(
         {L"WindowsFolder", InitializeVariableCsidlFolder, CSIDL_WINDOWS},
         {L"WindowsVolume", InitializeVariableWindowsVolumeFolder, 0},
         {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0},
+        {BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, InitializeVariableString, NULL},
         {BURN_BUNDLE_FORCED_RESTART_PACKAGE, InitializeVariableString, NULL, TRUE},
         {BURN_BUNDLE_INSTALLED, InitializeVariableNumeric, 0},
         {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0},
@@ -405,8 +412,13 @@ extern "C" HRESULT VariablesParseFromXml(
         hr = BVariantCopy(&value, &pVariables->rgVariables[iVariable].Value);
         ExitOnFailure1(hr, "Failed to set value of variable: %ls", sczId);
 
+        hr = BVariantSetEncryption(&pVariables->rgVariables[iVariable].Value, fHidden);
+        ExitOnFailure(hr, "Failed to set variant encryption");
+
         // prepare next iteration
         ReleaseNullObject(pixnNode);
+        BVariantUninitialize(&value);
+        ReleaseNullStrSecure(scz);
     }
 
 LExit:
@@ -475,13 +487,14 @@ extern "C" void VariablesDump(
 
             LogId(REPORT_VERBOSE, MSG_VARIABLE_DUMP, sczValue);
 
-            ReleaseNullStr(sczValue);
+            ReleaseNullStrSecure(sczValue);
         }
     }
 
-    ReleaseStr(sczValue);
+    StrSecureZeroFreeString(sczValue);
 }
 
+// The contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
 extern "C" HRESULT VariableGetNumeric(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -513,6 +526,7 @@ LExit:
     return hr;
 }
 
+// The contents of psczValue may be sensitive, if variable is hidden should keep encrypted and SecureZeroFree.
 extern "C" HRESULT VariableGetString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -544,6 +558,7 @@ LExit:
     return hr;
 }
 
+// The contents of pqwValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
 extern "C" HRESULT VariableGetVersion(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -602,6 +617,7 @@ LExit:
     return hr;
 }
 
+// The contents of psczValue may be sensitive, should keep encrypted and SecureZeroFree.
 extern "C" HRESULT VariableGetFormatted(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -610,6 +626,7 @@ extern "C" HRESULT VariableGetFormatted(
 {
     HRESULT hr = S_OK;
     BURN_VARIABLE* pVariable = NULL;
+    LPWSTR scz = NULL;
 
     ::EnterCriticalSection(&pVariables->csAccess);
 
@@ -628,8 +645,10 @@ extern "C" HRESULT VariableGetFormatted(
     // variables are never expanded.
     if (BURN_VARIANT_TYPE_STRING == pVariable->Value.Type && !pVariable->fBuiltIn)
     {
-        hr = VariableFormatString(pVariables, pVariable->Value.sczValue, psczValue, NULL);
-        ExitOnFailure2(hr, "Failed to format value '%ls' of variable: %ls", pVariable->Value.sczValue, wzVariable);
+        hr = BVariantGetString(&pVariable->Value, &scz);
+        ExitOnFailure(hr, "Failed to get unformatted string");
+        hr = VariableFormatString(pVariables, scz, psczValue, NULL);
+        ExitOnFailure2(hr, "Failed to format value '%ls' of variable: %ls", pVariable->fHidden ? L"*****" : pVariable->Value.sczValue, wzVariable);
     }
     else
     {
@@ -639,6 +658,7 @@ extern "C" HRESULT VariableGetFormatted(
 
 LExit:
     ::LeaveCriticalSection(&pVariables->csAccess);
+    StrSecureZeroFreeString(scz);
 
     return hr;
 }
@@ -652,6 +672,7 @@ extern "C" HRESULT VariableSetNumeric(
 {
     BURN_VARIANT variant = { };
 
+    // We're not going to encrypt this value, so can access the value directly.
     variant.llValue = llValue;
     variant.Type = BURN_VARIANT_TYPE_NUMERIC;
 
@@ -667,6 +688,7 @@ extern "C" HRESULT VariableSetString(
 {
     BURN_VARIANT variant = { };
 
+    // We're not going to encrypt this value, so can access the value directly.
     variant.sczValue = (LPWSTR)wzValue;
     variant.Type = BURN_VARIANT_TYPE_STRING;
 
@@ -682,6 +704,7 @@ extern "C" HRESULT VariableSetVersion(
 {
     BURN_VARIANT variant = { };
 
+    // We're not going to encrypt this value, so can access the value directly.
     variant.qwValue = qwValue;
     variant.Type = BURN_VARIANT_TYPE_VERSION;
 
@@ -698,6 +721,7 @@ extern "C" HRESULT VariableSetVariant(
     return SetVariableValue(pVariables, wzVariable, pVariant, fOverwriteBuiltIn ? SET_VARIABLE_OVERRIDE_BUILTIN : SET_VARIABLE_NOT_BUILTIN, TRUE);
 }
 
+// The contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree
 extern "C" HRESULT VariableFormatString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzIn,
@@ -733,7 +757,7 @@ extern "C" HRESULT VariableEscapeString(
     hr = StrAlloc(&pwzEscaped, lstrlenW(wzIn) + 1);
     ExitOnFailure(hr, "Failed to allocate buffer for escaped string.");
 
-    // read trough string and move characters, inserting escapes as needed
+    // read through string and move characters, inserting escapes as needed
     wzRead = wzIn;
     for (;;)
     {
@@ -782,6 +806,9 @@ extern "C" HRESULT VariableSerialize(
 {
     HRESULT hr = S_OK;
     BOOL fIncluded = FALSE;
+    LONGLONG ll = 0;
+    LPWSTR scz = NULL;
+    DWORD64 qw = 0;
 
     ::EnterCriticalSection(&pVariables->csAccess);
 
@@ -810,22 +837,35 @@ extern "C" HRESULT VariableSerialize(
         hr = BuffWriteString(ppbBuffer, piBuffer, pVariable->sczName);
         ExitOnFailure(hr, "Failed to write variable name.");
 
-        // write variable value
+        // write variable value type
         hr = BuffWriteNumber(ppbBuffer, piBuffer, (DWORD)pVariable->Value.Type);
         ExitOnFailure(hr, "Failed to write variable value type.");
 
+        // write variable value
         switch (pVariable->Value.Type)
         {
         case BURN_VARIANT_TYPE_NONE:
             break;
-        case BURN_VARIANT_TYPE_NUMERIC: __fallthrough;
-        case BURN_VARIANT_TYPE_VERSION:
-            hr = BuffWriteNumber64(ppbBuffer, piBuffer, pVariable->Value.qwValue);
+        case BURN_VARIANT_TYPE_NUMERIC:
+            hr = BVariantGetNumeric(&pVariable->Value, &ll);
+            ExitOnFailure(hr, "Failed to get numeric");
+            hr = BuffWriteNumber64(ppbBuffer, piBuffer, static_cast<DWORD64>(ll));
             ExitOnFailure(hr, "Failed to write variable value as number.");
+            SecureZeroMemory(&ll, sizeof(ll));
+            break;
+        case BURN_VARIANT_TYPE_VERSION:
+            hr = BVariantGetVersion(&pVariable->Value, &qw);
+            ExitOnFailure(hr, "Failed to get version");
+            hr = BuffWriteNumber64(ppbBuffer, piBuffer, qw);
+            ExitOnFailure(hr, "Failed to write variable value as number.");
+            SecureZeroMemory(&qw, sizeof(qw));
             break;
         case BURN_VARIANT_TYPE_STRING:
-            hr = BuffWriteString(ppbBuffer, piBuffer, pVariable->Value.sczValue);
+            hr = BVariantGetString(&pVariable->Value, &scz);
+            ExitOnFailure(hr, "Failed to get string");
+            hr = BuffWriteString(ppbBuffer, piBuffer, scz);
             ExitOnFailure(hr, "Failed to write variable value as string.");
+            ReleaseNullStrSecure(scz);
             break;
         default:
             hr = E_INVALIDARG;
@@ -835,6 +875,9 @@ extern "C" HRESULT VariableSerialize(
 
 LExit:
     ::LeaveCriticalSection(&pVariables->csAccess);
+    SecureZeroMemory(&ll, sizeof(ll));
+    SecureZeroMemory(&qw, sizeof(qw));
+    StrSecureZeroFreeString(scz);
 
     return hr;
 }
@@ -851,6 +894,8 @@ extern "C" HRESULT VariableDeserialize(
     LPWSTR sczName = NULL;
     BOOL fIncluded = FALSE;
     BURN_VARIANT value = { };
+    LPWSTR scz = NULL;
+    DWORD64 qw = 0;
 
     ::EnterCriticalSection(&pVariables->csAccess);
 
@@ -883,14 +928,26 @@ extern "C" HRESULT VariableDeserialize(
         {
         case BURN_VARIANT_TYPE_NONE:
             break;
-        case BURN_VARIANT_TYPE_NUMERIC: __fallthrough;
-        case BURN_VARIANT_TYPE_VERSION:
-            hr = BuffReadNumber64(pbBuffer, cbBuffer, piBuffer, &value.qwValue);
+        case BURN_VARIANT_TYPE_NUMERIC:
+            hr = BuffReadNumber64(pbBuffer, cbBuffer, piBuffer, &qw);
             ExitOnFailure(hr, "Failed to read variable value as number.");
+            hr = BVariantSetNumeric(&value, static_cast<LONGLONG>(qw));
+            ExitOnFailure(hr, "Failed to set variable value.");
+            SecureZeroMemory(&qw, sizeof(qw));
+            break;
+        case BURN_VARIANT_TYPE_VERSION:
+            hr = BuffReadNumber64(pbBuffer, cbBuffer, piBuffer, &qw);
+            ExitOnFailure(hr, "Failed to read variable value as number.");
+            hr = BVariantSetVersion(&value, qw);
+            ExitOnFailure(hr, "Failed to set variable value.");
+            SecureZeroMemory(&qw, sizeof(qw));
             break;
         case BURN_VARIANT_TYPE_STRING:
-            hr = BuffReadString(pbBuffer, cbBuffer, piBuffer, &value.sczValue);
+            hr = BuffReadString(pbBuffer, cbBuffer, piBuffer, &scz);
             ExitOnFailure(hr, "Failed to read variable value as string.");
+            hr = BVariantSetString(&value, scz, NULL);
+            ExitOnFailure(hr, "Failed to set variable value.");
+            ReleaseNullStrSecure(scz);
             break;
         default:
             hr = E_INVALIDARG;
@@ -910,6 +967,94 @@ LExit:
 
     ReleaseStr(sczName);
     BVariantUninitialize(&value);
+    SecureZeroMemory(&qw, sizeof(qw));
+    StrSecureZeroFreeString(scz);
+
+    return hr;
+}
+
+extern "C" HRESULT VariableStrAlloc(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (fZeroOnRealloc)
+    {
+        hr = StrAllocSecure(ppwz, cch);
+    }
+    else
+    {
+        hr = StrAlloc(ppwz, cch);
+    }
+
+    return hr;
+}
+
+extern "C" HRESULT VariableStrAllocString(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (fZeroOnRealloc)
+    {
+        hr = StrAllocStringSecure(ppwz, wzSource, cchSource);
+    }
+    else
+    {
+        hr = StrAllocString(ppwz, wzSource, cchSource);
+    }
+
+    return hr;
+}
+
+extern "C" HRESULT VariableStrAllocConcat(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    )
+{
+    HRESULT hr = S_OK;
+
+    if (fZeroOnRealloc)
+    {
+        hr = StrAllocConcatSecure(ppwz, wzSource, cchSource);
+    }
+    else
+    {
+        hr = StrAllocConcat(ppwz, wzSource, cchSource);
+    }
+
+    return hr;
+}
+
+extern "C" HRESULT __cdecl VariableStrAllocFormatted(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    )
+{
+    HRESULT hr = S_OK;
+    va_list args;
+
+    va_start(args, wzFormat);
+    if (fZeroOnRealloc)
+    {
+        hr = StrAllocFormattedArgsSecure(ppwz, wzFormat, args);
+    }
+    else
+    {
+        hr = StrAllocFormattedArgs(ppwz, wzFormat, args);
+    }
+    va_end(args);
 
     return hr;
 }
@@ -917,6 +1062,7 @@ LExit:
 
 // internal function definitions
 
+// The contents of psczOut may be sensitive, should keep encrypted and SecureZeroFree.
 static HRESULT FormatString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzIn,
@@ -954,7 +1100,7 @@ static HRESULT FormatString(
         if (!wzOpen)
         {
             // end reached, append the remainder of the string and end loop
-            hr = StrAllocConcat(&sczFormat, wzRead, 0);
+            hr = VariableStrAllocConcat(!fObfuscateHiddenVariables, &sczFormat, wzRead, 0);
             ExitOnFailure(hr, "Failed to append string.");
             break;
         }
@@ -964,7 +1110,7 @@ static HRESULT FormatString(
         if (!wzClose)
         {
             // end reached, treat unterminated expander as literal
-            hr = StrAllocConcat(&sczFormat, wzRead, 0);
+            hr = VariableStrAllocConcat(!fObfuscateHiddenVariables, &sczFormat, wzRead, 0);
             ExitOnFailure(hr, "Failed to append string.");
             break;
         }
@@ -973,7 +1119,7 @@ static HRESULT FormatString(
         if (0 == cch)
         {
             // blank, copy all text including the terminator
-            hr = StrAllocConcat(&sczFormat, wzRead, (DWORD_PTR)(wzClose - wzRead) + 1);
+            hr = VariableStrAllocConcat(!fObfuscateHiddenVariables, &sczFormat, wzRead, (DWORD_PTR)(wzClose - wzRead) + 1);
             ExitOnFailure(hr, "Failed to append string.");
         }
         else
@@ -981,12 +1127,12 @@ static HRESULT FormatString(
             // append text preceding expander
             if (wzOpen > wzRead)
             {
-                hr = StrAllocConcat(&sczFormat, wzRead, (DWORD_PTR)(wzOpen - wzRead));
+                hr = VariableStrAllocConcat(!fObfuscateHiddenVariables, &sczFormat, wzRead, (DWORD_PTR)(wzOpen - wzRead));
                 ExitOnFailure(hr, "Failed to append string.");
             }
 
             // get variable name
-            hr = StrAllocString(&scz, wzOpen + 1, cch);
+            hr = VariableStrAllocString(!fObfuscateHiddenVariables, &scz, wzOpen + 1, cch);
             ExitOnFailure(hr, "Failed to get variable name.");
 
             // allocate space in variable array
@@ -1006,7 +1152,7 @@ static HRESULT FormatString(
             if (2 <= cch && L'\\' == wzOpen[1])
             {
                 // escape sequence, copy character
-                hr = StrAllocString(&rgVariables[cVariables], &wzOpen[2], 1);
+                hr = VariableStrAllocString(!fObfuscateHiddenVariables, &rgVariables[cVariables], &wzOpen[2], 1);
             }
             else
             {
@@ -1026,7 +1172,7 @@ static HRESULT FormatString(
                     hr = VariableGetFormatted(pVariables, scz, &rgVariables[cVariables]);
                     if (E_NOTFOUND == hr) // variable not found
                     {
-                        hr = StrAllocString(&rgVariables[cVariables], L"", 0);
+                        hr = StrAllocStringSecure(&rgVariables[cVariables], L"", 0);
                     }
                 }
             }
@@ -1034,10 +1180,10 @@ static HRESULT FormatString(
             ++cVariables;
 
             // append placeholder to format string
-            hr = StrAllocFormatted(&scz, L"[%d]", cVariables);
+            hr = VariableStrAllocFormatted(!fObfuscateHiddenVariables, &scz, L"[%d]", cVariables);
             ExitOnFailure(hr, "Failed to format placeholder string.");
 
-            hr = StrAllocConcat(&sczFormat, scz, 0);
+            hr = VariableStrAllocConcat(!fObfuscateHiddenVariables, &sczFormat, scz, 0);
             ExitOnFailure(hr, "Failed to append placeholder.");
         }
 
@@ -1077,13 +1223,13 @@ static HRESULT FormatString(
     // return formatted string
     if (psczOut)
     {
-        hr = StrAlloc(&scz, ++cch);
+        hr = VariableStrAlloc(!fObfuscateHiddenVariables, &scz, ++cch);
         ExitOnFailure(hr, "Failed to allocate string.");
 
         er = ::MsiFormatRecordW(NULL, hRecord, scz, &cch);
         ExitOnWin32Error(er, hr, "Failed to format record.");
 
-        hr = StrAllocString(psczOut, scz, 0);
+        hr = VariableStrAllocString(!fObfuscateHiddenVariables, psczOut, scz, 0);
         ExitOnFailure(hr, "Failed to copy string.");
     }
 
@@ -1100,7 +1246,14 @@ LExit:
     {
         for (DWORD i = 0; i < cVariables; ++i)
         {
-            ReleaseStr(rgVariables[i]);
+            if (fObfuscateHiddenVariables)
+            {
+                ReleaseStr(rgVariables[i]);
+            }
+            else
+            {
+                StrSecureZeroFreeString(rgVariables[i]);
+            }
         }
         MemFree(rgVariables);
     }
@@ -1110,9 +1263,18 @@ LExit:
         ::MsiCloseHandle(hRecord);
     }
 
-    ReleaseStr(sczUnformatted);
-    ReleaseStr(sczFormat);
-    ReleaseStr(scz);
+    if (fObfuscateHiddenVariables)
+    {
+        ReleaseStr(sczUnformatted);
+        ReleaseStr(sczFormat);
+        ReleaseStr(scz);
+    }
+    else
+    {
+        StrSecureZeroFreeString(sczUnformatted);
+        StrSecureZeroFreeString(sczFormat);
+        StrSecureZeroFreeString(scz);
+    }
 
     return hr;
 }
@@ -1333,6 +1495,7 @@ static HRESULT SetVariableValue(
         }
         else
         {
+            // Assume value isn't encrypted since it's not hidden.
             switch (pVariant->Type)
             {
             case BURN_VARIANT_TYPE_NONE:
@@ -1514,6 +1677,35 @@ static HRESULT InitializeVariableOsInfo(
         break;
     case OS_INFO_VARIABLE_TerminalServer:
         value.llValue = (VER_SUITE_TERMINAL == (ovix.wSuiteMask & VER_SUITE_TERMINAL)) && (VER_SUITE_SINGLEUSERTS != (ovix.wSuiteMask & VER_SUITE_SINGLEUSERTS)) ? 1 : 0;
+        value.Type = BURN_VARIANT_TYPE_NUMERIC;
+        break;
+    default:
+        AssertSz(FALSE, "Unknown OS info type.");
+        break;
+    }
+
+    hr = BVariantCopy(&value, pValue);
+    ExitOnFailure(hr, "Failed to set variant value.");
+
+LExit:
+    return hr;
+}
+
+static HRESULT InitializeVariableSystemInfo(
+    __in DWORD_PTR dwpData,
+    __inout BURN_VARIANT* pValue
+    )
+{
+    HRESULT hr = S_OK;
+    SYSTEM_INFO si = { };
+    BURN_VARIANT value = { };
+
+    ::GetNativeSystemInfo(&si);
+
+    switch ((OS_INFO_VARIABLE)dwpData)
+    {
+    case OS_INFO_VARIABLE_ProcessorArchitecture:
+        value.llValue = si.wProcessorArchitecture;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     default:

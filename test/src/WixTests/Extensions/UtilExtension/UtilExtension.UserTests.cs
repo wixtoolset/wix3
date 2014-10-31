@@ -13,30 +13,29 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension User element tests
     /// </summary>
-    [TestClass]
     public class UserTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\UserTests");
 
-        [TestInitialize]
-        public void TestInitialize()
+        protected override void TestInitialize()
         {
+            base.TestInitialize();
+
             // set the environment variable to store the current user information
             string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString();
             Environment.SetEnvironmentVariable("tempdomain", username.Split('\\')[0]);
             Environment.SetEnvironmentVariable("tempusername", username.Split('\\')[1]);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (User and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void User_VerifyMSITableData()
@@ -106,10 +105,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
               new TableRow(UserGroupColumns.Group_.ToString(), "POWER_USER"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the users specified in the authoring are created as expected.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void User_Install()
         {
             string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"product.wxs");
@@ -129,8 +128,8 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Users marked as RemoveOnUninstall were removed.
-            Assert.IsFalse(UserVerifier.UserExists(string.Empty, "testName1"), "User '{0}' was not removed on Uninstall", "testName1");
-            Assert.IsTrue(UserVerifier.UserExists(string.Empty, "testName2"), "User '{0}' was removed on Uninstall", "testName2");
+            Assert.False(UserVerifier.UserExists(string.Empty, "testName1"), String.Format("User '{0}' was not removed on Uninstall", "testName1"));
+            Assert.True(UserVerifier.UserExists(string.Empty, "testName2"), String.Format("User '{0}' was removed on Uninstall", "testName2"));
 
             // clean up
             UserVerifier.DeleteLocalUser("testName2");
@@ -138,10 +137,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
             UserVerifier.VerifyUserIsNotMemberOf(Environment.GetEnvironmentVariable("tempdomain"), Environment.GetEnvironmentVariable("tempusername"), "Power Users");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify the rollback action reverts all Users changes.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void User_InstallFailure()
         {
             string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"product_fail.wxs");
@@ -154,16 +153,16 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
             // Verify Users marked as RemoveOnUninstall were removed.
-            Assert.IsFalse(UserVerifier.UserExists(string.Empty, "testName1"), "User '{0}' was not removed on Rollback", "testName1");
-            Assert.IsFalse(UserVerifier.UserExists(string.Empty, "testName2"), "User '{0}' was not removed on Rollback", "testName2");
+            Assert.False(UserVerifier.UserExists(string.Empty, "testName1"), String.Format("User '{0}' was not removed on Rollback", "testName1"));
+            Assert.False(UserVerifier.UserExists(string.Empty, "testName2"), String.Format("User '{0}' was not removed on Rollback", "testName2"));
 
             UserVerifier.VerifyUserIsNotMemberOf(Environment.GetEnvironmentVariable("tempdomain"), Environment.GetEnvironmentVariable("tempusername"), "Power Users");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the users specified in the authoring are created as expected on repair.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void User_Repair()
         {
             string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"product.wxs");
@@ -188,8 +187,8 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Users marked as RemoveOnUninstall were removed.
-            Assert.IsFalse(UserVerifier.UserExists(string.Empty, "testName1"), "User '{0}' was not removed on Uninstall", "testName1");
-            Assert.IsTrue(UserVerifier.UserExists(string.Empty, "testName2"), "User '{0}' was removed on Uninstall", "testName2");
+            Assert.False(UserVerifier.UserExists(string.Empty, "testName1"), String.Format("User '{0}' was not removed on Uninstall", "testName1"));
+            Assert.True(UserVerifier.UserExists(string.Empty, "testName2"), String.Format("User '{0}' was removed on Uninstall", "testName2"));
 
             // clean up
             UserVerifier.DeleteLocalUser("testName2");
@@ -197,10 +196,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
             UserVerifier.VerifyUserIsNotMemberOf(Environment.GetEnvironmentVariable("tempdomain"), Environment.GetEnvironmentVariable("tempusername"), "Power Users");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Installation fails if FailIfExisits is set.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void User_FailIfExists()
         {
             string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"FailIfExists.wxs");
@@ -217,16 +216,16 @@ namespace WixTest.Tests.Extensions.UtilExtension
             // Delete the user first
             UserVerifier.DeleteLocalUser("existinguser");
 
-            Assert.IsTrue(userExists, "User '{0}' was removed on Rollback", "existinguser");
+            Assert.True(userExists, String.Format("User '{0}' was removed on Rollback", "existinguser"));
 
             // clean up
             UserVerifier.DeleteLocalUser("existinguser");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a user cannot be created on a domain on which you dont have create user permission.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void User_RestrictedDomain()
         {
             string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"RestrictedDomain.wxs");
@@ -241,8 +240,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
             UserVerifier.DeleteLocalUser("existinguser");
 
             // Verify expected error message in the log file
-            Assert.IsTrue(LogVerifier.MessageInLogFile(logFile, string.Format("ConfigureUsers:  Error 0x80070035: Failed to check existence of domain: {0}, user: testName1",Environment.GetEnvironmentVariable("tempdomain"))) ||
-                LogVerifier.MessageInLogFile(logFile, "CreateUser:  Error 0x80070005: failed to create user: testName1"), "Could not find CreateUser error message in log file: '{0}'.", logFile);
+            Assert.True(LogVerifier.MessageInLogFile(logFile, string.Format("ConfigureUsers:  Error 0x80070035: Failed to check existence of domain: {0}, user: testName1",Environment.GetEnvironmentVariable("tempdomain"))) ||
+                LogVerifier.MessageInLogFile(logFile, "CreateUser:  Error 0x80070005: failed to create user: testName1"), String.Format("Could not find CreateUser error message in log file: '{0}'.", logFile));
+        }
+
+        [NamedFact]
+        [Description("Verify that adding a user to a non-existent group does not fail the install when non-vital.")]
+        [Priority(2)]
+        [RuntimeTest]
+        public void User_NonVitalUserGroup()
+        {
+            string sourceFile = Path.Combine(UserTests.TestDataDirectory, @"NonVitalUserGroup.wxs");
+            string msiFile = Builder.BuildPackage(sourceFile, "test.msi", "WixUtilExtension");
+
+            MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
     }
 }

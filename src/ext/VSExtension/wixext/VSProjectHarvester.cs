@@ -734,6 +734,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 Uri baseDirUri = new Uri(baseDir);
                 Uri sourceRelativeUri = baseDirUri.MakeRelativeUri(sourcePathUri);
                 string relativePath = sourceRelativeUri.ToString().Replace('/', Path.DirectorySeparatorChar);
+                if (!sourceRelativeUri.UserEscaped)
+                {
+                    relativePath = Uri.UnescapeDataString(relativePath);
+                }
 
                 ret = String.Concat(String.Format(CultureInfo.InvariantCulture, varFormat, projectName, pogFileSource), "\\", relativePath);
             }
@@ -882,6 +886,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     break;
                 case "4.0":
                     project = ConstructMsbuild40Project(projectFile, this.Core, this.configuration, this.platform);
+                    break;
+                case "12.0":
+                    project = ConstructMsbuild40Project(projectFile, this.Core, this.configuration, this.platform, "12.0.0.0");
                     break;
                 default:
                     project = ConstructMsbuild35Project(projectFile, this.Core, this.configuration, this.platform);

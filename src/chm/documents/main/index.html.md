@@ -1,5 +1,6 @@
 ---
 title: Windows Installer XML (WiX)
+chm: default
 layout: documentation
 ---
 # Introduction to Windows Installer XML (WiX) toolset

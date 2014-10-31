@@ -16,19 +16,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for FeatureGroups and FeatureRefs
     /// </summary>
-    [TestClass]
     public class RefAndGroupTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Features\RefAndGroupTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that features can be referenced")]
         [Priority(1)]
         public void FeatureRefs()
@@ -39,7 +37,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query, "Feature1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that feature group can be created in Fragments/FeatureRefs and referenced")]
         [Priority(1)]
         public void FeatureGroups()
@@ -54,7 +52,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query3, "Feature3");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that features can be nested")]
         [Priority(1)]
         public void NestedFeatures()
@@ -67,7 +65,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query2, "Feature1");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that feature groups can be nested and referenced")]
         [Priority(1)]
         public void NestedFeatureGroups()
@@ -80,7 +78,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query2, "Feature2");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Product element can contain Features, FeatureGroups, FeatureRefs and FeatureGroupRefs")]
         [Priority(1)]
         public void ComplexFeatureUsage()
@@ -96,10 +94,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query3, "Feature3");
        }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Merge Module References are handled correctly within FeatureGroups")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/download.php?group_id=105970&atid=642714&file_id=238466&aid=1760155")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/download.php?group_id=105970&atid=642714&file_id=238466&aid=1760155")]
         public void FeatureGroupContainingMergeRef()
         {
             string msi = Builder.BuildPackage(Path.Combine(RefAndGroupTests.TestDataDirectory, @"FeatureGroupContainingMergeRef\Product.wxs"));

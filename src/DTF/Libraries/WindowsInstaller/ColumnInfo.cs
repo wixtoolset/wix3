@@ -60,6 +60,8 @@ namespace Microsoft.Deployment.WindowsInstaller
                     break;
                 case 'l': this.type = typeof(String); this.isLocalizable = true;
                     break;
+                case 'o': this.type = typeof(Stream); this.isTemporary = true;
+                    break;
                 case 's': this.type = typeof(String);
                     break;
                 case 'v': this.type = typeof(Stream);
@@ -263,6 +265,7 @@ namespace Microsoft.Deployment.WindowsInstaller
         /// <item>v0 - Binary Stream</item>
         /// <item>g? - Temporary string (?=0-255)</item>
         /// <item>j? - Temporary integer (?=0,1,2,4)</item>
+        /// <item>O0 - Temporary object (stream)</item>
         /// <item>l? - Localizable string, variable length (?=1-255)</item>
         /// <item>l0 - Localizable string, variable length</item>
         /// </list>
@@ -282,7 +285,7 @@ namespace Microsoft.Deployment.WindowsInstaller
                 }
                 else
                 {
-                    t = 'v';
+                    t = (this.isTemporary ? 'O' : 'v');
                 }
                 return String.Format(
                     CultureInfo.InvariantCulture,

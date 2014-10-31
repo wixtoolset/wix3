@@ -18,19 +18,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle
     /// </summary>
-    [TestClass]
     public class BundleElementTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\BundleElementTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if UX element defined more than once under Bundle.")]
         [Priority(3)]
         public void BundleDoubleUX()
@@ -44,7 +42,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if UX element is not defined under Bundle.")]
         [Priority(3)]
         public void BundleMissingUX()
@@ -58,7 +56,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if Chain element is not defined under Bundle.")]
         [Priority(3)]
         public void BundleMissingChain()
@@ -72,7 +70,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if a Payload element is a child of Bundle")]
         [Priority(3)]
         public void BundleWithPayloadChild()
@@ -87,7 +85,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if a PayloadGroup element is a child of Bundle")]
         [Priority(3)]
         public void BundleWithPayloadGroupChild()
@@ -99,7 +97,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that build fails if there are multiple Bundle elements defined.")]
         [Priority(3)]
         public void MultipleBundleElements()
@@ -117,13 +115,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Bundle element properties are transalated into correct registration information for the engin.")]
         [Priority(2)]
         public void ValidBundleElement()
         {
             string sourceFile = Path.Combine(BundleElementTests.TestDataDirectory, @"ValidBundleElement\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -156,14 +154,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
         {
             string burnManifestXRegistrationPath = @"//burn:Registration";
             XmlNodeList burnManifestRegistrationNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXRegistrationPath);
-            Assert.AreEqual(1, burnManifestRegistrationNodes.Count, "No Registration node was found in Burn_Manifest.xml.");
+            Assert.True(1 == burnManifestRegistrationNodes.Count, "No Registration node was found in Burn_Manifest.xml.");
             BundleTests.VerifyAttributeValue(burnManifestRegistrationNodes[0], "ExecutableName", expectedExecutableName);
             BundleTests.VerifyAttributeValue(burnManifestRegistrationNodes[0], "Version", expectedVersion);
             BundleTests.VerifyAttributeValue(burnManifestRegistrationNodes[0], "UpgradeCode", expectedUpgradeCode);
 
             string burnManifestArpXPath = @"//burn:Registration/burn:Arp";
             XmlNodeList burnManifestArpNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestArpXPath);
-            Assert.AreEqual(1, burnManifestArpNodes.Count, "No Registration/Arp node was found in Burn_Manifest.xml.");
+            Assert.True(1 == burnManifestArpNodes.Count, "No Registration/Arp node was found in Burn_Manifest.xml.");
             BundleTests.VerifyAttributeValue(burnManifestArpNodes[0], "DisplayName", expectedDisplayName);
             BundleTests.VerifyAttributeValue(burnManifestArpNodes[0], "Publisher", expectedManufacturer);
             BundleTests.VerifyAttributeValue(burnManifestArpNodes[0], "HelpLink", expectedHelpUrl);

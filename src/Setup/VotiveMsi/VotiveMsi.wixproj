@@ -9,7 +9,7 @@
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.8</ProductVersion>
+    <ProductVersion>3.9</ProductVersion>
     <ProjectGuid>{B96888C3-3F2F-49E2-9A4B-7540B2826D47}</ProjectGuid>
     <OutputName>votive</OutputName>
     <OutputType>Package</OutputType>
@@ -18,12 +18,11 @@
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
   <PropertyGroup>
-    <DefineConstants>$(DefineConstants);BuildVotive2008=$(VS2008SdkAvailable);BuildVotive2010=$(VS2010SdkAvailable)</DefineConstants>
+    <DefineConstants>$(DefineConstants);BuildVotive2010=$(VS2010SdkAvailable)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="VotiveMsi.wxs" />
-    <Compile Include="2008.wxs" />
     <Compile Include="2010.wxs" />
     <Compile Include="2012.wxs" />
     <Compile Include="2013.wxs" />

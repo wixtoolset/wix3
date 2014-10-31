@@ -16,8 +16,8 @@ For information about specific types of standard custom actions, see the followi
 * [OSInfo custom actions](osinfo.html) (located in WixUtilExtension) - set properties for OS information and standard directories that are not provided by default by Windows Installer.
 * [Performance Counter custom action](perfmon.html) (located in WixUtilExtension) - install and uninstall performance counters.
 * [Quiet Execution custom action](qtexec.html) (located in WixUtilExtension) - launch console executables without displaying a window.
-* [Secure Objects custom action](~/xsd/util/permissionex.html) (located in WixUtilExtension) - secure (using ACLs) objects that the <a href='http://msdn2.microsoft.com/library/aa369774.aspx' target="_blank">LockPermissions table</a> cannot.
-* [Service Configuration custom action](~/xsd/util/serviceconfig.html) (located in WixUtilExtension) - configure attributes of a Windows service that the <a href='http://msdn2.microsoft.com/library/aa371637.aspx' target="_blank">ServiceInstall table</a> cannot.
+* [Secure Objects custom action](~/xsd/util/permissionex.html) (located in WixUtilExtension) - secure (using ACLs) objects that the <a href='http://msdn.microsoft.com/library/aa369774.aspx' target="_blank">LockPermissions table</a> cannot.
+* [Service Configuration custom action](~/xsd/util/serviceconfig.html) (located in WixUtilExtension) - configure attributes of a Windows service that the <a href='http://msdn.microsoft.com/library/aa371637.aspx' target="_blank">ServiceInstall table</a> cannot.
 * [ShellExecute custom action](shellexec.html) (located in WixUtilExtension) - launch document or URL targets via the Windows shell.
 * [User custom actions](~/xsd/util/user.html) (located in WixUtilExtension) - create and configure new users.
 * [WixDirectXExtension](wixdirectxextension.html) - custom action that can be used to check the DirectX capabilities of the video card on the system.

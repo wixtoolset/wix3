@@ -18,6 +18,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApprovedExeForElevation.cs" />
     <Compile Include="AssemblyDefaultFabricatorExtensionAttribute.cs" />
     <Compile Include="AssemblyDefaultHeatExtensionAttribute.cs" />
     <Compile Include="AssemblyDefaultWixExtensionAttribute.cs" />
@@ -29,6 +30,7 @@
     <Compile Include="BinderExtension.cs" />
     <Compile Include="BinderExtensionEx.cs" />
     <Compile Include="BinderFileManager.cs" />
+    <Compile Include="BundleApprovedExeForElevationAttributes.cs" />
     <Compile Include="BundleChainAttributes.cs" />
     <Compile Include="BundlePackageAttributes.cs" />
     <Compile Include="BurnCommon.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="InspectorExtension.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="PatchAPI\PatchInterop.cs" />
+    <Compile Include="WixApprovedExeForElevationRow.cs" />
     <Compile Include="WixBundlePatchTargetCodeRow.cs" />
     <Compile Include="PatchTransform.cs" />
     <Compile Include="PayloadInfoRow.cs" />
@@ -183,6 +186,7 @@
     <Compile Include="WixVariableResolver.cs" />
     <Compile Include="WixVariableRow.cs" />
     <Compile Include="CatalogInfo.cs" />
+    <Compile Include="WixCatalogRow.cs" />
     <Compile Include="ChainInfo.cs" />
     <Compile Include="ChainPackageInfo.cs" />
     <Compile Include="ContainerInfo.cs" />
@@ -197,6 +201,7 @@
     <Compile Include="ResolvedDirectory.cs" />
     <Compile Include="RollbackBoundaryInfo.cs" />
     <Compile Include="VariableInfo.cs" />
+    <Compile Include="VariableRow.cs" />
     <Compile Include="WixComponentSearchInfo.cs" />
     <Compile Include="WixFileSearchInfo.cs" />
     <Compile Include="WixProductSearchInfo.cs" />
@@ -267,12 +272,12 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\..\dtf\Libraries\Resources\Resources.csproj" />
     <ProjectReference Include="..\..\dtf\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
     <ProjectReference Include="..\winterop\winterop.vcxproj" />
   </ItemGroup>
-
+  
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
 </Project>

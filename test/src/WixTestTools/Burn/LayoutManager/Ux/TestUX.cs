@@ -26,7 +26,7 @@ namespace WixTest.Burn.LayoutManager.UX
 
         public override void CopyAndConfigureUx(string LayoutLocation, WixElement Wix)
         {
-            string srcBinDir = WixTest.Settings.WixToolDirectory;
+            string srcBinDir = WixTest.Settings.WixToolsDirectory;
 
             // Copy the TestUX binaries
             LayoutManager.CopyFile(Path.Combine(srcBinDir, base.UxBinaryFilename), Path.Combine(LayoutLocation, base.UxBinaryFilename));

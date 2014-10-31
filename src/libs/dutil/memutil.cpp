@@ -40,7 +40,7 @@ extern "C" LPVOID DAPI MemAlloc(
     )
 {
 //    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
-    AssertSz(cbSize > 0, "MemAlloc() called with invalid size");
+    AssertSz(0 < cbSize, "MemAlloc() called with invalid size");
     return ::HeapAlloc(::GetProcessHeap(), fZero ? HEAP_ZERO_MEMORY : 0, cbSize);
 }
 
@@ -52,8 +52,67 @@ extern "C" LPVOID DAPI MemReAlloc(
     )
 {
 //    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
-    AssertSz(cbSize > 0, "MemReAlloc() called with invalid size");
+    AssertSz(0 < cbSize, "MemReAlloc() called with invalid size");
     return ::HeapReAlloc(::GetProcessHeap(), fZero ? HEAP_ZERO_MEMORY : 0, pv, cbSize);
+}
+
+
+extern "C" HRESULT DAPI MemReAllocSecure(
+    __in LPVOID pv,
+    __in SIZE_T cbSize,
+    __in BOOL fZero,
+    __out LPVOID* ppvNew
+    )
+{
+//    AssertSz(vfMemInitialized, "MemInitialize() not called, this would normally crash");
+    AssertSz(ppvNew, "MemReAllocSecure() called with uninitialized pointer");
+    AssertSz(0 < cbSize, "MemReAllocSecure() called with invalid size");
+
+    HRESULT hr = S_OK;
+    DWORD dwFlags = HEAP_REALLOC_IN_PLACE_ONLY;
+    LPVOID pvNew = NULL;
+
+    dwFlags |= fZero ? HEAP_ZERO_MEMORY : 0;
+    pvNew = ::HeapReAlloc(::GetProcessHeap(), dwFlags, pv, cbSize);
+    if (!pvNew)
+    {
+        pvNew = MemAlloc(cbSize, fZero);
+        if (pvNew)
+        {
+            const SIZE_T cbCurrent = MemSize(pv);
+            if (-1 == cbCurrent)
+            {
+                ExitOnFailure(hr = E_INVALIDARG, "Failed to get memory size");
+            }
+
+            // HeapReAlloc may allocate more memory than requested.
+            const SIZE_T cbNew = MemSize(pvNew);
+            if (-1 == cbNew)
+            {
+                ExitOnFailure(hr = E_INVALIDARG, "Failed to get memory size");
+            }
+
+            cbSize = cbNew;
+            if (cbSize > cbCurrent)
+            {
+                cbSize = cbCurrent;
+            }
+
+            memcpy_s(pvNew, cbNew, pv, cbSize);
+
+            SecureZeroMemory(pv, cbCurrent);
+            MemFree(pv);
+        }
+    }
+    ExitOnNull(pvNew, hr, E_OUTOFMEMORY, "Failed to reallocate memory");
+
+    *ppvNew = pvNew;
+    pvNew = NULL;
+
+LExit:
+    ReleaseMem(pvNew);
+
+    return hr;
 }
 
 

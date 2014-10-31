@@ -16,18 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle RegistrySearch element
     /// </summary>
-    [TestClass]
     public class RegistrySearchTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\RegistrySearchTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Variable is required.")]
         [Priority(3)]
         public void RegistrySearchVariableMissing()
@@ -40,7 +38,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Root is required.")]
         [Priority(3)]
         public void RegistrySearchRootMissing()
@@ -53,7 +51,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Key is required.")]
         [Priority(3)]
         public void RegistrySearchKeyMissing()
@@ -66,10 +64,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Variable should not be a predefined variable.")]
         [Priority(3)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2980329&group_id=105970")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&atid=642714&aid=2980329&group_id=105970")]
         public void RegistrySearchPredefinedVariable()
         {
             string expectedErrorMessage = @"The util:RegistrySearch/@Variable attribute's value, 'AdminToolsFolder', is one of the illegal options: 'AdminToolsFolder', 'AppDataFolder', 'CommonAppDataFolder', 'CommonFilesFolder', 'CompatibilityMode', 'DesktopFolder', 'FavoritesFolder', 'FontsFolder', 'LocalAppDataFolder', 'MyPicturesFolder', 'NTProductType', 'NTSuiteBackOffice', 'NTSuiteDataCenter', 'NTSuiteEnterprise', 'NTSuitePersonal', 'NTSuiteSmallBusiness', 'NTSuiteSmallBusinessRestricted', 'NTSuiteWebServer', 'PersonalFolder', 'Privileged', 'ProgramFilesFolder', 'ProgramMenuFolder', 'SendToFolder', 'StartMenuFolder', 'StartupFolder', 'SystemFolder', 'TempFolder', 'TemplateFolder', 'VersionMsi', 'VersionNT', 'VersionNT64', 'WindowsFolder', or 'WindowsVolume'.";
@@ -83,7 +81,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Result contains invalid value (something other than Exists)")]
         [Priority(3)]
         public void RegistrySearchInvalidResultValue()
@@ -96,7 +94,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @ExpandEnvironmentVariables contains invalid value (something other than yes and no)")]
         [Priority(3)]
         public void RegistrySearchInvalidExpandEnvironmentVariablesValue()
@@ -109,7 +107,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Format contains invalid value (something other than Row and Compatible)")]
         [Priority(3)]
         public void RegistrySearchInvalidFormatValue()
@@ -122,7 +120,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("RegistrySearch @Root contains invalid value (something other than the predifined roots)")]
         [Priority(3)]
         public void RegistrySearchInvalidRootValue()
@@ -136,7 +134,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cannot have dupplicate RegistrySearch with the same id.")]
         [Priority(3)]
         public void DuplicateRegistrySearch()
@@ -155,7 +153,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a missing search.")]
         [Priority(3)]
         public void RegistrySearchAfterUndefinedSearch()
@@ -172,7 +170,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a search after this search.")]
         [Priority(3)]
         public void RegistrySearchRecursiveAfter()
@@ -190,13 +188,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Valid RegistrySearch.")]
         [Priority(2)]
         public void ValidRegistrySearch()
         {
             string sourceFile = Path.Combine(RegistrySearchTests.TestDataDirectory, @"ValidRegistrySearch\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile, new string[] { "WixUtilExtension" });
@@ -234,7 +232,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             // verify the Burn_Manifest has the correct information 
             string burnManifestXPath = string.Format(@"//burn:RegistrySearch[@Id='{0}']", expectedId);
             XmlNodeList burnManifestNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXPath);
-            Assert.AreEqual(1, burnManifestNodes.Count, "No RegistrySearch with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId);
+            Assert.True(1 == burnManifestNodes.Count, String.Format("No RegistrySearch with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId));
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Root", expectedRoot);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Key", expectedKey);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Variable", expectedVariableName);

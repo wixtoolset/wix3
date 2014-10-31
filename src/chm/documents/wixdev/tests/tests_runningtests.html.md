@@ -17,7 +17,7 @@ The tests will build as part of the normal WiX build. They have a dependency on 
 * Visual Studio Team System 2008 Team Suite
 * Visual Studio Team System 2008 Test Edition
 
-The build system searches the registry to detect if one of the above mentioned editions is installed on the machine. If the [detection key](http://blogs.msdn.com/astebner/archive/2007/10/18/5516901.aspx) cannot be found then the tests will not build from Nant but they can still be built by MSBuild if the required UnitTestFramework assembly exists.  
+The build system searches the registry to detect if one of the above mentioned editions is installed on the machine. If the [detection key](http://blogs.msdn.com/b/astebner/archive/2007/10/18/5516901.aspx) cannot be found then the tests will not build from Nant but they can still be built by MSBuild if the required UnitTestFramework assembly exists.  
 %nbsp;  
 The tests are built into an assembly called wixtests.dll to the same location as the other WiX binaries.
 

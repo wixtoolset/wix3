@@ -15,22 +15,18 @@ namespace WixTest.Tests.Integration.BuildingPackages.Conditions
     using System;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Tests for conditions as they apply to controls
     /// </summary>
-    [TestClass]
     public class ControlConditionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Conditions\ControlConditionTests");
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify that a condition for a control can be specified")]
         [Priority(1)]
-        [Ignore]
         public void SimpleCondition()
         {
         }

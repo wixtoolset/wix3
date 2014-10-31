@@ -14,8 +14,6 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
 
@@ -23,12 +21,11 @@ namespace WixTest.Tests.Extensions.IISExtension
     /// <summary>
     /// IIS extension WebError element tests
     /// </summary>
-    [TestClass]
     public class IISWebErrorTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISWebErrorTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify the msi table data in CustomAction table and WebError table.")]
         [Priority(1)]
         public void IISWebError_VerifyMSITableData()

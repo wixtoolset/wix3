@@ -49,7 +49,7 @@
                         </html:dd>
                     </html:dl>
                 </xse:remarks>
-                <xse:seeAlso ref="User"/>
+                <xse:seeAlso namespace="http://schemas.microsoft.com/wix/UtilExtension" ref="User"/>
             </xs:appinfo>
             <xs:documentation>SQL Database</xs:documentation>
         </xs:annotation>

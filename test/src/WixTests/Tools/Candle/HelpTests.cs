@@ -11,16 +11,14 @@
 namespace WixTest.Tests.Tools.Candle.Help
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles the ? switch.
     /// </summary>
-    [TestClass]
     public class HelpTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle prints the appropriate help text.")]
         [Priority(1)]
         public void PrintHelp()

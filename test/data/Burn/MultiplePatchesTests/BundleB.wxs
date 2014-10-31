@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="BundleB.wxs" company="Microsoft Corporation">
+    Copyright (c) 1999, Microsoft Corporation.  All rights reserved.
+  </copyright>
+-->
+<?ifndef TestName?>
+<?define TestName = Test?>
+<?endif?>
+<?ifndef Version?>
+<?define Version = 1.0.0.0?>
+<?endif?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Bundle Name="~$(var.TestName) - Bundle B" Version="$(var.Version)" UpgradeCode="149C7E0B-49B9-4014-A6DB-E7D746B804CE">
+    <RelatedBundle Id="6F7148B7-06DA-4DFC-A276-65C2602DC9D9" Action="Patch" />
+    <Log Prefix="~$(var.TestName)_BundleB" />
+    <Variable Name="TestName" Value="$(var.TestName)" />
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload Name="BootstrapperCore.config" SourceFile="!(bindpath.build)\TestBA.BootstrapperCore.config" />
+      <Payload SourceFile="!(bindpath.build)\TestBA.dll" />
+    </BootstrapperApplicationRef>
+    <WixVariable Id="WixMbaPrereqPackageId" Value="ignored" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="ignored" />
+    <Chain DisableSystemRestore="yes" ParallelCache="yes">
+      <MspPackage Id="PatchAB" Name="~$(var.TestName)_PatchAB.msp" Compressed="no" SourceFile="!(bindpath.patchAB)" Vital="yes" PerMachine="yes" />
+      <MspPackage Id="PatchB" Name="~$(var.TestName)_PatchB.msp" Compressed="no" SourceFile="!(bindpath.patchB)" Vital="yes" PerMachine="yes" />
+    </Chain>
+  </Bundle>
+</Wix>

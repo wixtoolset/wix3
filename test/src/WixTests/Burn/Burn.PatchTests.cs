@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="Burn.PatchTests.cs" company="Outercurve Foundation">
 //   Copyright (c) 2004, Outercurve Foundation.
 //   This software is released under Microsoft Reciprocal License (MS-RL).
@@ -15,19 +15,18 @@ namespace WixTest.Tests.Burn
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml;
-
     using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
+    using Xunit;
 
-    [TestClass]
     public class PatchTests : BurnTests
     {
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with slipstream then removes it.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchInstallUninstall()
         {
             string originalVersion = "1.0.0.0";
@@ -43,15 +42,15 @@ namespace WixTest.Tests.Burn
             bindPaths.Add("packageA", packageA);
             bindPaths.Add("patchA", patchA);
 
-            string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
-            string bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+            string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = WixTests.Extensions }.Build().Output;
+            string bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = WixTests.Extensions }.Build().Output;
 
             // Install the unpatched bundle.
             BundleInstaller installA = new BundleInstaller(this, bundleA).Install();
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             // Install the patch bundle.
@@ -59,7 +58,7 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Uninstall the patch bundle.
@@ -67,19 +66,19 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             installA.Uninstall();
-            Assert.IsNull(this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
+            Assert.True(null == this.GetTestRegistryRoot(), "Test registry key should have been removed during uninstall.");
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs package then installs a bundle with two patches that target the package and removes it all.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchOnePackageTwoPatches()
         {
             string originalVersion = "1.0.0.0";
@@ -96,17 +95,17 @@ namespace WixTest.Tests.Burn
             bindPaths.Add("patchA", patchA);
             bindPaths.Add("patchA2", patchA2);
 
-            string bundlePatch = new BundleBuilder(this, "PatchBundleA2") { BindPaths = bindPaths, Extensions = Extensions }.Build().Output;
+            string bundlePatch = new BundleBuilder(this, "PatchBundleA2") { BindPaths = bindPaths, Extensions = WixTests.Extensions, SuppressPatchSequenceData = true }.Build().Output;
 
             // Install the original MSI and ensure the registry keys that get patched are as expected.
             MSIExec.InstallProduct(packageA, MSIExec.MSIExecReturnCode.SUCCESS);
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
             // Install the bundle of patches and ensure all the registry keys are updated.
@@ -114,10 +113,10 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(patchedVersion, actualVersion);
+                Assert.Equal(patchedVersion, actualVersion);
             }
 
             // Uninstall the patch bundle and verify the keys go back to original values.
@@ -125,29 +124,29 @@ namespace WixTest.Tests.Burn
             using (RegistryKey root = this.GetTestRegistryRoot())
             {
                 string actualVersion = root.GetValue("A") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
 
                 actualVersion = root.GetValue("A2") as string;
-                Assert.AreEqual(originalVersion, actualVersion);
+                Assert.Equal(originalVersion, actualVersion);
             }
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs patch bundle with repeated Detect phases.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchRedetect()
         {
             this.SetRedetectCount(1);
             this.Burn_PatchInstallUninstall();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Priority(2)]
         [Description("Installs bundle with SWID tag that is patched.")]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void Burn_PatchTag()
         {
             string originalVersion = "1.0.0.0";
@@ -170,30 +169,85 @@ namespace WixTest.Tests.Burn
             // Install the unpatched bundle.
             BundleInstaller installA = new BundleInstaller(this, bundleA).Install();
             actualVersion = GetTagVersion("~Burn_PatchTag - Bundle A");
-            Assert.AreEqual(originalVersion, actualVersion);
+            Assert.Equal(originalVersion, actualVersion);
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.AreEqual(originalVersion, actualVersion);
+            Assert.Equal(originalVersion, actualVersion);
 
             // Install the patch bundle.
             BundleInstaller installAPatch = new BundleInstaller(this, bundleAPatch).Install();
             actualVersion = GetTagVersion("~Burn_PatchTag - Patch Bundle A");
-            Assert.AreEqual(patchedVersion, actualVersion);
+            Assert.Equal(patchedVersion, actualVersion);
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.AreEqual(patchedVersion, actualVersion);
+            Assert.Equal(patchedVersion, actualVersion);
 
             // Uninstall the patch bundle.
             installAPatch.Uninstall();
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.AreEqual(originalVersion, actualVersion);
+            Assert.Equal(originalVersion, actualVersion);
 
             // Uninstall the original bundle and ensure all the tags are gone.
             installA.Uninstall();
             actualVersion = GetTagVersion("~Burn_PatchTag - Bundle A");
-            Assert.IsNull(actualVersion);
+            Assert.Null(actualVersion);
             actualVersion = GetTagVersion("~Burn_PatchTag - A");
-            Assert.IsNull(actualVersion);
+            Assert.Null(actualVersion);
 
-            this.CleanTestArtifacts = true;
+            this.Complete();
+        }
+
+        [NamedFact]
+        [Priority(2)]
+        public void Burn_BuildNonSpecificPatches()
+        {
+            string patchedVersion = "1.0.1.0";
+            string[] extensions = new string[] { "WixBalExtension", "WixTagExtension", };
+
+            // Build the packages.
+            string packageA = new PackageBuilder(this, "A") { Extensions = extensions }.Build().Output;
+            string packageAUpdate = new PackageBuilder(this, "A") { Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } }, NeverGetsInstalled = true }.Build().Output;
+            string patchA = new PatchBuilder(this, "PatchA") { Extensions = extensions, TargetPath = packageA, UpgradePath = packageAUpdate }.Build().Output;
+            string patchB = new PatchBuilder(this, "PatchB") { Extensions = extensions, TargetPath = packageA, UpgradePath = packageAUpdate }.Build().Output;
+            string patchC = new PatchBuilder(this, "PatchC") { Extensions = extensions, TargetPath = packageA, UpgradePath = packageAUpdate }.Build().Output;
+
+            // Build the bundles.
+            Dictionary<string, string> bindPaths = new Dictionary<string, string>();
+            bindPaths.Add("packageA", packageA);
+            bindPaths.Add("patchA", patchA);
+            bindPaths.Add("patchB", patchB);
+            bindPaths.Add("patchC", patchC);
+
+            string bundleA = new BundleBuilder(this, "BundleA") { BindPaths = bindPaths, Extensions = extensions }.Build().Output;
+            WixTest.BundleBuilder bundleAPatch = new BundleBuilder(this, "PatchBundleA") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
+            WixTest.BundleBuilder bundleBPatch = new BundleBuilder(this, "PatchBundleB") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
+            WixTest.BundleBuilder bundleCPatch = new BundleBuilder(this, "PatchBundleC") { BindPaths = bindPaths, Extensions = extensions, PreprocessorVariables = new Dictionary<string, string>() { { "Version", patchedVersion } } }.Build();
+
+            // Disassemble the patch bundles and check for PatchTargetCode elements.
+            XmlNodeList nodes = PatchTests.GetPatchTargetCodes(bundleAPatch);
+            Assert.Equal(1, nodes.Count);
+            Assert.True(nodes.OfType<XmlElement>().Any(elem => elem.HasAttribute("Product") && "yes".Equals(elem.Attributes["Product"].Value)));
+
+            nodes = PatchTests.GetPatchTargetCodes(bundleBPatch);
+            Assert.Equal(2, nodes.Count);
+            Assert.True(nodes.OfType<XmlElement>().Any(elem => elem.HasAttribute("Product") && "yes".Equals(elem.Attributes["Product"].Value)));
+            Assert.True(nodes.OfType<XmlElement>().Any(elem => elem.HasAttribute("Product") && "no".Equals(elem.Attributes["Product"].Value)));
+
+            nodes = PatchTests.GetPatchTargetCodes(bundleCPatch);
+            Assert.Equal(0, nodes.Count);
+
+            this.Complete();
+        }
+
+        private static XmlNodeList GetPatchTargetCodes(WixTest.BundleBuilder bundle)
+        {
+            string path = Path.Combine(bundle.Disassemble(), @"UX\manifest.xml");
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+            nsmgr.AddNamespace("w", "http://schemas.microsoft.com/wix/2008/Burn");
+
+            return doc.SelectNodes("/w:BurnManifest/w:PatchTargetCode", nsmgr);
         }
 
         private static string GetTagVersion(string tagName)

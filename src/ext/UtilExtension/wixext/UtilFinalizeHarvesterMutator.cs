@@ -263,7 +263,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 // create a COM element for each group
                 foreach (Wix.RegistryValue registryValue in component[typeof(Wix.RegistryValue)])
                 {
-                    if (Wix.RegistryValue.ActionType.write == registryValue.Action && Wix.RegistryRootType.HKCR == registryValue.Root && Wix.RegistryValue.TypeType.@string == registryValue.Type)
+                    if (!String.IsNullOrEmpty(registryValue.Key) && Wix.RegistryValue.ActionType.write == registryValue.Action && Wix.RegistryRootType.HKCR == registryValue.Root && Wix.RegistryValue.TypeType.@string == registryValue.Type)
                     {
                         string index = null;
                         string[] parts = registryValue.Key.Split('\\');

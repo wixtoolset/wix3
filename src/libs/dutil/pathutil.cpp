@@ -26,7 +26,7 @@ DAPI_(HRESULT) PathCommandLineAppend(
     BOOL fRequiresQuoting = FALSE;
     DWORD dwMaxEscapedSize = 0;
 
-    // Loop through the argugment determining if it needs to be quoted and what the maximum
+    // Loop through the argument determining if it needs to be quoted and what the maximum
     // size would be if there are escape characters required.
     for (LPCWSTR pwz = wzArgument; *pwz; ++pwz)
     {
@@ -549,7 +549,7 @@ DAPI_(HRESULT) PathCreateTempFile(
     if (INVALID_HANDLE_VALUE == hTempFile)
     {
         hr = StrAlloc(&sczTempFile, MAX_PATH);
-        ExitOnFailure(hr, "failed to allocate memory for the temp path");
+        ExitOnFailure(hr, "Failed to allocate memory for the temp path");
 
         if (!::GetTempFileNameW(sczTempPath, L"TMP", 0, sczTempFile))
         {

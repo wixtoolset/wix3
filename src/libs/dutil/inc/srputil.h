@@ -19,13 +19,13 @@ extern "C" {
 #endif
 
 
-enum SRP_ACTION
+typedef enum SRP_ACTION
 {
     SRP_ACTION_UNKNOWN,
     SRP_ACTION_UNINSTALL,
     SRP_ACTION_INSTALL,
     SRP_ACTION_MODIFY,
-};
+} SRP_ACTION;
 
 
 /********************************************************************

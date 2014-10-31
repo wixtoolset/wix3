@@ -16,23 +16,23 @@
 #include "wcautil.h"
 
 // Enumerations
-enum eWrapQueryAction
+typedef enum eWrapQueryAction
 {
     wqaTableBegin = 1,
     wqaTableFinish,
     wqaRowBegin,
     wqaRowFinish
-};
+} eWrapQueryAction;
 
-enum eColumnDataType
+typedef enum eColumnDataType
 {
     cdtString = 1,
     cdtInt,
     cdtStream,
     cdtUnknown
-};
+} eColumnDataType;
 
-enum eFormatMaskColumn
+typedef enum eFormatMaskColumn
 {
     efmcColumn1 = 1,
     efmcColumn2 = 1 << 1,
@@ -66,7 +66,7 @@ enum eFormatMaskColumn
     efmcColumn30 = 1 << 29,
     efmcColumn31 = 1 << 30,
     efmcColumn32 = 1 << 31,
-};
+} eFormatMaskColumn;
 
 // Keeps track of the query instance for the reading CA (deferred CA)
 typedef struct WCA_WRAPQUERY_STRUCT

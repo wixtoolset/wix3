@@ -15,9 +15,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <AzureStorageBuildTasksPath>$(NugetPackageFolder)FireGiant.BuildTasks.AzureStorage.1.0.0.0\tools\</AzureStorageBuildTasksPath>
     <ExtensionPackPath>$(NugetPackageFolder)MSBuild.Extension.Pack.1.2.0\lib\net40\</ExtensionPackPath>
-    <MSBuildCommunityTasksPath>$(NugetPackageFolder)MSBuildTasks.1.4.0.61\tools\</MSBuildCommunityTasksPath>
-    <XunitPath>$(NugetPackageFolder)xunit.1.9.1\lib\net20\</XunitPath>
+    <XunitPath>$(NugetPackageFolder)xunit.1.9.2\lib\net20\</XunitPath>
   </PropertyGroup>
 
   <!--
@@ -28,24 +28,24 @@
   ================================================================================================
   -->
   <ItemGroup>
+    <RestoreNugetPackage Include="FireGiant.BuildTasks.AzureStorage">
+      <Version>1.0.0.0</Version>
+    </RestoreNugetPackage>
     <RestoreNugetPackage Include="MSBuild.Extension.Pack ">
       <Version>1.2.0</Version>
     </RestoreNugetPackage>
-    <RestoreNugetPackage Include="MSBuildTasks">
-      <Version>1.4.0.61</Version>
-    </RestoreNugetPackage>
     <RestoreNugetPackage Include="xunit">
-      <Version>1.9.1</Version>
+      <Version>1.9.2</Version>
     </RestoreNugetPackage>
   </ItemGroup>
   <Target Name="PackageRestore"
           DependsOnTargets="FindMissingPackages">
-    <Exec Command="&quot;$(NugetExe)&quot; install" Condition=" '@(MissingNugetPackage)'!='' "
+    <Exec Command="&quot;$(NugetExe)&quot; install %(Identity) -Version %(Version)" Condition=" '@(MissingNugetPackage)'!='' "
           WorkingDirectory="$(MSBuildThisFileDirectory)" />
   </Target>
 
   <Target Name="FindMissingPackages">
-    <CreateItem Include="@(RestoreNugetPackage)" Condition=" !Exists('$(NugetPackageFolder)%(Identity).%(Version)') " PreserveExistingMetadata="true">
+    <CreateItem Include="@(RestoreNugetPackage)" Condition=" !Exists('$(NugetPackageFolder)%(Identity).%(Version)\%(Identity).%(Version).nupkg') " PreserveExistingMetadata="true">
       <Output TaskParameter="Include" ItemName="MissingNugetPackage"/>
     </CreateItem>
   </Target>

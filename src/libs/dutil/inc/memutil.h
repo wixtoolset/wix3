@@ -31,6 +31,12 @@ LPVOID DAPI MemReAlloc(
     __in SIZE_T cbSize,
     __in BOOL fZero
     );
+HRESULT DAPI MemReAllocSecure(
+    __in LPVOID pv,
+    __in SIZE_T cbSize,
+    __in BOOL fZero,
+    __deref_out LPVOID* ppvNew
+    );
 HRESULT DAPI MemEnsureArraySize(
     __deref_out_bcount(cArray * cbArrayType) LPVOID* ppvArray,
     __in DWORD cArray,

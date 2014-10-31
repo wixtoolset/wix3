@@ -365,8 +365,8 @@ HRESULT PipeLaunchParentProcess(
     hr = PathForCurrentProcess(&sczBurnPath, NULL);
     ExitOnFailure(hr, "Failed to get current process path.");
 
-    hr = StrAllocFormatted(&sczParameters, L"%ls -%ls %ls %ls %u", wzCommandLine, BURN_COMMANDLINE_SWITCH_UNELEVATED, sczConnectionName, sczSecret, dwProcessId);
-    ExitOnFailure(hr, "Failed to allocate parameters for elevated process.");
+    hr = StrAllocFormatted(&sczParameters, L"-%ls %ls %ls %u %ls", BURN_COMMANDLINE_SWITCH_UNELEVATED, sczConnectionName, sczSecret, dwProcessId, wzCommandLine);
+    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
 
 #ifdef ENABLE_UNELEVATE
     if (fDisableUnelevate)

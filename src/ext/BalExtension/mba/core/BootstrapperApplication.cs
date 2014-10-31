@@ -80,6 +80,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public event EventHandler<DetectUpdateBeginEventArgs> DetectUpdateBegin;
 
         /// <summary>
+        /// Fired when the update detection has found a potential update candidate.
+        /// </summary>
+        public event EventHandler<DetectUpdateEventArgs> DetectUpdate;
+
+        /// <summary>
         /// Fired when the update detection phase has completed.
         /// </summary>
         public event EventHandler<DetectUpdateCompleteEventArgs> DetectUpdateComplete;
@@ -98,6 +103,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Fired when the detection for a specific package has begun.
         /// </summary>
         public event EventHandler<DetectPackageBeginEventArgs> DetectPackageBegin;
+
+        /// <summary>
+        /// Fired when a package was not detected but a package using the same provider key was.
+        /// </summary>
+        public event EventHandler<DetectCompatiblePackageEventArgs> DetectCompatiblePackage;
 
         /// <summary>
         /// Fired when a related MSI package has been detected for a package.
@@ -140,6 +150,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public event EventHandler<PlanPackageBeginEventArgs> PlanPackageBegin;
 
         /// <summary>
+        /// Fired when the engine plans a new, compatible package using the same provider key.
+        /// </summary>
+        public event EventHandler<PlanCompatiblePackageEventArgs> PlanCompatiblePackage;
+
+        /// <summary>
         /// Fired when the engine is about to plan the target MSI of a MSP package.
         /// </summary>
         public event EventHandler<PlanTargetMsiPackageEventArgs> PlanTargetMsiPackage;
@@ -163,6 +178,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Fired when the engine has begun installing the bundle.
         /// </summary>
         public event EventHandler<ApplyBeginEventArgs> ApplyBegin;
+
+        /// <summary>
+        /// DEPRECATED: This event will be merged with ApplyBegin in wix4.
+        /// Fired right after ApplyBegin, providing the number of phases that the engine will go through in apply.
+        /// </summary>
+        public event EventHandler<ApplyPhaseCountArgs> ApplyPhaseCount;
 
         /// <summary>
         /// Fired when the engine is about to start the elevated process.
@@ -299,6 +320,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// Fired by the engine while executing on payload.
         /// </summary>
         public event EventHandler<ExecuteProgressEventArgs> ExecuteProgress;
+
+        /// <summary>
+        /// Fired when the engine is about to launch the preapproved executable.
+        /// </summary>
+        public event EventHandler<LaunchApprovedExeBeginArgs> LaunchApprovedExeBegin;
+
+        /// <summary>
+        /// Fired when the engine has completed launching the preapproved executable.
+        /// </summary>
+        public event EventHandler<LaunchApprovedExeCompleteArgs> LaunchApprovedExeComplete;
 
         /// <summary>
         /// Specifies whether this bootstrapper should run asynchronously. The default is true.
@@ -442,6 +473,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         }
 
         /// <summary>
+        /// Fired when the update detection has found a potential update candidate.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnDetectUpdate(DetectUpdateEventArgs args)
+        {
+            EventHandler<DetectUpdateEventArgs> handler = this.DetectUpdate;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
         /// Called when the update detection phase has completed.
         /// </summary>
         /// <param name="args">Additional arguments for this event.</param>
@@ -487,6 +531,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         protected virtual void OnDetectPackageBegin(DetectPackageBeginEventArgs args)
         {
             EventHandler<DetectPackageBeginEventArgs> handler = this.DetectPackageBegin;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Called when a package was not detected but a package using the same provider key was.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnDetectCompatiblePackage(DetectCompatiblePackageEventArgs args)
+        {
+            EventHandler<DetectCompatiblePackageEventArgs> handler = this.DetectCompatiblePackage;
             if (null != handler)
             {
                 handler(this, args);
@@ -598,6 +655,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         }
 
         /// <summary>
+        /// Called when the engine plans a new, compatible package using the same provider key.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnPlanCompatiblePackage(PlanCompatiblePackageEventArgs args)
+        {
+            EventHandler<PlanCompatiblePackageEventArgs> handler = this.PlanCompatiblePackage;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
         /// Called when the engine is about to plan the target MSI of a MSP package.
         /// </summary>
         /// <param name="args">Additional arguments for this event.</param>
@@ -656,6 +726,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         protected virtual void OnApplyBegin(ApplyBeginEventArgs args)
         {
             EventHandler<ApplyBeginEventArgs> handler = this.ApplyBegin;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Called right after OnApplyBegin.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnApplyPhaseCount(ApplyPhaseCountArgs args)
+        {
+            EventHandler<ApplyPhaseCountArgs> handler = this.ApplyPhaseCount;
             if (null != handler)
             {
                 handler(this, args);
@@ -1014,7 +1097,33 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             }
         }
 
-        #region IBurnUserExperience Members
+        /// <summary>
+        /// Called by the engine before trying to launch the preapproved executable.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnLaunchApprovedExeBegin(LaunchApprovedExeBeginArgs args)
+        {
+            EventHandler<LaunchApprovedExeBeginArgs> handler = this.LaunchApprovedExeBegin;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Called by the engine after trying to launch the preapproved executable.
+        /// </summary>
+        /// <param name="args">Additional arguments for this event.</param>
+        protected virtual void OnLaunchApprovedExeComplete(LaunchApprovedExeCompleteArgs args)
+        {
+            EventHandler<LaunchApprovedExeCompleteArgs> handler = this.LaunchApprovedExeComplete;
+            if (null != handler)
+            {
+                handler(this, args);
+            }
+        }
+
+        #region IBootstrapperApplication Members
 
         void IBootstrapperApplication.OnStartup()
         {
@@ -1062,6 +1171,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             return args.Result;
         }
 
+        Result IBootstrapperApplication.OnDetectUpdate(string wzUpdateLocation, long dw64Size, long dw64Version, string wzTitle, string wzSummary, string wzContentType, string wzContent, int nRecommendation)
+        {
+            DetectUpdateEventArgs args = new DetectUpdateEventArgs(wzUpdateLocation, dw64Size, dw64Version, wzTitle, wzSummary, wzContentType, wzContent, nRecommendation);
+            this.OnDetectUpdate(args);
+
+            return args.Result;
+        }
+
         void IBootstrapperApplication.OnDetectUpdateComplete(int hrStatus, string wzUpdateLocation)
         {
             this.OnDetectUpdateComplete(new DetectUpdateCompleteEventArgs(hrStatus, wzUpdateLocation));
@@ -1079,6 +1196,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         {
             DetectPackageBeginEventArgs args = new DetectPackageBeginEventArgs(wzPackageId);
             this.OnDetectPackageBegin(args);
+
+            return args.Result;
+        }
+
+        Result IBootstrapperApplication.OnDetectCompatiblePackage(string wzPackageId, string wzCompatiblePackageId)
+        {
+            DetectCompatiblePackageEventArgs args = new DetectCompatiblePackageEventArgs(wzPackageId, wzCompatiblePackageId);
+            this.OnDetectCompatiblePackage(args);
 
             return args.Result;
         }
@@ -1143,6 +1268,15 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             return args.Result;
         }
 
+        Result IBootstrapperApplication.OnPlanCompatiblePackage(string wzPackageId, ref RequestState pRequestedState)
+        {
+            PlanCompatiblePackageEventArgs args = new PlanCompatiblePackageEventArgs(wzPackageId, pRequestedState);
+            this.OnPlanCompatiblePackage(args);
+
+            pRequestedState = args.State;
+            return args.Result;
+        }
+
         Result IBootstrapperApplication.OnPlanTargetMsiPackage(string wzPackageId, string wzProductCode, ref RequestState pRequestedState)
         {
             PlanTargetMsiPackageEventArgs args = new PlanTargetMsiPackageEventArgs(wzPackageId, wzProductCode, pRequestedState);
@@ -1179,6 +1313,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             this.OnApplyBegin(args);
 
             return args.Result;
+        }
+
+        void IBootstrapperApplication.OnApplyPhaseCount(int dwPhaseCount)
+        {
+            this.OnApplyPhaseCount(new ApplyPhaseCountArgs(dwPhaseCount));
         }
 
         Result IBootstrapperApplication.OnElevate()
@@ -1374,6 +1513,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             this.OnExecuteProgress(args);
 
             return args.Result;
+        }
+
+        Result IBootstrapperApplication.OnLaunchApprovedExeBegin()
+        {
+            LaunchApprovedExeBeginArgs args = new LaunchApprovedExeBeginArgs();
+            this.OnLaunchApprovedExeBegin(args);
+
+            return args.Result;
+        }
+
+        void IBootstrapperApplication.OnLaunchApprovedExeComplete(int hrStatus, int processId)
+        {
+            this.OnLaunchApprovedExeComplete(new LaunchApprovedExeCompleteArgs(hrStatus, processId));
         }
 
         #endregion

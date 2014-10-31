@@ -40,9 +40,8 @@ static UINT WINAPI MsiProductSearchTest_MsiGetProductInfoExW(
     __inout_opt LPDWORD pcchValue
     );
 
-
 using namespace System;
-using namespace Microsoft::VisualStudio::TestTools::UnitTesting;
+using namespace Xunit;
 using namespace Microsoft::Win32;
 
 namespace Microsoft
@@ -55,11 +54,10 @@ namespace Test
 {
 namespace Bootstrapper
 {
-    [TestClass]
     public ref class SearchTest : BurnUnitTest
     {
     public:
-        [TestMethod]
+        [NamedFact]
         void DirectorySearchTest()
         {
             HRESULT hr = S_OK;
@@ -71,8 +69,8 @@ namespace Bootstrapper
                 hr = VariableInitialize(&variables);
                 TestThrowOnFailure(hr, L"Failed to initialize variables.");
 
-                pin_ptr<const WCHAR> wzDirectory1 = PtrToStringChars(this->TestContext->TestDir);
-                pin_ptr<const WCHAR> wzDirectory2 = PtrToStringChars(System::IO::Path::Combine(this->TestContext->TestDir, gcnew String(L"none")));
+                pin_ptr<const WCHAR> wzDirectory1 = PtrToStringChars(this->TestContext->TestDirectory);
+                pin_ptr<const WCHAR> wzDirectory2 = PtrToStringChars(System::IO::Path::Combine(this->TestContext->TestDirectory, gcnew String(L"none")));
 
                 VariableSetStringHelper(&variables, L"Directory1", wzDirectory1);
                 VariableSetStringHelper(&variables, L"Directory2", wzDirectory2);
@@ -94,8 +92,8 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to execute searches.");
 
                 // check variable values
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable1"));
-                Assert::AreEqual(0ll, VariableGetNumericHelper(&variables, L"Variable2"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable1"));
+                Assert::Equal(0ll, VariableGetNumericHelper(&variables, L"Variable2"));
             }
             finally
             {
@@ -105,7 +103,7 @@ namespace Bootstrapper
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         void FileSearchTest()
         {
             HRESULT hr = S_OK;
@@ -118,7 +116,7 @@ namespace Bootstrapper
                 hr = VariableInitialize(&variables);
                 TestThrowOnFailure(hr, L"Failed to initialize variables.");
 
-                pin_ptr<const WCHAR> wzFile1 = PtrToStringChars(System::IO::Path::Combine(this->TestContext->TestDir, gcnew String(L"none.txt")));
+                pin_ptr<const WCHAR> wzFile1 = PtrToStringChars(System::IO::Path::Combine(this->TestContext->TestDirectory, gcnew String(L"none.txt")));
                 pin_ptr<const WCHAR> wzFile2 = PtrToStringChars(System::Reflection::Assembly::GetExecutingAssembly()->Location);
 
                 hr = FileVersion(wzFile2, &uliVersion.HighPart, &uliVersion.LowPart);
@@ -145,9 +143,9 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to execute searches.");
 
                 // check variable values
-                Assert::AreEqual(0ll, VariableGetNumericHelper(&variables, L"Variable1"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable2"));
-                Assert::AreEqual(uliVersion.QuadPart, VariableGetVersionHelper(&variables, L"Variable3"));
+                Assert::Equal(0ll, VariableGetNumericHelper(&variables, L"Variable1"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable2"));
+                Assert::Equal(uliVersion.QuadPart, VariableGetVersionHelper(&variables, L"Variable3"));
             }
             finally
             {
@@ -157,7 +155,7 @@ namespace Bootstrapper
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         void RegistrySearchTest()
         {
             HRESULT hr = S_OK;
@@ -185,16 +183,16 @@ namespace Bootstrapper
                 if (f64bitMachine)
                 {
                     hr = RegCreate(HKEY_CURRENT_USER, L"SOFTWARE\\Classes\\CLSID\\WiX_Burn_UnitTest\\Bitness\\", KEY_WRITE | KEY_WOW64_32KEY, &hkey32);
-                    Assert::IsTrue(SUCCEEDED(hr));
+                    Assert::True(SUCCEEDED(hr));
 
                     hr = RegCreate(HKEY_CURRENT_USER, L"SOFTWARE\\Classes\\CLSID\\WiX_Burn_UnitTest\\Bitness\\", KEY_WRITE | KEY_WOW64_64KEY, &hkey64);
-                    Assert::IsTrue(SUCCEEDED(hr));
+                    Assert::True(SUCCEEDED(hr));
 
                     hr = RegWriteString(hkey64, L"TestStringSpecificToBitness", L"64-bit");
-                    Assert::IsTrue(SUCCEEDED(hr));
+                    Assert::True(SUCCEEDED(hr));
 
                     hr = RegWriteString(hkey32, L"TestStringSpecificToBitness", L"32-bit");
-                    Assert::IsTrue(SUCCEEDED(hr));
+                    Assert::True(SUCCEEDED(hr));
                 }
 
                 VariableSetStringHelper(&variables, L"MyKey", L"SOFTWARE\\Microsoft\\WiX_Burn_UnitTest\\Value");
@@ -240,35 +238,35 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to execute searches.");
 
                 // check variable values
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable1"));
-                Assert::AreEqual(0ll, VariableGetNumericHelper(&variables, L"Variable2"));
-                Assert::AreEqual(0ll, VariableGetNumericHelper(&variables, L"Variable3"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable4"));
-                Assert::AreEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable5"));
-                Assert::AreEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable6"));
-                Assert::AreEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable7"));
-                Assert::AreEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable8"));
-                Assert::AreEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable9"));
-                Assert::AreNotEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable10"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable11"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable12"));
-                Assert::AreEqual(MAKEQWORDVERSION(1,1,1,1), VariableGetVersionHelper(&variables, L"Variable13"));
-                Assert::AreEqual(MAKEQWORDVERSION(1,1,1,1), VariableGetVersionHelper(&variables, L"Variable14"));
-                Assert::AreEqual(gcnew String(L"String1"), VariableGetStringHelper(&variables, L"Variable15"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable16"));
-                Assert::IsFalse(VariableExistsHelper(&variables, L"Variable17"));
-                Assert::IsFalse(VariableExistsHelper(&variables, L"Variable18"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable19"));
-                Assert::AreEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable20"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable1"));
+                Assert::Equal(0ll, VariableGetNumericHelper(&variables, L"Variable2"));
+                Assert::Equal(0ll, VariableGetNumericHelper(&variables, L"Variable3"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable4"));
+                Assert::Equal(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable5"));
+                Assert::Equal(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable6"));
+                Assert::Equal(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable7"));
+                Assert::Equal(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable8"));
+                Assert::Equal(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable9"));
+                Assert::NotEqual(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable10"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable11"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable12"));
+                Assert::Equal(MAKEQWORDVERSION(1,1,1,1), VariableGetVersionHelper(&variables, L"Variable13"));
+                Assert::Equal(MAKEQWORDVERSION(1,1,1,1), VariableGetVersionHelper(&variables, L"Variable14"));
+                Assert::Equal(gcnew String(L"String1"), VariableGetStringHelper(&variables, L"Variable15"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable16"));
+                Assert::False(VariableExistsHelper(&variables, L"Variable17"));
+                Assert::False(VariableExistsHelper(&variables, L"Variable18"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable19"));
+                Assert::Equal(gcnew String(L"String1 %TEMP%"), VariableGetStringHelper(&variables, L"Variable20"));
                 if (f64bitMachine)
                 {
-                    Assert::AreEqual(gcnew String(L"32-bit"), VariableGetStringHelper(&variables, L"Variable21"));
-                    Assert::AreEqual(gcnew String(L"64-bit"), VariableGetStringHelper(&variables, L"Variable22"));
+                    Assert::Equal(gcnew String(L"32-bit"), VariableGetStringHelper(&variables, L"Variable21"));
+                    Assert::Equal(gcnew String(L"64-bit"), VariableGetStringHelper(&variables, L"Variable22"));
                 }
 
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable23"));
-                Assert::AreEqual(0ll, VariableGetNumericHelper(&variables, L"Variable24"));
-                Assert::AreEqual(gcnew String(L"Msi.Package"), VariableGetStringHelper(&variables, L"Variable25"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable23"));
+                Assert::Equal(0ll, VariableGetNumericHelper(&variables, L"Variable24"));
+                Assert::Equal(gcnew String(L"Msi.Package"), VariableGetStringHelper(&variables, L"Variable25"));
             }
             finally
             {
@@ -289,7 +287,7 @@ namespace Bootstrapper
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         void MsiComponentSearchTest()
         {
             HRESULT hr = S_OK;
@@ -338,25 +336,25 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to execute searches.");
 
                 // check variable values
-                Assert::AreEqual(2ll, VariableGetNumericHelper(&variables, L"Variable1"));
-                Assert::AreEqual(2ll, VariableGetNumericHelper(&variables, L"Variable2"));
-                Assert::AreEqual(2ll, VariableGetNumericHelper(&variables, L"Variable3"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\file1.txt"), VariableGetStringHelper(&variables, L"Variable4"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\file2.txt"), VariableGetStringHelper(&variables, L"Variable5"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\file3.txt"), VariableGetStringHelper(&variables, L"Variable6"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\file4.txt"), VariableGetStringHelper(&variables, L"Variable7"));
-                Assert::AreEqual(gcnew String(L"02:\\SOFTWARE\\Microsoft\\WiX_Burn_UnitTest\\"), VariableGetStringHelper(&variables, L"Variable8"));
-                Assert::AreEqual(gcnew String(L"02:\\SOFTWARE\\Microsoft\\WiX_Burn_UnitTest\\Value"), VariableGetStringHelper(&variables, L"Variable9"));
-                Assert::AreEqual(3ll, VariableGetNumericHelper(&variables, L"Variable10"));
-                Assert::AreEqual(3ll, VariableGetNumericHelper(&variables, L"Variable11"));
-                Assert::AreEqual(4ll, VariableGetNumericHelper(&variables, L"Variable12"));
-                Assert::AreEqual(4ll, VariableGetNumericHelper(&variables, L"Variable13"));
-                Assert::AreEqual(2ll, VariableGetNumericHelper(&variables, L"Variable14"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable15"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable16"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable17"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable18"));
-                Assert::AreEqual(gcnew String(L"C:\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\file5.txt"), VariableGetStringHelper(&variables, L"Variable19"));
+                Assert::Equal(2ll, VariableGetNumericHelper(&variables, L"Variable1"));
+                Assert::Equal(2ll, VariableGetNumericHelper(&variables, L"Variable2"));
+                Assert::Equal(2ll, VariableGetNumericHelper(&variables, L"Variable3"));
+                Assert::Equal(gcnew String(L"C:\\directory\\file1.txt"), VariableGetStringHelper(&variables, L"Variable4"));
+                Assert::Equal(gcnew String(L"C:\\directory\\file2.txt"), VariableGetStringHelper(&variables, L"Variable5"));
+                Assert::Equal(gcnew String(L"C:\\directory\\file3.txt"), VariableGetStringHelper(&variables, L"Variable6"));
+                Assert::Equal(gcnew String(L"C:\\directory\\file4.txt"), VariableGetStringHelper(&variables, L"Variable7"));
+                Assert::Equal(gcnew String(L"02:\\SOFTWARE\\Microsoft\\WiX_Burn_UnitTest\\"), VariableGetStringHelper(&variables, L"Variable8"));
+                Assert::Equal(gcnew String(L"02:\\SOFTWARE\\Microsoft\\WiX_Burn_UnitTest\\Value"), VariableGetStringHelper(&variables, L"Variable9"));
+                Assert::Equal(3ll, VariableGetNumericHelper(&variables, L"Variable10"));
+                Assert::Equal(3ll, VariableGetNumericHelper(&variables, L"Variable11"));
+                Assert::Equal(4ll, VariableGetNumericHelper(&variables, L"Variable12"));
+                Assert::Equal(4ll, VariableGetNumericHelper(&variables, L"Variable13"));
+                Assert::Equal(2ll, VariableGetNumericHelper(&variables, L"Variable14"));
+                Assert::Equal(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable15"));
+                Assert::Equal(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable16"));
+                Assert::Equal(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable17"));
+                Assert::Equal(gcnew String(L"C:\\directory\\"), VariableGetStringHelper(&variables, L"Variable18"));
+                Assert::Equal(gcnew String(L"C:\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\directory\\file5.txt"), VariableGetStringHelper(&variables, L"Variable19"));
             }
             finally
             {
@@ -366,7 +364,7 @@ namespace Bootstrapper
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         void MsiProductSearchTest()
         {
             HRESULT hr = S_OK;
@@ -402,12 +400,12 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to execute searches.");
 
                 // check variable values
-                Assert::AreEqual(2ll, VariableGetNumericHelper(&variables, L"Variable1"));
-                Assert::AreEqual(MAKEQWORDVERSION(1,0,0,0), VariableGetVersionHelper(&variables, L"Variable2"));
-                Assert::AreEqual(1033ll, VariableGetNumericHelper(&variables, L"Variable3"));
-                Assert::AreEqual(5ll, VariableGetNumericHelper(&variables, L"Variable4"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable5"));
-                Assert::AreEqual(MAKEQWORDVERSION(1,0,0,0), VariableGetVersionHelper(&variables, L"Variable6"));
+                Assert::Equal(2ll, VariableGetNumericHelper(&variables, L"Variable1"));
+                Assert::Equal(MAKEQWORDVERSION(1,0,0,0), VariableGetVersionHelper(&variables, L"Variable2"));
+                Assert::Equal(1033ll, VariableGetNumericHelper(&variables, L"Variable3"));
+                Assert::Equal(5ll, VariableGetNumericHelper(&variables, L"Variable4"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable5"));
+                Assert::Equal(MAKEQWORDVERSION(1,0,0,0), VariableGetVersionHelper(&variables, L"Variable6"));
             }
             finally
             {
@@ -417,7 +415,7 @@ namespace Bootstrapper
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         void MsiFeatureSearchTest()
         {
             HRESULT hr = S_OK;
@@ -452,7 +450,7 @@ namespace Bootstrapper
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         void ConditionalSearchTest()
         {
             HRESULT hr = S_OK;
@@ -482,9 +480,9 @@ namespace Bootstrapper
                 TestThrowOnFailure(hr, L"Failed to execute searches.");
 
                 // check variable values
-                Assert::IsFalse(VariableExistsHelper(&variables, L"Variable1"));
-                Assert::AreEqual(1ll, VariableGetNumericHelper(&variables, L"Variable2"));
-                Assert::IsFalse(VariableExistsHelper(&variables, L"Variable3"));
+                Assert::False(VariableExistsHelper(&variables, L"Variable1"));
+                Assert::Equal(1ll, VariableGetNumericHelper(&variables, L"Variable2"));
+                Assert::False(VariableExistsHelper(&variables, L"Variable3"));
             }
             finally
             {
@@ -493,7 +491,7 @@ namespace Bootstrapper
                 SearchesUninitialize(&searches);
             }
         }
-        [TestMethod]
+        [NamedFact]
         void NoSearchesTest()
         {
             HRESULT hr = S_OK;

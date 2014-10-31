@@ -14,19 +14,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for authoring files into a package
     /// </summary>
-    [TestClass]
     public class FileTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Files\FileTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify the simple use of the File element")]
         [Priority(1)]
         public void SimpleFile()
@@ -36,7 +34,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyResults(Path.Combine(FileTests.TestDataDirectory, @"SimpleFile\expected.msi"), msi, "BindImage", "File", "MsiAssembly", "MsiAssemblyName");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify an MSI can be built for an assembly targetting 4.0 Client")]
         [Priority(1)]
         public void AssemblyTarget40Client()
@@ -45,7 +43,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             QuickTest.BuildMsiTest(sourceFile, Path.Combine(FileTests.TestDataDirectory, @"AssemblyTarget40Client\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify a companion file can be specified")]
         [Priority(2)]
         public void CompanionFile()
@@ -56,9 +54,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             Verifier.VerifyQuery(msi, query, "Assembly1.dll");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the publicKeyToken in the MsiAssemblyName table is not 'NEUTRAL'")]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1801826&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1801826&group_id=105970&atid=642714")]
         [Priority(3)]
         public void AssemblyNullPublicKey()
         {
@@ -77,9 +75,9 @@ namespace WixTest.Tests.Integration.BuildingPackages.Files
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the specifing @DefaultVersion for a non versioned file does not cause its addition to the msifilehash table")]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1666461&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1666461&group_id=105970&atid=642714")]
         [Priority(3)]
         public void DefaultVersion()
         {

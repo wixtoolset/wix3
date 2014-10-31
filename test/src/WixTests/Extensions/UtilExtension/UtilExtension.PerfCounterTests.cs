@@ -13,23 +13,20 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-    
     using Microsoft.Win32;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension PerfCounter element tests
     /// </summary>
-    [TestClass]
     public class PerfCounterTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\PerfCounterTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (Perfmon and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void PerfCounter_VerifyMSITableData()
@@ -51,10 +48,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 new TableRow(PerfmonColumns.Name.ToString(), "MyApplication"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Performance counter is created upon install.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PerfCounter_Install()
         {
             string sourceFile = Path.Combine(PerfCounterTests.TestDataDirectory, @"product.wxs");
@@ -70,10 +67,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Performance counter was removed upon rollback.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void PerfCounter_InstallFailure()
         {
             string sourceFile = Path.Combine(PerfCounterTests.TestDataDirectory, @"product_fail.wxs");
@@ -84,7 +81,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             string registryKey = @"system\currentcontrolset\services\InstrumentationDemo";
             
             // Verify that the key was not created
-            Assert.IsFalse(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), "Registry Key '{0}' was not removed on Rollback.", registryKey);
+            Assert.False(RegistryVerifier.RegistryKeyExists(RegistryHive.LocalMachine, registryKey), String.Format("Registry Key '{0}' was not removed on Rollback.", registryKey));
         }
     }
 }

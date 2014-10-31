@@ -160,6 +160,7 @@ extern "C" void ContainersUninitialize(
             ReleaseStr(pContainer->sczHash);
             ReleaseStr(pContainer->sczSourcePath);
             ReleaseStr(pContainer->sczFilePath);
+            ReleaseMem(pContainer->pbHash);
             ReleaseStr(pContainer->downloadSource.sczUrl);
             ReleaseStr(pContainer->downloadSource.sczUser);
             ReleaseStr(pContainer->downloadSource.sczPassword);

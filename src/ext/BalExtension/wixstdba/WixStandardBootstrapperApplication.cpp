@@ -10,16 +10,16 @@
 
 #include "precomp.h"
 
-static const HRESULT E_WIXSTDBA_CONDITION_FAILED = MAKE_HRESULT(SEVERITY_ERROR, 500, 1);
-
 static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 
 static const LPCWSTR WIXSTDBA_WINDOW_CLASS = L"WixStdBA";
 static const LPCWSTR WIXSTDBA_VARIABLE_INSTALL_FOLDER = L"InstallFolder";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
+static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID = L"LaunchTargetElevatedId";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
+static const LPCWSTR WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION = L"WixBundleFileVersion";
 
 enum WIXSTDBA_STATE
 {
@@ -47,6 +47,7 @@ enum WM_WIXSTDBA
     WM_WIXSTDBA_PLAN_PACKAGES,
     WM_WIXSTDBA_APPLY_PACKAGES,
     WM_WIXSTDBA_CHANGE_STATE,
+    WM_WIXSTDBA_SHOW_FAILURE,
 };
 
 // This enum must be kept in the same order as the vrgwzPageNames array.
@@ -185,6 +186,15 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON, L"FailureCloseButton" },
 };
 
+typedef struct _WIXSTDBA_PREREQ_PACKAGE
+{
+    LPWSTR sczPackageId;
+    BOOL fAlwaysInstall;
+    BOOL fWasAlreadyInstalled;
+    BOOL fPlannedToBeInstalled;
+    BOOL fSuccessfullyInstalled;
+} WIXSTDBA_PREREQ_PACKAGE;
+
 class CWixStandardBootstrapperApplication : public CBalBaseBootstrapperApplication
 {
 public: // IBootstrapperApplication
@@ -224,7 +234,7 @@ public: // IBootstrapperApplication
                 nResult = IDRESTART;
             }
 
-            if (m_sczPrereqPackage)
+            if (m_fPrereq)
             {
                 BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, m_fAllowRestart ? "The prerequisites scheduled a restart. The bootstrapper application will be reloaded after the computer is restarted."
                                                                         : "A restart is required by the prerequisites but the user delayed it. The bootstrapper application will be reloaded after the computer is restarted.");
@@ -259,8 +269,8 @@ public: // IBootstrapperApplication
     {
         BalInfoAddRelatedBundleAsPackage(&m_Bundle.packages, wzBundleId, relationType, fPerMachine);
 
-        // If we're not doing a pre-req install, remember when our bundle would cause a downgrade.
-        if (!m_sczPrereqPackage && BOOTSTRAPPER_RELATED_OPERATION_DOWNGRADE == operation)
+        // If we're not doing a prerequisite install, remember when our bundle would cause a downgrade.
+        if (!m_fPrereq && BOOTSTRAPPER_RELATED_OPERATION_DOWNGRADE == operation)
         {
             m_fDowngrading = TRUE;
         }
@@ -275,11 +285,13 @@ public: // IBootstrapperApplication
         __in BOOTSTRAPPER_PACKAGE_STATE state
         )
     {
-        // If the prereq package is already installed, remember that.
-        if (m_sczPrereqPackage && BOOTSTRAPPER_PACKAGE_STATE_PRESENT == state &&
-            CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
+        WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage = NULL;
+        HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
+        if (SUCCEEDED(hr) && BOOTSTRAPPER_PACKAGE_STATE_PRESENT == state)
         {
-            m_fPrereqAlreadyInstalled = TRUE;
+            // If the prerequisite package is already installed, remember that.
+            pPrereqPackage->fWasAlreadyInstalled = TRUE;
         }
     }
 
@@ -290,12 +302,28 @@ public: // IBootstrapperApplication
     {
         if (SUCCEEDED(hrStatus) && m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running detect complete BA function");
             m_pBAFunction->OnDetectComplete();
         }
 
         if (SUCCEEDED(hrStatus))
         {
             hrStatus = EvaluateConditions();
+            
+            if (m_fPrereq)
+            {
+                m_fPrereqAlreadyInstalled = TRUE;
+
+                // At this point we have to assume that all prerequisite packages need to be installed, so set to false if any of them aren't installed.
+                for (DWORD i = 0; i < m_cPrereqPackages; ++i)
+                {
+                    if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled)
+                    {
+                        m_fPrereqAlreadyInstalled = FALSE;
+                        break;
+                    }
+                }
+            }
         }
 
         SetState(WIXSTDBA_STATE_DETECTED, hrStatus);
@@ -317,8 +345,8 @@ public: // IBootstrapperApplication
         __inout_z BOOTSTRAPPER_REQUEST_STATE* pRequestedState
         )
     {
-        // If we're only installing prereq, do not touch related bundles.
-        if (m_sczPrereqPackage)
+        // If we're only installing prerequisites, do not touch related bundles.
+        if (m_fPrereq)
         {
             *pRequestedState = BOOTSTRAPPER_REQUEST_STATE_NONE;
         }
@@ -332,20 +360,50 @@ public: // IBootstrapperApplication
         __inout BOOTSTRAPPER_REQUEST_STATE *pRequestState
         )
     {
-        // If we're planning to install a pre-req, install it. The pre-req needs to be installed
+        HRESULT hr = S_OK;
+        WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage = NULL;
+
+        // If we're planning to install a prerequisite, install it. The prerequisite needs to be installed
         // in all cases (even uninstall!) so the BA can load next.
-        if (m_sczPrereqPackage)
+        if (m_fPrereq)
         {
-            if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
+            // Only install prerequisite packages, and check the InstallCondition on prerequisite support packages.
+            BOOL fInstall = FALSE;
+            hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
+            if (SUCCEEDED(hr) && pPackage)
+            {
+                if (pPrereqPackage->fAlwaysInstall)
+                {
+                    fInstall = TRUE;
+                }
+                else if(pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
+                {
+                    hr = m_pEngine->EvaluateCondition(pPackage->sczInstallCondition, &fInstall);
+                    if (FAILED(hr))
+                    {
+                        fInstall = FALSE;
+                    }
+                }
+                else
+                {
+                    // If the InstallCondition is missing, then it should always be installed.
+                    fInstall = TRUE;
+                }
+
+                pPrereqPackage->fPlannedToBeInstalled = fInstall;
+            }
+
+            if (fInstall)
             {
                 *pRequestState = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
             }
-            else // skip everything else.
+            else
             {
                 *pRequestState = BOOTSTRAPPER_REQUEST_STATE_NONE;
             }
         }
-        else if (m_sczAfterForcedRestartPackage) // after force restart skip packages until after the package that caused the restart.
+        else if (m_sczAfterForcedRestartPackage) // after force restart, skip packages until after the package that caused the restart.
         {
             // After restart we need to finish the dependency registration for our package so allow the package
             // to go present.
@@ -377,7 +435,23 @@ public: // IBootstrapperApplication
     {
         if (SUCCEEDED(hrStatus) && m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running plan complete BA function");
             m_pBAFunction->OnPlanComplete();
+        }
+
+        if (m_fPrereq)
+        {
+            m_fPrereqAlreadyInstalled = TRUE;
+
+            // Now that we've planned the packages, we can focus on the prerequisite packages that are supposed to be installed.
+            for (DWORD i = 0; i < m_cPrereqPackages; ++i)
+            {
+                if (m_rgPrereqPackages[i].sczPackageId && !m_rgPrereqPackages[i].fWasAlreadyInstalled && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+                {
+                    m_fPrereqAlreadyInstalled = FALSE;
+                    break;
+                }
+            }
         }
 
         SetState(WIXSTDBA_STATE_PLANNED, hrStatus);
@@ -625,6 +699,8 @@ public: // IBootstrapperApplication
 
                 if (pLocString)
                 {
+                    // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                    // so don't go down the rabbit hole of making sure that this is securely freed.
                     BalFormatString(pLocString->wzText, &sczFormattedString);
                 }
 
@@ -683,11 +759,14 @@ public: // IBootstrapperApplication
 
         int nResult = __super::OnExecutePackageComplete(wzPackageId, hrExitCode, restart, nRecommendation);
 
-        if (m_sczPrereqPackage && CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, wzPackageId, -1, m_sczPrereqPackage, -1))
+        WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage;
+        HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
+        if (SUCCEEDED(hr))
         {
-            m_fPrereqInstalled = SUCCEEDED(hrExitCode);
+            pPrereqPackage->fSuccessfullyInstalled = TRUE;
 
-            // If the pre-req required a restart (any restart) then do an immediate
+            // If the prerequisite required a restart (any restart) then do an immediate
             // restart to ensure that the bundle will get launched again post reboot.
             if (BOOTSTRAPPER_APPLY_RESTART_NONE != restart)
             {
@@ -778,6 +857,30 @@ public: // IBootstrapperApplication
         // If a restart is required and we're not displaying a UI or we are not supposed to prompt for restart then allow the restart.
         m_fAllowRestart = m_fRestartRequired && (BOOTSTRAPPER_DISPLAY_FULL > m_command.display || BOOTSTRAPPER_RESTART_PROMPT < m_command.restart);
 
+        if (m_fPrereq)
+        {
+            m_fPrereqInstalled = TRUE;
+            BOOL fInstalledAPackage = FALSE;
+
+            for (DWORD i = 0; i < m_cPrereqPackages; ++i)
+            {
+                if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+                {
+                    if (m_rgPrereqPackages[i].fSuccessfullyInstalled)
+                    {
+                        fInstalledAPackage = TRUE;
+                    }
+                    else
+                    {
+                        m_fPrereqInstalled = FALSE;
+                        break;
+                    }
+                }
+            }
+
+            m_fPrereqInstalled = m_fPrereqInstalled && fInstalledAPackage;
+        }
+
         // If we are showing UI, wait a beat before moving to the final screen.
         if (BOOTSTRAPPER_DISPLAY_NONE < m_command.display)
         {
@@ -788,6 +891,22 @@ public: // IBootstrapperApplication
         SetTaskbarButtonProgress(100); // show full progress bar, green, yellow, or red
 
         return IDNOACTION;
+    }
+
+    virtual STDMETHODIMP_(void) OnLaunchApprovedExeComplete(
+        __in HRESULT hrStatus,
+        __in DWORD /*processId*/
+        )
+    {
+        if (HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED) == hrStatus)
+        {
+            //try with ShelExec next time
+            OnClickLaunchButton();
+        }
+        else
+        {
+            ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
+        }
     }
 
 
@@ -821,9 +940,17 @@ private: // privates
         hr = pThis->CreateMainWindow();
         BalExitOnFailure(hr, "Failed to create main window.");
 
-        // Okay, we're ready for packages now.
-        pThis->SetState(WIXSTDBA_STATE_INITIALIZED, hr);
-        ::PostMessageW(pThis->m_hWnd, BOOTSTRAPPER_ACTION_HELP == pThis->m_command.action ? WM_WIXSTDBA_SHOW_HELP : WM_WIXSTDBA_DETECT_PACKAGES, 0, 0);
+        if (FAILED(pThis->m_hrFinal))
+        {
+            pThis->SetState(WIXSTDBA_STATE_FAILED, hr);
+            ::PostMessageW(pThis->m_hWnd, WM_WIXSTDBA_SHOW_FAILURE, 0, 0);
+        }
+        else
+        {
+            // Okay, we're ready for packages now.
+            pThis->SetState(WIXSTDBA_STATE_INITIALIZED, hr);
+            ::PostMessageW(pThis->m_hWnd, BOOTSTRAPPER_ACTION_HELP == pThis->m_command.action ? WM_WIXSTDBA_SHOW_HELP : WM_WIXSTDBA_DETECT_PACKAGES, 0, 0);
+        }
 
         // message pump
         while (0 != (fRet = ::GetMessageW(&msg, NULL, 0, 0)))
@@ -881,7 +1008,7 @@ private: // privates
 
 
     //
-    // InitializeData - initializes all the package and prereq information.
+    // InitializeData - initializes all the package and prerequisite information.
     //
     HRESULT InitializeData()
     {
@@ -913,7 +1040,11 @@ private: // privates
         hr = BalConditionsParseFromXml(&m_Conditions, pixdManifest, m_pWixLoc);
         BalExitOnFailure(hr, "Failed to load conditions from XML.");
 
-        LoadBootstrapperBAFunctions();
+        hr = LoadBootstrapperBAFunctions();
+        BalExitOnFailure(hr, "Failed to load bootstrapper functions.");
+
+        GetBundleFileVersion();
+        // don't fail if we couldn't get the version info; best-effort only
 
         if (m_fPrereq)
         {
@@ -1066,6 +1197,8 @@ private: // privates
         BalExitOnFailure1(hr, "Failed to localize theme: %ls", sczThemePath);
 
         // Update the caption if there are any formatted strings in it.
+        // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+        // so don't go down the rabbit hole of making sure that this is securely freed.
         hr = BalFormatString(m_pTheme->sczCaption, &sczCaption);
         if (SUCCEEDED(hr))
         {
@@ -1137,6 +1270,11 @@ private: // privates
     {
         HRESULT hr = S_OK;
         IXMLDOMNode* pNode = NULL;
+        IXMLDOMNodeList* pNodes = NULL;
+        DWORD cNodes = 0;
+        LPWSTR scz = NULL;
+        WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage = NULL;
 
         hr = XmlSelectSingleNode(pixdManifest, L"/BootstrapperApplicationData/WixMbaPrereqInformation", &pNode);
         if (S_FALSE == hr)
@@ -1162,8 +1300,74 @@ private: // privates
         }
         BalExitOnFailure(hr, "Failed to get prerequisite license file.");
 
+        // get the list of prerequisite support packages
+        hr = XmlSelectNodes(pixdManifest, L"/BootstrapperApplicationData/MbaPrerequisiteSupportPackage", &pNodes);
+        if (S_FALSE == hr)
+        {
+            ExitFunction1(hr = S_OK);
+        }
+        ExitOnFailure(hr, "Failed to select prerequisite support package nodes.");
+
+        hr = pNodes->get_length((long*)&cNodes);
+        ExitOnFailure(hr, "Failed to get prerequisite support package node count.");
+
+        m_cPrereqPackages = cNodes + 1;
+        m_rgPrereqPackages = static_cast<WIXSTDBA_PREREQ_PACKAGE*>(MemAlloc(sizeof(WIXSTDBA_PREREQ_PACKAGE) * m_cPrereqPackages, TRUE));
+
+        hr = DictCreateWithEmbeddedKey(&m_shPrereqSupportPackages, m_cPrereqPackages, reinterpret_cast<void **>(&m_rgPrereqPackages), offsetof(WIXSTDBA_PREREQ_PACKAGE, sczPackageId), DICT_FLAG_NONE);
+        ExitOnFailure(hr, "Failed to create the prerequisite package dictionary.");
+
+        pPrereqPackage = m_rgPrereqPackages;
+        pPrereqPackage->sczPackageId = m_sczPrereqPackage;
+        pPrereqPackage->fAlwaysInstall = TRUE;
+        hr = DictAddValue(m_shPrereqSupportPackages, pPrereqPackage);
+        ExitOnFailure1(hr, "Failed to add \"%ls\" to the prerequisite package dictionary.", pPrereqPackage->sczPackageId);
+
+        for (DWORD i = 0; i < cNodes; ++i)
+        {
+            hr = XmlNextElement(pNodes, &pNode, NULL);
+            ExitOnFailure(hr, "Failed to get next node.");
+
+            // @PackageId
+            hr = XmlGetAttributeEx(pNode, L"PackageId", &scz);
+            ExitOnFailure(hr, "Failed to get @PackageId.");
+
+            hr = DictGetValue(m_shPrereqSupportPackages, scz, reinterpret_cast<void **>(&pPrereqPackage));
+            if (SUCCEEDED(hr))
+            {
+                if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, scz, -1, m_sczPrereqPackage, -1))
+                {
+                    pPrereqPackage->fAlwaysInstall = FALSE;
+                }
+                ReleaseNullObject(pNode);
+                continue;
+            }
+            else if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure1(hr, "Failed to check if \"%ls\" was in the prerequisite package dictionary.", scz);
+            }
+
+            hr = BalInfoFindPackageById(&m_Bundle.packages, scz, &pPackage);
+            if (SUCCEEDED(hr))
+            {
+                pPrereqPackage = &m_rgPrereqPackages[i + 1];
+                pPrereqPackage->sczPackageId = pPackage->sczId;
+                hr = DictAddValue(m_shPrereqSupportPackages, pPrereqPackage);
+                ExitOnFailure1(hr, "Failed to add \"%ls\" to the prerequisite package dictionary.", pPrereqPackage->sczPackageId);
+            }
+            else
+            {
+                BalLogError(hr, "Failed to get info about \"%ls\" from BootstrapperApplicationData.", scz);
+            }
+
+            // prepare next iteration
+            ReleaseNullObject(pNode);
+        }
+
     LExit:
         ReleaseObject(pNode);
+        ReleaseObject(pNodes);
+        ReleaseStr(scz);
         return hr;
     }
 
@@ -1254,6 +1458,66 @@ private: // privates
 
     LExit:
         ReleaseObject(pNode);
+        return hr;
+    }
+
+    HRESULT GetPrereqPackage(
+        __in_z LPCWSTR wzPackageId,
+        __out WIXSTDBA_PREREQ_PACKAGE** ppPrereqPackage,
+        __out BAL_INFO_PACKAGE** ppPackage
+        )
+    {
+        HRESULT hr = E_NOTFOUND;
+        WIXSTDBA_PREREQ_PACKAGE* pPrereqPackage = NULL;
+        BAL_INFO_PACKAGE* pPackage = NULL;
+
+        Assert(wzPackageId && *wzPackageId);
+        Assert(ppPackage);
+        Assert(ppPrereqPackage);
+
+        if (m_shPrereqSupportPackages)
+        {
+            hr = DictGetValue(m_shPrereqSupportPackages, wzPackageId, reinterpret_cast<void **>(&pPrereqPackage));
+            if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure(hr, "Failed to check the dictionary of prerequisite packages.");
+
+                // Ignore error.
+                BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
+            }
+        }
+
+        if (pPrereqPackage)
+        {
+            *ppPrereqPackage = pPrereqPackage;
+            *ppPackage = pPackage;
+        }
+    LExit:
+        return hr;
+    }
+
+
+    //
+    // Get the file version of the bootstrapper and record in bootstrapper log file
+    //
+    HRESULT GetBundleFileVersion()
+    {
+        HRESULT hr = S_OK;
+        ULARGE_INTEGER uliVersion = { };
+        LPWSTR sczCurrentPath = NULL;
+
+        hr = PathForCurrentProcess(&sczCurrentPath, NULL);
+        BalExitOnFailure(hr, "Failed to get bundle path.");
+
+        hr = FileVersion(sczCurrentPath, &uliVersion.HighPart, &uliVersion.LowPart);
+        BalExitOnFailure(hr, "Failed to get bundle file version.");
+
+        hr = m_pEngine->SetVariableVersion(WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION, uliVersion.QuadPart);
+        BalExitOnFailure(hr, "Failed to set WixBundleFileVersion variable.");
+
+    LExit:
+        ReleaseStr(sczCurrentPath);
+
         return hr;
     }
 
@@ -1405,6 +1669,7 @@ private: // privates
             {
             LRESULT lres = ThemeDefWindowProc(pBA ? pBA->m_pTheme : NULL, hWnd, uMsg, wParam, lParam);
             ::SetWindowLongPtrW(hWnd, GWLP_USERDATA, 0);
+            ::PostQuitMessage(0);
             return lres;
             }
 
@@ -1426,10 +1691,6 @@ private: // privates
             }
             break;
 
-        case WM_DESTROY:
-            ::PostQuitMessage(0);
-            break;
-
         case WM_WIXSTDBA_SHOW_HELP:
             pBA->OnShowHelp();
             return 0;
@@ -1448,6 +1709,10 @@ private: // privates
 
         case WM_WIXSTDBA_CHANGE_STATE:
             pBA->OnChangeState(static_cast<WIXSTDBA_STATE>(lParam));
+            return 0;
+
+        case WM_WIXSTDBA_SHOW_FAILURE:
+            pBA->OnShowFailure();
             return 0;
 
         case WM_COMMAND:
@@ -1566,6 +1831,8 @@ private: // privates
             THEME_CONTROL* pControl = m_pTheme->rgControls + i;
             if (!pControl->wPageId && pControl->sczText && *pControl->sczText)
             {
+                // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                // so don't go down the rabbit hole of making sure that this is securely freed.
                 HRESULT hrFormat = BalFormatString(pControl->sczText, &sczText);
                 if (SUCCEEDED(hrFormat))
                 {
@@ -1586,6 +1853,8 @@ private: // privates
                     hr = LocLocalizeString(m_pWixLoc, &sczLicenseFormatted);
                     if (SUCCEEDED(hr))
                     {
+                        // Assume there is no hidden variables to be formatted
+                        // so don't worry about securely freeing it.
                         hr = BalFormatString(sczLicenseFormatted, &sczLicenseFormatted);
                         if (SUCCEEDED(hr))
                         {
@@ -1630,6 +1899,25 @@ private: // privates
 
 
     //
+    // OnShowFailure - display the failure page.
+    //
+    void OnShowFailure()
+    {
+        SetState(WIXSTDBA_STATE_FAILED, S_OK);
+
+        // If the UI should be visible, display it now and hide the splash screen
+        if (BOOTSTRAPPER_DISPLAY_NONE < m_command.display)
+        {
+            ::ShowWindow(m_pTheme->hwndParent, SW_SHOW);
+        }
+
+        m_pEngine->CloseSplashScreen();
+
+        return;
+    }
+
+
+    //
     // OnShowHelp - display the help page.
     //
     void OnShowHelp()
@@ -1657,6 +1945,7 @@ private: // privates
 
         if (m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running detect BA function");
             hr = m_pBAFunction->OnDetect();
             BalExitOnFailure(hr, "Failed calling detect BA function.");
         }
@@ -1714,6 +2003,7 @@ private: // privates
 
         if (m_pBAFunction)
         {
+            BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "Running plan BA function");
             m_pBAFunction->OnPlan();
         }
 
@@ -1838,6 +2128,8 @@ private: // privates
                     HRESULT hr = BalGetStringVariable(WIXSTDBA_VARIABLE_INSTALL_FOLDER, &sczUnformattedText);
                     if (SUCCEEDED(hr))
                     {
+                        // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                        // so don't go down the rabbit hole of making sure that this is securely freed.
                         BalFormatString(sczUnformattedText, &sczText);
                         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FOLDER_EDITBOX, sczText);
                     }
@@ -1875,6 +2167,23 @@ private: // privates
                         {
                             StrAllocString(&sczUnformattedText, m_sczFailedMessage, 0);
                         }
+                        else if (E_MBAHOST_NET452_ON_WIN7RTM == m_hrFinal)
+                        {
+                            HRESULT hr = StrAllocString(&sczUnformattedText, L"#(loc.NET452WIN7RTMErrorMessage)", 0);
+                            if (FAILED(hr))
+                            {
+                                BalLogError(hr, "Failed to initialize NET452WIN7RTMErrorMessage loc identifier.");
+                            }
+                            else
+                            {
+                                hr = LocLocalizeString(m_pWixLoc, &sczUnformattedText);
+                                if (FAILED(hr))
+                                {
+                                    BalLogError(hr, "Failed to localize NET452WIN7RTMErrorMessage: %ls", sczUnformattedText);
+                                    ReleaseNullStr(sczUnformattedText);
+                                }
+                            }
+                        }
                         else // try to get the error message from the error code.
                         {
                             StrAllocFromError(&sczUnformattedText, m_hrFinal, NULL);
@@ -1884,7 +2193,25 @@ private: // privates
                             }
                         }
 
-                        StrAllocFormatted(&sczText, L"0x%08x - %ls", m_hrFinal, sczUnformattedText);
+                        if (E_WIXSTDBA_CONDITION_FAILED == m_hrFinal)
+                        {
+                            if (sczUnformattedText)
+                            {
+                                StrAllocString(&sczText, sczUnformattedText, 0);
+                            }
+                        }
+                        else if (E_MBAHOST_NET452_ON_WIN7RTM == m_hrFinal)
+                        {
+                            if (sczUnformattedText)
+                            {
+                                BalFormatString(sczUnformattedText, &sczText);
+                            }
+                        }
+                        else
+                        {
+                            StrAllocFormatted(&sczText, L"0x%08x - %ls", m_hrFinal, sczUnformattedText);
+                        }
+
                         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, sczText);
                         fShowErrorMessage = TRUE;
                     }
@@ -1969,6 +2296,8 @@ private: // privates
                         // Format the text in each of the new page's controls (if they have any text).
                         if (pControl->sczText && *pControl->sczText)
                         {
+                            // If the wix developer is showing a hidden variable in the UI, then obviously they don't care about keeping it safe
+                            // so don't go down the rabbit hole of making sure that this is securely freed.
                             HRESULT hr = BalFormatString(pControl->sczText, &sczText);
                             if (SUCCEEDED(hr))
                             {
@@ -2168,14 +2497,16 @@ private: // privates
 
         hr = LocLocalizeString(m_pWixLoc, &sczLicenseUrl);
         BalExitOnFailure1(hr, "Failed to localize license URL: %ls", m_sczLicenseUrl);
-
+        
+        // Assume there is no hidden variables to be formatted
+        // so don't worry about securely freeing it.
         hr = BalFormatString(sczLicenseUrl, &sczLicenseUrl);
         BalExitOnFailure1(hr, "Failed to get formatted license URL: %ls", m_sczLicenseUrl);
 
         hr = UriProtocol(sczLicenseUrl, &protocol);
         if (FAILED(hr) || URI_PROTOCOL_UNKNOWN == protocol)
         {
-            // Probe for localised license file
+            // Probe for localized license file
             hr = PathRelativeToModule(&sczLicensePath, sczLicenseUrl, m_hModule);
             if (SUCCEEDED(hr))
             {
@@ -2208,6 +2539,7 @@ private: // privates
         HRESULT hr = S_OK;
         LPWSTR sczUnformattedLaunchTarget = NULL;
         LPWSTR sczLaunchTarget = NULL;
+        LPWSTR sczLaunchTargetElevatedId = NULL;
         LPWSTR sczUnformattedArguments = NULL;
         LPWSTR sczArguments = NULL;
         int nCmdShow = SW_SHOWNORMAL;
@@ -2218,13 +2550,16 @@ private: // privates
         hr = BalFormatString(sczUnformattedLaunchTarget, &sczLaunchTarget);
         BalExitOnFailure1(hr, "Failed to format launch target variable: %ls", sczUnformattedLaunchTarget);
 
+        if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID))
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID, &sczLaunchTargetElevatedId);
+            BalExitOnFailure1(hr, "Failed to get launch target elevated id '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID);
+        }
+
         if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS))
         {
             hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS, &sczUnformattedArguments);
             BalExitOnFailure1(hr, "Failed to get launch arguments '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS);
-
-            hr = BalFormatString(sczUnformattedArguments, &sczArguments);
-            BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
         }
 
         if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_HIDDEN))
@@ -2232,15 +2567,37 @@ private: // privates
             nCmdShow = SW_HIDE;
         }
 
-        hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
-        BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
+        if (sczLaunchTargetElevatedId && !m_fTriedToLaunchElevated)
+        {
+            m_fTriedToLaunchElevated = TRUE;
+            hr = m_pEngine->LaunchApprovedExe(m_hWnd, sczLaunchTargetElevatedId, sczUnformattedArguments, 0);
+            if (FAILED(hr))
+            {
+                BalLogError(hr, "Failed to launch elevated target: %ls", sczLaunchTargetElevatedId);
 
-        ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
+                //try with ShelExec next time
+                OnClickLaunchButton();
+            }
+        }
+        else
+        {
+            if (sczUnformattedArguments)
+            {
+                hr = BalFormatString(sczUnformattedArguments, &sczArguments);
+                BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
+            }
+
+            hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
+            BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
+
+            ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
+        }
 
     LExit:
-        ReleaseStr(sczArguments);
+        StrSecureZeroFreeString(sczArguments);
         ReleaseStr(sczUnformattedArguments);
-        ReleaseStr(sczLaunchTarget);
+        ReleaseStr(sczLaunchTargetElevatedId);
+        StrSecureZeroFreeString(sczLaunchTarget);
         ReleaseStr(sczUnformattedLaunchTarget);
 
         return;
@@ -2419,12 +2776,16 @@ private: // privates
 
             if (!fResult)
             {
+                // Hope they didn't have hidden variables in their message, because it's going in the log in plaintext.
+                BalLog(BOOTSTRAPPER_LOG_LEVEL_ERROR, "%ls", m_sczFailedMessage);
+
                 hr = E_WIXSTDBA_CONDITION_FAILED;
+                // todo: remove in WiX v4, in case people are relying on v3.x logging behavior
                 BalExitOnFailure1(hr, "Bundle condition evaluated to false: %ls", pCondition->sczCondition);
             }
         }
 
-        ReleaseNullStr(m_sczFailedMessage);
+        ReleaseNullStrSecure(m_sczFailedMessage);
 
     LExit:
         return hr;
@@ -2559,11 +2920,12 @@ private: // privates
 
 public:
     //
-    // Constructor - intitialize member variables.
+    // Constructor - initialize member variables.
     //
     CWixStandardBootstrapperApplication(
         __in HMODULE hModule,
         __in BOOL fPrereq,
+        __in HRESULT hrHostInitialization,
         __in IBootstrapperEngine* pEngine,
         __in const BOOTSTRAPPER_COMMAND* pCommand
         ) : CBalBaseBootstrapperApplication(pEngine, pCommand, 3, 3000)
@@ -2620,7 +2982,7 @@ public:
         m_hWnd = NULL;
 
         m_state = WIXSTDBA_STATE_INITIALIZING;
-        m_hrFinal = S_OK;
+        m_hrFinal = hrHostInitialization;
 
         m_fDowngrading = FALSE;
         m_restartResult = BOOTSTRAPPER_APPLY_RESTART_NONE;
@@ -2635,10 +2997,14 @@ public:
         m_fShowVersion = FALSE;
 
         m_sdOverridableVariables = NULL;
+        m_shPrereqSupportPackages = NULL;
+        m_rgPrereqPackages = NULL;
+        m_cPrereqPackages = 0;
         m_pTaskbarList = NULL;
         m_uTaskbarButtonCreatedMessage = UINT_MAX;
         m_fTaskbarButtonOK = FALSE;
         m_fShowingInternalUiThisPackage = FALSE;
+        m_fTriedToLaunchElevated = FALSE;
 
         m_fPrereq = fPrereq;
         m_sczPrereqPackage = NULL;
@@ -2659,10 +3025,12 @@ public:
     ~CWixStandardBootstrapperApplication()
     {
         AssertSz(!::IsWindow(m_hWnd), "Window should have been destroyed before destructor.");
-        AssertSz(!m_pTheme, "Theme should have been released before destuctor.");
+        AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
         ReleaseObject(m_pTaskbarList);
         ReleaseDict(m_sdOverridableVariables);
+        ReleaseDict(m_shPrereqSupportPackages);
+        ReleaseMem(m_rgPrereqPackages);
         ReleaseStr(m_sczFailedMessage);
         ReleaseStr(m_sczConfirmCloseMessage);
         BalConditionsUninitialize(&m_Conditions);
@@ -2726,6 +3094,10 @@ private:
 
     STRINGDICT_HANDLE m_sdOverridableVariables;
 
+    WIXSTDBA_PREREQ_PACKAGE* m_rgPrereqPackages;
+    DWORD m_cPrereqPackages;
+    STRINGDICT_HANDLE m_shPrereqSupportPackages;
+
     BOOL m_fPrereq;
     LPWSTR m_sczPrereqPackage;
     BOOL m_fPrereqInstalled;
@@ -2735,6 +3107,7 @@ private:
     UINT m_uTaskbarButtonCreatedMessage;
     BOOL m_fTaskbarButtonOK;
     BOOL m_fShowingInternalUiThisPackage;
+    BOOL m_fTriedToLaunchElevated;
 
     HMODULE m_hBAFModule;
     IBootstrapperBAFunction* m_pBAFunction;
@@ -2742,11 +3115,12 @@ private:
 
 
 //
-// CreateUserExperience - creates a new IBurnUserExperience object.
+// CreateBootstrapperApplication - creates a new IBootstrapperApplication object.
 //
 HRESULT CreateBootstrapperApplication(
     __in HMODULE hModule,
     __in BOOL fPrereq,
+    __in HRESULT hrHostInitialization,
     __in IBootstrapperEngine* pEngine,
     __in const BOOTSTRAPPER_COMMAND* pCommand,
     __out IBootstrapperApplication** ppApplication
@@ -2755,7 +3129,7 @@ HRESULT CreateBootstrapperApplication(
     HRESULT hr = S_OK;
     CWixStandardBootstrapperApplication* pApplication = NULL;
 
-    pApplication = new CWixStandardBootstrapperApplication(hModule, fPrereq, pEngine, pCommand);
+    pApplication = new CWixStandardBootstrapperApplication(hModule, fPrereq, hrHostInitialization, pEngine, pCommand);
     ExitOnNull(pApplication, hr, E_OUTOFMEMORY, "Failed to create new standard bootstrapper application object.");
 
     *ppApplication = pApplication;

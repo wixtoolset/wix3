@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Media
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for the Media element
     /// </summary>
-    [TestClass]
     public class MediaTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Media\MediaTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that files can be assigned to different media")]
         [Priority(1)]
         public void SimpleMedia()

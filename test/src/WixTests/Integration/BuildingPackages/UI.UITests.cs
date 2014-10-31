@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.UI
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// General tests for UI
     /// </summary>
-    [TestClass]
     public class UITests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\UI\UITests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple UI can be defined")]
         [Priority(1)]
         public void SimpleUI()

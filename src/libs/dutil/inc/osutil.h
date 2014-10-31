@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-enum OS_VERSION
+typedef enum OS_VERSION
 {
     OS_VERSION_UNKNOWN,
     OS_VERSION_WINNT,
@@ -28,7 +28,7 @@ enum OS_VERSION
     OS_VERSION_WIN7,
     OS_VERSION_WIN2008_R2,
     OS_VERSION_FUTURE
-};
+} OS_VERSION;
 
 void DAPI OsGetVersion(
     __out OS_VERSION* pVersion,

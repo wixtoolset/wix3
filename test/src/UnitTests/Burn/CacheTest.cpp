@@ -14,11 +14,6 @@
 #include "precomp.h"
 
 
-using namespace System;
-using namespace System::IO;
-using namespace Microsoft::VisualStudio::TestTools::UnitTesting;
-
-
 namespace Microsoft
 {
 namespace Tools
@@ -29,11 +24,15 @@ namespace Test
 {
 namespace Bootstrapper
 {
-    [TestClass]
+    using namespace System;
+    using namespace System::IO;
+    using namespace WixTest;
+    using namespace Xunit;
+
     public ref class CacheTest : BurnUnitTest
     {
     public:
-        [TestMethod]
+        [NamedFact]
         void CacheSignatureTest()
         {
             HRESULT hr = S_OK;
@@ -46,10 +45,10 @@ namespace Bootstrapper
             try
             {
                 hr = PathExpand(&sczPayloadPath, L"%WIX_ROOT%\\src\\Votive\\SDK\\Redist\\ProjectAggregator2.msi", PATH_EXPAND_ENVIRONMENT);
-                Assert::AreEqual(S_OK, hr, "Failed to get path to project aggregator MSI.");
+                Assert::True(S_OK == hr, "Failed to get path to project aggregator MSI.");
 
                 hr = StrAllocHexDecode(L"4A5C7522AA46BFA4089D39974EBDB4A360F7A01D", &pb, &cb);
-                Assert::AreEqual(S_OK, hr);
+                Assert::Equal(S_OK, hr);
 
                 package.fPerMachine = FALSE;
                 package.sczCacheId = L"Bootstrapper.CacheTest.CacheSignatureTest";
@@ -59,7 +58,7 @@ namespace Bootstrapper
                 payload.cbCertificateRootPublicKeyIdentifier = cb;
 
                 hr = CacheCompletePayload(package.fPerMachine, &payload, package.sczCacheId, sczPayloadPath, FALSE);
-                Assert::AreEqual(S_OK, hr, "Failed while verifying path.");
+                Assert::True(S_OK == hr, "Failed while verifying path.");
             }
             finally
             {

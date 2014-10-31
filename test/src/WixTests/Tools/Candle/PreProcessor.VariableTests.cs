@@ -13,18 +13,16 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
     using System;
     using System.IO;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles preprocessing for variables.
     /// </summary>
-    [TestClass]
     public class VariableTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Candle\PreProcessor\VariablesTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can accept a <variable=value> and preprocess the wxs file by replacing the variable with the value.")]
         [Priority(2)]
         public void PreProcessorParamWithValueSpecified()
@@ -37,7 +35,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(candle.ExpectedOutputFiles[0], "MyProperty1", "foo");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle displays an error when a preprocessor variable is undefined.")]
         [Priority(2)]
         public void UndefinedPreProcessorVariable()
@@ -50,7 +48,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess a variable")]
         [Priority(1)]
         public void PreProcessorVariable()
@@ -60,7 +58,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(outputFile, "MyProperty1", "bar");
         }
         
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess to a file.")]
         [Priority(3)]
         public void PreProcessToFile()
@@ -75,7 +73,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             ///TODO: we need to verify the preprocessed file contents
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess environment variables specified in the authoring")]
         [Priority(1)]
         public void EnvironmentVariable()
@@ -85,7 +83,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(outputFile, "MyProperty", Environment.ExpandEnvironmentVariables("%WIX_ROOT%"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can preprocess system variables specified in the authoring")]
         [Priority(2)]
         public void SystemVariable()
@@ -97,7 +95,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             Verifier.VerifyWixObjProperty(outputFile, "MyProperty", expectedValue);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle can evaluate preprocessor variables before include, warning and error")]
         [Priority(1)]
         public void PreprocessorVariableEvaluation()
@@ -117,7 +115,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
         }
 
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle generates the appropriate error for -d without anything after it.")]
         [Priority(2)]
         public void MissingParameter()
@@ -130,7 +128,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle generates the appropriate error for missing variable names (e.g. -d=value)")]
         [Priority(2)]
         public void MissingVariableName()
@@ -143,7 +141,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle generates the appropriate error for invalid variable name (e.g. -d=)")]
         [Priority(2)]
         public void InvalidVariable()
@@ -163,7 +161,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         } 
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle generates the appropriate error for redefinition of variables through commandline")]
         [Priority(2)]
         public void CommandlineVariableRedefinition()
@@ -176,7 +174,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle generates the appropriate error for redefinition of variables in authoring")]
         [Priority(2)]
         public void AuthoringVariableRedefinition()
@@ -188,7 +186,7 @@ namespace WixTest.Tests.Tools.Candle.PreProcessor
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle generates the appropriate error for variables redefinition through commandline for variables already defined in authoring")]
         [Priority(2)]
         public void VariableRedefinition()

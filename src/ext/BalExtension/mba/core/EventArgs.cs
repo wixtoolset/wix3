@@ -329,6 +329,90 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     }
 
     /// <summary>
+    /// Additional arguments used when the detection for an update has begun.
+    /// </summary>
+    [Serializable]
+    public class DetectUpdateEventArgs : DetectUpdateBeginEventArgs
+    {
+        private long size;
+        private Version version;
+        private string title;
+        private string summary;
+        private string contentType;
+        private string content;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="DetectUpdateBeginEventArgs"/> class.
+        /// </summary>
+        /// <param name="updateLocation">The location to check for an updated bundle.</param>
+        /// <param name="size">The expected size of the updated bundle.</param>
+        /// <param name="version">The expected version of the updated bundle.</param>
+        /// <param name="title">The title of the updated bundle.</param>
+        /// <param name="summary">The summary of the updated bundle.</param>
+        /// <param name="contentType">The content type of the content of the updated bundle.</param>
+        /// <param name="content">The content of the updated bundle.</param>
+        /// <param name="recommendation">The recommendation from the engine.</param>
+        public DetectUpdateEventArgs(string updateLocation, long size, long version, string title, string summary, string contentType, string content, int recommendation)
+            : base(updateLocation, recommendation)
+        {
+            this.size = size;
+            this.version = new Version((int)(version >> 48 & 0xFFFF), (int)(version >> 32 & 0xFFFF), (int)(version >> 16 & 0xFFFF), (int)(version & 0xFFFF));
+            this.title = title;
+            this.summary = summary;
+            this.contentType = contentType;
+            this.content = content;
+        }
+
+        /// <summary>
+        /// Gets the size of the updated bundle.
+        /// </summary>
+        public long Size
+        {
+            get { return this.size; }
+        }
+
+        /// <summary>
+        /// Gets the version of the updated bundle.
+        /// </summary>
+        public Version Version
+        {
+            get { return this.version; }
+        }
+
+        /// <summary>
+        /// Gets the title of the the updated bundle.
+        /// </summary>
+        public string Title
+        {
+            get { return this.title; }
+        }
+
+        /// <summary>
+        /// Gets the summary of the updated bundle.
+        /// </summary>
+        public string Summary
+        {
+            get { return this.summary; }
+        }
+
+        /// <summary>
+        /// Gets the content type of the content of the updated bundle.
+        /// </summary>
+        public string ContentType
+        {
+            get { return this.contentType; }
+        }
+
+        /// <summary>
+        /// Gets the content of the updated bundle.
+        /// </summary>
+        public string Content
+        {
+            get { return this.content; }
+        }
+    }
+
+    /// <summary>
     /// Additional arguments used when the detection for an update has completed.
     /// </summary>
     [Serializable]
@@ -486,6 +570,43 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public string PackageId
         {
             get { return this.packageId; }
+        }
+    }
+
+    /// <summary>
+    /// Additional arguments used when a package was not found but a newer package using the same provider key was.
+    /// </summary>
+    [Serializable]
+    public class DetectCompatiblePackageEventArgs : ResultEventArgs
+    {
+        private string packageId;
+        private string compatiblePackageId;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="DetectCompatiblePackageEventArgs"/> class.
+        /// </summary>
+        /// <param name="packageId">The identity of the package that was not detected.</param>
+        /// <param name="compatiblePackageId">The identity of the compatible package that was detected.</param>
+        public DetectCompatiblePackageEventArgs(string packageId, string compatiblePackageId)
+        {
+            this.packageId = packageId;
+            this.compatiblePackageId = compatiblePackageId;
+        }
+
+        /// <summary>
+        /// Gets the identity of the package that was not detected.
+        /// </summary>
+        public string PackageId
+        {
+            get { return this.packageId; }
+        }
+
+        /// <summary>
+        /// Gets the identity of the compatible package that was detected.
+        /// </summary>
+        public string CompatiblePackageId
+        {
+            get { return this.compatiblePackageId; }
         }
     }
 
@@ -811,6 +932,44 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     }
 
     /// <summary>
+    /// Additional arguments used when the engine is about to plan a newer package using the same provider key.
+    /// </summary>
+    [Serializable]
+    public class PlanCompatiblePackageEventArgs : ResultEventArgs
+    {
+        private string packageId;
+        private RequestState state;
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="PlanCompatiblePackageEventArgs"/> class.
+        /// </summary>
+        /// <param name="packageId">The identity of the package that was not detected.</param>
+        /// <param name="state">The requested state for the compatible package.</param>
+        public PlanCompatiblePackageEventArgs(string packageId, RequestState state)
+        {
+            this.packageId = packageId;
+            this.state = state;
+        }
+
+        /// <summary>
+        /// Gets the identity of the package that was not detected.
+        /// </summary>
+        public string PackageId
+        {
+            get { return this.packageId; }
+        }
+
+        /// <summary>
+        /// Gets or sets the state to use for the compatible package for planning.
+        /// </summary>
+        public RequestState State
+        {
+            get { return this.state; }
+            set { this.state = value; }
+        }
+    }
+
+    /// <summary>
     /// Additional arguments used when engine is about to plan a MSP applied to a target MSI package.
     /// </summary>
     [Serializable]
@@ -1002,6 +1161,31 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     [Serializable]
     public class ApplyBeginEventArgs : ResultEventArgs
     {
+    }
+
+    /// <summary>
+    /// DEPRECATED: this information will be provided in ApplyBeginEventArgs in wix4.
+    /// Additional arguments used when the engine has determined the number of phases in apply.
+    /// </summary>
+    [Serializable]
+    public class ApplyPhaseCountArgs : EventArgs
+    {
+        private int phaseCount;
+
+        public ApplyPhaseCountArgs(int phaseCount)
+        {
+            this.phaseCount = phaseCount;
+        }
+
+        /// <summary>
+        /// DEPRECATED: this information will be provided in ApplyBeginEventArgs in wix4.
+        /// Gets the number of phases that the engine will go through in apply.
+        /// There are currently two possible phases: cache and execute.
+        /// </summary>
+        public int PhaseCount
+        {
+            get { return this.phaseCount; }
+        }
     }
 
     /// <summary>
@@ -2043,6 +2227,41 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public int OverallPercentage
         {
             get { return this.overallPercentage; }
+        }
+    }
+
+    /// <summary>
+    /// Additional arguments passed by the engine before it tries to launch the preapproved executable.
+    /// </summary>
+    [Serializable]
+    public class LaunchApprovedExeBeginArgs : ResultEventArgs
+    {
+        public LaunchApprovedExeBeginArgs()
+        {
+        }
+    }
+
+    /// <summary>
+    /// Additional arguments passed by the engine after it finished trying to launch the preapproved executable.
+    /// </summary>
+    [Serializable]
+    public class LaunchApprovedExeCompleteArgs : StatusEventArgs
+    {
+        private int processId;
+
+        public LaunchApprovedExeCompleteArgs(int status, int processId)
+            : base(status)
+        {
+            this.processId = processId;
+        }
+
+        /// <summary>
+        /// Gets the ProcessId of the process that was launched.
+        /// This is only valid if the status reports success.
+        /// </summary>
+        public int ProcessId
+        {
+            get { return this.processId; }
         }
     }
 }

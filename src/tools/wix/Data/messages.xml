@@ -1159,7 +1159,7 @@
         </Message>
         <Message Id="PathCannotContainQuote" Number="117" SourceLineNumbers="no">
             <Instance>
-                Your file or directory path '{0}' cannot contain a quote. Quotes are often accidentally introduced when trying to refer to a directory path with spaces in it, such as "C:\Out Directory\".  The correct representation for that path is: "C:\Out Directory\\".
+                Path '{0}' contains a literal quote character. Quotes are often accidentally introduced when trying to refer to a directory path with spaces in it, such as "C:\Out Directory\" -- the backslash before the quote acts an escape character. The correct representation for that path is: "C:\Out Directory\\".
                 <Parameter Type="System.String" Name="fileName" />
             </Instance>
         </Message>
@@ -1829,11 +1829,11 @@
         </Message>
         <Message Id="UnexpectedExternalUIMessage" Number="217" SourceLineNumbers="no">
             <Instance>
-                Error executing unknown ICE action. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
+                Error executing unknown ICE action. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wixtoolset.org/documentation/error217/ for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
                 <Parameter Type="System.String" Name="message" />
             </Instance>
             <Instance>
-                Error executing ICE action '{1}'. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wix.sourceforge.net/faq.html#Error217 for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
+                Error executing ICE action '{1}'. The most common cause of this kind of ICE failure is an incorrectly registered scripting engine. See http://wixtoolset.org/documentation/error217/ for details and how to solve this problem. The following string format was not expected by the external UI message logger: &quot;{0}&quot;.
                 <Parameter Type="System.String" Name="message" />
                 <Parameter Type="System.String" Name="action" />
             </Instance>
@@ -2005,6 +2005,11 @@
             <Instance>
                 Invalid product version '{0}'. Product version must have a major version less than 256, a minor version less than 256, and a build version less than 65536.
                 <Parameter Type="System.String" Name="version" />
+            </Instance>
+            <Instance>
+                Invalid product version '{0}' in package '{1}'. When included in a bundle, all product version fields in an MSI package must be less than 65536.
+                <Parameter Type="System.String" Name="version" />
+                <Parameter Type="System.String" Name="packagePath" />
             </Instance>
         </Message>
         <Message Id="InvalidKeypathChange" Number="243">
@@ -2927,7 +2932,29 @@
       </Message>
       <Message Id="RemotePayloadUnsupported" Number="383">
         <Instance>
-          The RemotePayload element can only be used for ExePackages.
+          The RemotePayload element can only be used for ExePackage and MsuPackage payloads.
+        </Instance>
+      </Message>
+      <Message Id="IllegalYesNoAlwaysValue" Number="384">
+          <Instance>
+              The {0}/@{1} attribute's value, '{2}', is not a legal yes/no/always value.  The only legal values are 'always', 'no' or 'yes'.
+              <Parameter Type="System.String" Name="elementName" />
+              <Parameter Type="System.String" Name="attributeName" />
+              <Parameter Type="System.String" Name="value" />
+          </Instance>
+      </Message>
+      <Message Id="TooDeeplyIncluded" Number="385">
+        <Instance>
+          Include files cannot be nested more deeply than {0} times. Make sure included files don't accidentally include themselves.
+          <Parameter Type="System.Int32" Name="depth" />
+        </Instance>
+      </Message>
+      <Message Id="TooManyColumnsInRealTable" Number="386" SourceLineNumbers="no">
+        <Instance>
+          The table '{0}' contains {1} columns which is not supported by Windows Installer.  Windows Installer supports a maximum of {2} columns.
+          <Parameter Type="System.String" Name="tableName" />
+          <Parameter Type="System.Int32" Name="columnCount" />
+          <Parameter Type="System.Int32" Name="supportedColumnCount" />
         </Instance>
       </Message>
     </Class>
@@ -3011,6 +3038,12 @@
         <Message Id="DirectoryInUse" Number="1012">
             <Instance>
                 The directory '{0}' is in use and cannot be deleted.
+                <Parameter Type="System.String" Name="filePath" />
+            </Instance>
+        </Message>
+        <Message Id="AccessDeniedForSettingAttributes" Number="1013">
+            <Instance>
+                Access denied; cannot set attributes on '{0}'.
                 <Parameter Type="System.String" Name="filePath" />
             </Instance>
         </Message>
@@ -3727,6 +3760,25 @@
                 Package/@InstallerVersion must be 500 or greater for an Arm package. The value will be changed to 500. Please specify a value of 500 or greater in order to eliminate this warning.
             </Instance>
         </Message>
+        <Message Id="RemotePayloadsMustNotAlsoBeCompressed" Number="1144">
+            <Instance>
+                The {0}/@Compressed attribute must have value 'no' when a RemotePayload child element is present. RemotePayload indicates that a package will always be downloaded and cannot be compressed into a bundle. To eliminate this warning, explicitly set the {0}/@Compressed attribute to 'no'.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+        <Message Id="AllChangesIncludedInPatch" Number="1145">
+            <Instance>
+                All changes between the baseline and upgraded packages will be included in the patch except for any change to the ProductCode. The 'All' element is supported primarily for testing purposes and negates the benefits of patch families.
+            </Instance>
+        </Message>
+        <Message Id="RelatedAttributeConditionallyIgnored" Number="1146">
+            <Instance>
+                Ignoring attribute {0} because attribute {1} is set to {2}.
+                <Parameter Type="System.String" Name="recessiveAttribute" />
+                <Parameter Type="System.String" Name="dominantAttribute" />
+                <Parameter Type="System.String" Name="dominantValue" />
+            </Instance>
+        </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">
@@ -3917,6 +3969,12 @@
         <Message Id="CabinetsSplitInParallel" Number="9033" SourceLineNumbers="no">
             <Instance>
                 Multiple Cabinets with Large Files are splitting simultaneously. This current cabinet is waiting on a shared resource and splitting will resume when the other splitting has completed.
+            </Instance>
+        </Message>
+        <Message Id="ValidatedDatabase" Number="9034" SourceLineNumbers="no">
+            <Instance>
+                Validation complete: {0:N0}ms elapsed.
+                <Parameter Type="System.Int64" Name="size" />
             </Instance>
         </Message>
     </Class>

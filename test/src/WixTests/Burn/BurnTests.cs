@@ -16,10 +16,8 @@ namespace WixTest.Tests.Burn
     using System.Linq;
     using System.IO;
     using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
 
-    [TestClass]
     public class BurnTests : WixTests
     {
         public static string PayloadCacheFolder = "Package Cache";

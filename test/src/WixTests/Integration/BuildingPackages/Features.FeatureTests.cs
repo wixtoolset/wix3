@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for authoring Features
     /// </summary>
-    [TestClass]
     public class FeatureTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Features\FeatureTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple Feature can be defined and that the expected default values are set")]
         [Priority(1)]
         public void SimpleFeature()
@@ -47,7 +44,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query5, "24");
       }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a feature Id is required")]
         [Priority(2)]
         public void MissingId()
@@ -60,7 +57,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a feature can be advertised")]
         [Priority(2)]
         public void AllowAdvertise()
@@ -73,7 +70,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query1, "8");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the feature level can be set to any valid value")]
         [Priority(2)]
         public void FeatureLevel()
@@ -86,7 +83,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query1, "101");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a configurable directory can be set")]
         [Priority(2)]
         public void ConfigurableDirectory()
@@ -97,7 +94,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query, "TARGETDIR");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the feature level is required")]
         [Priority(3)]
         public void MissingFeatureLevel()
@@ -110,7 +107,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the initial display of a feature can be set")]
         [Priority(3)]
         public void FeatureDisplay()
@@ -127,7 +124,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query4, "7");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a feature can be specified to allow or disallow it to be Absent")]
         [Priority(3)]
         public void Absent()
@@ -140,7 +137,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query2, "0");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a the default install location of a feature can be set")]
         [Priority(3)]
         public void InstallDefault()
@@ -157,7 +154,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Features
             Verifier.VerifyQuery(msi, query4, "Feature3");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a the default advertise state of a feature can be set")]
         [Priority(3)]
         public void TypicalDefault()

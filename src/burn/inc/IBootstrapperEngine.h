@@ -200,7 +200,9 @@ DECLARE_INTERFACE_IID_(IBootstrapperEngine, IUnknown, "6480D616-27A0-44D7-905B-8
 
     STDMETHOD(CloseSplashScreen)() = 0;
 
-    STDMETHOD(Detect)() = 0;
+    STDMETHOD(Detect)(
+        __in_opt HWND hwndParent = NULL
+        ) = 0;
 
     STDMETHOD(Plan)(
         __in BOOTSTRAPPER_ACTION action
@@ -216,5 +218,12 @@ DECLARE_INTERFACE_IID_(IBootstrapperEngine, IUnknown, "6480D616-27A0-44D7-905B-8
 
     STDMETHOD(Quit)(
         __in DWORD dwExitCode
+        ) = 0;
+
+    STDMETHOD(LaunchApprovedExe)(
+        __in_opt HWND hwndParent,
+        __in_z LPCWSTR wzApprovedExeForElevationId,
+        __in_z_opt LPCWSTR wzArguments,
+        __in DWORD dwWaitForInputIdleTimeout
         ) = 0;
 };

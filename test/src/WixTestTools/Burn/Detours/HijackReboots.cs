@@ -27,7 +27,7 @@ namespace WixTest.Burn.Detours
     /// </summary>
     public class HijackReboots : IDisposable
     {
-        private static string burnstubExe = Path.Combine(Settings.WixToolDirectory, "burnstub.exe");
+        private static string burnstubExe = Path.Combine(Settings.WixToolsDirectory, "burnstub.exe");
         private static string setdllExe = System.Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\external\HijackShutdowns\setdll.exe");
         private static string detouredDll = System.Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\external\HijackShutdowns\detoured.dll");
         private static string shutdownWDll = System.Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\external\HijackShutdowns\shutdownW.dll");

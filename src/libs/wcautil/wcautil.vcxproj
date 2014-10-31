@@ -29,16 +29,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Itanium">
-      <Configuration>Debug</Configuration>
-      <Platform>Itanium</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Itanium">
-      <Configuration>Release</Configuration>
-      <Platform>Itanium</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-  <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
       <Platform>ARM</Platform>
@@ -72,10 +62,17 @@
     <ClCompile Include="qtexec.cpp" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'Win32'">
     <ClInclude Include="custommsierrors.h">
       <GenerateWixInclude>caerr.wxi</GenerateWixInclude>
     </ClInclude>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Platform)' != 'Win32'">
+    <ClInclude Include="custommsierrors.h" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ClInclude Include="precomp.h" />
     <ClInclude Include="wcalog.h" />
     <ClInclude Include="wcautil.h" />

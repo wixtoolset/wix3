@@ -18,8 +18,8 @@ To access the WiX project property pages, right-click on a WiX project in the Vi
 
 The Installer tab contains the following configurable options:
 
-* <b>Output name</b> - a text box that contains the name of the resultant .msi, .msm or .wixlib file that will be created by the build process.
-* <b>Output type</b> - a drop-down list that allows you to select the output type (a .msi, .msm or .wixlib file).
+* <b>Output name</b> - a text box that contains the name of the file that will be created by the build process.
+* <b>Output type</b> - a drop-down list that allows you to select the output type: An MSI package, merge module, WiX library, or bootstrapper.
 
 ## Build Property Page
 

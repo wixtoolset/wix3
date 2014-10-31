@@ -16,20 +16,18 @@ namespace WixTest.Tests.Tools.Light.Output
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Test for Output
     /// </summary>
-    [TestClass]
     public class OutputTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that locking light output file results in the expected error message.")]
         [Priority(2)]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1835329&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1835329&group_id=105970&atid=642714")]
         public void LockedOutputFile()
         {
             Candle candle = new Candle();

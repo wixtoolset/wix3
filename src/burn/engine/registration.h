@@ -100,6 +100,7 @@ typedef struct _BURN_REGISTRATION
 {
     BOOL fPerMachine;
     BOOL fRegisterArp;
+    BOOL fDisableResume;
     BOOL fInstalled;
     LPWSTR sczId;
     LPWSTR sczTag;
@@ -154,6 +155,7 @@ typedef struct _BURN_REGISTRATION
     BURN_RELATED_BUNDLES relatedBundles;
 
     LPWSTR sczDetectedProviderKeyBundleId;
+    LPWSTR sczAncestors;
 
     BOOL fEnabledForwardCompatibleBundle;
     BURN_PACKAGE forwardCompatibleBundle;
@@ -211,6 +213,10 @@ HRESULT RegistrationLoadState(
     __in BURN_REGISTRATION* pRegistration,
     __out_bcount(*pcbBuffer) BYTE** ppbBuffer,
     __out DWORD* pcbBuffer
+    );
+HRESULT RegistrationGetResumeCommandLine(
+    __in const BURN_REGISTRATION* pRegistration,
+    __deref_out_z LPWSTR* psczResumeCommandLine
     );
 
 

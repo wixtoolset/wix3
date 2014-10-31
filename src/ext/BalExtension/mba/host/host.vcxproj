@@ -31,7 +31,7 @@
 
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\burn\inc;$(WixRoot)src\libs\balutil\inc;$(BaseIntermediateOutputPath)\core</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>dutil.lib;balutil.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>dutil.lib;balutil.lib;shlwapi.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemGroup>

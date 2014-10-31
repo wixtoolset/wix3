@@ -12,16 +12,14 @@ namespace WixTest.Tests.Tools.Candle.Output
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles the Out switch.
     /// </summary>
-    [TestClass]
     public class OutputTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Candle handles the -out switch and creates the wixobj in the specified directory.")]
         [Priority(1)]
         public void OutSwitch()
@@ -33,7 +31,7 @@ namespace WixTest.Tests.Tools.Candle.Output
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the appropriate error message is generated for output filenames containing illegal characters.")]
         [Priority(2)]
         public void InvalidOutputFileName()
@@ -54,7 +52,7 @@ namespace WixTest.Tests.Tools.Candle.Output
             }
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the appropriate error message is generated for output filenames containing double quotes.")]
         [Priority(2)]
         public void DoubleQuotesInOutputFileName()

@@ -608,7 +608,7 @@ namespace Microsoft.Deployment.WindowsInstaller.Package
         /// </summary>
         public InstallPathMap()
         {
-            this.items = new Dictionary<string,InstallPath>(StringComparer.OrdinalIgnoreCase);
+            this.items = new Dictionary<string,InstallPath>(StringComparer.Ordinal);
         }
 
         /// <summary>

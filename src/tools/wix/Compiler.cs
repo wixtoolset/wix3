@@ -34,7 +34,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     /// <summary>
-    /// X86, x64, IA64.
+    /// X86, x64, IA64, ARM.
     /// </summary>
     public enum Platform
     {
@@ -8213,8 +8213,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string volumeLabel = null;
             int maximumUncompressedMediaSize = CompilerCore.IntegerNotSet;
             int maximumCabinetSizeForLargeFileSplitting = CompilerCore.IntegerNotSet;
-
-            Wix.CompressionLevelType compressionLevelType = Wix.CompressionLevelType.none;
+            Wix.CompressionLevelType compressionLevelType = Wix.CompressionLevelType.NotSet;
 
             YesNoType embedCab = patch ? YesNoType.Yes : YesNoType.NotSet;
 
@@ -8337,7 +8336,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         mediaTemplateRow.CompressionLevel = Cab.CompressionLevel.None.ToString();
                         break;
                     case Wix.CompressionLevelType.mszip:
-                    case Wix.CompressionLevelType.NotSet:
                         mediaTemplateRow.CompressionLevel = Cab.CompressionLevel.Mszip.ToString();
                         break;
                 }
@@ -10677,6 +10675,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         switch (child.LocalName)
                         {
+                            case "All":
+                                this.ParseAllElement(child);
+                                break;
                             case "BinaryRef":
                                 this.ParsePatchChildRefElement(child, "Binary");
                                 break;
@@ -10728,6 +10729,53 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     this.core.CreateComplexReference(sourceLineNumbers, parentType, parentId, null, ComplexReferenceChildType.PatchFamily, id, ComplexReferenceParentType.Patch == parentType);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Parses the All element under a PatchFamily.
+        /// </summary>
+        /// <param name="node">The element to parse.</param>
+        private void ParseAllElement(XmlNode node)
+        {
+            SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
+
+            // find unexpected attributes
+            foreach (XmlAttribute attrib in node.Attributes)
+            {
+                if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
+                {
+                    this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
+                }
+                else
+                {
+                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                }
+            }
+
+            // find unexpected child elements
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                if (XmlNodeType.Element == child.NodeType)
+                {
+                    if (child.NamespaceURI == this.schema.TargetNamespace)
+                    {
+                        this.core.UnexpectedElement(node, child);
+                    }
+                    else
+                    {
+                        this.core.UnsupportedExtensionElement(node, child);
+                    }
+                }
+            }
+
+            // Always warn when using the All element.
+            this.core.OnMessage(WixWarnings.AllChangesIncludedInPatch(sourceLineNumbers));
+
+            if (!this.core.EncounteredError)
+            {
+                string[] primaryKey = new string[] { "*" };
+                this.core.AddPatchFamilyChildReference(sourceLineNumbers, "*", primaryKey);
             }
         }
 
@@ -10824,6 +10872,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Id"));
                 id = String.Empty;
+            }
+            else if (27 < id.Length)
+            {
+                this.core.OnMessage(WixErrors.IdentifierTooLongError(sourceLineNumbers, node.Name, "Id", id, 27));
             }
 
             foreach (XmlNode child in node.ChildNodes)
@@ -19731,6 +19783,86 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
         }
 
+
+        /// <summary>
+        /// Parses an ApprovedExeForElevation element.
+        /// </summary>
+        /// <param name="node">Element to parse</param>
+        private void ParseApprovedExeForElevation(XmlNode node)
+        {
+            SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
+            string id = null;
+            string key = null;
+            string valueName = null;
+            YesNoType win64 = YesNoType.NotSet;
+
+            foreach (XmlAttribute attrib in node.Attributes)
+            {
+                if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
+                {
+                    switch (attrib.LocalName)
+                    {
+                        case "Id":
+                            id = this.core.GetAttributeIdentifierValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Key":
+                            key = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Value":
+                            valueName = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Win64":
+                            win64 = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            break;
+                        default:
+                            this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
+                            break;
+                    }
+                }
+                else
+                {
+                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                }
+            }
+
+            if (null == id)
+            {
+                this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Id"));
+            }
+
+            if (null == key)
+            {
+                this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Key"));
+            }
+
+            BundleApprovedExeForElevationAttributes attributes = BundleApprovedExeForElevationAttributes.None;
+
+            if (win64 == YesNoType.Yes)
+            {
+                attributes |= BundleApprovedExeForElevationAttributes.Win64;
+            }
+
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                if (XmlNodeType.Element == child.NodeType)
+                {
+                    if (child.NamespaceURI == this.schema.TargetNamespace)
+                    {
+                        this.core.UnexpectedElement(node, child);
+                    }
+                    else
+                    {
+                        this.core.UnsupportedExtensionElement(node, child);
+                    }
+                }
+            }
+
+            if (!this.core.EncounteredError)
+            {
+                this.core.CreateWixApprovedExeForElevationRow(sourceLineNumbers, id, key, valueName, attributes);
+            }
+        }
+
         /// <summary>
         /// Parses a Bundle element.
         /// </summary>
@@ -19903,6 +20035,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         switch (child.LocalName)
                         {
+                            case "ApprovedExeForElevation":
+                                this.ParseApprovedExeForElevation(child);
+                                break;
                             case "BootstrapperApplication":
                                 if (baSeen)
                                 {
@@ -20146,9 +20281,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // Create catalog row
             if (!this.core.EncounteredError)
             {
-                Row row = this.core.CreateRow(sourceLineNumbers, "WixCatalog");
-                row[0] = id;
-                row[1] = sourceFile;
+                this.core.CreateWixCatalogRow(sourceLineNumbers, id, sourceFile);
             }
         }
 
@@ -20564,7 +20697,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
             YesNoDefaultType compressed = YesNoDefaultType.Default;
-            YesNoType suppressSignatureVerification = YesNoType.NotSet;
+            YesNoType suppressSignatureVerification = YesNoType.Yes;
             string id = null;
             string name = null;
             string sourceFile = null;
@@ -21299,7 +21432,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string id = null;
             string after = null;
             string installCondition = null;
-            YesNoType cache = YesNoType.NotSet;
+            YesNoAlwaysType cache = YesNoAlwaysType.NotSet;
             string cacheId = null;
             string description = null;
             string displayName = null;
@@ -21318,7 +21451,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             int installSize = CompilerCore.IntegerNotSet;
             string msuKB = null;
             YesNoType suppressLooseFilePayloadGeneration = YesNoType.NotSet;
-            YesNoType suppressSignatureVerification = YesNoType.NotSet;
+            YesNoType suppressSignatureVerification = YesNoType.Yes;
             YesNoDefaultType compressed = YesNoDefaultType.Default;
             YesNoType displayInternalUI = YesNoType.NotSet;
             YesNoType enableFeatureSelection = YesNoType.NotSet;
@@ -21364,7 +21497,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             installCondition = this.core.GetAttributeValue(sourceLineNumbers, attrib);
                             break;
                         case "Cache":
-                            cache = this.core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            cache = this.core.GetAttributeYesNoAlwaysValue(sourceLineNumbers, attrib);
                             break;
                         case "CacheId":
                             cacheId = this.core.GetAttributeValue(sourceLineNumbers, attrib);
@@ -21474,7 +21607,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     SourceLineNumberCollection childSourceLineNumbers = Preprocessor.GetSourceLineNumbers(child);
 
-                    if (node.NamespaceURI == this.schema.TargetNamespace && node.LocalName != "ExePackage")
+                    if (node.NamespaceURI == this.schema.TargetNamespace && node.LocalName != "ExePackage" && node.LocalName != "MsuPackage")
                     {
                         this.core.OnMessage(WixErrors.RemotePayloadUnsupported(childSourceLineNumbers));
                         continue;
@@ -21523,6 +21656,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
             if (null == downloadUrl && null != remotePayload)
             {
                 this.core.OnMessage(WixErrors.ExpectedAttributeWithElement(sourceLineNumbers, node.Name, "DownloadUrl", "RemotePayload"));
+            }
+
+            if (YesNoDefaultType.No != compressed && null != remotePayload)
+            {
+                compressed = YesNoDefaultType.No;
+                this.core.OnMessage(WixWarnings.RemotePayloadsMustNotAlsoBeCompressed(sourceLineNumbers, node.Name));
             }
 
             if (String.IsNullOrEmpty(id))
@@ -21687,9 +21826,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 row[5] = repairCommand;
                 row[6] = uninstallCommand;
 
-                if (YesNoType.NotSet != cache)
+                switch (cache)
                 {
-                    row[7] = (YesNoType.Yes == cache) ? 1 : 0;
+                    case YesNoAlwaysType.No:
+                        row[7] = 0;
+                        break;
+                    case YesNoAlwaysType.Yes:
+                        row[7] = 1;
+                        break;
+                    case YesNoAlwaysType.Always:
+                        row[7] = 2;
+                        break;
                 }
 
                 row[8] = cacheId;
@@ -22310,7 +22457,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                     else
                     {
-                        // Sadly, Version doesn't have a TryParse() method, so we have to try/catch to see if it parses.
+                        // Sadly, Version doesn't have a TryParse() method until .NET 4, so we have to try/catch to see if it parses.
                         try
                         {
                             Version version = new Version(value.Substring(1));

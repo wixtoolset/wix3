@@ -14,8 +14,6 @@
     <AssemblyName>votive2010</AssemblyName>
     <TargetVisualStudio>2010</TargetVisualStudio>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <!-- disable warning 436 until we remove InternalsVisibleTo from sconce. -->
-    <NoWarn>436</NoWarn>
   </PropertyGroup>
 
   <!-- Add new files to votive2010.common.targets and not here -->
@@ -43,16 +41,6 @@
     <ZipProject Include="Templates\Projects\CustomActionCPP\stdafx.cpp"/>
     <ZipProject Include="Templates\Projects\CustomActionCPP\stdafx.h"/>
     <ZipProject Include="Templates\Projects\CustomActionCPP\targetver.h"/>
-    <ZipProject Include="Templates\Projects\CustomActionCS\AssemblyInfo.cs"/>
-    <ZipProject Include="Templates\Projects\CustomActionCS\CustomAction.config"/>
-    <ZipProject Include="Templates\Projects\CustomActionCS\CustomAction.cs"/>
-    <ZipProject Include="Templates\Projects\CustomActionCS\CustomAction.csproj"/>
-    <ZipProject Include="Templates\Projects\CustomActionCS\CustomActionCS.vstemplate"/>
-    <ZipProject Include="Templates\Projects\CustomActionVB\AssemblyInfo.vb"/>
-    <ZipProject Include="Templates\Projects\CustomActionVB\CustomAction.config"/>
-    <ZipProject Include="Templates\Projects\CustomActionVB\CustomAction.vb"/>
-    <ZipProject Include="Templates\Projects\CustomActionVB\CustomAction.vbproj"/>
-    <ZipProject Include="Templates\Projects\CustomActionVB\CustomActionVB.vstemplate"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -111,7 +99,6 @@
       <SpecificVersion>True</SpecificVersion>
     </Reference>
     <ProjectReference Include="..\..\tools\wix\wix.csproj"/>
-    <ProjectReference Include="..\sconce\sconce2010.csproj" />
   </ItemGroup>
 
   <ItemGroup>

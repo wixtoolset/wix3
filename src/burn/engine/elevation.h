@@ -40,6 +40,7 @@ HRESULT ElevationSessionBegin(
     __in HANDLE hPipe,
     __in_z LPCWSTR wzEngineWorkingPath,
     __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume,
     __in BURN_VARIABLES* pVariables,
     __in DWORD dwRegistrationOperations,
     __in BURN_DEPENDENCY_REGISTRATION_ACTION dependencyRegistrationAction,
@@ -47,7 +48,8 @@ HRESULT ElevationSessionBegin(
     );
 HRESULT ElevationSessionResume(
     __in HANDLE hPipe,
-    __in_z LPCWSTR wzResumeCommandLine
+    __in_z LPCWSTR wzResumeCommandLine,
+    __in BOOL fDisableResume
     );
 HRESULT ElevationSessionEnd(
     __in HANDLE hPipe,
@@ -114,6 +116,7 @@ HRESULT ElevationExecuteMsuPackage(
     __in HANDLE hPipe,
     __in BURN_EXECUTE_ACTION* pExecuteAction,
     __in BOOL fRollback,
+    __in BOOL fStopWusaService,
     __in PFN_GENERICMESSAGEHANDLER pfnGenericExecuteProgress,
     __in LPVOID pvContext,
     __out BOOTSTRAPPER_APPLY_RESTART* pRestart
@@ -123,6 +126,10 @@ HRESULT ElevationExecutePackageProviderAction(
     __in BURN_EXECUTE_ACTION* pExecuteAction
     );
 HRESULT ElevationExecutePackageDependencyAction(
+    __in HANDLE hPipe,
+    __in BURN_EXECUTE_ACTION* pExecuteAction
+    );
+HRESULT ElevationLoadCompatiblePackageAction(
     __in HANDLE hPipe,
     __in BURN_EXECUTE_ACTION* pExecuteAction
     );
@@ -137,12 +144,18 @@ HRESULT ElevationCleanPackage(
     __in HANDLE hPipe,
     __in BURN_PACKAGE* pPackage
     );
+HRESULT ElevationLaunchApprovedExe(
+    __in HANDLE hPipe,
+    __in BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe,
+    __out DWORD* pdwProcessId
+    );
 
 // Child (per-machine process) side functions.
 HRESULT ElevationChildPumpMessages(
     __in DWORD dwLoggingTlsId,
     __in HANDLE hPipe,
     __in HANDLE hCachePipe,
+    __in BURN_APPROVED_EXES* pApprovedExes,
     __in BURN_CONTAINERS* pContainers,
     __in BURN_PACKAGES* pPackages,
     __in BURN_PAYLOADS* pPayloads,

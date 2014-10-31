@@ -21,12 +21,12 @@ extern "C" {
 
 #define ReleaseRegKey(h) if (h) { ::RegCloseKey(h); h = NULL; }
 
-enum REG_KEY_BITNESS
+typedef enum REG_KEY_BITNESS
 {
     REG_KEY_DEFAULT = 0,
     REG_KEY_32BIT = 1,
     REG_KEY_64BIT = 2
-};
+} REG_KEY_BITNESS;
 
 typedef LSTATUS (APIENTRY *PFN_REGCREATEKEYEXW)(
     __in HKEY hKey,
@@ -163,6 +163,11 @@ HRESULT DAPI RegValueEnum(
     __deref_out_z LPWSTR* psczName,
     __out_opt DWORD *pdwType
     );
+HRESULT DAPI RegGetType(
+    __in HKEY hk,
+    __in_z_opt LPCWSTR wzName,
+    __out DWORD *pdwType
+     );
 HRESULT DAPI RegReadBinary(
     __in HKEY hk,
     __in_z_opt LPCWSTR wzName,

@@ -100,11 +100,28 @@ extern "C" HRESULT DAPI ApupAllocChainFromAtom(
             hr = ProcessEntry(pFeed->rgEntries + i, pChain->wzDefaultApplicationId, pChain->rgEntries + pChain->cEntries);
             ExitOnFailure(hr, "Failed to process ATOM entry.");
 
-            ++pChain->cEntries;
+            if (S_FALSE != hr)
+            {
+                ++pChain->cEntries;
+            }
         }
 
         // Sort the chain by descending version and ascending total size.
         qsort_s(pChain->rgEntries, pChain->cEntries, sizeof(APPLICATION_UPDATE_ENTRY), CompareEntries, NULL);
+    }
+
+    // Trim the unused entries from the end, if any of the entries failed to parse or validate
+    if (pChain->cEntries != pFeed->cEntries) 
+    {
+        if (pChain->cEntries > 0)
+        {
+            pChain->rgEntries = static_cast<APPLICATION_UPDATE_ENTRY*>(MemReAlloc(pChain->rgEntries, sizeof(APPLICATION_UPDATE_ENTRY) * pChain->cEntries, FALSE));
+            ExitOnNull(pChain->rgEntries, hr, E_OUTOFMEMORY, "Failed to reallocate memory for update entries.");
+        }
+        else
+        {
+            ReleaseNullMem(pChain->rgEntries);
+        }
     }
 
     *ppChain = pChain;
@@ -175,6 +192,7 @@ extern "C" void DAPI ApupFreeChain(
             FreeEntry(pChain->rgEntries + i);
         }
 
+        ReleaseMem(pChain->rgEntries);
         ReleaseStr(pChain->wzDefaultApplicationType);
         ReleaseStr(pChain->wzDefaultApplicationId);
         ReleaseMem(pChain);
@@ -262,6 +280,32 @@ static HRESULT ProcessEntry(
         ExitOnRootFailure(hr, "Upgrade version is greater than or equal to application version.");
     }
 
+    if (pAtomEntry->wzTitle)
+    {
+        hr = StrAllocString(&pApupEntry->wzTitle, pAtomEntry->wzTitle, 0);
+        ExitOnFailure(hr, "Failed to allocate application title.");
+    }
+
+    if (pAtomEntry->wzSummary)
+    {
+        hr = StrAllocString(&pApupEntry->wzSummary, pAtomEntry->wzSummary, 0);
+        ExitOnFailure(hr, "Failed to allocate application summary.");
+    }
+
+    if (pAtomEntry->pContent)
+    {
+        if (pAtomEntry->pContent->wzType)
+        {
+            hr = StrAllocString(&pApupEntry->wzContentType, pAtomEntry->pContent->wzType, 0);
+            ExitOnFailure(hr, "Failed to allocate content type.");
+        }
+
+        if (pAtomEntry->pContent->wzValue)
+        {
+            hr = StrAllocString(&pApupEntry->wzContent, pAtomEntry->pContent->wzValue, 0);
+            ExitOnFailure(hr, "Failed to allocate content.");
+        }
+    }
     // Now process the enclosures.  Assume every link in the ATOM entry is an enclosure.
     pApupEntry->rgEnclosures = static_cast<APPLICATION_UPDATE_ENCLOSURE*>(MemAlloc(sizeof(APPLICATION_UPDATE_ENCLOSURE) * pAtomEntry->cLinks, TRUE));
     ExitOnNull(pApupEntry->rgEnclosures, hr, E_OUTOFMEMORY, "Failed to allocate enclosures for application update entry.");
@@ -494,6 +538,30 @@ static HRESULT CopyEntry(
         ExitOnFailure(hr, "Failed to copy upgrade id.");
     }
 
+    if (pSrc->wzTitle)
+    {
+        hr = StrAllocString(&pDest->wzTitle, pSrc->wzTitle, 0);
+        ExitOnFailure(hr, "Failed to copy title.");
+    }
+
+    if (pSrc->wzSummary)
+    {
+        hr = StrAllocString(&pDest->wzSummary, pSrc->wzSummary, 0);
+        ExitOnFailure(hr, "Failed to copy summary.");
+    }
+
+    if (pSrc->wzContentType)
+    {
+        hr = StrAllocString(&pDest->wzContentType, pSrc->wzContentType, 0);
+        ExitOnFailure(hr, "Failed to copy content type.");
+    }
+
+    if (pSrc->wzContent)
+    {
+        hr = StrAllocString(&pDest->wzContent, pSrc->wzContent, 0);
+        ExitOnFailure(hr, "Failed to copy content.");
+    }
+
     pDest->dw64TotalSize = pSrc->dw64TotalSize;
     pDest->dw64UpgradeVersion = pSrc->dw64UpgradeVersion;
     pDest->dw64Version = pSrc->dw64Version;
@@ -580,6 +648,10 @@ static void FreeEntry(
         ReleaseStr(pEntry->wzUpgradeId);
         ReleaseStr(pEntry->wzApplicationType);
         ReleaseStr(pEntry->wzApplicationId);
+        ReleaseStr(pEntry->wzTitle);
+        ReleaseStr(pEntry->wzSummary);
+        ReleaseStr(pEntry->wzContentType);
+        ReleaseStr(pEntry->wzContent);
     }
 }
 

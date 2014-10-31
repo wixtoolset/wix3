@@ -16,19 +16,17 @@ namespace WixTest.Tests.Tools.Lit.BindFiles
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Tests for how Lit handles -bf switch
     /// </summary>
-    [TestClass]
     public class BindFilesTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Lit\BindFiles\BindFilesTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Lit can bind files into a wix library")]
         [Priority(1)]
         public void SimpleBindFiles()
@@ -55,8 +53,8 @@ namespace WixTest.Tests.Tools.Lit.BindFiles
             light.Run();
 
             string outputFileName = Path.Combine(Path.GetDirectoryName(lit.OutputFile), @"PFiles\WixTestFolder\TextFile1.txt");
-            Assert.IsTrue(File.Exists(outputFileName), "File was not created in msi layout as expected.");
-            Assert.IsTrue(File.ReadAllText(outputFileName).Equals("abc"), "File contents do not match expected.");
+            Assert.True(File.Exists(outputFileName), "File was not created in msi layout as expected.");
+            Assert.True(File.ReadAllText(outputFileName).Equals("abc"), "File contents do not match expected.");
         }
     }
 }

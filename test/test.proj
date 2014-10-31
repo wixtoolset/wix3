@@ -15,11 +15,15 @@
     <ProjectReference Include="$(WixSrcFolder)\burn\burn.proj">
       <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
+    <ProjectReference Include="$(WixSrcFolder)\tools\tools.proj">
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
 
     <ProjectReference Include="src\Utilities\TestBA\TestBA.csproj" />
     <ProjectReference Include="src\UnitTests\Burn\BurnUnitTest.vcxproj" />
     <ProjectReference Include="src\UnitTests\dutil\DUtilUnitTest.vcxproj" />
     <ProjectReference Include="src\IntegrationTests\Burn\BurnIntegrationTests.csproj" />
+    <ProjectReference Include="src\IntegrationTests\MsbuildIntegrationTests\MsbuildIntegrationTests.csproj" />
     <ProjectReference Include="src\WixTests\WixTests.csproj" />
     <ProjectReference Include="src\WixTestTools\WixTestTools.csproj" />
   </ItemGroup>

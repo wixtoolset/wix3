@@ -18,18 +18,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BuilderBase.cs" />
     <Compile Include="BundleBuilder.cs" />
     <Compile Include="BundleInstaller.cs" />
     <Compile Include="BundleRegistration.cs" />
     <Compile Include="Burn\BurnTests.cs" />
     <Compile Include="Burn\Burn.DependencyTests.cs" />
+    <Compile Include="Burn\Burn.EmbeddedTests.cs" />
     <Compile Include="Burn\Burn.FailureTests.cs" />
     <Compile Include="Burn\Burn.FeatureTests.cs" />
     <Compile Include="Burn\Burn.ForwardCompatibleTests.cs" />
+    <Compile Include="Burn\Burn.MultiplePatchesTests.cs" />
+    <Compile Include="Burn\Burn.OriginalSourceTests.cs" />
     <Compile Include="Burn\Burn.ParentTests.cs" />
     <Compile Include="Burn\Burn.PatchTests.cs" />
     <Compile Include="Burn\Burn.PermanentTests.cs" />
+    <Compile Include="Burn\Burn.PolicyTests.cs" />
     <Compile Include="Burn\Burn.RegistrationTests.cs" />
     <Compile Include="Burn\Burn.RelatedBundleTests.cs" />
     <Compile Include="Burn\Burn.SearchTests.cs" />
@@ -186,6 +189,9 @@
     <None Include="..\..\data\Burn\DependencyTests\D.wxs">
       <Link>Burn\DependencyTests\D.wxs</Link>
     </None>
+    <None Include="..\..\data\Burn\DependencyTests\E.wxs">
+      <Link>Burn\DependencyTests\E.wxs</Link>
+    </None>
     <None Include="..\..\data\Burn\DependencyTests\PatchA.wxs">
       <Link>Burn\DependencyTests\PatchA.wxs</Link>
     </None>
@@ -212,6 +218,24 @@
     </None>
     <None Include="..\..\data\Burn\DependencyTests\BundleH.wxs">
       <Link>Burn\DependencyTests\BundleH.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\EmbeddedTests\A.wxs">
+      <Link>Burn\EmbeddedTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\EmbeddedTests\B.wxs">
+      <Link>Burn\EmbeddedTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\EmbeddedTests\BundleA.wxs">
+      <Link>Burn\EmbeddedTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\EmbeddedTests\BundleBv1.wxs">
+      <Link>Burn\EmbeddedTests\BundleBv1.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\EmbeddedTests\BundleBv2.wxs">
+      <Link>Burn\EmbeddedTests\BundleBv2.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\EmbeddedTests\C.wxs">
+      <Link>Burn\EmbeddedTests\C.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\FailureTests\A.wxs">
       <Link>Burn\FailureTests\A.wxs</Link>
@@ -252,6 +276,36 @@
     <None Include="..\..\data\Burn\ForwardCompatibleTests\C.wxs">
       <Link>Burn\ForwardCompatibleTests\C.wxs</Link>
     </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\A.wxs">
+      <Link>Burn\MultiplePatchesTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\B.wxs">
+      <Link>Burn\MultiplePatchesTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\BundleA.wxs">
+      <Link>Burn\MultiplePatchesTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\BundleB.wxs">
+      <Link>Burn\MultiplePatchesTests\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\PatchAB.wxs">
+      <Link>Burn\MultiplePatchesTests\PatchAB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\MultiplePatchesTests\PatchB.wxs">
+      <Link>Burn\MultiplePatchesTests\PatchB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\OriginalSourceBundleTests\BundleA.wxs">
+      <Link>Burn\OriginalSource\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\OriginalSourceBundleTests\BundleB.wxs">
+      <Link>Burn\OriginalSource\BundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\OriginalSourceBundleTests\A.wxs">
+      <Link>Burn\OriginalSource\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\OriginalSourceBundleTests\B.wxs">
+      <Link>Burn\OriginalSource\B.wxs</Link>
+    </None>
     <None Include="..\..\data\Burn\ParentTests\A.wxs">
       <Link>Burn\ParentTests\A.wxs</Link>
     </None>
@@ -275,7 +329,6 @@
     </None>
     <None Include="..\..\data\Burn\PatchTests\BundleB.wxs">
       <Link>Burn\PatchTests\BundleB.wxs</Link>
-      <SubType>Designer</SubType>
     </None>
     <None Include="..\..\data\Burn\PatchTests\PatchA.wxs">
       <Link>Burn\PatchTests\PatchA.wxs</Link>
@@ -283,11 +336,23 @@
     <None Include="..\..\data\Burn\PatchTests\PatchA2.wxs">
       <Link>Burn\PatchTests\PatchA2.wxs</Link>
     </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchB.wxs">
+      <Link>Burn\PatchTests\PatchB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchC.wxs">
+      <Link>Burn\PatchTests\PatchC.wxs</Link>
+    </None>
     <None Include="..\..\data\Burn\PatchTests\PatchBundleA.wxs">
       <Link>Burn\PatchTests\PatchBundleA.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\PatchTests\PatchBundleA2.wxs">
       <Link>Burn\PatchTests\PatchBundleA2.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchBundleB.wxs">
+      <Link>Burn\PatchTests\PatchBundleB.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PatchTests\PatchBundleC.wxs">
+      <Link>Burn\PatchTests\PatchBundleC.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\PermanentTests\A.wxs">
       <Link>Burn\PermanentTests\A.wxs</Link>
@@ -297,6 +362,18 @@
     </None>
     <None Include="..\..\data\Burn\PermanentTests\BundleA.wxs">
       <Link>Burn\PermanentTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\A.wxs">
+      <Link>Burn\PolicyTests\A.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\B.wxs">
+      <Link>Burn\PolicyTests\B.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\BundleA.wxs">
+      <Link>Burn\PolicyTests\BundleA.wxs</Link>
+    </None>
+    <None Include="..\..\data\Burn\PolicyTests\BundleB.wxs">
+      <Link>Burn\PolicyTests\BundleA.wxs</Link>
     </None>
     <None Include="..\..\data\Burn\SearchTests\A.wxs">
       <Link>Burn\SearchTests\A.wxs</Link>
@@ -390,6 +467,7 @@
     <None Include="..\..\data\Burn\UpdateBundleTests\BundleA.wxs">
       <Link>Burn\UpdateBundleTests\BundleA.wxs</Link>
     </None>
+    <None Include="packages.config" />
     <None Include="Tools\Light\Input.InputTests.mtx" />
     <None Include="Tools\Light\Output.OutputTests.mtx" />
   </ItemGroup>
@@ -422,7 +500,6 @@
     <Reference Include="$(OutputPath)Microsoft.Deployment.Compression.dll" />
     <Reference Include="$(OutputPath)Microsoft.Deployment.Compression.Cab.dll" />
     <Reference Include="$(OutputPath)BootstrapperCore.dll" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -435,6 +512,10 @@
       <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
       <Name>WixTestTools</Name>
     </ProjectReference>
+    <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(XunitPath)\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\data\Burn\SlipstreamTests\BundleOnlyPatchA.wxs">

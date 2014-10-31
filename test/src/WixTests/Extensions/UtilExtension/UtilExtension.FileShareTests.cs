@@ -13,25 +13,21 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Utilities;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-    
     using System.Management;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension FileShare element tests
     /// </summary>
-    [TestClass]
     public class FileShareTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\FileShareTests");
 
-        [TestInitialize]
-        public void TestInitialize()
+        protected override void TestInitialize()
         {
             // set the environment variable to store the current user information
             string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString();
@@ -39,7 +35,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             Environment.SetEnvironmentVariable("tempusername", username.Split('\\')[1]);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (FileShare, FileSharePermissions and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void FileShare_VerifyMSITableData()
@@ -76,10 +72,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 new TableRow(FileSharePermissionsColumns.Permissions.ToString(), "-2146435072", false));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI and verify that the testShare is created with the right permissions.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void FileShare_Install()
         {
             string sourceFile = Path.Combine(FileShareTests.TestDataDirectory, @"product.wxs");
@@ -89,7 +85,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify Fileshare Exists.
             string testFolderPath = Path.Combine(@"\\" + System.Environment.MachineName, "TestShareName");
-            Assert.IsTrue(Directory.Exists(testFolderPath), "Share '{0}' was not created on Install.", testFolderPath);
+            Assert.True(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not created on Install.", testFolderPath));
 
             // Verify Fileshare Permissions.
             PermissionsVerifier.VerifySharePermession(Environment.GetEnvironmentVariable("tempdomain") + "\\ddrelqa1", testFolderPath, PermissionsVerifier.ACCESS_MASK.READ_CONTROL | PermissionsVerifier.ACCESS_MASK.WRITE_DAC | PermissionsVerifier.ACCESS_MASK.WRITE_OWNER | PermissionsVerifier.ACCESS_MASK.DELETE);
@@ -98,14 +94,14 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Fileshare is removed.
-            Assert.IsFalse(Directory.Exists(testFolderPath), "Share '{0}' was not removed on Uninstall.", testFolderPath);
+            Assert.False(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not removed on Uninstall.", testFolderPath));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI and verify that the testShare is created with the right permissions in a 64-bit specific folder.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [TestProperty("Is64BitSpecificTest", "true")]
+        [RuntimeTest]
+        [Is64BitSpecificTest]
         public void FileShare_Install_64bit()
         {
             string sourceFile = Path.Combine(FileShareTests.TestDataDirectory, @"product_64.wxs");
@@ -115,11 +111,11 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify Directory Exists.
             string physicalTestFolderPath = Path.Combine(Environment.ExpandEnvironmentVariables(@"%ProgramW6432%"), @"WixTestFolder");
-            Assert.IsTrue(Directory.Exists(physicalTestFolderPath), "Test folder '{0}' was not created on Install.", physicalTestFolderPath);
+            Assert.True(Directory.Exists(physicalTestFolderPath), String.Format("Test folder '{0}' was not created on Install.", physicalTestFolderPath));
 
             // Verify Fileshare Exists.
             string testFolderPath = Path.Combine(@"\\" + System.Environment.MachineName, "TestShareName");
-            Assert.IsTrue(Directory.Exists(testFolderPath), "Share '{0}' was not created on Install.", testFolderPath);
+            Assert.True(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not created on Install.", testFolderPath));
 
             // Verify Fileshare Permissions.
             PermissionsVerifier.VerifySharePermession(Environment.GetEnvironmentVariable("tempdomain") + "\\ddrelqa1", testFolderPath, PermissionsVerifier.ACCESS_MASK.READ_CONTROL | PermissionsVerifier.ACCESS_MASK.WRITE_DAC | PermissionsVerifier.ACCESS_MASK.WRITE_OWNER | PermissionsVerifier.ACCESS_MASK.DELETE);
@@ -128,13 +124,13 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Fileshare is removed.
-            Assert.IsFalse(Directory.Exists(testFolderPath), "Share '{0}' was not removed on Uninstall.", testFolderPath);
+            Assert.False(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not removed on Uninstall.", testFolderPath));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI and verify that the testShare is removed when the setup is cancled.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void FileShare_InstallFailure()
         {
             string sourceFile = Path.Combine(FileShareTests.TestDataDirectory, @"product_fail.wxs");
@@ -144,13 +140,13 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             // Verify Fileshare is removed.
             string testFolderPath = Path.Combine(@"\\" + System.Environment.MachineName, "TestShareName");
-            Assert.IsFalse(Directory.Exists(testFolderPath), "Share '{0}' was not removed on Rollback.", testFolderPath);
+            Assert.False(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not removed on Rollback.", testFolderPath));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that if the fileshare already exists the the custom action does not fail.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         // bug: https://sourceforge.net/tracker/?func=detail&aid=2824407&group_id=105970&atid=642714
         public void FileShare_ExistingShare()
         {
@@ -166,7 +162,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Fileshare still Exists.
-            Assert.IsTrue(Directory.Exists(testFolderPath), "Share '{0}' was not created on Install.", testFolderPath);
+            Assert.True(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not created on Install.", testFolderPath));
 
             // Verify Fileshare Permissions.
             PermissionsVerifier.VerifySharePermession(Environment.GetEnvironmentVariable("tempdomain") + "\\ddrelqa1", testFolderPath, PermissionsVerifier.ACCESS_MASK.READ_CONTROL | PermissionsVerifier.ACCESS_MASK.WRITE_DAC | PermissionsVerifier.ACCESS_MASK.WRITE_OWNER | PermissionsVerifier.ACCESS_MASK.DELETE);
@@ -175,7 +171,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify Fileshare is removed.
-            Assert.IsFalse(Directory.Exists(testFolderPath), "Share '{0}' was not removed on Uninstall.", testFolderPath);
+            Assert.False(Directory.Exists(testFolderPath), String.Format("Share '{0}' was not removed on Uninstall.", testFolderPath));
         }
     }
 }

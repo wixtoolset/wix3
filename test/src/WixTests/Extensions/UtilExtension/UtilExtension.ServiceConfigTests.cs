@@ -13,21 +13,19 @@ namespace WixTest.Tests.Extensions.UtilExtension
     using System;
     using System.IO;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
-   
+    using Xunit;
+
     /// <summary>
     /// Util extension ServiceConfig element tests
     /// </summary>
-    [TestClass]
     public class ServiceConfigTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\UtilExtension\ServiceConfigTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (ServiceConfig and CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void ServiceConfig_VerifyMSITableData()
@@ -66,10 +64,10 @@ namespace WixTest.Tests.Extensions.UtilExtension
                 new TableRow(ServiceConfigColumns.RebootMessage.ToString(), string.Empty));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Services are being installed and configured as expected.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void ServiceConfig_Install()
         {
             string sourceFile = Path.Combine(ServiceConfigTests.TestDataDirectory, @"product.wxs");
@@ -88,13 +86,13 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Validate New Service Does NOT exist any more.
-            Assert.IsFalse(ServiceVerifier.ServiceExists("MynewService"), "Service '{0}' was NOT removed on Uninstall.", "MynewService");
+            Assert.False(ServiceVerifier.ServiceExists("MynewService"), String.Format("Service '{0}' was NOT removed on Uninstall.", "MynewService"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Services are is repaired as expected.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void ServiceConfig_Repair()
         {
             string sourceFile = Path.Combine(ServiceConfigTests.TestDataDirectory, @"product.wxs");
@@ -119,13 +117,13 @@ namespace WixTest.Tests.Extensions.UtilExtension
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Validate New Service Does NOT exist any more.
-            Assert.IsFalse(ServiceVerifier.ServiceExists("MynewService"), "Service '{0}' was NOT removed on Uninstall.", "MynewService");
+            Assert.False(ServiceVerifier.ServiceExists("MynewService"), String.Format("Service '{0}' was NOT removed on Uninstall.", "MynewService"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the Installation fails if ServiceConfig references a non-existing service.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void ServiceConfig_NonExistingService()
         {
             string sourceFile = Path.Combine(ServiceConfigTests.TestDataDirectory, @"NonExistingService.wxs");
@@ -133,7 +131,7 @@ namespace WixTest.Tests.Extensions.UtilExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
-            Assert.IsFalse(ServiceVerifier.ServiceExists("NonExistingService"), "Service '{0}' was created on Rollback.", "NonExistingService");
+            Assert.False(ServiceVerifier.ServiceExists("NonExistingService"), String.Format("Service '{0}' was created on Rollback.", "NonExistingService"));
         }
     }
 }

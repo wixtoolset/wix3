@@ -52,31 +52,31 @@
     <Fragment>
         <ComponentGroup Id="Votive$(var.VsVersion)ItemTemplateComponents" Directory="VsItemTemplatesWix$(var.VsVersion)Folder">
             <Component>
-                <File Id="BlankFile$(var.VsVersion).zip" Source="votive2010\BlankFile.zip" />
+                <File Id="BlankFile$(var.VsVersion).zip" Source="templates\BlankFile.zip" />
             </Component>
             <Component>
-                <File Id="IncludeFile$(var.VsVersion).zip" Source="votive2010\IncludeFile.zip" />
+                <File Id="IncludeFile$(var.VsVersion).zip" Source="templates\IncludeFile.zip" />
             </Component>
             <Component>
-                <File Id="LocalizationFile$(var.VsVersion).zip" Source="votive2010\LocalizationFile.zip" />
+                <File Id="LocalizationFile$(var.VsVersion).zip" Source="templates\LocalizationFile.zip" />
             </Component>
             <Component>
-                <File Id="TextFile$(var.VsVersion).zip" Source="votive2010\TextFile.zip" />
+                <File Id="TextFile$(var.VsVersion).zip" Source="templates\TextFile.zip" />
             </Component>
         </ComponentGroup>
 
         <ComponentGroup Id="Votive$(var.VsVersion)ProjectTemplateComponents" Directory="VsProjectTemplatesWix$(var.VsVersion)Folder">
             <Component>
-                <File Id="WixLibrary$(var.VsVersion).zip" Source="votive2010\WixLibrary.zip" />
+                <File Id="WixLibrary$(var.VsVersion).zip" Source="templates\WixLibrary.zip" />
             </Component>
             <Component>
-                <File Id="WixMergeModule$(var.VsVersion).zip" Source="votive2010\WixMergeModule.zip" />
+                <File Id="WixMergeModule$(var.VsVersion).zip" Source="templates\WixMergeModule.zip" />
             </Component>
             <Component>
-                <File Id="WixBundleProject$(var.VsVersion).zip" Source="votive2010\WixBundleProject.zip" />
+                <File Id="WixBundleProject$(var.VsVersion).zip" Source="templates\WixBundleProject.zip" />
             </Component>
             <Component>
-                <File Id="WixProject$(var.VsVersion).zip" Source="votive2010\WixProject.zip" />
+                <File Id="WixProject$(var.VsVersion).zip" Source="templates\WixProject.zip" />
             </Component>
         </ComponentGroup>
 

@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for defining Environment Variables for a component
     /// </summary>
-    [TestClass]
     public class EnvironmentTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\EnvironmentTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an environment variable can be created")]
         [Priority(1)]
         public void CreateEnvironment()
@@ -36,7 +33,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest .BuildMsiTest (Path.Combine(EnvironmentTests.TestDataDirectory, @"CreateEnvironment\product.wxs"),Path.Combine(EnvironmentTests.TestDataDirectory, @"CreateEnvironment\expected.msi")); 
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an environment variable can be changed")]
         [Priority(1)]
         public void ChangeEnvironment()
@@ -44,7 +41,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest.BuildMsiTest(Path.Combine(EnvironmentTests.TestDataDirectory, @"ChangeEnvironment\product.wxs"), Path.Combine(EnvironmentTests.TestDataDirectory, @"ChangeEnvironment\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that an environment variable can be removed")]
         [Priority(1)]
         public void RemoveEnvironment()

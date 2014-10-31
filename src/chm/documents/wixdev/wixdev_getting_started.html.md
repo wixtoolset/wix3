@@ -13,9 +13,9 @@ I want to be very up front about the copyright of the Windows Installer XML tool
 
 Before jumping to any conspiracy theories, please note that this copyright assignment is exactly the same process the <a href="http://www.fsf.org/" target="_blank">Free Software Foundation</a> has you go through if you work on a project they sponsor.&nbsp; The Windows Installer XML assignment agreement also explicitly grants your rights to your contribution back to you.&nbsp; If you would like a copy of the assignment agreement, please contact [WiX-devs@lists.sourceforge.net](mailto:WiX-devs@lists.sourceforge.net) and we&apos;ll get the process started.
 
-<b>2)&nbsp; The Windows Installer XML project is a <a href="http://www.usemod.com/cgi-bin/mb.pl?BenevolentDictator" target="_blank">benevolent dictatorship</a>.</b>
+<b>2)&nbsp; The Windows Installer XML project is a <a href="http://meatballwiki.org/wiki/BenevolentDictator" target="_blank">benevolent dictatorship</a>.</b>
 
-To have your contribution submitted to the project, please submit an assignment agreement as described above (you only need to do so once) then send your pull request on [CodePlex.com](http://wix.codeplex.com/sourcecontrol/list/contributions).&nbsp; The developers there will review the changes and someone will apply them to source control as quickly as possible.
+To have your contribution submitted to the project, please submit an assignment agreement as described above (you only need to do so once) then send your pull request on [GitHub.com](http://github.com/wixtoolset/).&nbsp; The developers there will review the changes and someone will apply them to source control as quickly as possible.
 
 <b>3)&nbsp; The Windows Installer XML community is a <a href="http://en.wikipedia.org/wiki/Meritocracy" target="_blank">meritocracy</a>.</b>
 

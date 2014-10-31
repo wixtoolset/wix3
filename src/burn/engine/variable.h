@@ -153,6 +153,29 @@ HRESULT VariableDeserialize(
     __in SIZE_T cbBuffer,
     __inout SIZE_T* piBuffer
     );
+HRESULT VariableStrAlloc(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch
+    );
+HRESULT VariableStrAllocString(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    );
+HRESULT VariableStrAllocConcat(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    );
+HRESULT __cdecl VariableStrAllocFormatted(
+    __in BOOL fZeroOnRealloc,
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    );
 
 #if defined(__cplusplus)
 }

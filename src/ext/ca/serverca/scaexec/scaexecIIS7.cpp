@@ -481,9 +481,9 @@ HRESULT IIS7ConfigChanges(MSIHANDLE /*hInstall*/, __inout LPWSTR pwzData)
             hr = pAdminMgr->CommitChanges();
 
             // Our transaction may have been interrupted.
-            if (hr == HRESULT_FROM_WIN32(ERROR_SHARING_VIOLATION))
+            if (hr == HRESULT_FROM_WIN32(ERROR_SHARING_VIOLATION) || hr == HRESULT_FROM_WIN32(ERROR_TRANSACTIONAL_CONFLICT))
             {
-                WcaLog(LOGMSG_VERBOSE, "Sharing Violation during attempt to save changes to applicationHost.config");
+                WcaLog(LOGMSG_VERBOSE, "Sharing violation or transactional conflict during attempt to save changes to applicationHost.config");
                 if (++iRetryCount > 30)
                 {
                     if (IDRETRY == WcaErrorMessage(msierrIISFailedCommitInUse, hr, INSTALLMESSAGE_ERROR | MB_RETRYCANCEL, 0))

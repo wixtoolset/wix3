@@ -44,12 +44,12 @@ struct ESE_DATABASE_SCHEMA
     ESE_TABLE_SCHEMA *ptsTables;
 };
 
-enum ESE_QUERY_TYPE
+typedef enum ESE_QUERY_TYPE
 {
     ESE_QUERY_EXACT,
     ESE_QUERY_FROM_TOP,
     ESE_QUERY_FROM_BOTTOM
-};
+} ESE_QUERY_TYPE;
 
 typedef void* ESE_QUERY_HANDLE;
 

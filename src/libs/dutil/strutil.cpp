@@ -16,6 +16,29 @@
 #define ARRAY_GROWTH_SIZE 5
 
 // Forward declarations.
+static HRESULT AllocHelper(
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch,
+    __in BOOL fZeroOnRealloc
+    );
+static HRESULT AllocStringHelper(
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource,
+    __in BOOL fZeroOnRealloc
+    );
+static HRESULT AllocConcatHelper(
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource,
+    __in BOOL fZeroOnRealloc
+    );
+static HRESULT AllocFormattedArgsHelper(
+    __deref_out_z LPWSTR* ppwz,
+    __in BOOL fZeroOnRealloc,
+    __in __format_string LPCWSTR wzFormat,
+    __in va_list args
+    );
 static HRESULT StrAllocStringMapInvariant(
     __deref_out_z LPWSTR* pscz,
     __in_z LPCWSTR wzSource,
@@ -28,9 +51,40 @@ StrAlloc - allocates or reuses dynamic string memory
 
 NOTE: caller is responsible for freeing ppwz even if function fails
 ********************************************************************/
-extern "C" HRESULT DAPI DAPI StrAlloc(
+extern "C" HRESULT DAPI StrAlloc(
     __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
     __in DWORD_PTR cch
+    )
+{
+    return AllocHelper(ppwz, cch, FALSE);
+}
+
+/********************************************************************
+StrAllocSecure - allocates or reuses dynamic string memory
+If the memory needs to reallocated, calls SecureZeroMemory on the
+original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+********************************************************************/
+extern "C" HRESULT DAPI StrAllocSecure(
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch
+    )
+{
+    return AllocHelper(ppwz, cch, TRUE);
+}
+
+/********************************************************************
+AllocHelper - allocates or reuses dynamic string memory
+If fZeroOnRealloc is true and the memory needs to reallocated, 
+calls SecureZeroMemory on original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+********************************************************************/
+static HRESULT AllocHelper(
+    __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,
+    __in DWORD_PTR cch,
+    __in BOOL fZeroOnRealloc
     )
 {
     Assert(ppwz && cch);
@@ -46,7 +100,17 @@ extern "C" HRESULT DAPI DAPI StrAlloc(
 
     if (*ppwz)
     {
-        pwz = static_cast<LPWSTR>(MemReAlloc(*ppwz, sizeof(WCHAR) * cch, FALSE));
+        if (fZeroOnRealloc)
+        {
+            LPVOID pvNew = NULL;
+            hr = MemReAllocSecure(*ppwz, sizeof(WCHAR)* cch, FALSE, &pvNew);
+            ExitOnFailure(hr, "Failed to reallocate string");
+            pwz = static_cast<LPWSTR>(pvNew);
+        }
+        else
+        {
+            pwz = static_cast<LPWSTR>(MemReAlloc(*ppwz, sizeof(WCHAR)* cch, FALSE));
+        }
     }
     else
     {
@@ -274,6 +338,43 @@ extern "C" HRESULT DAPI StrAllocString(
     __in DWORD_PTR cchSource
     )
 {
+    return AllocStringHelper(ppwz, wzSource, cchSource, FALSE);
+}
+
+/********************************************************************
+StrAllocStringSecure - allocates or reuses dynamic string memory and 
+copies in an existing string. If the memory needs to reallocated, 
+calls SecureZeroMemory on original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+NOTE: cchSource does not have to equal the length of wzSource
+NOTE: if cchSource == 0, length of wzSource is used instead
+********************************************************************/
+extern "C" HRESULT DAPI StrAllocStringSecure(
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    )
+{
+    return AllocStringHelper(ppwz, wzSource, cchSource, TRUE);
+}
+
+/********************************************************************
+AllocStringHelper - allocates or reuses dynamic string memory and copies in an existing string
+If fZeroOnRealloc is true and the memory needs to reallocated, 
+calls SecureZeroMemory on original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+NOTE: cchSource does not have to equal the length of wzSource
+NOTE: if cchSource == 0, length of wzSource is used instead
+********************************************************************/
+static HRESULT AllocStringHelper(
+    __deref_out_ecount_z(cchSource + 1) LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource,
+    __in BOOL fZeroOnRealloc
+    )
+{
     Assert(ppwz && wzSource); // && *wzSource);
 
     HRESULT hr = S_OK;
@@ -302,7 +403,7 @@ extern "C" HRESULT DAPI StrAllocString(
     if (cch < cchNeeded)
     {
         cch = cchNeeded;
-        hr = StrAlloc(ppwz, cch);
+        hr = AllocHelper(ppwz, cch, fZeroOnRealloc);
         ExitOnFailure(hr, "failed to allocate string from string.");
     }
 
@@ -612,6 +713,45 @@ extern "C" HRESULT DAPI StrAllocConcat(
     __in DWORD_PTR cchSource
     )
 {
+    return AllocConcatHelper(ppwz, wzSource, cchSource, FALSE);
+}
+
+
+/********************************************************************
+StrAllocConcatSecure - allocates or reuses dynamic string memory and 
+adds an existing string. If the memory needs to reallocated, calls 
+SecureZeroMemory on the original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+NOTE: cchSource does not have to equal the length of wzSource
+NOTE: if cchSource == 0, length of wzSource is used instead
+********************************************************************/
+extern "C" HRESULT DAPI StrAllocConcatSecure(
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource
+    )
+{
+    return AllocConcatHelper(ppwz, wzSource, cchSource, TRUE);
+}
+
+
+/********************************************************************
+AllocConcatHelper - allocates or reuses dynamic string memory and adds an existing string
+If fZeroOnRealloc is true and the memory needs to reallocated, 
+calls SecureZeroMemory on original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+NOTE: cchSource does not have to equal the length of wzSource
+NOTE: if cchSource == 0, length of wzSource is used instead
+********************************************************************/
+static HRESULT AllocConcatHelper(
+    __deref_out_z LPWSTR* ppwz,
+    __in_z LPCWSTR wzSource,
+    __in DWORD_PTR cchSource,
+    __in BOOL fZeroOnRealloc
+    )
+{
     Assert(ppwz && wzSource); // && *wzSource);
 
     HRESULT hr = S_OK;
@@ -643,7 +783,7 @@ extern "C" HRESULT DAPI StrAllocConcat(
     if (cch - cchLen < cchSource + 1)
     {
         cch = (cchSource + cchLen + 1) * 2;
-        hr = StrAlloc(ppwz, cch);
+        hr = AllocHelper(ppwz, cch, fZeroOnRealloc);
         ExitOnFailure1(hr, "failed to allocate string from string: %ls", wzSource);
     }
 
@@ -739,7 +879,7 @@ StrAllocFormatted - allocates or reuses dynamic string memory and formats it
 
 NOTE: caller is responsible for freeing ppwz even if function fails
 ********************************************************************/
-extern "C" HRESULT DAPI StrAllocFormatted(
+extern "C" HRESULT __cdecl StrAllocFormatted(
     __deref_out_z LPWSTR* ppwz,
     __in __format_string LPCWSTR wzFormat,
     ...
@@ -752,6 +892,32 @@ extern "C" HRESULT DAPI StrAllocFormatted(
 
     va_start(args, wzFormat);
     hr = StrAllocFormattedArgs(ppwz, wzFormat, args);
+    va_end(args);
+
+    return hr;
+}
+
+
+/********************************************************************
+StrAllocFormattedSecure - allocates or reuses dynamic string memory 
+and formats it. If the memory needs to reallocated, 
+calls SecureZeroMemory on original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+********************************************************************/
+extern "C" HRESULT __cdecl StrAllocFormattedSecure(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    )
+{
+    Assert(ppwz && wzFormat && *wzFormat);
+
+    HRESULT hr = S_OK;
+    va_list args;
+
+    va_start(args, wzFormat);
+    hr = StrAllocFormattedArgsSecure(ppwz, wzFormat, args);
     va_end(args);
 
     return hr;
@@ -789,7 +955,46 @@ and formats it with the passed in args
 NOTE: caller is responsible for freeing ppwz even if function fails
 ********************************************************************/
 extern "C" HRESULT DAPI StrAllocFormattedArgs(
-    __deref_out_z  LPWSTR* ppwz,
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    __in va_list args
+    )
+{
+    return AllocFormattedArgsHelper(ppwz, FALSE, wzFormat, args);
+}
+
+
+/********************************************************************
+StrAllocFormattedArgsSecure - allocates or reuses dynamic string memory
+and formats it with the passed in args.
+
+If the memory needs to reallocated, calls SecureZeroMemory on the 
+original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+********************************************************************/
+extern "C" HRESULT DAPI StrAllocFormattedArgsSecure(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    __in va_list args
+    )
+{
+    return AllocFormattedArgsHelper(ppwz, TRUE, wzFormat, args);
+}
+
+
+/********************************************************************
+AllocFormattedArgsHelper - allocates or reuses dynamic string memory
+and formats it with the passed in args.
+
+If fZeroOnRealloc is true and the memory needs to reallocated, 
+calls SecureZeroMemory on original block of memory after it is moved.
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+********************************************************************/
+static HRESULT AllocFormattedArgsHelper(
+    __deref_out_z LPWSTR* ppwz,
+    __in BOOL fZeroOnRealloc,
     __in __format_string LPCWSTR wzFormat,
     __in va_list args
     )
@@ -797,27 +1002,29 @@ extern "C" HRESULT DAPI StrAllocFormattedArgs(
     Assert(ppwz && wzFormat && *wzFormat);
 
     HRESULT hr = S_OK;
-    DWORD_PTR cch = 0;
+    SIZE_T cch = 0;
     LPWSTR pwzOriginal = NULL;
-    DWORD_PTR cchOriginal = 0;
+    SIZE_T cbOriginal = 0;
+    SIZE_T cchOriginal = 0;
 
     if (*ppwz)
     {
-        cch = MemSize(*ppwz);  // get the count in bytes so we can check if it failed (returns -1)
-        if (-1 == cch)
+        cbOriginal = MemSize(*ppwz);  // get the count in bytes so we can check if it failed (returns -1)
+        if (-1 == cbOriginal)
         {
             hr = E_INVALIDARG;
             ExitOnFailure(hr, "failed to get size of destination string");
         }
-        cch /= sizeof(WCHAR);  //convert the count in bytes to count in characters
 
+        cch = cbOriginal / sizeof(WCHAR);  //convert the count in bytes to count in characters
         cchOriginal = lstrlenW(*ppwz);
     }
 
     if (0 == cch)   // if there is no space in the string buffer
     {
         cch = 256;
-        hr = StrAlloc(ppwz, cch);
+
+        hr = AllocHelper(ppwz, cch, fZeroOnRealloc);
         ExitOnFailure1(hr, "failed to allocate string to format: %ls", wzFormat);
     }
 
@@ -833,19 +1040,28 @@ extern "C" HRESULT DAPI StrAllocFormattedArgs(
                 // save the original string and free it after the printf is complete
                 pwzOriginal = *ppwz;
                 *ppwz = NULL;
+
                 // StringCchVPrintfW starts writing to the string...
                 // NOTE: this hack only works with sprintf(&pwz, "%s ...", pwz, ...);
                 pwzOriginal[cchOriginal] = 0;
             }
+
             cch *= 2;
-            hr = StrAlloc(ppwz, cch);
+
+            hr = AllocHelper(ppwz, cch, fZeroOnRealloc);
             ExitOnFailure1(hr, "failed to allocate string to format: %ls", wzFormat);
+
             hr = S_FALSE;
         }
     } while (S_FALSE == hr);
     ExitOnFailure(hr, "failed to format string");
 
 LExit:
+    if (pwzOriginal && fZeroOnRealloc)
+    {
+        SecureZeroMemory(pwzOriginal, cbOriginal);
+    }
+
     ReleaseStr(pwzOriginal);
 
     return hr;
@@ -2413,5 +2629,52 @@ static HRESULT StrAllocStringMapInvariant(
     }
 
 LExit:
+    return hr;
+}
+
+/****************************************************************************
+StrSecureZeroString - zeroes out string to the make sure the contents
+don't remain in memory.
+
+****************************************************************************/
+extern "C" HRESULT StrSecureZeroString(
+    __in LPWSTR pwz
+    )
+{
+    HRESULT hr = S_OK;
+    DWORD_PTR cch;
+
+    if (pwz)
+    {
+        cch = MemSize(pwz);
+        if (-1 == cch)
+        {
+            hr = E_INVALIDARG;
+            ExitOnFailure(hr, "Failed to get size of string");
+        }
+        else
+        {
+            SecureZeroMemory(pwz, cch);
+        }
+    }
+    
+LExit:
+    return hr;
+}
+
+/****************************************************************************
+StrSecureZeroFreeString - zeroes out string to the make sure the contents
+don't remain in memory, then frees the string.
+
+****************************************************************************/
+extern "C" HRESULT StrSecureZeroFreeString(
+    __in LPWSTR pwz
+    )
+{
+    HRESULT hr = S_OK;
+
+    hr = StrSecureZeroString(pwz);
+    ReleaseStr(pwz);
+
     return hr;
 }

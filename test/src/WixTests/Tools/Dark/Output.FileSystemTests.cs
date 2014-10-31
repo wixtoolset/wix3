@@ -12,16 +12,14 @@ namespace WixTest.Tests.Tools.Dark.Output
 {
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
     
     /// <summary>
     /// Test how Dark handles different values for output file.
     /// </summary>
-    [TestClass]
     public class FileSystemTests : WixTests
     {
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Dark generates the expected error when the output directory is has the same name as an existing file.")]
         [Priority(2)]
         public void InvalidOutputFile()
@@ -39,7 +37,7 @@ namespace WixTest.Tests.Tools.Dark.Output
             dark.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the appropriate error message is generated for output filenames containing illegal characters.")]
         [Priority(2)]
         public void InvalidOutputFileName()

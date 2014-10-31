@@ -26,14 +26,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
         }
 
-        public WixProductSearchInfo(string id, string productCode, int attributes)
+        public WixProductSearchInfo(string id, string guid, int attributes)
             : base(id)
         {
-            this.ProductCode = productCode;
+            this.Guid = guid;
             this.Attributes = (WixProductSearchAttributes)attributes;
         }
 
-        public string ProductCode { get; private set; }
+        public string Guid { get; private set; }
         public WixProductSearchAttributes Attributes { get; private set; }
 
         /// <summary>
@@ -45,7 +45,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
             writer.WriteStartElement("MsiProductSearch");
             this.WriteWixSearchAttributes(writer);
 
-            writer.WriteAttributeString("ProductCode", this.ProductCode);
+            if (0 != (this.Attributes & WixProductSearchAttributes.UpgradeCode))
+            {
+                writer.WriteAttributeString("UpgradeCode", this.Guid);
+            }
+            else
+            {
+                writer.WriteAttributeString("ProductCode", this.Guid);
+            }
 
             if (0 != (this.Attributes & WixProductSearchAttributes.Version))
             {

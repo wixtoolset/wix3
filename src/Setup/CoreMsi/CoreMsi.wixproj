@@ -9,7 +9,7 @@
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.8</ProductVersion>
+    <ProductVersion>3.9</ProductVersion>
     <ProjectGuid>{FC691478-732D-4C2D-A19B-272898E83EE9}</ProjectGuid>
     <OutputName>core</OutputName>
     <OutputType>Package</OutputType>
@@ -17,7 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="ClickThrough.wxs" />
     <Compile Include="CoreMsi.wxs" />
     <Compile Include="Doc.wxs" />
     <Compile Include="Extensions.wxs" />
@@ -38,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\chm\chm.helpproj">
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
     <ProjectReference Include="..\Icons\setupicons.vcxproj" />
     <ProjectReference Include="..\CommonLib\CommonLib.wixproj" />
   </ItemGroup>

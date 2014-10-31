@@ -15,17 +15,15 @@ namespace WixTest.Tests.Extensions.VSExtension
     using System.Text;
     using System.Diagnostics;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
-
     using WixTest;
     using WixTest.Verifiers;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// NetFX extension VSSetup element tests
     /// </summary>
-    [TestClass]
     public class VSExtensionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\VSExtension\VSExtensionTests");
@@ -34,8 +32,7 @@ namespace WixTest.Tests.Extensions.VSExtension
         private static string OutputFileName;
         private static string DevenvOriginalLocation;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
+        protected override void ClassInitialize()
         {
             // create a new command file
             string commandFileName = Path.Combine(Path.GetTempPath(), "stubdevenv.cmd");
@@ -49,10 +46,10 @@ namespace WixTest.Tests.Extensions.VSExtension
             Registry.SetValue(VSExtensionTests.DevenvRegistryKey, VSExtensionTests.DevenvRegistryValueName, commandFileName);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the propject templates are installed to the correct folder on install")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void VS90InstallVSTemplates_Install()
         {
             string sourceFile = Path.Combine(VSExtensionTests.TestDataDirectory, @"VS90InstallVSTemplates.wxs");
@@ -60,18 +57,18 @@ namespace WixTest.Tests.Extensions.VSExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(File.Exists(VSExtensionTests.OutputFileName), "devenv.exe was not called");
+            Assert.True(File.Exists(VSExtensionTests.OutputFileName), "devenv.exe was not called");
             string acctualParamters = File.ReadAllText(VSExtensionTests.OutputFileName).Trim();
             string expectedParamters = "/InstallVSTemplates";
-            Assert.IsTrue(acctualParamters.ToLowerInvariant().Equals(expectedParamters.ToLowerInvariant()), "devenv.exe was not called with the expected paramters. Acctual: '{0}'. Expected '{1}'.", acctualParamters, expectedParamters);
+            Assert.True(acctualParamters.ToLowerInvariant().Equals(expectedParamters.ToLowerInvariant()), String.Format("devenv.exe was not called with the expected paramters. Acctual: '{0}'. Expected '{1}'.", acctualParamters, expectedParamters));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the propject templates are installed to the correct folder on install")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void VSSetup_Install()
         {
             string sourceFile = Path.Combine(VSExtensionTests.TestDataDirectory, @"VS90Setup.wxs");
@@ -79,25 +76,24 @@ namespace WixTest.Tests.Extensions.VSExtension
 
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            Assert.IsTrue(File.Exists(VSExtensionTests.OutputFileName), "devenv.exe was not called");
+            Assert.True(File.Exists(VSExtensionTests.OutputFileName), "devenv.exe was not called");
             string acctualParamters = File.ReadAllText(VSExtensionTests.OutputFileName).Trim();
             string expectedParamters = "/setup";
-            Assert.IsTrue(acctualParamters.ToLowerInvariant().Equals(expectedParamters.ToLowerInvariant()), "devenv.exe was not called with the expected paramters. Acctual: '{0}'. Expected '{1}'.", acctualParamters, expectedParamters);
+            Assert.True(acctualParamters.ToLowerInvariant().Equals(expectedParamters.ToLowerInvariant()), String.Format("devenv.exe was not called with the expected paramters. Acctual: '{0}'. Expected '{1}'.", acctualParamters, expectedParamters));
 
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 
-        [TestCleanup]
-        public override void CleanUp()
+        protected override void TestUninitialize()
         {
+            base.TestUninitialize();
             File.Delete(VSExtensionTests.OutputFileName);
-            // make sure to call the base class cleanup method
-            base.CleanUp();
         }
 
-        [ClassCleanup]
-        public static void ClassCleanUp()
+        protected override void ClassUninitialize()
         {
+            base.ClassUninitialize();
+
             // replace the devenv.exe registry key  with the original file
             Registry.SetValue(VSExtensionTests.DevenvRegistryKey, VSExtensionTests.DevenvRegistryValueName, VSExtensionTests.DevenvOriginalLocation);
         }

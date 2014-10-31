@@ -21,7 +21,6 @@ namespace Test
 namespace Bootstrapper
 {
     using namespace System;
-    using namespace Microsoft::VisualStudio::TestTools::UnitTesting;
 
     public ref struct BurnTestException : public System::Exception
     {

@@ -25,15 +25,15 @@ extern "C" {
                                                                           | (static_cast<DWORD64>(build & 0xFFFF) << 16) \
                                                                           | (static_cast<DWORD64>(revision & 0xFFFF)))
 
-enum FILE_ARCHITECTURE
+typedef enum FILE_ARCHITECTURE
 {
     FILE_ARCHITECTURE_UNKNOWN,
     FILE_ARCHITECTURE_X86,
     FILE_ARCHITECTURE_X64,
     FILE_ARCHITECTURE_IA64,
-};
+} FILE_ARCHITECTURE;
 
-enum FILE_ENCODING
+typedef enum FILE_ENCODING
 {
     FILE_ENCODING_UNSPECIFIED = 0,
     // TODO: distinguish between non-BOM utf-8 and ANSI in the future?
@@ -41,7 +41,7 @@ enum FILE_ENCODING
     FILE_ENCODING_UTF8_WITH_BOM,
     FILE_ENCODING_UTF16,
     FILE_ENCODING_UTF16_WITH_BOM,
-};
+} FILE_ENCODING;
 
 
 LPWSTR DAPI FileFromPath(

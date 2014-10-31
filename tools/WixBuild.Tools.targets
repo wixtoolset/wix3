@@ -33,8 +33,6 @@
     <Message Importance="high" Text="WixObjRoot = $(WixObjRoot)" />
     <Message Importance="high" Text="IntermediateOutputPath = $(IntermediateOutputPath)" />
     <Message Importance="high" Text="OutputPath = $(OutputPath)" />
-    <Message Importance="high" Text="VS2008Available = $(VS2008Available)" />
-    <Message Importance="high" Text="VS2008SdkAvailable = $(VS2008SdkAvailable)" />
     <Message Importance="high" Text="VS2010Available = $(VS2010Available)" />
     <Message Importance="high" Text="VS2010SdkAvailable = $(VS2010SdkAvailable)" />
     <Message Importance="high" Text="VS2012Available = $(VS2012Available)" />
@@ -65,8 +63,8 @@
 
     <Error
       Code="WIXBUILD000"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2008SdkAvailable) and $(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable))"
-      Text="All versions of VS and VS SDK are required on an official build. Install VS2008, VS2010, VS2012, VS2013, and matching SDKs." />
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable))"
+      Text="All versions of VS and VS SDK are required on an official build. Install VS2010, VS2012, VS2013, and matching SDKs." />
 
     <Error
       Code="WIXBUILD001"
@@ -77,11 +75,6 @@
       Code="WIXBUILD002"
       Condition=" '$(PlatformSdkBinPath)' == '' or !Exists('$(PlatformSdkBinPath)')"
       Text="Error the &quot;Microsoft Windows SDK for Windows 7 and .NET Framework 4&quot; or &quot;Visual Studio 2010&quot; must be installed." />
-
-    <Error
-      Code="WIXBUILD003"
-      Condition=" '$(SqlCESdkIncludePath)' == '' or !Exists('$(SqlCESdkIncludePath)')"
-      Text="Error the &quot;Microsoft SQL Server Compact Edition SDK v3.5 or v4.0&quot; must be installed. This is usually installed with Visual Studio 2010 or Visual Studio 2012" />
 
     <Error
       Code="WIXBUILD004"
@@ -293,7 +286,11 @@
       <_RcPreprocessorSwitch>@(_RcPreprocessorDefinition -> '/d &quot;%(Identity)&quot;', ' ')</_RcPreprocessorSwitch>
     </PropertyGroup>
 
-    <Exec Command="&quot;$(PlatformSdkBinPath)rc.exe&quot; /nologo /fo &quot;$(ResFile)&quot; $(_RcIncludeSwitch) $(_RcPreprocessorSwitch) &quot;@(EmbeddedNativeResource)&quot;"
+    <PropertyGroup Condition=" '$(PlatformSdkRegistryVersion)'=='v7.1A' and '12.0'&lt;='$(MSBuildToolsVersion)' ">
+      <_RcUsingSdkSwitch>/D &quot;_USING_V110_SDK71_&quot;</_RcUsingSdkSwitch>
+    </PropertyGroup>
+
+    <Exec Command="&quot;$(PlatformSdkBinPath)rc.exe&quot; /nologo /fo &quot;$(ResFile)&quot; $(_RcIncludeSwitch) $(_RcPreprocessorSwitch) $(_RcUsingSdkSwitch) &quot;@(EmbeddedNativeResource)&quot;"
           Outputs="$(ResFile)" />
 
     <PropertyGroup>
@@ -326,10 +323,6 @@
     <GenerateWixIncludeDependsOn>
       PrepareGenerateWixInclude
     </GenerateWixIncludeDependsOn>
-    <PrepareForBuildDependsOn>
-      $(PrepareForBuildDependsOn);
-      GenerateWixInclude
-    </PrepareForBuildDependsOn>
   </PropertyGroup>
   <Target
     Name="GenerateWixInclude"

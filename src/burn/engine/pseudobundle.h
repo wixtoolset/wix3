@@ -30,7 +30,7 @@ HRESULT PseudoBundleInitialize(
     __in_z_opt LPCWSTR wzDownloadSource,
     __in DWORD64 qwSize,
     __in BOOL fVital,
-    __in_z LPCWSTR wzInstallArguments,
+    __in_z_opt LPCWSTR wzInstallArguments,
     __in_z_opt LPCWSTR wzRepairArguments,
     __in_z_opt LPCWSTR wzUninstallArguments,
     __in_opt BURN_DEPENDENCY_PROVIDER* pDependencyProvider,
@@ -40,8 +40,9 @@ HRESULT PseudoBundleInitialize(
 HRESULT PseudoBundleInitializePassthrough(
     __in BURN_PACKAGE* pPassthroughPackage,
     __in BOOTSTRAPPER_COMMAND* pCommand,
-    __in_z_opt LPCWSTR wzApppendLogPath,
+    __in_z_opt LPCWSTR wzAppendLogPath,
     __in_z_opt LPWSTR wzActiveParent,
+    __in_z_opt LPWSTR wzAncestors,
     __in BURN_PACKAGE* pPackage
     );
 

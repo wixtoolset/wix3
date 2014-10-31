@@ -157,8 +157,26 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 case "Upgrade":
                     row = new UpgradeRow(sourceLineNumbers, this);
                     break;
+                case "Variable":
+                    row = new VariableRow(sourceLineNumbers, this);
+                    break;
                 case "WixAction":
                     row = new WixActionRow(sourceLineNumbers, this);
+                    break;
+                case "WixApprovedExeForElevation":
+                    row = new WixApprovedExeForElevationRow(sourceLineNumbers, this);
+                    break;
+                case "WixBundle":
+                    row = new WixBundleRow(sourceLineNumbers, this);
+                    break;
+                case "WixBundlePatchTargetCode":
+                    row = new WixBundlePatchTargetCodeRow(sourceLineNumbers, this);
+                    break;
+                case "WixBundleUpdate":
+                    row = new WixBundleUpdateRow(sourceLineNumbers, this);
+                    break;
+                case "WixCatalog":
+                    row = new WixCatalogRow(sourceLineNumbers, this);
                     break;
                 case "WixComplexReference":
                     row = new WixComplexReferenceRow(sourceLineNumbers, this);
@@ -178,20 +196,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 case "WixProperty":
                     row = new WixPropertyRow(sourceLineNumbers, this);
                     break;
-                case "WixBundle":
-                    row = new WixBundleRow(sourceLineNumbers, this);
-                    break;
-                case "WixBundlePatchTargetCode":
-                    row = new WixBundlePatchTargetCodeRow(sourceLineNumbers, this);
-                    break;
-                case "WixBundleUpdate":
-                    row = new WixBundleUpdateRow(sourceLineNumbers, this);
+                case "WixSimpleReference":
+                    row = new WixSimpleReferenceRow(sourceLineNumbers, this);
                     break;
                 case "WixUpdateRegistration":
                     row = new WixUpdateRegistrationRow(sourceLineNumbers, this);
-                    break;
-                case "WixSimpleReference":
-                    row = new WixSimpleReferenceRow(sourceLineNumbers, this);
                     break;
                 case "WixVariable":
                     row = new WixVariableRow(sourceLineNumbers, this);
@@ -377,6 +386,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
             if (this.tableDefinition.IsUnreal)
             {
                 return;
+            }
+
+            if (TableDefinition.MaxColumnsInRealTable < this.tableDefinition.Columns.Count)
+            {
+                throw new WixException(WixErrors.TooManyColumnsInRealTable(this.tableDefinition.Name, this.tableDefinition.Columns.Count, TableDefinition.MaxColumnsInRealTable));
             }
 
             // tack on the table header, and flush before we start writing bytes directly to the stream

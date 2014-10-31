@@ -115,7 +115,7 @@ namespace Microsoft.Deployment.WindowsInstaller
             {
                 // Set the current directory to the location of the extracted files.
                 Environment.CurrentDirectory =
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    AppDomain.CurrentDomain.BaseDirectory;
 
                 object[] args = new object[] { session };
                 if (DebugBreakEnabled(new string[] { entryPoint, methodName }))

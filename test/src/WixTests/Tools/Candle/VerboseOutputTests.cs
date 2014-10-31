@@ -14,14 +14,12 @@ namespace WixTest.Tests.Tools.Candle.VerboseOutput
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest.Tests;
     using WixTest;
     
     /// <summary>
     /// Test how Candle handles the v switch
     /// </summary>
-    [TestClass]
     public class VerboseOutputTests : WixTests
     {
     }

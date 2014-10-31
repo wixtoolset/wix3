@@ -103,6 +103,32 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         {
             switch (parentElement.LocalName)
             {
+                case "ExePackage":
+                case "MsiPackage":
+                case "MspPackage":
+                case "MsuPackage":
+                    string packageId;
+                    if (!contextValues.TryGetValue("PackageId", out packageId) || String.IsNullOrEmpty(packageId))
+                    {
+                        this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, parentElement.LocalName, "Id", attribute.LocalName));
+                    }
+                    else
+                    {
+                        switch (attribute.LocalName)
+                        {
+                            case "PrereqSupportPackage":
+                                if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attribute))
+                                {
+                                    Row row = this.Core.CreateRow(sourceLineNumbers, "MbaPrerequisiteSupportPackage");
+                                    row[0] = packageId;
+                                }
+                                break;
+                            default:
+                                this.Core.UnexpectedAttribute(sourceLineNumbers, attribute);
+                                break;
+                        }
+                    }
+                        break;
                 case "Variable":
                     // at the time the extension attribute is parsed, the compiler might not yet have
                     // parsed the Name attribute, so we need to get it directly from the parent element.
@@ -211,6 +237,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         {
             SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
             string launchTarget = null;
+            string launchTargetElevatedId = null;
+            string launchArguments = null;
+            YesNoType launchHidden = YesNoType.NotSet;
             string licenseFile = null;
             string licenseUrl = null;
             string logoFile = null;
@@ -230,6 +259,15 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     {
                         case "LaunchTarget":
                             launchTarget = this.Core.GetAttributeValue(sourceLineNumbers, attrib, false);
+                            break;
+                        case "LaunchTargetElevatedId":
+                            launchTargetElevatedId = this.Core.GetAttributeIdentifierValue(sourceLineNumbers, attrib);
+                            break;
+                        case "LaunchArguments":
+                            launchArguments = this.Core.GetAttributeValue(sourceLineNumbers, attrib, false);
+                            break;
+                        case "LaunchHidden":
+                            launchHidden = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             break;
                         case "LicenseFile":
                             licenseFile = this.Core.GetAttributeValue(sourceLineNumbers, attrib, false);
@@ -297,6 +335,21 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 if (!String.IsNullOrEmpty(launchTarget))
                 {
                     this.Core.CreateVariableRow(sourceLineNumbers, "LaunchTarget", launchTarget, "string", false, false);
+                }
+
+                if (!String.IsNullOrEmpty(launchTargetElevatedId))
+                {
+                    this.Core.CreateVariableRow(sourceLineNumbers, "LaunchTargetElevatedId", launchTargetElevatedId, "string", false, false);
+                }
+
+                if (!String.IsNullOrEmpty(launchArguments))
+                {
+                    this.Core.CreateVariableRow(sourceLineNumbers, "LaunchArguments", launchArguments, "string", false, false);
+                }
+
+                if (YesNoType.Yes == launchHidden)
+                {
+                    this.Core.CreateVariableRow(sourceLineNumbers, "LaunchHidden", "yes", "string", false, false);
                 }
 
                 if (!String.IsNullOrEmpty(licenseFile))

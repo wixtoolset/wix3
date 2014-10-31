@@ -18,11 +18,7 @@
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
-        <Media Id="1" Cabinet="core.cab" CompressionLevel="high" />
-
-        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
-
-        <Icon Id="WixSetupIcons.ico" SourceFile="wixsetupicons.dll" />
+        <MediaTemplate CabinetTemplate="core{0}.cab" />
 
         <Feature Id="Feature_WiX" Title="WiX Toolset" Level="1">
             <Component Id="Licensing" Directory="INSTALLFOLDER">
@@ -57,11 +53,5 @@
         </Feature>
 
         <FeatureRef Id="Feature_MSBuild" />
-
-        <!--<FeatureRef Id="Feature_NAnt" />-->
-
-        <!-- ClickThrough is disabled in WiX v3.8
-        <FeatureRef Id="Feature_ClickThrough" />
-        -->
     </Product>
 </Wix>

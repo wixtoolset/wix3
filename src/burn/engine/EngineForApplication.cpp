@@ -87,6 +87,7 @@ public: // IBootstrapperEngine
         return hr;
     }
 
+    // The contents of pllValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
     virtual STDMETHODIMP GetVariableNumeric(
         __in_z LPCWSTR wzVariable,
         __out LONGLONG* pllValue
@@ -106,6 +107,7 @@ public: // IBootstrapperEngine
         return hr;
     }
 
+    // The contents of wzValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroFree.
     virtual STDMETHODIMP GetVariableString(
         __in_z LPCWSTR wzVariable,
         __out_ecount_opt(*pcchValue) LPWSTR wzValue,
@@ -146,10 +148,11 @@ public: // IBootstrapperEngine
             hr = E_INVALIDARG;
         }
 
-        ReleaseStr(sczValue);
+        StrSecureZeroFreeString(sczValue);
         return hr;
     }
 
+    // The contents of wzValue may be sensitive, if variable is hidden should keep value encrypted and SecureZeroMemory.
     virtual STDMETHODIMP GetVariableVersion(
         __in_z LPCWSTR wzVariable,
         __out DWORD64* pqwValue
@@ -169,6 +172,7 @@ public: // IBootstrapperEngine
         return hr;
     }
 
+    // The contents of wzOut may be sensitive, should keep encrypted and SecureZeroFree.
     virtual STDMETHODIMP FormatString(
         __in_z LPCWSTR wzIn,
         __out_ecount_opt(*pcchOut) LPWSTR wzOut,
@@ -208,7 +212,7 @@ public: // IBootstrapperEngine
             hr = E_INVALIDARG;
         }
 
-        ReleaseStr(sczValue);
+        StrSecureZeroFreeString(sczValue);
         return hr;
     }
 
@@ -249,7 +253,7 @@ public: // IBootstrapperEngine
             hr = E_INVALIDARG;
         }
 
-        ReleaseStr(sczValue);
+        StrSecureZeroFreeString(sczValue);
         return hr;
     }
 
@@ -416,7 +420,7 @@ public: // IBootstrapperEngine
                 ExitOnFailure(hr, "Failed to default local update source");
             }
 
-            hr = CoreRecreateCommandLine(&sczCommandline, BOOTSTRAPPER_ACTION_INSTALL, m_pEngineState->command.display, m_pEngineState->command.restart, BOOTSTRAPPER_RELATION_NONE, FALSE, m_pEngineState->registration.sczActiveParent, NULL, m_pEngineState->command.wzCommandLine);
+            hr = CoreRecreateCommandLine(&sczCommandline, BOOTSTRAPPER_ACTION_INSTALL, m_pEngineState->command.display, m_pEngineState->command.restart, BOOTSTRAPPER_RELATION_NONE, FALSE, m_pEngineState->registration.sczActiveParent, m_pEngineState->registration.sczAncestors, NULL, m_pEngineState->command.wzCommandLine);
             ExitOnFailure(hr, "Failed to recreate command-line for update bundle.");
 
             hr = PseudoBundleInitialize(FILEMAKEVERSION(rmj, rmm, rup, 0), &m_pEngineState->update.package, FALSE, m_pEngineState->registration.sczId, BOOTSTRAPPER_RELATION_UPDATE, BOOTSTRAPPER_PACKAGE_STATE_ABSENT, m_pEngineState->registration.sczExecutableName, sczLocalSource ? sczLocalSource : wzLocalSource, wzDownloadSource, qwSize, TRUE, sczCommandline, NULL, NULL, NULL, rgbHash, cbHash);
@@ -494,7 +498,7 @@ public: // IBootstrapperEngine
         HRESULT hr = S_OK;
         BURN_CONTAINER* pContainer = NULL;
         BURN_PAYLOAD* pPayload = NULL;
-        BURN_DOWNLOAD_SOURCE* pDownloadSource = NULL;
+        DOWNLOAD_SOURCE* pDownloadSource = NULL;
 
         ::EnterCriticalSection(&m_pEngineState->csActive);
         hr = UserExperienceEnsureEngineInactive(&m_pEngineState->userExperience);
@@ -641,11 +645,13 @@ public: // IBootstrapperEngine
         return S_OK;
     }
 
-    virtual STDMETHODIMP Detect()
+    virtual STDMETHODIMP Detect(
+        __in_opt HWND hwndParent
+        )
     {
         HRESULT hr = S_OK;
 
-        if (!::PostThreadMessageW(m_dwThreadId, WM_BURN_DETECT, 0, 0))
+        if (!::PostThreadMessageW(m_dwThreadId, WM_BURN_DETECT, 0, reinterpret_cast<LPARAM>(hwndParent)))
         {
             ExitWithLastError(hr, "Failed to post detect message.");
         }
@@ -715,6 +721,66 @@ public: // IBootstrapperEngine
         }
 
     LExit:
+        return hr;
+    }
+
+    virtual STDMETHODIMP LaunchApprovedExe(
+        __in_opt HWND hwndParent,
+        __in_z LPCWSTR wzApprovedExeForElevationId,
+        __in_z_opt LPCWSTR wzArguments,
+        __in DWORD dwWaitForInputIdleTimeout
+        )
+    {
+        HRESULT hr = S_OK;
+        BURN_APPROVED_EXE* pApprovedExe = NULL;
+        BOOL fLeaveCriticalSection = FALSE;
+        BURN_LAUNCH_APPROVED_EXE* pLaunchApprovedExe = (BURN_LAUNCH_APPROVED_EXE*)MemAlloc(sizeof(BURN_LAUNCH_APPROVED_EXE), TRUE);
+
+        ::EnterCriticalSection(&m_pEngineState->csActive);
+        fLeaveCriticalSection = TRUE;
+        hr = UserExperienceEnsureEngineInactive(&m_pEngineState->userExperience);
+        ExitOnFailure(hr, "Engine is active, cannot change engine state.");
+
+        if (!wzApprovedExeForElevationId || !*wzApprovedExeForElevationId)
+        {
+            ExitFunction1(hr = E_INVALIDARG);
+        }
+
+        hr = ApprovedExesFindById(&m_pEngineState->approvedExes, wzApprovedExeForElevationId, &pApprovedExe);
+        ExitOnFailure1(hr, "UX requested unknown approved exe with id: %ls", wzApprovedExeForElevationId);
+
+        ::LeaveCriticalSection(&m_pEngineState->csActive);
+        fLeaveCriticalSection = FALSE;
+
+        hr = StrAllocString(&pLaunchApprovedExe->sczId, wzApprovedExeForElevationId, NULL);
+        ExitOnFailure(hr, "Failed to copy the id.");
+
+        if (wzArguments)
+        {
+            hr = StrAllocString(&pLaunchApprovedExe->sczArguments, wzArguments, NULL);
+            ExitOnFailure(hr, "Failed to copy the arguments.");
+        }
+
+        pLaunchApprovedExe->dwWaitForInputIdleTimeout = dwWaitForInputIdleTimeout;
+
+        pLaunchApprovedExe->hwndParent = hwndParent;
+
+        if (!::PostThreadMessageW(m_dwThreadId, WM_BURN_LAUNCH_APPROVED_EXE, 0, reinterpret_cast<LPARAM>(pLaunchApprovedExe)))
+        {
+            ExitWithLastError(hr, "Failed to post launch approved exe message.");
+        }
+
+    LExit:
+        if (fLeaveCriticalSection)
+        {
+            ::LeaveCriticalSection(&m_pEngineState->csActive);
+        }
+
+        if (FAILED(hr))
+        {
+            ApprovedExesUninitializeLaunch(pLaunchApprovedExe);
+        }
+
         return hr;
     }
 

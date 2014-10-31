@@ -21,8 +21,10 @@
 #include <shlwapi.h>
 #include <stdlib.h>
 #include <strsafe.h>
+#include "wininet.h"
 
 #include <dutil.h>
+#include <dlutil.h>
 #include <buffutil.h>
 #include <dirutil.h>
 #include <fileutil.h>
@@ -49,6 +51,7 @@
 #include "condition.h"
 #include "search.h"
 #include "section.h"
+#include "approvedexe.h"
 #include "container.h"
 #include "catalog.h"
 #include "payload.h"
@@ -63,7 +66,6 @@
 #include "logging.h"
 #include "core.h"
 #include "cache.h"
-#include "downloadengine.h"
 #include "apply.h"
 #include "exeengine.h"
 #include "msiengine.h"

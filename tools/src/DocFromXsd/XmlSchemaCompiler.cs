@@ -886,7 +886,7 @@ namespace WixBuild.Tools.DocFromXsd
                                     }
                                     else
                                     {
-                                        WriteLink(String.Format("http://search.msdn.microsoft.com/Default.aspx?Query={0}%20table%20windows%20installer", table), String.Concat(table, " Table"), null, "_blank", writer);
+                                        WriteLink(String.Format("http://social.msdn.microsoft.com/Search/?query={0}%20table%20windows%20installer", table), String.Concat(table, " Table"), null, "_blank", writer);
                                     }
                                 }
 
@@ -900,7 +900,7 @@ namespace WixBuild.Tools.DocFromXsd
                                     }
                                     else
                                     {
-                                        WriteLink(String.Format("http://search.msdn.microsoft.com/Default.aspx?Query={0}%20action%20windows%20installer", action), String.Concat(action, " Action"), null, "_blank", writer);
+                                        WriteLink(String.Format("http://social.msdn.microsoft.com/Search/?query={0}%20action%20windows%20installer", action), String.Concat(action, " Action"), null, "_blank", writer);
                                     }
                                 }
 
@@ -1669,9 +1669,15 @@ namespace WixBuild.Tools.DocFromXsd
                             if (element != null && element.LocalName == "seeAlso" && element.NamespaceURI == XmlSchemaExtensionNamespace)
                             {
                                 string reference = element.GetAttribute("ref");
+                                string ns = element.GetAttribute("namespace");
+
+                                if (String.IsNullOrEmpty(ns))
+                                {
+                                    ns = schema.TargetNamespace;
+                                }
 
                                 writer.WriteString(", ");
-                                this.WriteElementLink(new XmlQualifiedName(reference, schema.TargetNamespace), writer);
+                                this.WriteElementLink(new XmlQualifiedName(reference, ns), writer);
                             }
                         }
                     }

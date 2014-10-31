@@ -80,6 +80,7 @@ LExit:
 }
 
 
+//the contents of psczMessage may be sensitive, should keep encrypted and SecureZeroFree
 DAPI_(HRESULT) BalConditionEvaluate(
     __in BAL_CONDITION* pCondition,
     __in IBootstrapperEngine* pEngine,
@@ -106,7 +107,7 @@ DAPI_(HRESULT) BalConditionEvaluate(
         {
             ++cchMessage;
 
-            hr = StrAlloc(psczMessage, cchMessage);
+            hr = StrAllocSecure(psczMessage, cchMessage);
             ExitOnFailure(hr, "Failed to allocate string for condition's formatted message.");
 
             hr = pEngine->FormatString(pCondition->sczMessage, *psczMessage, reinterpret_cast<DWORD*>(&cchMessage));

@@ -14,20 +14,18 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// IIS extension IISWebServiceExtension element tests
     /// </summary>
-    [TestClass]
     public class IISWebServiceExtensionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISWebServiceExtensionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsWebServiceExtension,CustomAction) Tables are created in the MSI and have expected data.")]
         [Priority(1)]
         public void IISWebServiceExtension_VerifyMSITableData()
@@ -61,10 +59,10 @@ namespace WixTest.Tests.Extensions.IISExtension
 
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI.Verify that “TestFilter” Was added for website 'Test'.Verify that 'Global Filter' was added as a global filter.Uninstall the MSi Verify that filters are removed")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebServiceExtension_Install()
         {
             string sourceFile = Path.Combine(IISWebServiceExtensionTests.TestDataDirectory, @"product.wxs");
@@ -74,19 +72,19 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that Extension “extension1” is present in the WebSvcExtRestrictionList and is enabled
-            Assert.IsTrue(IISVerifier.WebServiceExtensionExists("WiX Test Extension1"), "WebServiceExtension '{0}' was not created on Install", "WiX Test Extension1");
-            Assert.IsTrue(IISVerifier.WebServiceExtensionEnabled("WiX Test Extension1") == true, "WebServiceExtension '{0}' was not Enabled on Install", "WiX Test Extension1");
+            Assert.True(IISVerifier.WebServiceExtensionExists("WiX Test Extension1"), String.Format("WebServiceExtension '{0}' was not created on Install", "WiX Test Extension1"));
+            Assert.True(IISVerifier.WebServiceExtensionEnabled("WiX Test Extension1"), String.Format("WebServiceExtension '{0}' was not Enabled on Install", "WiX Test Extension1"));
             
             // Verify that Extension “extension2” is present in the WebSvcExtRestrictionList and is disabled
-            Assert.IsTrue(IISVerifier.WebServiceExtensionExists("WiX Test Extension2"), "WebServiceExtension '{0}' was not created on Install", "WiX Test Extension2");
-            Assert.IsTrue(IISVerifier.WebServiceExtensionEnabled("WiX Test Extension2") == false, "WebServiceExtension '{0}' was not Disabled on Install", "WiX Test Extension2");
+            Assert.True(IISVerifier.WebServiceExtensionExists("WiX Test Extension2"), String.Format("WebServiceExtension '{0}' was not created on Install", "WiX Test Extension2"));
+            Assert.False(IISVerifier.WebServiceExtensionEnabled("WiX Test Extension2"), String.Format("WebServiceExtension '{0}' was not Disabled on Install", "WiX Test Extension2"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that “WiX Test Extension1” and “WiX Test Extension2” were removed 
-            Assert.IsFalse(IISVerifier.WebServiceExtensionExists("WiX Test Extension1"), "WebServiceExtension '{0}' was not removed on Uninstall", "WiX Test Extension1");
-            Assert.IsFalse(IISVerifier.WebServiceExtensionExists("WiX Test Extension2"), "WebServiceExtension '{0}' was not removed on Uninstall", "WiX Test Extension2");
+            Assert.False(IISVerifier.WebServiceExtensionExists("WiX Test Extension1"), String.Format("WebServiceExtension '{0}' was not removed on Uninstall", "WiX Test Extension1"));
+            Assert.False(IISVerifier.WebServiceExtensionExists("WiX Test Extension2"), String.Format("WebServiceExtension '{0}' was not removed on Uninstall", "WiX Test Extension2"));
         }
     }
 }

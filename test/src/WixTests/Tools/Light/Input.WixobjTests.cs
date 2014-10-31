@@ -14,15 +14,12 @@ namespace WixTest.Tests.Tools.Light.Input
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Tests;
 
     /// <summary>
     /// Test for giving wixobj files as input to Light
     /// </summary>
-    [TestClass]
     public class WixobjTests : WixTests
     {
         /// <summary>
@@ -33,7 +30,7 @@ namespace WixTest.Tests.Tools.Light.Input
 
         #region wixobjs
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light accepts a single wixobj as input")]
         [Priority(1)]
         public void SingleWixobj()
@@ -47,7 +44,7 @@ namespace WixTest.Tests.Tools.Light.Input
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light accepts multiple wixobjs as input")]
         [Priority(1)]
         public void MultipleWixobjs()
@@ -63,7 +60,7 @@ namespace WixTest.Tests.Tools.Light.Input
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light accepts multiple wixobjs where at least one wixobj is not referenced")]
         [Priority(2)]
         public void UnreferencedWixobj()
@@ -81,7 +78,7 @@ namespace WixTest.Tests.Tools.Light.Input
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify a Light error for a single wixobj with no entry section")]
         [Priority(2)]
         public void SingleWixobjWithNoEntrySection()
@@ -98,7 +95,7 @@ namespace WixTest.Tests.Tools.Light.Input
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify a Light error for a multiple wixobjs with no entry section")]
         [Priority(3)]
         public void MultipleWixobjsWithNoEntrySection()
@@ -117,10 +114,9 @@ namespace WixTest.Tests.Tools.Light.Input
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact(Skip = "Ignore")]
         [Description("Verify a Light error for a multiple wixobjs with multiple entry sections. This test is disabled until a spec issue is resolved.")]
         [Priority(2)]
-        [Ignore]
         public void MultipleWixobjEntrySections()
         {
             Candle candle = new Candle();

@@ -497,6 +497,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private static ArrayList GetPatchUninstallBreakingTables()
         {
             ArrayList tables = new ArrayList();
+            tables.Add("AppId");
             tables.Add("BindImage");
             tables.Add("Class");
             tables.Add("Complus");
@@ -510,6 +511,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
             tables.Add("LockPermissions");
             tables.Add("MIME");
             tables.Add("MoveFile");
+            tables.Add("MsiLockPermissionsEx");
+            tables.Add("MsiServiceConfig");
+            tables.Add("MsiServiceConfigFailureActions");
             tables.Add("ODBCAttribute");
             tables.Add("ODBCDataSource");
             tables.Add("ODBCDriver");
@@ -558,6 +562,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 string tableName = (string)patchRefRow[0];
                 string key = (string)patchRefRow[1];
+
+                // Short circuit filtering if all changes should be included.
+                if ("*" == tableName && "*" == key)
+                {
+                    Patch.RemoveProductCodeFromTransform(transform);
+                    return true;
+                }
 
                 Table table = transform.Tables[tableName];
                 if (table == null)
@@ -865,6 +876,32 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             return keptRows > 0;
+        }
+
+        /// <summary>
+        /// Remove the ProductCode property from the transform.
+        /// </summary>
+        /// <param name="transform">The transform.</param>
+        /// <remarks>
+        /// Changing the ProductCode is not supported in a patch.
+        /// </remarks>
+        private static void RemoveProductCodeFromTransform(Output transform)
+        {
+            Table propertyTable = transform.Tables["Property"];
+            if (null != propertyTable)
+            {
+                for (int i = 0; i < propertyTable.Rows.Count; ++i)
+                {
+                    Row propertyRow = propertyTable.Rows[i];
+                    string property = (string)propertyRow[0];
+
+                    if ("ProductCode" == property)
+                    {
+                        propertyTable.Rows.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

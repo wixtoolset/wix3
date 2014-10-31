@@ -16,6 +16,8 @@
 extern "C" {
 #endif
 
+const LPCWSTR POLICY_BURN_REGISTRY_PATH = L"WiX\\Burn";
+
 /********************************************************************
 PolcReadNumber - reads a number from policy.
 

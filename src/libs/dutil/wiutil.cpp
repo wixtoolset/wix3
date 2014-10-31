@@ -38,6 +38,7 @@ static PFN_MSIENUMRELATEDPRODUCTSW vpfnMsiEnumRelatedProductsW = ::MsiEnumRelate
 
 // MSI 3.0+
 static PFN_MSIDETERMINEPATCHSEQUENCEW vpfnMsiDeterminePatchSequenceW = NULL;
+static PFN_MSIDETERMINEAPPLICABLEPATCHESW vpfnMsiDetermineApplicablePatchesW = NULL;
 static PFN_MSIENUMPRODUCTSEXW vpfnMsiEnumProductsExW = NULL;
 static PFN_MSIGETPATCHINFOEXW vpfnMsiGetPatchInfoExW = NULL;
 static PFN_MSIGETPRODUCTINFOEXW vpfnMsiGetProductInfoExW = NULL;
@@ -46,6 +47,7 @@ static PFN_MSISOURCELISTADDSOURCEEXW vpfnMsiSourceListAddSourceExW = NULL;
 
 static HMODULE vhMsiDll = NULL;
 static PFN_MSIDETERMINEPATCHSEQUENCEW vpfnMsiDeterminePatchSequenceWFromLibrary = NULL;
+static PFN_MSIDETERMINEAPPLICABLEPATCHESW vpfnMsiDetermineApplicablePatchesWFromLibrary = NULL;
 static PFN_MSIENUMPRODUCTSEXW vpfnMsiEnumProductsExWFromLibrary = NULL;
 static PFN_MSIGETPATCHINFOEXW vpfnMsiGetPatchInfoExWFromLibrary = NULL;
 static PFN_MSIGETPRODUCTINFOEXW vpfnMsiGetProductInfoExWFromLibrary = NULL;
@@ -127,7 +129,7 @@ void UninitializeMessageData(
 
 
 /********************************************************************
- WiuInitialize - initializes wioutil
+ WiuInitialize - initializes wiutil
 
 *********************************************************************/
 extern "C" HRESULT DAPI WiuInitialize(
@@ -146,6 +148,12 @@ extern "C" HRESULT DAPI WiuInitialize(
     if (NULL == vpfnMsiDeterminePatchSequenceW)
     {
         vpfnMsiDeterminePatchSequenceW = vpfnMsiDeterminePatchSequenceWFromLibrary;
+    }
+
+    vpfnMsiDetermineApplicablePatchesWFromLibrary = reinterpret_cast<PFN_MSIDETERMINEAPPLICABLEPATCHESW>(::GetProcAddress(vhMsiDll, "MsiDetermineApplicablePatchesW"));
+    if (NULL == vpfnMsiDetermineApplicablePatchesW)
+    {
+        vpfnMsiDetermineApplicablePatchesW = vpfnMsiDetermineApplicablePatchesWFromLibrary;
     }
 
     vpfnMsiEnumProductsExWFromLibrary = reinterpret_cast<PFN_MSIENUMPRODUCTSEXW>(::GetProcAddress(vhMsiDll, "MsiEnumProductsExW"));
@@ -202,6 +210,7 @@ extern "C" void DAPI WiuUninitialize(
         vpfnMsiGetProductInfoExWFromLibrary = NULL;
         vpfnMsiGetPatchInfoExWFromLibrary = NULL;
         vpfnMsiEnumProductsExWFromLibrary = NULL;
+        vpfnMsiDetermineApplicablePatchesWFromLibrary = NULL;
         vpfnMsiDeterminePatchSequenceWFromLibrary = NULL;
         vpfnMsiSourceListAddSourceExWFromLibrary = NULL;
     }
@@ -530,6 +539,28 @@ LExit:
 }
 
 
+extern "C" HRESULT DAPI WiuDetermineApplicablePatches(
+    __in_z LPCWSTR wzProductPackagePath,
+    __in PMSIPATCHSEQUENCEINFOW pPatchInfo,
+    __in DWORD cPatchInfo
+    )
+{
+    HRESULT hr = S_OK;
+    DWORD er = ERROR_SUCCESS;
+
+    if (!vpfnMsiDetermineApplicablePatchesW)
+    {
+        ExitFunction1(hr = E_NOTIMPL);
+    }
+
+    er = vpfnMsiDetermineApplicablePatchesW(wzProductPackagePath, cPatchInfo, pPatchInfo);
+    ExitOnWin32Error(er, hr, "Failed to determine applicable patches for product package.");
+
+LExit:
+    return hr;
+}
+
+
 extern "C" HRESULT DAPI WiuEnumProducts(
     __in DWORD iProductIndex,
     __out_ecount(MAX_GUID_CHARS + 1) LPWSTR wzProductCode
@@ -598,6 +629,82 @@ extern "C" HRESULT DAPI WiuEnumRelatedProducts(
     ExitOnWin32Error1(er, hr, "Failed to enumerate related products for updgrade code: %ls", wzUpgradeCode);
 
 LExit:
+    return hr;
+}
+
+/********************************************************************
+ WiuEnumRelatedProductCodes - Returns an array of related products for a given upgrade code.
+
+ Parameters:
+ wzUpgradeCode - The upgrade code that will be used to find the related products.
+ prgsczProductCodes - Pointer to the array that will contain the product codes.
+ pcRelatedProducts - Returns the count of the number of related products found.
+ fReturnHighestVersionOnly - When set to "TRUE", will only return the product code of the highest version found.
+********************************************************************/
+extern "C" HRESULT DAPI WiuEnumRelatedProductCodes(
+    __in_z LPCWSTR wzUpgradeCode,
+    __deref_out_ecount_opt(pcRelatedProducts) LPWSTR** prgsczProductCodes,
+    __out DWORD* pcRelatedProducts,
+    __in BOOL fReturnHighestVersionOnly
+    )
+{
+    HRESULT hr = S_OK;
+    WCHAR wzCurrentProductCode[MAX_GUID_CHARS + 1] = { };
+    LPWSTR sczInstalledVersion = NULL;
+    DWORD64 qwCurrentVersion = 0;
+    DWORD64 qwHighestVersion = 0;
+
+    // make sure we start at zero
+    *pcRelatedProducts = 0;
+
+    for (DWORD i = 0; ; ++i)
+    {
+        hr = WiuEnumRelatedProducts(wzUpgradeCode, i, wzCurrentProductCode);
+
+        if (E_NOMOREITEMS == hr)
+        {
+            hr = S_OK;
+            break;
+        }
+        ExitOnFailure1(hr, "Failed to enumerate related products for upgrade code: %ls", wzUpgradeCode);
+
+        if (fReturnHighestVersionOnly)
+        {
+            // get the version
+            hr = WiuGetProductInfo(wzCurrentProductCode, L"VersionString", &sczInstalledVersion);
+            ExitOnFailure1(hr, "Failed to get version for product code: %ls", wzCurrentProductCode);
+
+            hr = FileVersionFromStringEx(sczInstalledVersion, 0, &qwCurrentVersion);
+            ExitOnFailure2(hr, "Failed to convert version: %ls to DWORD64 for product code: %ls", sczInstalledVersion, wzCurrentProductCode);
+
+            // if this is the first product found then it is the highest version (for now)
+            if (0 == *pcRelatedProducts)
+            {
+                qwHighestVersion = qwCurrentVersion;
+            }
+            else
+            {
+                // if this is the highest version encountered so far then overwrite
+                // the first item in the array (there will never be more than one item)
+                if (qwCurrentVersion > qwHighestVersion)
+                {
+                    qwHighestVersion = qwCurrentVersion;
+
+                    hr = StrAllocString(prgsczProductCodes[0], wzCurrentProductCode, 0);
+                    ExitOnFailure(hr, "Failed to update array with higher versioned product code.");
+                }
+
+                // continue here as we don't want anything else added to the list
+                continue;
+            }
+        }
+
+        hr = StrArrayAllocString(prgsczProductCodes, (LPUINT)(pcRelatedProducts), wzCurrentProductCode, 0);
+        ExitOnFailure(hr, "Failed to add product code to array.");
+    }
+
+LExit:
+    ReleaseStr(sczInstalledVersion);
     return hr;
 }
 

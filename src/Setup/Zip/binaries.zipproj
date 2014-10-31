@@ -56,7 +56,9 @@
     <Stage Include="$(OutputPath)WixCop.exe" />
     <Stage Include="$(OutputPath)WixTasks.dll" />
     <!--<Stage Include="$(OutputPath)wui.dll" />-->
-    <Stage Include="$(OutputPath)x86\burn.exe" />
+    <Stage Include="$(OutputPath)x86\burn.exe">
+      <StageSubDirectory>x86</StageSubDirectory>
+    </Stage>
     <Stage Include="$(OutputPath_arm)arm\burn.exe" Condition=" Exists('$(OutputPath_arm)arm\burn.exe') ">
       <StageSubDirectory>arm</StageSubDirectory>
     </Stage>
@@ -68,12 +70,14 @@
 
     <!-- extensions -->
     <Stage Include="$(OutputPath)WixBalExtension.dll" />
+    <Stage Include="$(OutputPath)WixComPlusExtension.dll" />
     <Stage Include="$(OutputPath)WixDifxAppExtension.dll" />
     <Stage Include="$(OutputPath)WixDependencyExtension.dll" />
     <Stage Include="$(OutputPath)WixDirectXExtension.dll" />
     <Stage Include="$(OutputPath)WixFirewallExtension.dll" />
     <Stage Include="$(OutputPath)WixGamingExtension.dll" />
     <Stage Include="$(OutputPath)WixIIsExtension.dll" />
+    <Stage Include="$(OutputPath)WixMsmqExtension.dll " />
     <Stage Include="$(OutputPath)WixNetFxExtension.dll" />
     <!--<Stage Include="$(OutputPath)WixOfficeExtension.dll" />-->
     <Stage Include="$(OutputPath)WixPSExtension.dll" />
@@ -151,6 +155,9 @@
       <StageSubDirectory>sdk</StageSubDirectory>
     </Stage>
     <Stage Include="$(OutputPath)BootstrapperCore.config">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath)BootstrapperCore.xml">
       <StageSubDirectory>sdk</StageSubDirectory>
     </Stage>
 
@@ -237,7 +244,7 @@
       <StageSubDirectory>sdk\inc</StageSubDirectory>
       <Hardlink>false</Hardlink>
     </Stage>
-    <Stage Include="$(WixRoot)src\libs\deptuil\inc\*.h">
+    <Stage Include="$(WixRoot)src\libs\deputil\inc\*.h">
       <StageSubDirectory>sdk\inc</StageSubDirectory>
       <Hardlink>false</Hardlink>
     </Stage>

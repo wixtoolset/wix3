@@ -16,19 +16,16 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
 
     /// <summary>
     /// Tests for the CreateFolder 
     /// </summary>
-    [TestClass]
     public class CreateFolderTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Components\CreateFolderTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a simple use of the CreateFolder element adds the correct entries to the CreateFolder table")]
         [Priority(1)]
         public void SimpleCreateFolder()
@@ -36,7 +33,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest.BuildMsiTest(Path.Combine(CreateFolderTests.TestDataDirectory, @"SimpleCreateFolder\product.wxs"), Path.Combine(CreateFolderTests.TestDataDirectory, @"SimpleCreateFolder\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if two CreateFolder elements try to create the same folder")]
         [Priority(2)]
         public void CreateDuplicateFolders1()
@@ -51,7 +48,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if an undefined Directory is referenced")]
         [Priority(2)]
         public void CreateUndefinedFolder()
@@ -66,7 +63,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a folder can be created with specific permissions")]
         [Priority(2)]
         public void CreateFolderWithPermissions()
@@ -74,7 +71,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest.BuildMsiTest(Path.Combine(CreateFolderTests.TestDataDirectory, @"CreateFolderWithPermissions\product.wxs"), Path.Combine(CreateFolderTests.TestDataDirectory, @"CreateFolderWithPermissions\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error if one CreateFolder uses its default parent folder and a second CreateFolder explicitly references its parent folder")]
         [Priority(3)]
         public void CreateDuplicateFolders2()
@@ -89,7 +86,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a CreateFolder defaults correctly when it is in a floating component")]
         [Priority(3)]
         public void CreateFolderInFloatingComponent()
@@ -97,7 +94,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest.BuildMsiTest(Path.Combine(CreateFolderTests.TestDataDirectory, @"CreateFolderInFloatingComponent\product.wxs"), Path.Combine(CreateFolderTests.TestDataDirectory, @"CreateFolderInFloatingComponent\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that a folder can be created with multiple overlapping permissions")]
         [Priority(3)]
         public void CreateFolderWithMultiplePermissions()
@@ -105,7 +102,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Components
             QuickTest.BuildMsiTest(Path.Combine(CreateFolderTests.TestDataDirectory, @"CreateFolderWithMultiplePermissions\product.wxs"), Path.Combine(CreateFolderTests.TestDataDirectory, @"CreateFolderWithMultiplePermissions\expected.msi"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that shortcuts can be added to created folders")]
         [Priority(3)]
         public void CreateFolderShortcut()

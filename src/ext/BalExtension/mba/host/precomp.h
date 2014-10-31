@@ -15,11 +15,13 @@
 
 #include <windows.h>
 #include <msiquery.h>
-#include <mscoree.h>
+#include <metahost.h>
+#include <shlwapi.h>
 
 #import <mscorlib.tlb> raw_interfaces_only rename("ReportEvent", "mscorlib_ReportEvent")
 
 #include <dutil.h>
+#include <osutil.h>
 #include <pathutil.h>
 #include <regutil.h>
 #include <strutil.h>

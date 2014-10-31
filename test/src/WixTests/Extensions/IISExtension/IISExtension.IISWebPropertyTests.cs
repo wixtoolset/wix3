@@ -14,21 +14,18 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
-
+    using Xunit;
 
     /// <summary>
     /// IIS extension WebProperty element tests
     /// </summary>
-    [TestClass]
     public class IISWebPropertyTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISWebPropertyTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsProperty,CustomAction) Tables are created in the MSI and have defined data.")]
         [Priority(1)]
         public void IISWebPropertyEtag_VerifyMSITableData()
@@ -51,11 +48,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 new TableRow(IIsPropertyColumns.Value.ToString(), "1234"));
         }
 
-        [TestMethod]
+        [NamedFact(Skip="Ignore")]
         [Description("Install the MSI. Verify that the webProperty was set.Uninstall MSI . Verify that the webProperty was set back correctelly.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
-        [Ignore] // ETag property is not exposed by IIS6; the test case will fail to query the value of the property. Should be enabled when moving to IIS7
+        [RuntimeTest]
         public void IISWebPropertyEtag_Install()
         {
             string sourceFile = Path.Combine(IISWebPropertyTests.TestDataDirectory, @"product_etag.wxs");
@@ -74,7 +70,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Verify Etag property was set correctelly on install
             int acctualEtagPropertyValue = (int)IISVerifier.GetMetaBasePropertyValue("MD_ETAG_CHANGENUMBER");
             int expectedEtagPropertyValue = 1234;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "Etag Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("Etag Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
@@ -85,10 +81,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 acctualEtagPropertyValue = -1;  // default
             }
             expectedEtagPropertyValue = originalEtagPropertyValue;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "Etag Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("Etag Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsProperty,CustomAction) Tables are created in the MSI and have defined data.")]
         [Priority(1)]
         public void IISWebPropertyIIS5IsoationMode_VerifyMSITableData()
@@ -111,10 +107,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 new TableRow(IIsPropertyColumns.Value.ToString(), string.Empty));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the webProperty was set.Uninstall MSI . Verify that the webProperty was set back correctelly.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebPropertyIIS5IsoationMode_Install()
         {
             string sourceFile = Path.Combine(IISWebPropertyTests.TestDataDirectory, @"product_IIS5IsolationMode.wxs");
@@ -129,7 +125,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Verify Etag property was set correctelly on install
             bool acctualEtagPropertyValue = (bool)IISVerifier.GetMetaBasePropertyValue("IIs5IsolationModeEnabled");
             bool expectedEtagPropertyValue = true;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "IIs5IsolationModeEnabled Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("IIs5IsolationModeEnabled Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
@@ -137,10 +133,10 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Verify WebDir was removed
             acctualEtagPropertyValue = (bool)IISVerifier.GetMetaBasePropertyValue("IIs5IsolationModeEnabled");
             expectedEtagPropertyValue = originalEtagPropertyValue;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "IIs5IsolationModeEnabled Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("IIs5IsolationModeEnabled Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsProperty,CustomAction) Tables are created in the MSI and have defined data.")]
         [Priority(1)]
         public void IISWebPropertyMaxGlobalBandwidth_VerifyMSITableData()
@@ -163,10 +159,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 new TableRow(IIsPropertyColumns.Value.ToString(), "7340032"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the webProperty was set.Uninstall MSI . Verify that the webProperty was set back correctelly.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebPropertyMaxGlobalBandwidth_Install()
         {
             string sourceFile = Path.Combine(IISWebPropertyTests.TestDataDirectory, @"product_MaxGlobalBandwidth.wxs");
@@ -185,7 +181,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Verify Etag property was set correctelly on install
             int acctualEtagPropertyValue = (int)IISVerifier.GetMetaBasePropertyValue("MaxGlobalBandwidth");
             int expectedEtagPropertyValue = -1073741824;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "MaxGlobalBandwidth Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("MaxGlobalBandwidth Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
@@ -196,10 +192,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 acctualEtagPropertyValue = -1;  // default
             }
             expectedEtagPropertyValue = (int)originalEtagPropertyValue;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "MaxGlobalBandwidth Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("MaxGlobalBandwidth Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsProperty,CustomAction) Tables are created in the MSI and have defined data.")]
         [Priority(1)]
         public void IISWebPropertyLogInUTF8_VerifyMSITableData()
@@ -222,10 +218,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 new TableRow(IIsPropertyColumns.Value.ToString(), string.Empty));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the webProperty was set.Uninstall MSI . Verify that the webProperty was set back correctelly.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISWebPropertyLogInUTF8_Install()
         {
             string sourceFile = Path.Combine(IISWebPropertyTests.TestDataDirectory, @"product_LogInUTF8.wxs");
@@ -240,7 +236,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Verify Etag property was set correctelly on install
             bool acctualEtagPropertyValue = (bool)IISVerifier.GetMetaBasePropertyValue("LogInUTF8");
             bool expectedEtagPropertyValue = true;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "LogInUTF8 Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("LogInUTF8 Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
@@ -248,7 +244,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Verify WebDir was removed
             acctualEtagPropertyValue = (bool)IISVerifier.GetMetaBasePropertyValue("LogInUTF8");
             expectedEtagPropertyValue = originalEtagPropertyValue;
-            Assert.IsTrue(acctualEtagPropertyValue == expectedEtagPropertyValue, "LogInUTF8 Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue);
+            Assert.True(acctualEtagPropertyValue == expectedEtagPropertyValue, String.Format("LogInUTF8 Property value does not meat expected. Acctual: '{0}'. Expected: '{1}'.", acctualEtagPropertyValue, expectedEtagPropertyValue));
         }
    }
 }

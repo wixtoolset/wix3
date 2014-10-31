@@ -14,20 +14,18 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// IIS extension IISVirtualDir element tests
     /// </summary>
-    [TestClass]
     public class IISVirtualDirTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISVirtualDirTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsHttpHeader, IIsMimeMap, IIsWebApplication, IIsWebVirtualDir,CustomAction) Tables are created in the MSI and have expected data")]
         [Priority(1)]
         public void IISVirtualDir_VerifyMSITableData()
@@ -88,10 +86,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                new TableRow(IIsWebApplicationColumns.AppPool_.ToString(), string.Empty));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that the Virtual directory for the web site was set correctly,Application Name is set to “Virtual Directory Test ASP Application”,custom Http headers has an entry for “VDirHttpHeader: Http Header For VDir”,Registered MIME type has an entry for “.foo1   application/test1 “ ")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISVirtualDir_Install()
         {
             string sourceFile = Path.Combine(IISVirtualDirTests.TestDataDirectory, @"product.wxs");
@@ -101,25 +99,25 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the Virtual directory for the web site was set correctly
-            Assert.IsTrue(IISVerifier.VirtualDirExist("test1", "Test web server"), "VirtualDir '{0}' in site '{1}' was not created on Install", "test1", "Test web server");
+            Assert.True(IISVerifier.VirtualDirExist("test1", "Test web server"), String.Format("VirtualDir '{0}' in site '{1}' was not created on Install", "test1", "Test web server"));
 
             // Verify that the Application Name is set to 'Virtual Directory Test ASP Application'
-            Assert.IsTrue(IISVerifier.WebApplicationExist("Virtual Directory Test ASP Application", "test1", "Test web server"), "WebApplication '{0}' in site '{1}' was not created on Install", "Virtual Directory Test ASP Application", "Test web server");
+            Assert.True(IISVerifier.WebApplicationExist("Virtual Directory Test ASP Application", "test1", "Test web server"), String.Format("WebApplication '{0}' in site '{1}' was not created on Install", "Virtual Directory Test ASP Application", "Test web server"));
 
             // Verify that the custom Http headers has an entry for 'VDirHttpHeader: Http Header For VDir'
-            Assert.IsTrue(IISVerifier.CustomHeadderExist("VDirHttpHeader: Http Header For VDir", "test1", "Test web server"), "CustomHeadder '{0}' in site '{1}' was not created on Install", "VDirHttpHeader: Http Header For VDir", "Test web server");
+            Assert.True(IISVerifier.CustomHeadderExist("VDirHttpHeader: Http Header For VDir", "test1", "Test web server"), String.Format("CustomHeadder '{0}' in site '{1}' was not created on Install", "VDirHttpHeader: Http Header For VDir", "Test web server"));
             
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the Virtual directory was removed
-            Assert.IsFalse(IISVerifier.VirtualDirExist("test1", "Test web server"), "VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "test1", "Test web server");
+            Assert.False(IISVerifier.VirtualDirExist("test1", "Test web server"), String.Format("VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "test1", "Test web server"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Cancel installation. Verify that the VirtualDir was not created.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISVirtualDir_InstallFailure()
         {
             string sourceFile = Path.Combine(IISVirtualDirTests.TestDataDirectory, @"product_fail.wxs");
@@ -129,13 +127,13 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.ERROR_INSTALL_FAILURE);
 
             // Verify that the Virtual directory was removed
-            Assert.IsFalse(IISVerifier.VirtualDirExist("test1", "Test web server"), "VirtualDir '{0}' in site '{1}' was not removed on Rollback", "test1", "Test web server");
+            Assert.False(IISVerifier.VirtualDirExist("test1", "Test web server"), String.Format("VirtualDir '{0}' in site '{1}' was not removed on Rollback", "test1", "Test web server"));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI. Verify that ALL the Virtual directory for the web site were set correctly.")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISVirtualDir_MultipleDirectories_Install()
         {
             string sourceFile = Path.Combine(IISVirtualDirTests.TestDataDirectory, @"MultipleDirectories.wxs");
@@ -145,21 +143,21 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the Virtual directory for the web site was set correctly
-            Assert.IsTrue(IISVerifier.VirtualDirExist("WebAppTest_Low", "Default Web Site"), "VirtualDir '{0}' in site '{1}' was not created on Install", "WebAppTest_Low", "Default Web Site");
-            Assert.IsTrue(IISVerifier.VirtualDirExist("WebAppTest_Medium", "Default Web Site"), "VirtualDir '{0}' in site '{1}' was not created on Install", "WebAppTest_Medium", "Default Web Site"); 
-            Assert.IsTrue(IISVerifier.VirtualDirExist("WebAppTest_High", "Default Web Site"), "VirtualDir '{0}' in site '{1}' was not created on Install", "WebAppTest_High", "Default Web Site");
+            Assert.True(IISVerifier.VirtualDirExist("WebAppTest_Low", "Default Web Site"), String.Format("VirtualDir '{0}' in site '{1}' was not created on Install", "WebAppTest_Low", "Default Web Site"));
+            Assert.True(IISVerifier.VirtualDirExist("WebAppTest_Medium", "Default Web Site"), String.Format("VirtualDir '{0}' in site '{1}' was not created on Install", "WebAppTest_Medium", "Default Web Site")); 
+            Assert.True(IISVerifier.VirtualDirExist("WebAppTest_High", "Default Web Site"), String.Format("VirtualDir '{0}' in site '{1}' was not created on Install", "WebAppTest_High", "Default Web Site"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify that the Virtual directory was removed
-            Assert.IsFalse(IISVerifier.VirtualDirExist("WebAppTest_Low", "Default Web Site"), "VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "WebAppTest_Low", "Default Web Site");
-            Assert.IsFalse(IISVerifier.VirtualDirExist("WebAppTest_Medium", "Default Web Site"), "VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "WebAppTest_Medium", "Default Web Site");
-            Assert.IsFalse(IISVerifier.VirtualDirExist("WebAppTest_High", "Default Web Site"), "VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "WebAppTest_High", "Default Web Site");
+            Assert.False(IISVerifier.VirtualDirExist("WebAppTest_Low", "Default Web Site"), String.Format("VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "WebAppTest_Low", "Default Web Site"));
+            Assert.False(IISVerifier.VirtualDirExist("WebAppTest_Medium", "Default Web Site"), String.Format("VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "WebAppTest_Medium", "Default Web Site"));
+            Assert.False(IISVerifier.VirtualDirExist("WebAppTest_High", "Default Web Site"), String.Format("VirtualDir '{0}' in site '{1}' was not removed on Uninstall", "WebAppTest_High", "Default Web Site"));
         }
 
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected Candle error is shown for an invalid Mime Map extension.")]
         [Priority(3)]
         public void IISVirtualDir_InvalidMimeMapExtension()
@@ -173,7 +171,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected Candle error is shown when web site attribute is defined for vitual dir that is nested in a web site element.")]
         [Priority(3)]
         public void IISVirtualDir_WebSiteRedifinition()
@@ -187,7 +185,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected Candle error is shown when VirtualDir element has multiple WebApplication elements.")]
         [Priority(3)]
         public void IISVirtualDir_MultipleWebApplicationElements()
@@ -201,7 +199,7 @@ namespace WixTest.Tests.Extensions.IISExtension
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the expected Candle error is shown when VirtualDir element has an invlaid @Alias.")]
         [Priority(3)]
         public void IISVirtualDir_InvalidAliasValue()

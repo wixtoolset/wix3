@@ -16,19 +16,16 @@ namespace WixTest.Tests.Tools.Light.Input
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest;
 
     /// <summary>
     /// Test for giving wixlib files as input to Light
     /// </summary>
-    [TestClass]
     public class WixlibTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\Input\WixlibTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light can link a wixlib")]
         [Priority(1)]
         public void SingleWixlib()
@@ -54,7 +51,7 @@ namespace WixTest.Tests.Tools.Light.Input
             Verifier.VerifyResults(expectedMSI, light2.OutputFile);
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light can link multiple wixlibs")]
         [Priority(2)]
         public void MultipleWixlibs()

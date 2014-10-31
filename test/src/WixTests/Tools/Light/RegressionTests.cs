@@ -14,21 +14,19 @@ namespace WixTest.Tests.Tools.Light
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
+    using Xunit;
 
     /// <summary>
     /// Regresssion tests for Light
     /// </summary>
-    [TestClass]
     public class RegressionTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Tools\Light\RegressionTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light can handle directories that don't exist in the -out argument. The directory should be created.")]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1771330&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1771330&group_id=105970&atid=642714")]
         [Priority(3)]
         public void NonExistentDirectoryOutArgument()
         {
@@ -45,10 +43,10 @@ namespace WixTest.Tests.Tools.Light
             light.OutputFile = Path.Combine(nonExistentDirectory, "test.msi");
             light.Run();
 
-            Assert.IsTrue(File.Exists(light.OutputFile), "The output file was not created");
+            Assert.True(File.Exists(light.OutputFile), "The output file was not created");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light does not ignore commandline arguments it does not recognize.")]
         [Priority(2)]
         public void InvalidCommandLineArguments()
@@ -65,9 +63,9 @@ namespace WixTest.Tests.Tools.Light
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that Light displays an error when the wrong assembly type is specified for a file")]
-        [TestProperty("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1575866&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "http://sourceforge.net/tracker/index.php?func=detail&aid=1575866&group_id=105970&atid=642714")]
         [Priority(2)]
         public void IncorrectAssemblyType()
         {
@@ -84,7 +82,7 @@ namespace WixTest.Tests.Tools.Light
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that there is an error from Light stating that a path must be specified with -cc")]
         [Priority(1)]
         public void MissingCabCachePath()

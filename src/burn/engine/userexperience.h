@@ -50,6 +50,9 @@ typedef struct _BURN_USER_EXPERIENCE
     HWND hwndApply;                     // The window handle provided at the beginning of Apply(). Only valid
                                         // during apply.
 
+    HWND hwndDetect;                    // The window handle provided at the beginning of Detect(). Only valid
+                                        // during Detect.
+
     DWORD dwExitCode;                   // Exit code returned by the user experience for the engine overall.
 } BURN_USER_EXPERIENCE;
 

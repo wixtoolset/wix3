@@ -22,6 +22,7 @@
 struct POSSIBLE_TARGETPRODUCT
 {
     WCHAR wzProductCode[39];
+    LPWSTR pszLocalPackage;
     MSIINSTALLCONTEXT context;
 };
 
@@ -61,7 +62,8 @@ static HRESULT PlanTargetProduct(
     __in BURN_VARIABLES* pVariables,
     __in BOOTSTRAPPER_ACTION_STATE actionState,
     __in BURN_PACKAGE* pPackage,
-    __in BURN_MSPTARGETPRODUCT* pTargetProduct
+    __in BURN_MSPTARGETPRODUCT* pTargetProduct,
+    __in_opt HANDLE hCacheEvent
     );
 
 
@@ -130,8 +132,8 @@ extern "C" HRESULT MspEngineDetectInitialize(
     AssertSz(pPackages->cPatchInfo, "MspEngineDetectInitialize() should only be called if there are MSP packages.");
 
     HRESULT hr = S_OK;
-    POSSIBLE_TARGETPRODUCT* rgPossibleTargetProductCodes = NULL;
-    DWORD cPossibleTargetProductCodes = 0;
+    POSSIBLE_TARGETPRODUCT* rgPossibleTargetProducts = NULL;
+    DWORD cPossibleTargetProducts = 0;
 
 #ifdef DEBUG
     // All patch info should be initialized to zero.
@@ -145,18 +147,28 @@ extern "C" HRESULT MspEngineDetectInitialize(
 
     // Figure out which product codes to target on the machine. In the worst case all products on the machine
     // will be returned.
-    hr = GetPossibleTargetProductCodes(pPackages, &rgPossibleTargetProductCodes, &cPossibleTargetProductCodes);
+    hr = GetPossibleTargetProductCodes(pPackages, &rgPossibleTargetProducts, &cPossibleTargetProducts);
     ExitOnFailure(hr, "Failed to get possible target product codes.");
 
     // Loop through possible target products, testing the collective patch applicability against each product in
     // the appropriate context. Store the result with the appropriate patch package.
-    for (UINT iSearch = 0; iSearch < cPossibleTargetProductCodes; ++iSearch)
+    for (DWORD iSearch = 0; iSearch < cPossibleTargetProducts; ++iSearch)
     {
-        POSSIBLE_TARGETPRODUCT* pPossibleTargetProduct = rgPossibleTargetProductCodes + iSearch;
+        const POSSIBLE_TARGETPRODUCT* pPossibleTargetProduct = rgPossibleTargetProducts + iSearch;
 
         LogId(REPORT_STANDARD, MSG_DETECT_CALCULATE_PATCH_APPLICABILITY, pPossibleTargetProduct->wzProductCode, LoggingMsiInstallContext(pPossibleTargetProduct->context));
 
-        hr = WiuDeterminePatchSequence(pPossibleTargetProduct->wzProductCode, NULL, pPossibleTargetProduct->context, pPackages->rgPatchInfo, pPackages->cPatchInfo);
+        if (pPossibleTargetProduct->pszLocalPackage)
+        {
+            // Ignores current machine state to determine just patch applicability.
+            // Superseded and obsolesced patches will be planned separately.
+            hr = WiuDetermineApplicablePatches(pPossibleTargetProduct->pszLocalPackage, pPackages->rgPatchInfo, pPackages->cPatchInfo);
+        }
+        else
+        {
+            hr = WiuDeterminePatchSequence(pPossibleTargetProduct->wzProductCode, NULL, pPossibleTargetProduct->context, pPackages->rgPatchInfo, pPackages->cPatchInfo);
+        }
+
         if (SUCCEEDED(hr))
         {
             for (DWORD iPatchInfo = 0; iPatchInfo < pPackages->cPatchInfo; ++iPatchInfo)
@@ -182,7 +194,14 @@ extern "C" HRESULT MspEngineDetectInitialize(
     }
 
 LExit:
-    ReleaseMem(rgPossibleTargetProductCodes);
+    if (rgPossibleTargetProducts)
+    {
+        for (DWORD i = 0; i < cPossibleTargetProducts; ++i)
+        {
+            ReleaseStr(rgPossibleTargetProducts[i].pszLocalPackage);
+        }
+        MemFree(rgPossibleTargetProducts);
+    }
 
     return hr;
 }
@@ -411,24 +430,22 @@ extern "C" HRESULT MspEnginePlanAddPackage(
     {
         BURN_MSPTARGETPRODUCT* pTargetProduct = pPackage->Msp.rgTargetProducts + i;
 
-        // If the execute state for patching this target product is higher than the overall package execute state then
-        // skip patching this target product. This happens when the patch uninstall was disabled because there are other
-        // dependents on the machine.
-        if (pPackage->execute < pTargetProduct->execute)
+        // If the dependency manager changed the action state for the patch, change the target product actions.
+        if (pPackage->fDependencyManagerWasHere)
         {
-            pTargetProduct->execute = BOOTSTRAPPER_ACTION_STATE_NONE;
-            pTargetProduct->rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
+            pTargetProduct->execute = pPackage->execute;
+            pTargetProduct->rollback = pPackage->rollback;
         }
 
         if (BOOTSTRAPPER_ACTION_STATE_NONE != pTargetProduct->execute)
         {
-            hr = PlanTargetProduct(display, FALSE, pPlan, pLog, pVariables, pTargetProduct->execute, pPackage, pTargetProduct);
+            hr = PlanTargetProduct(display, FALSE, pPlan, pLog, pVariables, pTargetProduct->execute, pPackage, pTargetProduct, hCacheEvent);
             ExitOnFailure(hr, "Failed to plan target product.");
         }
 
         if (BOOTSTRAPPER_ACTION_STATE_NONE != pTargetProduct->rollback)
         {
-            hr = PlanTargetProduct(display, TRUE, pPlan, pLog, pVariables, pTargetProduct->rollback, pPackage, pTargetProduct);
+            hr = PlanTargetProduct(display, TRUE, pPlan, pLog, pVariables, pTargetProduct->rollback, pPackage, pTargetProduct, hCacheEvent);
             ExitOnFailure(hr, "Failed to plan rollack target product.");
         }
     }
@@ -474,6 +491,9 @@ extern "C" HRESULT MspEngineExecutePackage(
             hr = CacheGetCompletedPath(pMspPackage->fPerMachine, pMspPackage->sczCacheId, &sczCachedDirectory);
             ExitOnFailure1(hr, "Failed to get cached path for MSP package: %ls", pMspPackage->sczId);
 
+            // Best effort to set the execute package cache folder variable.
+            VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
+
             hr = PathConcat(sczCachedDirectory, pMspPackage->rgPayloads[0].pPayload->sczFilePath, &sczMspPath);
             ExitOnFailure(hr, "Failed to build MSP path.");
 
@@ -516,7 +536,7 @@ extern "C" HRESULT MspEngineExecutePackage(
     hr = MsiEngineConcatProperties(pExecuteAction->mspTarget.pPackage->Msp.rgProperties, pExecuteAction->mspTarget.pPackage->Msp.cProperties, pVariables, fRollback, &sczObfuscatedProperties, TRUE);
     ExitOnFailure(hr, "Failed to add properties to obfuscated argument string.");
 
-    LogId(REPORT_STANDARD, MSG_APPLYING_PATCH_PACKAGE, pExecuteAction->mspTarget.pPackage->sczId, LoggingActionStateToString(pExecuteAction->mspTarget.action), sczMspPath, sczObfuscatedProperties, pExecuteAction->mspTarget.sczTargetProductCode);
+    LogId(REPORT_STANDARD, MSG_APPLYING_PATCH_PACKAGE, pExecuteAction->mspTarget.pPackage->sczId, LoggingActionStateToString(pExecuteAction->mspTarget.action), sczPatches, sczObfuscatedProperties, pExecuteAction->mspTarget.sczTargetProductCode);
 
     //
     // Do the actual action.
@@ -525,13 +545,13 @@ extern "C" HRESULT MspEngineExecutePackage(
     {
     case BOOTSTRAPPER_ACTION_STATE_INSTALL: __fallthrough;
     case BOOTSTRAPPER_ACTION_STATE_REPAIR:
-        hr = StrAllocConcat(&sczProperties, L" PATCH=\"", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L" PATCH=\"", 0);
         ExitOnFailure(hr, "Failed to add PATCH property on install.");
 
-        hr = StrAllocConcat(&sczProperties, sczPatches, 0);
+        hr = StrAllocConcatSecure(&sczProperties, sczPatches, 0);
         ExitOnFailure(hr, "Failed to add patches to PATCH property on install.");
 
-        hr = StrAllocConcat(&sczProperties, L"\" REBOOT=ReallySuppress", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L"\" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reboot suppression property on install.");
 
         hr = WiuConfigureProductEx(pExecuteAction->mspTarget.sczTargetProductCode, INSTALLLEVEL_DEFAULT, INSTALLSTATE_DEFAULT, sczProperties, &restart);
@@ -539,11 +559,11 @@ extern "C" HRESULT MspEngineExecutePackage(
         break;
 
     case BOOTSTRAPPER_ACTION_STATE_UNINSTALL:
-        hr = StrAllocConcat(&sczProperties, L" REBOOT=ReallySuppress", 0);
+        hr = StrAllocConcatSecure(&sczProperties, L" REBOOT=ReallySuppress", 0);
         ExitOnFailure(hr, "Failed to add reboot suppression property on uninstall.");
 
         // Ignore all dependencies, since the Burn engine already performed the check.
-        hr = StrAllocFormatted(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
+        hr = StrAllocFormattedSecure(&sczProperties, L"%ls %ls=ALL", sczProperties, DEPENDENCY_IGNOREDEPENDENCIES);
         ExitOnFailure(hr, "Failed to add the list of dependencies to ignore to the properties.");
 
         hr = WiuRemovePatches(sczPatches, pExecuteAction->mspTarget.sczTargetProductCode, sczProperties, &restart);
@@ -556,7 +576,7 @@ LExit:
 
     ReleaseStr(sczCachedDirectory);
     ReleaseStr(sczMspPath);
-    ReleaseStr(sczProperties);
+    StrSecureZeroFreeString(sczProperties);
     ReleaseStr(sczObfuscatedProperties);
     ReleaseStr(sczPatches);
 
@@ -574,6 +594,9 @@ LExit:
             *pRestart = BOOTSTRAPPER_APPLY_RESTART_INITIATED;
             break;
     }
+
+    // Best effort to clear the execute package cache folder variable.
+    VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);
 
     return hr;
 }
@@ -615,6 +638,7 @@ static HRESULT GetPossibleTargetProductCodes(
 {
     HRESULT hr = S_OK;
     STRINGDICT_HANDLE sdUniquePossibleTargetProductCodes = NULL;
+    BOOL fCheckAll = FALSE;
     WCHAR wzPossibleTargetProductCode[MAX_GUID_CHARS + 1];
 
     // Use a dictionary to ensure we capture unique product codes. Otherwise, we could end up
@@ -637,10 +661,8 @@ static HRESULT GetPossibleTargetProductCodes(
                 hr = AddPossibleTargetProduct(sdUniquePossibleTargetProductCodes, pTargetCode->sczTargetCode, MSIINSTALLCONTEXT_NONE, prgPossibleTargetProducts, pcPossibleTargetProducts);
                 ExitOnFailure(hr, "Failed to add product code to possible target product codes.");
             }
-            else // must be an upgrade code.
+            else if (BURN_PATCH_TARGETCODE_TYPE_UPGRADE == pTargetCode->type)
             {
-                Assert(BURN_PATCH_TARGETCODE_TYPE_UPGRADE == pTargetCode->type);
-
                 // Enumerate all unique related products to the target upgrade code.
                 for (DWORD iProduct = 0; SUCCEEDED(hr); ++iProduct)
                 {
@@ -665,9 +687,22 @@ static HRESULT GetPossibleTargetProductCodes(
                 }
                 ExitOnFailure1(hr, "Failed to enumerate all products to patch related to upgrade code: %ls", pTargetCode->sczTargetCode);
             }
+            else
+            {
+                // The element does not target a specific product.
+                fCheckAll = TRUE;
+
+                break;
+            }
         }
     }
-    else // one more more patches didn't target specific products so we'll search everything on the machine.
+    else
+    {
+        fCheckAll = TRUE;
+    }
+
+    // One or more of the patches do not target a specific product so search everything on the machine.
+    if (fCheckAll)
     {
         for (DWORD iProduct = 0; SUCCEEDED(hr); ++iProduct)
         {
@@ -681,7 +716,7 @@ static HRESULT GetPossibleTargetProductCodes(
             }
             else if (E_BADCONFIGURATION == hr)
             {
-                // Skip product's with bad configuration and continue.
+                // Skip products with bad configuration and continue.
                 LogId(REPORT_STANDARD, MSG_DETECT_BAD_PRODUCT_CONFIGURATION, wzPossibleTargetProductCode);
 
                 hr = S_OK;
@@ -710,6 +745,7 @@ static HRESULT AddPossibleTargetProduct(
     )
 {
     HRESULT hr = S_OK;
+    LPWSTR pszLocalPackage = NULL;
 
     // Only add this possible target code if we haven't queried for it already.
     if (E_NOTFOUND == DictKeyExists(sdUniquePossibleTargetProductCodes, wzPossibleTargetProductCode))
@@ -731,15 +767,32 @@ static HRESULT AddPossibleTargetProduct(
         hr = MemEnsureArraySize(reinterpret_cast<LPVOID*>(prgPossibleTargetProducts), *pcPossibleTargetProducts + 1, sizeof(POSSIBLE_TARGETPRODUCT), 3);
         ExitOnFailure(hr, "Failed to grow array of possible target products.");
 
-        hr = ::StringCchCopyW((*prgPossibleTargetProducts)[*pcPossibleTargetProducts].wzProductCode, countof(prgPossibleTargetProducts[*pcPossibleTargetProducts]->wzProductCode), wzPossibleTargetProductCode);
+        POSSIBLE_TARGETPRODUCT *const pPossibleTargetProduct = *prgPossibleTargetProducts + *pcPossibleTargetProducts;
+
+        hr = ::StringCchCopyW(pPossibleTargetProduct->wzProductCode, countof(pPossibleTargetProduct->wzProductCode), wzPossibleTargetProductCode);
         ExitOnFailure(hr, "Failed to copy possible target product code.");
 
-        (*prgPossibleTargetProducts)[*pcPossibleTargetProducts].context = context;
+        // Attempt to get the local package path so we can more quickly determine patch applicability later.
+        hr = WiuGetProductInfoEx(wzPossibleTargetProductCode, NULL, context, INSTALLPROPERTY_LOCALPACKAGE, &pszLocalPackage);
+        if (SUCCEEDED(hr))
+        {
+            pPossibleTargetProduct->pszLocalPackage = pszLocalPackage;
+            pszLocalPackage = NULL;
+        }
+        else
+        {
+            // Will instead call MsiDeterminePatchSequence later.
+            hr = S_OK;
+        }
+
+        pPossibleTargetProduct->context = context;
 
         ++(*pcPossibleTargetProducts);
     }
 
 LExit:
+    ReleaseStr(pszLocalPackage);
+
     return hr;
 }
 
@@ -819,13 +872,15 @@ static HRESULT PlanTargetProduct(
     __in BURN_VARIABLES* pVariables,
     __in BOOTSTRAPPER_ACTION_STATE actionState,
     __in BURN_PACKAGE* pPackage,
-    __in BURN_MSPTARGETPRODUCT* pTargetProduct
+    __in BURN_MSPTARGETPRODUCT* pTargetProduct,
+    __in_opt HANDLE hCacheEvent
     )
 {
     HRESULT hr = S_OK;
     BURN_EXECUTE_ACTION* rgActions = fRollback ? pPlan->rgRollbackActions : pPlan->rgExecuteActions;
     DWORD cActions = fRollback ? pPlan->cRollbackActions : pPlan->cExecuteActions;
     BURN_EXECUTE_ACTION* pAction = NULL;
+    DWORD dwInsertSequence = 0;
 
     // Try to find another MSP action with the exact same action (install or uninstall) targeting
     // the same product in the same machine context (per-user or per-machine).
@@ -838,6 +893,7 @@ static HRESULT PlanTargetProduct(
             pAction->mspTarget.fPerMachineTarget == (MSIINSTALLCONTEXT_MACHINE == pTargetProduct->context) &&
             CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, 0, pAction->mspTarget.sczTargetProductCode, -1, pTargetProduct->wzTargetProductCode, -1))
         {
+            dwInsertSequence = i;
             break;
         }
 
@@ -874,6 +930,23 @@ static HRESULT PlanTargetProduct(
         }
 
         LoggingSetPackageVariable(pPackage, pAction->mspTarget.sczTargetProductCode, fRollback, pLog, pVariables, &pAction->mspTarget.sczLogPath); // ignore errors.
+    }
+    else
+    {
+        if (!fRollback && hCacheEvent)
+        {
+            // Since a previouse MSP target action is being updated with the new MSP, 
+            // insert a wait syncpoint to before this action since we need to cache the current MSI before using it.
+            BURN_EXECUTE_ACTION* pWaitSyncPointAction = NULL;
+            hr = PlanInsertExecuteAction(dwInsertSequence, pPlan, &pWaitSyncPointAction);
+            ExitOnFailure(hr, "Failed to insert execute action.");
+
+            pWaitSyncPointAction->type = BURN_EXECUTE_ACTION_TYPE_WAIT_SYNCPOINT;
+            pWaitSyncPointAction->syncpoint.hEvent = hCacheEvent;
+
+            // Since we inserted an action before the MSP target action that we will be updating, need to update the pointer.
+            pAction = pPlan->rgExecuteActions + (dwInsertSequence + 1);
+        }
     }
 
     // Add our target product to the array and sort based on their order determined during detection.

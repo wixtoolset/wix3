@@ -13,7 +13,8 @@
   <PropertyGroup>
     <PrepareForBuildDependsOn>
       $(PrepareForBuildDependsOn);
-      WriteCppVersionFile
+      WriteCppVersionFile;
+      GenerateWixInclude
     </PrepareForBuildDependsOn>
   </PropertyGroup>
 </Project>

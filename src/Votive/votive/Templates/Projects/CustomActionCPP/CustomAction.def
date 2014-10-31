@@ -1,5 +1,0 @@
-LIBRARY "$projectname$"
-
-EXPORTS
-
-CustomAction1

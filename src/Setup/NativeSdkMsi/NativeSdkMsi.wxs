@@ -18,9 +18,7 @@
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
-        <Media Id="1" Cabinet="nsdk$(var.VisualStudioTargetVersion).cab" CompressionLevel="high" />
-
-        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+        <MediaTemplate CabinetTemplate="n$(var.VisualStudioTargetVersion){0}.cab" />
 
         <Feature Id="NativeSdkFeature" Title="Native $(var.VisualStudioTargetVersion) SDK" Level="1">
             <ComponentGroupRef Id="HeaderComponents" />
@@ -31,7 +29,7 @@
 
     <Fragment>
         <DirectoryRef Id="SdkFolder">
-            <Directory Id="VisualStudioTargetSdkFolder" Name ="VS$(var.VisualStudioTargetVersion)">
+            <Directory Id="VisualStudioTargetSdkFolder" Name="VS$(var.VisualStudioTargetVersion)">
                 <Directory Id="SdkIncFolder" Name="inc" />
                 <Directory Id="SdkLibFolder" Name="lib">
                     <Directory Id="SdkX86LibFolder" Name="x86" />

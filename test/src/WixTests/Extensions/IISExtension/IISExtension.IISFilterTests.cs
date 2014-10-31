@@ -14,20 +14,18 @@ namespace WixTest.Tests.Extensions.IISExtension
     using System.IO;
     using System.Text;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using WixTest;
     using WixTest.Verifiers.Extensions;
+    using Xunit;
 
     /// <summary>
     /// IIS extension IISFilter element tests
     /// </summary>
-    [TestClass]
     public class IISFilterTests : WixTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Extensions\IISExtension\IISFilterTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Verify that the (IIsFilter,CustomAction) Tables are created in the MSI and have defined data")]
         [Priority(1)]
         public void IISFilter_VerifyMSITableData()
@@ -64,10 +62,10 @@ namespace WixTest.Tests.Extensions.IISExtension
                 new TableRow(IISFilterColumns.LoadOrder.ToString(), "-1", false));
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Install the MSI.Verify that “TestFilter” Was added for website 'Test'.Verify that 'Global Filter' was added as a global filter.Uninstall the MSi Verify that filters are removed")]
         [Priority(2)]
-        [TestProperty("IsRuntimeTest", "true")]
+        [RuntimeTest]
         public void IISFilter_Install()
         {
             string sourceFile = Path.Combine(IISFilterTests.TestDataDirectory, @"product.wxs");
@@ -77,15 +75,15 @@ namespace WixTest.Tests.Extensions.IISExtension
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify WebFilters were created
-            Assert.IsTrue(IISVerifier.FilterExists("Test Filter", "Test web server", false), "Filter '{0}' in site '{1}' was not created on Install", "Test Filter", "Test web server");
-            Assert.IsTrue(IISVerifier.FilterExists("Global Filter", string.Empty, true), "Global Filter '{0}' was not created on Install", "Global Filter");
+            Assert.True(IISVerifier.FilterExists("Test Filter", "Test web server", false), String.Format("Filter '{0}' in site '{1}' was not created on Install", "Test Filter", "Test web server"));
+            Assert.True(IISVerifier.FilterExists("Global Filter", string.Empty, true), String.Format("Global Filter '{0}' was not created on Install", "Global Filter"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
             // Verify WebFilters were removed
-            Assert.IsFalse(IISVerifier.FilterExists("Test Filter", "Test web server", false), "Filter '{0}' in site '{1}' was not removed on Uninstall", "Test Filter", "Test web server");
-            Assert.IsFalse(IISVerifier.FilterExists("Global Filter", string.Empty, true), "Global Filter '{0}' was not removed on Uninstall", "Global Filter"); 
+            Assert.False(IISVerifier.FilterExists("Test Filter", "Test web server", false), String.Format("Filter '{0}' in site '{1}' was not removed on Uninstall", "Test Filter", "Test web server"));
+            Assert.False(IISVerifier.FilterExists("Global Filter", string.Empty, true), String.Format("Global Filter '{0}' was not removed on Uninstall", "Global Filter")); 
         }
     }
 }

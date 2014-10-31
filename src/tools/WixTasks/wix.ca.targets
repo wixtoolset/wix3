@@ -23,9 +23,9 @@
 
   <PropertyGroup>
     <WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.ca.targets</WixCATargetsPath>
-    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.8\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.9\bin\WixTasks.dll</WixTasksPath>
     <WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix.ca.targets</WixCATargetsPath>
-    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.8\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.9\bin\WixTasks.dll</WixTasksPath>
     <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
   </PropertyGroup>
 
@@ -43,8 +43,8 @@
   ==================================================================================================
   -->
   <PropertyGroup>
-    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.8</WixInstallRegKey>
-    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.8</WixInstallRegKeyWow64>
+    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.9</WixInstallRegKey>
+    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.9</WixInstallRegKeyWow64>
   </PropertyGroup>
   <Target
     Name="_SetDefaultPathValues">
@@ -119,6 +119,12 @@
       <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
     </CreateItem>
 
+    <CreateItem
+     Include="@(ReferenceComWrappersToCopyLocal)"
+     Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.dll' or '%(ReferenceComWrappersToCopyLocal.extension)' == '.exe' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
+	
     <!--
   Items to include in the CA package:
      - Reference assemblies marked CopyLocal
@@ -133,7 +139,7 @@
       <Output TaskParameter="Include" ItemName="IntermediateCAAssembly" />
     </CreateItem>
 
-  <CreateItem Include="@(IntermediateAssembly->'%(RootDir)%(Directory)$(TargetCAFileName)')">
+    <CreateItem Include="@(IntermediateAssembly->'%(RootDir)%(Directory)$(TargetCAFileName)')">
       <Output TaskParameter="Include" ItemName="IntermediateCAPackage" />
     </CreateItem>
 

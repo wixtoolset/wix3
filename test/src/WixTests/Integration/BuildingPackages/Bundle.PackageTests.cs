@@ -18,19 +18,17 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
     using System.IO;
     using System.Xml;
     using Microsoft.Deployment.Compression.Cab;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WixTest.Verifiers;
+    using Xunit;
 
     /// <summary>
     /// Tests for Bundle *Package elements
     /// </summary>
-    [TestClass]
     public class PackageTests : BundleTests
     {
         private static readonly string TestDataDirectory = Environment.ExpandEnvironmentVariables(@"%WIX_ROOT%\test\data\Integration\BuildingPackages\Bundle\PackageTests");
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package SourceFile is required.")]
         [Priority(3)]
         // bug https://sourceforge.net/tracker/?func=detail&aid=2981298&group_id=105970&atid=642714
@@ -46,7 +44,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package SourceFile is empty.")]
         [Priority(3)]
         public void PackageEmptySourceFile()
@@ -61,7 +59,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package @SourceFile contains an invalid path.")]
         [Priority(3)]
         public void PackageInvalidSourceFile()
@@ -77,10 +75,10 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package @SourceFile target does not exist on disk.")]
         [Priority(3)]
-        [TestProperty("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2980318&group_id=105970&atid=642714")]
+        [Trait("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2980318&group_id=105970&atid=642714")]
         public void PackageNonexistingSourceFile()
         {
             string sourceFile = Path.Combine(PackageTests.TestDataDirectory, @"PackageNonexistingSourceFile\Product.wxs");
@@ -97,7 +95,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package @Name contains an invalid path.")]
         [Priority(3)]
         public void PackageInvalidName()
@@ -112,7 +110,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a missing Package.")]
         [Priority(3)]
         public void PackageAfterUndefinedPackage()
@@ -132,7 +130,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("After contains an Id of a Package after this Package.")]
         [Priority(3)]
         public void PackageRecursiveAfter()
@@ -153,7 +151,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package @Vital contains an invalid value.")]
         [Priority(3)]
         public void PackageInvalidVital()
@@ -168,7 +166,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package @Cache contains an invalid value.")]
         [Priority(3)]
         public void PackageInvalidCache()
@@ -183,14 +181,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Valid Package.")]
         [Priority(2)]
         // bug# https://sourceforge.net/tracker/?func=detail&aid=2980325&group_id=105970&atid=642714
         public void ValidPackage()
         {
             string sourceFile = Path.Combine(PackageTests.TestDataDirectory, @"ValidPackage\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -204,14 +202,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             PackageTests.VerifyMsiPackageOrder(outputDirectory, "ExePackage5.exe", "MspPackage1.msp", "MsuPackage2.msi", "MsiPackage3.msi");
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Package can have payload children.")]
         [Priority(2)]
-        [TestProperty("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2987928&group_id=105970&atid=642714")]
+        [Trait("Bug Link", "https://sourceforge.net/tracker/?func=detail&aid=2987928&group_id=105970&atid=642714")]
         public void PackagePayloads()
         {
             string sourceFile = Path.Combine(PackageTests.TestDataDirectory, @"PackagePayloads\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
             string PayloadFile1 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile1.txt");
             string PayloadFile2 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile2.txt");
             string PayloadFile3 = Path.Combine(BundleTests.BundleSharedFilesDirectory, @"UXPayload\PayloadFile3.txt");
@@ -236,7 +234,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
         /* MsiPackage specific tests */
 
-        [TestMethod]
+        [NamedFact]
         [Description("MsiPackage @SourceFile target is not a valid .msi file.")]
         [Priority(3)]
         public void MsiPackageInvalidMsi()
@@ -252,13 +250,13 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("MsiPackage @SourceFile target is in use by another application.")]
         [Priority(3)]
         public void MsiPackageInuse()
         {
             // acquire a loc on the file
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
             string testFileName = Path.Combine(outputDirectory, "MsiPackage.msi");
             File.Copy(BundleTests.MsiPackageFile, testFileName);
             FileStream msiPackage = File.Open(testFileName, FileMode.Open, FileAccess.Read);
@@ -278,7 +276,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             msiPackage.Close();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("MsiProperty Name is required.")]
         [Priority(3)]
         public void MsiPropertyNameMissing()
@@ -290,7 +288,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("MsiProperty Value is required.")]
         [Priority(3)]
         public void MsiPropertyValueMissing()
@@ -302,7 +300,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             candle.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("MsiProperty can not be redefined.")]
         [Priority(3)]
         public void DuplicateMsiProperty()
@@ -319,14 +317,14 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             light.Run();
         }
 
-        [TestMethod]
+        [NamedFact]
         [Description("Valid MsiPackage MsiProperty child elements.")]
         [Priority(2)]
-        [TestProperty("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2987866&group_id=105970&atid=642714")]
+        [Trait("Bug Link", @"https://sourceforge.net/tracker/?func=detail&aid=2987866&group_id=105970&atid=642714")]
         public void ValidMsiProperty()
         {
             string sourceFile = Path.Combine(PackageTests.TestDataDirectory, @"ValidMsiProperty\Product.wxs");
-            string outputDirectory = this.TestDirectory;
+            string outputDirectory = this.TestContext.TestDirectory;
 
             // build the bootstrapper
             string bootstrapper = Builder.BuildBundlePackage(outputDirectory, sourceFile);
@@ -340,7 +338,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
         /* MspPackage specific tests */
 
-        [TestMethod]
+        [NamedFact]
         [Description("MspPackage @SourceFile target is not a valid .msi file.")]
         [Priority(3)]
         public void MspPackageInvalidMsp()
@@ -485,7 +483,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             // verify the Burn_Manifest has the correct information 
             string burnManifestXPath = string.Format(@"//burn:{0}[@Id='{1}']", GetPackageElementName(expectedPackageType), expectedId);
             XmlNodeList burnManifestNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXPath);
-            Assert.AreEqual(1, burnManifestNodes.Count, "No MsiPackage with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId);
+            Assert.True(1 == burnManifestNodes.Count, String.Format("No MsiPackage with the Id: '{0}' was found in Burn_Manifest.xml.", expectedId));
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "InstallCondition", expectedInstallCondition);
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Permanent", expectedPermanent ? "yes" : "no");
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Vital", expecteVital ? "yes" : "no");
@@ -528,7 +526,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
 
             string burnUxManifestXPath = string.Format(@"//burnUx:WixPackageProperties[@Package='{0}']", expectedId);
             XmlNodeList burnUxManifestNodes = BundleTests.QueryBurnUxManifest(embededResourcesDirectoryPath, burnUxManifestXPath);
-            Assert.AreEqual(1, burnUxManifestNodes.Count, "No WixPackageProperties for Package: '{0}' was found in Burn-UxManifest.xml.", expectedId);
+            Assert.True(1 == burnUxManifestNodes.Count, String.Format("No WixPackageProperties for Package: '{0}' was found in Burn-UxManifest.xml.", expectedId));
             BundleTests.VerifyAttributeValue(burnUxManifestNodes[0], "Vital", expecteVital ? "yes" : "no");
             BundleTests.VerifyAttributeValue(burnUxManifestNodes[0], "DownloadSize", expectedFileSize);
             BundleTests.VerifyAttributeValue(burnUxManifestNodes[0], "PackageSize", expectedFileSize);
@@ -560,7 +558,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
         {
             string burnManifestXPath = string.Format(@"//burn:{0}[@Id='{1}']/burn:MsiProperty[@Id='{2}'] ", GetPackageElementName(PackageType.MSI), msiPackageId, expectedPropertyName);
             XmlNodeList burnManifestNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, burnManifestXPath);
-            Assert.AreEqual(1, burnManifestNodes.Count, "No MsiProperty with the Id: '{0}' was found under MsiPackage: '{1}' in Burn_Manifest.xml.", expectedPropertyName, msiPackageId);
+            Assert.True(1 == burnManifestNodes.Count, String.Format("No MsiProperty with the Id: '{0}' was found under MsiPackage: '{1}' in Burn_Manifest.xml.", expectedPropertyName, msiPackageId));
             BundleTests.VerifyAttributeValue(burnManifestNodes[0], "Value", expectedPropertyValue);
         }
 
@@ -581,7 +579,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             // find the Payload element 
             string payloadXPath = string.Format(@"//burn:Payload[@FilePath='{0}']", expectedFileName);
             XmlNodeList payloadNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, payloadXPath);
-            Assert.AreEqual(1, payloadNodes.Count, "No Package payload with the name: '{0}' was found in Burn_Manifest.xml.", expectedFileName);
+            Assert.True(1 == payloadNodes.Count, String.Format("No Package payload with the name: '{0}' was found in Burn_Manifest.xml.", expectedFileName));
             BundleTests.VerifyAttributeValue(payloadNodes[0], "FileSize", expectedFileSize);
             BundleTests.VerifyAttributeValue(payloadNodes[0], "Sha1Hash", expectedHash);
             BundleTests.VerifyAttributeValue(payloadNodes[0], "DownloadUrl", expectedDownloadURL);
@@ -590,7 +588,7 @@ namespace WixTest.Tests.Integration.BuildingPackages.Bundle
             string payloadId = payloadNodes[0].Attributes["Id"].Value;
             string packagePayloadRefXPath = string.Format(@"//burn:{0}[@Id='{1}']/burn:PayloadRef[@Id='{2}']", GetPackageElementName(expectedParentPackageType), expectedParentPackageId, payloadId);
             XmlNodeList packagePayloadRefNodes = BundleTests.QueryBurnManifest(embededResourcesDirectoryPath, packagePayloadRefXPath);
-            Assert.AreEqual(1, packagePayloadRefNodes.Count, "Package payload with the name: '{0}' was found under Package '{1}'.", expectedFileName, expectedParentPackageId);
+            Assert.True(1 == packagePayloadRefNodes.Count, String.Format("Package payload with the name: '{0}' was found under Package '{1}'.", expectedFileName, expectedParentPackageId));
 
             // verify the correct file is added to the attached container
             if (null == expectedDownloadURL)

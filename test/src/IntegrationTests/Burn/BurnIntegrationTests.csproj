@@ -22,6 +22,7 @@
     <Compile Include="RestartTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -29,8 +30,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit">
-      <HintPath>..\..\..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(XunitPath)\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -43,18 +45,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BasicTests\A.wxs">
+    <Content Include="..\..\..\data\Integration\BurnIntegrationTests\BasicTests\A.wxs">
+      <Link>BasicTests\A.wxs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BasicTests\B.wxs">
+    <Content Include="..\..\..\data\Integration\BurnIntegrationTests\BasicTests\B.wxs">
+      <Link>BasicTests\B.wxs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BasicTests\BundleA.wxs">
+    <Content Include="..\..\..\data\Integration\BurnIntegrationTests\BasicTests\BundleA.wxs">
+      <Link>BasicTests\BundleA.wxs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BasicTests\BundleB.wxs">
+    <Content Include="..\..\..\data\Integration\BurnIntegrationTests\BasicTests\BundleB.wxs">
+      <Link>BasicTests\BundleB.wxs</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
 </Project>

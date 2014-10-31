@@ -5,7 +5,7 @@ layout: documentation
 # How To: Install DirectX 9.0 With Your Installer
 Applications that require components from DirectX 9.0 can benefit from including the DirectX 9.0 Redistributable inside their installer. This simplifies the installation process for end users and ensures the required components for your application are always available on the target user&apos;s machine.
 
-DirectX 9.0 can be re-distributed in several different ways, each of which is outlined in MSDN&apos;s <a href="http://msdn2.microsoft.com/library/bb174600.aspx#DirectX_Redistribution" target="_blank">Installing DirectX with DirectSetup</a> article. This how to describes using the dxsetup.exe application to install DirectX 9.0 on a Vista machine assuming the application being installed only depends on a specific DirectX component.
+DirectX 9.0 can be re-distributed in several different ways, each of which is outlined in MSDN&apos;s <a href="http://msdn.microsoft.com/library/bb174600.aspx#DirectX_Redistribution" target="_blank">Installing DirectX with DirectSetup</a> article. This how to describes using the dxsetup.exe application to install DirectX 9.0 on a Vista machine assuming the application being installed only depends on a specific DirectX component.
 
 Prior to redistributing the DirectX binaries you should read and understand the license agreement for the redistributable files. The license agreement can be found in the **Documentation\License Agreements\DirectX Redist.txt** file in your DirectX SDK installation.
 
