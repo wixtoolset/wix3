@@ -1008,6 +1008,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     string shortPath = NativeMethods.GetShortPathName(fileSource);
                     this.filePaths[shortPath.ToLower(CultureInfo.InvariantCulture)] = String.Concat("[!", file.Id, "]");
 
+                    // escape literal $ characters
+                    file.Source = file.Source.Replace("$", "$$");
+                    
                     if (null != sourceDirSubstitution && file.Source.StartsWith("SourceDir\\", StringComparison.Ordinal))
                     {
                         file.Source = file.Source.Substring(9).Insert(0, sourceDirSubstitution);
