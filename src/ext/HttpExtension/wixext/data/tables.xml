@@ -7,9 +7,9 @@
     LICENSE.TXT at the root directory of the distribution.
   </copyright>
 
-  The table definitions for the WiX Toolset Http Extension.
+  The table definitions for the Windows Installer XML Toolset Http Extension.
 -->
-<tableDefinitions xmlns="http://wixtoolset.org/schemas/v4/wi/tables">
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
   <tableDefinition name="WixHttpUrlReservation">
     <columnDefinition name="WixHttpUrlReservation" type="string" length="72" primaryKey="yes" modularize="column"
         category="identifier" description="The non-localized primary key for the table." />

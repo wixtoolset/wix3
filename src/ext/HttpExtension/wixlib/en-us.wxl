@@ -7,7 +7,7 @@
     LICENSE.TXT at the root directory of the distribution.
   </copyright>
 -->
-<WixLocalization Culture="en-us" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
     <String Id="WixSchedHttpUrlReservationsInstall" Overridable="yes">Preparing to configure Windows HTTP Server</String>
     <String Id="WixSchedHttpUrlReservationsUninstall" Overridable="yes">Preparing to configure Windows HTTP Server</String>
     <String Id="WixRollbackHttpUrlReservationsInstall" Overridable="yes">Rolling back Windows HTTP Server configuration</String>

@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4505 - WixHttpExtension for URL reservations.
+
 ## WixBuild: Version 3.9.1006.0
 
 * RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.

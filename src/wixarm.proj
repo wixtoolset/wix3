@@ -27,6 +27,7 @@
     <ProjectReference Include="ext\DependencyExtension\lib\deputil.vcxproj" />
     <ProjectReference Include="ext\DependencyExtension\ca\wixdepca.vcxproj" />
     <ProjectReference Include="ext\FirewallExtension\ca\firewall.vcxproj" />
+    <ProjectReference Include="ext\HttpExtension\ca\wixhttpca.vcxproj" />
     <ProjectReference Include="ext\UIExtension\ca\uica.vcxproj" />
     <ProjectReference Include="burn\engine\engine.vcxproj" />
     <ProjectReference Include="burn\stub\stub.vcxproj" />
@@ -36,6 +37,7 @@
     <ProjectReference Include="ext\BalExtension\wixlib_arm\BalExtension_ARM.wixproj" />
     <ProjectReference Include="ext\DependencyExtension\wixlib_arm\DependencyExtension_ARM.wixproj" />
     <ProjectReference Include="ext\FirewallExtension\wixlib_arm\FirewallExtension_ARM.wixproj" />
+    <ProjectReference Include="ext\HttpExtension\wixlib_arm\HttpExtension_ARM.wixproj" />
     <ProjectReference Include="ext\UIExtension\wixlib_arm\UIExtension_ARM.wixproj" />
     <ProjectReference Include="ext\UtilExtension\wixlib_arm\UtilExtension_ARM.wixproj" />
   </ItemGroup>

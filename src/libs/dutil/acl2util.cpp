@@ -91,7 +91,7 @@ extern "C" HRESULT DAPI AclGetAccountSidStringEx(
 
         if (!::ConvertSidToStringSidW(psid, &pwz))
         {
-            ExitWithLastError(hr, "Failed to convert SID to string for Account: %ls", wzAccount);
+            ExitWithLastError1(hr, "Failed to convert SID to string for Account: %ls", wzAccount);
         }
 
         hr = StrAllocString(psczSid, pwz, 0);
@@ -108,13 +108,13 @@ extern "C" HRESULT DAPI AclGetAccountSidStringEx(
                 // If the service is not installed then LookupAccountName doesn't resolve the SID, but we can calculate it.
                 LPCWSTR wzServiceName = &wzAccount[11];
                 hr = AclCalculateServiceSidString(wzServiceName, cchAccount - 11, &sczSid);
-                ExitOnFailure(hr, "Failed to calculate the service SID for %ls", wzServiceName);
+                ExitOnFailure1(hr, "Failed to calculate the service SID for %ls", wzServiceName);
 
                 *psczSid = sczSid;
                 sczSid = NULL;
             }
         }
-        ExitOnFailure(hr, "Failed to get SID for account: %ls", wzAccount);
+        ExitOnFailure1(hr, "Failed to get SID for account: %ls", wzAccount);
     }
 
 LExit:

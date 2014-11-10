@@ -12,14 +12,14 @@
     <ProjectGuid>{AAFC3C7F-D818-4B1D-AF3F-A331EA917F3F}</ProjectGuid>
     <AssemblyName>WixHttpExtension</AssemblyName>
     <OutputType>Library</OutputType>
-    <RootNamespace>WixToolset.Extensions</RootNamespace>
+    <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Extensions</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="HttpCompiler.cs" />
     <Compile Include="HttpConstants.cs" />
     <Compile Include="HttpDecompiler.cs" />
-    <Compile Include="HttpExtensionData.cs" />
+    <Compile Include="HttpExtension.cs" />
     <MsgGenSource Include="Data\messages.xml">
       <ResourcesLogicalName>$(RootNamespace).Data.Messages.resources</ResourcesLogicalName>
     </MsgGenSource>
@@ -31,8 +31,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedFlattenedResource>
     <XsdGenSource Include="Xsd\http.xsd">
-      <CommonNamespace>WixToolset.Data.Serialize</CommonNamespace>
-      <Namespace>WixToolset.Extensions.Serialize.Http</Namespace>
+      <CommonNamespace>Microsoft.Tools.WindowsInstallerXml.Serialize</CommonNamespace>
+      <Namespace>Microsoft.Tools.WindowsInstallerXml.Extensions.Serialize.Http</Namespace>
     </XsdGenSource>
     <EmbeddedResource Include="$(OutputPath)\http.wixlib">
       <Link>Data\http.wixlib</Link>
@@ -41,9 +41,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <ProjectReference Include="..\..\..\libs\WixToolset.Data\WixToolset.Data.csproj" />
-    <ProjectReference Include="..\..\..\libs\WixToolset.Extensibility\WixToolset.Extensibility.csproj" />
     <ProjectReference Include="..\..\..\tools\wix\Wix.csproj" />
     <ProjectReference Include="..\wixlib\HttpExtension.wixproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

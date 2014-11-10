@@ -11,7 +11,7 @@
 // </summary>
 //-------------------------------------------------------------------------------------------------
 
-namespace WixToolset.Extensions
+namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 {
     using System;
 

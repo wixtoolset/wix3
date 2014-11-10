@@ -7,10 +7,10 @@
     LICENSE.TXT at the root directory of the distribution.
   </copyright>
 
-  The messages for the WiX Toolset Http Extension.
+  The messages for the Windows Installer XML Toolset Http Extension.
 -->
-<Messages Namespace="WixToolset.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
-  <Class Name="HttpErrors" ContainerName="HttpErrorEventArgs" BaseContainerName="MessageEventArgs" Level="Error">
+<Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
+  <Class Name="HttpErrors" ContainerName="HttpErrorEventArgs" BaseContainerName="WixErrorEventArgs">
     <Message Id="NoSecuritySpecified" Number="6701">
       <Instance>
         The UrlReservation element doesn't identify the security for the reservation. You must either specify the Sddl attribute, or provide child UrlAce elements.

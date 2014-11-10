@@ -7,44 +7,25 @@
 // </copyright>
 // 
 // <summary>
-// The decompiler for the WiX Toolset Http Extension.
+// The decompiler for the Windows Installer XML Toolset Http Extension.
 // </summary>
 //-------------------------------------------------------------------------------------------------
 
-namespace WixToolset.Extensions
+namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 {
     using System;
     using System.Collections;
     using System.Diagnostics;
     using System.Globalization;
-    using WixToolset.Data;
-    using WixToolset.Extensibility;
-    using Http = WixToolset.Extensions.Serialize.Http;
-    using Wix = WixToolset.Data.Serialize;
+    using Microsoft.Tools.WindowsInstallerXml;
+    using Http = Microsoft.Tools.WindowsInstallerXml.Extensions.Serialize.Http;
+    using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     /// <summary>
-    /// The decompiler for the WiX Toolset Http Extension.
+    /// The decompiler for the Windows Installer XML Toolset Http Extension.
     /// </summary>
     public sealed class HttpDecompiler : DecompilerExtension
     {
-        /// <summary>
-        /// Creates a decompiler for Http Extension.
-        /// </summary>
-        public HttpDecompiler()
-        {
-            this.TableDefinitions = HttpExtensionData.GetExtensionTableDefinitions();
-        }
-
-        /// <summary>
-        /// Get the extensions library to be removed.
-        /// </summary>
-        /// <param name="tableDefinitions">Table definitions for library.</param>
-        /// <returns>Library to remove from decompiled output.</returns>
-        public override Library GetLibraryToRemove(TableDefinitionCollection tableDefinitions)
-        {
-            return HttpExtensionData.GetExtensionLibrary(tableDefinitions);
-        }
-
         /// <summary>
         /// Decompiles an extension table.
         /// </summary>
@@ -98,7 +79,7 @@ namespace WixToolset.Extensions
                 }
                 else
                 {
-                    this.Core.OnMessage(WixWarnings.ExpectedForeignRow(row.SourceLineNumbers, table.Name, row.GetPrimaryKey(DecompilerConstants.PrimaryKeyDelimiter), "Component_", (string)row[2], "Component"));
+                    this.Core.OnMessage(WixWarnings.ExpectedForeignRow(row.SourceLineNumbers, table.Name, row.GetPrimaryKey(DecompilerCore.PrimaryKeyDelimiter), "Component_", (string)row[2], "Component"));
                 }
                 this.Core.IndexElement(row, urlReservation);
             }

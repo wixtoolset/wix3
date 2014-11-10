@@ -146,12 +146,12 @@ static UINT SchedHttpUrlReservations(
             {
                 hQueryReq = ::MsiCreateRecord(1);
                 hr = WcaSetRecordString(hQueryReq, 1, sczId);
-                ExitOnFailure(hr, "Failed to create record for querying WixHttpUrlAce table for reservation %ls", sczId);
+                ExitOnFailure1(hr, "Failed to create record for querying WixHttpUrlAce table for reservation %ls", sczId);
 
                 hr = WcaOpenView(vcsHttpUrlAceQuery, &hAceView);
-                ExitOnFailure(hr, "Failed to open view on WixHttpUrlAce table for reservation %ls", sczId);
+                ExitOnFailure1(hr, "Failed to open view on WixHttpUrlAce table for reservation %ls", sczId);
                 hr = WcaExecuteView(hAceView, hQueryReq);
-                ExitOnFailure(hr, "Failed to execute view on WixHttpUrlAce table for reservation %ls", sczId);
+                ExitOnFailure1(hr, "Failed to execute view on WixHttpUrlAce table for reservation %ls", sczId);
 
                 while (S_OK == (hr = WcaFetchRecord(hAceView, &hRec)))
                 {
@@ -179,7 +179,7 @@ static UINT SchedHttpUrlReservations(
         }
 
         hr = GetUrlReservation(sczUrl, &sczExistingSDDL);
-        ExitOnFailure(hr, "Failed to get the existing SDDL for %ls", sczUrl);
+        ExitOnFailure1(hr, "Failed to get the existing SDDL for %ls", sczUrl);
 
         hr = WriteHttpUrlReservation(todoComponent, sczUrl, sczExistingSDDL ? sczExistingSDDL : L"", iHandleExisting, &sczRollbackCustomActionData);
         ExitOnFailure(hr, "Failed to write URL Reservation to rollback custom action data.");
@@ -260,7 +260,7 @@ static HRESULT AppendUrlAce(
     else
     {
         hr = AclGetAccountSidStringEx(NULL, wzSecurityPrincipal, &sczSid);
-        ExitOnFailure(hr, "Failed to lookup the SID for account %ls", wzSecurityPrincipal);
+        ExitOnFailure1(hr, "Failed to lookup the SID for account %ls", wzSecurityPrincipal);
 
         wzSid = sczSid;
     }
@@ -402,7 +402,7 @@ extern "C" UINT __stdcall ExecHttpUrlReservations(
                 }
                 else
                 {
-                    ExitOnFailure(hr, "Failed to remove reservation for URL '%ls'", sczUrl);
+                    ExitOnFailure1(hr, "Failed to remove reservation for URL '%ls'", sczUrl);
                 }
             }
         }
@@ -422,7 +422,7 @@ extern "C" UINT __stdcall ExecHttpUrlReservations(
                 }
                 else
                 {
-                    ExitOnFailure(hr, "Failed to add reservation for URL '%ls' with SDDL '%ls'", sczUrl, sczSDDL);
+                    ExitOnFailure2(hr, "Failed to add reservation for URL '%ls' with SDDL '%ls'", sczUrl, sczSDDL);
                 }
             }
         }
@@ -462,7 +462,7 @@ static HRESULT AddUrlReservation(
     {
         hr = HRESULT_FROM_WIN32(er);
     }
-    ExitOnFailure(hr, "Failed to add URL reservation: %ls, ACL: %ls", wzUrl, wzSddl);
+    ExitOnFailure2(hr, "Failed to add URL reservation: %ls, ACL: %ls", wzUrl, wzSddl);
 
 LExit:
     return hr;
@@ -529,7 +529,7 @@ static HRESULT RemoveUrlReservation(
     {
         hr = HRESULT_FROM_WIN32(er);
     }
-    ExitOnFailure(hr, "Failed to remove URL reservation: %ls", wzUrl);
+    ExitOnFailure1(hr, "Failed to remove URL reservation: %ls", wzUrl);
 
 LExit:
     return hr;

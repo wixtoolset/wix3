@@ -8,17 +8,17 @@
   </copyright>
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:xse="http://wixtoolset.org/schemas/XmlSchemaExtension"
+          xmlns:xse="http://schemas.microsoft.com/wix/2005/XmlSchemaExtension"
          xmlns:html="http://www.w3.org/1999/xhtml"
-    targetNamespace="http://wixtoolset.org/schemas/v4/wxs/http"
-              xmlns="http://wixtoolset.org/schemas/v4/wxs/http">
+    targetNamespace="http://schemas.microsoft.com/wix/HttpExtension"
+              xmlns="http://schemas.microsoft.com/wix/HttpExtension">
   <xs:annotation>
     <xs:documentation>
       The source code schema for the Windows Installer XML Toolset Http Extension.
     </xs:documentation>
   </xs:annotation>
 
-  <xs:import namespace="http://wixtoolset.org/schemas/v4/wxs" />
+  <xs:import namespace="http://schemas.microsoft.com/wix/2006/wi" />
 
   <xs:element name="UrlReservation">
     <xs:annotation>
@@ -30,8 +30,8 @@
         </html:a>.
       </xs:documentation>
       <xs:appinfo>
-        <xse:parent namespace="http://wixtoolset.org/schemas/v4/wxs" ref="Component" />
-        <xse:parent namespace="http://wixtoolset.org/schemas/v4/wxs" ref="ServiceInstall" />
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="Component" />
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ServiceInstall" />
       </xs:appinfo>
     </xs:annotation>
 

@@ -9,9 +9,15 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+using Microsoft.Tools.WindowsInstallerXml;
+using Microsoft.Tools.WindowsInstallerXml.Extensions;
+
 [assembly: AssemblyTitle("WiX Toolset Http Extension")]
-[assembly: AssemblyDescription("WiX Toolset Http Extension")]
+[assembly: AssemblyDescription("Windows Installer XML Toolset Http Extension")]
 [assembly: AssemblyCulture("")]
+[assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
+[assembly: AssemblyDefaultWixExtension(typeof(HttpExtension))]
