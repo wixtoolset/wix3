@@ -26,6 +26,7 @@
     <Compile Include="2010.wxs" />
     <Compile Include="2012.wxs" />
     <Compile Include="2013.wxs" />
+    <Compile Include="2015.wxs" />
     <Compile Include="FileAssociations.wxs" />
   </ItemGroup>
 
