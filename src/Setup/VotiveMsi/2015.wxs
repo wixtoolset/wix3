@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  <copyright file="2010.wxs" company="Outercurve Foundation">
+  <copyright file="2015.wxs" company="Outercurve Foundation">
     Copyright (c) 2004, Outercurve Foundation.
     This software is released under Microsoft Reciprocal License (MS-RL).
     The license and further copyright text can be found in the file
@@ -11,34 +11,25 @@
 <?include WixVer.wxi ?>
 
 <!-- Preprocessor definitions -->
-<?define VsVersion = "2010"?>
-<?define VsRegPath = "SOFTWARE\Microsoft\VisualStudio\10.0" ?>
+<?define VsVersion = "2015"?>
+<?define VsRegPath = "SOFTWARE\Microsoft\VisualStudio\14.0" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Fragment>
-        <PropertyRef Id="VS2010DEVENV" />
-        <PropertyRef Id="VS2010_ROOT_FOLDER" />
-        <PropertyRef Id="VS2010_SCHEMAS_DIR" />
+        <PropertyRef Id="VS14DEVENV" />
+        <PropertyRef Id="VS14_ROOT_FOLDER" />
+        <PropertyRef Id="VS14_SCHEMAS_DIR" />
 
-        <!-- Devenv /setup isn't needed for VS2010.  VS automatically scans for package updates at startup -->
+        <CustomActionRef Id="VS14Setup" />
+        <UI>
+            <ProgressText Action="VS14Setup" Template="[1]">Updating Visual Studio 2015 registration</ProgressText>
+        </UI>
 
-        <ComponentGroup Id="Votive2010Components">
+        <ComponentGroup Id="Votive2015Components">
             <ComponentGroupRef Id="Votive2010BinaryComponents"/>
-            <ComponentGroupRef Id="Votive2010ExtensionComponents"/>
-            <ComponentGroupRef Id="Votive2010ItemTemplateComponents" />
-            <ComponentGroupRef Id="Votive2010ProjectTemplateComponents" />
-        </ComponentGroup>
-    </Fragment>
-
-    <Fragment>
-        <ComponentGroup Id="Votive$(var.VsVersion)BinaryComponents" Directory="BinFolder">
-            <Component>
-                <File Source="votive2010.dll" />
-                <util:RestartResource Path="[VS2010DEVENV]" />
-                <util:RestartResource Path="[VS2012DEVENV]" />
-                <util:RestartResource Path="[VS2013DEVENV]" />
-                <util:RestartResource Path="[VS14DEVENV]" />
-            </Component>
+            <ComponentGroupRef Id="Votive2015ExtensionComponents"/>
+            <ComponentGroupRef Id="Votive2015ItemTemplateComponents" />
+            <ComponentGroupRef Id="Votive2015ProjectTemplateComponents" />
         </ComponentGroup>
     </Fragment>
 
@@ -91,7 +82,7 @@
     </Fragment>
 
     <Fragment>
-        <ComponentGroup Id="Votive$(var.VsVersion)SchemaComponents" Directory="VS2010_SCHEMAS_DIR">
+        <ComponentGroup Id="Votive$(var.VsVersion)SchemaComponents" Directory="VS14_SCHEMAS_DIR">
             <Component>
                 <File Id="LuxSchema$(var.VsVersion)" Source="lux\wixext\Xsd\lux.xsd" />
             </Component>
@@ -111,9 +102,6 @@
                 <File Id="ExtensionXsdDependency$(var.VsVersion)" Source="ext\DependencyExtension\wixext\Xsd\Dependency.xsd" />
             </Component>
             <Component>
-                <File Id="ExtensionXsdComplus$(var.VsVersion)" Source="ext\ComPlusExtension\wixext\xsd\complus.xsd" />
-            </Component>
-            <Component>
                 <File Id="ExtensionXsdDifxApp$(var.VsVersion)" Source="ext\DifxAppExtension\wixext\Xsd\difxapp.xsd" />
             </Component>
             <Component>
@@ -124,9 +112,6 @@
             </Component>
             <Component>
                 <File Id="ExtensionXsdIis$(var.VsVersion)" Source="ext\IIsExtension\wixext\xsd\iis.xsd" />
-            </Component>
-            <Component>
-                <File Id="ExtensionXsdMsmq$(var.VsVersion)" Source="ext\MsmqExtension\wixext\xsd\msmq.xsd" />
             </Component>
             <Component>
                 <File Id="ExtensionXsdNetFx$(var.VsVersion)" Source="ext\NetFxExtension\wixext\Xsd\netfx.xsd" />
@@ -147,6 +132,5 @@
                 <File Id="ExtensionXsdVS$(var.VsVersion)" Source="ext\VSExtension\wixext\xsd\vs.xsd" />
             </Component>
         </ComponentGroup>
-
     </Fragment>
 </Wix>

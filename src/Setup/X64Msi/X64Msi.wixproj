@@ -9,7 +9,7 @@
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.9</ProductVersion>
+    <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>{43FE9EC8-264B-4706-94CF-9DEA3E160D85}</ProjectGuid>
     <InstallerPlatform>x64</InstallerPlatform>
     <OutputName>wix64</OutputName>

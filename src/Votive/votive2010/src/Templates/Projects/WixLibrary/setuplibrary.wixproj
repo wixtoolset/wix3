@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-		<ProductVersion>3.9</ProductVersion>
+		<ProductVersion>3.10</ProductVersion>
 		<ProjectGuid>$guid1$</ProjectGuid>
 		<SchemaVersion>2.0</SchemaVersion>
 		<OutputName>$safeprojectname$</OutputName>

@@ -16,7 +16,7 @@
     <BaseIntermediateOutputPath>$(BaseIntermediateOutputPath)$(VisualStudioTargetVersion)\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
 
-    <ProductVersion>3.9</ProductVersion>
+    <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>{D1931DDB-766C-4886-B8F0-8951840FF836}</ProjectGuid>
     <OutputName>nsdk$(VisualStudioTargetVersion)</OutputName>
     <OutputType>Package</OutputType>
