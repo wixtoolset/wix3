@@ -1,3 +1,5 @@
+* HeathS: Redefine Exit\* macros as variadic macros
+
 * SeanHall: WIXFEAT:4505 - WixHttpExtension for URL reservations.
 
 * BobArnson: WIXBUG:4569 - Add SWAPRUN for CD(!) and NET back to the Burn stub.

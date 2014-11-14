@@ -16,37 +16,34 @@
 extern "C" {
 #endif
 
-#define ConsoleExitOnFailure(x, c, f) if (FAILED(x)) { ConsoleWriteError(x, c, f); ExitTrace(x, f); goto LExit; }
-#define ConsoleExitOnFailure1(x, c, f, s) if (FAILED(x)) { ConsoleWriteError(x, c, f, s, NULL); ExitTrace1(x, f, s); goto LExit; }
-#define ConsoleExitOnFailure2(x, c, f, s, t) if (FAILED(x)) { ConsoleWriteError(x, c, f, s, t); ExitTrace2(x, f, s, t); goto LExit; }
-#define ConsoleExitOnFailure3(x, c, f, s, t, u) if (FAILED(x)) { ConsoleWriteError(x, c, f, s, t, u); ExitTrace3(x, f, s, t, u); goto LExit; }
+#define ConsoleExitOnFailure(x, c, f, ...) if (FAILED(x)) { ConsoleWriteError(x, c, f, __VA_ARGS__); ExitTrace(x, f, __VA_ARGS__); goto LExit; }
+#define ConsoleExitOnFailure1 ConsoleExitOnFailure
+#define ConsoleExitOnFailure2 ConsoleExitOnFailure
+#define ConsoleExitOnFailure3 ConsoleExitOnFailure
 
-#define ConsoleExitOnLastError(x, c, f) { x = ::GetLastError(); x = HRESULT_FROM_WIN32(x); if (FAILED(x)) { ConsoleWriteError(x, c, f); ExitTrace(x, f); goto LExit; } }
-#define ConsoleExitOnLastError1(x, c, f, s) { x = ::GetLastError(); x = HRESULT_FROM_WIN32(x); if (FAILED(x)) { ConsoleWriteError(x, c, f, s, NULL); ExitTrace1(x, f, s); goto LExit; } }
-#define ConsoleExitOnLastError2(x, c, f, s, t) { x = ::GetLastError(); x = HRESULT_FROM_WIN32(x); if (FAILED(x)) { ConsoleWriteError(x, c, f, s, t); ExitTrace2(x, f, s, t); goto LExit; } }
-#define ConsoleExitOnLastError3(x, c, f, s, t, u) { x = ::GetLastError(); x = HRESULT_FROM_WIN32(x); if (FAILED(x)) { ConsoleWriteError(x, c, f, s, t, u); ExitTrace3(x, f, s, t, u); goto LExit; } }
+#define ConsoleExitOnLastError(x, c, f, ...) { x = ::GetLastError(); x = HRESULT_FROM_WIN32(x); if (FAILED(x)) { ConsoleWriteError(x, c, f, __VA_ARGS__); ExitTrace(x, f, __VA_ARGS__); goto LExit; } }
+#define ConsoleExitOnLastError1 ConsoleExitOnLastError
+#define ConsoleExitOnLastError2 ConsoleExitOnLastError
+#define ConsoleExitOnLastError3 ConsoleExitOnLastError
 
-#define ConsoleExitOnNull(p, x, e, c, f) if (NULL == p) { x = e; ConsoleWriteError(x, c, f); ExitTrace(x, f); goto LExit; }
-#define ConsoleExitOnNull1(p, x, e, c, f, s) if (NULL == p) { x = e; ConsoleWriteError(x, c, f, s, NULL); ExitTrace1(x, f, s); goto LExit; }
-#define ConsoleExitOnNull2(p, x, e, c, f, s, t) if (NULL == p) { x = e; ConsoleWriteError(x, c, f, s, t); ExitTrace2(x, f, s, t); goto LExit; }
-#define ConsoleExitOnNull3(p, x, e, c, f, s, t, u) if (NULL == p) { x = e; ConsoleWriteError(x, c, f, s, t, u); ExitTrace2(x, f, s, t, u); goto LExit; }
+#define ConsoleExitOnNull(p, x, e, c, f, ...) if (NULL == p) { x = e; ConsoleWriteError(x, c, f, __VA_ARGS__); ExitTrace(x, f, __VA_ARGS__); goto LExit; }
 
 
 // the following macros need to go away
-#define ConsoleTrace(l, f) { ConsoleWriteLine(CONSOLE_COLOR_NORMAL, f); Trace(l, f); }
-#define ConsoleTrace1(l, f, s) { ConsoleWriteLine(CONSOLE_COLOR_NORMAL, f, s); Trace1(l, f, s); }
-#define ConsoleTrace2(l, f, s, t) { ConsoleWriteLine(CONSOLE_COLOR_NORMAL, f, s, t); Trace2(l, f, s, t); }
-#define ConsoleTrace3(l, f, s, t, u) { ConsoleWriteLine(CONSOLE_COLOR_NORMAL, f, s, t, u); Trace3(l, f, s, t, u); }
+#define ConsoleTrace(l, f, ...) { ConsoleWriteLine(CONSOLE_COLOR_NORMAL, f, __VA_ARGS__); Trace(l, f, __VA_ARGS__); }
+#define ConsoleTrace1 ConsoleTrace
+#define ConsoleTrace2 ConsoleTrace
+#define ConsoleTrace3 ConsoleTrace
 
-#define ConsoleWarning(f) { ConsoleWriteLine(CONSOLE_COLOR_YELLOW, f); Trace(REPORT_STANDARD, f); }
-#define ConsoleWarning1(f, s) { ConsoleWriteLine(CONSOLE_COLOR_YELLOW, f, s); Trace1(REPORT_STANDARD, f, s); }
-#define ConsoleWarning2(f, s, t) { ConsoleWriteLine(CONSOLE_COLOR_YELLOW, f, s, t); Trace2(REPORT_STANDARD, f, s, t); }
-#define ConsoleWarning3(f, s, t, u) { ConsoleWriteLine(CONSOLE_COLOR_YELLOW, f, s, t, u); Trace3(REPORT_STANDARD, f, s, t, u); }
+#define ConsoleWarning(f, ...) { ConsoleWriteLine(CONSOLE_COLOR_YELLOW, f, __VA_ARGS__); Trace(REPORT_STANDARD, f, __VA_ARGS__); }
+#define ConsoleWarning1 ConsoleWarning
+#define ConsoleWarning2 ConsoleWarning
+#define ConsoleWarning3 ConsoleWarning
 
-#define ConsoleError(x, f) { ConsoleWriteError(x, CONSOLE_COLOR_RED, f); TraceError(x, f); }
-#define ConsoleError1(x, f, s) { ConsoleWriteError(x, CONSOLE_COLOR_RED, f, s); TraceError1(x, f, s); }
-#define ConsoleError2(x, f, s, t) { ConsoleWriteError(x, CONSOLE_COLOR_RED, f, s, t); TraceError2(x, f, s, t); }
-#define ConsoleError3(x, f, s, t, u) { ConsoleWriteError(x, CONSOLE_COLOR_RED, f, s, t, u); TraceError3(x, f, s, t, u); }
+#define ConsoleError(x, f, ...) { ConsoleWriteError(x, CONSOLE_COLOR_RED, f, __VA_ARGS__); TraceError(x, f, __VA_ARGS__); }
+#define ConsoleError1 ConsoleError
+#define ConsoleError2 ConsoleError
+#define ConsoleError3 ConsoleError
 
 
 // enums
