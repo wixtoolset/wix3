@@ -60,7 +60,7 @@
                 <ComponentGroupRef Id="Votive2015SchemaComponents" />
             </Feature>
 
-            <Feature Id="Votive2015" Title="Project Templates 2015" Description="Votive Package for Visual Studio 2013" AllowAdvertise="no" Display="expand" InstallDefault="local" Level="0" TypicalDefault="install">
+            <Feature Id="Votive2015" Title="Project Templates 2015" Description="Votive Package for Visual Studio 2015" AllowAdvertise="no" Display="expand" InstallDefault="local" Level="0" TypicalDefault="install">
                 <Condition Level="1">VS14DEVENV OR REMOVE</Condition>
                 <ComponentGroupRef Id="Votive2015Components" />
                 <ComponentGroupRef Id="FileAssociationComponents" />
