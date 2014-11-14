@@ -20,6 +20,7 @@
     <ProjectReference Include="DirectXExtension\directx.proj" />
     <ProjectReference Include="FirewallExtension\firewall.proj" />
     <ProjectReference Include="GamingExtension\gaming.proj" />
+    <ProjectReference Include="HttpExtension\http.proj" />
     <ProjectReference Include="IIsExtension\iis.proj" />
     <ProjectReference Include="lux\lux.proj" />
     <ProjectReference Include="MsmqExtension\msmq.proj" />

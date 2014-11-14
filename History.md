@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4505 - WixHttpExtension for URL reservations.
+
 * BobArnson: WIXBUG:4569 - Add SWAPRUN for CD(!) and NET back to the Burn stub.
 
 * BobArnson: Add support for registering Votive into Visual Studio 2015 Preview.

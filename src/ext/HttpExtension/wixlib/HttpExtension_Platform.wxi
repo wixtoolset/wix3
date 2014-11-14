@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  <copyright file="HttpExtension_Platform.wxi" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caSuffix.wxi ?>
+    <Fragment>
+        <UIRef Id="WixHttpErrors" />
+        <UI>
+            <ProgressText Action="WixSchedHttpUrlReservationsInstall$(var.Suffix)">!(loc.WixSchedHttpUrlReservationsInstall)</ProgressText>
+            <ProgressText Action="WixSchedHttpUrlReservationsUninstall$(var.Suffix)">!(loc.WixSchedHttpUrlReservationsUninstall)</ProgressText>
+            <ProgressText Action="WixRollbackHttpUrlReservationsInstall$(var.DeferredSuffix)">!(loc.WixRollbackHttpUrlReservationsInstall)</ProgressText>
+            <ProgressText Action="WixExecHttpUrlReservationsInstall$(var.DeferredSuffix)">!(loc.WixExecHttpUrlReservationsInstall)</ProgressText>
+            <ProgressText Action="WixRollbackHttpUrlReservationsUninstall$(var.DeferredSuffix)">!(loc.WixRollbackHttpUrlReservationsUninstall)</ProgressText>
+            <ProgressText Action="WixExecHttpUrlReservationsUninstall$(var.DeferredSuffix)">!(loc.WixExecHttpUrlReservationsUninstall)</ProgressText>
+        </UI>
+
+        <CustomAction Id="WixSchedHttpUrlReservationsInstall$(var.Suffix)" BinaryKey="WixHttpCA$(var.Suffix)" DllEntry="SchedHttpUrlReservationsInstall" Execute="immediate" Return="check" SuppressModularization="yes" />
+        <CustomAction Id="WixSchedHttpUrlReservationsUninstall$(var.Suffix)" BinaryKey="WixHttpCA$(var.Suffix)" DllEntry="SchedHttpUrlReservationsUninstall" Execute="immediate" Return="check" SuppressModularization="yes" />
+        <CustomAction Id="WixRollbackHttpUrlReservationsInstall$(var.DeferredSuffix)" BinaryKey="WixHttpCA$(var.Suffix)" DllEntry="ExecHttpUrlReservations" Execute="rollback" Impersonate="no" Return="check" SuppressModularization="yes" />
+        <CustomAction Id="WixExecHttpUrlReservationsInstall$(var.DeferredSuffix)" BinaryKey="WixHttpCA$(var.Suffix)" DllEntry="ExecHttpUrlReservations" Execute="deferred" Impersonate="no" Return="check" SuppressModularization="yes" />
+        <CustomAction Id="WixRollbackHttpUrlReservationsUninstall$(var.DeferredSuffix)" BinaryKey="WixHttpCA$(var.Suffix)" DllEntry="ExecHttpUrlReservations" Execute="rollback" Impersonate="no" Return="check" SuppressModularization="yes" />
+        <CustomAction Id="WixExecHttpUrlReservationsUninstall$(var.DeferredSuffix)" BinaryKey="WixHttpCA$(var.Suffix)" DllEntry="ExecHttpUrlReservations" Execute="deferred" Impersonate="no" Return="check" SuppressModularization="yes" />
+
+        <!--
+            We need the HTTP server on Windows XP SP2 or later.
+        -->
+        <InstallExecuteSequence>
+            <Custom Action="WixSchedHttpUrlReservationsUninstall$(var.Suffix)" Before="RemoveFiles" Overridable="yes">
+                <![CDATA[ VersionNT >= 600 OR (VersionNT >= 501 AND ((MsiNTProductType = 1 AND ServicePackLevel >= 2) OR (MsiNTProductType > 1))) ]]>
+            </Custom>
+            <Custom Action="WixSchedHttpUrlReservationsInstall$(var.Suffix)" After="InstallFiles" Overridable="yes">
+                <![CDATA[ VersionNT >= 600 OR (VersionNT >= 501 AND ((MsiNTProductType = 1 AND ServicePackLevel >= 2) OR (MsiNTProductType > 1))) ]]>
+            </Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <Fragment>
+        <Binary Id="WixHttpCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))wixhttpca.dll" />
+    </Fragment>
+</Include>

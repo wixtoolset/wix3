@@ -43,6 +43,10 @@
             </Component>
 
             <Component>
+                <File Source="WixHttpExtension.dll" />
+            </Component>
+
+            <Component>
                 <File Source="WixIIsExtension.dll" />
             </Component>
 
@@ -104,6 +108,10 @@
 
             <Component>
                 <File Source="ext\GamingExtension\wixext\Xsd\gaming.xsd" />
+            </Component>
+
+            <Component>
+                <File Source="ext\HttpExtension\wixext\xsd\http.xsd" />
             </Component>
 
             <Component>

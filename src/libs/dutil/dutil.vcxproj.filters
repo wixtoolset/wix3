@@ -15,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="acl2util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="aclutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

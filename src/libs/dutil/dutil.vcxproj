@@ -55,6 +55,7 @@
     <MultiTargetLibrary>true</MultiTargetLibrary>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="acl2util.cpp" />
     <ClCompile Include="aclutil.cpp" />
     <ClCompile Include="apuputil.cpp" />
     <ClCompile Include="atomutil.cpp" />
