@@ -76,6 +76,7 @@
     <Stage Include="$(OutputPath)WixDirectXExtension.dll" />
     <Stage Include="$(OutputPath)WixFirewallExtension.dll" />
     <Stage Include="$(OutputPath)WixGamingExtension.dll" />
+    <Stage Include="$(OutputPath)WixHttpExtension.dll" />
     <Stage Include="$(OutputPath)WixIIsExtension.dll" />
     <Stage Include="$(OutputPath)WixMsmqExtension.dll " />
     <Stage Include="$(OutputPath)WixNetFxExtension.dll" />
