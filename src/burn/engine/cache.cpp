@@ -1718,6 +1718,8 @@ static HRESULT VerifyHash(
     HRESULT hr = S_OK;
     BYTE rgbActualHash[SHA1_HASH_LEN] = { };
     DWORD64 qwHashedBytes;
+    LPWSTR pszExpected = NULL;
+    LPWSTR pszActual = NULL;
 
     // TODO: create a cryp hash file that sends progress.
     hr = CrypHashFileHandle(hFile, PROV_RSA_FULL, CALG_SHA1, rgbActualHash, sizeof(rgbActualHash), &qwHashedBytes);
@@ -1727,10 +1729,23 @@ static HRESULT VerifyHash(
     if (cbHash != sizeof(rgbActualHash) || 0 != memcmp(pbHash, rgbActualHash, SHA1_HASH_LEN))
     {
         hr = CRYPT_E_HASH_VALUE;
-        ExitOnFailure1(hr, "Hash mismatch for path: %ls", wzUnverifiedPayloadPath);
+
+        // Best effort to log the expected and actual hash value strings.
+        if (SUCCEEDED(StrAllocHexEncode(pbHash, cbHash, &pszExpected)) &&
+            SUCCEEDED(StrAllocHexEncode(rgbActualHash, SHA1_HASH_LEN, &pszActual)))
+        {
+            ExitOnFailure3(hr, "Hash mismatch for path: %ls, expected: %ls, actual: %ls", wzUnverifiedPayloadPath, pszExpected, pszActual);
+        }
+        else
+        {
+            ExitOnFailure1(hr, "Hash mismatch for path: %ls", wzUnverifiedPayloadPath);
+        }
     }
 
 LExit:
+    ReleaseStr(pszActual);
+    ReleaseStr(pszExpected);
+
     return hr;
 }
 

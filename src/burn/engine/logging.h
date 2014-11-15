@@ -119,6 +119,10 @@ LPCSTR LoggingRestartToString(
     __in BOOTSTRAPPER_APPLY_RESTART restart
     );
 
+LPCSTR LoggingResumeModeToString(
+    __in BURN_RESUME_MODE resumeMode
+    );
+
 LPCSTR LoggingRelationTypeToString(
     __in BOOTSTRAPPER_RELATION_TYPE type
     );

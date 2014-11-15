@@ -594,6 +594,8 @@ extern "C" HRESULT RegistrationSessionBegin(
     HKEY hkRegistration = NULL;
     LPWSTR sczDisplayName = NULL;
 
+    LogId(REPORT_VERBOSE, MSG_SESSION_BEGIN, pRegistration->sczRegistrationKey, dwRegistrationOptions, LoggingBoolToString(pRegistration->fDisableResume));
+
     // Cache bundle executable.
     if (dwRegistrationOptions & BURN_REGISTRATION_ACTION_OPERATIONS_CACHE_BUNDLE)
     {
@@ -862,6 +864,8 @@ extern "C" HRESULT RegistrationSessionEnd(
     LPWSTR sczRebootRequiredKey = NULL;
     HKEY hkRebootRequired = NULL;
     HKEY hkRegistration = NULL;
+
+    LogId(REPORT_STANDARD, MSG_SESSION_END, pRegistration->sczRegistrationKey, LoggingResumeModeToString(resumeMode), LoggingRestartToString(restart), LoggingBoolToString(pRegistration->fDisableResume));
 
     // If a restart is required for any reason, write a volatile registry key to track of
     // of that fact until the reboot has taken place.
@@ -1141,6 +1145,8 @@ static HRESULT UpdateResumeMode(
     LPCWSTR sczResumeKey = REGISTRY_RUN_ONCE_KEY;
     OS_VERSION osv = OS_VERSION_UNKNOWN;
     DWORD dwServicePack = 0;
+
+    LogId(REPORT_STANDARD, MSG_SESSION_UPDATE, pRegistration->sczRegistrationKey, LoggingResumeModeToString(resumeMode), LoggingBoolToString(fRestartInitiated), LoggingBoolToString(pRegistration->fDisableResume));
 
     // On Windows XP and Server 2003, write the resume information to the Run key
     // instead of RunOnce. That avoids the problem that driver installation might

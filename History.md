@@ -1,3 +1,5 @@
+* HeathS: Add logging for hash verification and registration issues.
+
 * HeathS: Redefine Exit\* macros as variadic macros
 
 * SeanHall: WIXFEAT:4505 - WixHttpExtension for URL reservations.

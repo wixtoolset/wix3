@@ -751,6 +751,27 @@ Language=English
 Could not create system restore point, error: 0x%1!x!. Continuing...
 .
 
+MessageId=370
+Severity=Success
+SymbolicName=MSG_SESSION_BEGIN
+Language=English
+Session begin, registration key: %1!ls!, options: 0x%2!x!, disable resume: %3!hs!
+.
+
+MessageId=371
+Severity=Success
+SymbolicName=MSG_SESSION_UPDATE
+Language=English
+Updating session, registration key: %1!ls!, resume: %2!hs!, restart initiated: %3!hs!, disable resume: %4!hs!
+.
+
+MessageId=372
+Severity=Success
+SymbolicName=MSG_SESSION_END
+Language=English
+Session end, registration key: %1!ls!, resume: %2!hs!, restart: %3!hs!, disable resume: %4!hs!
+.
+
 MessageId=380
 Severity=Warning
 SymbolicName=MSG_APPLY_SKIPPED
