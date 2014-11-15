@@ -33,6 +33,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private bool setAssemblyFileVersions;
         private Microsoft.Tools.WindowsInstallerXml.Binder binder;
         private string cabCachePath;
+        private bool allowEmptyTransforms;
         private bool delta;
         private StringCollection extensions;
         private StringCollection unparsedArgs;
@@ -67,6 +68,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             this.showLogo = true;
             this.tidy = true;
             this.delta = false;
+            this.allowEmptyTransforms = false;
             this.setAssemblyFileVersions = false;
             this.inputTransforms = new Dictionary<string, string>();
             this.inputTransformsOrdered = new List<string>();
@@ -237,6 +239,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                 }
 
+                binder.AllowEmptyTransforms = this.allowEmptyTransforms;
+
                 binder.FileManager.ReuseCabinets = this.reuseCabinets;
                 binder.FileManager.CabCachePath = this.cabCachePath;
                 binder.FileManager.Output = patch.PatchOutput;
@@ -296,7 +300,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                 {
                     string parameter = arg.Substring(1);
 
-                    if ("bt" == parameter)
+                    if ("aet" == parameter)
+                    {
+                        this.allowEmptyTransforms = true;
+                    }
+                    else if ("bt" == parameter)
                     {
                         string path = CommandLine.GetDirectory(parameter, this.messageHandler, args, ++i, true);
                         if (String.IsNullOrEmpty(path))

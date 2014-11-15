@@ -1,3 +1,5 @@
+* SamuelS: WIXFEAT:4543 - Allow Pyro to exclude empty patch transforms.
+
 * HeathS: WIXBUG:4542 - Pad package sequence number log file names for proper sorting
 
 * HeathS: Add logging for hash verification and registration issues.
