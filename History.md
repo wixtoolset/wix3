@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:4542 - Pad package sequence number log file names for proper sorting
+
 * HeathS: Add logging for hash verification and registration issues.
 
 * HeathS: Redefine Exit\* macros as variadic macros

@@ -201,7 +201,7 @@ extern "C" HRESULT LoggingSetPackageVariable(
     if ((!fRollback && pPackage->sczLogPathVariable && *pPackage->sczLogPathVariable) ||
         (fRollback && pPackage->sczRollbackLogPathVariable && *pPackage->sczRollbackLogPathVariable))
     {
-        hr = StrAllocFormatted(&sczLogPath, L"%ls%hs%ls_%u_%ls%ls.%ls", pLog->sczPrefix, wzSuffix && *wzSuffix ? "_" : "", wzSuffix && *wzSuffix ? wzSuffix : L"", vdwPackageSequence, pPackage->sczId, fRollback ? L"_rollback" : L"", pLog->sczExtension);
+        hr = StrAllocFormatted(&sczLogPath, L"%ls%hs%ls_%03u_%ls%ls.%ls", pLog->sczPrefix, wzSuffix && *wzSuffix ? "_" : "", wzSuffix && *wzSuffix ? wzSuffix : L"", vdwPackageSequence, pPackage->sczId, fRollback ? L"_rollback" : L"", pLog->sczExtension);
         ExitOnFailure(hr, "Failed to allocate path for package log.");
 
         hr = VariableSetString(pVariables, fRollback ? pPackage->sczRollbackLogPathVariable : pPackage->sczLogPathVariable, sczLogPath, FALSE);
