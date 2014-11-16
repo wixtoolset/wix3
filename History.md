@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4474 - Relocate headers in setup to sdk\inc to match binaries .zip. This change requires search directories in VC++ projects to be changed.
+
 * SamuelS: WIXFEAT:4543 - Allow Pyro to exclude empty patch transforms.
 
 * HeathS: WIXBUG:4542 - Pad package sequence number log file names for proper sorting
