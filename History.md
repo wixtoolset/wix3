@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4580 - Check bit mask appropriately for Burn system variables.
+
 * SamuelS: WIXFEAT:4543 - Allow Pyro to exclude empty patch transforms.
 
 * HeathS: WIXBUG:4542 - Pad package sequence number log file names for proper sorting
