@@ -1,4 +1,4 @@
-* BMurri: WIXBUG:3750 - Add LaunchWorkingDir to wixstdba to facilitate processes that require a different working folder.
+* BMurri: WIXBUG:3750 - Add LaunchWorkingFolder to wixstdba to facilitate processes that require a different working folder.
 
 * RobMen: WIXBUG:4114 - PostQuitMessage in wixstdba from WM_NCDESTROY to avoid hangs.
 

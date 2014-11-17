@@ -270,7 +270,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         case "LaunchHidden":
                             launchHidden = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             break;
-                        case "LaunchWorkingDir":
+                        case "LaunchWorkingFolder":
                             launchWorkingDir = this.Core.GetAttributeValue(sourceLineNumbers, attrib, false);
                             break;
                         case "LicenseFile":
@@ -358,7 +358,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 
                 if (!String.IsNullOrEmpty(launchWorkingDir))
                 {
-                    this.Core.CreateVariableRow(sourceLineNumbers, "LaunchWorkingDir", launchWorkingDir, "string", false, false);
+                    this.Core.CreateVariableRow(sourceLineNumbers, "LaunchWorkingFolder", launchWorkingDir, "string", false, false);
                 }
 
                 if (!String.IsNullOrEmpty(licenseFile))

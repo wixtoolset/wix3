@@ -94,7 +94,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="LaunchWorkingDir" type="xs:string">
+            <xs:attribute name="LaunchWorkingFolder" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
                         When used without the LaunchTargetElevatedId attribute, WixStdBA will use this working folder when launching the specified application.
