@@ -35,7 +35,7 @@
       <Custom Action="CA_HxMerge_VSIPCC_VSCC" After="CA_RegisterMicrosoftHelp.3643236F_FC70_11D3_A536_0090278A1BB8"/>
       <Custom Action="CA_HxMerge_VSIPCC_VSExpCC" After="CA_RegisterMicrosoftHelp.3643236F_FC70_11D3_A536_0090278A1BB8"/>
     </InstallExecuteSequence>
-    <Binary Id="BIN_File_60377" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_60377" />
+    <Binary Id="BIN_File_60377" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_60377.dll" />
     <CustomTable Id="HelpPlugin">
       <Row>
         <Data Column="HelpNamespace_">MS_VSIPCC_v80</Data>
