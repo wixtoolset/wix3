@@ -19,9 +19,9 @@
     </DirectoryRef>
   </Fragment>
   <Fragment Id="HTML_Help_Registration_">
-    <Binary Id="BIN_File_46002" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_46002" />
-    <Binary Id="BIN_File_46001" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_46001" />
-    <Binary Id="BIN_File_107602" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_107602" />
+    <Binary Id="BIN_File_46002" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_46002.dll" />
+    <Binary Id="BIN_File_46001" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_46001.dll" />
+    <Binary Id="BIN_File_107602" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_File_107602.dll" />
     <!-- We are stuck using GUID'ed ids here because they were hardcoded in the Help2 dlls-->
     <CustomAction Id="CA_BeginHelpTransaction.3643236F_FC70_11D3_A536_0090278A1BB8" BinaryKey="BIN_File_46001" DllEntry="BeginTransaction" Execute="deferred" Impersonate="no" />
     <CustomAction Id="CA_RegisterPlugIn.3643236F_FC70_11D3_A536_0090278A1BB8" BinaryKey="BIN_File_46001" DllEntry="RegisterPlugIn2" Execute="deferred" Impersonate="no" />
