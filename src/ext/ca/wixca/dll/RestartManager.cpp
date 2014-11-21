@@ -52,6 +52,7 @@ extern "C" UINT __stdcall WixRegisterRestartResources(
     __in MSIHANDLE hInstall
     )
 {
+
     HRESULT hr = S_OK;
     UINT er = ERROR_SUCCESS;
 
@@ -148,8 +149,17 @@ extern "C" UINT __stdcall WixRegisterRestartResources(
         case etApplication:
             WcaLog(LOGMSG_VERBOSE, "Registering process name %ls with the Restart Manager.", wzResource);
             hr = RmuAddProcessesByName(pSession, wzResource);
-            ExitOnFailure(hr, "Failed to register the process name with the Restart Manager session.");
-            break;
+			if (E_NOTFOUND == hr)
+			{
+				//At least one instance of this process, running under another user returned access denied.  Since other instances may have been registered, continue this setup.
+				WcaLog(LOGMSG_VERBOSE, "An instance of the process named %ls could not be registered.  This setup will continue.", wzResource);
+				hr = S_OK;
+			}
+			else
+			{
+				ExitOnFailure(hr, "Failed to register the process name with the Restart Manager session.");
+			}
+			break;
 
         case etServiceName:
             WcaLog(LOGMSG_VERBOSE, "Registering service name %ls with the Restart Manager.", wzResource);

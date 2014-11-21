@@ -158,25 +158,78 @@ extern "C" HRESULT DAPI RmuAddProcessById(
     FILETIME UserTime = {};
     BOOL fLocked = FALSE;
 
-    hProcess = ::OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, dwProcessId);
-    ExitOnNullWithLastError1(hProcess, hr, "Failed to open the process ID %d.", dwProcessId);
+	HANDLE hToken = NULL;
+	TOKEN_PRIVILEGES priv = { 0 };
+	TOKEN_PRIVILEGES* pPrevPriv = NULL;
+	DWORD cbPrevPriv = 0;
 
-    if (!::GetProcessTimes(hProcess, &CreationTime, &ExitTime, &KernelTime, &UserTime))
-    {
-        ExitWithLastError1(hr, "Failed to get the process times for process ID %d.", dwProcessId);
-    }
+	BOOL fElevated = FALSE;
+	ProcElevated(::GetCurrentProcess(), &fElevated);
+	
+	// Must be elevated to adjust process privileges
+	if (TRUE == fElevated) {
 
-    ::EnterCriticalSection(&pSession->cs);
-    fLocked = TRUE;
+		// This process must have SeDebugPrivilege, in the event that the process to be registered is runing under a different user,
+		// otherwise OpenProcess will fail (when using either PROCESS_QUERY_INFORMATION or PROCESS_QUERY_LIMITED_INFORMATION).
+		if (!::OpenProcessToken(::GetCurrentProcess(), TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, &hToken))
+		{
+			ExitWithLastError(hr, "Failed to get process token.");
+		}
 
-    hr = RmuApplicationArrayAlloc(&pSession->rgApplications, &pSession->cApplications, dwProcessId, CreationTime);
-    ExitOnFailure(hr, "Failed to add the application to the array.");
+		priv.PrivilegeCount = 1;
+		priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+		if (!::LookupPrivilegeValueW(NULL, L"SeDebugPrivilege", &priv.Privileges[0].Luid))
+		{
+			ExitWithLastError(hr, "Failed to get debug privilege LUID.");
+		}
+
+		cbPrevPriv = sizeof(TOKEN_PRIVILEGES);
+		pPrevPriv = static_cast<TOKEN_PRIVILEGES*>(MemAlloc(cbPrevPriv, TRUE));
+		ExitOnNull(pPrevPriv, hr, E_OUTOFMEMORY, "Failed to allocate memory for empty previous privileges.");
+
+		if (!::AdjustTokenPrivileges(hToken, FALSE, &priv, cbPrevPriv, pPrevPriv, &cbPrevPriv))
+		{
+			LPVOID pv = MemReAlloc(pPrevPriv, cbPrevPriv, TRUE);
+			ExitOnNull(pv, hr, E_OUTOFMEMORY, "Failed to allocate memory for previous privileges.");
+			pPrevPriv = static_cast<TOKEN_PRIVILEGES*>(pv);
+
+			if (!::AdjustTokenPrivileges(hToken, FALSE, &priv, cbPrevPriv, pPrevPriv, &cbPrevPriv))
+			{
+				ExitWithLastError(hr, "Failed to get debug privilege LUID.");
+			}
+		}
+	}
+
+	// Calling process needs SeDebugPrivilege if the process to be opened running under a different user account.
+	hProcess = ::OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, dwProcessId);
+	if (TRUE == fElevated)
+	{
+		ExitOnNullWithLastError(hProcess, hr, "Failed to open the process ID %d.", dwProcessId);
+		if (!::GetProcessTimes(hProcess, &CreationTime, &ExitTime, &KernelTime, &UserTime))
+		{
+			ExitWithLastError(hr, "Failed to get the process times for process ID %d.", dwProcessId);
+		}
+
+		::EnterCriticalSection(&pSession->cs);
+		fLocked = TRUE;
+
+		hr = RmuApplicationArrayAlloc(&pSession->rgApplications, &pSession->cApplications, dwProcessId, CreationTime);
+		ExitOnFailure(hr, "Failed to add the application to the array.");
+
+	}
+	else
+	{
+		hr = E_NOTFOUND;
+	}
 
 LExit:
     if (hProcess)
     {
         ::CloseHandle(hProcess);
     }
+
+	ReleaseMem(pPrevPriv);
+	ReleaseHandle(hToken);
 
     if (fLocked)
     {
@@ -202,20 +255,35 @@ extern "C" HRESULT DAPI RmuAddProcessesByName(
     HRESULT hr = S_OK;
     DWORD *pdwProcessIds = NULL;
     DWORD cProcessIds = 0;
+	BOOL fNotFound = FALSE;
 
     hr = ProcFindAllIdsFromExeName(wzProcessName, &pdwProcessIds, &cProcessIds);
-    ExitOnFailure1(hr, "Failed to enumerate all the processes by name %ls.", wzProcessName);
+    ExitOnFailure(hr, "Failed to enumerate all the processes by name %ls.", wzProcessName);
 
     for (DWORD i = 0; i < cProcessIds; ++i)
     {
         hr = RmuAddProcessById(pSession, pdwProcessIds[i]);
-        ExitOnFailure2(hr, "Failed to add process %ls (%d) to the Restart Manager session.", wzProcessName, pdwProcessIds[i]);
+		if (E_NOTFOUND == hr)
+		{
+			// RmuAddProcessById returns E_NOTFOUND when this setup is not elevated and OpenProcess returned access denied (target process running under another user account). 
+			fNotFound = TRUE;
+		}
+		else
+		{
+			ExitOnFailure(hr, "Failed to add process %ls (%d) to the Restart Manager session.", wzProcessName, pdwProcessIds[i]);
+		}
     }
+
+	// If one or more calls to RmuAddProcessById returned E_NOTFOUND, then return E_NOTFOUND even if other calls succeeded, so that caller can log the issue.
+	if (TRUE == fNotFound)
+	{
+		hr =  E_NOTFOUND;
+	}
 
 LExit:
     ReleaseMem(pdwProcessIds);
 
-    return hr;
+	return hr;
 }
 
 /********************************************************************
