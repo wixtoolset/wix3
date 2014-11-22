@@ -14,9 +14,9 @@
 //-------------------------------------------------------------------------------------------------
 
 #if defined _WIN64
-#define PLATFORM_DECORATION(f) f ## L"_64"
+#define PLATFORM_DECORATION(f) f L"_64"
 #elif defined ARM
-#define PLATFORM_DECORATION(f) f ## L"_ARM"
+#define PLATFORM_DECORATION(f) f L"_ARM"
 #else
 #define PLATFORM_DECORATION(f) f
 #endif

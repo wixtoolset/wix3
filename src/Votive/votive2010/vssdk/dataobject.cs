@@ -432,7 +432,7 @@ namespace Microsoft.VisualStudio.Package
 			}
 			finally
 			{
-				if (data != null)
+				if (data != IntPtr.Zero)
 				{
 					UnsafeNativeMethods.GlobalUnLock(data);
 				}

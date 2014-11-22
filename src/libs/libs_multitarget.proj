@@ -72,5 +72,35 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup Condition=" $(VS2015Available) and !$(StaticAnalysisEnabled) ">
+    <ProjectReference Include="dutil\dutil.vcxproj">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+    <ProjectReference Include="wcautil\wcautil.vcxproj">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+    <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+    <ProjectReference Include="deputil\deputil.vcxproj">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(VS2015Available) and $(StaticAnalysisEnabled) ">
+    <ProjectReference Include="dutil\dutil.vcxproj">
+      <Properties>PlatformToolset=v140</Properties>
+    </ProjectReference>
+    <ProjectReference Include="wcautil\wcautil.vcxproj">
+      <Properties>PlatformToolset=v140</Properties>
+    </ProjectReference>
+    <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
+      <Properties>PlatformToolset=v140</Properties>
+    </ProjectReference>
+    <ProjectReference Include="deputil\deputil.vcxproj">
+      <Properties>PlatformToolset=v140</Properties>
+    </ProjectReference>
+  </ItemGroup>
+
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
 </Project>
