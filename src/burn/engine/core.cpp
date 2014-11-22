@@ -231,7 +231,7 @@ extern "C" HRESULT CoreDetect(
     hr = DependencyDetectProviderKeyBundleId(&pEngineState->registration);
     if (SUCCEEDED(hr))
     {
-        HRESULT hr = DetectForwardCompatibleBundle(&pEngineState->userExperience, &pEngineState->command, &pEngineState->registration);
+        hr = DetectForwardCompatibleBundle(&pEngineState->userExperience, &pEngineState->command, &pEngineState->registration);
         ExitOnFailure(hr, "Failed to detect forward compatible bundle.");
 
         // If a forward compatible bundle was detected, skip rest of bundle detection

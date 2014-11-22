@@ -352,7 +352,11 @@ bool InvokeManagedCustomAction(MSIHANDLE hSession, _AppDomain* pAppDomain,
         else
         {
                 vRemotingFunctionPtr.vt =  VT_I4;
+#pragma warning(push)
+#pragma warning(disable:4302) // truncation
+#pragma warning(disable:4311) // pointer truncation
                 vRemotingFunctionPtr.lVal = (LONG) (g_fRunningOutOfProc ? MsiRemoteInvoke : NULL);
+#pragma warning(pop)
         }
         index = 2;
         hr = SafeArrayPutElement(saArgs, &index, &vRemotingFunctionPtr);

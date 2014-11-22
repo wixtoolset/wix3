@@ -269,7 +269,7 @@ extern "C" HRESULT PayloadExtractFromContainer(
     // locate any payloads that were not extracted
     for (DWORD i = 0; i < pPayloads->cPayloads; ++i)
     {
-        BURN_PAYLOAD* pPayload = &pPayloads->rgPayloads[i];
+        pPayload = &pPayloads->rgPayloads[i];
 
         // if the payload is part of the container
         if (!pContainer || pPayload->pContainer == pContainer)
