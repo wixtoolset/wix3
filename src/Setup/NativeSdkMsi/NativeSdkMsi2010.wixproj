@@ -13,8 +13,4 @@
   </PropertyGroup>
 
   <Import Project="NativeSdkMsi.targets" />
-
-  <PropertyGroup>
-    <DefineConstants>$(DefineConstants);VSSdkAvailable=$(VS2010SdkAvailable)</DefineConstants>
-  </PropertyGroup>
 </Project>
