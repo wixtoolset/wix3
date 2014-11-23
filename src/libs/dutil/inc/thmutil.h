@@ -54,7 +54,9 @@ struct THEME_COLUMN
 {
     LPWSTR pszName;
     UINT uStringId;
+    int nBaseWidth;
     int nWidth;
+    BOOL fExpands;
 };
 
 
@@ -155,12 +157,16 @@ struct THEME
 {
     WORD wId;
 
+    BOOL fAutoResize;
+
     DWORD dwStyle;
     DWORD dwFontId;
     HANDLE hIcon;
     LPWSTR sczCaption;
     int nHeight;
+    int nMinimumHeight;
     int nWidth;
+    int nMinimumWidth;
     int nSourceX;
     int nSourceY;
     UINT uStringId;
@@ -248,7 +254,7 @@ DAPI_(void) ThemeUnloadControls(
     );
 
 /********************************************************************
- ThemeLocalize - Localizes all of the strings in the them.
+ ThemeLocalize - Localizes all of the strings in the theme.
 
 *******************************************************************/
 DAPI_(HRESULT) ThemeLocalize(
