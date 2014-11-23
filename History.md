@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4598 - Fix thmutil documentation.  Also backport some thmutil features/fixes from wix4.
+
 * BobArnson: WIXBUG:4580 - Check bit mask appropriately for Burn system variables.
 
 * SamuelS: WIXFEAT:4543 - Allow Pyro to exclude empty patch transforms.
