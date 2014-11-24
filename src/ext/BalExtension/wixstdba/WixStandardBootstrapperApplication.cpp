@@ -2458,6 +2458,8 @@ private: // privates
     //
     void OnClickRepairButton()
     {
+        SavePageSettings(WIXSTDBA_PAGE_MODIFY);
+
         this->OnPlan(BOOTSTRAPPER_ACTION_REPAIR);
     }
 
