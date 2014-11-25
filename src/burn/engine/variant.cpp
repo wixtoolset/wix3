@@ -220,15 +220,9 @@ extern "C" HRESULT BVariantSetString(
             memset(pVariant, 0, sizeof(BURN_VARIANT));
         }
 
-        if (NULL == wzValue)
-        {
-            pVariant->sczValue = NULL;
-        }
-        else
-        {
-            hr = StrAllocStringSecure(&pVariant->sczValue, wzValue, cchValue);
-        }
+        hr = StrAllocStringSecure(&pVariant->sczValue, wzValue, cchValue);
         ExitOnFailure(hr, "Failed to copy string.");
+
         pVariant->Type = BURN_VARIANT_TYPE_STRING;
     }
 
@@ -267,6 +261,12 @@ extern "C" HRESULT BVariantCopy(
     LPWSTR sczValue = NULL;
     DWORD64 qwValue = 0;
 
+    // Remember the final encryption state requested for the target. Use the source encrypted state while doing the
+    // copy. Apply the final encryption state at the end.
+    BOOL fFinalEncryptionState = pTarget->fEncryptValue;
+
+    pTarget->fEncryptValue = pSource->fEncryptValue;
+
     switch (pSource->Type)
     {
     case BURN_VARIANT_TYPE_NONE:
@@ -300,7 +300,8 @@ extern "C" HRESULT BVariantCopy(
         hr = E_INVALIDARG;
     }
     ExitOnFailure(hr, "Failed to copy variant.");
-    hr = BVariantSetEncryption(pTarget, pSource->fEncryptValue);
+
+    hr = BVariantSetEncryption(pTarget, fFinalEncryptionState);
 
 LExit:
     return hr;
