@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4608 - Fix bug in mbapreq where it wouldn't reload the bootstrapper if there was a mix of installed and uninstalled prerequisites.
+
 * SeanHall: WIXBUG:4598 - Fix thmutil documentation.  Also backport some thmutil features/fixes from wix4.
 
 * BobArnson: WIXBUG:4580 - Check bit mask appropriately for Burn system variables.
