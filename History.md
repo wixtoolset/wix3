@@ -1,3 +1,5 @@
+## WixBuild: Version 3.10.1124.0
+
 * SeanHall: WIXBUG:4598 - Fix thmutil documentation.  Also backport some thmutil features/fixes from wix4.
 
 * BobArnson: WIXBUG:4580 - Check bit mask appropriately for Burn system variables.
