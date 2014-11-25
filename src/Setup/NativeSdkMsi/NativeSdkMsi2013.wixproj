@@ -14,10 +14,4 @@
   </PropertyGroup>
 
   <Import Project="NativeSdkMsi.targets" />
-
-  <PropertyGroup>
-    <VS2010SDKAndVS2013SDK>false</VS2010SDKAndVS2013SDK>
-    <VS2010SDKAndVS2013SDK Condition=" $(VS2010SdkAvailable) and $(VS2013SdkAvailable) ">true</VS2010SDKAndVS2013SDK>
-    <DefineConstants>$(DefineConstants);VSSdkAvailable=$(VS2010SDKAndVS2013SDK)</DefineConstants>
-  </PropertyGroup>
 </Project>
