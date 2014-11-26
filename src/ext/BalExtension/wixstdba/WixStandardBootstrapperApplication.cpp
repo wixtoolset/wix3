@@ -864,7 +864,7 @@ public: // IBootstrapperApplication
 
             for (DWORD i = 0; i < m_cPrereqPackages; ++i)
             {
-                if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+                if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled && !m_rgPrereqPackages[i].fWasAlreadyInstalled)
                 {
                     if (m_rgPrereqPackages[i].fSuccessfullyInstalled)
                     {
