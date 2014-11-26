@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4609 - Fix incorrect use of BVariantCopy by creating the new method BVariantSetVariant.
+
 ## WixBuild: Version 3.10.1124.0
 
 * SeanHall: WIXBUG:4598 - Fix thmutil documentation.  Also backport some thmutil features/fixes from wix4.
