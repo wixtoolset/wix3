@@ -76,6 +76,7 @@
         <PropertyRef Id="VS2010DEVENV" />
         <PropertyRef Id="VS2012DEVENV" />
         <PropertyRef Id="VS2013DEVENV" />
+        <PropertyRef Id="VS14DEVENV" />
 
         <CustomAction Id="CA_SetLatestDevenv_2010" Property="LATEST_DEVENV_EXE" Value="[VS2010DEVENV]"/>
         <CustomAction Id="CA_SetLatestDevenv_2012" Property="LATEST_DEVENV_EXE" Value="[VS2012DEVENV]" />
