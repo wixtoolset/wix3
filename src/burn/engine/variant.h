@@ -75,6 +75,10 @@ HRESULT BVariantSetVersion(
     __in BURN_VARIANT* pVariant,
     __in DWORD64 qwValue
     );
+HRESULT BVariantSetVariant(
+    __in BURN_VARIANT* pVariant,
+    __in BURN_VARIANT* pValue
+    );
 HRESULT BVariantCopy(
     __in BURN_VARIANT* pSource,
     __out BURN_VARIANT* pTarget

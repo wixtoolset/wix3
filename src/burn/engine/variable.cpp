@@ -409,7 +409,7 @@ extern "C" HRESULT VariablesParseFromXml(
         pVariables->rgVariables[iVariable].fPersisted = fPersisted;
 
         // update variable value
-        hr = BVariantCopy(&value, &pVariables->rgVariables[iVariable].Value);
+        hr = BVariantSetVariant(&pVariables->rgVariables[iVariable].Value, &value);
         ExitOnFailure1(hr, "Failed to set value of variable: %ls", sczId);
 
         hr = BVariantSetEncryption(&pVariables->rgVariables[iVariable].Value, fHidden);
@@ -1528,7 +1528,7 @@ static HRESULT SetVariableValue(
     }
 
     // update variable value
-    hr = BVariantCopy(pVariant, &pVariables->rgVariables[iVariable].Value);
+    hr = BVariantSetVariant(&pVariables->rgVariables[iVariable].Value, pVariant);
     ExitOnFailure1(hr, "Failed to set value of variable: %ls", wzVariable);
 
 LExit:
