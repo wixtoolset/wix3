@@ -34,7 +34,7 @@
     <WIX_EXTERNALROOT Condition="!HasTrailingSlash('$(WIX_EXTERNALROOT)')">$(WIX_EXTERNALROOT)\</WIX_EXTERNALROOT>
   </PropertyGroup>
 
-  <Import Project="Nuget.targets"/>
+  <Import Project="Nuget.targets" />
 
   <!-- Converts the VS-standard Debug and Release to the wix-standard debug and ship -->
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == '' or '$(WixFlavor)' == 'debug' ">
@@ -71,13 +71,7 @@
     <HelpCompilerPath>$(ProgramFiles)\HTML Help Workshop</HelpCompilerPath>
     <HelpCompiler>$(HelpCompilerPath)\hhc.exe</HelpCompiler>
 
-    <SandcastlePath>$(ProgramFiles)\Sandcastle\</SandcastlePath>
-
-    <SandcastleHelpFileBuilderTargets>$(SHFBROOT)\SandcastleHelpFileBuilder.targets</SandcastleHelpFileBuilderTargets>
-    <SHFBROOT Condition="!Exists('$(SandcastleHelpFileBuilderTargets)')">$(ProgramFiles)\EWSoftware\Sandcastle Help File Builder</SHFBROOT>
-    <SandcastleHelpFileBuilderTargets>$(SHFBROOT)\SandcastleHelpFileBuilder.targets</SandcastleHelpFileBuilderTargets>
-
-    <BuildSandcastleDocumentation Condition=" Exists('$(SandcastleHelpFileBuilderTargets)') and '$(Configuration)'=='Release' ">true</BuildSandcastleDocumentation>
+    <BuildSandcastleDocumentation Condition=" '$(BuildSandcastleDocumentation)'=='' and '$(Configuration)'=='Release' ">true</BuildSandcastleDocumentation>
     <BuildSandcastleDocumentation Condition=" '$(BuildSandcastleDocumentation)'=='' ">false</BuildSandcastleDocumentation>
   </PropertyGroup>
 
@@ -263,6 +257,7 @@
     <AssemblyOriginatorKeyFile>$(OFFICIAL_WIX_BUILD)</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
+    <BuildSandcastleDocumentation>true</BuildSandcastleDocumentation>
   </PropertyGroup>
 
   <!-- StyleCop settings -->

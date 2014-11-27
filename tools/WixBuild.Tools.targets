@@ -90,16 +90,6 @@
       Text="$(HelpCompiler) does not exist. Please install the HTML Help Workshop that is part of the HTML Help SDK." />
 
     <Error
-      Code="WIXBUILD005"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !Exists('$(SandcastlePath)')"
-      Text="Sandcastle is required on an official build. Install the Sandcastle Help File Builder that is available on CodePlex to get Sandcastle and Sandcastle Help File Builder." />
-
-    <Error
-      Code="WIXBUILD006"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !Exists('$(SandcastleHelpFileBuilderTargets)')"
-      Text="$(SandcastleHelpFileBuilderTargets) is required on an official build. Install the Sandcastle Help File Builder that is available on CodePlex." />
-
-    <Error
       Code="WIXBUILD007"
       Condition=" !Exists('$(XunitPath)xunit.dll') "
       Text="Cannot locate xUnit assemblies. Ensure xUnit is present at: $(XunitPath) and that the 'xunit.dll' exists. If not, run the following command from the root of the project: msbuild -t:PackageRestore" />
