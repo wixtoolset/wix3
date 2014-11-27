@@ -7,7 +7,7 @@
     LICENSE.TXT at the root directory of the distribution.
   </copyright>
 -->
-<Project DefaultTargets="RegisterStrongNameSkip" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="RegisterStrongNameSkip" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <Import Project="WixBuild.props" />
 
   <!--
