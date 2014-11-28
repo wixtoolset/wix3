@@ -75,10 +75,19 @@ HRESULT BVariantSetVersion(
     __in BURN_VARIANT* pVariant,
     __in DWORD64 qwValue
     );
+/********************************************************************
+BVariantSetVariant - Convenience function that calls BVariantUninitilialize,
+BVariantSetNumeric, BVariantSetString, or BVariantSetVersion based on
+the type of pValue.  The encryption state of pVariant is preserved.
+********************************************************************/
 HRESULT BVariantSetVariant(
     __in BURN_VARIANT* pVariant,
     __in BURN_VARIANT* pValue
     );
+/********************************************************************
+BVariantCopy - creates a copy of pSource.  The encryption state of pTarget
+is set to the encryption state of pSource.
+********************************************************************/
 HRESULT BVariantCopy(
     __in BURN_VARIANT* pSource,
     __out BURN_VARIANT* pTarget
@@ -87,6 +96,10 @@ HRESULT BVariantChangeType(
     __in BURN_VARIANT* pVariant,
     __in BURN_VARIANT_TYPE type
     );
+/********************************************************************
+BVariantSetEncryption - sets the encryption state of pVariant.  If the
+encryption state matches the requested state, this function does nothing.
+********************************************************************/
 HRESULT BVariantSetEncryption(
     __in BURN_VARIANT* pVariant,
     __in BOOL fEncrypt
