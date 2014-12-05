@@ -18,6 +18,7 @@ static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID = L"LaunchTargetElevatedId";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
+static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER = L"LaunchWorkingFolder";
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
 static const LPCWSTR WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION = L"WixBundleFileVersion";
 
@@ -2546,6 +2547,7 @@ private: // privates
         LPWSTR sczLaunchTargetElevatedId = NULL;
         LPWSTR sczUnformattedArguments = NULL;
         LPWSTR sczArguments = NULL;
+        LPWSTR sczLaunchFolder = NULL;
         int nCmdShow = SW_SHOWNORMAL;
 
         hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH, &sczUnformattedLaunchTarget);
@@ -2571,6 +2573,12 @@ private: // privates
             nCmdShow = SW_HIDE;
         }
 
+        if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER))
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER, &sczLaunchFolder);
+            BalExitOnFailure1(hr, "Failed to get launch working directory variable '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER);
+        }
+
         if (sczLaunchTargetElevatedId && !m_fTriedToLaunchElevated)
         {
             m_fTriedToLaunchElevated = TRUE;
@@ -2591,13 +2599,14 @@ private: // privates
                 BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
             }
 
-            hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
+            hr = ShelExec(sczLaunchTarget, sczArguments, L"open", sczLaunchFolder, nCmdShow, m_hWnd, NULL);
             BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
 
             ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
         }
 
     LExit:
+        ReleaseStr(sczLaunchFolder);
         StrSecureZeroFreeString(sczArguments);
         ReleaseStr(sczUnformattedArguments);
         ReleaseStr(sczLaunchTargetElevatedId);
