@@ -219,16 +219,15 @@ extern "C" HRESULT BVariantSetString(
         {
             memset(pVariant, 0, sizeof(BURN_VARIANT));
         }
-
-        if (NULL == wzValue)
-        {
-            pVariant->sczValue = NULL;
-        }
         else
         {
-            hr = StrAllocStringSecure(&pVariant->sczValue, wzValue, cchValue);
+            // We're about to copy an unencrypted value.
+            pVariant->fEncryptValue = FALSE;
         }
+
+        hr = StrAllocStringSecure(&pVariant->sczValue, wzValue, cchValue);
         ExitOnFailure(hr, "Failed to copy string.");
+
         pVariant->Type = BURN_VARIANT_TYPE_STRING;
     }
 
@@ -257,6 +256,57 @@ extern "C" HRESULT BVariantSetVersion(
     return hr;
 }
 
+extern "C" HRESULT BVariantSetValue(
+    __in BURN_VARIANT* pVariant,
+    __in BURN_VARIANT* pValue
+    )
+{
+    HRESULT hr = S_OK;
+    LONGLONG llValue = 0;
+    LPWSTR sczValue = NULL;
+    DWORD64 qwValue = 0;
+    BOOL fEncrypt = pVariant->fEncryptValue;
+
+    switch (pValue->Type)
+    {
+    case BURN_VARIANT_TYPE_NONE:
+        BVariantUninitialize(pVariant);
+        break;
+    case BURN_VARIANT_TYPE_NUMERIC:
+        hr = BVariantGetNumeric(pValue, &llValue);
+        if (SUCCEEDED(hr))
+        {
+            hr = BVariantSetNumeric(pVariant, llValue);
+        }
+        SecureZeroMemory(&llValue, sizeof(llValue));
+        break;
+    case BURN_VARIANT_TYPE_STRING:
+        hr = BVariantGetString(pValue, &sczValue);
+        if (SUCCEEDED(hr))
+        {
+            hr = BVariantSetString(pVariant, sczValue, 0);
+        }
+        StrSecureZeroFreeString(sczValue);
+        break;
+    case BURN_VARIANT_TYPE_VERSION:
+        hr = BVariantGetVersion(pValue, &qwValue);
+        if (SUCCEEDED(hr))
+        {
+            hr = BVariantSetVersion(pVariant, qwValue);
+        }
+        SecureZeroMemory(&qwValue, sizeof(qwValue));
+        break;
+    default:
+        hr = E_INVALIDARG;
+    }
+    ExitOnFailure(hr, "Failed to copy variant.");
+
+    hr = BVariantSetEncryption(pVariant, fEncrypt);
+
+LExit:
+    return hr;
+}
+
 extern "C" HRESULT BVariantCopy(
     __in BURN_VARIANT* pSource,
     __out BURN_VARIANT* pTarget
@@ -267,10 +317,11 @@ extern "C" HRESULT BVariantCopy(
     LPWSTR sczValue = NULL;
     DWORD64 qwValue = 0;
 
+    BVariantUninitialize(pTarget);
+
     switch (pSource->Type)
     {
     case BURN_VARIANT_TYPE_NONE:
-        BVariantUninitialize(pTarget);
         break;
     case BURN_VARIANT_TYPE_NUMERIC:
         hr = BVariantGetNumeric(pSource, &llValue);
@@ -300,6 +351,7 @@ extern "C" HRESULT BVariantCopy(
         hr = E_INVALIDARG;
     }
     ExitOnFailure(hr, "Failed to copy variant.");
+
     hr = BVariantSetEncryption(pTarget, pSource->fEncryptValue);
 
 LExit:
