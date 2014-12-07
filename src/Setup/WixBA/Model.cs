@@ -28,6 +28,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         private Version version;
         private const string BurnBundleInstallDirectoryVariable = "InstallFolder";
         private const string BurnBundleLayoutDirectoryVariable = "WixBundleLayoutDirectory";
+        private const string BurnBundleVersionVariable = "WixBundleVersion";
 
         /// <summary>
         /// Creates a new model for the UX.
@@ -73,10 +74,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 if (null == this.version)
                 {
-                    Assembly assembly = Assembly.GetExecutingAssembly();
-                    FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
-
-                    this.version = new Version(fileVersion.FileVersion);
+                    this.version = new Version(this.Engine.StringVariables[BurnBundleVersionVariable]);
                 }
 
                 return this.version;

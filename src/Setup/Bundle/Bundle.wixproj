@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\dtf\dtf.proj" />
     <ProjectReference Include="..\CoreMsi\CoreMsi.wixproj" />
     <ProjectReference Include="..\X64Msi\X64Msi.wixproj" />
     <ProjectReference Include="..\ManagedSdkMsi\ManagedSdkMsi.wixproj" />
