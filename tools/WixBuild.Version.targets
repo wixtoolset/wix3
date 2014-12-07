@@ -31,8 +31,9 @@
         <BuildNumber>$(UpperBuildNumber)$(BuildDay)</BuildNumber>
         <BuildRevision>0</BuildRevision>
 
-        <FullBuildVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildNumber).$(BuildRevision)</FullBuildVersionString>
-        <FullBuildVersionStringDashed>$(MajorBuildNumber)-$(MinorBuildNumber)-$(BuildNumber)-$(BuildRevision)</FullBuildVersionStringDashed>
+        <FullBuildVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildRevision).$(BuildNumber)</FullBuildVersionString>
+        <FullBuildVersionStringDashed>$(MajorBuildNumber)-$(MinorBuildNumber)-$(BuildRevision)-$(BuildNumber)</FullBuildVersionStringDashed>
+        <MsiProductVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildNumber)</MsiProductVersionString>
     </PropertyGroup>
 
   <!--
@@ -152,7 +153,11 @@ using System.Reflection%3B
   &lt;?ifdef WixVersion?&gt;
     &lt;?error WixVersion variable is already defined?&gt;
   &lt;?endif?&gt;
-  &lt;?define WixVersion = '%24(var.WixMajorMinor).%24(var.WixBuildNum).0' ?&gt;
+  &lt;?define WixVersion = '%24(var.WixMajorMinor).0.%24(var.WixBuildNum)' ?&gt;
+  &lt;?ifdef WixMsiProductVersion?&gt;
+    &lt;?error WixMsiProductVersion variable is already defined?&gt;
+  &lt;?endif?&gt;
+  &lt;?define WixMsiProductVersion = '%24(var.WixMajorMinor).%24(var.WixBuildNum)' ?&gt;
 &lt;/Include&gt;
 "/>
     </ItemGroup>
