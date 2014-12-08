@@ -74,7 +74,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 if (null == this.version)
                 {
-                    this.version = new Version(this.Engine.StringVariables[BurnBundleVersionVariable]);
+                    this.version = this.Engine.VersionVariables[BurnBundleVersionVariable];
                 }
 
                 return this.version;
