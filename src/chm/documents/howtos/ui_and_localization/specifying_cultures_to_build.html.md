@@ -51,7 +51,7 @@ field enter the semicolon list of cultures or culture groups you would like buil
 a .wxl file is not provided for a target culture. For example, to build an en-US
 installer and an ru-RU installer when only an ru-RU .wxl file is provided, specify
 en-US;ru-RU. Wix localization variables for the ru-RU installer will first come
-from the provided .wxl file, then referenced WiX exstensions (IE: WixUIExtension).
+from the provided .wxl file, then referenced WiX extensions (IE: WixUIExtension).
 Wix localization variables for the en-US installer will only come from referenced
 extensions.
 
@@ -64,8 +64,8 @@ the following:
 **Cultures to build** may also be used to specify how to use multiple
 WxL files to build a single installer. Each culture or culture group will build
 an individual MSI. A **culture group** consists of a list of cultures
-seperated by *commas* and is useful for specifying fallback cultures used to locate
-WiX localization variables.  Multiple culture groups may be seperated by *semi-colons*
+separated by *commas* and is useful for specifying fallback cultures used to locate
+WiX localization variables.  Multiple culture groups may be separated by *semi-colons*
 to build multiple outputs.
 
     primary1,fallback1;primary2,fallback2
