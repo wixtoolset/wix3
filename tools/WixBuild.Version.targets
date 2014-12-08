@@ -145,7 +145,7 @@ using System.Reflection%3B
   &lt;?ifdef WixMajorMinor?&gt;
     &lt;?error WixMajorMinor variable is already defined?&gt;
   &lt;?endif?&gt;
-  &lt;?define WixMajorMinor = '$(MajorBuildNumber).$(MinorBuildNumber)' ?&gt;
+  &lt;?define WixMajorMinor = '$(MajorMinorVersionDottedString)' ?&gt;
   &lt;?ifdef WixBuildNum?&gt;
     &lt;?error WixBuildNum variable is already defined?&gt;
   &lt;?endif?&gt;
@@ -153,11 +153,11 @@ using System.Reflection%3B
   &lt;?ifdef WixVersion?&gt;
     &lt;?error WixVersion variable is already defined?&gt;
   &lt;?endif?&gt;
-  &lt;?define WixVersion = '%24(var.WixMajorMinor).0.%24(var.WixBuildNum)' ?&gt;
+  &lt;?define WixVersion = '$(FullBuildVersionString)' ?&gt;
   &lt;?ifdef WixMsiProductVersion?&gt;
     &lt;?error WixMsiProductVersion variable is already defined?&gt;
   &lt;?endif?&gt;
-  &lt;?define WixMsiProductVersion = '%24(var.WixMajorMinor).%24(var.WixBuildNum)' ?&gt;
+  &lt;?define WixMsiProductVersion = '$(MsiProductVersionString)' ?&gt;
 &lt;/Include&gt;
 "/>
     </ItemGroup>

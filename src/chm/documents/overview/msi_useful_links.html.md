@@ -6,7 +6,7 @@ after: codepage
 
 # Useful Windows Installer Information
 
-Link to the Windows Installer 4.5 SDK: <http://msdn.microsoft.com/en-us/library/aa372866.aspx>
+Link to the Windows Installer 4.5 SDK: <http://msdn.microsoft.com/en-us/library/cc185688.aspx>
 
 List of Windows Installer default properties: <http://msdn.microsoft.com/en-us/library/aa370905.aspx>
 
