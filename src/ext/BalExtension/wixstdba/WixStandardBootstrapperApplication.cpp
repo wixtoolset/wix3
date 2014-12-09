@@ -130,6 +130,11 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT,
     WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON,
     WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON,
+    
+    WIXSTDBA_CONTROL_SUCCESS_HEADER, 
+    WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, 
+    WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, 
 
     // Failure page
     WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK,
@@ -137,6 +142,11 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT,
     WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON,
     WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON,
+    
+    WIXSTDBA_CONTROL_FAILURE_HEADER, 
+    WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, 
+    WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER,
 };
 
 static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
@@ -185,6 +195,16 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, L"FailureRestartText" },
     { WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, L"FailureRestartButton" },
     { WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON, L"FailureCloseButton" },
+    
+    { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" }, 
+    { WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, L"SuccessSetupHeader" }, 
+    { WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, L"SuccessUninstallHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, L"SuccessRepairHeader" }, 
+    
+    { WIXSTDBA_CONTROL_FAILURE_HEADER, L"FailureHeader" }, 
+    { WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, L"FailureSetupHeader" }, 
+    { WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, L"FailureUninstallHeader" }, 
+    { WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, L"FailureRepairHeader" }, 
 };
 
 typedef struct _WIXSTDBA_PREREQ_PACKAGE
@@ -2154,6 +2174,28 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_LAUNCH_BUTTON, fLaunchTargetExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON, fShowRestartButton);
+                    
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, TRUE); 
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER) || ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER) || ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE); 
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_SETUP_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+                    
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction);
+                    }
                 }
                 else if (m_rgdwPageIds[WIXSTDBA_PAGE_FAILURE] == dwNewPageId) // on the "Failure" page, show error message and check if the restart button should be enabled.
                 {
@@ -2229,6 +2271,27 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, fShowErrorMessage);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, fShowRestartButton);
+                    
+                    ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, TRUE); 
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER) || ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER) || ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE); 
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_SETUP_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction); 
+                    }
                 }
 
                 // Process each control for special handling in the new page.
