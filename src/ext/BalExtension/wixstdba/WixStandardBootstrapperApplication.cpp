@@ -1457,6 +1457,17 @@ private: // privates
         }
         BalExitOnFailure(hr, "Failed to get ShowVersion value.");
 
+        hr = XmlGetAttributeNumber(pNode, L"SuppressCancelDuringProcess", &dwBool);
+        if (E_NOTFOUND == hr)
+        {
+            hr = S_OK;
+        }
+        else if (SUCCEEDED(hr))
+        {
+            m_fSuppressCancelDuringProcess = 0 < dwBool;
+        }
+        BalExitOnFailure(hr, "Failed to get SuppressCancelDuringProcess value.");
+
     LExit:
         ReleaseObject(pNode);
         return hr;
@@ -2124,6 +2135,13 @@ private: // privates
                 {
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_REPAIR_BUTTON, !m_fSuppressRepair);
                 }
+                else if (m_rgdwPageIds[WIXSTDBA_PAGE_PROGRESS] == dwNewPageId)
+                {
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON) && m_fSuppressCancelDuringProcess)
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON, !m_fSuppressCancelDuringProcess);
+                    }
+                }
                 else if (m_rgdwPageIds[WIXSTDBA_PAGE_OPTIONS] == dwNewPageId)
                 {
                     HRESULT hr = BalGetStringVariable(WIXSTDBA_VARIABLE_INSTALL_FOLDER, &sczUnformattedText);
@@ -2331,8 +2349,13 @@ private: // privates
     //
     BOOL OnClose()
     {
-        BOOL fClose = FALSE;
+        if (m_fSuppressCancelDuringProcess && WIXSTDBA_STATE_PLANNING <= m_state &&  WIXSTDBA_STATE_EXECUTED >= m_state)
+        {
+            return FALSE;
+        }
 
+        BOOL fClose = FALSE;  
+        
         // If we've already succeeded or failed or showing the help page, just close (prompts are annoying if the bootstrapper is done).
         if (WIXSTDBA_STATE_APPLIED <= m_state || WIXSTDBA_STATE_HELP == m_state)
         {
@@ -3007,6 +3030,7 @@ public:
         m_fSuppressOptionsUI = FALSE;
         m_fSuppressDowngradeFailure = FALSE;
         m_fSuppressRepair = FALSE;
+        m_fSuppressCancelDuringProcess = FALSE;
         m_fShowVersion = FALSE;
 
         m_sdOverridableVariables = NULL;
@@ -3102,6 +3126,7 @@ private:
     LPWSTR m_sczLicenseUrl;
     BOOL m_fSuppressOptionsUI;
     BOOL m_fSuppressDowngradeFailure;
+    BOOL m_fSuppressCancelDuringProcess;
     BOOL m_fSuppressRepair;
     BOOL m_fShowVersion;
 
