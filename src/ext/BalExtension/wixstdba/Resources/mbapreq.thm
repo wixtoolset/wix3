@@ -29,7 +29,7 @@
     </Page>
     <Page Name="Failure">
         <Text Name="FailureHeader" X="11" Y="112" Width="-11" Height="30" FontId="2" HideWhenDisabled="yes" DisablePrefix="yes">#(loc.FailureHeader)</Text>
-        <Text Name="FailureSetupHeader" X="11" Y="112" Width="-11" Height="30" FontId="2" HideWhenDisabled="yes" DisablePrefix="yes">#(loc.FailureSetupHeader)</Text>
+        <Text Name="FailureInstallHeader" X="11" Y="112" Width="-11" Height="30" FontId="2" HideWhenDisabled="yes" DisablePrefix="yes">#(loc.FailureInstallHeader)</Text>
         <Text Name="FailureUninstallHeader" X="11" Y="112" Width="-11" Height="30" FontId="2" HideWhenDisabled="yes" DisablePrefix="yes">#(loc.FailureUninstallHeader)</Text>
         <Text Name="FailureRepairHeader" X="11" Y="112" Width="-11" Height="30" FontId="2" HideWhenDisabled="yes" DisablePrefix="yes">#(loc.FailureRepairHeader)</Text>
         <Hypertext Name="FailureLogFileLink" X="11" Y="153" Width="-11" Height="51" FontId="3" TabStop="yes" HideWhenDisabled="yes">#(loc.FailureLogLinkText)</Hypertext>

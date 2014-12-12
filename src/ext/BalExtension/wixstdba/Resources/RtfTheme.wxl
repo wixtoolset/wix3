@@ -34,14 +34,14 @@
   <String Id="ModifyCloseButton">&amp;Close</String>
   <String Id="SuccessRepairHeader">Repair Successfully Completed</String>
   <String Id="SuccessUninstallHeader">Uninstall Successfully Completed</String>
-  <String Id="SuccessSetupHeader">Installation Successfully Completed</String> 
+  <String Id="SuccessInstallHeader">Installation Successfully Completed</String> 
   <String Id="SuccessHeader">Setup Successful</String>	
   <String Id="SuccessLaunchButton">&amp;Launch</String>
   <String Id="SuccessRestartText">You must restart your computer before you can use the software.</String>
   <String Id="SuccessRestartButton">&amp;Restart</String>
   <String Id="SuccessCloseButton">&amp;Close</String>
   <String Id="FailureHeader">Setup Failed</String>
-  <String Id="FailureSetupHeader">Setup Failed</String>
+  <String Id="FailureInstallHeader">Setup Failed</String>
   <String Id="FailureUninstallHeader">Uninstall Failed</String>
   <String Id="FailureRepairHeader">Repair Failed</String> 
   <String Id="FailureHyperlinkLogText">One or more issues caused the setup to fail. Please fix the issues and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
