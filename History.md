@@ -1,3 +1,5 @@
+* PhillHogland: WIXBUG:4592 - Register named process, in another user's context with Restart Manager.  If Access Denied, continue install rather than fail.
+
 * HeathS: Redefine Exit\* macros as variadic macros
 
 * SeanHall: WIXFEAT:4505 - WixHttpExtension for URL reservations.
