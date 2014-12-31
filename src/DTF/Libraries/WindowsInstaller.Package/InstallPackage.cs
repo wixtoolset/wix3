@@ -191,6 +191,7 @@ public class InstallPackage : Database
     {
         this.ProcessFilesByMediaDisk(fileKeys,
             new ProcessFilesOnOneMediaDiskHandler(this.ExtractFilesOnOneMediaDisk));
+        this.ExtractFilesInBinaryTable(fileKeys);
     }
 
     private bool IsMergeModule()
@@ -201,6 +202,60 @@ public class InstallPackage : Database
 
     private delegate void ProcessFilesOnOneMediaDiskHandler(string mediaCab,
         InstallPathMap compressedFileMap, InstallPathMap uncompressedFileMap);
+
+    /// <summary>
+    /// Gives the conventional/configured binary subfolder where files from the Binary table should be extracted and worked with
+    /// </summary>
+    public virtual DirectoryInfo BinaryDirectory { get { return new DirectoryInfo(Path.Combine(this.WorkingDirectory, "wix_Binary")); } }
+
+    /// <summary>
+    /// Provides a key (filename) / value (full path) pair where the Binary files can be worked with
+    /// </summary>
+    /// <param name="names"></param>
+    /// <returns></returns>
+    public virtual IDictionary<string, string> GetBinaryFilePaths(ICollection<string> names = null)
+    {
+        IDictionary<string, string> retval = new Dictionary<string, string>(100);
+
+        foreach(FileInfo fi in BinaryDirectory.GetFiles())
+        {
+            if (null != names && !names.Contains(fi.Name)) continue;
+
+            retval.Add(fi.Name, fi.FullName);
+        }
+
+        return retval;
+    }
+
+    [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+    private void ExtractFilesInBinaryTable(ICollection<string> names)
+    {
+        View binaryView = this.OpenView("Select `Name`, `Data` FROM `Binary`");
+        binaryView.Execute();
+
+
+        if (!BinaryDirectory.Exists) BinaryDirectory.Create();
+
+        ICollection<string> createdFiles = new List<string>(100);
+
+        for (Record binaryRec = binaryView.Fetch(); binaryRec != null; binaryRec = binaryView.Fetch() )           
+        {
+            string binaryKey = (string)binaryRec[1];
+            Stream binaryData = (Stream)binaryRec[2];
+
+            if (null != names && !names.Contains(binaryKey)) continue; //Skip unspecified values
+
+            createdFiles.Add(binaryKey);
+
+            FileInfo binaryFile = new FileInfo(Path.Combine(BinaryDirectory.FullName, binaryKey));
+            using (FileStream fs = binaryFile.Create())
+            {
+                for (int a = binaryData.ReadByte(); a != -1; a = binaryData.ReadByte()) fs.WriteByte((byte)a);
+            }
+        }
+
+        ClearReadOnlyAttribute(BinaryDirectory.FullName, createdFiles);
+    }
 
     private void ProcessFilesByMediaDisk(ICollection<string> fileKeys,
         ProcessFilesOnOneMediaDiskHandler diskHandler)
@@ -228,9 +283,9 @@ public class InstallPackage : Database
                 fileView = this.OpenView("SELECT `File`, `Attributes`, `Sequence` " +
                     "FROM `File` ORDER BY `Sequence`");
                 mediaView = this.OpenView("SELECT `DiskId`, `LastSequence`, `Cabinet` " +
-                    "FROM `Media` ORDER BY `DiskId`");
+                    "FROM `Media` ORDER BY `DiskId`");               
                 fileView.Execute();
-                mediaView.Execute();
+                mediaView.Execute();                
 
                 int currentMediaDiskId = -1;
                 int currentMediaMaxSequence = -1;
@@ -427,6 +482,7 @@ public class InstallPackage : Database
     {
         this.UpdateFiles(null);
     }
+
     /// <summary>
     /// Updates the install package with new files from the <see cref="WorkingDirectory"/>.  The
     /// files must be in the relative directory matching their <see cref="InstallPath.SourcePath"/>.

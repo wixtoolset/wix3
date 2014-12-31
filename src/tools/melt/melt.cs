@@ -259,9 +259,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             // print friendly message saying what file is being decompiled
             Console.WriteLine("{0} / {1}", Path.GetFileName(this.inputFile), Path.GetFileName(this.inputPdbFile));
 
+            Pdb inputPdb = Pdb.Load(this.inputPdbFile, true, true);
+            
             // extract files from the .msi (unless suppressed) and get the path map of File ids to target paths
             string outputDirectory = this.exportBasePath ?? Environment.GetEnvironmentVariable("WIX_TEMP");
             IDictionary<string, string> paths = null;
+            IDictionary<string, string> binaryPaths = null;
+            
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
                 if (!this.suppressExtraction)
@@ -270,9 +274,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                 }
 
                 paths = package.Files.SourcePaths;
-            }
-
-            Pdb inputPdb = Pdb.Load(this.inputPdbFile, true, true);
+                binaryPaths = package.GetBinaryFilePaths();                
+            }            
+            
             Table wixFileTable = inputPdb.Output.Tables["WixFile"];
             if (null != wixFileTable)
             {
@@ -287,6 +291,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                             fileRow.Source = Path.Combine(outputDirectory, newPath);
                         }
                     }
+                }
+            }
+
+            Table binaryTable = inputPdb.Output.Tables["Binary"];
+            if (null != binaryTable)
+            {
+                foreach (Row row in binaryTable.Rows)
+                {
+                    string filename = (string)row.Fields[0].Data;                    
+                    row.Fields[1].Data = binaryPaths[filename];
                 }
             }
 
