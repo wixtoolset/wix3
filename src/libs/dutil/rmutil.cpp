@@ -197,16 +197,16 @@ extern "C" HRESULT DAPI RmuAddProcessById(
                 ExitWithLastError(hr, "Failed to get debug privilege LUID.");
             }
         }
-        
+
         fAdjustedPrivileges = TRUE;
     }
 
     hProcess = ::OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, dwProcessId);
-    if (NULL != hProcess)
+    if (hProcess)
     {
         if (!::GetProcessTimes(hProcess, &CreationTime, &ExitTime, &KernelTime, &UserTime))
         {
-        ExitWithLastError(hr, "Failed to get the process times for process ID %d.", dwProcessId);
+            ExitWithLastError(hr, "Failed to get the process times for process ID %d.", dwProcessId);
         }
 
         ::EnterCriticalSection(&pSession->cs);
@@ -220,7 +220,7 @@ extern "C" HRESULT DAPI RmuAddProcessById(
         if (ERROR_ACCESS_DENIED == er)
         {
             // OpenProcess will fail when not elevated and the target process is in another user context. Let the caller log and continue.
-			hr = E_NOTFOUND;
+            hr = E_NOTFOUND;
         }
         else
         {
@@ -238,6 +238,7 @@ LExit:
     {
         ::AdjustTokenPrivileges(hToken, FALSE, pPrevPriv, 0, NULL, NULL);
     }
+
     ReleaseMem(pPrevPriv);
     ReleaseHandle(hToken);
 
@@ -273,15 +274,15 @@ extern "C" HRESULT DAPI RmuAddProcessesByName(
     for (DWORD i = 0; i < cProcessIds; ++i)
     {
         hr = RmuAddProcessById(pSession, pdwProcessIds[i]);
-    if (E_NOTFOUND == hr)
-    {
-        // RmuAddProcessById returns E_NOTFOUND when this setup is not elevated and OpenProcess returned access denied (target process running under another user account). 
-        fNotFound = TRUE;
-    }
-    else
-    {
-        ExitOnFailure(hr, "Failed to add process %ls (%d) to the Restart Manager session.", wzProcessName, pdwProcessIds[i]);
-    }
+        if (E_NOTFOUND == hr)
+        {
+            // RmuAddProcessById returns E_NOTFOUND when this setup is not elevated and OpenProcess returned access denied (target process running under another user account). 
+            fNotFound = TRUE;
+        }
+        else
+        {
+            ExitOnFailure(hr, "Failed to add process %ls (%d) to the Restart Manager session.", wzProcessName, pdwProcessIds[i]);
+        }
     }
 
     // If one or more calls to RmuAddProcessById returned E_NOTFOUND, then return E_NOTFOUND even if other calls succeeded, so that caller can log the issue.

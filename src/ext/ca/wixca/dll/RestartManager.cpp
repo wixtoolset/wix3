@@ -52,7 +52,6 @@ extern "C" UINT __stdcall WixRegisterRestartResources(
     __in MSIHANDLE hInstall
     )
 {
-
     HRESULT hr = S_OK;
     UINT er = ERROR_SUCCESS;
 
@@ -153,10 +152,10 @@ extern "C" UINT __stdcall WixRegisterRestartResources(
             {
                 // ERROR_ACCESS_DENIED was returned when trying to register this process.
                 // Since other instances may have been registered, log a message and continue the setup rather than failing.
-                WcaLog(LOGMSG_STANDARD, "The process, %ls, could not be registered with the Restart Manager (probably because the setup is not elevated and the process is in another user context.  A reboot may be requested later.", wzResource);
+                WcaLog(LOGMSG_STANDARD, "The process, %ls, could not be registered with the Restart Manager (probably because the setup is not elevated and the process is in another user context). A reboot may be requested later.", wzResource);
                 hr = S_OK;
             }
-                else
+            else
             {
                 ExitOnFailure(hr, "Failed to register the process name with the Restart Manager session.");
             }
