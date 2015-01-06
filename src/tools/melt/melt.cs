@@ -34,6 +34,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
     public sealed class Melt
     {
         private string exportBasePath;
+        private bool exportToWiX4Format;        
         private StringCollection extensionList;
         private StringCollection invalidArgs;
         private string id;
@@ -252,6 +253,52 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         }
 
         /// <summary>
+        /// Extract binary data from tables with a Name and Data column in them.
+        /// </summary>
+        /// <param name="inputPdb">A reference to a <see cref="Pdb"/> as output.  Paths (Data properties) will be modified in this object.</param>
+        /// <param name="package">The installer database to rip from.</param>
+        /// <param name="exportPath">The full path where files will be exported to.</param>
+        /// <param name="tableName">The name of the table to export.</param>
+        private void MeltBinaryTable(ref Pdb inputPdb, InstallPackage package, string exportPath, string tableName)
+        {
+            if(string.IsNullOrEmpty(tableName))
+            {
+                throw new ArgumentNullException(@"tableName");
+            }
+            if(string.IsNullOrEmpty(exportPath))
+            {
+                throw new ArgumentNullException(@"exportPath");
+            }
+            if(null == package)
+            {
+                throw new ArgumentNullException(@"package");
+            }
+            if(null == inputPdb)
+            {
+                throw new ArgumentNullException(@"inputPdb");
+            }
+
+            Table pdbTable = inputPdb.Output.Tables[tableName];
+            if (null == pdbTable)
+            {
+                throw new ArgumentException(string.Format("Table by the name of {0} was not found in the input PDB.", tableName), "tableAndSubDirectoryName");
+            }
+
+            if (!Directory.Exists(exportPath)) Directory.CreateDirectory(exportPath);
+            package.ExtractFilesInBinaryTable(null, tableName, exportPath);
+            IDictionary<string, string> paths = package.GetFilePaths(exportPath);
+
+            if (null != paths)
+            {
+                foreach (Row row in pdbTable.Rows)
+                {
+                    string filename = (string)row.Fields[0].Data;
+                    row.Fields[1].Data = paths[filename];
+                }
+            }
+        }
+
+        /// <summary>
         /// Extracts files from an MSI database and rewrites the paths embedded in the source .wixpdb to the output .wixpdb.
         /// </summary>
         private void MeltProduct()
@@ -263,21 +310,36 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             
             // extract files from the .msi (unless suppressed) and get the path map of File ids to target paths
             string outputDirectory = this.exportBasePath ?? Environment.GetEnvironmentVariable("WIX_TEMP");
+            string exportBinaryPath = null;
+            string exportIconPath = null;
+
+            if(this.exportToWiX4Format)
+            {
+                exportBinaryPath = Path.Combine(outputDirectory, @"Binary");
+                exportIconPath = Path.Combine(outputDirectory, @"Icon");
+                outputDirectory = Path.Combine(outputDirectory, @"File");
+            }
+
+            Table wixFileTable = inputPdb.Output.Tables["WixFile"];            
+
             IDictionary<string, string> paths = null;
-            IDictionary<string, string> binaryPaths = null;
             
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
                 if (!this.suppressExtraction)
                 {
                     package.ExtractFiles();
+
+                    if (this.exportToWiX4Format)
+                    {
+                        MeltBinaryTable(ref inputPdb, package, exportBinaryPath, "Binary");
+                        MeltBinaryTable(ref inputPdb, package, exportIconPath, "Icon");
+                    }
                 }
 
                 paths = package.Files.SourcePaths;
-                binaryPaths = package.GetBinaryFilePaths();                
             }            
-            
-            Table wixFileTable = inputPdb.Output.Tables["WixFile"];
+                        
             if (null != wixFileTable)
             {
                 foreach (Row row in wixFileTable.Rows)
@@ -291,16 +353,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                             fileRow.Source = Path.Combine(outputDirectory, newPath);
                         }
                     }
-                }
-            }
-
-            Table binaryTable = inputPdb.Output.Tables["Binary"];
-            if (null != binaryTable)
-            {
-                foreach (Row row in binaryTable.Rows)
-                {
-                    string filename = (string)row.Fields[0].Data;                    
-                    row.Fields[1].Data = binaryPaths[filename];
                 }
             }
 
@@ -474,6 +526,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                             return;
                         }
                     }
+                    else if ("xn" == parameter)
+                    {
+                        this.exportToWiX4Format = true;                        
+                    }                    
                     else if ("?" == parameter || "help" == parameter)
                     {
                         this.showHelp = true;
