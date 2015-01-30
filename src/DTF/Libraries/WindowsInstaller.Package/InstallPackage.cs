@@ -190,7 +190,7 @@ public class InstallPackage : Database
     public void ExtractFiles(ICollection<string> fileKeys)
     {
         this.ProcessFilesByMediaDisk(fileKeys,
-            new ProcessFilesOnOneMediaDiskHandler(this.ExtractFilesOnOneMediaDisk));        
+            new ProcessFilesOnOneMediaDiskHandler(this.ExtractFilesOnOneMediaDisk));
     }
 
     private bool IsMergeModule()
@@ -210,54 +210,16 @@ public class InstallPackage : Database
     /// <returns>A <see cref="M:System.Colletions.Generic.IDictionary`1{string,string}"/> of the filename/fullpath key value pairs of the directory given.</returns>
     public virtual IDictionary<string, string> GetFilePaths(string path, ICollection<string> names = null)
     {
-        IDictionary<string, string> retval = new Dictionary<string, string>(100);
+        IDictionary<string, string> filenameToFullPathMap = new Dictionary<string, string>(100);
 
         foreach(FileInfo fi in new DirectoryInfo(path).GetFiles())
         {
             if (null != names && !names.Contains(fi.Name)) continue;
 
-            retval.Add(fi.Name, fi.FullName);
+            filenameToFullPathMap.Add(fi.Name, fi.FullName);
         }
 
-        return retval;
-    }
-
-    /// <summary>
-    /// Extracts binary data from the `Binary` or `Icon` tables to the designated path.
-    /// </summary>
-    /// <param name="names">The names of the rows to be picked.  If null then all rows will be returned.  If none are matched then none are created.</param>
-    /// <param name="tableName">The name of the table to extract binary data from.  Valid values are "Binary" and "Icon" or a custom table with Name and Data columns of type string and stream respectively.</param>
-    /// <param name="path">The path to extract the files to.  The path must exist before calling this method.</param>
-    [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
-    public virtual void ExtractFilesInBinaryTable(ICollection<string> names, string tableName, string path)
-    {
-        if(!Directory.Exists(path))
-        {
-            throw new ArgumentException(string.Format("The path specified does not exist. {0}", path), "path");
-        }
-
-        View binaryView = this.OpenView("Select `Name`, `Data` FROM `{0}`", tableName);
-        binaryView.Execute();        
-
-        ICollection<string> createdFiles = new List<string>(100);
-
-        for (Record binaryRec = binaryView.Fetch(); binaryRec != null; binaryRec = binaryView.Fetch() )           
-        {
-            string binaryKey = (string)binaryRec[1];
-            Stream binaryData = (Stream)binaryRec[2];
-
-            if (null != names && !names.Contains(binaryKey)) continue; //Skip unspecified values
-
-            createdFiles.Add(binaryKey);
-
-            FileInfo binaryFile = new FileInfo(Path.Combine(path, binaryKey));
-            using (FileStream fs = binaryFile.Create())
-            {
-                for (int a = binaryData.ReadByte(); a != -1; a = binaryData.ReadByte()) fs.WriteByte((byte)a);
-            }
-        }
-
-        ClearReadOnlyAttribute(path, createdFiles);
+        return filenameToFullPathMap;
     }
 
     private void ProcessFilesByMediaDisk(ICollection<string> fileKeys,
@@ -807,7 +769,17 @@ public class InstallPackage : Database
         }
     }
 
-    private void ClearReadOnlyAttribute(string baseDirectory, IEnumerable filePaths)
+    /// <summary>
+    /// Clears the +R flag on the specified files in the directory of your choice.
+    /// </summary>
+    /// <param name="baseDirectory">
+    /// This base path is prepended to each item in the <paramref name="filePaths"/> collection.
+    /// </param>
+    /// <param name="filePaths">
+    /// A <seealso cref="IEnumerable"/> collection of filePaths.  If the objects within override ToString to return a valid path relative to
+    /// <paramref name="baseDirectory"/> this method will work.
+    /// </param>
+    public static void ClearReadOnlyAttribute(string baseDirectory, IEnumerable filePaths)
     {
         foreach(object filePath in filePaths)
         {

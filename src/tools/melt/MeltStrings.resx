@@ -136,10 +136,9 @@
    -wxall     treat all warnings as errors (deprecated)
    -x &lt;path&gt;  export binaries from database to this path
               (defaults to output files path)
-   -xn        export contents in much the same manner as dark.exe
-              and also the way WiX 4 will extract them by default.
-              New subdirectories for File,Binary, and Icon tables
-              will be created.  Needs -x.
+   -xn        export contents of File,Binary, and Icon tables
+              to subdirectories to support patching all types of files.
+              Needs -x.
    -? | -help this help information
 
 Environment variables:
