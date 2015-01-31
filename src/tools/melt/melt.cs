@@ -260,7 +260,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         /// <param name="package">The installer database to rip from.</param>
         /// <param name="exportPath">The full path where files will be exported to.</param>
         /// <param name="tableName">The name of the table to export.</param>
-        private void MeltBinaryTable(Pdb inputPdb, InstallPackage package, string exportPath, string tableName)
+        private static void MeltBinaryTable(Pdb inputPdb, InstallPackage package, string exportPath, string tableName)
         {
             if (string.IsNullOrEmpty(tableName))
             {
@@ -289,7 +289,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             try
             {
                 Directory.CreateDirectory(exportPath);
-                ExtractFilesInBinaryTable(package, null, tableName, exportPath);
+                Melt.ExtractFilesInBinaryTable(package, null, tableName, exportPath);
                 IDictionary<string, string> paths = package.GetFilePaths(exportPath);
 
                 if (null != paths)
@@ -323,7 +323,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             string exportBinaryPath = null;
             string exportIconPath = null;
 
-            if(this.exportToSubDirectoriesFormat)
+            if (this.exportToSubDirectoriesFormat)
             {
                 exportBinaryPath = Path.Combine(outputDirectory, "Binary");
                 exportIconPath = Path.Combine(outputDirectory, "Icon");
@@ -342,8 +342,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
 
                     if (this.exportToSubDirectoriesFormat)
                     {
-                        MeltBinaryTable(inputPdb, package, exportBinaryPath, "Binary");                        
-                        MeltBinaryTable(inputPdb, package, exportIconPath, "Icon");                        
+                        Melt.MeltBinaryTable(inputPdb, package, exportBinaryPath, "Binary");
+                        Melt.MeltBinaryTable(inputPdb, package, exportIconPath, "Icon");
                     }
                 }
 

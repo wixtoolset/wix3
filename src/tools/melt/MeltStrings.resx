@@ -136,7 +136,7 @@
    -wxall     treat all warnings as errors (deprecated)
    -x &lt;path&gt;  export binaries from database to this path
               (defaults to output files path)
-   -xn        export contents of File,Binary, and Icon tables
+   -xn        export contents of File, Binary, and Icon tables
               to subdirectories to support patching all types of files.
               Needs -x.
    -? | -help this help information
