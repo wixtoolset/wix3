@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpMessage" xml:space="preserve">
-<value><![CDATA[ usage: melt.exe [-?] [-nologo] {database.msm output.wxs|database.msi output.wixpdb -pdb source.wixpdb} [@responseFile]
+    <value> usage: melt.exe [-?] [-nologo] {database.msm output.wxs|database.msi output.wixpdb -pdb source.wixpdb} [@responseFile]
 
-   -ext <extension>  extension assembly or "class, assembly"
+   -ext &lt;extension&gt;  extension assembly or "class, assembly"
    -id        friendly identifier to use instead of module id
    -nologo    skip printing melt logo information
    -notidy    do not delete temporary files (useful for debugging)
@@ -134,12 +134,15 @@
    -wx[N]     treat all warnings or a specific message ID as an error
               (example: -wx1059 -wx1067)
    -wxall     treat all warnings as errors (deprecated)
-   -x <path>  export binaries from database to this path
+   -x &lt;path&gt;  export binaries from database to this path
               (defaults to output files path)
+   -xn        export contents of File,Binary, and Icon tables
+              to subdirectories to support patching all types of files.
+              Needs -x.
    -? | -help this help information
 
 Environment variables:
-   WIX_TEMP   overrides the temporary directory used for cab extraction, binary extraction, ...]]></value>
+   WIX_TEMP   overrides the temporary directory used for cab extraction, binary extraction, ...</value>
   </data>
   <data name="INF_TempDirLocatedAt" xml:space="preserve">
     <value>Temporary directory located at '{0}'.</value>
