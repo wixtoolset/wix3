@@ -105,8 +105,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
                 // get extensions from lux.exe.config
                 AppCommon.ReadConfiguration(this.extensionList);
 
-                List<string> inputFragments = new List<string>();
-                Generator.Generate(this.extensionList, this.inputFiles, this.outputFile, this.messageHandler.Display, out inputFragments);
+                Generator.Generate(this.extensionList, this.inputFiles, this.outputFile, this.messageHandler.Display);
             }
             catch (WixException we)
             {

@@ -17,6 +17,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Globalization;
+    using System.Linq;
 
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
@@ -106,16 +107,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
         /// </summary>
         /// <param name="list">The list to convert.</param>
         /// <returns>The converted array.</returns>
-        private static ITaskItem[] ToITaskItemArray(List<string> list)
+        private static ITaskItem[] ToITaskItemArray(IEnumerable<string> list)
         {
-            ITaskItem[] items = new ITaskItem[list.Count];
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                items[i] = new TaskItem(list[i]);
-            }
-
-            return items;
+            return list.Select((elem) => new TaskItem(elem)).ToArray<TaskItem>();
         }
 
         /// <summary>
