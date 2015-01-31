@@ -239,7 +239,10 @@
   </PropertyGroup>
 
   <!-- Global setting to control when the bundle is compressed. -->
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <WixBundleCompressed>no</WixBundleCompressed>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <WixBundleCompressed>yes</WixBundleCompressed>
   </PropertyGroup>
 
