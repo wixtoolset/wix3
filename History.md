@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4589 - Catch exceptions from Version when passing in arbitrary strings. For bundles, try to recover a three-part version number.
+
 * STunney: WIXBUG:4187 - Melt doesn't export Binary or Icon tables
 
 * BobArnson: WIXBUG:4553 - Fix Lux generator to exclude any files with non-fragment sections. Fix Lux custom actions to have proper config.

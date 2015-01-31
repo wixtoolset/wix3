@@ -3784,6 +3784,14 @@
                 The transform did not contain any valid product changes and will not be included in the patch.
             </Instance>
         </Message>
+        <Message Id="VersionTruncated" Number="1148">
+            <Instance>
+                Product version {0} in package '{1}' is not valid per the MSI SDK and cannot be represented in a bundle. It has been truncated to {2}.
+                <Parameter Type="System.String" Name="originalVersion" />
+                <Parameter Type="System.String" Name="package" />
+                <Parameter Type="System.String" Name="truncatedVersion" />
+            </Instance>
+        </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">
