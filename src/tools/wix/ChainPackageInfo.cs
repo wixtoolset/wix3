@@ -611,7 +611,23 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     if (!Common.IsValidModuleOrBundleVersion(this.Version))
                     {
-                        this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        // not a proper .NET version (i.e., five fields); can we get a valid three-part version number?
+                        string version = null;
+                        string[] versionParts = this.Version.Split('.');
+                        if (2 < versionParts.Length)
+                        {
+                            version = String.Concat(versionParts[0], ".", versionParts[1], ".", versionParts[2]);
+                        }
+
+                        if (!String.IsNullOrEmpty(version) && Common.IsValidModuleOrBundleVersion(version))
+                        {
+                            this.core.OnMessage(WixWarnings.VersionTruncated(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath, version));
+                            this.Version = version;
+                        }
+                        else
+                        {
+                            this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        }
                     }
 
                     if (String.IsNullOrEmpty(this.CacheId))
