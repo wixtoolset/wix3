@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4610 - Write RegisterPerfmonManifest CustomActionData correctly.
+
 * BobArnson: WIXBUG:4589 - Catch exceptions from Version when passing in arbitrary strings. For bundles, try to recover a three-part version number.
 
 * STunney: WIXBUG:4187 - Melt doesn't export Binary or Icon tables
