@@ -179,6 +179,7 @@ LExit:
     ReleaseStr(pwzCustomActionData);
     ReleaseStr(pwzName);
     ReleaseStr(pwzRemoteAddresses);
+    ReleaseStr(pwzPort);
     ReleaseStr(pwzProgram);
     ReleaseStr(pwzComponent);
     ReleaseStr(pwzDescription);
