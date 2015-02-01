@@ -611,12 +611,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     if (!Common.IsValidModuleOrBundleVersion(this.Version))
                     {
-                        // not a proper .NET version (i.e., five fields); can we get a valid three-part version number?
+                        // not a proper .NET version (i.e., five fields); can we get a valid version number up to four fields?
                         string version = null;
                         string[] versionParts = this.Version.Split('.');
-                        if (2 < versionParts.Length)
+                        int count = versionParts.Length;
+                        if (0 < count)
                         {
-                            version = String.Concat(versionParts[0], ".", versionParts[1], ".", versionParts[2]);
+                            version = versionParts[0];
+                            for (int i = 1; i < 4 && i < count; ++i)
+                            {
+                                version = String.Concat(version, ".", versionParts[i]);
+                            }
                         }
 
                         if (!String.IsNullOrEmpty(version) && Common.IsValidModuleOrBundleVersion(version))
