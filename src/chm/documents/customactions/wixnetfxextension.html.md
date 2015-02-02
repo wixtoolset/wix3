@@ -107,6 +107,70 @@ The WixNetfxExtension includes package groups that make it easier to include .NE
 
 The WixNetfxExtension also includes a set of properties that can be used to detect the presence of various versions of the .NET Framework, the .NET Framework SDK and the Windows SDK. For information on how to use these properties to verify the user&apos;s .NET Framework version at install time see [How To: Check for .NET Framework Versions](~/howtos/redistributables_and_install_checks/check_for_dotnet.html).
 
+The following properties let you detect a particular minimum version of .NET Framework releases that are in-place updates (rather than that are installed side-by-side with other releases):
+
+<table cellspacing="0" cellpadding="4" class="style1" border="1">
+  <tr>
+    <td valign="top">
+      <p><b>Property name</b></p>
+    </td>
+
+    <td valign="top">
+      <p><b>Meaning</b></p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Set to 1 if .NET Framework 4.0 or later is installed.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Set to 1 if .NET Framework 4.5 or later is installed.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_451_OR_LATER_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Set to 1 if .NET Framework 4.5.1 or later is installed.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Set to 1 if .NET Framework 4.5.2 or later is installed.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Set to 1 if .NET Framework 4.6 or later is installed.</p>
+    </td>
+  </tr>
+</table>
+
 The following property is applicable to all versions of the .NET Framework:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">

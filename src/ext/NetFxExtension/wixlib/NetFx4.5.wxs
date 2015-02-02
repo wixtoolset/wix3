@@ -23,6 +23,14 @@
   <?define NetFx45EulaLink =  http://go.microsoft.com/fwlink/?LinkID=260867 ?>
 
   <Fragment>
+    <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
+    <Property Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx45MinRelease)"
+    </SetProperty>
+  </Fragment>
+
+  <Fragment>
     <util:RegistrySearch
         Id="NETFRAMEWORK45"
         Variable="NETFRAMEWORK45"

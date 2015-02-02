@@ -22,6 +22,14 @@
   <?define NetFx452RedistLink = http://go.microsoft.com/fwlink/?LinkId=397708 ?>
 
   <Fragment>
+    <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
+    <Property Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx452MinRelease)"
+    </SetProperty>
+  </Fragment>
+
+  <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
     <PackageGroup Id="NetFx452Web">

@@ -24,6 +24,14 @@
   <?define NetFx40EulaLink =  http://go.microsoft.com/fwlink/?LinkID=188993 ?>
 
   <Fragment>
+    <PropertyRef Id="NETFRAMEWORK40FULL" />
+    <Property Id="WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_40_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      NETFRAMEWORK40FULL
+    </SetProperty>
+  </Fragment>
+
+  <Fragment>
     <util:RegistrySearch
         Id="NETFRAMEWORK40"
         Variable="NETFRAMEWORK40"
