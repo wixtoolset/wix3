@@ -100,7 +100,7 @@ extern "C" UINT __stdcall ConfigurePerfmonManifestRegister(
         }
         else
         {
-            hr = StrAllocFormatted(&pwzData, L"\"lodctr.exe\" /m:\"%s\"", pwzFile);
+            hr = StrAllocFormatted(&pwzCommand, L"\"lodctr.exe\" /m:\"%s\"", pwzFile);
             ExitOnFailure(hr, "failed to copy string in PerfMonManifest");
         }
         
