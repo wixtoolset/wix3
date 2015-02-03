@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4662 - Add WIX_IS_NETFRAMEWORK_4XX_OR_LATER_INSTALLED SetProperty custom actions to WixNetfxExtension.
+
 * BobArnson: WIXBUG:4611 - Eliminate mysteriously doubled .pkgdef content.
 
 * BobArnson: WIXBUG:4610 - Write RegisterPerfmonManifest CustomActionData correctly.
