@@ -1,3 +1,5 @@
+* BobArnson: WixBroadcastSettingChange and WixBroadcastEnvironmentChange custom actions to WixUtilExtension.
+
 * BobArnson: WIXBUG:4662 - Add WIX_IS_NETFRAMEWORK_4XX_OR_LATER_INSTALLED SetProperty custom actions to WixNetfxExtension.
 
 * BobArnson: WIXBUG:4611 - Eliminate mysteriously doubled .pkgdef content.
