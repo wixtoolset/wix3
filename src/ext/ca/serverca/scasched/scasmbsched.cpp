@@ -227,11 +227,22 @@ HRESULT ScaSmbRead(SCA_SMB** ppssList)
         }
         hr = HRESULT_FROM_WIN32(er);
         ExitOnFailure(hr, "Failed to get Source/TargetPath for Directory");
-        // remove trailing backslash
-        if (dwLen > 0 && wzPath[dwLen-1] == L'\\')
+
+        // If the path is to the root of a drive, then it needs a trailing backslash.
+        // Otherwise, it can't have a trailing backslash.
+        if (3 < dwLen)
         {
-            wzPath[dwLen-1] = 0;
+            if (wzPath[dwLen - 1] == L'\\')
+            {
+                wzPath[dwLen - 1] = 0;
+            }
         }
+        else if (2 == dwLen && wzPath[1] == L':')
+        {
+            wzPath[2] = L'\\';
+            wzPath[3] = 0;
+        }
+
         hr = ::StringCchCopyW(pss->wzDirectory, countof(pss->wzDirectory), wzPath);
         ExitOnFailure(hr, "Failed to copy directory string to smb object");
 

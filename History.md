@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4646 - Allow sharing the whole drive with util:FileShare.
+
 * SeanHall: WIXBUG:4480 - Remove non-standard and unnecessary regex contructs from wix.xsd.
 
 ## WixBuild: Version 3.10.0.1403
