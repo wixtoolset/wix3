@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4480 - Remove non-standard and unnecessary regex contructs from wix.xsd.
+
 ## WixBuild: Version 3.10.0.1403
 
 * BobArnson: WIXBUG:4662 - Add WIX_IS_NETFRAMEWORK_4XX_OR_LATER_INSTALLED SetProperty custom actions to WixNetfxExtension.
