@@ -2344,6 +2344,20 @@ private: // privates
                                 }
                             }
 
+                            // If this is an editbox control, try to set its default state to the state of a matching named Burn variable.
+                            if (THEME_CONTROL_TYPE_EDITBOX == pControl->type && WIXSTDBA_CONTROL_FOLDER_EDITBOX != pControl->wId)
+                            {
+                                LPWSTR sczEditboxValue = NULL;
+                                HRESULT hr = BalGetStringVariable(pControl->sczName, &sczEditboxValue);
+
+                                if (SUCCEEDED(hr))
+                                {
+                                    ThemeSetTextControl(m_pTheme, pControl->wId, sczEditboxValue);
+                                }
+
+                                ReleaseStr(sczEditboxValue);
+                            }
+
                             // Hide or disable controls based on the control name with 'State' appended
                             HRESULT hr = StrAllocFormatted(&sczControlName, L"%lsState", pControl->sczName);
                             if (SUCCEEDED(hr))

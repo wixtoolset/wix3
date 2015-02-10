@@ -1600,7 +1600,7 @@ DAPI_(HRESULT) ThemeGetTextControl(
     for (;;)
     {
         cchTextRead = ::GetWindowTextW(hWnd, *psczText, cchText);
-        if (cchTextRead < cchText)
+        if (cchTextRead + 1 < cchText)
         {
             break;
         }
