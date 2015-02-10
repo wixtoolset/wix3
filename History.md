@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4646 - Allow sharing the whole drive with util:FileShare.
+
 * SeanHall: WIXBUG:4647 - Format ConfirmCancelMessage in WixStdBA.
 
 * SeanHall: WIXFEAT:4496 - Make WixStdBA load the text for named editboxes.
