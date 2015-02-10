@@ -1172,6 +1172,7 @@ private: // privates
     {
         HRESULT hr = S_OK;
         LPWSTR sczLocPath = NULL;
+        LPWSTR sczFormatted = NULL;
         LPCWSTR wzLocFileName = m_fPrereq ? L"mbapreq.wxl" : L"thm.wxl";
 
         hr = LocProbeForFile(wzModulePath, wzLocFileName, wzLanguage, &sczLocPath);
@@ -1191,7 +1192,16 @@ private: // privates
         hr = LocLocalizeString(m_pWixLoc, &m_sczConfirmCloseMessage);
         BalExitOnFailure1(hr, "Failed to localize confirm close message: %ls", m_sczConfirmCloseMessage);
 
+        hr = BalFormatString(m_sczConfirmCloseMessage, &sczFormatted);
+        if (SUCCEEDED(hr))
+        {
+            ReleaseStr(m_sczConfirmCloseMessage);
+            m_sczConfirmCloseMessage = sczFormatted;
+            sczFormatted = NULL;
+        }
+
     LExit:
+        ReleaseStr(sczFormatted);
         ReleaseStr(sczLocPath);
 
         return hr;

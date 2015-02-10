@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4647 - Format ConfirmCancelMessage in WixStdBA.
+
 * SeanHall: WIXFEAT:4496 - Make WixStdBA load the text for named editboxes.
 
 * SeanHall: WIXBUG:4480 - Remove non-standard and unnecessary regex contructs from wix.xsd.
