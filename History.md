@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4669 - Fix bug in mbahost where it assumed that the CLRCreateInstance function was implemented when it exists.
+
 * SeanHall: WIXBUG:4646 - Allow sharing the whole drive with util:FileShare.
 
 * SeanHall: WIXBUG:4647 - Format ConfirmCancelMessage in WixStdBA.
