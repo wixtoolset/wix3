@@ -39,7 +39,7 @@ static UINT SchedFirewallExceptions(
     LPWSTR pwzCustomActionData = NULL;
     LPWSTR pwzName = NULL;
     LPWSTR pwzRemoteAddresses = NULL;
-    int iPort = 0;
+    LPWSTR pwzPort = NULL;
     int iProtocol = 0;
     int iAttributes = 0;
     int iProfile = 0;
@@ -71,7 +71,7 @@ static UINT SchedFirewallExceptions(
         hr = WcaGetRecordFormattedString(hRec, feqRemoteAddresses, &pwzRemoteAddresses);
         ExitOnFailure(hr, "failed to get firewall exception remote addresses");
 
-        hr = WcaGetRecordFormattedInteger(hRec, feqPort, &iPort);
+        hr = WcaGetRecordFormattedString(hRec, feqPort, &pwzPort);
         ExitOnFailure(hr, "failed to get firewall exception port");
 
         hr = WcaGetRecordInteger(hRec, feqProtocol, &iProtocol);
@@ -133,18 +133,8 @@ static UINT SchedFirewallExceptions(
             ExitOnFailure(hr, "failed to write exception target (port) to custom action data");
         }
 
-        if (MSI_NULL_INTEGER != iPort)
-        {
-            hr = WcaWriteIntegerToCaData(iPort, &pwzCustomActionData);
-            ExitOnFailure(hr, "failed to write exception port to custom action data");
-        }
-        else
-        {
-            // the port number is read back in as a string. So we want to write out the string "" instead 
-            // of "-2147483648" (MSI_NULL_INTEGER = 0x80000000).
-            hr = WcaWriteStringToCaData(L"", &pwzCustomActionData);
-            ExitOnFailure(hr, "failed to write application path to custom action data");
-        }
+        hr = WcaWriteStringToCaData(pwzPort, &pwzCustomActionData);
+        ExitOnFailure(hr, "failed to write application path to custom action data");
 
         hr = WcaWriteIntegerToCaData(iProtocol, &pwzCustomActionData);
         ExitOnFailure(hr, "failed to write exception protocol to custom action data");
@@ -189,6 +179,7 @@ LExit:
     ReleaseStr(pwzCustomActionData);
     ReleaseStr(pwzName);
     ReleaseStr(pwzRemoteAddresses);
+    ReleaseStr(pwzPort);
     ReleaseStr(pwzProgram);
     ReleaseStr(pwzComponent);
     ReleaseStr(pwzDescription);
