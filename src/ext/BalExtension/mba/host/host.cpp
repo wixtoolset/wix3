@@ -273,7 +273,7 @@ static HRESULT CheckSupportedFrameworks(
     ExitOnFailure(hr, "Failed to initialize XML.");
 
     hr = XmlLoadDocumentFromFile(wzConfigPath, &pixdManifest);
-    ExitOnFailure1(hr, "Failed to load bootstrapper config file from path: %ls", wzConfigPath);
+    ExitOnFailure(hr, "Failed to load bootstrapper config file from path: %ls", wzConfigPath);
 
     hr = XmlSelectNodes(pixdManifest, L"/configuration/wix.bootstrapper/host/supportedFramework", &pNodeList);
     ExitOnFailure(hr, "Failed to select all supportedFramework elements.");
@@ -320,7 +320,7 @@ static HRESULT CheckSupportedFrameworks(
     if (fUpdatedManifest)
     {
         hr = XmlSaveDocument(pixdManifest, wzConfigPath);
-        ExitOnFailure1(hr, "Failed to save updated manifest over config file: %ls", wzConfigPath);
+        ExitOnFailure(hr, "Failed to save updated manifest over config file: %ls", wzConfigPath);
     }
 
 LExit:
@@ -377,7 +377,7 @@ static HRESULT UpdateSupportedRuntime(
     ExitOnFailure(hr, "Failed to create supportedRuntime element.");
 
     hr = XmlSetAttribute(pixnSupportedRuntime, L"version", sczSupportedRuntimeVersion);
-    ExitOnFailure1(hr, "Failed to set supportedRuntime/@version to '%ls'.", sczSupportedRuntimeVersion);
+    ExitOnFailure(hr, "Failed to set supportedRuntime/@version to '%ls'.", sczSupportedRuntimeVersion);
 
     *pfUpdatedManifest = TRUE;
 
@@ -398,6 +398,7 @@ static HRESULT GetCLRHost(
     HRESULT hr = S_OK;
     UINT uiMode = 0;
     HMODULE hModule = NULL;
+    BOOL fFallbackToCorBindToCurrentRuntime = TRUE;
     CLRCreateInstanceFnPtr pfnCLRCreateInstance = NULL;
     ICLRMetaHostPolicy* pCLRMetaHostPolicy = NULL;
     IStream* pCfgStream = NULL;
@@ -420,7 +421,18 @@ static HRESULT GetCLRHost(
 
         pfnCLRCreateInstance = reinterpret_cast<CLRCreateInstanceFnPtr>(::GetProcAddress(hModule, "CLRCreateInstance"));
         
-        if (!pfnCLRCreateInstance)
+        if (pfnCLRCreateInstance)
+        {
+            hr = pfnCLRCreateInstance(CLSID_CLRMetaHostPolicy, IID_ICLRMetaHostPolicy, reinterpret_cast<LPVOID*>(&pCLRMetaHostPolicy));
+            if (E_NOTIMPL != hr)
+            {
+                ExitOnRootFailure(hr, "Failed to create instance of ICLRMetaHostPolicy.");
+
+                fFallbackToCorBindToCurrentRuntime = FALSE;
+            }
+        }
+
+        if (fFallbackToCorBindToCurrentRuntime)
         {
             pfnCorBindToCurrentRuntime = reinterpret_cast<PFN_CORBINDTOCURRENTRUNTIME>(::GetProcAddress(hModule, "CorBindToCurrentRuntime"));
             ExitOnNullWithLastError(pfnCorBindToCurrentRuntime, hr, "Failed to get procedure address for CorBindToCurrentRuntime.");
@@ -430,11 +442,9 @@ static HRESULT GetCLRHost(
         }
         else
         {
-            hr = pfnCLRCreateInstance(CLSID_CLRMetaHostPolicy, IID_ICLRMetaHostPolicy, reinterpret_cast<LPVOID*>(&pCLRMetaHostPolicy));
-            ExitOnRootFailure(hr, "Failed to create instance of ICLRMetaHostPolicy.");
 
             hr = SHCreateStreamOnFileEx(wzConfigPath, STGM_READ | STGM_SHARE_DENY_WRITE, 0, FALSE, NULL, &pCfgStream);
-            ExitOnFailure1(hr, "Failed to load bootstrapper config file from path: %ls", wzConfigPath);
+            ExitOnFailure(hr, "Failed to load bootstrapper config file from path: %ls", wzConfigPath);
 
             hr = pCLRMetaHostPolicy->GetRequestedRuntime(METAHOST_POLICY_HIGHCOMPAT, NULL, pCfgStream, NULL, &cchVersion, NULL, NULL, NULL, IID_ICLRRuntimeInfo, reinterpret_cast<LPVOID*>(&pCLRRuntimeInfo));
             ExitOnRootFailure(hr, "Failed to get the CLR runtime info using the application configuration file path.");
@@ -571,7 +581,7 @@ static HRESULT CreatePrerequisiteBA(
     ExitOnNullWithLastError(hModule, hr, "Failed to load pre-requisite BA DLL.");
 
     PFN_MBAPREQ_BOOTSTRAPPER_APPLICATION_CREATE pfnCreate = reinterpret_cast<PFN_MBAPREQ_BOOTSTRAPPER_APPLICATION_CREATE>(::GetProcAddress(hModule, "MbaPrereqBootstrapperApplicationCreate"));
-    ExitOnNullWithLastError1(pfnCreate, hr, "Failed to get MbaPrereqBootstrapperApplicationCreate entry-point from: %ls", sczMbapreqPath);
+    ExitOnNullWithLastError(pfnCreate, hr, "Failed to get MbaPrereqBootstrapperApplicationCreate entry-point from: %ls", sczMbapreqPath);
 
     hr = pfnCreate(hrHostInitialization, pEngine, pCommand, &pApp);
     ExitOnFailure(hr, "Failed to create prequisite bootstrapper app.");
