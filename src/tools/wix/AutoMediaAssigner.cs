@@ -134,6 +134,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
             ulong maxPreCabSizeInBytes;
             int maxPreCabSizeInMB = 0;
             int currentCabIndex = 0;
+            int currentDiskId = 1;
+            ulong currentUncompressedMediaSize = 0;
+            ulong maxUncompressedMediaSize = 0;
 
             MediaRow currentMediaRow = null;
 
@@ -162,6 +165,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     maxPreCabSizeInMB = mediaTemplateRow.MaximumUncompressedMediaSize;
                 }
 
+                maxUncompressedMediaSize = (ulong)maxPreCabSizeInMB * 1024 * 1024;
                 maxPreCabSizeInBytes = (ulong)maxPreCabSizeInMB * 1024 * 1024;
             }
             catch (FormatException)
@@ -219,11 +223,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     // Associate current file with last cab (irrespective of the size) and cab index is not incremented anymore.
                     FileRowCollection cabinetFileRow = (FileRowCollection)this.cabinets[currentMediaRow];
-                    fileRow.DiskId = currentCabIndex;
+                    fileRow.DiskId = currentDiskId;
                     cabinetFileRow.Add(fileRow);
                     continue;
                 }
 
+                // Update current media size
+                currentUncompressedMediaSize += (ulong)fileRow.FileSize;
+                
+                // Calculate media (removable volume) Id by maxUncompressedMediaSize 
+                if (currentUncompressedMediaSize > maxUncompressedMediaSize)
+                {
+                    currentDiskId++;
+                    currentUncompressedMediaSize = (ulong)fileRow.FileSize;
+                }
+                
                 // Update current cab size.
                 currentPreCabSize += (ulong)fileRow.FileSize;
 
@@ -233,7 +247,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     currentMediaRow = this.AddMediaRow(mediaTable, ++currentCabIndex, mediaTemplateRow.CompressionLevel);
 
                     FileRowCollection cabinetFileRow = (FileRowCollection)this.cabinets[currentMediaRow];
-                    fileRow.DiskId = currentCabIndex;
+                    fileRow.DiskId = currentDiskId;
                     cabinetFileRow.Add(fileRow);
                     // Now files larger than MaxUncompressedMediaSize will be the only file in its cabinet so as to respect MaxUncompressedMediaSize
                     currentPreCabSize = (ulong)fileRow.FileSize;
@@ -249,7 +263,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     // Associate current file with current cab.
                     FileRowCollection cabinetFileRow = (FileRowCollection)this.cabinets[currentMediaRow];
-                    fileRow.DiskId = currentCabIndex;
+                    fileRow.DiskId = currentDiskId;
                     cabinetFileRow.Add(fileRow);
                 }
             }
