@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4654 - Add VS14 properties and custom actions. And, as it's a long topic, added anchors and links.
+
 * SeanHall: WIXBUG:4669 - Fix bug in mbahost where it assumed that the CLRCreateInstance function was implemented when it exists.
 
 * SeanHall: WIXBUG:4646 - Allow sharing the whole drive with util:FileShare.

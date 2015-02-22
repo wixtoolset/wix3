@@ -7,9 +7,19 @@ after: using_standard_customactions
 
 The [WixVSExtension](~/xsd/vs/index.html) includes a set of custom actions to manage help collections. It also includes a set of properties and custom actions that can be used to detect the presence of various versions of Visual Studio and register add-ins, project templates and item templates for use in Visual Studio.
 
-## Properties
+* [Properties](#allproperties)
+  * [Visual Studio .NET 2003](#vs2003properties)
+  * [Visual Studio 2005](#vs2005properties)
+  * [Visual Studio 2008](#vs2008properties)
+  * [Visual Studio 2010](#vs2010properties)
+  * [Visual Studio 2012](#vs2012properties)
+  * [Visual Studio 2013](#vs2013properties)
+  * [Visual Studio 2015](#vs2015properties)
+* [Custom Actions](#allcustomactions)
 
-Here is a complete list of properties for the <b>Visual Studio .NET 2003</b> product family:
+## <a name="allproperties"></a> Properties
+
+Here is a complete list of properties for the <a name="vs2003properties">**Visual Studio .NET 2003**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
   <tr>
@@ -43,7 +53,7 @@ Here is a complete list of properties for the <b>Visual Studio .NET 2003</b> pro
   </tr>
 </table>
 
-Here is a complete list of properties for the <b>Visual Studio 2005</b> product family:
+Here is a complete list of properties for the <a name="vs2005properties">**Visual Studio 2005**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
   <tr>
@@ -347,7 +357,7 @@ Here is a complete list of properties for the <b>Visual Studio 2005</b> product 
   </tr>
 </table>
 
-Here is a complete list of properties for the <b>Visual Studio 2008</b> product family:
+Here is a complete list of properties for the <a name="vs2008properties">**Visual Studio 2008**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
   <tr>
@@ -571,7 +581,7 @@ Here is a complete list of properties for the <b>Visual Studio 2008</b> product 
   </tr>
 </table>
 
-Here is a complete list of properties for the <b>Visual Studio 2010</b> product family:
+Here is a complete list of properties for the <a name="vs2010properties">**Visual Studio 2010**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
     <tr>
@@ -797,7 +807,7 @@ Here is a complete list of properties for the <b>Visual Studio 2010</b> product 
 
 </table>
 
-Here is a complete list of properties for the <b>Visual Studio 2012</b> product family:
+Here is a complete list of properties for the <a name="vs2012properties">**Visual Studio 2012**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
     <tr>
@@ -991,7 +1001,7 @@ Here is a complete list of properties for the <b>Visual Studio 2012</b> product 
   </tr>
 </table>
 
-Here is a complete list of properties for the <b>Visual Studio 2013</b> product family:
+Here is a complete list of properties for the <a name="vs2013properties">**Visual Studio 2013**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
     <tr>
@@ -1195,7 +1205,161 @@ Here is a complete list of properties for the <b>Visual Studio 2013</b> product 
   </tr>
 </table>
 
-## Custom Actions
+Here is a complete list of properties for the <a name="vs2015properties">**Visual Studio 2015**</a> product family:
+
+<table cellspacing="0" cellpadding="4" class="style1" border="1">
+    <tr>
+    <td valign="top">
+      <p><b>Property name</b></p>
+    </td>
+
+    <td valign="top">
+      <p><b>Meaning</b></p>
+    </td>
+  </tr>
+  
+  <tr>
+    <td valign="top">
+      <p>VS14DEVENV</p>
+    </td>
+
+    <td>
+      <p>Full path to devenv.exe for Visual Studio 2015 if it is installed on the system. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_EXTENSIONS_DIR</p>
+    </td>
+
+    <td>
+      <p>Full path to the Visual Studio 2015 extensions directory. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_ITEMTEMPLATES_DIR</p>
+    </td>
+
+    <td>
+      <p>Full path to the Visual Studio 2015 item templates directory. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_PROJECTTEMPLATES_DIR</p>
+    </td>
+
+    <td>
+      <p>Full path to the Visual Studio 2015 project templates directory. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_SCHEMAS_DIR</p>
+    </td>
+
+    <td>
+      <p>Full path to the Visual Studio 2015 XML schemas directory. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_ROOT_FOLDER</p>
+    </td>
+
+    <td>
+      <p>Full path to the Visual Studio 2015 root installation directory. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether Visual Studio 2015 Professional Edition or higher is installed and the Visual Basic project system is installed for it. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether Visual Studio 2015 Professional Edition or higher is installed and the Visual C++ project system is installed for it. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether Visual Studio 2015 Professional Edition or higher is installed and the Visual C# project system is installed for it. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether Visual Studio 2015 Professional Edition or higher is installed and the Visual Web Developer project system is installed for it. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether or not the Visual Studio 2015 Team Test project system is installed on the system. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether or not the Visual Studio 2015 Modeling project system is installed on the system. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+
+    <td>
+      <p>Indicates whether or not the Visual Studio 2015 F# project system is installed on the system. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14_BOOTSTRAPPER_PACKAGE_FOLDER</p>
+    </td>
+
+    <td>
+      <p>The location of the Visual Studio 2015 bootstrapper package folder. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+</table>
+
+## <a name="allcustomactions"></a> Custom Actions
 
 Here is a complete list of custom actions:
 
@@ -1738,6 +1902,26 @@ Here is a complete list of custom actions:
 
     <td>
       <p>Runs vpdexpress.exe /InstallVSTemplates if Visual Studio 2013 Express for Windows Phone is found on the system. Including this custom action automatically adds the VPD2013EXPRESS_IDE property. This custom action is available starting with WiX v3.8.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14Setup</p>
+    </td>
+
+    <td>
+      <p>Runs devenv.exe /setup if Visual Studio 2015 Professional Edition or higher is found on the system. Including this custom action automatically adds the VS2013DEVENV property. This custom action is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>VS14InstallVSTemplates</p>
+    </td>
+
+    <td>
+      <p>Runs devenv.exe /InstallVSTemplates if Visual Studio 2015 Professional Edition or higher is found on the system. Including this custom action automatically adds the VS2013DEVENV property. This custom action is available starting with WiX v3.10.</p>
     </td>
   </tr>
 
