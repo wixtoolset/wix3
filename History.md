@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4617 - Added 4.5.2 package group information to doc. Also mentioned that some properties are new to WiX v3.10.
+
 * SeanHall: WIXBUG:4669 - Fix bug in mbahost where it assumed that the CLRCreateInstance function was implemented when it exists.
 
 * SeanHall: WIXBUG:4646 - Allow sharing the whole drive with util:FileShare.
