@@ -26,7 +26,8 @@ extern "C" {
 HRESULT BitsDownloadUrl(
     __in DOWNLOAD_CACHE_CALLBACK* pCallback,
     __in DOWNLOAD_SOURCE* pDownloadSource,
-    __in LPCWSTR wzDestinationPath
+    __in LPCWSTR wzDestinationPath,
+    __in BOOL fBackgroundDownload
     );
 
 

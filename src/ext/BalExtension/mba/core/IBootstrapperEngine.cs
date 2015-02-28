@@ -180,6 +180,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         Unknown,
         Help,
         Layout,
+        Cache,
         Uninstall,
         Install,
         Modify,

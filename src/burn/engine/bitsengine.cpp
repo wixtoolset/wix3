@@ -23,6 +23,7 @@ const DWORD BITSENGINE_MSG_WAIT_TIMEOUT = 1;
 // functions
 
 static HRESULT CreateJob(
+    __in BOOL fBackgroundDownload,
     __out IBackgroundCopyJob** ppJob
     );
 static HRESULT SetCredentials(
@@ -326,7 +327,8 @@ private:
 extern "C" HRESULT BitsDownloadUrl(
     __in DOWNLOAD_CACHE_CALLBACK* pCallback,
     __in DOWNLOAD_SOURCE* pDownloadSource,
-    __in_z LPCWSTR wzDestinationPath
+    __in_z LPCWSTR wzDestinationPath,
+    __in BOOL fBackgroundDownload
     )
 {
     HRESULT hr = S_OK;
@@ -354,7 +356,7 @@ extern "C" HRESULT BitsDownloadUrl(
     sczDownloadUrl[3] = L'p';
 
     // Create and configure the BITS job.
-    hr = CreateJob(&pJob);
+    hr = CreateJob(fBackgroundDownload, &pJob);
     ExitOnFailure(hr, "Failed to create BITS job.");
 
     hr = SetCredentials(pJob, pDownloadSource->sczUser, pDownloadSource->sczPassword);
@@ -422,6 +424,7 @@ LExit:
 }
 
 static HRESULT CreateJob(
+    __in BOOL fBackgroundDownload,
     __out IBackgroundCopyJob** ppJob
     )
 {
@@ -439,11 +442,19 @@ static HRESULT CreateJob(
     hr = pJob->SetNotifyFlags(BG_NOTIFY_JOB_TRANSFERRED | BG_NOTIFY_JOB_ERROR | BG_NOTIFY_JOB_MODIFICATION);
     ExitOnFailure(hr, "Failed to set notification flags for BITS job.");
 
-    hr = pJob->SetNoProgressTimeout(BITSENGINE_NO_PROGRESS_TIMEOUT); // use 2 minutes since default is 14 days.
-    ExitOnFailure(hr, "Failed to set progress timeout.");
+    if (fBackgroundDownload)
+    {
+        hr = pJob->SetPriority(BG_JOB_PRIORITY_LOW);
+        ExitOnFailure(hr, "Failed to set BITS job to low priority.");
+    }
+    else
+    {
+        hr = pJob->SetNoProgressTimeout(BITSENGINE_NO_PROGRESS_TIMEOUT); // use 2 minutes since default is 14 days.
+        ExitOnFailure(hr, "Failed to set progress timeout.");
 
-    hr = pJob->SetPriority(BG_JOB_PRIORITY_FOREGROUND);
-    ExitOnFailure(hr, "Failed to set BITS job to foreground.");
+        hr = pJob->SetPriority(BG_JOB_PRIORITY_FOREGROUND);
+        ExitOnFailure(hr, "Failed to set BITS job to foreground.");
+    }
 
     *ppJob = pJob;
     pJob = NULL;

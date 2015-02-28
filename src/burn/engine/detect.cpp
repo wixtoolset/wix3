@@ -172,7 +172,7 @@ extern "C" HRESULT DetectReportRelatedBundles(
         switch (pRelatedBundle->relationType)
         {
         case BOOTSTRAPPER_RELATION_UPGRADE:
-            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL < action)
+            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && (BOOTSTRAPPER_ACTION_UNINSTALL < action || BOOTSTRAPPER_ACTION_CACHE == action))
             {
                 if (pRegistration->qwVersion > pRelatedBundle->qwVersion)
                 {

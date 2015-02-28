@@ -232,6 +232,8 @@ extern "C" LPCSTR LoggingBurnActionToString(
         return "Help";
     case BOOTSTRAPPER_ACTION_LAYOUT:
         return "Layout";
+    case BOOTSTRAPPER_ACTION_CACHE:
+        return "Cache";
     case BOOTSTRAPPER_ACTION_UNINSTALL:
         return "Uninstall";
     case BOOTSTRAPPER_ACTION_INSTALL:
