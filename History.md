@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4685 - Fix bug in mbahost where it didn't bind as the LegacyV2Runtime when necessary.
+
 * SeanHall: WIXBUG:4669 - Fix bug in mbahost where it assumed that the CLRCreateInstance function was implemented when it exists.
 
 * SeanHall: WIXBUG:4646 - Allow sharing the whole drive with util:FileShare.
