@@ -676,7 +676,8 @@ LExit:
 extern "C" HRESULT MsiEnginePlanCalculatePackage(
     __in BURN_PACKAGE* pPackage,
     __in BURN_VARIABLES* pVariables,
-    __in BURN_USER_EXPERIENCE* pUserExperience
+    __in BURN_USER_EXPERIENCE* pUserExperience,
+    __out BOOL* pfBARequestedCache
     )
 {
     Trace1(REPORT_STANDARD, "Planning MSI package 0x%p", pPackage);
@@ -689,6 +690,7 @@ extern "C" HRESULT MsiEnginePlanCalculatePackage(
     BOOL fFeatureActionDelta = FALSE;
     BOOL fRollbackFeatureActionDelta = FALSE;
     int nResult = 0;
+    BOOL fBARequestedCache = FALSE;
 
     if (pPackage->Msi.cFeatures)
     {
@@ -769,16 +771,37 @@ extern "C" HRESULT MsiEnginePlanCalculatePackage(
         }
         break;
 
-    case BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE: __fallthrough;
-    case BOOTSTRAPPER_PACKAGE_STATE_ABSENT: __fallthrough;
     case BOOTSTRAPPER_PACKAGE_STATE_CACHED:
-        if (BOOTSTRAPPER_REQUEST_STATE_PRESENT == pPackage->requested || BOOTSTRAPPER_REQUEST_STATE_REPAIR == pPackage->requested)
+        switch (pPackage->requested)
         {
+        case BOOTSTRAPPER_REQUEST_STATE_PRESENT: __fallthrough;
+        case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
             execute = BOOTSTRAPPER_ACTION_STATE_INSTALL;
-        }
-        else
-        {
+            break;
+
+        default:
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            break;
+        }
+        break;
+
+    case BOOTSTRAPPER_PACKAGE_STATE_OBSOLETE: __fallthrough;
+    case BOOTSTRAPPER_PACKAGE_STATE_ABSENT:
+        switch (pPackage->requested)
+        {
+        case BOOTSTRAPPER_REQUEST_STATE_PRESENT: __fallthrough;
+        case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
+            execute = BOOTSTRAPPER_ACTION_STATE_INSTALL;
+            break;
+
+        case BOOTSTRAPPER_REQUEST_STATE_CACHE:
+            execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            fBARequestedCache = TRUE;
+            break;
+
+        default:
+            execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            break;
         }
         break;
 
@@ -837,6 +860,11 @@ extern "C" HRESULT MsiEnginePlanCalculatePackage(
     // return values
     pPackage->execute = execute;
     pPackage->rollback = rollback;
+
+    if (pfBARequestedCache)
+    {
+        *pfBARequestedCache = fBARequestedCache;
+    }
 
 LExit:
     return hr;

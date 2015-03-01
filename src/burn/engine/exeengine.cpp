@@ -208,7 +208,8 @@ LExit:
 // PlanCalculate - calculates the execute and rollback state for the requested package state.
 //
 extern "C" HRESULT ExeEnginePlanCalculatePackage(
-    __in BURN_PACKAGE* pPackage
+    __in BURN_PACKAGE* pPackage,
+    __out_opt BOOL* pfBARequestedCache
     )
 {
     HRESULT hr = S_OK;
@@ -216,6 +217,7 @@ extern "C" HRESULT ExeEnginePlanCalculatePackage(
     //BOOTSTRAPPER_PACKAGE_STATE expected = BOOTSTRAPPER_PACKAGE_STATE_UNKNOWN;
     BOOTSTRAPPER_ACTION_STATE execute = BOOTSTRAPPER_ACTION_STATE_NONE;
     BOOTSTRAPPER_ACTION_STATE rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
+    BOOL fBARequestedCache = FALSE;
 
     //// evaluate rollback install condition
     //if (pPackage->sczRollbackInstallCondition)
@@ -238,7 +240,8 @@ extern "C" HRESULT ExeEnginePlanCalculatePackage(
         case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
             execute = pPackage->Exe.fRepairable ? BOOTSTRAPPER_ACTION_STATE_REPAIR : BOOTSTRAPPER_ACTION_STATE_NONE;
             break;
-        case BOOTSTRAPPER_REQUEST_STATE_ABSENT:
+        case BOOTSTRAPPER_REQUEST_STATE_ABSENT: __fallthrough;
+        case BOOTSTRAPPER_REQUEST_STATE_CACHE:
             execute = pPackage->fUninstallable ? BOOTSTRAPPER_ACTION_STATE_UNINSTALL : BOOTSTRAPPER_ACTION_STATE_NONE;
             break;
         case BOOTSTRAPPER_REQUEST_STATE_FORCE_ABSENT:
@@ -246,6 +249,7 @@ extern "C" HRESULT ExeEnginePlanCalculatePackage(
             break;
         default:
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            break;
         }
         break;
 
@@ -256,12 +260,13 @@ extern "C" HRESULT ExeEnginePlanCalculatePackage(
         case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
             execute = BOOTSTRAPPER_ACTION_STATE_INSTALL;
             break;
-        case BOOTSTRAPPER_REQUEST_STATE_FORCE_ABSENT: __fallthrough;
-        case BOOTSTRAPPER_REQUEST_STATE_ABSENT:
+        case BOOTSTRAPPER_REQUEST_STATE_CACHE:
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            fBARequestedCache = TRUE;
             break;
         default:
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            break;
         }
         break;
 
@@ -318,6 +323,11 @@ extern "C" HRESULT ExeEnginePlanCalculatePackage(
     // return values
     pPackage->execute = execute;
     pPackage->rollback = rollback;
+
+    if (pfBARequestedCache)
+    {
+        *pfBARequestedCache = fBARequestedCache;
+    }
 
 LExit:
     return hr;
