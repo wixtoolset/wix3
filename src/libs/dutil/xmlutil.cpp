@@ -130,7 +130,7 @@ extern "C" HRESULT DAPI XmlCreateDocument(
 {
     HRESULT hr = S_OK;
     BOOL (WINAPI *pfnDisableWow64)(__out PVOID* ) = NULL;
-    BOOL (WINAPI *pfnEnableWow64)(__in BOOLEAN ) = NULL;
+    BOOLEAN (WINAPI *pfnEnableWow64)(__in BOOLEAN ) = NULL;
     BOOL (WINAPI *pfnRevertWow64)(__in PVOID ) = NULL;
     BOOL fWow64Available = FALSE;
     void *pvWow64State = NULL;
@@ -147,7 +147,7 @@ extern "C" HRESULT DAPI XmlCreateDocument(
     if (NULL != GetProcAddress(hKernel32, "IsWow64Process"))
     {
         pfnDisableWow64 = (BOOL (WINAPI *)(PVOID *))::GetProcAddress(hKernel32, "Wow64DisableWow64FsRedirection");
-        pfnEnableWow64 = (BOOL (WINAPI *)(BOOLEAN))::GetProcAddress(hKernel32, "Wow64EnableWow64FsRedirection");
+        pfnEnableWow64 = (BOOLEAN (WINAPI *)(BOOLEAN))::GetProcAddress(hKernel32, "Wow64EnableWow64FsRedirection");
         pfnRevertWow64 = (BOOL (WINAPI *)(PVOID))::GetProcAddress(hKernel32, "Wow64RevertWow64FsRedirection");
 
         fWow64Available = pfnDisableWow64 && pfnEnableWow64 && pfnRevertWow64;
