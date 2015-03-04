@@ -1,6 +1,12 @@
 * ErnestT: WIXBUG:4432 - Add burn support for only caching packages
 
+* SeanHall: WIXBUG:4689 - Fix hidden numeric and version variables.
+
+## WixBuild: Version 3.10.0.1502
+
 * BobArnson: WIXBUG:3872 - Added note that CLR v2.0 is required in WiX v3.10 and that CLR v4.0 will be the minimum required in WiX v3.11.
+
+* SeanHall: WIXBUG:4685 - Fix bug in mbahost where it didn't bind as the LegacyV2Runtime when necessary.
 
 * SeanHall: WIXBUG:4669 - Fix bug in mbahost where it assumed that the CLRCreateInstance function was implemented when it exists.
 

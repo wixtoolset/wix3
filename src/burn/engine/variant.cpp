@@ -447,11 +447,11 @@ static HRESULT BVariantEncryptNumeric(
 
     if (fEncrypt)
     {
-        hr = CrypEncryptMemory(&pVariant->llValue, sizeof(pVariant->llValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypEncryptMemory(&pVariant->llValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
     else
     {
-        hr = CrypDecryptMemory(&pVariant->llValue, sizeof(pVariant->llValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypDecryptMemory(&pVariant->llValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
 
 //LExit:
@@ -483,7 +483,7 @@ static HRESULT BVariantEncryptString(
     if ((MAXDWORD - extraNeeded) < cbData)
     {
         hr = E_INVALIDDATA;
-        ExitOnFailure1(hr, "The string is too big: size %u", cbData);
+        ExitOnFailure(hr, "The string is too big: size %u", cbData);
     }
     else if (0 < extraNeeded)
     {
@@ -516,11 +516,11 @@ static HRESULT BVariantEncryptVersion(
 
     if (fEncrypt)
     {
-        hr = CrypEncryptMemory(&pVariant->qwValue, sizeof(pVariant->qwValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypEncryptMemory(&pVariant->qwValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
     else
     {
-        hr = CrypDecryptMemory(&pVariant->qwValue, sizeof(pVariant->qwValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypDecryptMemory(&pVariant->qwValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
 
 //LExit:
