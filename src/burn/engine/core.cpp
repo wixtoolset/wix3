@@ -870,9 +870,6 @@ extern "C" HRESULT CoreRecreateCommandLine(
     case BOOTSTRAPPER_ACTION_UNINSTALL:
         hr = StrAllocConcat(psczCommandLine, L" /uninstall", 0);
         break;
-    case BOOTSTRAPPER_ACTION_CACHE:
-        hr = StrAllocConcat(psczCommandLine, L" /cache", 0);
-        break;
     }
     ExitOnFailure(hr, "Failed to append action state to command-line");
 
@@ -1111,13 +1108,6 @@ static HRESULT ParseCommandLine(
                 if (BURN_AU_PAUSE_ACTION_NONE != *pAutomaticUpdates)
                 {
                     *pAutomaticUpdates = BURN_AU_PAUSE_ACTION_IFELEVATED_NORESUME;
-                }
-            }
-            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"cache", -1))
-            {
-                if (BOOTSTRAPPER_ACTION_HELP != pCommand->action)
-                {
-                    pCommand->action = BOOTSTRAPPER_ACTION_CACHE;
                 }
             }
             else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"disablesystemrestore", -1))
