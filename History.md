@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4661 - Removed IntermediateOutputPath defaults from template .wixproj.
+
 * SeanHall: WIXBUG:4689 - Fix hidden numeric and version variables.
 
 ## WixBuild: Version 3.10.0.1502
