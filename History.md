@@ -1,3 +1,5 @@
+* BobArnson: Add WixStdBaLanguage language and documentation.
+
 * SeanHall: WIXBUG:4689 - Fix hidden numeric and version variables.
 
 ## WixBuild: Version 3.10.0.1502
