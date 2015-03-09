@@ -1,4 +1,4 @@
-* BobArnson: Add WixStdBaLanguage language and documentation.
+* BobArnson: Add WixStdBALanguageID language and documentation.
 
 * SeanHall: WIXBUG:4689 - Fix hidden numeric and version variables.
 
