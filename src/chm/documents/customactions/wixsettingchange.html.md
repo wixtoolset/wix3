@@ -8,9 +8,9 @@ after: using_standard_customactions
 
 The WixBroadcastSettingChange and WixBroadcastEnvironmentChange custom actions are immediate custom actions that send a WM\_SETTINGCHANGE message to all top-level windows indicating that settings have changed. WixBroadcastSettingChange indicates that unspecified settings have changed. WixBroadcastEnvironmentChange indicates that environment variables have changed.
 
-Other programs are supposed to listen for WM\_SETTINGCHANGE and update any internal state with the new setting.
+Other programs can listen for WM\_SETTINGCHANGE and update any internal state with the new setting.
 
-Windows Installer itself sends the WM\_SETTINGCHANGE message for settings it changes while processing an MSI package but cannot do so for changes a package makes via custom action. We've also received reports that Windows Installer does not reliably send WM\_SETTINGCHANGE for environment variable changes.
+Windows Installer itself sends the WM\_SETTINGCHANGE message for settings it changes while processing an MSI package but cannot do so for changes a package makes via custom action. Also, Windows Installer does not send WM\_SETTINGCHANGE for environment variable changes when a reboot is pending.
 
 There are two steps you need to take to use the WixBroadcastSettingChange or WixBroadcastEnvironmentChange custom actions in your MSI package:
 
