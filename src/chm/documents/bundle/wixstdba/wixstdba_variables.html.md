@@ -8,5 +8,5 @@ after: wixstdba_customize
 The WiX Standard Bootstrapper Application offers a set of variables:
 
 * WixBundleFileVersion - gets the file version of the bundle .exe.
-* WixStdBALanguageID - gets the language in effect for the WixStdBA user interface.
+* WixStdBALanguageId - gets the language in effect for the WixStdBA user interface.
 
