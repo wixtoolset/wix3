@@ -53,3 +53,4 @@ The following topics provide information about how to customize the WiX Standard
 *  [Specifying the WiX Standard Bootstrapper Application License](wixstdba_license.html)
 *  [Changing the WiX Standard Bootstrapper Application Branding](wixstdba_branding.html)
 *  [Customize the WiX Standard Bootstrapper Application Layout](wixstdba_customize.html)
+*  [Using WiX Standard Bootstrapper Application Variables](wixstdba_variables.html)
