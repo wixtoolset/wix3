@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4545 - Resized button for de-DE.
+
 * BobArnson: Add WixStdBALanguageId language and documentation.
 
 * BobArnson: Add project output message in minimal MSBuild logging verbosity.
