@@ -1,3 +1,5 @@
+* BobArnson: Add project output message in minimal MSBuild logging verbosity.
+
 * BobArnson: WIXBUG:4654 - Add VS14 properties and custom actions. And, as it's a long topic, added anchors and links.
 
 * BobArnson: WIXBUG:4617 - Added 4.5.2 package group information to doc. Also mentioned that some properties are new to WiX v3.10.
