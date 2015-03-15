@@ -65,6 +65,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ClCompile Include="BroadcastSettingChange.cpp" />
     <ClCompile Include="cacleanup.cpp" />
     <ClCompile Include="CheckReboot.cpp" />
     <ClCompile Include="CloseApps.cpp" />

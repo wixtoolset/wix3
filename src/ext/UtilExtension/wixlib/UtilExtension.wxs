@@ -107,6 +107,22 @@
         </InstallExecuteSequence>
     </Fragment>
 
+    <Fragment>
+        <CustomAction Id="WixBroadcastSettingChange" BinaryKey="WixCA" DllEntry="WixBroadcastSettingChange" Execute="immediate" Return="ignore" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixBroadcastSettingChange" After="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixBroadcastEnvironmentChange" BinaryKey="WixCA" DllEntry="WixBroadcastEnvironmentChange" Execute="immediate" Return="ignore" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixBroadcastEnvironmentChange" After="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
     <!-- WiX OS-detection properties and custom action -->
     <Fragment>
         <CustomAction Id="WixQueryOsInfo" BinaryKey="WixCA" DllEntry="WixQueryOsInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />
