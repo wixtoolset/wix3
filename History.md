@@ -1,3 +1,5 @@
+## WixBuild: Version 3.10.0.1519
+
 * BobArnson: WIXBUG:4520 - Added blurb about using a PayloadGroup to get offline capability for .NET redist.
 
 * BobArnson: WIXBUG:4545 - Resized button for de-DE.
