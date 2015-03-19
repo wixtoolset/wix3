@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
+
 * BobArnson: WIXBUG:4520 - Added blurb about using a PayloadGroup to get offline capability for .NET redist.
 
 * BobArnson: WIXBUG:4545 - Resized button for de-DE.
