@@ -32,6 +32,10 @@ EXPORTS
 ; qtexecca.cpp
     CAQuietExec
     CAQuietExec64
+    WixQuietExec
+    WixQuietExec64
+    WixSilentExec
+    WixSilentExec64
 ; RemoveFolders.cpp
     WixRemoveFoldersEx
 ; RestartManager.cpp
