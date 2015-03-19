@@ -385,4 +385,25 @@
         <PropertyRef Id="QtExec64CmdLine" />
         <CustomAction Id="QtExec64" BinaryKey="WixCA" DllEntry="CAQuietExec64" Execute="immediate" Return="check" Impersonate="yes" />
     </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixQuietExecCmdLine" />
+        <CustomAction Id="WixQuietExec" BinaryKey="WixCA" DllEntry="WixQuietExec" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixQuietExec64CmdLine" />
+        <CustomAction Id="WixQuietExec64" BinaryKey="WixCA" DllEntry="WixQuietExec64" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <!-- SilentExec custom actions differ from QtExec in that they do not log the commandline or output of the exe -->
+    <Fragment>
+        <PropertyRef Id="WixSilentExecCmdLine" />
+        <CustomAction Id="WixSilentExec" BinaryKey="WixCA" DllEntry="WixSilentExec" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixSilentExec64CmdLine" />
+        <CustomAction Id="WixSilentExec64" BinaryKey="WixCA" DllEntry="WixSilentExec64" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
 </Wix>

@@ -233,7 +233,9 @@ LExit:
 
 HRESULT WIXAPI QuietExec(
     __inout_z LPWSTR wzCommand,
-    __in DWORD dwTimeout
+    __in DWORD dwTimeout,
+    __in BOOL fLogCommand,
+    __in BOOL fLogOutput
     )
 {
     HRESULT hr = S_OK;
@@ -260,7 +262,11 @@ HRESULT WIXAPI QuietExec(
     oStartInfo.hStdOutput = hOutWrite;
     oStartInfo.hStdError = hErrWrite;
 
-    WcaLog(LOGMSG_VERBOSE, "%ls", wzCommand);
+    // Log command if we were asked to do so
+    if (fLogCommand)
+    {
+        WcaLog(LOGMSG_VERBOSE, "%ls", wzCommand);
+    }
 
 #pragma prefast(suppress:25028)
     if (::CreateProcessW(NULL,
@@ -281,8 +287,11 @@ HRESULT WIXAPI QuietExec(
         ReleaseFile(hErrWrite);
         ReleaseFile(hInRead);
 
-        // Log output
-        LogOutput(hOutRead);
+        // Log output if we were asked to do so
+        if (fLogOutput)
+        {
+            LogOutput(hOutRead);
+        }
 
         // Wait for everything to finish
         ::WaitForSingleObject(oProcInfo.hProcess, dwTimeout);
