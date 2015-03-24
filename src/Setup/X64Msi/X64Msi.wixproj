@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Icons\setupicons.vcxproj" />
     <ProjectReference Include="..\CommonLib\CommonLib.wixproj" />
   </ItemGroup>
 
