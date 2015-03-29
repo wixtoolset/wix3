@@ -149,6 +149,7 @@ HRESULT VariableSerialize(
     );
 HRESULT VariableDeserialize(
     __in BURN_VARIABLES* pVariables,
+    __in BOOL fWasPersisted,
     __in_bcount(cbBuffer) BYTE* pbBuffer,
     __in SIZE_T cbBuffer,
     __inout SIZE_T* piBuffer

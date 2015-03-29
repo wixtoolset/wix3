@@ -179,7 +179,7 @@ extern "C" HRESULT CoreQueryRegistration(
         hr = RegistrationLoadState(&pEngineState->registration, &pbBuffer, &cbBuffer);
         if (SUCCEEDED(hr))
         {
-            hr = VariableDeserialize(&pEngineState->variables, pbBuffer, cbBuffer, &iBuffer);
+            hr = VariableDeserialize(&pEngineState->variables, TRUE, pbBuffer, cbBuffer, &iBuffer);
         }
 
         // Log any failures and continue.
