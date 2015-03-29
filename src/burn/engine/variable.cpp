@@ -55,6 +55,7 @@ enum SET_VARIABLE
     SET_VARIABLE_NOT_BUILTIN,
     SET_VARIABLE_OVERRIDE_BUILTIN,
     SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS,
+    SET_VARIABLE_ANY,
 };
 
 // internal function declarations
@@ -821,8 +822,8 @@ extern "C" HRESULT VariableSerialize(
     {
         BURN_VARIABLE* pVariable = &pVariables->rgVariables[i];
 
-        // If we are persisting, include only variables that should be persisted. When not persisting, skip all the built-ins.
-        fIncluded = fPersisting ? pVariable->fPersisted : !pVariable->fBuiltIn;
+        // If we are persisting, include only variables that should be persisted.
+        fIncluded = !fPersisting || pVariable->fPersisted;
 
         // Write included flag.
         hr = BuffWriteNumber(ppbBuffer, piBuffer, (DWORD)fIncluded);
@@ -890,6 +891,17 @@ LExit:
 
 extern "C" HRESULT VariableDeserialize(
     __in BURN_VARIABLES* pVariables,
+    __in_bcount(cbBuffer) BYTE* pbBuffer,
+    __in SIZE_T cbBuffer,
+    __inout SIZE_T* piBuffer
+    )
+{
+    return VariableDeserializeEx(pVariables, TRUE, pbBuffer, cbBuffer, piBuffer);
+}
+
+extern "C" HRESULT VariableDeserializeEx(
+    __in BURN_VARIABLES* pVariables,
+    __in BOOL fWasPersisted,
     __in_bcount(cbBuffer) BYTE* pbBuffer,
     __in SIZE_T cbBuffer,
     __inout SIZE_T* piBuffer
@@ -967,7 +979,7 @@ extern "C" HRESULT VariableDeserialize(
         }
 
         // Set variable.
-        hr = SetVariableValue(pVariables, sczName, &value, SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS, FALSE);
+        hr = SetVariableValue(pVariables, sczName, &value, fWasPersisted ? SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS : SET_VARIABLE_ANY, FALSE);
         ExitOnFailure(hr, "Failed to set variable.");
 
         // Clean up.
@@ -1482,7 +1494,8 @@ static HRESULT SetVariableValue(
     else if (pVariables->rgVariables[iVariable].fBuiltIn) // built-in variables must be overridden.
     {
         if (SET_VARIABLE_OVERRIDE_BUILTIN == setBuiltin ||
-            (SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS == setBuiltin && pVariables->rgVariables[iVariable].fPersisted))
+            (SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS == setBuiltin && pVariables->rgVariables[iVariable].fPersisted) ||
+            SET_VARIABLE_ANY == setBuiltin)
         {
             hr = S_OK;
         }
@@ -1499,7 +1512,7 @@ static HRESULT SetVariableValue(
     }
 
     // Log value when not overwriting a built-in variable.
-    if (fLog && SET_VARIABLE_NOT_BUILTIN == setBuiltin)
+    if (fLog && !pVariables->rgVariables[iVariable].fBuiltIn)
     {
         if (pVariables->rgVariables[iVariable].fHidden)
         {

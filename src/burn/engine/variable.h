@@ -153,6 +153,13 @@ HRESULT VariableDeserialize(
     __in SIZE_T cbBuffer,
     __inout SIZE_T* piBuffer
     );
+HRESULT VariableDeserializeEx(
+    __in BURN_VARIABLES* pVariables,
+    __in BOOL fWasPersisted,
+    __in_bcount(cbBuffer) BYTE* pbBuffer,
+    __in SIZE_T cbBuffer,
+    __inout SIZE_T* piBuffer
+    );
 HRESULT VariableStrAlloc(
     __in BOOL fZeroOnRealloc,
     __deref_out_ecount_part(cch, 0) LPWSTR* ppwz,

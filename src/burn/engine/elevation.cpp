@@ -1602,7 +1602,7 @@ static HRESULT OnApplyInitialize(
     hr = BuffReadNumber(pbData, cbData, &iData, &dwTakeSystemRestorePoint);
     ExitOnFailure(hr, "Failed to read system restore point action.");
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserializeEx(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     // Initialize.
@@ -1717,7 +1717,7 @@ static HRESULT OnSessionBegin(
     hr = BuffReadNumber64(pbData, cbData, &iData, &qwEstimatedSize);
     ExitOnFailure(hr, "Failed to read estimated size.");
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserializeEx(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     // Begin session in per-machine process.
@@ -1998,7 +1998,7 @@ static HRESULT OnExecuteExePackage(
     hr = BuffReadString(pbData, cbData, &iData, &sczAncestors);
     ExitOnFailure(hr, "Failed to read the list of ancestors.");
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserializeEx(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     hr = PackageFindById(pPackages, sczPackage, &executeAction.exePackage.pPackage);
@@ -2110,7 +2110,7 @@ static HRESULT OnExecuteMsiPackage(
         }
     }
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserializeEx(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&fRollback);
@@ -2202,7 +2202,7 @@ static HRESULT OnExecuteMspPackage(
         }
     }
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserializeEx(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&fRollback);
