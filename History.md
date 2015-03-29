@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3933 - Make WixBundleManufacturer variable writable.
+
 * BobArnson: Project reference tweaks: 
   - Removed unnecessary reference to setupicons from x64msi.
   - Move BuildInParallel=false from global to just project that needs it

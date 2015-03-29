@@ -51,6 +51,11 @@ static HRESULT ParseSoftwareTagsFromXml(
 static HRESULT SetPaths(
     __in BURN_REGISTRATION* pRegistration
     );
+static HRESULT GetBundleManufacturer(
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
+    __out LPWSTR* psczBundleManufacturer
+    );
 static HRESULT GetBundleName(
     __in BURN_REGISTRATION* pRegistration,
     __in BURN_VARIABLES* pVariables,
@@ -408,7 +413,8 @@ extern "C" HRESULT RegistrationSetVariables(
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR scz = NULL;
+    LPWSTR sczBundleManufacturer = NULL;
+    LPWSTR sczBundleName = NULL;
 
     if (pRegistration->fInstalled)
     {
@@ -417,14 +423,11 @@ extern "C" HRESULT RegistrationSetVariables(
     }
 
     // Ensure the registration bundle name is updated.
-    hr = GetBundleName(pRegistration, pVariables, &scz);
+    hr = GetBundleName(pRegistration, pVariables, &sczBundleName);
     ExitOnFailure(hr, "Failed to initialize bundle name.");
 
-    if (pRegistration->sczPublisher && *pRegistration->sczPublisher)
-    {
-        hr = VariableSetString(pVariables, BURN_BUNDLE_MANUFACTURER, pRegistration->sczPublisher, TRUE);
-        ExitOnFailure(hr, "Failed to overwrite the bundle manufacturer built-in variable.");
-    }
+    hr = GetBundleManufacturer(pRegistration, pVariables, &sczBundleName);
+    ExitOnFailure(hr, "Failed to initialize bundle manufacturer.");
 
     if (pRegistration->sczActiveParent && *pRegistration->sczActiveParent)
     {
@@ -442,7 +445,9 @@ extern "C" HRESULT RegistrationSetVariables(
     ExitOnFailure(hr, "Failed to overwrite the bundle tag built-in variable.");
 
 LExit:
-    ReleaseStr(scz);
+    ReleaseStr(sczBundleManufacturer);
+    ReleaseStr(sczBundleName);
+
     return hr;
 }
 
@@ -593,6 +598,7 @@ extern "C" HRESULT RegistrationSessionBegin(
     DWORD dwSize = 0;
     HKEY hkRegistration = NULL;
     LPWSTR sczDisplayName = NULL;
+    LPWSTR sczPublisher = NULL;
 
     LogId(REPORT_VERBOSE, MSG_SESSION_BEGIN, pRegistration->sczRegistrationKey, dwRegistrationOptions, LoggingBoolToString(pRegistration->fDisableResume));
 
@@ -665,11 +671,9 @@ extern "C" HRESULT RegistrationSessionBegin(
         }
 
         // Publisher: provided by UI
-        if (pRegistration->sczPublisher)
-        {
-            hr = RegWriteString(hkRegistration, REGISTRY_BUNDLE_PUBLISHER, pRegistration->sczPublisher);
-            ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_PUBLISHER);
-        }
+        hr = GetBundleManufacturer(pRegistration, pVariables, &sczPublisher);
+        hr = RegWriteString(hkRegistration, REGISTRY_BUNDLE_PUBLISHER, SUCCEEDED(hr) ? sczPublisher : pRegistration->sczPublisher);
+        ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_PUBLISHER);
 
         // HelpLink: provided by UI
         if (pRegistration->sczHelpLink)
@@ -817,6 +821,7 @@ extern "C" HRESULT RegistrationSessionBegin(
 
 LExit:
     ReleaseStr(sczDisplayName);
+    ReleaseStr(sczPublisher);
     ReleaseRegKey(hkRegistration);
 
     return hr;
@@ -1105,6 +1110,28 @@ static HRESULT SetPaths(
 
 LExit:
     ReleaseStr(sczCacheDirectory);
+    return hr;
+}
+
+static HRESULT GetBundleManufacturer(
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
+    __out LPWSTR* psczBundleManufacturer
+    )
+{
+    HRESULT hr = S_OK;
+
+    hr = VariableGetString(pVariables, BURN_BUNDLE_MANUFACTURER, psczBundleManufacturer);
+    if (E_NOTFOUND == hr)
+    {
+        hr = VariableSetString(pVariables, BURN_BUNDLE_MANUFACTURER, pRegistration->sczPublisher, FALSE);
+        ExitOnFailure(hr, "Failed to set bundle manufacturer.");
+
+        hr = StrAllocString(psczBundleManufacturer, pRegistration->sczPublisher, 0);
+    }
+    ExitOnFailure(hr, "Failed to get bundle manufacturer.");
+
+LExit:
     return hr;
 }
 
