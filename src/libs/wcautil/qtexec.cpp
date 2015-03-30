@@ -108,7 +108,7 @@ LExit:
     return hr;
 }
 
-static HRESULT LogOutput(
+static HRESULT HandleOutput(
     __in BOOL fLogOutput,
     __in HANDLE hRead
     )
@@ -292,7 +292,7 @@ HRESULT WIXAPI QuietExec(
         ReleaseFile(hInRead);
 
         // Log output if we were asked to do so
-        LogOutput(fLogOutput, hOutRead);
+        HandleOutput(fLogOutput, hOutRead);
 
         // Wait for everything to finish
         ::WaitForSingleObject(oProcInfo.hProcess, dwTimeout);
