@@ -291,7 +291,7 @@ HRESULT WIXAPI QuietExec(
         ReleaseFile(hErrWrite);
         ReleaseFile(hInRead);
 
-        // Log output if we were asked to do so
+        // Log output if we were asked to do so; otherwise just read the output handle
         HandleOutput(fLogOutput, hOutRead);
 
         // Wait for everything to finish
