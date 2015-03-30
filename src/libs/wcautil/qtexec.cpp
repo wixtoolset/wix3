@@ -109,6 +109,7 @@ LExit:
 }
 
 static HRESULT LogOutput(
+    __in BOOL fLogOutput,
     __in HANDLE hRead
     )
 {
@@ -136,76 +137,79 @@ static HRESULT LogOutput(
             ExitOnLastError(hr, "Failed to read from handle.");
         }
 
-        // Check for UNICODE or ANSI output
-        if (bFirst)
+        if (fLogOutput)
         {
-            if ((isgraph(pBuffer[0]) && isgraph(pBuffer[1])) ||
-                (isgraph(pBuffer[0]) && isspace(pBuffer[1])) ||
-                (isspace(pBuffer[0]) && isgraph(pBuffer[1])) ||
-                (isspace(pBuffer[0]) && isspace(pBuffer[1])))
+            // Check for UNICODE or ANSI output
+            if (bFirst)
             {
-                bUnicode = FALSE;
+                if ((isgraph(pBuffer[0]) && isgraph(pBuffer[1])) ||
+                    (isgraph(pBuffer[0]) && isspace(pBuffer[1])) ||
+                    (isspace(pBuffer[0]) && isgraph(pBuffer[1])) ||
+                    (isspace(pBuffer[0]) && isspace(pBuffer[1])))
+                {
+                    bUnicode = FALSE;
+                }
+
+                bFirst = FALSE;
             }
 
-            bFirst = FALSE;
-        }
-
-        // Keep track of output
-        if (bUnicode)
-        {
-            hr = StrAllocConcat(&szLog, (LPCWSTR)pBuffer, 0);
-            ExitOnFailure(hr, "failed to concatenate output strings");
-        }
-        else
-        {
-            hr = StrAllocStringAnsi(&szTemp, (LPCSTR)pBuffer, 0, CP_OEMCP);
-            ExitOnFailure(hr, "failed to allocate output string");
-            hr = StrAllocConcat(&szLog, szTemp, 0);
-            ExitOnFailure(hr, "failed to concatenate output strings");
-        }
-
-        // Log each line of the output
-        pNext = szLog;
-        pEnd = wcschr(szLog, L'\r');
-        if (NULL == pEnd)
-        {
-            pEnd = wcschr(szLog, L'\n');
-        }
-        while (pEnd && *pEnd)
-        {
-            // Find beginning of next line
-            pEnd[0] = 0;
-            ++pEnd;
-            if ((pEnd[0] == L'\r') || (pEnd[0] == L'\n'))
+            // Keep track of output
+            if (bUnicode)
             {
-                ++pEnd;
+                hr = StrAllocConcat(&szLog, (LPCWSTR)pBuffer, 0);
+                ExitOnFailure(hr, "failed to concatenate output strings");
+            }
+            else
+            {
+                hr = StrAllocStringAnsi(&szTemp, (LPCSTR)pBuffer, 0, CP_OEMCP);
+                ExitOnFailure(hr, "failed to allocate output string");
+                hr = StrAllocConcat(&szLog, szTemp, 0);
+                ExitOnFailure(hr, "failed to concatenate output strings");
             }
 
-            // Log output
-            hr = StrAllocString(&sczEscaped, pNext, 0);
-            ExitOnFailure(hr, "Failed to allocate copy of string");
-
-            hr = StrReplaceStringAll(&sczEscaped, L"%", L"%%");
-            ExitOnFailure(hr, "Failed to escape percent signs in string");
-
-            hr = StrAnsiAllocString(&szWrite, sczEscaped, 0, CP_OEMCP);
-            ExitOnFailure(hr, "failed to convert output to ANSI");
-            WcaLog(LOGMSG_STANDARD, szWrite);
-
-            // Next line
-            pNext = pEnd;
-            pEnd = wcschr(pNext, L'\r');
+            // Log each line of the output
+            pNext = szLog;
+            pEnd = wcschr(szLog, L'\r');
             if (NULL == pEnd)
             {
-                pEnd = wcschr(pNext, L'\n');
+                pEnd = wcschr(szLog, L'\n');
             }
+            while (pEnd && *pEnd)
+            {
+                // Find beginning of next line
+                pEnd[0] = 0;
+                ++pEnd;
+                if ((pEnd[0] == L'\r') || (pEnd[0] == L'\n'))
+                {
+                    ++pEnd;
+                }
+
+                // Log output
+                hr = StrAllocString(&sczEscaped, pNext, 0);
+                ExitOnFailure(hr, "Failed to allocate copy of string");
+
+                hr = StrReplaceStringAll(&sczEscaped, L"%", L"%%");
+                ExitOnFailure(hr, "Failed to escape percent signs in string");
+
+                hr = StrAnsiAllocString(&szWrite, sczEscaped, 0, CP_OEMCP);
+                ExitOnFailure(hr, "failed to convert output to ANSI");
+                WcaLog(LOGMSG_STANDARD, szWrite);
+
+                // Next line
+                pNext = pEnd;
+                pEnd = wcschr(pNext, L'\r');
+                if (NULL == pEnd)
+                {
+                    pEnd = wcschr(pNext, L'\n');
+                }
+            }
+
+            hr = StrAllocString(&szTemp, pNext, 0);
+            ExitOnFailure(hr, "failed to allocate string");
+
+            hr = StrAllocString(&szLog, szTemp, 0);
+            ExitOnFailure(hr, "failed to allocate string");
         }
-
-        hr = StrAllocString(&szTemp, pNext, 0);
-        ExitOnFailure(hr, "failed to allocate string");
-
-        hr = StrAllocString(&szLog, szTemp, 0);
-        ExitOnFailure(hr, "failed to allocate string");
     }
 
     // Print any text that didn't end with a new line
@@ -288,10 +292,7 @@ HRESULT WIXAPI QuietExec(
         ReleaseFile(hInRead);
 
         // Log output if we were asked to do so
-        if (fLogOutput)
-        {
-            LogOutput(hOutRead);
-        }
+        LogOutput(fLogOutput, hOutRead);
 
         // Wait for everything to finish
         ::WaitForSingleObject(oProcInfo.hProcess, dwTimeout);
