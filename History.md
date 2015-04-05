@@ -1,3 +1,5 @@
+* JacobHoover: WIXBUG:4482 - Temp file for update feed isn't deleted when download fails
+
 * BobArnson: Project reference tweaks: 
   - Removed unnecessary reference to setupicons from x64msi.
   - Move BuildInParallel=false from global to just project that needs it
