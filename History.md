@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
+
 * BobArnson: Project reference tweaks: 
   - Removed unnecessary reference to setupicons from x64msi.
   - Move BuildInParallel=false from global to just project that needs it
