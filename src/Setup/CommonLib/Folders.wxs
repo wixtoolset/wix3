@@ -208,10 +208,10 @@
     </Fragment>
 
     <Fragment>
-        <PropertyRef Id="VS14_EXTENSIONS_DIR" />
+        <PropertyRef Id="VS2015_EXTENSIONS_DIR" />
 
         <DirectoryRef Id="IDEVs2015">
-            <Directory Id="VS14_EXTENSIONS_DIR" Name="Extensions">
+            <Directory Id="VS2015_EXTENSIONS_DIR" Name="Extensions">
                 <Directory Id="VsExtensions2015Microsoft" Name="Microsoft">
                     <Directory Id="VsExtensions2015MicrosoftWix" Name="WiX">
                         <Directory Id="VsItemTemplatesWix2015Folder" Name="ItemTemplates" />
@@ -223,10 +223,10 @@
     </Fragment>
 
     <Fragment>
-        <PropertyRef Id="VS14_SCHEMAS_DIR" />
+        <PropertyRef Id="VS2015_SCHEMAS_DIR" />
 
         <DirectoryRef Id="XmlVs2015">
-            <Directory Id="VS14_SCHEMAS_DIR" Name="Schemas" />
+            <Directory Id="VS2015_SCHEMAS_DIR" Name="Schemas" />
         </DirectoryRef>
     </Fragment>
 </Wix>
