@@ -52,12 +52,12 @@ static HRESULT CreatePipes(
     // Create pipes
     if (!::CreatePipe(&hOutTemp, &hOutWrite, &sa, 0))
     {
-        ExitOnLastError(hr, "failed to create output pipe");
+        ExitOnLastError(hr, "Failed to create output pipe");
     }
 
     if (!::CreatePipe(&hInRead, &hInTemp, &sa, 0))
     {
-        ExitOnLastError(hr, "failed to create input pipe");
+        ExitOnLastError(hr, "Failed to create input pipe");
     }
 
 
@@ -65,19 +65,19 @@ static HRESULT CreatePipes(
     // the same pipe
     if (!::DuplicateHandle(::GetCurrentProcess(), hOutWrite, ::GetCurrentProcess(), &hErrWrite, 0, TRUE, DUPLICATE_SAME_ACCESS))
     {
-        ExitOnLastError(hr, "failed to duplicate write handle");
+        ExitOnLastError(hr, "Failed to duplicate write handle");
     }
 
     // We need to create new output read and input write handles that are
     // non inheritable.  Otherwise it creates handles that can't be closed.
     if (!::DuplicateHandle(::GetCurrentProcess(), hOutTemp, ::GetCurrentProcess(), &hOutRead, 0, FALSE, DUPLICATE_SAME_ACCESS))
     {
-        ExitOnLastError(hr, "failed to duplicate output pipe");
+        ExitOnLastError(hr, "Failed to duplicate output pipe");
     }
 
     if (!::DuplicateHandle(::GetCurrentProcess(), hInTemp, ::GetCurrentProcess(), &hInWrite, 0, FALSE, DUPLICATE_SAME_ACCESS))
     {
-        ExitOnLastError(hr, "failed to duplicate input pipe");
+        ExitOnLastError(hr, "Failed to duplicate input pipe");
     }
 
     // now that everything has succeeded, assign to the outputs
@@ -157,14 +157,14 @@ static HRESULT HandleOutput(
             if (bUnicode)
             {
                 hr = StrAllocConcat(&szLog, (LPCWSTR)pBuffer, 0);
-                ExitOnFailure(hr, "failed to concatenate output strings");
+                ExitOnFailure(hr, "Failed to concatenate output strings");
             }
             else
             {
                 hr = StrAllocStringAnsi(&szTemp, (LPCSTR)pBuffer, 0, CP_OEMCP);
-                ExitOnFailure(hr, "failed to allocate output string");
+                ExitOnFailure(hr, "Failed to allocate output string");
                 hr = StrAllocConcat(&szLog, szTemp, 0);
-                ExitOnFailure(hr, "failed to concatenate output strings");
+                ExitOnFailure(hr, "Failed to concatenate output strings");
             }
 
             // Log each line of the output
@@ -192,7 +192,7 @@ static HRESULT HandleOutput(
                 ExitOnFailure(hr, "Failed to escape percent signs in string");
 
                 hr = StrAnsiAllocString(&szWrite, sczEscaped, 0, CP_OEMCP);
-                ExitOnFailure(hr, "failed to convert output to ANSI");
+                ExitOnFailure(hr, "Failed to convert output to ANSI");
                 WcaLog(LOGMSG_STANDARD, szWrite);
 
                 // Next line
@@ -205,10 +205,10 @@ static HRESULT HandleOutput(
             }
 
             hr = StrAllocString(&szTemp, pNext, 0);
-            ExitOnFailure(hr, "failed to allocate string");
+            ExitOnFailure(hr, "Failed to allocate string");
 
             hr = StrAllocString(&szLog, szTemp, 0);
-            ExitOnFailure(hr, "failed to allocate string");
+            ExitOnFailure(hr, "Failed to allocate string");
         }
     }
 
@@ -219,7 +219,7 @@ static HRESULT HandleOutput(
         ExitOnFailure(hr, "Failed to escape percent signs in string");
 
         hr = StrAnsiAllocString(&szWrite, szLog, 0, CP_OEMCP);
-        ExitOnFailure(hr, "failed to convert output to ANSI");
+        ExitOnFailure(hr, "Failed to convert output to ANSI");
 
         WcaLog(LOGMSG_VERBOSE, szWrite);
     }
@@ -257,7 +257,7 @@ HRESULT WIXAPI QuietExec(
 
     // Create output redirect pipes
     hr = CreatePipes(&hOutRead, &hOutWrite, &hErrWrite, &hInRead, &hInWrite);
-    ExitOnFailure(hr, "failed to create output pipes");
+    ExitOnFailure(hr, "Failed to create output pipes");
 
     // Set up startup structure
     oStartInfo.cb = sizeof(STARTUPINFOW);
