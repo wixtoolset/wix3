@@ -129,7 +129,7 @@
     <!-- Web Developer language tools were installed as a part of VS 2015 setup.             -->
     <Fragment>
         <Property Id="VS2015_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes">
-            <ComponentSearch Id="SearchForVWD2015ProjectSystemUnderVSSetup" Guid="BB606174-3CE6-484B-9C05-8B28DED365AF" />
+            <ComponentSearch Id="SearchForVWD2015ProjectSystemUnderVSSetup" Guid="274EB373-6B78-5EBD-8A6C-6D8094E58ECB" />
             <ComponentSearch Id="SearchForVWD2015ProjectSystemUnderVWDSetup" Guid="71EBDA4A-4A15-426F-95C4-4FC051FD7AA4" Type="directory" />
         </Property>
     </Fragment>
