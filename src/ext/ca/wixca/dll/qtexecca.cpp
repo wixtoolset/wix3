@@ -54,20 +54,20 @@ HRESULT BuildCommandLine(
         if (WcaIsPropertySet("CustomActionData"))
         {
             hr = WcaGetProperty( L"CustomActionData", ppwzCommand);
-            ExitOnFailure(hr, "failed to get CustomActionData");
+            ExitOnFailure(hr, "Failed to get CustomActionData");
         }
     }
     else if (WcaIsUnicodePropertySet(wzProperty))
     {
         hr = WcaGetFormattedProperty(wzProperty, ppwzCommand);
-        ExitOnFailure1(hr, "failed to get %ls", wzProperty);
+        ExitOnFailure(hr, "Failed to get %ls", wzProperty);
         hr = WcaSetProperty(wzProperty, L""); // clear out the property now that we've read it
-        ExitOnFailure1(hr, "failed to set %ls", wzProperty);
+        ExitOnFailure(hr, "Failed to set %ls", wzProperty);
     }
 
     if (!*ppwzCommand)
     {
-        ExitOnFailure(hr = E_INVALIDARG, "failed to get command line data");
+        ExitOnFailure(hr = E_INVALIDARG, "Failed to get command line data");
     }
 
     if (L'"' != **ppwzCommand)
@@ -92,7 +92,7 @@ DWORD GetTimeout(LPCWSTR wzPropertyName)
     if (WcaIsUnicodePropertySet(wzPropertyName))
     {
         hr = WcaGetProperty(wzPropertyName, &pwzData);
-        ExitOnFailure1(hr, "failed to get %ls", wzPropertyName);
+        ExitOnFailure(hr, "Failed to get %ls", wzPropertyName);
 
         if ((dwTimeout = (DWORD)_wtoi(pwzData)) == 0)
         {
@@ -119,7 +119,7 @@ HRESULT ExecCommon(
     DWORD dwTimeout = 0;
 
     hr = BuildCommandLine(wzArgumentsProperty, &pwzCommand);
-    ExitOnFailure(hr, "failed to get Command Line");
+    ExitOnFailure(hr, "Failed to get Command Line");
 
     dwTimeout = GetTimeout(wzTimeoutProperty);
 
@@ -150,15 +150,15 @@ HRESULT ExecCommon64(
     {
         hr = TYPE_E_DLLFUNCTIONNOTFOUND;
     }
-    ExitOnFailure(hr, "failed to intialize WOW64.");
+    ExitOnFailure(hr, "Failed to intialize WOW64.");
     fIsWow64Initialized = TRUE;
 
     hr = WcaDisableWow64FSRedirection();
-    ExitOnFailure(hr, "failed to enable filesystem redirection.");
+    ExitOnFailure(hr, "Failed to enable filesystem redirection.");
     fRedirected = TRUE;
 
     hr = BuildCommandLine(wzArgumentsProperty, &pwzCommand);
-    ExitOnFailure(hr, "failed to get Command Line");
+    ExitOnFailure(hr, "Failed to get Command Line");
 
     dwTimeout = GetTimeout(wzTimeoutProperty);
 
@@ -192,7 +192,7 @@ extern "C" UINT __stdcall CAQuietExec(
     UINT er = ERROR_SUCCESS;
 
     hr = WcaInitialize(hInstall, "CAQuietExec");
-    ExitOnFailure(hr, "failed to initialize");
+    ExitOnFailure(hr, "Failed to initialize");
 
     hr = ExecCommon(CAQUIET_ARGUMENTS_PROPERTY, CAQUIET_TIMEOUT_PROPERTY, TRUE, TRUE);
     ExitOnFailure(hr, "Failed in ExecCommon method");
@@ -216,10 +216,10 @@ extern "C" UINT __stdcall CAQuietExec64(
     UINT er = ERROR_SUCCESS;
 
     hr = WcaInitialize(hInstall, "CAQuietExec64");
-    ExitOnFailure(hr, "failed to initialize");
+    ExitOnFailure(hr, "Failed to initialize");
 
     hr = ExecCommon64(CAQUIET64_ARGUMENTS_PROPERTY, CAQUIET_TIMEOUT_PROPERTY, TRUE, TRUE);
-    ExitOnFailure(hr, "Failed in  method");
+    ExitOnFailure(hr, "Failed in ExecCommon64 method");
 
 LExit:
     if (FAILED(hr))
@@ -239,7 +239,7 @@ extern "C" UINT __stdcall WixQuietExec(
     UINT er = ERROR_SUCCESS;
 
     hr = WcaInitialize(hInstall, "WixQuietExec");
-    ExitOnFailure(hr, "failed to initialize");
+    ExitOnFailure(hr, "Failed to initialize");
 
     hr = ExecCommon(WIX_QUIET_ARGUMENTS_PROPERTY, WIX_QUIET_TIMEOUT_PROPERTY, TRUE, TRUE);
     ExitOnFailure(hr, "Failed in ExecCommon method");
@@ -262,7 +262,7 @@ extern "C" UINT __stdcall WixQuietExec64(
     UINT er = ERROR_SUCCESS;
 
     hr = WcaInitialize(hInstall, "WixQuietExec64");
-    ExitOnFailure(hr, "failed to initialize");
+    ExitOnFailure(hr, "Failed to initialize");
 
     hr = ExecCommon64(WIX_QUIET64_ARGUMENTS_PROPERTY, WIX_QUIET64_TIMEOUT_PROPERTY, TRUE, TRUE);
     ExitOnFailure(hr, "Failed in ExecCommon method");
@@ -285,7 +285,7 @@ extern "C" UINT __stdcall WixSilentExec(
     UINT er = ERROR_SUCCESS;
 
     hr = WcaInitialize(hInstall, "WixSilentExec");
-    ExitOnFailure(hr, "failed to initialize");
+    ExitOnFailure(hr, "Failed to initialize");
 
     hr = ExecCommon(WIX_SILENT_ARGUMENTS_PROPERTY, WIX_SILENT_TIMEOUT_PROPERTY, FALSE, FALSE);
     ExitOnFailure(hr, "Failed in ExecCommon method");
@@ -308,7 +308,7 @@ extern "C" UINT __stdcall WixSilentExec64(
     UINT er = ERROR_SUCCESS;
 
     hr = WcaInitialize(hInstall, "WixSilentExec64");
-    ExitOnFailure(hr, "failed to initialize");
+    ExitOnFailure(hr, "Failed to initialize");
 
     hr = ExecCommon64(WIX_SILENT64_ARGUMENTS_PROPERTY, WIX_SILENT64_TIMEOUT_PROPERTY, FALSE, FALSE);
     ExitOnFailure(hr, "Failed in ExecCommon method");
