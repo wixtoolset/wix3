@@ -46,7 +46,7 @@ MessageId=1
 Severity=Success
 SymbolicName=MSG_BURN_INFO
 Language=English
-Burn v%1!hs!, Windows v%2!d!.%3!d! (Build %4!d!: Service Pack %5!d!), path: %6!ls!, cmdline: '%7!ls!'
+Burn v%1!hs!, Windows v%2!d!.%3!d! (Build %4!d!: Service Pack %5!d!), path: %6!ls!
 .
 
 MessageId=2
@@ -97,6 +97,13 @@ Severity=Warning
 SymbolicName=MSG_RESTART_ABORTED
 Language=English
 Preventing requested restart because bundle is related: '%1!hs!'. Returning restart requested to parent bundle.
+.
+
+MessageId=9
+Severity=Success
+SymbolicName=MSG_BURN_COMMAND_LINE
+Language=English
+Command Line: '%1!ls!'
 .
 
 MessageId=51

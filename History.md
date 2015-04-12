@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.
+
 * BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
 
 * BobArnson: Project reference tweaks: 
