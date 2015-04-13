@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:3933 - Make WixBundleManufacturer variable writable.
+
 * BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
 
 * BobArnson: Project reference tweaks: 
