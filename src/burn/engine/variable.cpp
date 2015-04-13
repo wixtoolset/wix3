@@ -188,11 +188,6 @@ static HRESULT Get64bitFolderFromRegistry(
     __in int nFolder,
     __deref_out_z LPWSTR* psczPath
     );
-static HRESULT IsVariableHidden(
-    __in BURN_VARIABLES* pVariables,
-    __in_z LPCWSTR wzVariable,
-    __out BOOL* pfHidden
-    );
 
 
 // function definitions
@@ -1072,6 +1067,35 @@ extern "C" HRESULT __cdecl VariableStrAllocFormatted(
     return hr;
 }
 
+extern "C" HRESULT VariableIsHidden(
+    __in BURN_VARIABLES* pVariables,
+    __in_z LPCWSTR wzVariable,
+    __out BOOL* pfHidden
+    )
+{
+    HRESULT hr = S_OK;
+    BURN_VARIABLE* pVariable = NULL;
+
+    ::EnterCriticalSection(&pVariables->csAccess);
+
+    hr = GetVariable(pVariables, wzVariable, &pVariable);
+    if (E_NOTFOUND == hr)
+    {
+        // A missing variable does not need its data hidden.
+        *pfHidden = FALSE;
+
+        ExitFunction1(hr = S_OK);
+    }
+    ExitOnFailure(hr, "Failed to get visibility of variable: %ls", wzVariable);
+
+    *pfHidden = pVariable->fHidden;
+
+LExit:
+    ::LeaveCriticalSection(&pVariables->csAccess);
+
+    return hr;
+}
+
 
 // internal function definitions
 
@@ -1171,8 +1195,8 @@ static HRESULT FormatString(
             {
                 if (fObfuscateHiddenVariables)
                 {
-                    hr = IsVariableHidden(pVariables, scz, &fHidden);
-                    ExitOnFailure(hr, "Failed to determine variable visibility: '%ls'.", scz);
+                    hr = VariableIsHidden(pVariables, scz, &fHidden);
+                    ExitOnFailure1(hr, "Failed to determine variable visibility: '%ls'.", scz);
                 }
 
                 if (fHidden)
@@ -2256,34 +2280,3 @@ LExit:
 
     return hr;
 }
-
-static HRESULT IsVariableHidden(
-    __in BURN_VARIABLES* pVariables,
-    __in_z LPCWSTR wzVariable,
-    __out BOOL* pfHidden
-    )
-{
-    HRESULT hr = S_OK;
-    BURN_VARIABLE* pVariable = NULL;
-
-    ::EnterCriticalSection(&pVariables->csAccess);
-
-    hr = GetVariable(pVariables, wzVariable, &pVariable);
-    if (E_NOTFOUND == hr)
-    {
-        // A missing variable does not need its data hidden.
-        *pfHidden = FALSE;
-
-        hr = S_OK;
-        ExitFunction();
-    }
-    ExitOnFailure(hr, "Failed to get visibility of variable: %ls", wzVariable);
-
-    *pfHidden = pVariable->fHidden;
-
-LExit:
-    ::LeaveCriticalSection(&pVariables->csAccess);
-
-    return hr;
-}
-

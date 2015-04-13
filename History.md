@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.
+
 * SeanHall: WIXBUG:4630 - Serialize all variables to the elevated Burn process.
 
 * SeanHall: WIXFEAT:3933 - Make WixBundleManufacturer variable writable.

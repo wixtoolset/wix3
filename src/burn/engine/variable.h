@@ -177,6 +177,11 @@ HRESULT __cdecl VariableStrAllocFormatted(
     __in __format_string LPCWSTR wzFormat,
     ...
     );
+HRESULT VariableIsHidden(
+    __in BURN_VARIABLES* pVariables,
+    __in_z LPCWSTR wzVariable,
+    __out BOOL* pfHidden
+    );
 
 #if defined(__cplusplus)
 }
