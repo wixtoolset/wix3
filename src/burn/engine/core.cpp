@@ -91,7 +91,7 @@ extern "C" HRESULT CoreInitialize(
 
     // retain whether burn was initially run elevated
     hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, BURN_ELEVATION_STATE_UNELEVATED != pEngineState->elevationState, TRUE);
-    ExitOnFailure1(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
+    ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
 
     // open attached UX container
     hr = ContainerOpenUX(&pEngineState->section, &containerContext);
@@ -179,7 +179,7 @@ extern "C" HRESULT CoreQueryRegistration(
         hr = RegistrationLoadState(&pEngineState->registration, &pbBuffer, &cbBuffer);
         if (SUCCEEDED(hr))
         {
-            hr = VariableDeserialize(&pEngineState->variables, pbBuffer, cbBuffer, &iBuffer);
+            hr = VariableDeserialize(&pEngineState->variables, TRUE, pbBuffer, cbBuffer, &iBuffer);
         }
 
         // Log any failures and continue.
@@ -274,7 +274,7 @@ extern "C" HRESULT CoreDetect(
 
         // Detect the cache state of the package.
         hr = DetectPackagePayloadsCached(pPackage);
-        ExitOnFailure1(hr, "Failed to detect if payloads are all cached for package: %ls", pPackage->sczId);
+        ExitOnFailure(hr, "Failed to detect if payloads are all cached for package: %ls", pPackage->sczId);
 
         // Use the correct engine to detect the package.
         switch (pPackage->type)
@@ -507,7 +507,7 @@ extern "C" HRESULT CoreElevate(
         ExitOnFailure(hr, "Failed to actually elevate.");
 
         hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, TRUE, TRUE);
-        ExitOnFailure1(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
+        ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
     }
 
 LExit:
@@ -1252,7 +1252,7 @@ static HRESULT ParseCommandLine(
                 LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES)];
                 if (L'=' != wzParam[0] || L'\0' == wzParam[1])
                 {
-                    ExitOnRootFailure1(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES);
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES);
                 }
 
                 hr = StrAllocString(psczIgnoreDependencies, &wzParam[1], 0);
@@ -1264,7 +1264,7 @@ static HRESULT ParseCommandLine(
                 LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS)];
                 if (L'=' != wzParam[0] || L'\0' == wzParam[1])
                 {
-                    ExitOnRootFailure1(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_ANCESTORS);
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_ANCESTORS);
                 }
 
                 hr = StrAllocString(psczAncestors, &wzParam[1], 0);

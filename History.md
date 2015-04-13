@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4630 - Serialize all variables to the elevated Burn process.
+
 * SeanHall: WIXFEAT:3933 - Make WixBundleManufacturer variable writable.
 
 * BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
