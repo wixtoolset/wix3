@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4721 - Tweak RepairCommand doc.
+
 * JacobHoover: WIXBUG:4482 - Temp file for update feed isn't deleted when download fails
 
 * SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.

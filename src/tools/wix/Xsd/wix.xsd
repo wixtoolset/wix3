@@ -793,7 +793,8 @@
         <xs:annotation>
           <xs:documentation>
             The command-line arguments to specify to indicate a repair. If the executable package can be repaired but
-            does not require any special command-line arguments to do so then set the attribute's value to blank.
+            does not require any special command-line arguments to do so then set the attribute's value to blank. To
+            indicate that the package does not support repair, omit this attribute.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
