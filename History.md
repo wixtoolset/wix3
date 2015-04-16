@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4734 - Rewrote type-51 CAs using SetProperty.
+
 * JacobHoover: WIXBUG:4482 - Temp file for update feed isn't deleted when download fails
 
 * SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.
