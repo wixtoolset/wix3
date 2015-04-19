@@ -1,3 +1,7 @@
+* SeanHall: WIXFEAT:4619 - Include WixUI dialogs and wxl files in core MSI.
+
+* SeanHall: WIXFEAT:4618 - Include WixStdBA and mbapreq themes and wxl files in core MSI.
+
 * JacobHoover: WIXBUG:4482 - Temp file for update feed isn't deleted when download fails
 
 * SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.
