@@ -3744,6 +3744,26 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
+            // Load the CommandLine information...
+            Table commandLineTable = bundle.Tables["WixCommandLine"];
+            if (null != commandLineTable && 0 < commandLineTable.Rows.Count)
+            {
+                foreach (Row row in commandLineTable.Rows)
+                {
+                    CommandLineInfo commandLine = new CommandLineInfo(row);
+
+                    ChainPackageInfo package;
+                    if (allPackages.TryGetValue(commandLine.PackageId, out package))
+                    {
+                        package.CommandLines.Add(commandLine);
+                    }
+                    else
+                    {
+                        core.OnMessage(WixErrors.IdentifierNotFound("Package", commandLine.PackageId));
+                    }
+                }
+            }
+
             // Resolve any delayed fields before generating the manifest.
             if (0 < delayedFields.Count)
             {
@@ -4608,6 +4628,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         writer.WriteStartElement("ExitCode");
                         writer.WriteAttributeString("Type", exitCode.Type);
                         writer.WriteAttributeString("Code", exitCode.Code);
+                        writer.WriteEndElement();
+                    }
+
+                    foreach (CommandLineInfo commandLine in package.CommandLines)
+                    {
+                        writer.WriteStartElement("CommandLine");
+                        writer.WriteAttributeString("InstallArgument", commandLine.InstallArgument);
+                        writer.WriteAttributeString("UninstallArgument", commandLine.UninstallArgument);
+                        writer.WriteAttributeString("RepairArgument", commandLine.RepairArgument);
+                        writer.WriteAttributeString("Condition", commandLine.Condition);
                         writer.WriteEndElement();
                     }
 

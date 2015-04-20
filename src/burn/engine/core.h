@@ -47,6 +47,7 @@ const LPCWSTR BURN_BUNDLE_LAYOUT_DIRECTORY = L"WixBundleLayoutDirectory";
 const LPCWSTR BURN_BUNDLE_ACTION = L"WixBundleAction";
 const LPCWSTR BURN_BUNDLE_ACTIVE_PARENT = L"WixBundleActiveParent";
 const LPCWSTR BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER = L"WixBundleExecutePackageCacheFolder";
+const LPCWSTR BURN_BUNDLE_EXECUTE_PACKAGE_ACTION = L"WixBundleExecutePackageAction";
 const LPCWSTR BURN_BUNDLE_FORCED_RESTART_PACKAGE = L"WixBundleForcedRestartPackage";
 const LPCWSTR BURN_BUNDLE_INSTALLED = L"WixBundleInstalled";
 const LPCWSTR BURN_BUNDLE_ELEVATED = L"WixBundleElevated";

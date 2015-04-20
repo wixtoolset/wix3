@@ -262,6 +262,7 @@ extern "C" HRESULT VariableInitialize(
         {L"WindowsVolume", InitializeVariableWindowsVolumeFolder, 0},
         {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0},
         {BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, InitializeVariableString, NULL},
+        {BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, InitializeVariableNumeric, 0},
         {BURN_BUNDLE_FORCED_RESTART_PACKAGE, InitializeVariableString, NULL, TRUE},
         {BURN_BUNDLE_INSTALLED, InitializeVariableNumeric, 0},
         {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0},

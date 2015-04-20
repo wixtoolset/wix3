@@ -48,6 +48,7 @@
     <Compile Include="ColumnDefinition.cs" />
     <Compile Include="ColumnDefinitionCollection.cs" />
     <Compile Include="CommandLine.cs" />
+    <Compile Include="CommandLineInfo.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerCore.cs" />
@@ -272,12 +273,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\..\dtf\Libraries\Resources\Resources.csproj" />
     <ProjectReference Include="..\..\dtf\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
     <ProjectReference Include="..\winterop\winterop.vcxproj" />
   </ItemGroup>
-  
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
 </Project>

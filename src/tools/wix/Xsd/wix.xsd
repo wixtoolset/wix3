@@ -760,6 +760,7 @@
         <xs:element ref="PayloadGroupRef" />
         <xs:element ref="RemotePayload" />
         <xs:element ref="ExitCode" />
+        <xs:element ref="CommandLine" />
         <xs:any namespace="##other" processContents="lax">
           <xs:annotation>
             <xs:documentation>
@@ -1229,6 +1230,43 @@
             <xs:enumeration value="forceReboot" />
           </xs:restriction>
         </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CommandLine">
+    <xs:annotation>
+      <xs:documentation>Describes additional, conditional command-line arguments for an ExePackage.</xs:documentation>
+      <xs:appinfo>
+        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="InstallArgument" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Additional command-line arguments to apply during package installation if Condition is true.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="UninstallArgument" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Additional command-line arguments to apply during package uninstallation if Condition is true.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="RepairArgument" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Additional command-line arguments to apply during package repair if Condition is true.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Condition" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+              The condition that controls whether the command-line arguments specified in the
+              InstallArgument, UninstallArgument, or RepairArgument attributes are appended to the
+              command line passed to the ExePackage. Which attribute is used depends on the
+              action being applied to the ExePackage. For example, when the ExePackage is
+              being installed, the InstallArgument attribute value is appended to the command
+              line when the ExePackage is executed.
+          </xs:documentation>
+        </xs:annotation>
       </xs:attribute>
     </xs:complexType>
   </xs:element>
