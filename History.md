@@ -1,3 +1,8 @@
+* BobArnson: WIXFEAT:4719 - Implement ExePackage/CommandLine:
+  * Add WixBundleExecutePackageAction variable: Set to the BOOTSTRAPPER_ACTION_STATE of the package as it's about to executed.
+  * Add ExePackage/CommandLine to compiler and binder.
+  * Update Burn to parse CommandLine table in manifest and apply it during ExePackage execution.
+
 * SeanHall: WIXFEAT:4619 - Include WixUI dialogs and wxl files in core MSI.
 
 * SeanHall: WIXFEAT:4618 - Include WixStdBA and mbapreq themes and wxl files in core MSI.
