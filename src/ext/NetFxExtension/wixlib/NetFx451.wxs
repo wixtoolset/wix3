@@ -32,13 +32,16 @@
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
+    <WixVariable Id="NetFx451WebDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx451WebPackageDirectory" Value="redist\" Overridable="yes" />
+
     <PackageGroup Id="NetFx451Web">
       <ExePackage
           InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx451FullWebLog].html&quot;"
           RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx451FullWebLog].html&quot;"
           UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx451FullWebLog].html&quot;"
           PerMachine="yes"
-          DetectCondition="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)"
+          DetectCondition="!(wix.NetFx451WebDetectCondition)"
           Id="NetFx451Web"
           Vital="yes"
           Permanent="yes"
@@ -46,7 +49,7 @@
           DownloadUrl="$(var.NetFx451WebLink)"
           LogPathVariable="NetFx451FullWebLog"
           Compressed="no"
-          Name="redist\NDP451-KB2859818-Web.exe">
+          Name="!(wix.NetFx451WebPackageDirectory)NDP451-KB2859818-Web.exe">
         <RemotePayload
             Size="1021432"
             Version="4.5.50938.18408"
@@ -62,13 +65,16 @@
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
+    <WixVariable Id="NetFx451RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx451RedistPackageDirectory" Value="redist\" Overridable="yes" />
+
     <PackageGroup Id="NetFx451Redist">
       <ExePackage
           InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx451FullLog].html&quot;"
           RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx451FullLog].html&quot;"
           UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx451FullLog].html&quot;"
           PerMachine="yes"
-          DetectCondition="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)"
+          DetectCondition="!(wix.NetFx451RedistDetectCondition)"
           Id="NetFx451Redist"
           Vital="yes"
           Permanent="yes"
@@ -76,7 +82,7 @@
           DownloadUrl="$(var.NetFx451RedistLink)"
           LogPathVariable="NetFx451FullLog"
           Compressed="no"
-          Name="redist\NDP451-KB2858728-x86-x64-AllOS-ENU.exe">
+          Name="!(wix.NetFx451RedistPackageDirectory)NDP451-KB2858728-x86-x64-AllOS-ENU.exe">
         <RemotePayload
             Size="70087104"
             Version="4.5.50938.18408"
