@@ -170,7 +170,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.MsiProperties = new List<MsiPropertyInfo>();
             this.SlipstreamMsps = new List<string>();
             this.ExitCodes = new List<ExitCodeInfo>();
-            this.CommandLines = new List<CommandLineInfo>();
             this.Provides = new ProvidesDependencyCollection();
             this.TargetCodes = new RowDictionary<WixBundlePatchTargetCodeRow>();
 
@@ -570,7 +569,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
         public List<MsiPropertyInfo> MsiProperties { get; private set; }
         public List<string> SlipstreamMsps { get; private set; }
         public List<ExitCodeInfo> ExitCodes { get; private set; }
-        public List<CommandLineInfo> CommandLines { get; private set; }
         public ProvidesDependencyCollection Provides { get; private set; }
         public RowDictionary<WixBundlePatchTargetCodeRow> TargetCodes { get; private set; }
         public bool TargetUnspecified { get; private set; }

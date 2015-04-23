@@ -178,6 +178,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 case "WixCatalog":
                     row = new WixCatalogRow(sourceLineNumbers, this);
                     break;
+                case "WixCommandLine":
+                    row = new WixCommandLineRow(sourceLineNumbers, this);
+                    break;
                 case "WixComplexReference":
                     row = new WixComplexReferenceRow(sourceLineNumbers, this);
                     break;

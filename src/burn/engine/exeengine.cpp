@@ -21,165 +21,17 @@ static HRESULT HandleExitCode(
     __in DWORD dwExitCode,
     __out BOOTSTRAPPER_APPLY_RESTART* pRestart
     );
-
-
-// function definitions
-
-static HRESULT ParseExitCodesFromXml(
-    __in IXMLDOMNode* pixnExePackage,
-    __in BURN_PACKAGE* pPackage
-    )
-{
-    HRESULT hr = S_OK;
-    IXMLDOMNodeList* pixnNodes = NULL;
-    IXMLDOMNode* pixnNode = NULL;
-    DWORD cNodes = 0;
-    LPWSTR scz = NULL;
-
-    // select exit code nodes
-    hr = XmlSelectNodes(pixnExePackage, L"ExitCode", &pixnNodes);
-    ExitOnFailure(hr, "Failed to select exit code nodes.");
-
-    // get exit code node count
-    hr = pixnNodes->get_length((long*) &cNodes);
-    ExitOnFailure(hr, "Failed to get exit code node count.");
-
-    if (cNodes)
-    {
-        // allocate memory for exit codes
-        pPackage->Exe.rgExitCodes = (BURN_EXE_EXIT_CODE*) MemAlloc(sizeof(BURN_EXE_EXIT_CODE) * cNodes, TRUE);
-        ExitOnNull(pPackage->Exe.rgExitCodes, hr, E_OUTOFMEMORY, "Failed to allocate memory for exit code structs.");
-
-        pPackage->Exe.cExitCodes = cNodes;
-
-        // parse package elements
-        for (DWORD i = 0; i < cNodes; ++i)
-        {
-            BURN_EXE_EXIT_CODE* pExitCode = &pPackage->Exe.rgExitCodes[i];
-
-            hr = XmlNextElement(pixnNodes, &pixnNode, NULL);
-            ExitOnFailure(hr, "Failed to get next node.");
-
-            // @Type
-            hr = XmlGetAttributeEx(pixnNode, L"Type", &scz);
-            ExitOnFailure(hr, "Failed to get @Type.");
-
-            if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"success", -1))
-            {
-                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_SUCCESS;
-            }
-            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"error", -1))
-            {
-                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_ERROR;
-            }
-            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"scheduleReboot", -1))
-            {
-                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_SCHEDULE_REBOOT;
-            }
-            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"forceReboot", -1))
-            {
-                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_FORCE_REBOOT;
-            }
-            else
-            {
-                hr = E_UNEXPECTED;
-                ExitOnFailure1(hr, "Invalid exit code type: %ls", scz);
-            }
-
-            // @Code
-            hr = XmlGetAttributeEx(pixnNode, L"Code", &scz);
-            ExitOnFailure(hr, "Failed to get @Code.");
-
-            if (L'*' == scz[0])
-            {
-                pExitCode->fWildcard = TRUE;
-            }
-            else
-            {
-                hr = StrStringToUInt32(scz, 0, (UINT*) &pExitCode->dwCode);
-                ExitOnFailure1(hr, "Failed to parse @Code value: %ls", scz);
-            }
-
-            // prepare next iteration
-            ReleaseNullObject(pixnNode);
-        }
-    }
-
-    hr = S_OK;
-
-LExit:
-    ReleaseObject(pixnNodes);
-    ReleaseObject(pixnNode);
-    ReleaseStr(scz);
-
-    return hr;
-}
-
 static HRESULT ParseCommandLineArgumentsFromXml(
     __in IXMLDOMNode* pixnExePackage,
     __in BURN_PACKAGE* pPackage
-    )
-{
-    HRESULT hr = S_OK;
-    IXMLDOMNodeList* pixnNodes = NULL;
-    IXMLDOMNode* pixnNode = NULL;
-    DWORD cNodes = 0;
-    LPWSTR scz = NULL;
+    );
+static HRESULT ParseExitCodesFromXml(
+    __in IXMLDOMNode* pixnExePackage,
+    __in BURN_PACKAGE* pPackage
+    );
 
-    // select exit code nodes
-    hr = XmlSelectNodes(pixnExePackage, L"CommandLine", &pixnNodes);
-    ExitOnFailure(hr, "Failed to select exit code nodes.");
 
-    // get exit code node count
-    hr = pixnNodes->get_length((long*) &cNodes);
-    ExitOnFailure(hr, "Failed to get exit code node count.");
-
-    if (cNodes)
-    {
-        // allocate memory for exit codes
-        pPackage->Exe.rgCommandLineArguments = (BURN_EXE_COMMAND_LINE_ARGUMENT*) MemAlloc(sizeof(BURN_EXE_COMMAND_LINE_ARGUMENT) * cNodes, TRUE);
-        ExitOnNull(pPackage->Exe.rgCommandLineArguments, hr, E_OUTOFMEMORY, "Failed to allocate memory for command-line argument structs.");
-
-        pPackage->Exe.cCommandLineArguments = cNodes;
-
-        // parse package elements
-        for (DWORD i = 0; i < cNodes; ++i)
-        {
-            BURN_EXE_COMMAND_LINE_ARGUMENT* pCommandLineArgument = &pPackage->Exe.rgCommandLineArguments[i];
-
-            hr = XmlNextElement(pixnNodes, &pixnNode, NULL);
-            ExitOnFailure(hr, "Failed to get next command-line argument node.");
-
-            // @InstallArgument
-            hr = XmlGetAttributeEx(pixnNode, L"InstallArgument", &pCommandLineArgument->sczInstallArgument);
-            ExitOnFailure(hr, "Failed to get @InstallArgument.");
-
-            // @UninstallArgument
-            hr = XmlGetAttributeEx(pixnNode, L"UninstallArgument", &pCommandLineArgument->sczUninstallArgument);
-            ExitOnFailure(hr, "Failed to get @UninstallArgument.");
-
-            // @RepairArgument
-            hr = XmlGetAttributeEx(pixnNode, L"RepairArgument", &pCommandLineArgument->sczRepairArgument);
-            ExitOnFailure(hr, "Failed to get @RepairArgument.");
-
-            // @Condition
-            hr = XmlGetAttributeEx(pixnNode, L"Condition", &pCommandLineArgument->sczCondition);
-            ExitOnFailure(hr, "Failed to get @Condition.");
-
-            // prepare next iteration
-            ReleaseNullObject(pixnNode);
-        }
-    }
-
-    hr = S_OK;
-
-LExit:
-    ReleaseObject(pixnNodes);
-    ReleaseObject(pixnNode);
-    ReleaseStr(scz);
-
-    return hr;
-}
+// function definitions
 
 extern "C" HRESULT ExeEngineParsePackageFromXml(
     __in IXMLDOMNode* pixnExePackage,
@@ -233,7 +85,7 @@ extern "C" HRESULT ExeEngineParsePackageFromXml(
         else
         {
             hr = E_UNEXPECTED;
-            ExitOnFailure1(hr, "Invalid protocol type: %ls", scz);
+            ExitOnFailure(hr, "Invalid protocol type: %ls", scz);
         }
     }
     else if (E_NOTFOUND != hr)
@@ -554,7 +406,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
 
     // get cached executable path
     hr = CacheGetCompletedPath(pExecuteAction->exePackage.pPackage->fPerMachine, pExecuteAction->exePackage.pPackage->sczCacheId, &sczCachedDirectory);
-    ExitOnFailure1(hr, "Failed to get cached path for package: %ls", pExecuteAction->exePackage.pPackage->sczId);
+    ExitOnFailure(hr, "Failed to get cached path for package: %ls", pExecuteAction->exePackage.pPackage->sczId);
 
     // Best effort to set the execute package cache folder and action variables.
     VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
@@ -580,7 +432,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
 
     default:
         hr = E_INVALIDARG;
-        ExitOnFailure1(hr, "Invalid Exe package action: %d.", pExecuteAction->exePackage.action);
+        ExitOnFailure(hr, "Invalid Exe package action: %d.", pExecuteAction->exePackage.action);
     }
 
     // now add optional arguments
@@ -619,7 +471,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
 
             default:
                 hr = E_INVALIDARG;
-                ExitOnFailure1(hr, "Invalid Exe package action: %d.", pExecuteAction->exePackage.action);
+                ExitOnFailure(hr, "Invalid Exe package action: %d.", pExecuteAction->exePackage.action);
             }
         }
     }
@@ -676,12 +528,12 @@ extern "C" HRESULT ExeEngineExecutePackage(
     if (!pExecuteAction->exePackage.fFireAndForget && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
     {
         hr = EmbeddedRunBundle(sczExecutablePath, sczCommand, pfnGenericMessageHandler, pvContext, &dwExitCode);
-        ExitOnFailure1(hr, "Failed to run bundle as embedded from path: %ls", sczExecutablePath);
+        ExitOnFailure(hr, "Failed to run bundle as embedded from path: %ls", sczExecutablePath);
     }
     else if (!pExecuteAction->exePackage.fFireAndForget && BURN_EXE_PROTOCOL_TYPE_NETFX4 == pExecuteAction->exePackage.pPackage->Exe.protocol)
     {
         hr = NetFxRunChainer(sczExecutablePath, sczCommand, pfnGenericMessageHandler, pvContext, &dwExitCode);
-        ExitOnFailure1(hr, "Failed to run netfx chainer: %ls", sczExecutablePath);
+        ExitOnFailure(hr, "Failed to run netfx chainer: %ls", sczExecutablePath);
     }
     else // create and wait for the executable process while sending fake progress to allow cancel.
     {
@@ -716,7 +568,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
             hr = ProcWaitForCompletion(pi.hProcess, 500, &dwExitCode);
             if (HRESULT_FROM_WIN32(WAIT_TIMEOUT) != hr)
             {
-                ExitOnFailure1(hr, "Failed to wait for executable to complete: %ls", sczExecutablePath);
+                ExitOnFailure(hr, "Failed to wait for executable to complete: %ls", sczExecutablePath);
             }
         } while (HRESULT_FROM_WIN32(WAIT_TIMEOUT) == hr);
     }
@@ -750,6 +602,161 @@ LExit:
 
 
 // internal helper functions
+
+static HRESULT ParseExitCodesFromXml(
+    __in IXMLDOMNode* pixnExePackage,
+    __in BURN_PACKAGE* pPackage
+    )
+{
+    HRESULT hr = S_OK;
+    IXMLDOMNodeList* pixnNodes = NULL;
+    IXMLDOMNode* pixnNode = NULL;
+    DWORD cNodes = 0;
+    LPWSTR scz = NULL;
+
+    // select exit code nodes
+    hr = XmlSelectNodes(pixnExePackage, L"ExitCode", &pixnNodes);
+    ExitOnFailure(hr, "Failed to select exit code nodes.");
+
+    // get exit code node count
+    hr = pixnNodes->get_length((long*) &cNodes);
+    ExitOnFailure(hr, "Failed to get exit code node count.");
+
+    if (cNodes)
+    {
+        // allocate memory for exit codes
+        pPackage->Exe.rgExitCodes = (BURN_EXE_EXIT_CODE*) MemAlloc(sizeof(BURN_EXE_EXIT_CODE) * cNodes, TRUE);
+        ExitOnNull(pPackage->Exe.rgExitCodes, hr, E_OUTOFMEMORY, "Failed to allocate memory for exit code structs.");
+
+        pPackage->Exe.cExitCodes = cNodes;
+
+        // parse package elements
+        for (DWORD i = 0; i < cNodes; ++i)
+        {
+            BURN_EXE_EXIT_CODE* pExitCode = &pPackage->Exe.rgExitCodes[i];
+
+            hr = XmlNextElement(pixnNodes, &pixnNode, NULL);
+            ExitOnFailure(hr, "Failed to get next node.");
+
+            // @Type
+            hr = XmlGetAttributeEx(pixnNode, L"Type", &scz);
+            ExitOnFailure(hr, "Failed to get @Type.");
+
+            if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"success", -1))
+            {
+                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_SUCCESS;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"error", -1))
+            {
+                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_ERROR;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"scheduleReboot", -1))
+            {
+                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_SCHEDULE_REBOOT;
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, scz, -1, L"forceReboot", -1))
+            {
+                pExitCode->type = BURN_EXE_EXIT_CODE_TYPE_FORCE_REBOOT;
+            }
+            else
+            {
+                hr = E_UNEXPECTED;
+                ExitOnFailure(hr, "Invalid exit code type: %ls", scz);
+            }
+
+            // @Code
+            hr = XmlGetAttributeEx(pixnNode, L"Code", &scz);
+            ExitOnFailure(hr, "Failed to get @Code.");
+
+            if (L'*' == scz[0])
+            {
+                pExitCode->fWildcard = TRUE;
+            }
+            else
+            {
+                hr = StrStringToUInt32(scz, 0, (UINT*) &pExitCode->dwCode);
+                ExitOnFailure(hr, "Failed to parse @Code value: %ls", scz);
+            }
+
+            // prepare next iteration
+            ReleaseNullObject(pixnNode);
+        }
+    }
+
+    hr = S_OK;
+
+LExit:
+    ReleaseObject(pixnNodes);
+    ReleaseObject(pixnNode);
+    ReleaseStr(scz);
+
+    return hr;
+}
+
+static HRESULT ParseCommandLineArgumentsFromXml(
+    __in IXMLDOMNode* pixnExePackage,
+    __in BURN_PACKAGE* pPackage
+    )
+{
+    HRESULT hr = S_OK;
+    IXMLDOMNodeList* pixnNodes = NULL;
+    IXMLDOMNode* pixnNode = NULL;
+    DWORD cNodes = 0;
+    LPWSTR scz = NULL;
+
+    // Select command-line argument nodes.
+    hr = XmlSelectNodes(pixnExePackage, L"CommandLine", &pixnNodes);
+    ExitOnFailure(hr, "Failed to select command-line argument nodes.");
+
+    // Get command-line argument node count.
+    hr = pixnNodes->get_length((long*) &cNodes);
+    ExitOnFailure(hr, "Failed to get command-line argument count.");
+
+    if (cNodes)
+    {
+        pPackage->Exe.rgCommandLineArguments = (BURN_EXE_COMMAND_LINE_ARGUMENT*) MemAlloc(sizeof(BURN_EXE_COMMAND_LINE_ARGUMENT) * cNodes, TRUE);
+        ExitOnNull(pPackage->Exe.rgCommandLineArguments, hr, E_OUTOFMEMORY, "Failed to allocate memory for command-line argument structs.");
+
+        pPackage->Exe.cCommandLineArguments = cNodes;
+
+        // Parse command-line argument elements.
+        for (DWORD i = 0; i < cNodes; ++i)
+        {
+            BURN_EXE_COMMAND_LINE_ARGUMENT* pCommandLineArgument = &pPackage->Exe.rgCommandLineArguments[i];
+
+            hr = XmlNextElement(pixnNodes, &pixnNode, NULL);
+            ExitOnFailure(hr, "Failed to get next command-line argument node.");
+
+            // @InstallArgument
+            hr = XmlGetAttributeEx(pixnNode, L"InstallArgument", &pCommandLineArgument->sczInstallArgument);
+            ExitOnFailure(hr, "Failed to get @InstallArgument.");
+
+            // @UninstallArgument
+            hr = XmlGetAttributeEx(pixnNode, L"UninstallArgument", &pCommandLineArgument->sczUninstallArgument);
+            ExitOnFailure(hr, "Failed to get @UninstallArgument.");
+
+            // @RepairArgument
+            hr = XmlGetAttributeEx(pixnNode, L"RepairArgument", &pCommandLineArgument->sczRepairArgument);
+            ExitOnFailure(hr, "Failed to get @RepairArgument.");
+
+            // @Condition
+            hr = XmlGetAttributeEx(pixnNode, L"Condition", &pCommandLineArgument->sczCondition);
+            ExitOnFailure(hr, "Failed to get @Condition.");
+
+            // Prepare next iteration.
+            ReleaseNullObject(pixnNode);
+        }
+    }
+
+    hr = S_OK;
+
+LExit:
+    ReleaseObject(pixnNodes);
+    ReleaseObject(pixnNode);
+    ReleaseStr(scz);
+
+    return hr;
+}
 
 static HRESULT HandleExitCode(
     __in BURN_PACKAGE* pPackage,

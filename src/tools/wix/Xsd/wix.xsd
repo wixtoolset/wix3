@@ -1236,9 +1236,6 @@
   <xs:element name="CommandLine">
     <xs:annotation>
       <xs:documentation>Describes additional, conditional command-line arguments for an ExePackage.</xs:documentation>
-      <xs:appinfo>
-        <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="ExePackage" />
-      </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
       <xs:attribute name="InstallArgument" type="xs:string">

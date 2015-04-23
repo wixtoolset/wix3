@@ -48,7 +48,6 @@
     <Compile Include="ColumnDefinition.cs" />
     <Compile Include="ColumnDefinitionCollection.cs" />
     <Compile Include="CommandLine.cs" />
-    <Compile Include="CommandLineInfo.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerCore.cs" />
@@ -169,6 +168,7 @@
     <Compile Include="VerifyInterop.cs" />
     <Compile Include="WarningEventArgs.cs" />
     <Compile Include="AppCommon.cs" />
+    <Compile Include="WixCommandLineRow.cs" />
     <Compile Include="WixExtension.cs" />
     <Compile Include="WixFileRow.cs" />
     <Compile Include="WixGenericMessageEventArgs.cs" />

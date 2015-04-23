@@ -3745,22 +3745,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             // Load the CommandLine information...
+            Dictionary<string, List<WixCommandLineRow>> commandLinesByPackage = new Dictionary<string, List<WixCommandLineRow>>();
             Table commandLineTable = bundle.Tables["WixCommandLine"];
             if (null != commandLineTable && 0 < commandLineTable.Rows.Count)
             {
-                foreach (Row row in commandLineTable.Rows)
+                foreach (WixCommandLineRow row in commandLineTable.Rows)
                 {
-                    CommandLineInfo commandLine = new CommandLineInfo(row);
+                    if (!commandLinesByPackage.ContainsKey(row.PackageId))
+                    {
+                        commandLinesByPackage.Add(row.PackageId, new List<WixCommandLineRow>());
+                    }
 
-                    ChainPackageInfo package;
-                    if (allPackages.TryGetValue(commandLine.PackageId, out package))
-                    {
-                        package.CommandLines.Add(commandLine);
-                    }
-                    else
-                    {
-                        core.OnMessage(WixErrors.IdentifierNotFound("Package", commandLine.PackageId));
-                    }
+                    List<WixCommandLineRow> commandLines = commandLinesByPackage[row.PackageId];
+                    commandLines.Add(row);
                 }
             }
 
@@ -3849,7 +3846,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             string manifestPath = Path.Combine(this.TempFilesLocation, "bundle-manifest.xml");
-            this.CreateBurnManifest(bundleFile, bundleInfo, bundleUpdateRow, updateRegistrationInfo, manifestPath, allRelatedBundles, allVariables, orderedSearches, allPayloads, chain, containers, catalogs, bundle.Tables["WixBundleTag"], approvedExesForElevation);
+            this.CreateBurnManifest(bundleFile, bundleInfo, bundleUpdateRow, updateRegistrationInfo, manifestPath, allRelatedBundles, allVariables, orderedSearches, allPayloads, chain, containers, catalogs, bundle.Tables["WixBundleTag"], approvedExesForElevation, commandLinesByPackage);
 
             this.UpdateBurnResources(bundleTempPath, bundleFile, bundleInfo);
 
@@ -4268,7 +4265,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
         }
 
-        private void CreateBurnManifest(string outputPath, WixBundleRow bundleInfo, WixBundleUpdateRow updateRow, WixUpdateRegistrationRow updateRegistrationInfo, string path, List<RelatedBundleInfo> allRelatedBundles, List<VariableInfo> allVariables, List<WixSearchInfo> orderedSearches, Dictionary<string, PayloadInfoRow> allPayloads, ChainInfo chain, Dictionary<string, ContainerInfo> containers, Dictionary<string, CatalogInfo> catalogs, Table wixBundleTagTable, List<ApprovedExeForElevation> approvedExesForElevation)
+        private void CreateBurnManifest(string outputPath, WixBundleRow bundleInfo, WixBundleUpdateRow updateRow, WixUpdateRegistrationRow updateRegistrationInfo, string path, List<RelatedBundleInfo> allRelatedBundles, List<VariableInfo> allVariables, List<WixSearchInfo> orderedSearches, Dictionary<string, PayloadInfoRow> allPayloads, ChainInfo chain, Dictionary<string, ContainerInfo> containers, Dictionary<string, CatalogInfo> catalogs, Table wixBundleTagTable, List<ApprovedExeForElevation> approvedExesForElevation, Dictionary<string, List<WixCommandLineRow>> commandLinesByPackage)
         {
             string executableName = Path.GetFileName(outputPath);
 
@@ -4631,14 +4628,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         writer.WriteEndElement();
                     }
 
-                    foreach (CommandLineInfo commandLine in package.CommandLines)
+                    if (commandLinesByPackage.ContainsKey(package.Id))
                     {
-                        writer.WriteStartElement("CommandLine");
-                        writer.WriteAttributeString("InstallArgument", commandLine.InstallArgument);
-                        writer.WriteAttributeString("UninstallArgument", commandLine.UninstallArgument);
-                        writer.WriteAttributeString("RepairArgument", commandLine.RepairArgument);
-                        writer.WriteAttributeString("Condition", commandLine.Condition);
-                        writer.WriteEndElement();
+                        foreach (WixCommandLineRow commandLine in commandLinesByPackage[package.Id])
+                        {
+                            writer.WriteStartElement("CommandLine");
+                            writer.WriteAttributeString("InstallArgument", commandLine.InstallArgument);
+                            writer.WriteAttributeString("UninstallArgument", commandLine.UninstallArgument);
+                            writer.WriteAttributeString("RepairArgument", commandLine.RepairArgument);
+                            writer.WriteAttributeString("Condition", commandLine.Condition);
+                            writer.WriteEndElement();
+                        }
                     }
 
                     // Output the dependency information.
