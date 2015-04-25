@@ -56,8 +56,8 @@ When the WixQuietExec (or WixSilentExec) action is run as a deferred custom acti
 
 If you need to set a command line that uses other Windows Installer properties, you must schedule an immediate custom action to set the command line property value and schedule a deferred custom action to run QtExec. The property Id used in the SetProperty custom action must match the Id value used in the deferred custom action. A common use of this pattern for QtExec custom actions is to run an executable that will be installed as a part of the setup. The following is an example of authoring a deferred QtExec custom action that relies on another property value:
 
-    <SetProperty Id="QtExecDeferredExampleWithProperty" After="CostFinalize"
-                Value="&quot;[#MyExecutable.exe]&quot;" />
+    <SetProperty Id="QtExecDeferredExampleWithProperty" Value="&quot;[#MyExecutable.exe]&quot;"
+                Before="QtExecDeferredExampleWithProperty" />
     <CustomAction Id="QtExecDeferredExampleWithProperty" BinaryKey="WixCA" DllEntry="WixQuietExec"
                 Execute="deferred" Return="check" Impersonate="no"/>
     .
@@ -76,8 +76,8 @@ If you need to run a 64-bit executable, use the 64-bit aware QtExec. To use the 
     .
     .
     .
-    <SetProperty Id="QtExecDeferredExampleWithProperty" After="CostFinalize"
-                Value="&quot;[#MyExecutable.exe]&quot;" />
+    <SetProperty Id="QtExecDeferredExampleWithProperty" Value="&quot;[#MyExecutable.exe]&quot;" 
+                Before="QtExecDeferredExampleWithProperty" />
     <CustomAction Id="QtExecDeferredExampleWithProperty" BinaryKey="WixCA" DllEntry="WixQuietExec64"
                 Execute="deferred" Return="check" Impersonate="no"/>
     .
