@@ -88,6 +88,14 @@ typedef struct _BURN_EXE_EXIT_CODE
     BOOL fWildcard;
 } BURN_EXE_EXIT_CODE;
 
+typedef struct _BURN_EXE_COMMAND_LINE_ARGUMENT
+{
+    LPWSTR sczInstallArgument;
+    LPWSTR sczUninstallArgument;
+    LPWSTR sczRepairArgument;
+    LPWSTR sczCondition;
+} BURN_EXE_COMMAND_LINE_ARGUMENT;
+
 typedef struct _BURN_MSPTARGETPRODUCT
 {
     MSIINSTALLCONTEXT context;
@@ -228,6 +236,9 @@ typedef struct _BURN_PACKAGE
 
             BURN_EXE_EXIT_CODE* rgExitCodes;
             DWORD cExitCodes;
+
+            BURN_EXE_COMMAND_LINE_ARGUMENT* rgCommandLineArguments;
+            DWORD cCommandLineArguments;
         } Exe;
         struct
         {

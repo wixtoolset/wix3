@@ -1,3 +1,8 @@
+* BobArnson: WIXFEAT:4719 - Implement ExePackage/CommandLine:
+  * Add WixBundleExecutePackageAction variable: Set to the BOOTSTRAPPER_ACTION_STATE of the package as it's about to executed.
+  * Add ExePackage/CommandLine to compiler and binder.
+  * Update Burn to parse CommandLine table in manifest and apply it during ExePackage execution.
+
 * BobArnson: WIXBUG:4725 - Scrub the WixStdBA license doc and add a blurb about a missing WixStdbaLicenseUrl variable.
 
 * BobArnson: WIXBUG:4721 - Tweak RepairCommand doc.
