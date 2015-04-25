@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4725 - Scrub the WixStdBA license doc and add a blurb about a missing WixStdbaLicenseUrl variable.
+
 * BobArnson: WIXBUG:4721 - Tweak RepairCommand doc.
 
 * SeanHall: WIXFEAT:4619 - Include WixUI dialogs and wxl files in core MSI.
