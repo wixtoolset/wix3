@@ -1,3 +1,5 @@
+* BobArnson: WIXFEAT:4720 - Added bind-time variables for .NET Framework package groups detect condition, install condition, and package directories.
+
 * SeanHall: WIXFEAT:4619 - Include WixUI dialogs and wxl files in core MSI.
 
 * SeanHall: WIXFEAT:4618 - Include WixStdBA and mbapreq themes and wxl files in core MSI.
