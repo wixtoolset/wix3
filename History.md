@@ -1,3 +1,5 @@
+* RobMen: WIXBUG:4732 - fix documentation links to MsiServiceConfig and MsiServiceConfigFailureActions.
+
 * BobArnson: WIXFEAT:4719 - Implement ExePackage/CommandLine:
   * Add WixBundleExecutePackageAction variable: Set to the BOOTSTRAPPER_ACTION_STATE of the package as it's about to executed.
   * Add ExePackage/CommandLine to compiler and binder.

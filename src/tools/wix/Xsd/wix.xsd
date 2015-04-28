@@ -6966,7 +6966,7 @@
                 Formatted property that resolves to a privilege constant.
             </xs:documentation>
       <xs:appinfo>
-        <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/library/aa371634.aspx" />
+        <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd408038.aspx" />
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -7092,7 +7092,7 @@
                 Configures the failure actions for a service being installed or one that already exists. This element's functionality is available starting with MSI 5.0.
             </xs:documentation>
       <xs:appinfo>
-        <xse:msiRef table="MsiServiceConfigFailureActions" href="http://msdn.microsoft.com/library/aa371637.aspx" />
+        <xse:msiRef table="MsiServiceConfigFailureActions" href="http://msdn.microsoft.com/en-us/library/dd408037.aspx" />
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
