@@ -54,7 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stub.cpp" />
-    <ClCompile Include="StubSection.cpp" />
+    <ClCompile Include="StubSection.cpp">
+      <!-- Workaround for VS2015 RC bug that omits the .wixburn section. Pick one.
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData> -->
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="stub.manifest" Condition=" '$(Platform)'!='arm' "/>
