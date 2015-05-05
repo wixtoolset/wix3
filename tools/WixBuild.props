@@ -169,6 +169,7 @@
 
   <PropertyGroup>
     <VS2015Path Condition=" '$(VS2015Path)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0', 'InstallDir', null, RegistryView.Registry64, RegistryView.Registry32))</VS2015Path>
+    <VS2015Path Condition=" '$(VS2015Path)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WDExpress\14.0', 'InstallDir', null, RegistryView.Registry64, RegistryView.Registry32))</VS2015Path>
     <VS2015SdkPath Condition=" '$(VS2015SdkPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\VSIP\14.0', 'InstallDir', null, RegistryView.Registry64, RegistryView.Registry32))</VS2015SdkPath>
     <VS2015SdkTargetsPath Condition=" '$(VS2015SdkTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\VSSDK\Microsoft.VsSDK.targets</VS2015SdkTargetsPath>
     <VS2015SdkTargetsPath Condition=" '$(VS2015SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v14.0\VSSDK\Microsoft.VsSDK.targets</VS2015SdkTargetsPath>
