@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4750 - Add a note about binary (in)compatibility.
+
 * RobMen: WIXBUG:4732 - fix documentation links to MsiServiceConfig and MsiServiceConfigFailureActions.
 
 * BobArnson: WIXFEAT:4719 - Implement ExePackage/CommandLine:
