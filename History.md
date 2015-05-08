@@ -1,3 +1,5 @@
+* BobArnson: Add libs_minimal.proj with just the libraries needed for tools/ tree build. This prevents the build from backing up behind a full libs/ tree build, which gets more painful the more versions of Visual Studio that are installed.
+
 * BobArnson: WIXBUG:4750 - Add a note about binary (in)compatibility.
 
 * RobMen: WIXBUG:4732 - fix documentation links to MsiServiceConfig and MsiServiceConfigFailureActions.
