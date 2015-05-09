@@ -1552,7 +1552,7 @@ static void LogPackages(
         }
 
         // Display related bundles last if caching, installing, modifying, or repairing.
-        if ((BOOTSTRAPPER_ACTION_UNINSTALL < action || BOOTSTRAPPER_ACTION_CACHE == action) && 0 < pRelatedBundles->cRelatedBundles)
+        if (BOOTSTRAPPER_ACTION_UNINSTALL < action && 0 < pRelatedBundles->cRelatedBundles)
         {
             for (DWORD i = 0; i < pRelatedBundles->cRelatedBundles; ++i)
             {

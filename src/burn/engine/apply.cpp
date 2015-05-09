@@ -85,7 +85,6 @@ static HRESULT AcquireContainerOrPayload(
     __in_opt BURN_CONTAINER* pContainer,
     __in_opt BURN_PACKAGE* pPackage,
     __in_opt BURN_PAYLOAD* pPayload,
-    __in BOOL fPreferBackgroundDownload,
     __in LPCWSTR wzDestinationPath,
     __in DWORD64 qwSuccessfulCacheProgress,
     __in DWORD64 qwTotalCacheSize
@@ -120,8 +119,7 @@ static HRESULT CopyPayload(
     );
 static HRESULT DownloadPayload(
     __in BURN_CACHE_ACQUIRE_PROGRESS_CONTEXT* pProgress,
-    __in_z LPCWSTR wzDestinationPath,
-    __in BOOL fPreferBackgroundDownload
+    __in_z LPCWSTR wzDestinationPath
     );
 static DWORD CALLBACK CacheProgressRoutine(
     __in LARGE_INTEGER TotalFileSize,
@@ -454,9 +452,6 @@ extern "C" HRESULT ApplyCache(
     hr = UserExperienceInterpretExecuteResult(pUX, FALSE, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted cache.");
 
-    // When in cache mode, we want to download in the background (if the download mechanism supports it).
-    BOOL fPreferBackgroundDownload = (BOOTSTRAPPER_ACTION_CACHE == pPlan->action);
-
     do
     {
         hr = S_OK;
@@ -522,7 +517,7 @@ extern "C" HRESULT ApplyCache(
                 break;
 
             case BURN_CACHE_ACTION_TYPE_ACQUIRE_CONTAINER:
-                hr = AcquireContainerOrPayload(pUX, pVariables, pCacheAction->resolveContainer.pContainer, NULL, NULL, fPreferBackgroundDownload, pCacheAction->resolveContainer.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
+                hr = AcquireContainerOrPayload(pUX, pVariables, pCacheAction->resolveContainer.pContainer, NULL, NULL, pCacheAction->resolveContainer.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
                 if (SUCCEEDED(hr))
                 {
                     qwSuccessfulCachedProgress += pCacheAction->resolveContainer.pContainer->qwFileSize;
@@ -571,7 +566,7 @@ extern "C" HRESULT ApplyCache(
                 break;
 
             case BURN_CACHE_ACTION_TYPE_ACQUIRE_PAYLOAD:
-                hr = AcquireContainerOrPayload(pUX, pVariables, NULL, pCacheAction->resolvePayload.pPackage, pCacheAction->resolvePayload.pPayload, fPreferBackgroundDownload, pCacheAction->resolvePayload.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
+                hr = AcquireContainerOrPayload(pUX, pVariables, NULL, pCacheAction->resolvePayload.pPackage, pCacheAction->resolvePayload.pPayload, pCacheAction->resolvePayload.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
                 if (SUCCEEDED(hr))
                 {
                     qwSuccessfulCachedProgress += pCacheAction->resolvePayload.pPayload->qwFileSize;
@@ -1073,7 +1068,6 @@ static HRESULT AcquireContainerOrPayload(
     __in_opt BURN_CONTAINER* pContainer,
     __in_opt BURN_PACKAGE* pPackage,
     __in_opt BURN_PAYLOAD* pPayload,
-    __in BOOL fPreferBackgroundDownload,
     __in LPCWSTR wzDestinationPath,
     __in DWORD64 qwSuccessfulCacheProgress,
     __in DWORD64 qwTotalCacheSize
@@ -1164,7 +1158,7 @@ static HRESULT AcquireContainerOrPayload(
             hr = UserExperienceInterpretExecuteResult(pUX, FALSE, MB_OKCANCEL, nResult);
             ExitOnRootFailure(hr, "BA aborted cache download payload begin.");
 
-            hr = DownloadPayload(&progress, wzDestinationPath, fPreferBackgroundDownload);
+            hr = DownloadPayload(&progress, wzDestinationPath);
             // Error handling happens after sending complete message to BA.
         }
 
@@ -1383,8 +1377,7 @@ LExit:
 
 static HRESULT DownloadPayload(
     __in BURN_CACHE_ACQUIRE_PROGRESS_CONTEXT* pProgress,
-    __in_z LPCWSTR wzDestinationPath,
-    __in BOOL fPreferBackgroundDownload
+    __in_z LPCWSTR wzDestinationPath
     )
 {
     HRESULT hr = S_OK;
@@ -1425,7 +1418,7 @@ static HRESULT DownloadPayload(
         (L':' == pDownloadSource->sczUrl[4] || (L's' == pDownloadSource->sczUrl[4] && L':' == pDownloadSource->sczUrl[5]))
         )
     {
-        hr = BitsDownloadUrl(&cacheCallback, pDownloadSource, wzDestinationPath, fPreferBackgroundDownload);
+        hr = BitsDownloadUrl(&cacheCallback, pDownloadSource, wzDestinationPath);
     }
     else // wininet handles everything else.
     {

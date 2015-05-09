@@ -598,8 +598,7 @@ extern "C" HRESULT PlanRegistration(
     pPlan->fRegister = TRUE; // register the bundle since we're modifying machine state.
 
     // Keep the registration if the bundle was already installed or we are planning after a restart.
-    // Also keep the registration if we are caching because the ARP (via uninstall) allows uncaching.
-    pPlan->fKeepRegistrationDefault = (pRegistration->fInstalled || BOOTSTRAPPER_RESUME_TYPE_REBOOT == resumeType || BOOTSTRAPPER_ACTION_CACHE == pPlan->action);
+    pPlan->fKeepRegistrationDefault = (pRegistration->fInstalled || BOOTSTRAPPER_RESUME_TYPE_REBOOT == resumeType);
 
     pPlan->fDisallowRemoval = FALSE; // by default the bundle can be planned to be removed
 
@@ -878,11 +877,6 @@ static HRESULT ProcessPackage(
             hr = PlanLayoutPackage(pPlan, pPackage, wzLayoutDirectory);
             ExitOnFailure(hr, "Failed to plan layout package.");
         }
-        else if (BOOTSTRAPPER_ACTION_CACHE == pPlan->action)
-        {
-            hr = PlanCachePackage(fBundlePerMachine, pUX, pPlan, pPackage, pVariables, phSyncpointEvent);
-            ExitOnFailure(hr, "Failed to plan cache package.");
-        }
         else
         {
             if (pPackage->fUninstallable && pNonpermanentPackageIndices)
@@ -1043,7 +1037,7 @@ extern "C" HRESULT PlanCachePackage(
 
     if (fBARequestedCache || NeedsCache(pPlan, pPackage))
     {
-        // The behavior for 'cache only' mode is to do nothing on rollback (for subsequent install on demand scenarios)
+        // The behavior for cache only mode is to do nothing on rollback, e.g. for subsequent install on demand scenarios.
         pPackage->rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
 
         hr = AddCachePackage(pPlan, pPackage, phSyncpointEvent);
@@ -1250,7 +1244,7 @@ extern "C" HRESULT PlanRelatedBundlesBegin(
         switch (pRelatedBundle->relationType)
         {
         case BOOTSTRAPPER_RELATION_UPGRADE:
-            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && (BOOTSTRAPPER_ACTION_UNINSTALL < pPlan->action || BOOTSTRAPPER_ACTION_CACHE == pPlan->action))
+            if (BOOTSTRAPPER_RELATION_UPGRADE != relationType && BOOTSTRAPPER_ACTION_UNINSTALL < pPlan->action)
             {
                 pRelatedBundle->package.requested = (pRegistration->qwVersion > pRelatedBundle->qwVersion) ? BOOTSTRAPPER_REQUEST_STATE_ABSENT : BOOTSTRAPPER_REQUEST_STATE_NONE;
             }
@@ -1933,10 +1927,13 @@ static HRESULT GetActionDefaultRequestState(
 
     switch (action)
     {
+    case BOOTSTRAPPER_ACTION_CACHE:
+        *pRequestState = BOOTSTRAPPER_REQUEST_STATE_CACHE;
+        break;
+
     case BOOTSTRAPPER_ACTION_INSTALL: __fallthrough;
     case BOOTSTRAPPER_ACTION_UPDATE_REPLACE: __fallthrough;
-    case BOOTSTRAPPER_ACTION_UPDATE_REPLACE_EMBEDDED: __fallthrough;
-    case BOOTSTRAPPER_ACTION_CACHE:
+    case BOOTSTRAPPER_ACTION_UPDATE_REPLACE_EMBEDDED:
         *pRequestState = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
         break;
 
@@ -2075,9 +2072,11 @@ static HRESULT AddCachePackageHelper(
     pCacheAction->type = BURN_CACHE_ACTION_TYPE_CHECKPOINT;
     pCacheAction->checkpoint.dwId = dwCheckpoint;
 
-    // When only caching, do not add these rollback actions.  Otherwise, what was cached
-    // would be deleted if the caching is interrupted (since nothing is being executed).
-    if (BOOTSTRAPPER_ACTION_CACHE != pPlan->action)
+    // Only plan the cache rollback if the package is also going to be uninstalled;
+    // otherwise, future operations like repair will not be able to locate the cached package.
+    BOOL fPlanCacheRollback = (BOOTSTRAPPER_ACTION_STATE_UNINSTALL == pPackage->rollback);
+
+    if (fPlanCacheRollback)
     {
         hr = AppendRollbackCacheAction(pPlan, &pCacheAction);
         ExitOnFailure(hr, "Failed to append rollback cache action.");
@@ -2098,9 +2097,7 @@ static HRESULT AddCachePackageHelper(
     // and the array may be resized later which would move a pointer around in memory.
     iPackageStartAction = pPlan->cCacheActions - 1;
 
-    // When only caching, do not add these rollback actions.  Otherwise, what was cached
-    // would be deleted if the caching is interrupted (since nothing is being executed).
-    if (BOOTSTRAPPER_ACTION_CACHE != pPlan->action)
+    if (fPlanCacheRollback)
     {
         // Create a package cache rollback action.
         hr = AppendRollbackCacheAction(pPlan, &pCacheAction);
