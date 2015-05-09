@@ -281,10 +281,12 @@ LExit:
 //
 extern "C" HRESULT MspEnginePlanCalculatePackage(
     __in BURN_PACKAGE* pPackage,
-    __in BURN_USER_EXPERIENCE* pUserExperience
+    __in BURN_USER_EXPERIENCE* pUserExperience,
+    __out BOOL* pfBARequestedCache
     )
 {
     HRESULT hr = S_OK;
+    BOOL fBARequestedCache = FALSE;
 
     for (DWORD i = 0; i < pPackage->Msp.cTargetProductCodes; ++i)
     {
@@ -329,6 +331,11 @@ extern "C" HRESULT MspEnginePlanCalculatePackage(
             case BOOTSTRAPPER_REQUEST_STATE_PRESENT: __fallthrough;
             case BOOTSTRAPPER_REQUEST_STATE_REPAIR:
                 execute = BOOTSTRAPPER_ACTION_STATE_INSTALL;
+                break;
+
+            case BOOTSTRAPPER_REQUEST_STATE_CACHE:
+                execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+                fBARequestedCache = TRUE;
                 break;
 
             default:
@@ -391,6 +398,11 @@ extern "C" HRESULT MspEnginePlanCalculatePackage(
         {
             pPackage->rollback = rollback;
         }
+    }
+
+    if (pfBARequestedCache)
+    {
+        *pfBARequestedCache = fBARequestedCache;
     }
 
 LExit:
@@ -491,6 +503,7 @@ extern "C" HRESULT MspEngineExecutePackage(
             hr = CacheGetCompletedPath(pMspPackage->fPerMachine, pMspPackage->sczCacheId, &sczCachedDirectory);
             ExitOnFailure1(hr, "Failed to get cached path for MSP package: %ls", pMspPackage->sczId);
 
+            // TODO: Figure out if this makes sense -- the variable is set to the last patch's path only
             // Best effort to set the execute package cache folder variable.
             VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, sczCachedDirectory, TRUE);
 
@@ -513,6 +526,9 @@ extern "C" HRESULT MspEngineExecutePackage(
         hr = StrAllocConcat(&sczPatches, wzAppend, 0);
         ExitOnFailure(hr, "Failed to append patch.");
     }
+
+    // Best effort to set the execute package action variable.
+    VariableSetNumeric(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, pExecuteAction->mspTarget.action, TRUE);
 
     // Wire up the external UI handler and logging.
     hr = WiuInitializeExternalUI(pfnMessageHandler, uiLevel, hwndParent, pvContext, fRollback, &context);
@@ -595,8 +611,9 @@ LExit:
             break;
     }
 
-    // Best effort to clear the execute package cache folder variable.
+    // Best effort to clear the execute package cache folder and action variables.
     VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);
+    VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, NULL, TRUE);
 
     return hr;
 }

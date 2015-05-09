@@ -21099,7 +21099,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             behavior = this.core.GetAttributeValue(sourceLineNumbers, attrib);
                             break;
                         default:
-                            // hygene: throw an exception if there are any unknown attributes
+                            // hygiene: throw an exception if there are any unknown attributes
                             this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
                             break;
                     }
@@ -21115,7 +21115,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Behavior"));
             }
 
-            // hygene: throw an exception if there are any subelements
+            // hygiene: throw an exception if there are any subelements
             foreach (XmlNode child in node.ChildNodes)
             {
                 if (XmlNodeType.Element == child.NodeType)
@@ -21776,6 +21776,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                     this.ParseExitCodeElement(child, id);
                                 }
                                 break;
+                            case "CommandLine":
+                                allowed = (packageType == ChainPackageType.Exe);
+                                if (allowed)
+                                {
+                                    this.ParseCommandLineElement(child, id);
+                                }
+                                break;
                             case "RemotePayload":
                                 // Handled previously
                                 break;
@@ -21896,6 +21903,80 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.CreateChainPackageMetaRows(sourceLineNumbers, parentType, parentId, ComplexReferenceChildType.Package, id, previousType, previousId, after);
             }
             return id;
+        }
+
+        /// <summary>
+        /// Parse CommandLine element.
+        /// </summary>
+        /// <param name="node">Element to parse</param>
+        private void ParseCommandLineElement(XmlNode node, string packageId)
+        {
+            SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
+            string installArgument = null;
+            string uninstallArgument = null;
+            string repairArgument = null;
+            string condition = null;
+
+            foreach (XmlAttribute attrib in node.Attributes)
+            {
+                if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
+                {
+                    switch (attrib.LocalName)
+                    {
+                        case "InstallArgument":
+                            installArgument = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "UninstallArgument":
+                            uninstallArgument = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "RepairArgument":
+                            repairArgument = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "Condition":
+                            condition = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        default:
+                            // hygiene: throw an exception if there are any unknown attributes
+                            this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
+                            break;
+                    }
+                }
+                else
+                {
+                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                }
+            }
+
+            if (String.IsNullOrEmpty(condition))
+            {
+                this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Condition"));
+            }
+
+            // hygiene: throw an exception if there are any subelements
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                if (XmlNodeType.Element == child.NodeType)
+                {
+                    if (child.NamespaceURI == this.schema.TargetNamespace)
+                    {
+                        this.core.UnexpectedElement(node, child);
+                    }
+                    else
+                    {
+                        this.core.UnsupportedExtensionElement(node, child);
+                    }
+                }
+            }
+
+            if (!this.core.EncounteredError)
+            {
+                Row row = this.core.CreateRow(sourceLineNumbers, "WixCommandLine");
+                row[0] = packageId;
+                row[1] = installArgument;
+                row[2] = uninstallArgument;
+                row[3] = repairArgument;
+                row[4] = condition;
+            }
         }
 
         /// <summary>

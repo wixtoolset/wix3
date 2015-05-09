@@ -12,6 +12,9 @@
     <ProjectReference Include="..\tools\tools.proj">
       <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
+    <ProjectReference Include="..\libs\libs.proj">
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
 
     <ProjectReference Include="BalExtension\bal.proj" />
     <ProjectReference Include="ComPlusExtension\complus.proj" />

@@ -149,6 +149,7 @@ HRESULT VariableSerialize(
     );
 HRESULT VariableDeserialize(
     __in BURN_VARIABLES* pVariables,
+    __in BOOL fWasPersisted,
     __in_bcount(cbBuffer) BYTE* pbBuffer,
     __in SIZE_T cbBuffer,
     __inout SIZE_T* piBuffer
@@ -175,6 +176,11 @@ HRESULT __cdecl VariableStrAllocFormatted(
     __deref_out_z LPWSTR* ppwz,
     __in __format_string LPCWSTR wzFormat,
     ...
+    );
+HRESULT VariableIsHidden(
+    __in BURN_VARIABLES* pVariables,
+    __in_z LPCWSTR wzVariable,
+    __out BOOL* pfHidden
     );
 
 #if defined(__cplusplus)

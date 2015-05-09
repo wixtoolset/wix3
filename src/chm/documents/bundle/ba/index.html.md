@@ -22,3 +22,5 @@ The BOOTSTRAPPER_COMMAND structure is provided by the engine and contains inform
 The BA DLL can optionally provide an exported function named BootstrapperApplicationDestroy that the engine will call just before unloading the BA DLL. Most cleanup operations should take place in IBootstrapperApplication::OnShutdown but sometimes there are resources created during BootstrapperApplicationCreate that need to be cleaned up in BootstrapperApplicationDestroy. The entry point looks like this:
 
     extern "C" void WINAPI BootstrapperApplicationDestroy()
+
+Note that bootstrapper applications must be recompiled when upgrading minor versions of the WiX Toolset. Minor versions maintain source-code compatibility but do not guarantee binary compatibility.

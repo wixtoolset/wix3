@@ -1,5 +1,58 @@
 * ErnestT: WIXBUG:4432 - Add burn support for only caching packages
 
+* BobArnson: Add libs_minimal.proj with just the libraries needed for tools/ tree build. This prevents the build from backing up behind a full libs/ tree build, which gets more painful the more versions of Visual Studio that are installed.
+
+* BobArnson: WIXBUG:4750 - Add a note about binary (in)compatibility.
+
+* RobMen: WIXBUG:4732 - fix documentation links to MsiServiceConfig and MsiServiceConfigFailureActions.
+
+* BobArnson: WIXFEAT:4719 - Implement ExePackage/CommandLine:
+  * Add WixBundleExecutePackageAction variable: Set to the BOOTSTRAPPER_ACTION_STATE of the package as it's about to executed.
+  * Add ExePackage/CommandLine to compiler and binder.
+  * Update Burn to parse CommandLine table in manifest and apply it during ExePackage execution.
+
+* BobArnson: WIXBUG:4725 - Scrub the WixStdBA license doc and add a blurb about a missing WixStdbaLicenseUrl variable.
+
+* BobArnson: WIXBUG:4721 - Tweak RepairCommand doc.
+
+* SeanHall: WIXFEAT:4619 - Include WixUI dialogs and wxl files in core MSI.
+
+* SeanHall: WIXFEAT:4618 - Include WixStdBA and mbapreq themes and wxl files in core MSI.
+
+* JacobHoover: WIXBUG:4482 - Temp file for update feed isn't deleted when download fails
+
+* SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.
+
+* SeanHall: WIXBUG:4630 - Serialize all variables to the elevated Burn process.
+
+* SeanHall: WIXFEAT:3933 - Make WixBundleManufacturer variable writable.
+
+* BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
+
+* BobArnson: Project reference tweaks: 
+  - Removed unnecessary reference to setupicons from x64msi.
+  - Move BuildInParallel=false from global to just project that needs it
+
+## WixBuild: Version 3.10.0.1519
+
+* BobArnson: WIXBUG:4520 - Added blurb about using a PayloadGroup to get offline capability for .NET redist.
+
+* BobArnson: WIXBUG:4545 - Resized button for de-DE.
+
+* BobArnson: Add WixStdBALanguageId language and documentation.
+
+* BobArnson: Add project output message in minimal MSBuild logging verbosity.
+
+* BobArnson: WIXBUG:4654 - Add VS14 properties and custom actions. And, as it's a long topic, added anchors and links.
+
+* BobArnson: WIXBUG:4617 - Added 4.5.2 package group information to doc. Also mentioned that some properties are new to WiX v3.10.
+
+* BobArnson: WixBroadcastSettingChange and WixBroadcastEnvironmentChange custom actions to WixUtilExtension.
+
+* SeanHall: WIXBUG:4393 - Fix BOOTSTRAPPER_REQUEST_STATE_CACHE.
+
+* thfabba: WIXBUG:4681 - Corrected return type on the lone WOW64 redirection function that returns a BOOLEAN instead of BOOL.
+
 * SeanHall: WIXBUG:4689 - Fix hidden numeric and version variables.
 
 ## WixBuild: Version 3.10.0.1502

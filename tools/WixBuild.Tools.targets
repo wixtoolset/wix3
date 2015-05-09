@@ -63,6 +63,16 @@
     <Message Importance="low" Text="WixObjRoot = $(WixObjRoot)" />
     <Message Importance="low" Text="WIX_BUILDROOT = $(WIX_BUILDROOT)" />
 
+    <PropertyGroup>
+      <DisabledWixStrongName32>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,36e4ce08b8ecfb17', '', 'ABSENT', RegistryView.Registry32))</DisabledWixStrongName32>
+      <DisabledWixStrongName64>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,36e4ce08b8ecfb17', '', 'ABSENT', RegistryView.Registry64))</DisabledWixStrongName64>
+    </PropertyGroup>
+
+    <Error
+      Code="WIXBUILDINIT"
+      Condition=" '$(OFFICIAL_WIX_BUILD)'=='' and ($(DisabledWixStrongName32) == 'ABSENT' or $(DisabledWixStrongName64) == 'ABSENT') "
+      Text="Strong name validation for the WiX toolset must be disabled on a developer machine to build. Execute 'msbuild $(MSBuildThisFileDirectory)Tools\OneTimeWixBuildInitialization.proj' from an elevated command prompt." />
+
     <Error
       Code="WIXBUILD000"
       Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable) and $(VS2015SdkAvailable))"
@@ -112,7 +122,7 @@
     <Error
       Code="WIXBUILD011"
       Condition=" $(VS2015Available) and '14.0'>'$(MSBuildToolsVersion)' "
-      Text="When Visual Studio 2015 is installed, you must use MSBuild v14.0 to build. MSBuild v12.0 is typically found here: ProgramFiles(x86)\MSBuild\14.0\Bin\MSBuild.exe" />
+      Text="When Visual Studio 2015 is installed, you must use MSBuild v14.0 to build. MSBuild v14.0 is typically found here: ProgramFiles(x86)\MSBuild\14.0\Bin\MSBuild.exe" />
 
   </Target>
 

@@ -16,13 +16,13 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Fragment>
-        <PropertyRef Id="VS14DEVENV" />
-        <PropertyRef Id="VS14_ROOT_FOLDER" />
-        <PropertyRef Id="VS14_SCHEMAS_DIR" />
+        <PropertyRef Id="VS2015DEVENV" />
+        <PropertyRef Id="VS2015_ROOT_FOLDER" />
+        <PropertyRef Id="VS2015_SCHEMAS_DIR" />
 
-        <CustomActionRef Id="VS14Setup" />
+        <CustomActionRef Id="VS2015Setup" />
         <UI>
-            <ProgressText Action="VS14Setup" Template="[1]">Updating Visual Studio 2015 registration</ProgressText>
+            <ProgressText Action="VS2015Setup" Template="[1]">Updating Visual Studio 2015 registration</ProgressText>
         </UI>
 
         <ComponentGroup Id="Votive2015Components">
@@ -82,7 +82,7 @@
     </Fragment>
 
     <Fragment>
-        <ComponentGroup Id="Votive$(var.VsVersion)SchemaComponents" Directory="VS14_SCHEMAS_DIR">
+        <ComponentGroup Id="Votive$(var.VsVersion)SchemaComponents" Directory="VS2015_SCHEMAS_DIR">
             <Component>
                 <File Id="LuxSchema$(var.VsVersion)" Source="lux\wixext\Xsd\lux.xsd" />
             </Component>
