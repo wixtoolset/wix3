@@ -1,3 +1,5 @@
+* SeanHall: WIXBUG:4761 - Use the package's exit code to tell if the prereq was installed.
+
 * HeathS: Add VSIX property for VS2015 and fix searches for previous versions.
 
 * BobArnson: Add libs_minimal.proj with just the libraries needed for tools/ tree build. This prevents the build from backing up behind a full libs/ tree build, which gets more painful the more versions of Visual Studio that are installed.
