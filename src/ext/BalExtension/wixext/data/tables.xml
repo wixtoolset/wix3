@@ -32,6 +32,8 @@
                 maxValue="1" description="If 1, don't show Repair button during maintenance."/>
         <columnDefinition name="ShowVersion" type="number" length="2" nullable="yes"
                 maxValue="1" description="If 1, show the version number on the UI."/>
+        <columnDefinition name="ShowFilesInUse" type="number" length="2" nullable="yes"
+                maxValue="1" description="If 1, show a special page when files are in use."/>
     </tableDefinition>
 
     <tableDefinition name="WixStdbaOverridableVariable" bootstrapperApplicationData="yes">

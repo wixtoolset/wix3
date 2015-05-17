@@ -958,7 +958,7 @@ public: // IBootstrapperApplication
         __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
         )
     {
-        if (!m_fPrereq && wzPackageId && *wzPackageId)
+        if (m_fShowFilesInUse && !m_fPrereq && wzPackageId && *wzPackageId)
         {
             //If this is an MSI package, display the files in use page.
             BAL_INFO_PACKAGE* pPackage = NULL;
@@ -1531,6 +1531,17 @@ private: // privates
             m_fShowVersion = 0 < dwBool;
         }
         BalExitOnFailure(hr, "Failed to get ShowVersion value.");
+
+        hr = XmlGetAttributeNumber(pNode, L"ShowFilesInUse", &dwBool);
+        if (E_NOTFOUND == hr)
+        {
+            hr = S_OK;
+        }
+        else if (SUCCEEDED(hr))
+        {
+            m_fShowFilesInUse = 0 < dwBool;
+        }
+        BalExitOnFailure(hr, "Failed to get ShowFilesInUse value.");
 
     LExit:
         ReleaseObject(pNode);
@@ -3338,6 +3349,7 @@ public:
         m_fSuppressDowngradeFailure = FALSE;
         m_fSuppressRepair = FALSE;
         m_fShowVersion = FALSE;
+        m_fShowFilesInUse = FALSE;
 
         m_sdOverridableVariables = NULL;
         m_shPrereqSupportPackages = NULL;
@@ -3437,6 +3449,7 @@ private:
     BOOL m_fSuppressDowngradeFailure;
     BOOL m_fSuppressRepair;
     BOOL m_fShowVersion;
+    BOOL m_fShowFilesInUse;
 
     STRINGDICT_HANDLE m_sdOverridableVariables;
 
