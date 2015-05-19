@@ -789,7 +789,7 @@ public: // IBootstrapperApplication
         HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
         if (SUCCEEDED(hr))
         {
-            pPrereqPackage->fSuccessfullyInstalled = TRUE;
+            pPrereqPackage->fSuccessfullyInstalled = SUCCEEDED(hrExitCode);
 
             // If the prerequisite required a restart (any restart) then do an immediate
             // restart to ensure that the bundle will get launched again post reboot.
