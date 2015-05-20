@@ -186,7 +186,7 @@
     <Exec Command="git add History.md"
           WorkingDirectory="$(ProjectFolder)" />
 
-    <Exec Command='git commit -m "WixBuild: Version $(Version)"'
+    <Exec Command='git -c user.name="WixBuild" -c user.email="wix@wixtoolset.org" commit -m "WixBuild: Version $(Version)"'
           WorkingDirectory="$(ProjectFolder)" ContinueOnError="true" />
 
     <Exec Command='git push --repo https://$(GithubUser):$(GithubPassword)@github.com/wixtoolset/wix3.git origin develop'
