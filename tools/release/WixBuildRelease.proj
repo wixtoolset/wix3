@@ -69,7 +69,9 @@
   ================================================================================================
   -->
   <Target Name="GetVersionNumber">
-    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj" Targets="GetVersion">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair)"
+             Targets="GetVersion">
       <Output TaskParameter="TargetOutputs" PropertyName="Version" />
     </MSBuild>
   </Target>
@@ -116,7 +118,9 @@
   ================================================================================================
   -->
   <Target Name="GetReleasedFiles">
-    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj" Targets="GetReleasedFiles">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair)"
+             Targets="GetReleasedFiles">
       <Output TaskParameter="TargetOutputs" ItemName="ReleasedFiles" />
     </MSBuild>
   </Target>
