@@ -286,6 +286,33 @@ extern "C" HRESULT DAPI LocGetString(
     return hr;
 }
 
+extern "C" HRESULT DAPI LocAddString(
+    __in WIX_LOCALIZATION* pWixLoc,
+    __in_z LPCWSTR wzId,
+    __in_z LPCWSTR wzLocString,
+    __in BOOL bOverridable
+    )
+{
+    HRESULT hr = S_OK;
+
+    ++pWixLoc->cLocStrings;
+    pWixLoc->rgLocStrings = static_cast<LOC_STRING*>(MemReAlloc(pWixLoc->rgLocStrings, sizeof(LOC_STRING) * pWixLoc->cLocStrings, TRUE));
+    ExitOnNull(pWixLoc->rgLocStrings, hr, E_OUTOFMEMORY, "Failed to reallocate memory for localization strings.");
+
+    LOC_STRING* pLocString = pWixLoc->rgLocStrings + (pWixLoc->cLocStrings - 1);
+
+    hr = StrAllocFormatted(&pLocString->wzId, L"#(loc.%s)", wzId);
+    ExitOnFailure(hr, "Failed to set localization string Id.");
+
+    hr = StrAllocString(&pLocString->wzText, wzLocString, 0);
+    ExitOnFailure(hr, "Failed to set localization string Text.");
+
+    pLocString->bOverridable = bOverridable;
+
+LExit:
+    return hr;
+}
+
 // helper functions
 
 static HRESULT ParseWxl(

@@ -1,3 +1,5 @@
+* BobArnson: WIXBUG:4716 - If a .wxl file is missing strings added in v3.10, duplicate the generic string from v3.9. Add support for doing so to locutil.
+
 * SeanHall: WIXBUG:4761 - Use the package's exit code to tell if the prereq was installed.
 
 * BobArnson: WIXBUG:4734 - Rewrote type-51 CAs using SetProperty.

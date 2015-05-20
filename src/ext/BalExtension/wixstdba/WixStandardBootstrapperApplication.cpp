@@ -1179,12 +1179,14 @@ private: // privates
         LPWSTR sczFormatted = NULL;
         LPCWSTR wzLocFileName = m_fPrereq ? L"mbapreq.wxl" : L"thm.wxl";
 
+        // Find and load .wxl file.
         hr = LocProbeForFile(wzModulePath, wzLocFileName, wzLanguage, &sczLocPath);
         BalExitOnFailure2(hr, "Failed to probe for loc file: %ls in path: %ls", wzLocFileName, wzModulePath);
 
         hr = LocLoadFromFile(sczLocPath, &m_pWixLoc);
         BalExitOnFailure1(hr, "Failed to load loc file from path: %ls", sczLocPath);
 
+        // Set WixStdBALanguageId to .wxl language id.
         if (WIX_LOCALIZATION_LANGUAGE_NOT_SET != m_pWixLoc->dwLangId)
         {
             ::SetThreadLocale(m_pWixLoc->dwLangId);
@@ -1193,6 +1195,7 @@ private: // privates
             BalExitOnFailure(hr, "Failed to set WixStdBALanguageId variable.");
         }
 
+        // Load ConfirmCancelMessage.
         hr = StrAllocString(&m_sczConfirmCloseMessage, L"#(loc.ConfirmCancelMessage)", 0);
         ExitOnFailure(hr, "Failed to initialize confirm message loc identifier.");
 
@@ -1205,6 +1208,37 @@ private: // privates
             ReleaseStr(m_sczConfirmCloseMessage);
             m_sczConfirmCloseMessage = sczFormatted;
             sczFormatted = NULL;
+        }
+
+        // For v3.9->v3.10 transition, duplicate new-to-v3.10 strings.
+        // Do not merge to WiX v4.0.
+        LOC_STRING* pLocString = NULL;
+        hr = LocGetString(m_pWixLoc, L"#(loc.SuccessInstallHeader)", &pLocString);
+        if (E_NOTFOUND == hr)
+        {
+            hr = LocGetString(m_pWixLoc, L"#(loc.SuccessHeader)", &pLocString);
+            ExitOnFailure(hr, "Failed to load SuccessHeader localization string.");
+
+            hr = LocAddString(m_pWixLoc, L"SuccessInstallHeader", pLocString->wzText, pLocString->bOverridable);
+            ExitOnFailure(hr, "Failed to duplicate localization string for SuccessInstallHeader.");
+
+            hr = LocAddString(m_pWixLoc, L"SuccessRepairHeader", pLocString->wzText, pLocString->bOverridable);
+            ExitOnFailure(hr, "Failed to duplicate localization string for SuccessRepairHeader.");
+
+            hr = LocAddString(m_pWixLoc, L"SuccessUninstallHeader", pLocString->wzText, pLocString->bOverridable);
+            ExitOnFailure(hr, "Failed to duplicate localization string for SuccessUninstallHeader.");
+
+            hr = LocGetString(m_pWixLoc, L"#(loc.FailureHeader)", &pLocString);
+            ExitOnFailure(hr, "Failed to load FailureHeader localization string.");
+
+            hr = LocAddString(m_pWixLoc, L"FailureInstallHeader", pLocString->wzText, pLocString->bOverridable);
+            ExitOnFailure(hr, "Failed to duplicate localization string for FailureInstallHeader.");
+
+            hr = LocAddString(m_pWixLoc, L"FailureRepairHeader", pLocString->wzText, pLocString->bOverridable);
+            ExitOnFailure(hr, "Failed to duplicate localization string for FailureRepairHeader.");
+
+            hr = LocAddString(m_pWixLoc, L"FailureUninstallHeader", pLocString->wzText, pLocString->bOverridable);
+            ExitOnFailure(hr, "Failed to duplicate localization string for FailureUninstallHeader.");
         }
 
     LExit:
