@@ -6861,7 +6861,7 @@
       </xs:attribute>
       <xs:attribute name="Account" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The account under which to start the service. Valid only when ServiceType is ownProcess.</xs:documentation>
+          <xs:documentation>Fully qualified names must be used even for local accounts, e.g.: ".\LOCAL_ACCOUNT". Valid only when ServiceType is ownProcess.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Password" type="xs:string">
