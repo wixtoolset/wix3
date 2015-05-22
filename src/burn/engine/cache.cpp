@@ -141,13 +141,13 @@ extern "C" HRESULT CacheInitialize(
         hr = VariableGetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, &sczOriginalSource);
         if (E_NOTFOUND == hr)
         {
-            hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczCurrentPath, FALSE);
+            hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczCurrentPath);
             ExitOnFailure(hr, "Failed to set original source variable.");
 
             hr = PathGetDirectory(sczCurrentPath, &sczOriginalSourceFolder);
             ExitOnFailure(hr, "Failed to get directory from original source path.");
 
-            hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, sczOriginalSourceFolder, FALSE);
+            hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, sczOriginalSourceFolder);
             ExitOnFailure(hr, "Failed to set original source directory variable.");
         }
     }
@@ -512,7 +512,7 @@ extern "C" HRESULT CacheSetLastUsedSource(
 
         if (CSTR_EQUAL != nCompare)
         {
-            hr = VariableSetString(pVariables, BURN_BUNDLE_LAST_USED_SOURCE, sczSourceFolder, FALSE);
+            hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_LAST_USED_SOURCE, sczSourceFolder);
             ExitOnFailure(hr, "Failed to set last source.");
         }
     }

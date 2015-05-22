@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4763 - Add literal flag to Burn variables to indicate that their values shouldn't be formatted.
+
 ## WixBuild: Version 3.10.0.1719
 
 * SeanHall: WIXBUG:4761 - Use the package's exit code to tell if the prereq was installed.

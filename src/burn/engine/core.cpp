@@ -116,7 +116,7 @@ extern "C" HRESULT CoreInitialize(
     // Needs to be done after ManifestLoadXmlFromBuffer.
     if (sczOriginalSource)
     {
-        hr = VariableSetString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
+        hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource);
         ExitOnFailure(hr, "Failed to set original source variable.");
     }
 
