@@ -2626,7 +2626,7 @@ private: // privates
             }
         }
 
-        hr = ShelExec(sczLicensePath ? sczLicensePath : sczLicenseUrl, NULL, L"open", NULL, SW_SHOWDEFAULT, m_hWnd, NULL);
+        hr = ShelExecUnelevated(sczLicensePath ? sczLicensePath : sczLicenseUrl, NULL, L"open", NULL, SW_SHOWDEFAULT);
         BalExitOnFailure(hr, "Failed to launch URL to EULA.");
 
     LExit:
@@ -2745,7 +2745,7 @@ private: // privates
         hr = BalGetStringVariable(m_Bundle.sczLogVariable, &sczLogFile);
         BalExitOnFailure1(hr, "Failed to get log file variable '%ls'.", m_Bundle.sczLogVariable);
 
-        hr = ShelExec(L"notepad.exe", sczLogFile, L"open", NULL, SW_SHOWDEFAULT, m_hWnd, NULL);
+        hr = ShelExecUnelevated(L"notepad.exe", sczLogFile, L"open", NULL, SW_SHOWDEFAULT);
         BalExitOnFailure1(hr, "Failed to open log file target: %ls", sczLogFile);
 
     LExit:

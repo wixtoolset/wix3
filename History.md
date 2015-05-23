@@ -1,3 +1,5 @@
+* BobArnson: WIXFEAT:4772 - Replace hyperlink ShelExec with ShelExecUnelevated.
+
 * SeanHall: WIXBUG:4761 - Use the package's exit code to tell if the prereq was installed.
 
 * BobArnson: WIXBUG:4734 - Rewrote type-51 CAs using SetProperty.
