@@ -303,28 +303,51 @@ extern "C" HRESULT DAPI UriProtocol(
 
     HRESULT hr = S_OK;
 
-    if (L'f' == wzUri[0] && L'i' == wzUri[1] && L'l' == wzUri[2] && L'e' == wzUri[3] && L':' == wzUri[4] && L'/' == wzUri[5] && L'/' == wzUri[6])
+    if ((L'h' == wzUri[0] || L'H' == wzUri[0]) &&
+        (L't' == wzUri[1] || L'T' == wzUri[1]) &&
+        (L't' == wzUri[2] || L'T' == wzUri[2]) &&
+        (L'p' == wzUri[3] || L'P' == wzUri[3]) &&
+        (L's' == wzUri[4] || L'S' == wzUri[4]) &&
+         L':' == wzUri[5] &&
+         L'/' == wzUri[6] &&
+         L'/' == wzUri[7])
     {
-        *pProtocol = URI_PROTOCOL_FILE;
+        *pProtocol = URI_PROTOCOL_HTTPS;
     }
-    else if (L'f' == wzUri[0] && L't' == wzUri[1] && L'p' == wzUri[2] && L':' == wzUri[3] && L'/' == wzUri[4] && L'/' == wzUri[5])
-    {
-        *pProtocol = URI_PROTOCOL_FILE;
-    }
-    else if (L'h' == wzUri[0] && L't' == wzUri[1] && L't' == wzUri[2] && L'p' == wzUri[3] && L':' == wzUri[4] && L'/' == wzUri[5] && L'/' == wzUri[6])
+    else if ((L'h' == wzUri[0] || L'H' == wzUri[0]) &&
+             (L't' == wzUri[1] || L'T' == wzUri[1]) &&
+             (L't' == wzUri[2] || L'T' == wzUri[2]) &&
+             (L'p' == wzUri[3] || L'P' == wzUri[3]) &&
+              L':' == wzUri[4] &&
+              L'/' == wzUri[5] &&
+              L'/' == wzUri[6])
     {
         *pProtocol = URI_PROTOCOL_HTTP;
     }
-    else if (L'h' == wzUri[0] && L't' == wzUri[1] && L't' == wzUri[2] && L'p' == wzUri[3] && L'S' == wzUri[4] && L':' == wzUri[5] && L'/' == wzUri[6] && L'/' == wzUri[7])
+    else if ((L'f' == wzUri[0] || L'F' == wzUri[0]) &&
+             (L't' == wzUri[1] || L'T' == wzUri[1]) &&
+             (L'p' == wzUri[2] || L'P' == wzUri[2]) &&
+              L':' == wzUri[3] &&
+              L'/' == wzUri[4] &&
+              L'/' == wzUri[5])
     {
-        *pProtocol = URI_PROTOCOL_HTTPS;
+        *pProtocol = URI_PROTOCOL_FTP;
+    }
+    else if ((L'f' == wzUri[0] || L'F' == wzUri[0]) &&
+             (L'i' == wzUri[1] || L'I' == wzUri[1]) &&
+             (L'l' == wzUri[2] || L'L' == wzUri[2]) &&
+             (L'e' == wzUri[3] || L'E' == wzUri[3]) &&
+              L':' == wzUri[4] &&
+              L'/' == wzUri[5] &&
+              L'/' == wzUri[6])
+    {
+        *pProtocol = URI_PROTOCOL_FILE;
     }
     else
     {
         *pProtocol = URI_PROTOCOL_UNKNOWN;
     }
 
-//LExit:
     return hr;
 }
 
