@@ -1,3 +1,5 @@
+* SeanHall: WIXFEAT:4763 - Add literal flag to Burn variables to indicate that their values shouldn't be formatted.
+
 * BobArnson: WIXFEAT:4772 - Replace hyperlink ShelExec with ShelExecUnelevated.
 
 * BobArnson: WIXBUG:4716 - If a .wxl file is missing strings added in v3.10, duplicate the generic string from v3.9. Add support for doing so to locutil.
