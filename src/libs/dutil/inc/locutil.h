@@ -107,12 +107,22 @@ HRESULT DAPI LocGetControl(
     );
 
 /********************************************************************
- LocGetString - returns a string's localization information
+LocGetString - returns a string's localization information
 *******************************************************************/
 extern "C" HRESULT DAPI LocGetString(
     __in const WIX_LOCALIZATION* pWixLoc,
     __in_z LPCWSTR wzId,
     __out LOC_STRING** ppLocString
+    );
+
+/********************************************************************
+LocAddString - adds a localization string
+*******************************************************************/
+extern "C" HRESULT DAPI LocAddString(
+    __in WIX_LOCALIZATION* pWixLoc,
+    __in_z LPCWSTR wzId,
+    __in_z LPCWSTR wzLocString,
+    __in BOOL bOverridable
     );
 
 #ifdef __cplusplus
