@@ -1,3 +1,5 @@
+* HeathS: WIXBUG:3060 - Do not redownload package payloads when /layout is restarted.
+
 * SeanHall: WIXFEAT:4763 - Add literal flag to Burn variables to indicate that their values shouldn't be formatted.
 
 * BobArnson: WIXFEAT:4772 - Replace hyperlink ShelExec with ShelExecUnelevated.

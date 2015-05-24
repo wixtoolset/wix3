@@ -386,7 +386,9 @@ extern "C" HRESULT CacheFindLocalSource(
     LPWSTR sczCurrentPath = NULL;
     LPWSTR sczLastSourcePath = NULL;
     LPWSTR sczLastSourceFolder = NULL;
-    LPCWSTR rgwzSearchPaths[2] = { };
+    LPWSTR sczLayoutPath = NULL;
+    LPWSTR sczLayoutFolder = NULL;
+    LPCWSTR rgwzSearchPaths[3] = { };
     DWORD cSearchPaths = 0;
 
     // If the source path provided is a full path, obviously that is where we should be looking.
@@ -430,6 +432,19 @@ extern "C" HRESULT CacheFindLocalSource(
                 ++cSearchPaths;
             }
         }
+
+        // Also consider the layout directory if set on the command line or by the BA.
+        hr = VariableGetString(pVariables, BURN_BUNDLE_LAYOUT_DIRECTORY, &sczLayoutFolder);
+        if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get bundle layout directory property.");
+
+            hr = PathConcat(sczLayoutFolder, wzSourcePath, &sczLayoutPath);
+            ExitOnFailure(hr, "Failed to combine layout source with source.");
+
+            rgwzSearchPaths[cSearchPaths] = sczLayoutPath;
+            ++cSearchPaths;
+        }
     }
 
     *pfFound = FALSE; // assume we won't find the file locally.
@@ -461,6 +476,8 @@ LExit:
     ReleaseStr(sczCurrentProcess);
     ReleaseStr(sczLastSourceFolder);
     ReleaseStr(sczLastSourcePath);
+    ReleaseStr(sczLayoutFolder);
+    ReleaseStr(sczLayoutPath);
 
     return hr;
 }
