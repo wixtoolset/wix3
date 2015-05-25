@@ -2076,16 +2076,16 @@ private: // privates
         BOOL fDone = FALSE;
         TBPFLAG flag = TBPF_PAUSED;
 
-        //The state before showing our page.
+        // The state before showing our page.
         WIXSTDBA_STATE stateBeforeModal = m_state;
 
-        //Set taskbar to paused
+        // Set taskbar to paused.
         SetTaskbarButtonState(flag);
         SetState(state, S_OK);
 
-        ++m_dwModalCnt;
+        ++m_cModalPages;
 
-        //Inner message loop
+        // Inner message loop
         while (!fDone && !IsCanceled())
         {
             ::WaitMessage();
@@ -2101,11 +2101,11 @@ private: // privates
                 }
                 else if (WM_QUIT == msg.message)
                 {
-                    //Exit during modal page
+                    // Exit during modal page.
                     fDone = TRUE;
 
                     //Forward quit message to main message loop
-                    ::PostMessage(NULL, WM_QUIT, 0, 0);
+                    ::PostQuitMessage(0);
 
                     break;
                 }
@@ -2117,7 +2117,7 @@ private: // privates
             }
         }
 
-        --m_dwModalCnt;
+        --m_cModalPages;
 
         //Restore taskbar state
         flag = TBPF_NORMAL;
@@ -2567,7 +2567,7 @@ private: // privates
                     }
                 }
 
-                //Exit "modal" pages if any is active
+                // Exit "modal" pages if any is active.
                 if (m_rgdwPageIds[WIXSTDBA_PAGE_FILESINUSE] == dwOldPageId)
                 {
                     ExitModalState(IDERROR);
@@ -2923,17 +2923,7 @@ private: // privates
     void OnClickFilesInUseOkButton()
     {
         BOOL fCloseApps = ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON);
-
-        if (fCloseApps)
-        {
-            //Close apps
-            ExitModalState(IDOK);
-        }
-        else
-        {
-            //Do not close apps, a restart might be required
-            ExitModalState(IDIGNORE);
-        }
+        ExitModalState(fCloseApps ? IDOK : IDIGNORE);
     }
 
     //
@@ -3218,43 +3208,44 @@ private: // privates
         }
     }
 
-    int ShowFilesInUseModal(DWORD cFiles, LPCWSTR* rgwzFiles)
+    int ShowFilesInUseModal(
+        __in DWORD cFiles, 
+        __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
+        )
     {
-        HRESULT hRes = S_OK;
+        HRESULT hr = S_OK;
         LPWSTR sczFilesInUse = NULL;
         DWORD_PTR cchLen = 0;
         int nResult = IDERROR;
 
-        //If the user has choosen to ignore on a previously displayed "files in use" page, 
-        //we will return the same result for other cases. No need to display the page again.
+        // If the user has choosen to ignore on a previously displayed "files in use" page, 
+        // we will return the same result for other cases. No need to display the page again.
         if (IDIGNORE == m_nLastFilesInUseResult)
         {
             nResult = m_nLastFilesInUseResult;
         }
-        else if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display) //Only show files in use when using full display mode
+        else if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display) // Only show files in use when using full display mode.
         {
-            //Show applications using the files. This is currently using a static label, a listbox is probably better, 
-            //because with many applications we can require scrollbars.
+            // Show applications using the files.
             if (cFiles > 0)
             {
-                //Files in use consists of the process id (or exe filename) and the windows titles. See MSDN for details
+                // See https://msdn.microsoft.com/en-us/library/aa371614%28v=vs.85%29.aspx for details.
                 for (DWORD i = 1; i < cFiles; i += 2)
                 {
-                    hRes = ::StringCchLengthW(rgwzFiles[i], STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchLen));
-                    BalExitOnFailure(hRes, "Failed to calculate length of string");
+                    hr = ::StringCchLengthW(rgwzFiles[i], STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchLen));
+                    BalExitOnFailure(hr, "Failed to calculate length of string");
 
                     if (cchLen > 0)
                     {
-                        hRes = StrAllocConcat(&sczFilesInUse, rgwzFiles[i], 0);
-                        BalExitOnFailure(hRes, "Failed to concat files in use");
+                        hr = StrAllocConcat(&sczFilesInUse, rgwzFiles[i], 0);
+                        BalExitOnFailure(hr, "Failed to concat files in use");
 
-                        hRes = StrAllocConcat(&sczFilesInUse, L"\r\n", 2);
-                        BalExitOnFailure(hRes, "Failed to concat files in use");
+                        hr = StrAllocConcat(&sczFilesInUse, L"\r\n", 2);
+                        BalExitOnFailure(hr, "Failed to concat files in use");
                     }
                 }
             }
 
-            //Set text with applications using files
             if (sczFilesInUse)
             {
                 ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_TEXT, sczFilesInUse);
@@ -3264,7 +3255,7 @@ private: // privates
                 ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_TEXT, L"");
             }
 
-            //Select default option (restart applications)
+            // Select default option (restart applications).
             if (IDNOACTION == m_nLastFilesInUseResult)
             {
                 ThemeSendControlMessage(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON, BM_SETCHECK, BST_CHECKED, 0);
@@ -3274,21 +3265,23 @@ private: // privates
         }
         else
         {
-            //Silent UI level installations always shut down applications and services, and on Windows Vista, always use Restart Manager.
+            // Silent UI level installations always shut down applications and services, 
+            // and on Windows Vista and later, use Restart Manager unless disabled.
             nResult = IDOK;
         }
 
     LExit:
-
         ReleaseStr(sczFilesInUse);
 
-        //Remember the answer from the user
-        m_nLastFilesInUseResult = FAILED(hRes) ? IDERROR : nResult;
+        // Remember the answer from the user.
+        m_nLastFilesInUseResult = FAILED(hr) ? IDERROR : nResult;
 
         return m_nLastFilesInUseResult;
     }
 
-    int ShowModalState(WIXSTDBA_STATE state)
+    int ShowModalState(
+        __in WIXSTDBA_STATE state
+        )
     {
         int nResult = IDERROR;
 
@@ -3298,9 +3291,11 @@ private: // privates
         return nResult;
     }
 
-    void ExitModalState(int result)
+    void ExitModalState(
+        __in int result
+        )
     {
-        if (m_dwModalCnt > 0)
+        if (m_cModalPages > 0)
         {
             ::PostMessage(m_hWnd, WM_WIXSTDBA_CLOSE_STATE_MODAL, 0, result);
         }
@@ -3400,7 +3395,7 @@ public:
         m_fPrereqInstalled = FALSE;
         m_fPrereqAlreadyInstalled = FALSE;
 
-        m_dwModalCnt = 0;
+        m_cModalPages = 0;
         m_nLastFilesInUseResult = IDNOACTION;
 
         pEngine->AddRef();
@@ -3502,7 +3497,7 @@ private:
     BOOL m_fShowingInternalUiThisPackage;
     BOOL m_fTriedToLaunchElevated;
 
-    DWORD m_dwModalCnt;
+    DWORD m_cModalPages;
     int m_nLastFilesInUseResult;
 
     HMODULE m_hBAFModule;

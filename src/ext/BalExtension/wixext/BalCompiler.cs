@@ -418,7 +418,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         row[3] = 1;
                     }
 
-                    if(YesNoType.Yes == showFilesInUse)
+                    if (YesNoType.Yes == showFilesInUse)
                     {
                         row[4] = 1;
                     }
