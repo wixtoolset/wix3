@@ -37,12 +37,15 @@
   <Target Name="InitializeVariables">
     <PropertyGroup>
       <ProjectFolder>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\..\))</ProjectFolder>
-
+      <ProjectHistoryFolderRelativePath>history</ProjectHistoryFolderRelativePath>
       <ProjectHistoryFile>$(ProjectFolder)History.md</ProjectHistoryFile>
+      <SpecialHistoryFileName>readme.md</SpecialHistoryFileName>
     </PropertyGroup>
 
     <Error Text="Cannot locate project's private/public keypair at: $(OfficialBuildPrivateKeyPair). Ensure that the OfficialBuildPrivateKeyPair arguments are correct." Condition=" !Exists('$(OfficialBuildPrivateKeyPair)') " />
 
+    <Error Text="Cannot locate project's root folder at: $(ProjectFolder)." Condition=" !Exists('$(ProjectFolder)') " />
+    <Error Text="Cannot locate project's history folder at: $(ProjectFolder)$(ProjectHistoryFolderRelativePath)." Condition=" !Exists('$(ProjectFolder)$(ProjectHistoryFolderRelativePath)') " />
     <Error Text="Cannot locate project's History.md file at: $(ProjectHistoryFile). Ensure that the Major and Minor arguments are correct." Condition=" !Exists('$(ProjectHistoryFile)') " />
   </Target>
 
@@ -62,17 +65,36 @@
 
   <!--
   ================================================================================================
+  GetVersionNumber
+
+    Gets the build version.
+
+  ================================================================================================
+  -->
+  <Target Name="GetVersionNumber">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair)"
+             Targets="GetVersion">
+      <Output TaskParameter="TargetOutputs" PropertyName="Version" />
+    </MSBuild>
+  </Target>
+
+  <!--
+  ================================================================================================
   UpdateHistory
 
-    Updates a project's History.md with the build version.
+    Converts history files into entries in a project's History.md,
+    then updates it with the build version.
 
   ================================================================================================
   -->
   <Target Name="UpdateHistory"
-          Condition=" $(SkipUpdateHistory)=='' ">
-    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj" Targets="GetVersion">
-      <Output TaskParameter="TargetOutputs" PropertyName="Version" />
-    </MSBuild>
+          Condition=" $(SkipUpdateHistory)=='' "
+          DependsOnTargets="GetVersionNumber">
+
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair);ProjectFolder=$(ProjectFolder);ProjectHistoryFolderRelativePath=$(ProjectHistoryFolderRelativePath);ProjectHistoryFile=$(ProjectHistoryFile);SpecialHistoryFileName=$(SpecialHistoryFileName)"
+             Targets="TransformHistoryEntries" />
 
     <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(ProjectHistoryFile) $(Version) //nologo"
           WorkingDirectory="$(ProjectFolder)" />
@@ -105,7 +127,9 @@
   ================================================================================================
   -->
   <Target Name="GetReleasedFiles">
-    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj" Targets="GetReleasedFiles">
+    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair)"
+             Targets="GetReleasedFiles">
       <Output TaskParameter="TargetOutputs" ItemName="ReleasedFiles" />
     </MSBuild>
   </Target>
@@ -156,6 +180,32 @@
 
   <!--
   ================================================================================================
+  PushHistoryToGithub
+
+    Commits and pushes History.md changes to Github.
+
+  ================================================================================================
+  -->
+  <Target Name="PushHistoryToGithub"
+          Condition=" $(GithubUser)!='' "
+          DependsOnTargets="GetVersionNumber">
+
+    <Message Importance="Normal" Text="Pushing History.md as $(GithubUser)." />
+
+    <Exec Command="git add History.md"
+          WorkingDirectory="$(ProjectFolder)" />
+
+    <Exec Command='git -c user.name="WixBuild" -c user.email="wix@wixtoolset.org" commit -m "WixBuild: Version $(Version)"'
+          WorkingDirectory="$(ProjectFolder)" ContinueOnError="true" />
+
+    <Exec Command='git push --repo https://$(GithubUser):$(GithubPassword)@github.com/wixtoolset/wix3.git origin develop'
+          WorkingDirectory="$(ProjectFolder)" />
+
+    <Message Importance="Normal" Text="History push complete." />
+  </Target>
+
+  <!--
+  ================================================================================================
   Release
 
     Releases a build to the WiX toolset website.
@@ -165,6 +215,7 @@
   <PropertyGroup>
     <ReleaseDependsOn>
       UploadFiles;
+      PushHistoryToGithub;
     </ReleaseDependsOn>
   </PropertyGroup>
   <Target Name="Release"

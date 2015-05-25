@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!--
-  <copyright file="Bundle.wxs" company="Outercurve Foundation">
+  <copyright file="WixStdBundle.wxs" company="Outercurve Foundation">
     Copyright (c) 2004, Outercurve Foundation.
     This software is released under Microsoft Reciprocal License (MS-RL).
     The license and further copyright text can be found in the file
@@ -10,11 +10,9 @@
 
 <?include WixVer.wxi ?>
 
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
-     xmlns:bal='http://schemas.microsoft.com/wix/BalExtension'
-     xmlns:swid="http://schemas.microsoft.com/wix/TagExtension"
-     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
-
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension" 
+     xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
     <Bundle Name='!(loc.ShortProduct) v$(var.WixVersion)' Manufacturer='!(loc.Company)'
             Version='$(var.WixVersion)' UpgradeCode='65E893AD-EDD5-4E7D-80CA-F0F50F383532'
             IconSourceFile='ProjectFile.ico' SplashScreenSourceFile='SplashScreen.bmp'
@@ -24,17 +22,11 @@
         <swid:Tag Regid="regid.2008-09.org.wixtoolset" />
         <Update Location='!(loc.UpdateUrl)' />
 
-        <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
-          <Payload Name='BootstrapperCore.config' SourceFile='WixBA.BootstrapperCore.config' />
-
-          <Payload SourceFile='WixBA.dll' />
-          <Payload SourceFile='..\..\..\License.txt' />
+        <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
+            <bal:WixStandardBootstrapperApplication LicenseUrl="http://wixtoolset.org/about/license/" />
         </BootstrapperApplicationRef>
 
-        <util:RegistrySearchRef Id="NETFRAMEWORK35_SP_LEVEL" />
-
         <Chain>
-            <PackageGroupRef Id='NetFx40Web' />
             <PackageGroupRef Id='WixPackages' />
         </Chain>
     </Bundle>
