@@ -156,8 +156,7 @@ static HRESULT FinalizeSlipstreamPatchActions(
 static HRESULT PlanDependencyActions(
     __in BOOL fBundlePerMachine,
     __in BURN_PLAN* pPlan,
-    __in BURN_PACKAGE* pPackage,
-    __out HANDLE* phSyncpointEvent
+    __in BURN_PACKAGE* pPackage
     );
 static HRESULT CalculateExecuteActions(
     __in BURN_USER_EXPERIENCE* pUserExperience,
@@ -913,7 +912,7 @@ static HRESULT ProcessPackage(
         else
         {
             // Make sure the package is properly ref-counted even if no plan is requested.
-            hr = PlanDependencyActions(fBundlePerMachine, pPlan, pPackage, phSyncpointEvent);
+            hr = PlanDependencyActions(fBundlePerMachine, pPlan, pPackage);
             ExitOnFailure(hr, "Failed to plan dependency actions for package: %ls", pPackage->sczId);
         }
     }
@@ -1052,7 +1051,7 @@ extern "C" HRESULT PlanCachePackage(
     }
 
     // Make sure the package is properly ref-counted.
-    hr = PlanDependencyActions(fPerMachine, pPlan, pPackage, phSyncpointEvent);
+    hr = PlanDependencyActions(fPerMachine, pPlan, pPackage);
     ExitOnFailure(hr, "Failed to plan dependency actions for package: %ls", pPackage->sczId);
 
 LExit:
@@ -1928,7 +1927,20 @@ static HRESULT GetActionDefaultRequestState(
     switch (action)
     {
     case BOOTSTRAPPER_ACTION_CACHE:
-        *pRequestState = BOOTSTRAPPER_REQUEST_STATE_CACHE;
+        switch (currentState)
+        {
+        case BOOTSTRAPPER_PACKAGE_STATE_PRESENT:
+            *pRequestState = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
+            break;
+
+        case BOOTSTRAPPER_PACKAGE_STATE_CACHED:
+            *pRequestState = BOOTSTRAPPER_REQUEST_STATE_NONE;
+            break;
+
+        default:
+            *pRequestState = BOOTSTRAPPER_REQUEST_STATE_CACHE;
+            break;
+        }
         break;
 
     case BOOTSTRAPPER_ACTION_INSTALL: __fallthrough;
@@ -2788,30 +2800,13 @@ LExit:
 static HRESULT PlanDependencyActions(
     __in BOOL fBundlePerMachine,
     __in BURN_PLAN* pPlan,
-    __in BURN_PACKAGE* pPackage,
-    __out HANDLE* phSyncpointEvent
+    __in BURN_PACKAGE* pPackage
     )
 {
     HRESULT hr = S_OK;
 
     hr = DependencyPlanPackageBegin(fBundlePerMachine, pPackage, pPlan);
     ExitOnFailure(hr, "Failed to begin plan dependency actions for package: %ls", pPackage->sczId);
-
-    // All packages that have cacheType set to always should be cached if the bundle is going to be present.
-    if (BURN_CACHE_TYPE_ALWAYS == pPackage->cacheType && BOOTSTRAPPER_ACTION_INSTALL <= pPlan->action)
-    {
-        // If this is an MSI package with slipstream MSPs, ensure the MSPs are cached first.
-        if (BURN_PACKAGE_TYPE_MSI == pPackage->type && 0 < pPackage->Msi.cSlipstreamMspPackages)
-        {
-            hr = AddCacheSlipstreamMsps(pPlan, pPackage);
-            ExitOnFailure(hr, "Failed to plan slipstream patches for package.");
-        }
-
-        hr = AddCachePackage(pPlan, pPackage, phSyncpointEvent);
-        ExitOnFailure(hr, "Failed to plan cache package.");
-
-        pPlan->qwEstimatedSize += pPackage->qwSize;
-    }
 
     hr = DependencyPlanPackage(NULL, pPackage, pPlan);
     ExitOnFailure(hr, "Failed to plan package dependency actions.");
