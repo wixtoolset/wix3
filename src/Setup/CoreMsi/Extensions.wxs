@@ -84,13 +84,13 @@
                 <File Source="WixVSExtension.dll" />
             </Component>
 
-            <?if $(var.VS2013Available)=true ?>
+            <?ifdef VS2013Available ?>
             <Component>
                 <File Source="WixVSExtension.MSBuild12.dll" />
             </Component>
             <?endif ?>
 
-            <?if $(var.VS2015Available)=true ?>
+            <?ifdef VS2015Available ?>
             <Component>
                 <File Source="WixVSExtension.MSBuild14.dll" />
             </Component>
