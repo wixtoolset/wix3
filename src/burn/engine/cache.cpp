@@ -144,7 +144,14 @@ extern "C" HRESULT CacheInitialize(
             hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczCurrentPath);
             ExitOnFailure(hr, "Failed to set original source variable.");
 
-            hr = PathGetDirectory(sczCurrentPath, &sczOriginalSourceFolder);
+            hr = StrAllocString(&sczOriginalSource, sczCurrentPath, 0);
+            ExitOnFailure(hr, "Failed to copy current path to original source.");
+        }
+
+        hr = VariableGetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, &sczOriginalSourceFolder);
+        if (E_NOTFOUND == hr)
+        {
+            hr = PathGetDirectory(sczOriginalSource, &sczOriginalSourceFolder);
             ExitOnFailure(hr, "Failed to get directory from original source path.");
 
             hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, sczOriginalSourceFolder);
