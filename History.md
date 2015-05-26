@@ -1,4 +1,20 @@
-* ErnestT: WIXBUG:4432 - Add burn support for only caching packages
+* HeathS: WIXBUG:3060 - Do not redownload package payloads when /layout is restarted.
+
+* SeanHall: WIXFEAT:4763 - Add literal flag to Burn variables to indicate that their values shouldn't be formatted.
+
+* BobArnson: WIXFEAT:4772 - Replace hyperlink ShelExec with ShelExecUnelevated.
+
+* BobArnson: WIXBUG:4716 - If a .wxl file is missing strings added in v3.10, duplicate the generic string from v3.9. Add support for doing so to locutil.
+
+## WixBuild: Version 3.10.0.1719
+
+* SeanHall: WIXBUG:4761 - Use the package's exit code to tell if the prereq was installed.
+
+* BobArnson: WIXBUG:4734 - Rewrote type-51 CAs using SetProperty.
+
+* BobArnson: WIXFEAT:4720 - Added bind-time variables for .NET Framework package groups detect condition, install condition, and package directories.
+
+* HeathS: Add VSIX property for VS2015 and fix searches for previous versions.
 
 * BobArnson: Add libs_minimal.proj with just the libraries needed for tools/ tree build. This prevents the build from backing up behind a full libs/ tree build, which gets more painful the more versions of Visual Studio that are installed.
 
