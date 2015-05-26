@@ -1,3 +1,9 @@
+## WixBuild: Version 3.10.0.1726
+
+* creativbox: WIXFEAT:4382 - Added files-in-use UI to WixStdBA
+
+* SeanHall: WIXBUG:4597 - Fix project harvesting in heat for Tools version 12.0 and 14.0.
+
 * HeathS: WIXBUG:3060 - Do not redownload package payloads when /layout is restarted.
 
 * SeanHall: WIXFEAT:4763 - Add literal flag to Burn variables to indicate that their values shouldn't be formatted.
