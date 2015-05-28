@@ -28,6 +28,7 @@ typedef enum _BURN_ELEVATION_MESSAGE_TYPE
     BURN_ELEVATION_MESSAGE_TYPE_SESSION_END,
     BURN_ELEVATION_MESSAGE_TYPE_SAVE_STATE,
     BURN_ELEVATION_MESSAGE_TYPE_LAYOUT_BUNDLE,
+    BURN_ELEVATION_MESSAGE_TYPE_CACHE_PREPARE_PACKAGE,
     BURN_ELEVATION_MESSAGE_TYPE_CACHE_OR_LAYOUT_CONTAINER_OR_PAYLOAD,
     BURN_ELEVATION_MESSAGE_TYPE_CACHE_CLEANUP,
     BURN_ELEVATION_MESSAGE_TYPE_PROCESS_DEPENDENT_REGISTRATION,
@@ -163,6 +164,11 @@ static HRESULT OnSaveState(
     );
 static HRESULT OnLayoutBundle(
     __in_z LPCWSTR wzExecutableName,
+    __in BYTE* pbData,
+    __in DWORD cbData
+    );
+static HRESULT OnCachePreparePackage(
+    __in BURN_PACKAGES* pPackages,
     __in BYTE* pbData,
     __in DWORD cbData
     );
@@ -537,6 +543,32 @@ extern "C" HRESULT ElevationLayoutBundle(
     // send message
     hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_LAYOUT_BUNDLE, pbData, cbData, NULL, NULL, &dwResult);
     ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_LAYOUT_BUNDLE message to per-machine process.");
+
+    hr = (HRESULT)dwResult;
+
+LExit:
+    ReleaseBuffer(pbData);
+
+    return hr;
+}
+
+extern "C" HRESULT ElevationCachePreparePackage(
+    __in HANDLE hPipe,
+    __in BURN_PACKAGE* pPackage
+    )
+{
+    HRESULT hr = S_OK;
+    BYTE* pbData = NULL;
+    SIZE_T cbData = 0;
+    DWORD dwResult = 0;
+
+    // Serialize message data.
+    hr = BuffWriteString(&pbData, &cbData, pPackage ? pPackage->sczId : NULL);
+    ExitOnFailure(hr, "Failed to write package id to message buffer.");
+
+    // Send message.
+    hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_CACHE_PREPARE_PACKAGE, pbData, cbData, NULL, NULL, &dwResult);
+    ExitOnFailure(hr, "Failed to send BURN_ELEVATION_MESSAGE_TYPE_CACHE_PREPARE_PACKAGE message to per-machine process.");
 
     hr = (HRESULT)dwResult;
 
@@ -1532,6 +1564,10 @@ static HRESULT ProcessElevatedChildCacheMessage(
         hrResult = OnLayoutBundle(pContext->pRegistration->sczExecutableName, (BYTE*)pMsg->pvData, pMsg->cbData);
         break;
 
+    case BURN_ELEVATION_MESSAGE_TYPE_CACHE_PREPARE_PACKAGE:
+        hrResult = OnCachePreparePackage(pContext->pPackages, (BYTE*)pMsg->pvData, pMsg->cbData);
+        break;
+
     case BURN_ELEVATION_MESSAGE_TYPE_CACHE_OR_LAYOUT_CONTAINER_OR_PAYLOAD:
         hrResult = OnCacheOrLayoutContainerOrPayload(pContext->pContainers, pContext->pPackages, pContext->pPayloads, (BYTE*)pMsg->pvData, pMsg->cbData);
         break;
@@ -1829,6 +1865,41 @@ LExit:
     return hr;
 }
 
+static HRESULT OnCachePreparePackage(
+    __in BURN_PACKAGES* pPackages,
+    __in BYTE* pbData,
+    __in DWORD cbData
+    )
+{
+    HRESULT hr = S_OK;
+    SIZE_T iData = 0;
+    LPWSTR scz = NULL;
+    BURN_PACKAGE* pPackage = NULL;
+
+    // Deserialize message data.
+    hr = BuffReadString(pbData, cbData, &iData, &scz);
+    ExitOnFailure(hr, "Failed to read package id.");
+
+    if (scz && *scz)
+    {
+        hr = PackageFindById(pPackages, scz, &pPackage);
+        ExitOnFailure(hr, "Failed to find package: %ls", scz);
+    }
+    else
+    {
+        hr = E_INVALIDARG;
+        ExitOnRootFailure(hr, "Invalid data passed to cache prepare package.");
+    }
+
+    hr = CachePreparePackage(pPackage);
+    LogErrorId(hr, MSG_CACHE_PREPARE_PACKAGE_FAILED, pPackage->sczId, NULL, NULL);
+
+LExit:
+    ReleaseStr(scz);
+
+    return hr;
+}
+
 static HRESULT OnCacheOrLayoutContainerOrPayload(
     __in BURN_CONTAINERS* pContainers,
     __in BURN_PACKAGES* pPackages,
@@ -1849,7 +1920,7 @@ static HRESULT OnCacheOrLayoutContainerOrPayload(
 
     // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &scz);
-    ExitOnFailure(hr, "Failed to read package id.");
+    ExitOnFailure(hr, "Failed to read container id.");
 
     if (scz && *scz)
     {

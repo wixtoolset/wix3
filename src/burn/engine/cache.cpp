@@ -36,7 +36,8 @@ static HRESULT GetLastUsedSourceFolder(
 static HRESULT CreateCompletedPath(
     __in BOOL fPerMachine,
     __in LPCWSTR wzCacheId,
-    __out LPWSTR* psczCacheDirectory
+    __in LPCWSTR wzFilePath,
+    __out LPWSTR* psczCachePath
     );
 static HRESULT CreateUnverifiedPath(
     __in BOOL fPerMachine,
@@ -292,7 +293,7 @@ extern "C" HRESULT CacheGetRootCompletedPath(
 
     if (fForceInitialize)
     {
-        hr = CreateCompletedPath(fPerMachine, L"", psczRootCompletedPath);
+        hr = CreateCompletedPath(fPerMachine, L"", NULL, psczRootCompletedPath);
     }
     else
     {
@@ -614,6 +615,19 @@ extern "C" BOOL CacheBundleRunningFromCache()
     return vfRunningFromCache;
 }
 
+HRESULT CachePreparePackage(
+    __in BURN_PACKAGE* pPackage
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR scz = NULL;
+
+    hr = CreateCompletedPath(pPackage->fPerMachine, pPackage->sczCacheId, NULL, &scz);
+
+    ReleaseStr(scz);
+    return hr;
+}
+
 extern "C" HRESULT CacheBundleToWorkingDirectory(
     __in_z LPCWSTR wzBundleId,
     __in_z LPCWSTR wzExecutableName,
@@ -742,7 +756,7 @@ extern "C" HRESULT CacheCompleteBundle(
     LPWSTR sczSourceDirectory = NULL;
     LPWSTR sczPayloadSourcePath = NULL;
 
-    hr = CreateCompletedPath(fPerMachine, wzBundleId, &sczTargetDirectory);
+    hr = CreateCompletedPath(fPerMachine, wzBundleId, NULL, &sczTargetDirectory);
     ExitOnFailure(hr, "Failed to create completed cache path for bundle.");
 
     hr = PathConcat(sczTargetDirectory, wzExecutableName, &sczTargetPath);
@@ -852,15 +866,11 @@ extern "C" HRESULT CacheCompletePayload(
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR sczCachedDirectory = NULL;
     LPWSTR sczCachedPath = NULL;
     LPWSTR sczUnverifiedPayloadPath = NULL;
 
-    hr = CreateCompletedPath(fPerMachine, wzCacheId, &sczCachedDirectory);
+    hr = CreateCompletedPath(fPerMachine, wzCacheId, pPayload->sczFilePath, &sczCachedPath);
     ExitOnFailure1(hr, "Failed to get cached path for package with cache id: %ls", wzCacheId);
-
-    hr = PathConcat(sczCachedDirectory, pPayload->sczFilePath, &sczCachedPath);
-    ExitOnFailure(hr, "Failed to concat complete cached path.");
 
     // If the cached file matches what we expected, we're good.
     hr = VerifyFileAgainstPayload(pPayload, sczCachedPath);
@@ -914,7 +924,6 @@ extern "C" HRESULT CacheCompletePayload(
 LExit:
     ReleaseStr(sczUnverifiedPayloadPath);
     ReleaseStr(sczCachedPath);
-    ReleaseStr(sczCachedDirectory);
 
     return hr;
 }
@@ -1229,13 +1238,15 @@ static HRESULT GetLastUsedSourceFolder(
 static HRESULT CreateCompletedPath(
     __in BOOL fPerMachine,
     __in LPCWSTR wzId,
-    __out LPWSTR* psczCacheDirectory
+    __in LPCWSTR wzFilePath,
+    __out LPWSTR* psczCachePath
     )
 {
     static BOOL fPerMachineCacheRootVerified = FALSE;
 
     HRESULT hr = S_OK;
     LPWSTR sczCacheDirectory = NULL;
+    LPWSTR sczCacheFile = NULL;
 
     // If we are doing a permachine install but have not yet verified that the root cache folder
     // was created with the correct ACLs yet, do that now.
@@ -1253,21 +1264,41 @@ static HRESULT CreateCompletedPath(
         fPerMachineCacheRootVerified = TRUE;
     }
 
-    // Get the cache completed path, ensure it exists, and reset any permissions people
-    // might have tried to set on the directory so we inherit the (correct!) security
-    // permissions from the parent directory.
+    // Get the cache completed path.
     hr = CacheGetCompletedPath(fPerMachine, wzId, &sczCacheDirectory);
     ExitOnFailure(hr, "Failed to get cache directory.");
 
+    // Ensure it exists.
     hr = DirEnsureExists(sczCacheDirectory, NULL);
     ExitOnFailure1(hr, "Failed to create cache directory: %ls", sczCacheDirectory);
 
-    ResetPathPermissions(fPerMachine, sczCacheDirectory);
+    if (!wzFilePath)
+    {
+        // Reset any permissions people might have tried to set on the directory
+        // so we inherit the (correct!) security permissions from the parent directory.
+        // Don't reset permissions on the root cache directory.
+        if (wzId && *wzId)
+        {
+            ResetPathPermissions(fPerMachine, sczCacheDirectory);
+        }
 
-    *psczCacheDirectory = sczCacheDirectory;
-    sczCacheDirectory = NULL;
+        *psczCachePath = sczCacheDirectory;
+        sczCacheDirectory = NULL;
+    }
+    else
+    {
+        // Get the cache completed file path.
+        hr = PathConcat(sczCacheDirectory, wzFilePath, &sczCacheFile);
+        ExitOnFailure(hr, "Failed to construct cache file.");
+
+        // Don't reset permissions here.  The payload's package must reset its cache folder when it starts caching.
+
+        *psczCachePath = sczCacheFile;
+        sczCacheFile = NULL;
+    }
 
 LExit:
+    ReleaseStr(sczCacheFile);
     ReleaseStr(sczCacheDirectory);
     return hr;
 }
