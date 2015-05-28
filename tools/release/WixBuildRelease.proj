@@ -59,7 +59,7 @@
   -->
   <Target Name="BuildProject">
     <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
-             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair)"
+             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair);ProjectFolder=$(ProjectFolder);HistoryFolderRelativePath=$(ProjectHistoryFolderRelativePath);HistoryFile=$(ProjectHistoryFile);SpecialHistoryFileName=$(SpecialHistoryFileName)"
              Targets="Build" />
   </Target>
 
@@ -91,10 +91,6 @@
   <Target Name="UpdateHistory"
           Condition=" $(SkipUpdateHistory)=='' "
           DependsOnTargets="GetVersionNumber">
-
-    <MSBuild Projects="$(ProjectFolder)\tools\WixRelease.relproj"
-             Properties="OFFICIAL_WIX_BUILD=$(OfficialBuildPrivateKeyPair);ProjectFolder=$(ProjectFolder);ProjectHistoryFolderRelativePath=$(ProjectHistoryFolderRelativePath);ProjectHistoryFile=$(ProjectHistoryFile);SpecialHistoryFileName=$(SpecialHistoryFileName)"
-             Targets="TransformHistoryEntries" />
 
     <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(ProjectHistoryFile) $(Version) //nologo"
           WorkingDirectory="$(ProjectFolder)" />
