@@ -595,7 +595,10 @@ extern "C" HRESULT PlanRegistration(
     UINT cDependencies = 0;
 
     pPlan->fRegister = TRUE; // register the bundle since we're modifying machine state.
-    pPlan->fKeepRegistrationDefault = (pRegistration->fInstalled || BOOTSTRAPPER_RESUME_TYPE_REBOOT == resumeType); // keep the registration if the bundle was already installed or we are planning after a restart.
+
+    // Keep the registration if the bundle was already installed or we are planning after a restart.
+    pPlan->fKeepRegistrationDefault = (pRegistration->fInstalled || BOOTSTRAPPER_RESUME_TYPE_REBOOT == resumeType);
+
     pPlan->fDisallowRemoval = FALSE; // by default the bundle can be planned to be removed
 
     // If no parent was specified at all, use the bundle id as the self dependent.
@@ -1033,6 +1036,9 @@ extern "C" HRESULT PlanCachePackage(
 
     if (fBARequestedCache || NeedsCache(pPlan, pPackage))
     {
+        // The behavior for cache only mode is to do nothing on rollback, e.g. for subsequent install on demand scenarios.
+        pPackage->rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
+
         hr = AddCachePackage(pPlan, pPackage, phSyncpointEvent);
         ExitOnFailure(hr, "Failed to plan cache package.");
 
@@ -1920,6 +1926,23 @@ static HRESULT GetActionDefaultRequestState(
 
     switch (action)
     {
+    case BOOTSTRAPPER_ACTION_CACHE:
+        switch (currentState)
+        {
+        case BOOTSTRAPPER_PACKAGE_STATE_PRESENT:
+            *pRequestState = BOOTSTRAPPER_REQUEST_STATE_PRESENT;
+            break;
+
+        case BOOTSTRAPPER_PACKAGE_STATE_CACHED:
+            *pRequestState = BOOTSTRAPPER_REQUEST_STATE_NONE;
+            break;
+
+        default:
+            *pRequestState = BOOTSTRAPPER_REQUEST_STATE_CACHE;
+            break;
+        }
+        break;
+
     case BOOTSTRAPPER_ACTION_INSTALL: __fallthrough;
     case BOOTSTRAPPER_ACTION_UPDATE_REPLACE: __fallthrough;
     case BOOTSTRAPPER_ACTION_UPDATE_REPLACE_EMBEDDED:
@@ -2017,7 +2040,7 @@ static HRESULT AddCachePackage(
 {
     HRESULT hr = S_OK;
 
-    // If this an MSI package with slipstream MSPs, ensure the MSPs are cached first.
+    // If this is an MSI package with slipstream MSPs, ensure the MSPs are cached first.
     if (BURN_PACKAGE_TYPE_MSI == pPackage->type && 0 < pPackage->Msi.cSlipstreamMspPackages)
     {
         hr = AddCacheSlipstreamMsps(pPlan, pPackage);
@@ -2061,11 +2084,18 @@ static HRESULT AddCachePackageHelper(
     pCacheAction->type = BURN_CACHE_ACTION_TYPE_CHECKPOINT;
     pCacheAction->checkpoint.dwId = dwCheckpoint;
 
-    hr = AppendRollbackCacheAction(pPlan, &pCacheAction);
-    ExitOnFailure(hr, "Failed to append rollback cache action.");
+    // Only plan the cache rollback if the package is also going to be uninstalled;
+    // otherwise, future operations like repair will not be able to locate the cached package.
+    BOOL fPlanCacheRollback = (BOOTSTRAPPER_ACTION_STATE_UNINSTALL == pPackage->rollback);
 
-    pCacheAction->type = BURN_CACHE_ACTION_TYPE_CHECKPOINT;
-    pCacheAction->checkpoint.dwId = dwCheckpoint;
+    if (fPlanCacheRollback)
+    {
+        hr = AppendRollbackCacheAction(pPlan, &pCacheAction);
+        ExitOnFailure(hr, "Failed to append rollback cache action.");
+
+        pCacheAction->type = BURN_CACHE_ACTION_TYPE_CHECKPOINT;
+        pCacheAction->checkpoint.dwId = dwCheckpoint;
+    }
 
     // Plan the package start.
     hr = AppendCacheAction(pPlan, &pCacheAction);
@@ -2079,12 +2109,15 @@ static HRESULT AddCachePackageHelper(
     // and the array may be resized later which would move a pointer around in memory.
     iPackageStartAction = pPlan->cCacheActions - 1;
 
-    // Create a package cache rollback action.
-    hr = AppendRollbackCacheAction(pPlan, &pCacheAction);
-    ExitOnFailure(hr, "Failed to append rollback cache action.");
+    if (fPlanCacheRollback)
+    {
+        // Create a package cache rollback action.
+        hr = AppendRollbackCacheAction(pPlan, &pCacheAction);
+        ExitOnFailure(hr, "Failed to append rollback cache action.");
 
-    pCacheAction->type = BURN_CACHE_ACTION_TYPE_ROLLBACK_PACKAGE;
-    pCacheAction->rollbackPackage.pPackage = pPackage;
+        pCacheAction->type = BURN_CACHE_ACTION_TYPE_ROLLBACK_PACKAGE;
+        pCacheAction->rollbackPackage.pPackage = pPackage;
+    }
 
     // Add all the payload cache operations to the plan for this package.
     for (DWORD i = 0; i < pPackage->cPayloads; ++i)
@@ -2823,8 +2856,8 @@ LExit:
 }
 
 static BOOL NeedsCache(
-    BURN_PLAN* pPlan,
-    BURN_PACKAGE* pPackage
+    __in BURN_PLAN* pPlan,
+    __in BURN_PACKAGE* pPackage
     )
 {
     // All packages that have cacheType set to always should be cached if the bundle is going to be present.

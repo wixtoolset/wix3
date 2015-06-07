@@ -884,7 +884,8 @@ static void CalculateDependencyActionStates(
         // Always remove the dependency when uninstalling a bundle even if the package is absent.
         *pDependencyExecuteAction = BURN_DEPENDENCY_ACTION_UNREGISTER;
         break;
-    case BOOTSTRAPPER_ACTION_INSTALL:
+    case BOOTSTRAPPER_ACTION_INSTALL: __fallthrough;
+    case BOOTSTRAPPER_ACTION_CACHE:
         // Always remove the dependency during rollback when installing a bundle.
         *pDependencyRollbackAction = BURN_DEPENDENCY_ACTION_UNREGISTER;
         __fallthrough;

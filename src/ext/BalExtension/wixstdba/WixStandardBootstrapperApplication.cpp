@@ -371,6 +371,24 @@ public: // IBootstrapperApplication
 
         SetState(WIXSTDBA_STATE_DETECTED, hrStatus);
 
+        if (BOOTSTRAPPER_ACTION_CACHE == m_plannedAction)
+        {
+            if (m_fSupportCacheOnly)
+            {
+                // Doesn't make sense to prompt the user if cache only is requested.
+                if (BOOTSTRAPPER_DISPLAY_PASSIVE < m_command.display)
+                {
+                    m_command.display = BOOTSTRAPPER_DISPLAY_PASSIVE;
+                }
+
+                m_command.action = BOOTSTRAPPER_ACTION_CACHE;
+            }
+            else
+            {
+                BalLog(BOOTSTRAPPER_LOG_LEVEL_ERROR, "Ignoring attempt to only cache a bundle that does not explicitly support it.");
+            }
+        }
+
         // If we're not interacting with the user or we're doing a layout or we're just after a force restart
         // then automatically start planning.
         if (BOOTSTRAPPER_DISPLAY_FULL > m_command.display || BOOTSTRAPPER_ACTION_LAYOUT == m_command.action || BOOTSTRAPPER_RESUME_TYPE_REBOOT == m_command.resumeType)
@@ -1163,6 +1181,10 @@ private: // privates
                         hr = StrAllocString(psczLanguage, &argv[i][0], 0);
                         BalExitOnFailure(hr, "Failed to copy language.");
                     }
+                    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"cache", -1))
+                    {
+                        m_plannedAction = BOOTSTRAPPER_ACTION_CACHE;
+                    }
                 }
                 else if (m_sdOverridableVariables)
                 {
@@ -1565,6 +1587,17 @@ private: // privates
             m_fShowVersion = 0 < dwBool;
         }
         BalExitOnFailure(hr, "Failed to get ShowVersion value.");
+
+        hr = XmlGetAttributeNumber(pNode, L"SupportCacheOnly", &dwBool);
+        if (E_NOTFOUND == hr)
+        {
+            hr = S_OK;
+        }
+        else if (SUCCEEDED(hr))
+        {
+            m_fSupportCacheOnly = 0 < dwBool;
+        }
+        BalExitOnFailure(hr, "Failed to get SupportCacheOnly value.");
 
         hr = XmlGetAttributeNumber(pNode, L"ShowFilesInUse", &dwBool);
         if (E_NOTFOUND == hr)
@@ -3378,6 +3411,7 @@ public:
         m_fSuppressDowngradeFailure = FALSE;
         m_fSuppressRepair = FALSE;
         m_fShowVersion = FALSE;
+        m_fSupportCacheOnly = FALSE;
         m_fShowFilesInUse = FALSE;
 
         m_sdOverridableVariables = NULL;
@@ -3478,6 +3512,7 @@ private:
     BOOL m_fSuppressDowngradeFailure;
     BOOL m_fSuppressRepair;
     BOOL m_fShowVersion;
+    BOOL m_fSupportCacheOnly;
     BOOL m_fShowFilesInUse;
 
     STRINGDICT_HANDLE m_sdOverridableVariables;

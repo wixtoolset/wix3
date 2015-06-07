@@ -251,6 +251,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             YesNoType suppressDowngradeFailure = YesNoType.NotSet;
             YesNoType suppressRepair = YesNoType.NotSet;
             YesNoType showVersion = YesNoType.NotSet;
+            YesNoType supportCacheOnly = YesNoType.NotSet;
             YesNoType showFilesInUse = YesNoType.NotSet;
 
             foreach (XmlAttribute attrib in node.Attributes)
@@ -303,6 +304,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             break;
                         case "ShowVersion":
                             showVersion = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            break;
+                        case "SupportCacheOnly":
+                            supportCacheOnly = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             break;
                         case "ShowFilesInUse":
                             showFilesInUse = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
@@ -395,7 +399,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     this.Core.CreateWixVariableRow(sourceLineNumbers, "WixStdbaThemeWxl", localizationFile, false);
                 }
 
-                if (YesNoType.Yes == suppressOptionsUI || YesNoType.Yes == suppressDowngradeFailure || YesNoType.Yes == suppressRepair || YesNoType.Yes == showVersion || YesNoType.Yes == showFilesInUse)
+                if (YesNoType.Yes == suppressOptionsUI || YesNoType.Yes == suppressDowngradeFailure || YesNoType.Yes == suppressRepair || YesNoType.Yes == showVersion || YesNoType.Yes == supportCacheOnly || YesNoType.Yes == showFilesInUse)
                 {
                     Row row = this.Core.CreateRow(sourceLineNumbers, "WixStdbaOptions");
                     if (YesNoType.Yes == suppressOptionsUI)
@@ -421,6 +425,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     if (YesNoType.Yes == showFilesInUse)
                     {
                         row[4] = 1;
+                    }
+
+                    if (YesNoType.Yes == supportCacheOnly)
+                    {
+                        row[5] = 1;
                     }
                 }
             }

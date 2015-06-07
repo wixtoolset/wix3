@@ -1551,7 +1551,7 @@ static void LogPackages(
             LogId(REPORT_STANDARD, MSG_PLANNED_PACKAGE, pPackage->sczId, LoggingPackageStateToString(pPackage->currentState), LoggingRequestStateToString(pPackage->defaultRequested), LoggingRequestStateToString(pPackage->requested), LoggingActionStateToString(pPackage->execute), LoggingActionStateToString(pPackage->rollback), LoggingBoolToString(pPackage->fAcquire), LoggingBoolToString(pPackage->fUncache), LoggingDependencyActionToString(pPackage->dependencyExecute));
         }
 
-        // Display related bundles last if installing, modifying, or repairing.
+        // Display related bundles last if caching, installing, modifying, or repairing.
         if (BOOTSTRAPPER_ACTION_UNINSTALL < action && 0 < pRelatedBundles->cRelatedBundles)
         {
             for (DWORD i = 0; i < pRelatedBundles->cRelatedBundles; ++i)
