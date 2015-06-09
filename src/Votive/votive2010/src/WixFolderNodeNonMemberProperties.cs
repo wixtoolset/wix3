@@ -25,7 +25,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.VisualStudio
     /// <remarks>This class must be public and marked as ComVisible in order for the DispatchWrapper to work correctly.</remarks>
     [CLSCompliant(false)]
     [ComVisible(true)]
-    [Guid("C500F21B-92C7-4987-A425-1FB6B42CFBFD")]
+    [Guid("CCD1095F-96A4-4D78-AB8C-CAFF7C7731AC")]
     [SuppressMessage("Microsoft.Interoperability", "CA1409:ComVisibleTypesShouldBeCreatable")]
     public class WixFolderNodeNonMemberProperties : FolderNodeProperties
     {
