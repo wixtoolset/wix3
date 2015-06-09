@@ -20508,7 +20508,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
                 else
                 {
-                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                    this.core.ParseExtensionAttribute(sourceLineNumbers, node as XmlElement, attrib);
                 }
             }
 
@@ -20749,7 +20749,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
                 else
                 {
-                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                    this.core.ParseExtensionAttribute(sourceLineNumbers, node as XmlElement, attrib);
                 }
             }
 

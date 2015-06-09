@@ -19,7 +19,7 @@
         <swid:Tag Regid="!(loc.Regid)" InstallPath="[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)" />
         <Update Location='!(loc.UpdateUrl)' />
 
-        <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost'>
+        <BootstrapperApplicationRef Id='ManagedBootstrapperApplicationHost' bal:UseUILanguages='yes'>
           <Payload Name='BootstrapperCore.config' SourceFile='WixBA.BootstrapperCore.config' />
 
           <Payload SourceFile='WixBA.dll' />
