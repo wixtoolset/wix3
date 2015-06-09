@@ -508,10 +508,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
     <Reference Include="$(windir)\system32\inetsrv\Microsoft.Web.Administration.dll" Condition=" Exists('$(windir)\system32\inetsrv\Microsoft.Web.Administration.dll') " />
-    <ProjectReference Include="..\WixTestTools\WixTestTools.csproj">
-      <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
-      <Name>WixTestTools</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\WixTestTools\WixTestTools.csproj" />
     <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(XunitPath)\xunit.dll</HintPath>
