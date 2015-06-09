@@ -39,7 +39,7 @@ struct WIX_LOCALIZATION
 };
 
 /********************************************************************
- LocProbeForFile - Searches for a localization file on disk.
+ LocProbeForFile - Searches for a localization file on disk using incorrect set of APIs.
 
 *******************************************************************/
 HRESULT DAPI LocProbeForFile(
@@ -47,6 +47,18 @@ HRESULT DAPI LocProbeForFile(
     __in_z LPCWSTR wzLocFileName,
     __in_z_opt LPCWSTR wzLanguage,
     __inout LPWSTR* psczPath
+    );
+
+/********************************************************************
+ LocProbeForFileEx - Searches for a localization file on disk.
+ useUILanguage should be set to TRUE.
+*******************************************************************/
+extern "C" HRESULT DAPI LocProbeForFileEx(
+    __in_z LPCWSTR wzBasePath,
+    __in_z LPCWSTR wzLocFileName,
+    __in_z_opt LPCWSTR wzLanguage,
+    __inout LPWSTR* psczPath,
+    __in BOOL useUILanguage
     );
 
 /********************************************************************
