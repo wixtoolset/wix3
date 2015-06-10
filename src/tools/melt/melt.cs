@@ -308,6 +308,45 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             }
         }
 
+        private static void ValidateMSIMatchesPdb(InstallPackage package, Pdb inputPdb)
+        {
+            string msiProductCode = (string)package.Property["ProductCode"];
+            string msiUpgradeCode = (string)package.Property["UpgradeCode"];
+            string msiVersion = (string)package.Property["ProductVersion"];
+
+            try
+            {
+                foreach (Row pdbPropertyRow in inputPdb.Output.Tables["Property"].Rows)
+                {
+                    switch ((string)pdbPropertyRow.Fields[0].Data)
+                    {
+                        case "ProductCode":
+                            if (msiProductCode != (string)pdbPropertyRow.Fields[1].Data)
+                            {
+                                throw new Exception("ProductCode in MSI does not match that of the WIXPDB.");
+                            }
+                            break;
+                        case "UpgradeCode":
+                            if (msiUpgradeCode != (string)pdbPropertyRow.Fields[1].Data)
+                            {
+                                throw new Exception("UpgradeCode in MSI does not match that of the WIXPDB.");
+                            }
+                            break;
+                        case "ProductVersion":
+                            if (msiVersion != (string)pdbPropertyRow.Fields[1].Data)
+                            {
+                                throw new Exception("ProductVersion in MSI does not match that of the WIXPDB.");
+                            }
+                            break;
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("MSI-->WiXPdb validation failed. " + ex.Message, ex);
+            }
+        }
+
         /// <summary>
         /// Extracts files from an MSI database and rewrites the paths embedded in the source .wixpdb to the output .wixpdb.
         /// </summary>
@@ -336,6 +375,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
+                ValidateMSIMatchesPdb(package, inputPdb);
+
                 if (!this.suppressExtraction)
                 {
                     package.ExtractFiles();
