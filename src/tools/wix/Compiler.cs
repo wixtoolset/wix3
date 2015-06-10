@@ -11860,6 +11860,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             YesNoDefaultType security = YesNoDefaultType.Default;
             int sourceBits = (this.compilingModule ? 2 : 0);
             Row row;
+            bool installPrivilegeSeen = false;
+            bool installScopeSeen = false;
 
             switch (this.currentPlatform)
             {
@@ -11919,13 +11921,23 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             string installPrivileges = this.core.GetAttributeValue(sourceLineNumbers, attrib);
                             if (0 < installPrivileges.Length)
                             {
+                                installPrivilegeSeen = true;
                                 Wix.Package.InstallPrivilegesType installPrivilegesType = Wix.Package.ParseInstallPrivilegesType(installPrivileges);
                                 switch (installPrivilegesType)
                                 {
                                     case Wix.Package.InstallPrivilegesType.elevated:
+                                        if (installScopeSeen && (8 == (sourceBits & 8)))
+                                        {
+                                            this.core.OnMessage(WixErrors.IncompatiblePackageElevationAttributes(sourceLineNumbers, node.Name, "InstallScope", "perUser", attrib.Name, installPrivileges));
+                                        }
                                         // this is the default setting
+
                                         break;
                                     case Wix.Package.InstallPrivilegesType.limited:
+                                        if (installScopeSeen && (0 == (sourceBits & 8)))
+                                        {
+                                            this.core.OnMessage(WixErrors.IncompatiblePackageElevationAttributes(sourceLineNumbers, node.Name, "InstallScope", "perMachine", attrib.Name, installPrivileges));
+                                        }
                                         sourceBits = sourceBits | 8;
                                         break;
                                     default:
@@ -11938,15 +11950,24 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             string installScope = this.core.GetAttributeValue(sourceLineNumbers, attrib);
                             if (0 < installScope.Length)
                             {
+                                installScopeSeen = true;
                                 Wix.Package.InstallScopeType installScopeType = Wix.Package.ParseInstallScopeType(installScope);
                                 switch (installScopeType)
                                 {
                                     case Wix.Package.InstallScopeType.perMachine:
+                                        if (installPrivilegeSeen && (8 == (sourceBits & 8)))
+                                        {
+                                            this.core.OnMessage(WixErrors.IncompatiblePackageElevationAttributes(sourceLineNumbers, node.Name, attrib.Name, installScope, "InstallPrivileges", "limited"));
+                                        }
                                         row = this.core.CreateRow(sourceLineNumbers, "Property");
                                         row[0] = "ALLUSERS";
                                         row[1] = "1";
                                         break;
                                     case Wix.Package.InstallScopeType.perUser:
+                                        if (installPrivilegeSeen && (0 == (sourceBits & 8)))
+                                        {
+                                            this.core.OnMessage(WixErrors.IncompatiblePackageElevationAttributes(sourceLineNumbers, node.Name, attrib.Name, installScope, "InstallPrivileges", "elevated"));
+                                        }
                                         sourceBits = sourceBits | 8;
                                         break;
                                     default:

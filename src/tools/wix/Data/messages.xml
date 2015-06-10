@@ -2957,6 +2957,16 @@
           <Parameter Type="System.Int32" Name="supportedColumnCount" />
         </Instance>
       </Message>
+      <Message Id="IncompatiblePackageElevationAttributes" Number="387">
+          <Instance>
+              The {0}/@{1} attribute's value, '{2}', is not compatible with attribute @{3}'s value, '{4}'. It is recommended that only the InstallScope attribute be used.
+              <Parameter Type="System.String" Name="elementName" />
+              <Parameter Type="System.String" Name="attribute1Name" />
+              <Parameter Type="System.String" Name="attribute1Value" />
+              <Parameter Type="System.String" Name="attribute2Name" />
+              <Parameter Type="System.String" Name="attribute2Value" />
+          </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">
