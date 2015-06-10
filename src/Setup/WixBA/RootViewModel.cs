@@ -37,8 +37,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         private ICommand closeCommand;
 
         private bool canceled;
-        private InstallationState installstate;
-        private DetectionState detectstate;
+        private InstallationState installState;
+        private DetectionState detectState;
 
         /// <summary>
         /// Creates a new model of the root view.
@@ -117,14 +117,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         {
             get
             {
-                return this.detectstate;
+                return this.detectState;
             }
 
             set
             {
-                if (this.detectstate != value)
+                if (this.detectState != value)
                 {
-                    this.detectstate = value;
+                    this.detectState = value;
 
                     // Notify all the properties derived from the state that the state changed.
                     base.OnPropertyChanged("DetectState");
@@ -140,14 +140,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         {
             get
             {
-                return this.installstate;
+                return this.installState;
             }
 
             set
             {
-                if (this.installstate != value)
+                if (this.installState != value)
                 {
-                    this.installstate = value;
+                    this.installState = value;
 
                     // Notify all the properties derived from the state that the state changed.
                     base.OnPropertyChanged("InstallState");

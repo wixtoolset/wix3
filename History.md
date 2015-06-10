@@ -1,3 +1,5 @@
+* JacobHoover: WIXBUG:4512 - fix WiX BA, prevent multiple install clicks
+
 ## WixBuild: Version 3.10.0.1726
 
 * creativbox: WIXFEAT:4382 - Added files-in-use UI to WixStdBA
