@@ -39,10 +39,7 @@
     <Reference Include="$(OutputPath)BootstrapperCore.dll" />
     <Reference Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.dll" />
     <Reference Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Package.dll" />
-    <ProjectReference Include="..\..\WixTestTools\WixTestTools.csproj">
-      <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
-      <Name>WixTestTools</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\WixTestTools\WixTestTools.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\data\Integration\BurnIntegrationTests\BasicTests\A.wxs">

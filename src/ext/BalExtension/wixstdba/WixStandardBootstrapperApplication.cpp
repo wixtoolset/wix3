@@ -1276,29 +1276,30 @@ private: // privates
         hr = LocGetString(m_pWixLoc, L"#(loc.SuccessInstallHeader)", &pLocString);
         if (E_NOTFOUND == hr)
         {
-            hr = LocGetString(m_pWixLoc, L"#(loc.SuccessHeader)", &pLocString);
-            ExitOnFailure(hr, "Failed to load SuccessHeader localization string.");
+            // Duplicate strings, best-effort only.
+            if (SUCCEEDED(LocGetString(m_pWixLoc, L"#(loc.SuccessHeader)", &pLocString)))
+            {
+                hr = LocAddString(m_pWixLoc, L"SuccessInstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for SuccessInstallHeader.");
 
-            hr = LocAddString(m_pWixLoc, L"SuccessInstallHeader", pLocString->wzText, pLocString->bOverridable);
-            ExitOnFailure(hr, "Failed to duplicate localization string for SuccessInstallHeader.");
+                hr = LocAddString(m_pWixLoc, L"SuccessRepairHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for SuccessRepairHeader.");
 
-            hr = LocAddString(m_pWixLoc, L"SuccessRepairHeader", pLocString->wzText, pLocString->bOverridable);
-            ExitOnFailure(hr, "Failed to duplicate localization string for SuccessRepairHeader.");
+                hr = LocAddString(m_pWixLoc, L"SuccessUninstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for SuccessUninstallHeader.");
+            }
 
-            hr = LocAddString(m_pWixLoc, L"SuccessUninstallHeader", pLocString->wzText, pLocString->bOverridable);
-            ExitOnFailure(hr, "Failed to duplicate localization string for SuccessUninstallHeader.");
+            if (SUCCEEDED(LocGetString(m_pWixLoc, L"#(loc.FailureHeader)", &pLocString)))
+            {
+                hr = LocAddString(m_pWixLoc, L"FailureInstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for FailureInstallHeader.");
 
-            hr = LocGetString(m_pWixLoc, L"#(loc.FailureHeader)", &pLocString);
-            ExitOnFailure(hr, "Failed to load FailureHeader localization string.");
+                hr = LocAddString(m_pWixLoc, L"FailureRepairHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for FailureRepairHeader.");
 
-            hr = LocAddString(m_pWixLoc, L"FailureInstallHeader", pLocString->wzText, pLocString->bOverridable);
-            ExitOnFailure(hr, "Failed to duplicate localization string for FailureInstallHeader.");
-
-            hr = LocAddString(m_pWixLoc, L"FailureRepairHeader", pLocString->wzText, pLocString->bOverridable);
-            ExitOnFailure(hr, "Failed to duplicate localization string for FailureRepairHeader.");
-
-            hr = LocAddString(m_pWixLoc, L"FailureUninstallHeader", pLocString->wzText, pLocString->bOverridable);
-            ExitOnFailure(hr, "Failed to duplicate localization string for FailureUninstallHeader.");
+                hr = LocAddString(m_pWixLoc, L"FailureUninstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for FailureUninstallHeader.");
+            }
         }
 
     LExit:
