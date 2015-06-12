@@ -308,43 +308,28 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             }
         }
 
-        private static void ValidateMSIMatchesPdb(InstallPackage package, Pdb inputPdb)
+        private static bool ValidateMSIMatchesPdb(InstallPackage package, Pdb inputPdb)
         {
-            string msiProductCode = (string)package.Property["ProductCode"];
-            string msiUpgradeCode = (string)package.Property["UpgradeCode"];
-            string msiVersion = (string)package.Property["ProductVersion"];
+            const string KEY_PRODUCT_CODE = "ProductCode";
 
-            try
+            string msiProductCode = (string)package.Property[KEY_PRODUCT_CODE];
+
+            foreach (Row pdbPropertyRow in inputPdb.Output.Tables["Property"].Rows)
             {
-                foreach (Row pdbPropertyRow in inputPdb.Output.Tables["Property"].Rows)
+                switch ((string)pdbPropertyRow.Fields[0].Data)
                 {
-                    switch ((string)pdbPropertyRow.Fields[0].Data)
-                    {
-                        case "ProductCode":
-                            if (msiProductCode != (string)pdbPropertyRow.Fields[1].Data)
-                            {
-                                throw new Exception("ProductCode in MSI does not match that of the WIXPDB.");
-                            }
-                            break;
-                        case "UpgradeCode":
-                            if (msiUpgradeCode != (string)pdbPropertyRow.Fields[1].Data)
-                            {
-                                throw new Exception("UpgradeCode in MSI does not match that of the WIXPDB.");
-                            }
-                            break;
-                        case "ProductVersion":
-                            if (msiVersion != (string)pdbPropertyRow.Fields[1].Data)
-                            {
-                                throw new Exception("ProductVersion in MSI does not match that of the WIXPDB.");
-                            }
-                            break;
-                    };
-                }
+                    case KEY_PRODUCT_CODE:
+                        string pdbProductCode = (string)pdbPropertyRow.Fields[1].Data;
+                        if (msiProductCode != pdbProductCode)
+                        {
+                            Console.WriteLine(MeltStrings.WAR_MSIMismatchPDBProductCode, msiProductCode, pdbProductCode);
+                            return false;
+                        }
+                        break;
+                };
             }
-            catch (Exception ex)
-            {
-                throw new Exception("MSI-->WiXPdb validation failed. " + ex.Message, ex);
-            }
+
+            return true;
         }
 
         /// <summary>
