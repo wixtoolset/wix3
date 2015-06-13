@@ -49,6 +49,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private bool tidy;
         private bool suppressExtraction;
 
+        private static readonly string KEY_PRODUCT_CODE = "ProductCode";
+
         /// <summary>
         /// Instantiate a new Melt class.
         /// </summary>
@@ -306,27 +308,39 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                 Console.WriteLine("An error occured extracting the {0} binary table from the install package.", tableName);
                 Console.WriteLine(ex.Message);
             }
-        }
+        }        
 
+        /// <summary>
+        /// Checks to make sure that the debug symbols match up with the MSI.
+        /// This is to help in ensuring that error 1642 does not inexplicably appear.
+        /// </summary>
+        /// <remarks>
+        /// This is meant to assist with Bug # 4792
+        /// http://wixtoolset.org/issues/4792/
+        /// </remarks>
+        /// <param name="package">
+        /// The MSI currently being melted.
+        /// </param>
+        /// <param name="inputPdb">
+        /// The debug symbols package being compared against the <paramref name="package"/>.
+        /// </param>
+        /// <returns></returns>
         private static bool ValidateMSIMatchesPdb(InstallPackage package, Pdb inputPdb)
         {
-            const string KEY_PRODUCT_CODE = "ProductCode";
-
             string msiProductCode = (string)package.Property[KEY_PRODUCT_CODE];
 
             foreach (Row pdbPropertyRow in inputPdb.Output.Tables["Property"].Rows)
             {
-                switch ((string)pdbPropertyRow.Fields[0].Data)
+                if(KEY_PRODUCT_CODE == (string)pdbPropertyRow.Fields[0].Data)
                 {
-                    case KEY_PRODUCT_CODE:
-                        string pdbProductCode = (string)pdbPropertyRow.Fields[1].Data;
-                        if (msiProductCode != pdbProductCode)
-                        {
-                            Console.WriteLine(MeltStrings.WAR_MSIMismatchPDBProductCode, msiProductCode, pdbProductCode);
-                            return false;
-                        }
-                        break;
-                };
+                    string pdbProductCode = (string)pdbPropertyRow.Fields[1].Data;
+                    if (msiProductCode != pdbProductCode)
+                    {
+                        Console.WriteLine(MeltStrings.WAR_MSIMismatchPDBProductCode, msiProductCode, pdbProductCode);
+                        return false;
+                    }
+                    break;
+                }
             }
 
             return true;
