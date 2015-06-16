@@ -81,10 +81,9 @@ extern "C" HRESULT EngineRun(
 
     BURN_ENGINE_STATE engineState = { };
 
-    hr = InitializeEngineState(&engineState);
-    ExitOnFailure(hr, "Failed to initialize engine state.");
-
-    engineState.command.nCmdShow = nCmdShow;
+    // Always initialize logging first
+    LogInitialize(::GetModuleHandleW(NULL));
+    fLogInitialized = TRUE;
 
     // Ensure that log contains approriate level of information
 #ifdef _DEBUG
@@ -92,6 +91,11 @@ extern "C" HRESULT EngineRun(
 #else
     LogSetLevel(REPORT_VERBOSE, FALSE); // FALSE means don't write an additional text line to the log saying the level changed
 #endif
+
+    hr = InitializeEngineState(&engineState);
+    ExitOnFailure(hr, "Failed to initialize engine state.");
+
+    engineState.command.nCmdShow = nCmdShow;
 
     // initialize platform layer
     PlatformInitialize();
@@ -102,9 +106,6 @@ extern "C" HRESULT EngineRun(
     fComInitialized = TRUE;
 
     // Initialize dutil.
-    LogInitialize(::GetModuleHandleW(NULL));
-    fLogInitialized = TRUE;
-
     hr = CrypInitialize();
     ExitOnFailure(hr, "Failed to initialize Cryputil.");
     fCrypInitialized = TRUE;
