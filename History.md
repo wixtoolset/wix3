@@ -1,3 +1,58 @@
+* jmcooper8654: WIXBUG:4791 - Fix race in lit.exe/light.exe related to wixlibs and large binaries.
+
+* BMurri: WIXBUG:4532 - Make it an error for InstallPrivileges and InstallScope to specify contradictory values.
+
+## WixBuild: Version 3.10.0.1726
+
+* creativbox: WIXFEAT:4382 - Added files-in-use UI to WixStdBA
+
+* SeanHall: WIXBUG:4597 - Fix project harvesting in heat for Tools version 12.0 and 14.0.
+
+* HeathS: WIXBUG:3060 - Do not redownload package payloads when /layout is restarted.
+
+* SeanHall: WIXFEAT:4763 - Add literal flag to Burn variables to indicate that their values shouldn't be formatted.
+
+* BobArnson: WIXFEAT:4772 - Replace hyperlink ShelExec with ShelExecUnelevated.
+
+* BobArnson: WIXBUG:4716 - If a .wxl file is missing strings added in v3.10, duplicate the generic string from v3.9. Add support for doing so to locutil.
+
+## WixBuild: Version 3.10.0.1719
+
+* SeanHall: WIXBUG:4761 - Use the package's exit code to tell if the prereq was installed.
+
+* BobArnson: WIXBUG:4734 - Rewrote type-51 CAs using SetProperty.
+
+* BobArnson: WIXFEAT:4720 - Added bind-time variables for .NET Framework package groups detect condition, install condition, and package directories.
+
+* HeathS: Add VSIX property for VS2015 and fix searches for previous versions.
+
+* BobArnson: Add libs_minimal.proj with just the libraries needed for tools/ tree build. This prevents the build from backing up behind a full libs/ tree build, which gets more painful the more versions of Visual Studio that are installed.
+
+* BobArnson: WIXBUG:4750 - Add a note about binary (in)compatibility.
+
+* RobMen: WIXBUG:4732 - fix documentation links to MsiServiceConfig and MsiServiceConfigFailureActions.
+
+* BobArnson: WIXFEAT:4719 - Implement ExePackage/CommandLine:
+  * Add WixBundleExecutePackageAction variable: Set to the BOOTSTRAPPER_ACTION_STATE of the package as it's about to executed.
+  * Add ExePackage/CommandLine to compiler and binder.
+  * Update Burn to parse CommandLine table in manifest and apply it during ExePackage execution.
+
+* BobArnson: WIXBUG:4725 - Scrub the WixStdBA license doc and add a blurb about a missing WixStdbaLicenseUrl variable.
+
+* BobArnson: WIXBUG:4721 - Tweak RepairCommand doc.
+
+* SeanHall: WIXFEAT:4619 - Include WixUI dialogs and wxl files in core MSI.
+
+* SeanHall: WIXFEAT:4618 - Include WixStdBA and mbapreq themes and wxl files in core MSI.
+
+* JacobHoover: WIXBUG:4482 - Temp file for update feed isn't deleted when download fails
+
+* SeanHall: WIXBUG:4731 - Obscure hidden variable values in the logged command line.
+
+* SeanHall: WIXBUG:4630 - Serialize all variables to the elevated Burn process.
+
+* SeanHall: WIXFEAT:3933 - Make WixBundleManufacturer variable writable.
+
 * BobArnson: WIXBUG:4700 - Added blurb about SequenceType.first.
 
 * BobArnson: Project reference tweaks: 

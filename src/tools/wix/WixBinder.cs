@@ -20,6 +20,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using System.Collections.Specialized;
     using System.IO;
     using System.Text;
+    using System.Threading;
 
     /// <summary>
     /// Common binder core of the Windows Installer Xml toolset.
@@ -283,114 +284,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     continue;
                 }
 
-                bool retry = false;
-                do
+                if (fileTransfer.Move)
                 {
-                    try
-                    {
-                        if (fileTransfer.Move)
-                        {
-                            this.core.OnMessage(WixVerboses.MoveFile(fileSource, fileTransfer.Destination));
-                            this.FileManager.MoveFile(fileSource, fileTransfer.Destination);
-                        }
-                        else
-                        {
-                            this.core.OnMessage(WixVerboses.CopyFile(fileSource, fileTransfer.Destination));
-                            this.FileManager.CopyFile(fileSource, fileTransfer.Destination, true);
-                        }
+                    this.core.OnMessage(WixVerboses.MoveFile(fileSource, fileTransfer.Destination));
+                    this.FileManager.MoveFile(fileSource, fileTransfer.Destination);
+                }
+                else
+                {
+                    this.core.OnMessage(WixVerboses.CopyFile(fileSource, fileTransfer.Destination));
+                    this.FileManager.CopyFile(fileSource, fileTransfer.Destination, true);
+                }
 
-                        retry = false;
-                        destinationFiles.Add(fileTransfer.Destination);
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        throw new WixFileNotFoundException(e.FileName);
-                    }
-                    catch (DirectoryNotFoundException)
-                    {
-                        // if we already retried, give up
-                        if (retry)
-                        {
-                            throw;
-                        }
-
-                        string directory = Path.GetDirectoryName(fileTransfer.Destination);
-                        this.core.OnMessage(WixVerboses.CreateDirectory(directory));
-                        Directory.CreateDirectory(directory);
-                        retry = true;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        // if we already retried, give up
-                        if (retry)
-                        {
-                            throw;
-                        }
-
-                        if (File.Exists(fileTransfer.Destination))
-                        {
-                            this.core.OnMessage(WixVerboses.RemoveDestinationFile(fileTransfer.Destination));
-
-                            // try to ensure the file is not read-only
-                            FileAttributes attributes = File.GetAttributes(fileTransfer.Destination);
-                            try
-                            {
-                                File.SetAttributes(fileTransfer.Destination, attributes & ~FileAttributes.ReadOnly);
-                            }
-                            catch (ArgumentException) // thrown for unauthorized access errors
-                            {
-                                throw new WixException(WixErrors.UnauthorizedAccess(fileTransfer.Destination));
-                            }
-
-                            // try to delete the file
-                            try
-                            {
-                                File.Delete(fileTransfer.Destination);
-                            }
-                            catch (IOException)
-                            {
-                                throw new WixException(WixErrors.FileInUse(null, fileTransfer.Destination));
-                            }
-
-                            retry = true;
-                        }
-                        else // no idea what just happened, bail
-                        {
-                            throw;
-                        }
-                    }
-                    catch (IOException)
-                    {
-                        // if we already retried, give up
-                        if (retry)
-                        {
-                            throw;
-                        }
-
-                        if (File.Exists(fileTransfer.Destination))
-                        {
-                            this.core.OnMessage(WixVerboses.RemoveDestinationFile(fileTransfer.Destination));
-
-                            // ensure the file is not read-only, then delete it
-                            FileAttributes attributes = File.GetAttributes(fileTransfer.Destination);
-                            File.SetAttributes(fileTransfer.Destination, attributes & ~FileAttributes.ReadOnly);
-                            try
-                            {
-                                File.Delete(fileTransfer.Destination);
-                            }
-                            catch (IOException)
-                            {
-                                throw new WixException(WixErrors.FileInUse(null, fileTransfer.Destination));
-                            }
-
-                            retry = true;
-                        }
-                        else // no idea what just happened, bail
-                        {
-                            throw;
-                        }
-                    }
-                } while (retry);
+                destinationFiles.Add(fileTransfer.Destination);
             }
 
             // finally, if there were any files remove the ACL that may have been added to
@@ -401,7 +306,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     Microsoft.Tools.WindowsInstallerXml.Cab.Interop.NativeMethods.ResetAcls((string[])destinationFiles.ToArray(typeof(string)), (uint)destinationFiles.Count);
                 }
-                catch
+                catch (Exception)
                 {
                     this.core.OnMessage(WixWarnings.UnableToResetAcls());
                 }
