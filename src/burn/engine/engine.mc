@@ -106,6 +106,27 @@ Language=English
 Command Line: '%1!ls!'
 .
 
+MessageId=10
+Severity=Success
+SymbolicName=MSG_LAUNCH_ELEVATED_ENGINE_STARTING
+Language=English
+Launching elevated engine process.
+.
+
+MessageId=11
+Severity=Success
+SymbolicName=MSG_LAUNCH_ELEVATED_ENGINE_SUCCESS
+Language=English
+Launched elevated engine process.
+.
+
+MessageId=12
+Severity=Success
+SymbolicName=MSG_CONNECT_TO_ELEVATED_ENGINE_SUCCESS
+Language=English
+Connected to elevated engine.
+.
+
 MessageId=51
 Severity=Error
 SymbolicName=MSG_FAILED_PARSE_CONDITION
@@ -730,6 +751,20 @@ Language=English
 Unable to register source directory: %1!ls!, product: %2!ls!, reason: 0x%3!x!. Continuing...
 .
 
+MessageId=358
+Severity=Success
+SymbolicName=MSG_PAUSE_AU_STARTING
+Language=English
+Pausing automatic updates.
+.
+
+MessageId=359
+Severity=Success
+SymbolicName=MSG_PAUSE_AU_SUCCEEDED
+Language=English
+Paused automatic updates.
+.
+
 MessageId=360
 Severity=Success
 SymbolicName=MSG_SYSTEM_RESTORE_POINT_STARTING
@@ -805,6 +840,20 @@ Severity=Success
 SymbolicName=MSG_VARIABLE_DUMP
 Language=English
 Variable: %1!ls!
+.
+
+MessageId=420
+Severity=Success
+SymbolicName=MSG_RESUME_AU_STARTING
+Language=English
+Resuming automatic updates.
+.
+
+MessageId=421
+Severity=Success
+SymbolicName=MSG_RESUME_AU_SUCCEEDED
+Language=English
+Resumed automatic updates.
 .
 
 MessageId=500
