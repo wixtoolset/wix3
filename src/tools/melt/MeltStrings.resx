@@ -150,4 +150,7 @@ Environment variables:
   <data name="WAR_FailedToDeleteTempDir" xml:space="preserve">
     <value>Warning, failed to delete temporary directory: {0}</value>
   </data>
+  <data name="WAR_MSIMismatchPDBProductCode" xml:space="preserve">
+    <value>Warning, ProductCode in MSI '{0}' does not match that of the WIXPDB '{1}'.</value>
+  </data>
 </root>
