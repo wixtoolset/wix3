@@ -49,8 +49,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private bool tidy;
         private bool suppressExtraction;
 
-        private static readonly string KEY_PRODUCT_CODE = "ProductCode";
-
         /// <summary>
         /// Instantiate a new Melt class.
         /// </summary>
@@ -325,18 +323,18 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         /// The debug symbols package being compared against the <paramref name="package"/>.
         /// </param>
         /// <returns></returns>
-        private static bool ValidateMSIMatchesPdb(InstallPackage package, Pdb inputPdb)
+        private static bool ValidateMsiMatchesPdb(InstallPackage package, Pdb inputPdb)
         {
-            string msiProductCode = (string)package.Property[KEY_PRODUCT_CODE];
+            string msiPackageCode = (string)package.Property["PackageCode"];
 
             foreach (Row pdbPropertyRow in inputPdb.Output.Tables["Property"].Rows)
             {
-                if(KEY_PRODUCT_CODE == (string)pdbPropertyRow.Fields[0].Data)
+                if ("PackageCode" == (string)pdbPropertyRow.Fields[0].Data)
                 {
-                    string pdbProductCode = (string)pdbPropertyRow.Fields[1].Data;
-                    if (msiProductCode != pdbProductCode)
+                    string pdbPackageCode = (string)pdbPropertyRow.Fields[1].Data;
+                    if (msiPackageCode != pdbPackageCode)
                     {
-                        Console.WriteLine(MeltStrings.WAR_MSIMismatchPDBProductCode, msiProductCode, pdbProductCode);
+                        Console.WriteLine(MeltStrings.WAR_MismatchedPackageCode, msiPackageCode, pdbPackageCode);
                         return false;
                     }
                     break;
@@ -374,7 +372,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
-                ValidateMSIMatchesPdb(package, inputPdb);
+                // ignore failures as this is a new validation in v3.x
+                ValidateMsiMatchesPdb(package, inputPdb);
 
                 if (!this.suppressExtraction)
                 {
