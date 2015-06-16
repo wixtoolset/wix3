@@ -273,6 +273,8 @@ extern "C" HRESULT ElevationElevate(
     hr = PipeCreatePipes(&pEngineState->companionConnection, TRUE, &hPipesCreatedEvent);
     ExitOnFailure(hr, "Failed to create pipe and cache pipe.");
 
+    LogId(REPORT_STANDARD, MSG_LAUNCH_ELEVATED_ENGINE_STARTING);
+
     do
     {
         nResult = IDOK;
@@ -281,8 +283,12 @@ extern "C" HRESULT ElevationElevate(
         hr = PipeLaunchChildProcess(pEngineState->sczBundleEngineWorkingPath, &pEngineState->companionConnection, TRUE, hwndParent);
         if (SUCCEEDED(hr))
         {
+            LogId(REPORT_STANDARD, MSG_LAUNCH_ELEVATED_ENGINE_SUCCESS);
+
             hr = PipeWaitForChildConnect(&pEngineState->companionConnection);
             ExitOnFailure(hr, "Failed to connect to elevated child process.");
+
+            LogId(REPORT_STANDARD, MSG_CONNECT_TO_ELEVATED_ENGINE_SUCCESS);
         }
         else if (HRESULT_FROM_WIN32(ERROR_CANCELLED) == hr)
         {
@@ -1141,8 +1147,12 @@ extern "C" HRESULT ElevationChildResumeAutomaticUpdates()
 {
     HRESULT hr = S_OK;
 
+    LogId(REPORT_STANDARD, MSG_RESUME_AU_STARTING);
+
     hr = WuaResumeAutomaticUpdates();
     ExitOnFailure(hr, "Failed to resume automatic updates after pausing them, continuing...");
+
+    LogId(REPORT_STANDARD, MSG_RESUME_AU_SUCCEEDED);
 
 LExit:
     return hr;
@@ -1618,15 +1628,21 @@ static HRESULT OnApplyInitialize(
     // Attempt to pause AU with best effort.
     if (BURN_AU_PAUSE_ACTION_IFELEVATED == dwAUAction || BURN_AU_PAUSE_ACTION_IFELEVATED_NORESUME == dwAUAction)
     {
+        LogId(REPORT_STANDARD, MSG_PAUSE_AU_STARTING);
+
         hr = WuaPauseAutomaticUpdates();
         if (FAILED(hr))
         {
             LogId(REPORT_STANDARD, MSG_FAILED_PAUSE_AU, hr);
             hr = S_OK;
         }
-        else if (BURN_AU_PAUSE_ACTION_IFELEVATED == dwAUAction)
+        else
         {
-            *pfDisabledWindowsUpdate = TRUE;
+            LogId(REPORT_STANDARD, MSG_PAUSE_AU_SUCCEEDED);
+            if (BURN_AU_PAUSE_ACTION_IFELEVATED == dwAUAction)
+            {
+                *pfDisabledWindowsUpdate = TRUE;
+            }
         }
     }
 
