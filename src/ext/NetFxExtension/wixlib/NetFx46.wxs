@@ -17,8 +17,9 @@
            .NET Framework 4.5/4.5.1/4.5.2/4.6 - http://msdn.microsoft.com/en-us/library/w0x726c2(v=vs.110).aspx
     -->
 
-  <!-- todo: update from current CTP5 value to RTM value when that happens. -->
-  <?define NetFx46MinRelease = 393223 ?>
+  <!-- todo: update from current RC value to RTM value when that happens. -->
+  <?define NetFx46MinRelease = 393273 ?>
+  <?define NetFx46RedistLink = http://go.microsoft.com/fwlink/?LinkId=502139 ?>
 
   <Fragment>
     <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
@@ -26,5 +27,40 @@
     <SetProperty Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED" Value="1" After="AppSearch">
       WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx46MinRelease)"
     </SetProperty>
+  </Fragment>
+  
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
+
+    <WixVariable Id="NetFx46RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx46MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx46RedistInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx46RedistPackageDirectory" Value="redist\" Overridable="yes" />
+
+    <PackageGroup Id="NetFx46Redist">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          PerMachine="yes"
+          DetectCondition="!(wix.NetFx46RedistDetectCondition)"
+          InstallCondition="!(wix.NetFx46RedistInstallCondition)"
+          Id="NetFx46Redist"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx46RedistLink)"
+          LogPathVariable="NetFx46FullLog"
+          Compressed="no"
+          Name="!(wix.NetFx46RedistPackageDirectory)NDP46-KB3033091-x86-x64-AllOS-ENU.exe">
+        <RemotePayload 
+          CertificatePublicKey="B78FE7F6917E1BC5F4A9C77BA3D555A0E807B9E0" 
+          CertificateThumbprint="67B1757863E3EFF760EA9EBB02849AF07D3A8080" 
+          Description="Microsoft .NET Framework 4.6 RC Setup" 
+          Hash="C1693EA0E69FB8CEB73619CA6BF2704DB48ED35D" 
+          ProductName="Microsoft .NET Framework 4.6 RC" 
+          Size="63738800" 
+          Version="4.6.57.0" />
+      </ExePackage>
+    </PackageGroup>
   </Fragment>
 </Wix>
