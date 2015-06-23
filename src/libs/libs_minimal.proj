@@ -8,39 +8,9 @@
   </copyright>
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <ItemGroup Condition=" $(VS2010Available) and !$(VS2012Available) and !$(VS2013Available) and !$(VS2015Available) ">
+  <ItemGroup>
     <ProjectReference Include="dutil\dutil.vcxproj">
-      <Properties>PlatformToolset=v100</Properties>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(VS2012Available) and !$(VS2013Available) and !$(VS2015Available) ">
-    <ProjectReference Include="dutil\dutil.vcxproj">
-      <Properties>PlatformToolset=v110_xp</Properties>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(VS2013Available) and !$(StaticAnalysisEnabled) and !$(VS2015Available) ">
-    <ProjectReference Include="dutil\dutil.vcxproj">
-      <Properties>PlatformToolset=v120_xp</Properties>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(VS2013Available) and $(StaticAnalysisEnabled) and !$(VS2015Available) ">
-    <ProjectReference Include="dutil\dutil.vcxproj">
-      <Properties>PlatformToolset=v120</Properties>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(VS2015Available) and !$(StaticAnalysisEnabled) ">
-    <ProjectReference Include="dutil\dutil.vcxproj">
-      <Properties>PlatformToolset=v140_xp</Properties>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(VS2015Available) and $(StaticAnalysisEnabled) ">
-    <ProjectReference Include="dutil\dutil.vcxproj">
-      <Properties>PlatformToolset=v140</Properties>
+      <Properties>PlatformToolset=$(PlatformToolset)</Properties>
     </ProjectReference>
   </ItemGroup>
 

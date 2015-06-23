@@ -21,7 +21,7 @@
 
     <ProjectReference Include="src\Utilities\TestBA\TestBA.csproj" />
     <ProjectReference Include="src\UnitTests\Burn\BurnUnitTest.vcxproj" />
-    <ProjectReference Include="src\UnitTests\dutil\DUtilUnitTest.vcxproj" />
+    <ProjectReference Include="src\UnitTests\dutil\DUtilUnitTest.vcxproj" Condition=" '$(PlatformToolset)' != 'v100' " />
     <ProjectReference Include="src\IntegrationTests\Burn\BurnIntegrationTests.csproj" />
     <ProjectReference Include="src\IntegrationTests\MsbuildIntegrationTests\MsbuildIntegrationTests.csproj" />
     <ProjectReference Include="src\WixTests\WixTests.csproj" />
