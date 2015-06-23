@@ -1,3 +1,27 @@
+## WixBuild: Version 3.10.0.1823
+
+* @barnson: WIXFEAT:4789 - Phase I of .NET Framework 4.6 support (RC, full redist).
+
+* Lakmus85: WIXBUG:4614 - Validation added for the case when the project property is not empty (as stated in the comments to this method).
+
+* RobMen: WIXBUG:4778 - initialize logging before anything else.
+
+* JacobHoover: WIXBUG:4512 - fix WiX BA, prevent multiple install clicks
+
+* BobArnson: WIXFEAT:4781 - Do a best-effort duplication of strings instead of failing if there's a missing string.
+
+* BobArnson: WIXBUG:4786 - Replace default WixUI license with lorem ipsum text.
+
+* BobArnson: WIXBUG:4760 - Re-guid WixFolderNodeNonMemberProperties
+
+* HeathS: Refactor cache-only support in Burn
+  * Remove /cache command line support from engine
+  * Allow BA to request cache-only support
+
+* ErnestT: WIXBUG:4432 - Add burn support for only caching packages
+
+* HeathS: WIXBUG:4775 - Always set WixBundleOriginalSourceFolder if not already set
+
 * BMurri: WIXBUG:4532 - Make it an error for InstallPrivileges and InstallScope to specify contradictory values.
 
 ## WixBuild: Version 3.10.0.1726
