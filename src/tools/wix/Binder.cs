@@ -93,6 +93,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
         // as outlined in RFC 4122, this is our namespace for generating name-based (version 3) UUIDs
         private static readonly Guid WixComponentGuidNamespace = new Guid("{3064E5C6-FB63-4FE9-AC49-E446A792EFA5}");
 
+        // String to be used for setting Row values to NULL that are non-nullable
+        private static readonly string NullString = ((char)21).ToString();
+
         internal static readonly string PARAM_SPSD_NAME = "SuppressPatchSequenceData";
 
         // The following constants must stay in sync with src\burn\engine\core.h
@@ -119,6 +122,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private bool suppressPatchSequenceData;
         private bool suppressWixPdb;
         private bool suppressValidation;
+
+        private bool allowEmptyTransforms;
+        private StringCollection nonEmptyProductCodes;
+        private StringCollection nonEmptyTransformNames;
+        private StringCollection emptyTransformNames;
 
         private StringCollection ices;
         private StringCollection invalidArgs;
@@ -152,6 +160,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.fileTransfers = new ArrayList();
             this.newCabNamesCallBack = NewCabNamesCallBack;
             this.lastCabinetAddedToMediaTable = new Dictionary<string, string>();
+
+            this.nonEmptyProductCodes = new StringCollection();
+            this.nonEmptyTransformNames = new StringCollection();
+            this.emptyTransformNames = new StringCollection();
         }
 
         /// <summary>
@@ -262,6 +274,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
             get { return this.suppressLayout; }
             set { this.suppressLayout = value; }
         }
+
+        /// <summary>
+        /// Gets and sets the option to allow patching despite having one or more empty transforms.
+        /// </summary>
+        /// <value>The option to allow patching despite having one or more empty transforms.</value>
+        public bool AllowEmptyTransforms
+        {
+            get { return this.allowEmptyTransforms; }
+            set { this.allowEmptyTransforms = value; }
+        }
+
 
         /// <summary>
         /// Gets and sets the option to suppress MSI/MSM validation.
@@ -778,6 +801,67 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         this.SetDatabaseCodepage(db, output);
                     }
 
+                    // insert substorages (like transforms inside a patch)
+                    if (0 < output.SubStorages.Count)
+                    {
+                        using (View storagesView = new View(db, "SELECT `Name`, `Data` FROM `_Storages`"))
+                        {
+                            foreach (SubStorage subStorage in output.SubStorages)
+                            {
+                                string transformFile = Path.Combine(this.TempFilesLocation, String.Concat(subStorage.Name, ".mst"));
+
+                                // bind the transform
+                                if (this.BindTransform(subStorage.Data, transformFile))
+                                {
+                                    // add the storage
+                                    using (Record record = new Record(2))
+                                    {
+                                        record.SetString(1, subStorage.Name);
+                                        record.SetStream(2, transformFile);
+                                        storagesView.Modify(ModifyView.Assign, record);
+                                    }
+                                }
+                            }
+                        }
+
+                        // some empty transforms may have been excluded
+                        // we need to remove these from the final patch summary information
+                        if (OutputType.Patch == output.Type && this.AllowEmptyTransforms)
+                        {
+                            Table patchSummaryInfo = output.EnsureTable(this.core.TableDefinitions["_SummaryInformation"]);
+                            for (int i = patchSummaryInfo.Rows.Count - 1; i >= 0; i--)
+                            {
+                                Row row = patchSummaryInfo.Rows[i];
+                                if ((int)SummaryInformation.Patch.ProductCodes == (int)row[0])
+                                {
+                                    if (nonEmptyProductCodes.Count > 0)
+                                    {
+                                        string[] productCodes = new string[nonEmptyProductCodes.Count];
+                                        nonEmptyProductCodes.CopyTo(productCodes, 0);
+                                        row[1] = String.Join(";", productCodes);
+                                    }
+                                    else
+                                    {
+                                        row[1] = Binder.NullString;
+                                    }
+                                }
+                                else if ((int)SummaryInformation.Patch.TransformNames == (int)row[0])
+                                {
+                                    if (nonEmptyTransformNames.Count > 0)
+                                    {
+                                        string[] transformNames = new string[nonEmptyTransformNames.Count];
+                                        nonEmptyTransformNames.CopyTo(transformNames, 0);
+                                        row[1] = String.Join(";", transformNames);
+                                    }
+                                    else
+                                    {
+                                        row[1] = Binder.NullString;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     foreach (Table table in output.Tables)
                     {
                         Table importTable = table;
@@ -925,30 +1009,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             if ("_Streams" == table.Name)
                             {
                                 table.Rows.Clear();
-                            }
-                        }
-                    }
-
-                    // insert substorages (like transforms inside a patch)
-                    if (0 < output.SubStorages.Count)
-                    {
-                        using (View storagesView = new View(db, "SELECT `Name`, `Data` FROM `_Storages`"))
-                        {
-                            foreach (SubStorage subStorage in output.SubStorages)
-                            {
-                                string transformFile = Path.Combine(this.TempFilesLocation, String.Concat(subStorage.Name, ".mst"));
-
-                                // bind the transform
-                                if (this.BindTransform(subStorage.Data, transformFile))
-                                {
-                                    // add the storage
-                                    using (Record record = new Record(2))
-                                    {
-                                        record.SetString(1, subStorage.Name);
-                                        record.SetStream(2, transformFile);
-                                        storagesView.Modify(ModifyView.Assign, record);
-                                    }
-                                }
                             }
                         }
                     }
@@ -4971,6 +5031,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             Table targetPropertyTable = targetOutput.EnsureTable(this.core.TableDefinitions["Property"]);
             Table updatedPropertyTable = updatedOutput.EnsureTable(this.core.TableDefinitions["Property"]);
 
+            string targetProductCode = null;
+
             // process special summary information values
             foreach (Row row in transform.Tables["_SummaryInformation"].Rows)
             {
@@ -5031,6 +5093,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     Row targetProductCodeRow = targetPropertyTable.CreateRow(null);
                     targetProductCodeRow[0] = "ProductCode";
                     targetProductCodeRow[1] = propertyData[0].Substring(0, 38);
+                    targetProductCode = propertyData[0].Substring(0, 38);
 
                     Row targetProductVersionRow = targetPropertyTable.CreateRow(null);
                     targetProductVersionRow[0] = "ProductVersion";
@@ -5313,12 +5376,37 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 using (Database updatedDatabase = new Database(updatedDatabaseFile, OpenDatabase.ReadOnly))
                 {
-                    if (!updatedDatabase.GenerateTransform(targetDatabase, transformFile))
+                    // Skip adding the patch transform if the product transform was empty.
+                    // Patch transforms are usually not empty due to changes such as Media Table Row insertions.
+                    if ((this.AllowEmptyTransforms && this.emptyTransformNames.Contains(transformFileName.Replace("#", ""))) || !updatedDatabase.GenerateTransform(targetDatabase, transformFile))
                     {
-                        throw new WixException(WixErrors.NoDifferencesInTransform(transform.SourceLineNumbers));
+                        if (this.AllowEmptyTransforms)
+                        {
+                            // Only output the message once for the product transform.
+                            if (!transformFileName.StartsWith("#"))
+                            {
+                                this.core.OnMessage(WixWarnings.NoDifferencesInTransform(transform.SourceLineNumbers));
+                            }
+                            this.emptyTransformNames.Add(transformFileName);
+                            return false;
+                        }
+                        else
+                        {
+                            throw new WixException(WixErrors.NoDifferencesInTransform(transform.SourceLineNumbers));
+                        }
                     }
-
-                    updatedDatabase.CreateTransformSummaryInfo(targetDatabase, transformFile, (TransformErrorConditions)(transformFlags & 0xFFFF), (TransformValidations)((transformFlags >> 16) & 0xFFFF));
+                    else
+                    {
+                        if (targetProductCode != null && !this.nonEmptyProductCodes.Contains(targetProductCode))
+                        {
+                            this.nonEmptyProductCodes.Add(targetProductCode);
+                        }
+                        if (!this.nonEmptyTransformNames.Contains(":" + transformFileName))
+                        {
+                            this.nonEmptyTransformNames.Add(":" + transformFileName);
+                        }
+                        updatedDatabase.CreateTransformSummaryInfo(targetDatabase, transformFile, (TransformErrorConditions)(transformFlags & 0xFFFF), (TransformValidations)((transformFlags >> 16) & 0xFFFF));
+                    }
                 }
             }
 

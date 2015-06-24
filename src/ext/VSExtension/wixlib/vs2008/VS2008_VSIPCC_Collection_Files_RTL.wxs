@@ -9,7 +9,7 @@
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment Id="VS2008_Namespace">
-    <Binary Id="BIN_435439_x86_enu" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_435439_x86_enu" />
+    <Binary Id="BIN_435439_x86_enu" SourceFile="$(sys.SOURCEFILEDIR)\Redist\BIN_435439_x86_enu.dll" />
     <CustomAction Id="CA_ScheduleExtHelpPlugin_VSCC_VSIPCC" BinaryKey="BIN_435439_x86_enu" DllEntry="ScheduleExtHelpPlugin" Return="ignore" />
     <CustomAction Id="CA_ExtHelpPlugin" BinaryKey="BIN_435439_x86_enu" DllEntry="ExtHelpPluginAction" Execute="deferred" Impersonate="no" />
     

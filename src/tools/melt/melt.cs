@@ -27,6 +27,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
     using Microsoft.Deployment.WindowsInstaller.Package;
 
     using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Entry point for the melter
@@ -34,6 +35,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
     public sealed class Melt
     {
         private string exportBasePath;
+        private bool exportToSubDirectoriesFormat;        
         private StringCollection extensionList;
         private StringCollection invalidArgs;
         private string id;
@@ -252,6 +254,61 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         }
 
         /// <summary>
+        /// Extract binary data from tables with a Name and Data column in them.
+        /// </summary>
+        /// <param name="inputPdb">A reference to a <see cref="Pdb"/> as output.  Paths (Data properties) will be modified in this object.</param>
+        /// <param name="package">The installer database to rip from.</param>
+        /// <param name="exportPath">The full path where files will be exported to.</param>
+        /// <param name="tableName">The name of the table to export.</param>
+        private static void MeltBinaryTable(Pdb inputPdb, InstallPackage package, string exportPath, string tableName)
+        {
+            if (string.IsNullOrEmpty(tableName))
+            {
+                throw new ArgumentNullException("tableName");
+            }
+            if (string.IsNullOrEmpty(exportPath))
+            {
+                throw new ArgumentNullException("exportPath");
+            }
+            if (null == package)
+            {
+                throw new ArgumentNullException("package");
+            }
+            if (null == inputPdb)
+            {
+                throw new ArgumentNullException("inputPdb");
+            }
+
+            Table pdbTable = inputPdb.Output.Tables[tableName];
+            if (null == pdbTable)
+            {
+                Console.WriteLine("Table {0} does not exist.", tableName);
+                return;
+            }
+
+            try
+            {
+                Directory.CreateDirectory(exportPath);
+                Melt.ExtractFilesInBinaryTable(package, null, tableName, exportPath);
+                IDictionary<string, string> paths = package.GetFilePaths(exportPath);
+
+                if (null != paths)
+                {
+                    foreach (Row row in pdbTable.Rows)
+                    {
+                        string filename = (string)row.Fields[0].Data;
+                        row.Fields[1].Data = paths[filename];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured extracting the {0} binary table from the install package.", tableName);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Extracts files from an MSI database and rewrites the paths embedded in the source .wixpdb to the output .wixpdb.
         /// </summary>
         private void MeltProduct()
@@ -259,21 +316,40 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             // print friendly message saying what file is being decompiled
             Console.WriteLine("{0} / {1}", Path.GetFileName(this.inputFile), Path.GetFileName(this.inputPdbFile));
 
+            Pdb inputPdb = Pdb.Load(this.inputPdbFile, true, true);
+            
             // extract files from the .msi (unless suppressed) and get the path map of File ids to target paths
             string outputDirectory = this.exportBasePath ?? Environment.GetEnvironmentVariable("WIX_TEMP");
+            string exportBinaryPath = null;
+            string exportIconPath = null;
+
+            if (this.exportToSubDirectoriesFormat)
+            {
+                exportBinaryPath = Path.Combine(outputDirectory, "Binary");
+                exportIconPath = Path.Combine(outputDirectory, "Icon");
+                outputDirectory = Path.Combine(outputDirectory, "File");
+            }
+
+            Table wixFileTable = inputPdb.Output.Tables["WixFile"];            
+
             IDictionary<string, string> paths = null;
+            
             using (InstallPackage package = new InstallPackage(this.inputFile, DatabaseOpenMode.ReadOnly, null, outputDirectory))
             {
                 if (!this.suppressExtraction)
                 {
                     package.ExtractFiles();
+
+                    if (this.exportToSubDirectoriesFormat)
+                    {
+                        Melt.MeltBinaryTable(inputPdb, package, exportBinaryPath, "Binary");
+                        Melt.MeltBinaryTable(inputPdb, package, exportIconPath, "Icon");
+                    }
                 }
 
                 paths = package.Files.SourcePaths;
-            }
-
-            Pdb inputPdb = Pdb.Load(this.inputPdbFile, true, true);
-            Table wixFileTable = inputPdb.Output.Tables["WixFile"];
+            }            
+                        
             if (null != wixFileTable)
             {
                 foreach (Row row in wixFileTable.Rows)
@@ -460,6 +536,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                             return;
                         }
                     }
+                    else if ("xn" == parameter)
+                    {
+                        this.exportToSubDirectoriesFormat = true;                        
+                    }                    
                     else if ("?" == parameter || "help" == parameter)
                     {
                         this.showHelp = true;
@@ -510,5 +590,54 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                 }
             }
         }
+
+        /// <summary>
+        /// Extracts binary data from the `Binary` or `Icon` tables to the designated path.
+        /// </summary>
+        /// <param name="installPackage">The installation package to extract the files from.</param>
+        /// <param name="names">The names of the rows to be picked.  If null then all rows will be returned.  If none are matched then none are created.</param>
+        /// <param name="tableName">The name of the table to extract binary data from.  Valid values are "Binary" and "Icon" or a custom table with Name and Data columns of type string and stream respectively.</param>
+        /// <param name="path">The path to extract the files to.  The path must exist before calling this method.</param>
+        [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+        private static void ExtractFilesInBinaryTable(InstallPackage installPackage, ICollection<string> names, string tableName, string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new ArgumentException(string.Format("The path specified does not exist. {0}", path), "path");
+            }
+
+            View binaryView = installPackage.OpenView("Select `Name`, `Data` FROM `{0}`", tableName);
+            binaryView.Execute();
+
+            ICollection<string> createdFiles = new List<string>(100);
+
+            for (Record binaryRec = binaryView.Fetch(); binaryRec != null; binaryRec = binaryView.Fetch())
+            {
+                string binaryKey = (string)binaryRec[1];
+                Stream binaryData = (Stream)binaryRec[2];
+
+                if (null != names && !names.Contains(binaryKey)) continue; //Skip unspecified values
+
+                createdFiles.Add(binaryKey);
+
+                FileInfo binaryFile = new FileInfo(Path.Combine(path, binaryKey));
+                using (FileStream fs = binaryFile.Create())
+                {
+                    Stream tempBuffer = new MemoryStream((int)binaryFile.Length);
+                    for (int a = binaryData.ReadByte(); a != -1; a = binaryData.ReadByte())
+                    {
+                        tempBuffer.WriteByte((byte)a);
+                    }
+                    tempBuffer.Seek(0, SeekOrigin.Begin);
+                    for (int a = tempBuffer.ReadByte(); a != -1; a = tempBuffer.ReadByte())
+                    {
+                        fs.WriteByte((byte)a);
+                    }
+                }
+            }
+
+            InstallPackage.ClearReadOnlyAttribute(path, createdFiles);
+        }
+
     }
 }

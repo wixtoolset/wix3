@@ -192,4 +192,41 @@
             <Directory Id="VS2013_SCHEMAS_DIR" Name="Schemas" />
         </DirectoryRef>
     </Fragment>
+
+    <!--
+        VS2015
+    -->
+    <Fragment>
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="VisualStudio2014Folder" Name="Microsoft Visual Studio 14.0">
+                <Directory Id="Common7Vs2015" Name="Common7">
+                    <Directory Id="IDEVs2015" Name="IDE"/>
+                </Directory>
+                <Directory Id="XmlVs2015" Name="Xml"/>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS14_EXTENSIONS_DIR" />
+
+        <DirectoryRef Id="IDEVs2015">
+            <Directory Id="VS14_EXTENSIONS_DIR" Name="Extensions">
+                <Directory Id="VsExtensions2015Microsoft" Name="Microsoft">
+                    <Directory Id="VsExtensions2015MicrosoftWix" Name="WiX">
+                        <Directory Id="VsItemTemplatesWix2015Folder" Name="ItemTemplates" />
+                        <Directory Id="VsProjectTemplatesWix2015Folder" Name="ProjectTemplates" />
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS14_SCHEMAS_DIR" />
+
+        <DirectoryRef Id="XmlVs2015">
+            <Directory Id="VS14_SCHEMAS_DIR" Name="Schemas" />
+        </DirectoryRef>
+    </Fragment>
 </Wix>

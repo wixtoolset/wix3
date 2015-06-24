@@ -24,6 +24,7 @@
     <SchemaDocument Include="..\ext\DifxAppExtension\wixext\Xsd\difxapp.xsd" />
     <SchemaDocument Include="..\ext\FirewallExtension\wixext\Xsd\firewall.xsd" />
     <SchemaDocument Include="..\ext\GamingExtension\wixext\Xsd\gaming.xsd" />
+    <SchemaDocument Include="..\ext\HttpExtension\wixext\xsd\http.xsd" />
     <SchemaDocument Include="..\ext\IIsExtension\wixext\xsd\iis.xsd" />
     <SchemaDocument Include="..\ext\MsmqExtension\wixext\xsd\msmq.xsd" />
     <SchemaDocument Include="..\ext\NetFxExtension\wixext\Xsd\netfx.xsd" />

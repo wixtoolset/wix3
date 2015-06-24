@@ -1,6 +1,7 @@
 [Bb]uild/
 [Pp]ackages/
 ipch/
+.vs/
 
 *.chw
 *.suo

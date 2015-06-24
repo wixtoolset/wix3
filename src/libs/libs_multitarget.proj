@@ -8,16 +8,13 @@
   </copyright>
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <PropertyGroup>
-    <BuildInParallel>false</BuildInParallel>
-  </PropertyGroup>
-
   <ItemGroup Condition=" $(VS2010Available) ">
     <ProjectReference Include="dutil\dutil.vcxproj">
       <Properties>PlatformToolset=v100</Properties>
     </ProjectReference>
     <ProjectReference Include="wcautil\wcautil.vcxproj">
       <Properties>PlatformToolset=v100</Properties>
+      <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
     <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
       <Properties>PlatformToolset=v100</Properties>
@@ -33,6 +30,7 @@
     </ProjectReference>
     <ProjectReference Include="wcautil\wcautil.vcxproj">
       <Properties>PlatformToolset=v110_xp</Properties>
+      <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
     <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
       <Properties>PlatformToolset=v110_xp</Properties>
@@ -48,6 +46,7 @@
     </ProjectReference>
     <ProjectReference Include="wcautil\wcautil.vcxproj">
       <Properties>PlatformToolset=v120_xp</Properties>
+      <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
     <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
       <Properties>PlatformToolset=v120_xp</Properties>
@@ -63,12 +62,45 @@
     </ProjectReference>
     <ProjectReference Include="wcautil\wcautil.vcxproj">
       <Properties>PlatformToolset=v120</Properties>
+      <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
     <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
       <Properties>PlatformToolset=v120</Properties>
     </ProjectReference>
     <ProjectReference Include="deputil\deputil.vcxproj">
       <Properties>PlatformToolset=v120</Properties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(VS2015Available) and !$(StaticAnalysisEnabled) ">
+    <ProjectReference Include="dutil\dutil.vcxproj">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+    <ProjectReference Include="wcautil\wcautil.vcxproj">
+      <Properties>PlatformToolset=v140_xp</Properties>
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
+    <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+    <ProjectReference Include="deputil\deputil.vcxproj">
+      <Properties>PlatformToolset=v140_xp</Properties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(VS2015Available) and $(StaticAnalysisEnabled) ">
+    <ProjectReference Include="dutil\dutil.vcxproj">
+      <Properties>PlatformToolset=v140</Properties>
+    </ProjectReference>
+    <ProjectReference Include="wcautil\wcautil.vcxproj">
+      <Properties>PlatformToolset=v140</Properties>
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
+    <ProjectReference Include="balutil\balutil.vcxproj" Condition=" '$(Platform)'!='x64' ">
+      <Properties>PlatformToolset=v140</Properties>
+    </ProjectReference>
+    <ProjectReference Include="deputil\deputil.vcxproj">
+      <Properties>PlatformToolset=v140</Properties>
     </ProjectReference>
   </ItemGroup>
 

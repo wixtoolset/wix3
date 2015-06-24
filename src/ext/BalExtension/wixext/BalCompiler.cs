@@ -240,6 +240,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string launchTargetElevatedId = null;
             string launchArguments = null;
             YesNoType launchHidden = YesNoType.NotSet;
+            string launchWorkingDir = null;
             string licenseFile = null;
             string licenseUrl = null;
             string logoFile = null;
@@ -268,6 +269,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             break;
                         case "LaunchHidden":
                             launchHidden = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            break;
+                        case "LaunchWorkingFolder":
+                            launchWorkingDir = this.Core.GetAttributeValue(sourceLineNumbers, attrib, false);
                             break;
                         case "LicenseFile":
                             licenseFile = this.Core.GetAttributeValue(sourceLineNumbers, attrib, false);
@@ -350,6 +354,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 if (YesNoType.Yes == launchHidden)
                 {
                     this.Core.CreateVariableRow(sourceLineNumbers, "LaunchHidden", "yes", "string", false, false);
+                }
+
+                if (!String.IsNullOrEmpty(launchWorkingDir))
+                {
+                    this.Core.CreateVariableRow(sourceLineNumbers, "LaunchWorkingFolder", launchWorkingDir, "string", false, false);
                 }
 
                 if (!String.IsNullOrEmpty(licenseFile))

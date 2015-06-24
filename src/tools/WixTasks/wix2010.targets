@@ -45,8 +45,8 @@
   InitialTargets="_CheckForInvalidConfigurationAndPlatform;
                   _CheckRequiredProperties">
   <PropertyGroup>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.9@InstallRoot)</WixInstallPath>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.9@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.10@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.10@InstallRoot)</WixInstallPath>
   </PropertyGroup>
 
   <!--
@@ -2294,6 +2294,7 @@
       ToolPath="$(WixToolPath)"
       TreatWarningsAsErrors="$(LibTreatWarningsAsErrors)"
       VerboseOutput="$(LibVerboseOutput)" />
+    <Message Importance="High" Text="$(MSBuildProjectName) -&gt; $(TargetPath)" />
   </Target>
 
   <!--
@@ -2526,6 +2527,7 @@
       VerboseOutput="$(LinkerVerboseOutput)"
       WixProjectFile="$(ProjectPath)"
       WixVariables="$(WixVariables)" />
+    <Message Importance="High" Text="$(MSBuildProjectName) -&gt; $(TargetDir)%(CultureGroup.OutputFolder)$(TargetName)$(TargetExt)" />
   </Target>
 
   <!--

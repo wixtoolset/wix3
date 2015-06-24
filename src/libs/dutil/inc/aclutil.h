@@ -146,6 +146,18 @@ HRESULT DAPI AclAddAdminToSecurityDescriptor(
     __in SECURITY_DESCRIPTOR* pSecurity,
     __deref_out SECURITY_DESCRIPTOR** ppSecurityNew
     );
+
+// Following code in acl2util.cpp due to dependency on crypt32.dll.
+HRESULT DAPI AclCalculateServiceSidString(
+    __in LPCWSTR wzServiceName,
+    __in int cchServiceName,
+    __deref_out_z LPWSTR* psczSid
+    );
+HRESULT DAPI AclGetAccountSidStringEx(
+    __in_z LPCWSTR wzSystem,
+    __in_z LPCWSTR wzAccount,
+    __deref_out_z LPWSTR* psczSid
+    );
 #ifdef __cplusplus
 }
 #endif

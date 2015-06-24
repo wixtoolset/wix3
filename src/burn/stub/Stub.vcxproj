@@ -42,6 +42,13 @@
     <ProjectAdditionalLinkLibraries>cabinet.lib;crypt32.lib;msi.lib;rpcrt4.lib;shlwapi.lib;wininet.lib;wintrust.lib;Userenv.lib;Wtsapi32.lib;wuguid.lib;dutil.lib;deputil.lib;engine.lib;engine.res</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
+  <ItemDefinitionGroup>
+    <Link>
+      <SwapRunFromCD>true</SwapRunFromCD>
+      <SwapRunFromNET>true</SwapRunFromNET>
+    </Link>
+  </ItemDefinitionGroup>
+
   <ItemGroup>
     <ClInclude Include="precomp.h" />
   </ItemGroup>

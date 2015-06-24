@@ -148,7 +148,17 @@ extern "C" UINT __stdcall WixRegisterRestartResources(
         case etApplication:
             WcaLog(LOGMSG_VERBOSE, "Registering process name %ls with the Restart Manager.", wzResource);
             hr = RmuAddProcessesByName(pSession, wzResource);
-            ExitOnFailure(hr, "Failed to register the process name with the Restart Manager session.");
+            if (E_NOTFOUND == hr)
+            {
+                // ERROR_ACCESS_DENIED was returned when trying to register this process.
+                // Since other instances may have been registered, log a message and continue the setup rather than failing.
+                WcaLog(LOGMSG_STANDARD, "The process, %ls, could not be registered with the Restart Manager (probably because the setup is not elevated and the process is in another user context). A reboot may be requested later.", wzResource);
+                hr = S_OK;
+            }
+            else
+            {
+                ExitOnFailure(hr, "Failed to register the process name with the Restart Manager session.");
+            }
             break;
 
         case etServiceName:

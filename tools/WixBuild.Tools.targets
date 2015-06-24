@@ -39,6 +39,8 @@
     <Message Importance="high" Text="VS2012SdkAvailable = $(VS2012SdkAvailable)" />
     <Message Importance="high" Text="VS2013Available = $(VS2013Available)" />
     <Message Importance="high" Text="VS2013SdkAvailable = $(VS2013SdkAvailable)" />
+    <Message Importance="high" Text="VS2015Available = $(VS2015Available)" />
+    <Message Importance="high" Text="VS2015SdkAvailable = $(VS2015SdkAvailable)" />
     <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
     <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
     <Message Importance="high" Text="SqlCESdkIncludePath = $(SqlCESdkIncludePath)" />
@@ -63,8 +65,14 @@
 
     <Error
       Code="WIXBUILD000"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable))"
-      Text="All versions of VS and VS SDK are required on an official build. Install VS2010, VS2012, VS2013, and matching SDKs." />
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable) and $(VS2015SdkAvailable))"
+      Text="All versions of VS and VS SDK are required on an official build. Install VS2010, VS2012, VS2013, VS2015, and matching SDKs." />
+
+    <!-- 
+        Note that we don't actually require any VSSDK beyond the VS2010 SDK. We'll build against later versions if 
+        available using the "latest available" logic in WixBuild.VisualStudioSDK.targets. However, we're not 
+        currently building Votive in a way that requires any version later than VS2010.
+    -->
 
     <Error
       Code="WIXBUILD001"
@@ -82,16 +90,6 @@
       Text="$(HelpCompiler) does not exist. Please install the HTML Help Workshop that is part of the HTML Help SDK." />
 
     <Error
-      Code="WIXBUILD005"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !Exists('$(SandcastlePath)')"
-      Text="Sandcastle is required on an official build. Install the Sandcastle Help File Builder that is available on CodePlex to get Sandcastle and Sandcastle Help File Builder." />
-
-    <Error
-      Code="WIXBUILD006"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !Exists('$(SandcastleHelpFileBuilderTargets)')"
-      Text="$(SandcastleHelpFileBuilderTargets) is required on an official build. Install the Sandcastle Help File Builder that is available on CodePlex." />
-
-    <Error
       Code="WIXBUILD007"
       Condition=" !Exists('$(XunitPath)xunit.dll') "
       Text="Cannot locate xUnit assemblies. Ensure xUnit is present at: $(XunitPath) and that the 'xunit.dll' exists. If not, run the following command from the root of the project: msbuild -t:PackageRestore" />
@@ -99,7 +97,7 @@
     <Error
       Code="WIXBUILD008"
       Condition=" $(VS2013Available) and '12.0'>'$(MSBuildToolsVersion)' "
-      Text="When Visual Studio 2013 is installed, you must use the MSBuild v12.0 to build. MSBuild v12.0 is typically found here: ProgramFiles(x86)\MSBuild\12.0\Bin\MSBuild.exe" />
+      Text="When Visual Studio 2013 is installed, you must use MSBuild v12.0 to build. MSBuild v12.0 is typically found here: ProgramFiles(x86)\MSBuild\12.0\Bin\MSBuild.exe" />
 
     <Error
       Code="WIXBUILD009"
@@ -110,6 +108,11 @@
       Code="WIXBUILD010"
       Condition=" $(VS2012Available) and '11.0'>'$(VisualStudioVersion)' "
       Text="When Visual Studio 2012 is installed, the VisualStudioVersion environment variable must be set to '11.0' or higher. Set the environment variable directly or use the 'Developer Command Prompt' provided by Visual Studio 2012 (or newer) to initialize your command prompt." />
+
+    <Error
+      Code="WIXBUILD011"
+      Condition=" $(VS2015Available) and '14.0'>'$(MSBuildToolsVersion)' "
+      Text="When Visual Studio 2015 is installed, you must use MSBuild v14.0 to build. MSBuild v12.0 is typically found here: ProgramFiles(x86)\MSBuild\14.0\Bin\MSBuild.exe" />
 
   </Target>
 

@@ -14,9 +14,8 @@
     <Name>Documentation</Name>
 
     <!-- SHFB properties -->
-    <SHFBSchemaVersion>1.8.0.3</SHFBSchemaVersion>
+    <SHFBSchemaVersion>1.9.9.0</SHFBSchemaVersion>
     <HtmlHelpName>DTFAPI</HtmlHelpName>
-    <ProjectSummary></ProjectSummary>
     <MissingTags>Namespace, TypeParameter</MissingTags>
     <VisibleItems>InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, SealedProtected</VisibleItems>
 

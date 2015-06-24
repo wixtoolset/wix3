@@ -9,7 +9,7 @@
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.9</ProductVersion>
+    <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>{FC691478-732D-4C2D-A19B-272898E83EE9}</ProjectGuid>
     <OutputName>core</OutputName>
     <OutputType>Package</OutputType>
@@ -47,6 +47,9 @@
   <ItemGroup>
     <WixExtension Include="WixTagExtension">
       <HintPath>$(OutputPath_x86)WixTagExtension.dll</HintPath>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(OutputPath_x86)WixUtilExtension.dll</HintPath>
     </WixExtension>
   </ItemGroup>
 

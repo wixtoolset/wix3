@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="tables.xml" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+
+  The table definitions for the Windows Installer XML Toolset Http Extension.
+-->
+<tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
+  <tableDefinition name="WixHttpUrlReservation">
+    <columnDefinition name="WixHttpUrlReservation" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description="The non-localized primary key for the table." />
+    <columnDefinition name="HandleExisting" type="number" length="4" nullable="no"
+        minValue="0" maxValue="2" description="The behavior when trying to install a URL reservation and it already exists." />
+    <columnDefinition name="Sddl" type="string" length="0" modularize="property" nullable="yes"
+        category="formatted" description="Security descriptor for the URL reservation." />
+    <columnDefinition name="Url" type="string" length="0" modularize="property" nullable="no"
+        category="formatted" description="URL to be reserved." />
+    <columnDefinition name="Component_" type="string" length="72" modularize="column"
+        keyTable="Component" keyColumn="1" category="identifier" description="Foreign key into the Component table referencing the component that controls the URL reservation." />
+  </tableDefinition>
+  <tableDefinition name="WixHttpUrlAce">
+    <columnDefinition name="WixHttpUrlAce" type="string" length="72" primaryKey="yes" modularize="column"
+        category="identifier" description="The non-localized primary key for the table." />
+    <columnDefinition name="WixHttpUrlReservation_" type="string" length="72" keyTable="WixHttpUrlReservation" keyColumn="1" modularize="column"
+            category="identifier" description="Foreign key into the WixHttpUrlReservation table." />
+    <columnDefinition name="SecurityPrincipal" type="string" length="0" modularize="property"
+        category="formatted" description="The security principal for this ACE." />
+    <columnDefinition name="Rights" type="number" length="4" nullable="no"
+        minValue="0" maxValue="1073741824" description="The rights for this ACE." />
+  </tableDefinition>
+</tableDefinitions>

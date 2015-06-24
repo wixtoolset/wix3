@@ -409,7 +409,7 @@ extern "C" HRESULT VariablesParseFromXml(
         pVariables->rgVariables[iVariable].fPersisted = fPersisted;
 
         // update variable value
-        hr = BVariantCopy(&value, &pVariables->rgVariables[iVariable].Value);
+        hr = BVariantSetValue(&pVariables->rgVariables[iVariable].Value, &value);
         ExitOnFailure1(hr, "Failed to set value of variable: %ls", sczId);
 
         hr = BVariantSetEncryption(&pVariables->rgVariables[iVariable].Value, fHidden);
@@ -1528,7 +1528,7 @@ static HRESULT SetVariableValue(
     }
 
     // update variable value
-    hr = BVariantCopy(pVariant, &pVariables->rgVariables[iVariable].Value);
+    hr = BVariantSetValue(&pVariables->rgVariables[iVariable].Value, pVariant);
     ExitOnFailure1(hr, "Failed to set value of variable: %ls", wzVariable);
 
 LExit:
@@ -1636,31 +1636,31 @@ static HRESULT InitializeVariableOsInfo(
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuiteBackOffice:
-        value.llValue = VER_SUITE_BACKOFFICE == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_BACKOFFICE & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuiteDataCenter:
-        value.llValue = VER_SUITE_DATACENTER == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_DATACENTER & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuiteEnterprise:
-        value.llValue = VER_SUITE_ENTERPRISE == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_ENTERPRISE & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuitePersonal:
-        value.llValue = VER_SUITE_PERSONAL == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_PERSONAL & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuiteSmallBusiness:
-        value.llValue = VER_SUITE_SMALLBUSINESS == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_SMALLBUSINESS & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuiteSmallBusinessRestricted:
-        value.llValue = VER_SUITE_SMALLBUSINESS_RESTRICTED == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_SMALLBUSINESS_RESTRICTED & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_NTSuiteWebServer:
-        value.llValue = VER_SUITE_BLADE == ovix.wSuiteMask ? 1 : 0;
+        value.llValue = VER_SUITE_BLADE & ovix.wSuiteMask ? 1 : 0;
         value.Type = BURN_VARIANT_TYPE_NUMERIC;
         break;
     case OS_INFO_VARIABLE_CompatibilityMode:

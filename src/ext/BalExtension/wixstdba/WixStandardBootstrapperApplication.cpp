@@ -13,13 +13,18 @@
 static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 
 static const LPCWSTR WIXSTDBA_WINDOW_CLASS = L"WixStdBA";
+
 static const LPCWSTR WIXSTDBA_VARIABLE_INSTALL_FOLDER = L"InstallFolder";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID = L"LaunchTargetElevatedId";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
+static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER = L"LaunchWorkingFolder";
+
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
+
 static const LPCWSTR WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION = L"WixBundleFileVersion";
+static const LPCWSTR WIXSTDBA_VARIABLE_LANGUAGE_ID = L"WixStdBALanguageId";
 
 enum WIXSTDBA_STATE
 {
@@ -129,6 +134,11 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT,
     WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON,
     WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON,
+    
+    WIXSTDBA_CONTROL_SUCCESS_HEADER, 
+    WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, 
+    WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, 
 
     // Failure page
     WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK,
@@ -136,6 +146,11 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT,
     WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON,
     WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON,
+    
+    WIXSTDBA_CONTROL_FAILURE_HEADER, 
+    WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, 
+    WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER,
 };
 
 static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
@@ -184,6 +199,16 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, L"FailureRestartText" },
     { WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, L"FailureRestartButton" },
     { WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON, L"FailureCloseButton" },
+    
+    { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" }, 
+    { WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, L"SuccessInstallHeader" }, 
+    { WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, L"SuccessUninstallHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, L"SuccessRepairHeader" }, 
+    
+    { WIXSTDBA_CONTROL_FAILURE_HEADER, L"FailureHeader" }, 
+    { WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, L"FailureInstallHeader" }, 
+    { WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, L"FailureUninstallHeader" }, 
+    { WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, L"FailureRepairHeader" }, 
 };
 
 typedef struct _WIXSTDBA_PREREQ_PACKAGE
@@ -864,7 +889,7 @@ public: // IBootstrapperApplication
 
             for (DWORD i = 0; i < m_cPrereqPackages; ++i)
             {
-                if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled)
+                if (m_rgPrereqPackages[i].sczPackageId && m_rgPrereqPackages[i].fPlannedToBeInstalled && !m_rgPrereqPackages[i].fWasAlreadyInstalled)
                 {
                     if (m_rgPrereqPackages[i].fSuccessfullyInstalled)
                     {
@@ -1151,6 +1176,7 @@ private: // privates
     {
         HRESULT hr = S_OK;
         LPWSTR sczLocPath = NULL;
+        LPWSTR sczFormatted = NULL;
         LPCWSTR wzLocFileName = m_fPrereq ? L"mbapreq.wxl" : L"thm.wxl";
 
         hr = LocProbeForFile(wzModulePath, wzLocFileName, wzLanguage, &sczLocPath);
@@ -1162,6 +1188,9 @@ private: // privates
         if (WIX_LOCALIZATION_LANGUAGE_NOT_SET != m_pWixLoc->dwLangId)
         {
             ::SetThreadLocale(m_pWixLoc->dwLangId);
+
+            hr = m_pEngine->SetVariableNumeric(WIXSTDBA_VARIABLE_LANGUAGE_ID, m_pWixLoc->dwLangId);
+            BalExitOnFailure(hr, "Failed to set WixStdBALanguageId variable.");
         }
 
         hr = StrAllocString(&m_sczConfirmCloseMessage, L"#(loc.ConfirmCancelMessage)", 0);
@@ -1170,7 +1199,16 @@ private: // privates
         hr = LocLocalizeString(m_pWixLoc, &m_sczConfirmCloseMessage);
         BalExitOnFailure1(hr, "Failed to localize confirm close message: %ls", m_sczConfirmCloseMessage);
 
+        hr = BalFormatString(m_sczConfirmCloseMessage, &sczFormatted);
+        if (SUCCEEDED(hr))
+        {
+            ReleaseStr(m_sczConfirmCloseMessage);
+            m_sczConfirmCloseMessage = sczFormatted;
+            sczFormatted = NULL;
+        }
+
     LExit:
+        ReleaseStr(sczFormatted);
         ReleaseStr(sczLocPath);
 
         return hr;
@@ -2153,6 +2191,32 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_LAUNCH_BUTTON, fLaunchTargetExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON, fShowRestartButton);
+                    
+                    if ((BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER)))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE); 
+                    }
+                    else
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, TRUE);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+                    
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction);
+                    }
                 }
                 else if (m_rgdwPageIds[WIXSTDBA_PAGE_FAILURE] == dwNewPageId) // on the "Failure" page, show error message and check if the restart button should be enabled.
                 {
@@ -2228,6 +2292,32 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, fShowErrorMessage);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, fShowRestartButton);
+
+                    if ((BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER)))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE); 
+                    }
+                    else
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, TRUE);
+                    }
+                    
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction); 
+                    }
                 }
 
                 // Process each control for special handling in the new page.
@@ -2269,6 +2359,20 @@ private: // privates
                                 {
                                     ThemeSendControlMessage(m_pTheme, pControl->wId, BM_SETCHECK, SUCCEEDED(hr) && llValue ? BST_CHECKED : BST_UNCHECKED, 0);
                                 }
+                            }
+
+                            // If this is an editbox control, try to set its default state to the state of a matching named Burn variable.
+                            if (THEME_CONTROL_TYPE_EDITBOX == pControl->type && WIXSTDBA_CONTROL_FOLDER_EDITBOX != pControl->wId)
+                            {
+                                LPWSTR sczEditboxValue = NULL;
+                                HRESULT hr = BalGetStringVariable(pControl->sczName, &sczEditboxValue);
+
+                                if (SUCCEEDED(hr))
+                                {
+                                    ThemeSetTextControl(m_pTheme, pControl->wId, sczEditboxValue);
+                                }
+
+                                ReleaseStr(sczEditboxValue);
                             }
 
                             // Hide or disable controls based on the control name with 'State' appended
@@ -2458,6 +2562,8 @@ private: // privates
     //
     void OnClickRepairButton()
     {
+        SavePageSettings(WIXSTDBA_PAGE_MODIFY);
+
         this->OnPlan(BOOTSTRAPPER_ACTION_REPAIR);
     }
 
@@ -2467,6 +2573,8 @@ private: // privates
     //
     void OnClickUninstallButton()
     {
+        SavePageSettings(WIXSTDBA_PAGE_MODIFY);
+
         this->OnPlan(BOOTSTRAPPER_ACTION_UNINSTALL);
     }
 
@@ -2542,6 +2650,7 @@ private: // privates
         LPWSTR sczLaunchTargetElevatedId = NULL;
         LPWSTR sczUnformattedArguments = NULL;
         LPWSTR sczArguments = NULL;
+        LPWSTR sczLaunchFolder = NULL;
         int nCmdShow = SW_SHOWNORMAL;
 
         hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH, &sczUnformattedLaunchTarget);
@@ -2567,6 +2676,12 @@ private: // privates
             nCmdShow = SW_HIDE;
         }
 
+        if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER))
+        {
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER, &sczLaunchFolder);
+            BalExitOnFailure1(hr, "Failed to get launch working directory variable '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER);
+        }
+
         if (sczLaunchTargetElevatedId && !m_fTriedToLaunchElevated)
         {
             m_fTriedToLaunchElevated = TRUE;
@@ -2587,13 +2702,14 @@ private: // privates
                 BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
             }
 
-            hr = ShelExec(sczLaunchTarget, sczArguments, L"open", NULL, nCmdShow, m_hWnd, NULL);
+            hr = ShelExec(sczLaunchTarget, sczArguments, L"open", sczLaunchFolder, nCmdShow, m_hWnd, NULL);
             BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
 
             ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
         }
 
     LExit:
+        ReleaseStr(sczLaunchFolder);
         StrSecureZeroFreeString(sczArguments);
         ReleaseStr(sczUnformattedArguments);
         ReleaseStr(sczLaunchTargetElevatedId);

@@ -10,6 +10,9 @@
 LIBRARY      "wixca"
 
 EXPORTS
+; BroadcastSettingChange.cpp
+    WixBroadcastSettingChange
+    WixBroadcastEnvironmentChange
 ; cacleanup.cpp
     CommitCAScriptCleanup
 ; checkreboot.cpp

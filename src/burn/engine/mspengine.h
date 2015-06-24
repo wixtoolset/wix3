@@ -46,7 +46,8 @@ HRESULT MspEngineDetectPackage(
     );
 HRESULT MspEnginePlanCalculatePackage(
     __in BURN_PACKAGE* pPackage,
-    __in BURN_USER_EXPERIENCE* pUserExperience
+    __in BURN_USER_EXPERIENCE* pUserExperience,
+    __out_opt BOOL* pfBARequestedCache
     );
 HRESULT MspEnginePlanAddPackage(
     __in BOOTSTRAPPER_DISPLAY display,

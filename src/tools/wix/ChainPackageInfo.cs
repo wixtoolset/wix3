@@ -611,7 +611,28 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     if (!Common.IsValidModuleOrBundleVersion(this.Version))
                     {
-                        this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        // not a proper .NET version (i.e., five fields); can we get a valid version number up to four fields?
+                        string version = null;
+                        string[] versionParts = this.Version.Split('.');
+                        int count = versionParts.Length;
+                        if (0 < count)
+                        {
+                            version = versionParts[0];
+                            for (int i = 1; i < 4 && i < count; ++i)
+                            {
+                                version = String.Concat(version, ".", versionParts[i]);
+                            }
+                        }
+
+                        if (!String.IsNullOrEmpty(version) && Common.IsValidModuleOrBundleVersion(version))
+                        {
+                            this.core.OnMessage(WixWarnings.VersionTruncated(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath, version));
+                            this.Version = version;
+                        }
+                        else
+                        {
+                            this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        }
                     }
 
                     if (String.IsNullOrEmpty(this.CacheId))

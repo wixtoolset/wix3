@@ -17,7 +17,7 @@
     <String Id="WixUIYes" Overridable="yes">&amp;Ja</String>
     <String Id="WixUINo" Overridable="yes">&amp;Nee</String>
     <String Id="WixUIOK" Overridable="yes">OK</String>
-    <String Id="WixUIPrint" Overridable="yes">&amp;Afdrukken</String>
+    <String Id="WixUIPrint" Overridable="yes">A&amp;fdrukken</String>
 
     <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes">[ProductName] Setup</String>
     <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>

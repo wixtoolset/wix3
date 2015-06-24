@@ -33,7 +33,8 @@ HRESULT MsuEngineDetectPackage(
     __in BURN_VARIABLES* pVariables
     );
 HRESULT MsuEnginePlanCalculatePackage(
-    __in BURN_PACKAGE* pPackage
+    __in BURN_PACKAGE* pPackage,
+    __out_opt BOOL* pfBARequestedCache
     );
 HRESULT MsuEnginePlanAddPackage(
     __in BURN_PACKAGE* pPackage,

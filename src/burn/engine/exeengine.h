@@ -33,7 +33,8 @@ HRESULT ExeEngineDetectPackage(
     __in BURN_VARIABLES* pVariables
     );
 HRESULT ExeEnginePlanCalculatePackage(
-    __in BURN_PACKAGE* pPackage
+    __in BURN_PACKAGE* pPackage,
+    __out_opt BOOL* pfBARequestedCache
     );
 HRESULT ExeEnginePlanAddPackage(
     __in_opt DWORD *pdwInsertSequence,

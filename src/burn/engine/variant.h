@@ -39,6 +39,7 @@ typedef struct _BURN_VARIANT
         LONGLONG llValue;
         DWORD64 qwValue;
         LPWSTR sczValue;
+        BYTE encryptionPadding[CRYP_ENCRYPT_MEMORY_SIZE];
     };
     BURN_VARIANT_TYPE Type;
     BOOL fEncryptValue;
@@ -75,6 +76,21 @@ HRESULT BVariantSetVersion(
     __in BURN_VARIANT* pVariant,
     __in DWORD64 qwValue
     );
+/********************************************************************
+BVariantSetValue - Convenience function that calls BVariantUninitialize,
+                   BVariantSetNumeric, BVariantSetString, or 
+                   BVariantSetVersion based on the type of pValue.
+                   The encryption state of pVariant is preserved.
+********************************************************************/
+HRESULT BVariantSetValue(
+    __in BURN_VARIANT* pVariant,
+    __in BURN_VARIANT* pValue
+    );
+/********************************************************************
+BVariantCopy - creates a copy of pSource.
+               The encryption state of pTarget is set to
+               the encryption state of pSource.
+********************************************************************/
 HRESULT BVariantCopy(
     __in BURN_VARIANT* pSource,
     __out BURN_VARIANT* pTarget
@@ -83,6 +99,11 @@ HRESULT BVariantChangeType(
     __in BURN_VARIANT* pVariant,
     __in BURN_VARIANT_TYPE type
     );
+/********************************************************************
+BVariantSetEncryption - sets the encryption state of pVariant.
+                        If the encryption state matches the requested
+                        state, this function does nothing.
+********************************************************************/
 HRESULT BVariantSetEncryption(
     __in BURN_VARIANT* pVariant,
     __in BOOL fEncrypt

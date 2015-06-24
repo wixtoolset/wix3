@@ -54,7 +54,9 @@
     <TargetName>dutil</TargetName>
     <MultiTargetLibrary>true</MultiTargetLibrary>
   </PropertyGroup>
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
   <ItemGroup>
+    <ClCompile Include="acl2util.cpp" />
     <ClCompile Include="aclutil.cpp" />
     <ClCompile Include="apuputil.cpp" />
     <ClCompile Include="atomutil.cpp" />

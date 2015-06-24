@@ -23,13 +23,13 @@ Then, simply run `msbuild` from the root directory of your clone of the WiX Git 
 In order to fully build WiX, you must have the following Frameworks and SDKs installed:
 
   <ul>
-    <li>The following components from the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=3138" target="_blank">Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1</a>, and/or Visual Studio 2010 and/or Visual Studio 2012:</li>
+    <li>The following components from the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=3138" target="_blank">Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1</a>, and/or Visual Studio 2010/2012/2013/2015:</li>
 
     <li style="list-style: none; display: inline">
       <ul>
         <li>x86 and x64 compilers, headers and libraries</li>
 
-        <li><a href="http://msdn.microsoft.com/library/ms670169.aspx" target="_blank">HTML Help SDK 1.4</a> or higher [installed to Program Files or Program Files (x86)] (Note that this component is installed by default by Visual Studio 2013.)</li>
+        <li><a href="http://msdn.microsoft.com/library/ms670169.aspx" target="_blank">HTML Help SDK 1.4</a> or higher [installed to Program Files or Program Files (x86)] (Note that this component is installed by default by Visual Studio 2013/2015.)</li>
       </ul>
     </li>
   </ul>
@@ -38,17 +38,7 @@ To build Votive, you must have Visual Studio 2010 and the [Visual Studio 2010 SP
 
 More information about the Visual Studio SDK can be found at the <a href="http://msdn.microsoft.com/en-us/vstudio/vextend.aspx" target="_blank">Visual Studio Extensibility Center</a>.
 
-To install Votive on Visual Studio 2010, 2012, or 2013, you must have the Professional Edition or higher. The Express editions of Visual Studio do not support packages like Votive.
-
-To build DTF help files, you need the following tools:
-
-* [Sandcastle May 2008 Release](http://sandcastle.codeplex.com/releases/view/13873)
-* [Sandcastle Help File Builder 1.8.0.3](http://shfb.codeplex.com/releases/view/29710)
-
-The DTF help build process looks for these tools in an &quot;external&quot; directory parallel to the WiX &quot;src&quot; directory:
-
-* Sandcastle: external\Sandcastle
-* Sandcastle Help File Builder: external\SandcastleBuilder
+To install Votive on Visual Studio 2010, 2012, or 2013, you must have the Professional Edition or higher. The Express editions of Visual Studio do not support packages like Votive until VS 2015.
 
 To create a build that can be installed on different machines, create a new strong name key pair and point OFFICIAL\_WIX\_BUILD to it:
 

@@ -150,14 +150,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     /// <para>To prevent shutting down or logging off, set <see cref="ResultEventArgs.Result"/> to
     /// <see cref="Result.Cancel"/>; otherwise, set it to <see cref="Result.Ok"/>.</para>
     /// <para>By default setup will prevent shutting down or logging off between
-    /// <see cref="BootstrapperApplication.ApplyBegin"/> and <see cref="BootstrapperApplication.ApplyComplete"/>.
-    /// Derivatives can change this behavior by overriding <see cref="BootstrapperApplication.OnSystemShutdown"/>
-    /// or handling <see cref="BootstrapperApplication.SystemShutdown"/>.</para>
+    /// <see cref="BootstrapperApplication.ApplyBegin"/> and <see cref="BootstrapperApplication.ApplyComplete"/>.</para>
     /// <para>If <see cref="SystemShutdownEventArgs.Reasons"/> contains <see cref="EndSessionReasons.Critical"/>
     /// the bootstrapper cannot prevent the shutdown and only has a few seconds to save state or perform any other
     /// critical operations before being closed by the operating system.</para>
-    /// <seealso cref="BootstrapperApplication.SystemShutdown"/>
-    /// <seealso cref="BootstrapperApplication.OnSystemShutdown"/>
     /// </remarks>
     [Serializable]
     public class SystemShutdownEventArgs : ResultEventArgs

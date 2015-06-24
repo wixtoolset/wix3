@@ -35,6 +35,9 @@
             <Component>
                 <File Source="votive2010.dll" />
                 <util:RestartResource Path="[VS2010DEVENV]" />
+                <util:RestartResource Path="[VS2012DEVENV]" />
+                <util:RestartResource Path="[VS2013DEVENV]" />
+                <util:RestartResource Path="[VS14DEVENV]" />
             </Component>
         </ComponentGroup>
     </Fragment>
@@ -85,7 +88,9 @@
                 <File Id="WixProject$(var.VsVersion).zip" Source="templates\WixProject.zip" />
             </Component>
         </ComponentGroup>
+    </Fragment>
 
+    <Fragment>
         <ComponentGroup Id="Votive$(var.VsVersion)SchemaComponents" Directory="VS2010_SCHEMAS_DIR">
             <Component>
                 <File Id="LuxSchema$(var.VsVersion)" Source="lux\wixext\Xsd\lux.xsd" />
@@ -116,6 +121,9 @@
             </Component>
             <Component>
                 <File Id="ExtensionXsdGaming$(var.VsVersion)" Source="ext\GamingExtension\wixext\Xsd\gaming.xsd" />
+            </Component>
+            <Component>
+                <File Id="ExtensionXsdHttp$(var.VsVersion)" Source="ext\HttpExtension\wixext\Xsd\http.xsd" />
             </Component>
             <Component>
                 <File Id="ExtensionXsdIis$(var.VsVersion)" Source="ext\IIsExtension\wixext\xsd\iis.xsd" />

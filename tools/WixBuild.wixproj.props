@@ -29,6 +29,8 @@
     <DefineConstants Condition="$(VS2012SdkAvailable)">$(DefineConstants);VS2012SdkAvailable=true</DefineConstants>
     <DefineConstants Condition="$(VS2013Available)">$(DefineConstants);VS2013Available=true</DefineConstants>
     <DefineConstants Condition="$(VS2013SdkAvailable)">$(DefineConstants);VS2013SdkAvailable=true</DefineConstants>
+    <DefineConstants Condition="$(VS2015Available)">$(DefineConstants);VS2015Available=true</DefineConstants>
+    <DefineConstants Condition="$(VS2015SdkAvailable)">$(DefineConstants);VS2015SdkAvailable=true</DefineConstants>
     <DefineConstants Condition="$(BuildSandcastleDocumentation)">$(DefineConstants);BuildSandcastleDocumentation=$(BuildSandcastleDocumentation)</DefineConstants>
   </PropertyGroup>
 

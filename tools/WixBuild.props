@@ -34,7 +34,7 @@
     <WIX_EXTERNALROOT Condition="!HasTrailingSlash('$(WIX_EXTERNALROOT)')">$(WIX_EXTERNALROOT)\</WIX_EXTERNALROOT>
   </PropertyGroup>
 
-  <Import Project="Nuget.targets"/>
+  <Import Project="Nuget.targets" />
 
   <!-- Converts the VS-standard Debug and Release to the wix-standard debug and ship -->
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == '' or '$(WixFlavor)' == 'debug' ">
@@ -71,17 +71,16 @@
     <HelpCompilerPath>$(ProgramFiles)\HTML Help Workshop</HelpCompilerPath>
     <HelpCompiler>$(HelpCompilerPath)\hhc.exe</HelpCompiler>
 
-    <SandcastlePath>$(ProgramFiles)\Sandcastle\</SandcastlePath>
-
-    <SandcastleHelpFileBuilderTargets>$(SHFBROOT)\SandcastleHelpFileBuilder.targets</SandcastleHelpFileBuilderTargets>
-    <SHFBROOT Condition="!Exists('$(SandcastleHelpFileBuilderTargets)')">$(ProgramFiles)\EWSoftware\Sandcastle Help File Builder</SHFBROOT>
-    <SandcastleHelpFileBuilderTargets>$(SHFBROOT)\SandcastleHelpFileBuilder.targets</SandcastleHelpFileBuilderTargets>
-
-    <BuildSandcastleDocumentation Condition=" Exists('$(SandcastleHelpFileBuilderTargets)') and '$(Configuration)'=='Release' ">true</BuildSandcastleDocumentation>
+    <BuildSandcastleDocumentation Condition=" '$(BuildSandcastleDocumentation)'=='' and '$(Configuration)'=='Release' ">true</BuildSandcastleDocumentation>
     <BuildSandcastleDocumentation Condition=" '$(BuildSandcastleDocumentation)'=='' ">false</BuildSandcastleDocumentation>
   </PropertyGroup>
 
   <PropertyGroup>
+    <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot81', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
+    <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v8.1</PlatformSdkRegistryVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(PlatformSdkInstallPath)'=='' ">
     <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.0', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
     <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v8.0</PlatformSdkRegistryVersion>
   </PropertyGroup>
@@ -169,7 +168,26 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VCPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\12.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
+    <VS2015Path Condition=" '$(VS2015Path)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0', 'InstallDir', null, RegistryView.Registry64, RegistryView.Registry32))</VS2015Path>
+    <VS2015SdkPath Condition=" '$(VS2015SdkPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\VSIP\14.0', 'InstallDir', null, RegistryView.Registry64, RegistryView.Registry32))</VS2015SdkPath>
+    <VS2015SdkTargetsPath Condition=" '$(VS2015SdkTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\VSSDK\Microsoft.VsSDK.targets</VS2015SdkTargetsPath>
+    <VS2015SdkTargetsPath Condition=" '$(VS2015SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v14.0\VSSDK\Microsoft.VsSDK.targets</VS2015SdkTargetsPath>
+
+    <VS2015Available Condition=" '$(VS2015Path)'!='' and Exists('$(VS2015Path)')">true</VS2015Available>
+    <VS2015Available Condition=" '$(VS2015Available)'=='' ">false</VS2015Available>
+    <VS2015SdkAvailable Condition=" $(VS2015Available) and '$(VS2015SdkPath)'!='' and Exists('$(VS2015SdkTargetsPath)')">true</VS2015SdkAvailable>
+    <VS2015SdkAvailable Condition=" '$(VS2015SdkAvailable)'=='' ">false</VS2015SdkAvailable>
+
+    <VS2015Path Condition=" $(VS2015Available) and !HasTrailingSlash('$(VS2015Path)')">$(VS2015Path)\</VS2015Path>
+    <VS2015SdkPath Condition=" $(VS2015SdkAvailable) and !HasTrailingSlash('$(VS2015SdkPath)')">$(VS2015SdkPath)\</VS2015SdkPath>
+
+    <VS2015PublicAssembliesPath>$(VS2015Path)PublicAssemblies\</VS2015PublicAssembliesPath>
+    <VS2015SdkVisualStudioIntegrationAssembliesPath>$(VS2015SdkPath)VisualStudioIntegration\Common\Assemblies\v4.0\</VS2015SdkVisualStudioIntegrationAssembliesPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VCPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
+    <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\12.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
     <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
     <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
     <VCPath Condition="!HasTrailingSlash('$(VCPath)')">$(VCPath)\</VCPath>
@@ -221,7 +239,10 @@
   </PropertyGroup>
 
   <!-- Global setting to control when the bundle is compressed. -->
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <WixBundleCompressed>no</WixBundleCompressed>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <WixBundleCompressed>yes</WixBundleCompressed>
   </PropertyGroup>
 
@@ -239,6 +260,7 @@
     <AssemblyOriginatorKeyFile>$(OFFICIAL_WIX_BUILD)</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
+    <BuildSandcastleDocumentation>true</BuildSandcastleDocumentation>
   </PropertyGroup>
 
   <!-- StyleCop settings -->

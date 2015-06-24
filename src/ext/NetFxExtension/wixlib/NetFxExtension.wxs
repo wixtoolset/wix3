@@ -34,4 +34,11 @@
     </Property>
   </Fragment>
 
+  <!-- Release value of .NET 4.5 and later -->
+  <Fragment>
+    <Property Id="WIXNETFX4RELEASEINSTALLED" Secure="yes">
+      <RegistrySearch Id="NetFx4ReleaseInstalled" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" Name="Release" Type="raw" />
+    </Property>
+  </Fragment>
+
 </Wix>
