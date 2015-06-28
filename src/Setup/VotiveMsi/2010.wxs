@@ -37,7 +37,7 @@
                 <util:RestartResource Path="[VS2010DEVENV]" />
                 <util:RestartResource Path="[VS2012DEVENV]" />
                 <util:RestartResource Path="[VS2013DEVENV]" />
-                <util:RestartResource Path="[VS14DEVENV]" />
+                <util:RestartResource Path="[VS2015DEVENV]" />
             </Component>
         </ComponentGroup>
     </Fragment>

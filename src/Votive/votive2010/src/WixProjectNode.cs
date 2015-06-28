@@ -810,8 +810,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.VisualStudio
         /// </remarks>
         protected override void InitializeProjectProperties()
         {
-            string projectName = Path.GetFileNameWithoutExtension(this.FileName);
-            this.SetProjectProperty(WixProjectFileConstants.OutputName, projectName);
+            if (String.IsNullOrWhiteSpace(this.GetProjectProperty(WixProjectFileConstants.OutputName)))
+            {
+                string projectName = Path.GetFileNameWithoutExtension(this.FileName);
+                this.SetProjectProperty(WixProjectFileConstants.OutputName, projectName);
+            }
         }
 
         /// <summary>

@@ -1220,7 +1220,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
   
   <tr>
     <td valign="top">
-      <p>VS14DEVENV</p>
+      <p>VS2015DEVENV</p>
     </td>
 
     <td>
@@ -1230,7 +1230,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_EXTENSIONS_DIR</p>
+      <p>VS2015_EXTENSIONS_DIR</p>
     </td>
 
     <td>
@@ -1240,7 +1240,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_ITEMTEMPLATES_DIR</p>
+      <p>VS2015_ITEMTEMPLATES_DIR</p>
     </td>
 
     <td>
@@ -1250,7 +1250,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_PROJECTTEMPLATES_DIR</p>
+      <p>VS2015_PROJECTTEMPLATES_DIR</p>
     </td>
 
     <td>
@@ -1260,7 +1260,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_SCHEMAS_DIR</p>
+      <p>VS2015_SCHEMAS_DIR</p>
     </td>
 
     <td>
@@ -1270,7 +1270,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_ROOT_FOLDER</p>
+      <p>VS2015_ROOT_FOLDER</p>
     </td>
 
     <td>
@@ -1280,7 +1280,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1290,7 +1290,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1300,7 +1300,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1310,7 +1310,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1320,7 +1320,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1330,7 +1330,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1340,7 +1340,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2015_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
     </td>
 
     <td>
@@ -1350,7 +1350,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
 
   <tr>
     <td valign="top">
-      <p>VS14_BOOTSTRAPPER_PACKAGE_FOLDER</p>
+      <p>VS2015_BOOTSTRAPPER_PACKAGE_FOLDER</p>
     </td>
 
     <td>
@@ -1907,7 +1907,7 @@ Here is a complete list of custom actions:
 
   <tr>
     <td valign="top">
-      <p>VS14Setup</p>
+      <p>VS2015Setup</p>
     </td>
 
     <td>
@@ -1917,7 +1917,7 @@ Here is a complete list of custom actions:
 
   <tr>
     <td valign="top">
-      <p>VS14InstallVSTemplates</p>
+      <p>VS2015InstallVSTemplates</p>
     </td>
 
     <td>

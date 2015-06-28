@@ -40,8 +40,7 @@
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
 
   <PropertyGroup>
-    <ProjectAdditionalIncludeDirectories>$(WixRoot)src\dutil\inc</ProjectAdditionalIncludeDirectories>
-    <ProjectAdditionalLinkLibraries>msi.lib;cabinet.lib;shlwapi.lib;dutil.lib</ProjectAdditionalLinkLibraries>
+    <ProjectAdditionalLinkLibraries>msi.lib;cabinet.lib;shlwapi.lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
 
   <ItemGroup>

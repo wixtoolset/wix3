@@ -10,6 +10,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <ComponentGroup Id="ExtensionComponents" Directory="BinFolder">
+            <ComponentGroupRef Id="ExtensionThemeComponents" />
+            <ComponentGroupRef Id="ExtensionWixUIComponents" />
             <ComponentGroupRef Id="ExtensionXsdComponents" />
 
             <Component>
@@ -80,6 +82,432 @@
 
             <Component>
                 <File Source="WixVSExtension.dll" />
+            </Component>
+
+            <?ifdef VS2013Available ?>
+            <Component>
+                <File Source="WixVSExtension.MSBuild12.dll" />
+            </Component>
+            <?endif ?>
+
+            <?ifdef VS2015Available ?>
+            <Component>
+                <File Source="WixVSExtension.MSBuild14.dll" />
+            </Component>
+            <?endif ?>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="SdkFolder">
+            <Directory Id="SdkThemesFolder" Name="themes">
+                <Directory Id="SdkThemes1028Folder" Name="1028" />
+                <Directory Id="SdkThemes1029Folder" Name="1029" />
+                <Directory Id="SdkThemes1030Folder" Name="1030" />
+                <Directory Id="SdkThemes1031Folder" Name="1031" />
+                <Directory Id="SdkThemes1032Folder" Name="1032" />
+                <Directory Id="SdkThemes1035Folder" Name="1035" />
+                <Directory Id="SdkThemes1036Folder" Name="1036" />
+                <Directory Id="SdkThemes1038Folder" Name="1038" />
+                <Directory Id="SdkThemes1040Folder" Name="1040" />
+                <Directory Id="SdkThemes1041Folder" Name="1041" />
+                <Directory Id="SdkThemes1042Folder" Name="1042" />
+                <Directory Id="SdkThemes1043Folder" Name="1043" />
+                <Directory Id="SdkThemes1044Folder" Name="1044" />
+                <Directory Id="SdkThemes1045Folder" Name="1045" />
+                <Directory Id="SdkThemes1046Folder" Name="1046" />
+                <Directory Id="SdkThemes1049Folder" Name="1049" />
+                <Directory Id="SdkThemes1051Folder" Name="1051" />
+                <Directory Id="SdkThemes1053Folder" Name="1053" />
+                <Directory Id="SdkThemes1055Folder" Name="1055" />
+                <Directory Id="SdkThemes1060Folder" Name="1060" />
+                <Directory Id="SdkThemes2052Folder" Name="2052" />
+                <Directory Id="SdkThemes2070Folder" Name="2070" />
+                <Directory Id="SdkThemes3082Folder" Name="3082" />
+            </Directory>
+        </DirectoryRef>
+
+        <ComponentGroup Id="ExtensionThemeComponents" Directory="SdkThemesFolder">
+            <ComponentGroupRef Id="ExtensionThemes1028Components" />
+            <ComponentGroupRef Id="ExtensionThemes1029Components" />
+            <ComponentGroupRef Id="ExtensionThemes1030Components" />
+            <ComponentGroupRef Id="ExtensionThemes1031Components" />
+            <ComponentGroupRef Id="ExtensionThemes1032Components" />
+            <ComponentGroupRef Id="ExtensionThemes1035Components" />
+            <ComponentGroupRef Id="ExtensionThemes1036Components" />
+            <ComponentGroupRef Id="ExtensionThemes1038Components" />
+            <ComponentGroupRef Id="ExtensionThemes1040Components" />
+            <ComponentGroupRef Id="ExtensionThemes1041Components" />
+            <ComponentGroupRef Id="ExtensionThemes1042Components" />
+            <ComponentGroupRef Id="ExtensionThemes1043Components" />
+            <ComponentGroupRef Id="ExtensionThemes1044Components" />
+            <ComponentGroupRef Id="ExtensionThemes1045Components" />
+            <ComponentGroupRef Id="ExtensionThemes1046Components" />
+            <ComponentGroupRef Id="ExtensionThemes1049Components" />
+            <ComponentGroupRef Id="ExtensionThemes1051Components" />
+            <ComponentGroupRef Id="ExtensionThemes1053Components" />
+            <ComponentGroupRef Id="ExtensionThemes1055Components" />
+            <ComponentGroupRef Id="ExtensionThemes1060Components" />
+            <ComponentGroupRef Id="ExtensionThemes2052Components" />
+            <ComponentGroupRef Id="ExtensionThemes2070Components" />
+            <ComponentGroupRef Id="ExtensionThemes3082Components" />
+
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\HyperlinkLargeTheme.xml" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\HyperlinkSidebarTheme.xml" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\HyperlinkTheme.wxl" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\HyperlinkTheme.xml" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\mbapreq.thm" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\mbapreq.wxl" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\RtfLargeTheme.xml" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\RtfTheme.wxl" />
+            </Component>
+                       
+            <Component>
+                <File Source="ext\BalExtension\wixstdba\Resources\RtfTheme.xml" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1028Components" Directory="SdkThemes1028Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1028" Source="ext\BalExtension\wixstdba\Resources\1028\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1029Components" Directory="SdkThemes1029Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1029" Source="ext\BalExtension\wixstdba\Resources\1029\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1030Components" Directory="SdkThemes1030Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1030" Source="ext\BalExtension\wixstdba\Resources\1030\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1031Components" Directory="SdkThemes1031Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1031" Source="ext\BalExtension\wixstdba\Resources\1031\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1032Components" Directory="SdkThemes1032Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1032" Source="ext\BalExtension\wixstdba\Resources\1032\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1035Components" Directory="SdkThemes1035Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1035" Source="ext\BalExtension\wixstdba\Resources\1035\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1036Components" Directory="SdkThemes1036Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1036" Source="ext\BalExtension\wixstdba\Resources\1036\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1038Components" Directory="SdkThemes1038Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1038" Source="ext\BalExtension\wixstdba\Resources\1038\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1040Components" Directory="SdkThemes1040Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1040" Source="ext\BalExtension\wixstdba\Resources\1040\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1041Components" Directory="SdkThemes1041Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1041" Source="ext\BalExtension\wixstdba\Resources\1041\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1042Components" Directory="SdkThemes1042Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1042" Source="ext\BalExtension\wixstdba\Resources\1042\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1043Components" Directory="SdkThemes1043Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1043" Source="ext\BalExtension\wixstdba\Resources\1043\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1044Components" Directory="SdkThemes1044Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1044" Source="ext\BalExtension\wixstdba\Resources\1044\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1045Components" Directory="SdkThemes1045Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1045" Source="ext\BalExtension\wixstdba\Resources\1045\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1046Components" Directory="SdkThemes1046Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1046" Source="ext\BalExtension\wixstdba\Resources\1046\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1049Components" Directory="SdkThemes1049Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1049" Source="ext\BalExtension\wixstdba\Resources\1049\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1051Components" Directory="SdkThemes1051Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1051" Source="ext\BalExtension\wixstdba\Resources\1051\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1053Components" Directory="SdkThemes1053Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1053" Source="ext\BalExtension\wixstdba\Resources\1053\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1055Components" Directory="SdkThemes1055Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1055" Source="ext\BalExtension\wixstdba\Resources\1055\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes1060Components" Directory="SdkThemes1060Folder">
+            <Component>
+                <File Id="mbapreq.wxl_1060" Source="ext\BalExtension\wixstdba\Resources\1060\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes2052Components" Directory="SdkThemes2052Folder">
+            <Component>
+                <File Id="mbapreq.wxl_2052" Source="ext\BalExtension\wixstdba\Resources\2052\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes2070Components" Directory="SdkThemes2070Folder">
+            <Component>
+                <File Id="mbapreq.wxl_2070" Source="ext\BalExtension\wixstdba\Resources\2070\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+
+        <ComponentGroup Id="ExtensionThemes3082Components" Directory="SdkThemes3082Folder">
+            <Component>
+                <File Id="mbapreq.wxl_3082" Source="ext\BalExtension\wixstdba\Resources\3082\mbapreq.wxl" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <DirectoryRef Id="SdkFolder">
+            <Directory Id="SdkWixUIFolder" Name="wixui" />
+        </DirectoryRef>
+
+        <ComponentGroup Id="ExtensionWixUIComponents" Directory="SdkWixUIFolder">
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_Advanced.wxs" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_ar-SA.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_bg-BG.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_ca-ES.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_cs-CZ.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_da-DK.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_de-de.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_el-GR.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_en-us.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_es-es.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_et-EE.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_FeatureTree.wxs" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_fi-FI.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_fr-fr.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_he-IL.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_hi-IN.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_hr-HR.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_hu-HU.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_InstallDir.wxs" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_it-it.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_ja-jp.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_kk-KZ.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_ko-KR.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_lt-LT.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_lv-LV.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_Minimal.wxs" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_Mondo.wxs" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_nb-NO.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_nl-NL.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_pl-pl.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_pt-BR.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_pt-PT.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_ro-RO.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_ru-ru.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_sk-SK.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_sl-SI.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_sr-Latn-CS.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_sv-SE.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_th-TH.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_tr-TR.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_uk-UA.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_zh-CN.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_zh-HK.wxl" />
+            </Component>
+
+            <Component>
+                <File Source="ext\UIExtension\wixlib\WixUI_zh-TW.wxl" />
             </Component>
         </ComponentGroup>
     </Fragment>

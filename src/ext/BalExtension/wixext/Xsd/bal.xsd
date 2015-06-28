@@ -155,6 +155,16 @@
                     <xs:documentation>If set to "yes", the application version will be displayed on the UI.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
+          <xs:attribute name="SupportCacheOnly" type="YesNoType">
+              <xs:annotation>
+                    <xs:documentation>If set to "yes", the bundle can be pre-cached using the /cache command line argument.</xs:documentation>
+              </xs:annotation>
+          </xs:attribute>
+            <xs:attribute name="ShowFilesInUse" type="YesNoType">
+              <xs:annotation>
+                <xs:documentation>If set to "yes", WixStdBA will show a page allowing the user to restart applications when files are in use.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     

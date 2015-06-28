@@ -15,8 +15,30 @@
 
 #define OUTPUT_BUFFER 1024
 
+// These old "CA" prefix names are deprecated, and intended to go away in wix 4.0, only staying now for compatibility reasons
+const LPCWSTR CAQUIET_TIMEOUT_PROPERTY = L"QtExecCmdTimeout";
+const LPCWSTR CAQUIET_ARGUMENTS_PROPERTY = L"QtExecCmdLine";
+const LPCWSTR CAQUIET64_ARGUMENTS_PROPERTY = L"QtExec64CmdLine";
+// end deprecated section
+
+// WixCA name quiet commandline argument properties
+const LPCWSTR WIX_QUIET_ARGUMENTS_PROPERTY = L"WixQuietExecCmdLine";
+const LPCWSTR WIX_QUIET64_ARGUMENTS_PROPERTY = L"WixQuietExec64CmdLine";
+
+// WixCA quiet timeout properties
+const LPCWSTR WIX_QUIET_TIMEOUT_PROPERTY = L"WixQuietExecCmdTimeout";
+const LPCWSTR WIX_QUIET64_TIMEOUT_PROPERTY = L"WixQuietExec64CmdTimeout";
+
+// WixCA silent commandline argument properties
+const LPCWSTR WIX_SILENT_ARGUMENTS_PROPERTY = L"WixSilentExecCmdLine";
+const LPCWSTR WIX_SILENT64_ARGUMENTS_PROPERTY = L"WixSilentExec64CmdLine";
+
+// WixCA silent timeout properties
+const LPCWSTR WIX_SILENT_TIMEOUT_PROPERTY = L"WixSilentExecCmdTimeout";
+const LPCWSTR WIX_SILENT64_TIMEOUT_PROPERTY = L"WixSilentExec64CmdTimeout";
+
 HRESULT BuildCommandLine(
-    __in BOOL fIs64bit,
+    __in LPCWSTR wzProperty,
     __out LPWSTR *ppwzCommand
     )
 {
@@ -26,28 +48,26 @@ HRESULT BuildCommandLine(
     BOOL fScheduled = ::MsiGetMode(WcaGetInstallHandle(), MSIRUNMODE_SCHEDULED);
     BOOL fRollback = ::MsiGetMode(WcaGetInstallHandle(), MSIRUNMODE_ROLLBACK);
     BOOL fCommit = ::MsiGetMode(WcaGetInstallHandle(), MSIRUNMODE_COMMIT);
-    LPCSTR szProperty = fIs64bit ? "QtExec64CmdLine" : "QtExecCmdLine";
-    LPCWSTR wzProperty = fIs64bit ? L"QtExec64CmdLine" : L"QtExecCmdLine";
 
     if (fScheduled || fRollback || fCommit)
     {
         if (WcaIsPropertySet("CustomActionData"))
         {
             hr = WcaGetProperty( L"CustomActionData", ppwzCommand);
-            ExitOnFailure(hr, "failed to get CustomActionData");
+            ExitOnFailure(hr, "Failed to get CustomActionData");
         }
     }
-    else if (WcaIsPropertySet(szProperty))
+    else if (WcaIsUnicodePropertySet(wzProperty))
     {
         hr = WcaGetFormattedProperty(wzProperty, ppwzCommand);
-        ExitOnFailure1(hr, "failed to get %ls", wzProperty);
+        ExitOnFailure(hr, "Failed to get %ls", wzProperty);
         hr = WcaSetProperty(wzProperty, L""); // clear out the property now that we've read it
-        ExitOnFailure1(hr, "failed to set %ls", wzProperty);
+        ExitOnFailure(hr, "Failed to set %ls", wzProperty);
     }
 
     if (!*ppwzCommand)
     {
-        ExitOnFailure(hr = E_INVALIDARG, "failed to get command line data");
+        ExitOnFailure(hr = E_INVALIDARG, "Failed to get command line data");
     }
 
     if (L'"' != **ppwzCommand)
@@ -62,17 +82,17 @@ LExit:
 
 #define ONEMINUTE 60000
 
-DWORD GetTimeout()
+DWORD GetTimeout(LPCWSTR wzPropertyName)
 {
     DWORD dwTimeout = ONEMINUTE;
     HRESULT hr = S_OK;
 
     LPWSTR pwzData = NULL;
 
-    if (WcaIsPropertySet("QtExecCmdTimeout"))
+    if (WcaIsUnicodePropertySet(wzPropertyName))
     {
-        hr = WcaGetProperty( L"QtExecCmdTimeout", &pwzData);
-        ExitOnFailure(hr, "failed to get QtExecCmdTimeout");
+        hr = WcaGetProperty(wzPropertyName, &pwzData);
+        ExitOnFailure(hr, "Failed to get %ls", wzPropertyName);
 
         if ((dwTimeout = (DWORD)_wtoi(pwzData)) == 0)
         {
@@ -87,74 +107,63 @@ LExit:
 
 }
 
-extern "C" UINT __stdcall CAQuietExec(
-    __in MSIHANDLE hInstall
+HRESULT ExecCommon(
+    __in LPCWSTR wzArgumentsProperty,
+    __in LPCWSTR wzTimeoutProperty,
+    __in BOOL fLogCommand,
+    __in BOOL fLogOutput
     )
 {
-    Assert(hInstall);
     HRESULT hr = S_OK;
-    UINT er = ERROR_SUCCESS;
     LPWSTR pwzCommand = NULL;
     DWORD dwTimeout = 0;
 
-    hr = WcaInitialize(hInstall,"CAQuietExec");
-    ExitOnFailure(hr, "failed to initialize");
+    hr = BuildCommandLine(wzArgumentsProperty, &pwzCommand);
+    ExitOnFailure(hr, "Failed to get Command Line");
 
-    hr = BuildCommandLine(FALSE, &pwzCommand);
-    ExitOnFailure(hr, "failed to get Command Line");
+    dwTimeout = GetTimeout(wzTimeoutProperty);
 
-    dwTimeout = GetTimeout();
-
-    hr = QuietExec(pwzCommand, dwTimeout);
-    ExitOnFailure(hr, "CAQuietExec Failed");
+    hr = QuietExec(pwzCommand, dwTimeout, fLogCommand, fLogOutput);
+    ExitOnFailure(hr, "QuietExec Failed");
 
 LExit:
     ReleaseStr(pwzCommand);
 
-    if (FAILED(hr))
-    {
-        er = ERROR_INSTALL_FAILURE;
-    }
-
-    return WcaFinalize(er); 
+    return hr;
 }
 
-extern "C" UINT __stdcall CAQuietExec64(
-    __in MSIHANDLE hInstall
+HRESULT ExecCommon64(
+    __in LPCWSTR wzArgumentsProperty,
+    __in LPCWSTR wzTimeoutProperty,
+    __in BOOL fLogCommand,
+    __in BOOL fLogOutput
     )
 {
-    //AssertSz(FALSE, "Debug here.");
-    Assert(hInstall);
     HRESULT hr = S_OK;
-    UINT er = ERROR_SUCCESS;
     LPWSTR pwzCommand = NULL;
     DWORD dwTimeout = 0;
-
     BOOL fIsWow64Initialized = FALSE;
     BOOL fRedirected = FALSE;
-
-    hr = WcaInitialize(hInstall,"CAQuietExec64");
-    ExitOnFailure(hr, "failed to initialize");
 
     hr = WcaInitializeWow64();
     if (S_FALSE == hr)
     {
         hr = TYPE_E_DLLFUNCTIONNOTFOUND;
     }
-    ExitOnFailure(hr, "failed to intialize WOW64.");
+    ExitOnFailure(hr, "Failed to intialize WOW64.");
     fIsWow64Initialized = TRUE;
 
     hr = WcaDisableWow64FSRedirection();
-    ExitOnFailure(hr, "failed to enable filesystem redirection.");
+    ExitOnFailure(hr, "Failed to enable filesystem redirection.");
     fRedirected = TRUE;
 
-    hr = BuildCommandLine(TRUE, &pwzCommand);
-    ExitOnFailure(hr, "failed to get Command Line");
+    hr = BuildCommandLine(wzArgumentsProperty, &pwzCommand);
+    ExitOnFailure(hr, "Failed to get Command Line");
 
-    dwTimeout = GetTimeout();
+    dwTimeout = GetTimeout(wzTimeoutProperty);
 
-    hr = QuietExec(pwzCommand, dwTimeout);
-    ExitOnFailure(hr, "CAQuietExec64 Failed");
+    hr = QuietExec(pwzCommand, dwTimeout, fLogCommand, fLogOutput);
+    ExitOnFailure(hr, "QuietExec64 Failed");
 
 LExit:
     ReleaseStr(pwzCommand);
@@ -169,6 +178,142 @@ LExit:
         WcaFinalizeWow64();
     }
 
+    return hr;
+}
+
+// These two custom actions are deprecated, and should go away in wix v4.0. WixQuietExec replaces this one,
+// and is not intended to have any difference in behavior apart from CA name and property names.
+extern "C" UINT __stdcall CAQuietExec(
+    __in MSIHANDLE hInstall
+    )
+{
+    Assert(hInstall);
+    HRESULT hr = S_OK;
+    UINT er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "CAQuietExec");
+    ExitOnFailure(hr, "Failed to initialize");
+
+    hr = ExecCommon(CAQUIET_ARGUMENTS_PROPERTY, CAQUIET_TIMEOUT_PROPERTY, TRUE, TRUE);
+    ExitOnFailure(hr, "Failed in ExecCommon method");
+
+LExit:
+    if (FAILED(hr))
+    {
+        er = ERROR_INSTALL_FAILURE;
+    }
+
+    return WcaFinalize(er); 
+}
+
+// 2nd deprecated custom action name, superseded by WixQuietExec64
+extern "C" UINT __stdcall CAQuietExec64(
+    __in MSIHANDLE hInstall
+    )
+{
+    Assert(hInstall);
+    HRESULT hr = S_OK;
+    UINT er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "CAQuietExec64");
+    ExitOnFailure(hr, "Failed to initialize");
+
+    hr = ExecCommon64(CAQUIET64_ARGUMENTS_PROPERTY, CAQUIET_TIMEOUT_PROPERTY, TRUE, TRUE);
+    ExitOnFailure(hr, "Failed in ExecCommon64 method");
+
+LExit:
+    if (FAILED(hr))
+    {
+        er = ERROR_INSTALL_FAILURE;
+    }
+
+    return WcaFinalize(er);
+}
+
+extern "C" UINT __stdcall WixQuietExec(
+    __in MSIHANDLE hInstall
+    )
+{
+    Assert(hInstall);
+    HRESULT hr = S_OK;
+    UINT er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "WixQuietExec");
+    ExitOnFailure(hr, "Failed to initialize");
+
+    hr = ExecCommon(WIX_QUIET_ARGUMENTS_PROPERTY, WIX_QUIET_TIMEOUT_PROPERTY, TRUE, TRUE);
+    ExitOnFailure(hr, "Failed in ExecCommon method");
+
+LExit:
+    if (FAILED(hr))
+    {
+        er = ERROR_INSTALL_FAILURE;
+    }
+
+    return WcaFinalize(er); 
+}
+
+extern "C" UINT __stdcall WixQuietExec64(
+    __in MSIHANDLE hInstall
+    )
+{
+    Assert(hInstall);
+    HRESULT hr = S_OK;
+    UINT er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "WixQuietExec64");
+    ExitOnFailure(hr, "Failed to initialize");
+
+    hr = ExecCommon64(WIX_QUIET64_ARGUMENTS_PROPERTY, WIX_QUIET64_TIMEOUT_PROPERTY, TRUE, TRUE);
+    ExitOnFailure(hr, "Failed in ExecCommon method");
+
+LExit:
+    if (FAILED(hr))
+    {
+        er = ERROR_INSTALL_FAILURE;
+    }
+
+    return WcaFinalize(er);
+}
+
+extern "C" UINT __stdcall WixSilentExec(
+    __in MSIHANDLE hInstall
+    )
+{
+    Assert(hInstall);
+    HRESULT hr = S_OK;
+    UINT er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "WixSilentExec");
+    ExitOnFailure(hr, "Failed to initialize");
+
+    hr = ExecCommon(WIX_SILENT_ARGUMENTS_PROPERTY, WIX_SILENT_TIMEOUT_PROPERTY, FALSE, FALSE);
+    ExitOnFailure(hr, "Failed in ExecCommon method");
+
+LExit:
+    if (FAILED(hr))
+    {
+        er = ERROR_INSTALL_FAILURE;
+    }
+
+    return WcaFinalize(er); 
+}
+
+extern "C" UINT __stdcall WixSilentExec64(
+    __in MSIHANDLE hInstall
+    )
+{
+    Assert(hInstall);
+    HRESULT hr = S_OK;
+    UINT er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "WixSilentExec64");
+    ExitOnFailure(hr, "Failed to initialize");
+
+    hr = ExecCommon64(WIX_SILENT64_ARGUMENTS_PROPERTY, WIX_SILENT64_TIMEOUT_PROPERTY, FALSE, FALSE);
+    ExitOnFailure(hr, "Failed in ExecCommon method");
+
+LExit:
     if (FAILED(hr))
     {
         er = ERROR_INSTALL_FAILURE;

@@ -273,6 +273,8 @@ extern "C" HRESULT ElevationElevate(
     hr = PipeCreatePipes(&pEngineState->companionConnection, TRUE, &hPipesCreatedEvent);
     ExitOnFailure(hr, "Failed to create pipe and cache pipe.");
 
+    LogId(REPORT_STANDARD, MSG_LAUNCH_ELEVATED_ENGINE_STARTING);
+
     do
     {
         nResult = IDOK;
@@ -281,8 +283,12 @@ extern "C" HRESULT ElevationElevate(
         hr = PipeLaunchChildProcess(pEngineState->sczBundleEngineWorkingPath, &pEngineState->companionConnection, TRUE, hwndParent);
         if (SUCCEEDED(hr))
         {
+            LogId(REPORT_STANDARD, MSG_LAUNCH_ELEVATED_ENGINE_SUCCESS);
+
             hr = PipeWaitForChildConnect(&pEngineState->companionConnection);
             ExitOnFailure(hr, "Failed to connect to elevated child process.");
+
+            LogId(REPORT_STANDARD, MSG_CONNECT_TO_ELEVATED_ENGINE_SUCCESS);
         }
         else if (HRESULT_FROM_WIN32(ERROR_CANCELLED) == hr)
         {
@@ -1141,8 +1147,12 @@ extern "C" HRESULT ElevationChildResumeAutomaticUpdates()
 {
     HRESULT hr = S_OK;
 
+    LogId(REPORT_STANDARD, MSG_RESUME_AU_STARTING);
+
     hr = WuaResumeAutomaticUpdates();
     ExitOnFailure(hr, "Failed to resume automatic updates after pausing them, continuing...");
+
+    LogId(REPORT_STANDARD, MSG_RESUME_AU_SUCCEEDED);
 
 LExit:
     return hr;
@@ -1263,7 +1273,7 @@ static HRESULT ProcessGenericExecuteMessages(
         for (DWORD i = 0; i < cFiles; ++i)
         {
             hr = BuffReadString((BYTE*)pMsg->pvData, pMsg->cbData, &iData, &rgwzFiles[i]);
-            ExitOnFailure1(hr, "Failed to read file name: %u", i);
+            ExitOnFailure(hr, "Failed to read file name: %u", i);
         }
 
         message.filesInUse.cFiles = cFiles;
@@ -1319,7 +1329,7 @@ static HRESULT ProcessMsiPackageMessages(
         for (DWORD i = 0; i < cMsiData; ++i)
         {
             hr = BuffReadString((BYTE*)pMsg->pvData, pMsg->cbData, &iData, &rgwzMsiData[i]);
-            ExitOnFailure1(hr, "Failed to read MSI data: %u", i);
+            ExitOnFailure(hr, "Failed to read MSI data: %u", i);
         }
 
         message.cData = cMsiData;
@@ -1507,7 +1517,7 @@ static HRESULT ProcessElevatedChildMessage(
 
     default:
         hr = E_INVALIDARG;
-        ExitOnRootFailure1(hr, "Unexpected elevated message sent to child process, msg: %u", pMsg->dwMessage);
+        ExitOnRootFailure(hr, "Unexpected elevated message sent to child process, msg: %u", pMsg->dwMessage);
     }
 
     *pdwResult = dwPid ? dwPid : (DWORD)hrResult;
@@ -1547,7 +1557,7 @@ static HRESULT ProcessElevatedChildCacheMessage(
 
     default:
         hr = E_INVALIDARG;
-        ExitOnRootFailure1(hr, "Unexpected elevated cache message sent to child process, msg: %u", pMsg->dwMessage);
+        ExitOnRootFailure(hr, "Unexpected elevated cache message sent to child process, msg: %u", pMsg->dwMessage);
     }
 
     *pdwResult = (DWORD)hrResult;
@@ -1592,7 +1602,7 @@ static HRESULT OnApplyInitialize(
     DWORD dwTakeSystemRestorePoint = 0;
     LPWSTR sczBundleName = NULL;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadNumber(pbData, cbData, &iData, &dwAction);
     ExitOnFailure(hr, "Failed to read action.");
 
@@ -1600,12 +1610,12 @@ static HRESULT OnApplyInitialize(
     ExitOnFailure(hr, "Failed to read update action.");
 
     hr = BuffReadNumber(pbData, cbData, &iData, &dwTakeSystemRestorePoint);
-    ExitOnFailure(hr, "Failed to read sysem restore point action.");
+    ExitOnFailure(hr, "Failed to read system restore point action.");
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserialize(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
-    // initialize.
+    // Initialize.
     hr = ApplyLock(TRUE, phLock);
     ExitOnFailure(hr, "Failed to acquire lock due to setup in other session.");
 
@@ -1618,15 +1628,21 @@ static HRESULT OnApplyInitialize(
     // Attempt to pause AU with best effort.
     if (BURN_AU_PAUSE_ACTION_IFELEVATED == dwAUAction || BURN_AU_PAUSE_ACTION_IFELEVATED_NORESUME == dwAUAction)
     {
+        LogId(REPORT_STANDARD, MSG_PAUSE_AU_STARTING);
+
         hr = WuaPauseAutomaticUpdates();
         if (FAILED(hr))
         {
             LogId(REPORT_STANDARD, MSG_FAILED_PAUSE_AU, hr);
             hr = S_OK;
         }
-        else if (BURN_AU_PAUSE_ACTION_IFELEVATED == dwAUAction)
+        else
         {
-            *pfDisabledWindowsUpdate = TRUE;
+            LogId(REPORT_STANDARD, MSG_PAUSE_AU_SUCCEEDED);
+            if (BURN_AU_PAUSE_ACTION_IFELEVATED == dwAUAction)
+            {
+                *pfDisabledWindowsUpdate = TRUE;
+            }
         }
     }
 
@@ -1698,7 +1714,7 @@ static HRESULT OnSessionBegin(
     DWORD dwDependencyRegistrationAction = 0;
     DWORD64 qwEstimatedSize = 0;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczEngineWorkingPath);
     ExitOnFailure(hr, "Failed to read engine working path.");
 
@@ -1717,10 +1733,10 @@ static HRESULT OnSessionBegin(
     hr = BuffReadNumber64(pbData, cbData, &iData, &qwEstimatedSize);
     ExitOnFailure(hr, "Failed to read estimated size.");
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserialize(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
-    // begin session in per-machine process
+    // Begin session in per-machine process.
     hr = RegistrationSessionBegin(sczEngineWorkingPath, pRegistration, pVariables, pUserExperience, dwRegistrationOperations, (BURN_DEPENDENCY_REGISTRATION_ACTION)dwDependencyRegistrationAction, qwEstimatedSize);
     ExitOnFailure(hr, "Failed to begin registration session.");
 
@@ -1739,7 +1755,7 @@ static HRESULT OnSessionResume(
     HRESULT hr = S_OK;
     SIZE_T iData = 0;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &pRegistration->sczResumeCommandLine);
     ExitOnFailure(hr, "Failed to read resume command line.");
 
@@ -1766,7 +1782,7 @@ static HRESULT OnSessionEnd(
     DWORD dwRestart = 0;
     DWORD dwDependencyRegistrationAction = 0;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadNumber(pbData, cbData, &iData, &dwResumeMode);
     ExitOnFailure(hr, "Failed to read resume mode enum.");
 
@@ -1811,7 +1827,7 @@ static HRESULT OnLayoutBundle(
     LPWSTR sczLayoutDirectory = NULL;
     LPWSTR sczUnverifiedPath = NULL;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczLayoutDirectory);
     ExitOnFailure(hr, "Failed to read layout directory.");
 
@@ -1820,7 +1836,7 @@ static HRESULT OnLayoutBundle(
 
     // Layout the bundle.
     hr = CacheLayoutBundle(wzExecutableName, sczLayoutDirectory, sczUnverifiedPath);
-    ExitOnFailure1(hr, "Failed to layout bundle from: %ls", sczUnverifiedPath);
+    ExitOnFailure(hr, "Failed to layout bundle from: %ls", sczUnverifiedPath);
 
 LExit:
     ReleaseStr(sczUnverifiedPath);
@@ -1847,14 +1863,14 @@ static HRESULT OnCacheOrLayoutContainerOrPayload(
     LPWSTR sczUnverifiedPath = NULL;
     BOOL fMove = FALSE;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &scz);
     ExitOnFailure(hr, "Failed to read package id.");
 
     if (scz && *scz)
     {
         hr = ContainerFindById(pContainers, scz, &pContainer);
-        ExitOnFailure1(hr, "Failed to find container: %ls", scz);
+        ExitOnFailure(hr, "Failed to find container: %ls", scz);
     }
 
     hr = BuffReadString(pbData, cbData, &iData, &scz);
@@ -1863,7 +1879,7 @@ static HRESULT OnCacheOrLayoutContainerOrPayload(
     if (scz && *scz)
     {
         hr = PackageFindById(pPackages, scz, &pPackage);
-        ExitOnFailure1(hr, "Failed to find package: %ls", scz);
+        ExitOnFailure(hr, "Failed to find package: %ls", scz);
     }
 
     hr = BuffReadString(pbData, cbData, &iData, &scz);
@@ -1872,7 +1888,7 @@ static HRESULT OnCacheOrLayoutContainerOrPayload(
     if (scz && *scz)
     {
         hr = PayloadFindById(pPayloads, scz, &pPayload);
-        ExitOnFailure1(hr, "Failed to find payload: %ls", scz);
+        ExitOnFailure(hr, "Failed to find payload: %ls", scz);
     }
 
     hr = BuffReadString(pbData, cbData, &iData, &sczLayoutDirectory);
@@ -1893,12 +1909,12 @@ static HRESULT OnCacheOrLayoutContainerOrPayload(
             Assert(!pPayload);
 
             hr = CacheLayoutContainer(pContainer, sczLayoutDirectory, sczUnverifiedPath, fMove);
-            ExitOnFailure2(hr, "Failed to layout container from: %ls to %ls", sczUnverifiedPath, sczLayoutDirectory);
+            ExitOnFailure(hr, "Failed to layout container from: %ls to %ls", sczUnverifiedPath, sczLayoutDirectory);
         }
         else
         {
             hr = CacheLayoutPayload(pPayload, sczLayoutDirectory, sczUnverifiedPath, fMove);
-            ExitOnFailure2(hr, "Failed to layout payload from: %ls to %ls", sczUnverifiedPath, sczLayoutDirectory);
+            ExitOnFailure(hr, "Failed to layout payload from: %ls to %ls", sczUnverifiedPath, sczLayoutDirectory);
         }
     }
     else if (pPackage) // complete payload.
@@ -1906,7 +1922,7 @@ static HRESULT OnCacheOrLayoutContainerOrPayload(
         Assert(!pContainer);
 
         hr = CacheCompletePayload(pPackage->fPerMachine, pPayload, pPackage->sczCacheId, sczUnverifiedPath, fMove);
-        ExitOnFailure1(hr, "Failed to cache payload: %ls", pPayload->sczKey);
+        ExitOnFailure(hr, "Failed to cache payload: %ls", pPayload->sczKey);
     }
     else
     {
@@ -1939,7 +1955,7 @@ static HRESULT OnProcessDependentRegistration(
     SIZE_T iData = 0;
     BURN_DEPENDENT_REGISTRATION_ACTION action = { };
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&action.type);
     ExitOnFailure(hr, "Failed to read action type.");
 
@@ -1951,7 +1967,7 @@ static HRESULT OnProcessDependentRegistration(
 
     // Execute the registration action.
     hr = DependencyProcessDependentRegistration(pRegistration, &action);
-    ExitOnFailure1(hr, "Failed to execute dependent registration action for provider key: %ls", action.sczDependentProviderKey);
+    ExitOnFailure(hr, "Failed to execute dependent registration action for provider key: %ls", action.sczDependentProviderKey);
 
 LExit:
     // TODO: do the right thing here.
@@ -1982,9 +1998,9 @@ static HRESULT OnExecuteExePackage(
 
     executeAction.type = BURN_EXECUTE_ACTION_TYPE_EXE_PACKAGE;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczPackage);
-    ExitOnFailure(hr, "Failed to read exe package.");
+    ExitOnFailure(hr, "Failed to read EXE package id.");
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&executeAction.exePackage.action);
     ExitOnFailure(hr, "Failed to read action.");
@@ -1998,7 +2014,7 @@ static HRESULT OnExecuteExePackage(
     hr = BuffReadString(pbData, cbData, &iData, &sczAncestors);
     ExitOnFailure(hr, "Failed to read the list of ancestors.");
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserialize(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     hr = PackageFindById(pPackages, sczPackage, &executeAction.exePackage.pPackage);
@@ -2006,7 +2022,7 @@ static HRESULT OnExecuteExePackage(
     {
         hr = PackageFindRelatedById(pRelatedBundles, sczPackage, &executeAction.exePackage.pPackage);
     }
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     // Pass the list of dependencies to ignore, if any, to the related bundle.
     if (sczIgnoreDependencies && *sczIgnoreDependencies)
@@ -2022,7 +2038,7 @@ static HRESULT OnExecuteExePackage(
         ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
     }
 
-    // execute EXE package
+    // Execute EXE package.
     hr = ExeEngineExecutePackage(&executeAction, pVariables, static_cast<BOOL>(dwRollback), GenericExecuteMessageHandler, hPipe, &exeRestart);
     ExitOnFailure(hr, "Failed to execute EXE package.");
 
@@ -2065,12 +2081,12 @@ static HRESULT OnExecuteMsiPackage(
 
     executeAction.type = BURN_EXECUTE_ACTION_TYPE_MSI_PACKAGE;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczPackage);
-    ExitOnFailure(hr, "Failed to read action.");
+    ExitOnFailure(hr, "Failed to read MSI package id.");
 
     hr = PackageFindById(pPackages, sczPackage, &executeAction.msiPackage.pPackage);
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&hwndParent);
     ExitOnFailure(hr, "Failed to read parent hwnd.");
@@ -2110,13 +2126,13 @@ static HRESULT OnExecuteMsiPackage(
         }
     }
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserialize(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&fRollback);
     ExitOnFailure(hr, "Failed to read rollback flag.");
 
-    // execute MSI package
+    // Execute MSI package.
     hr = MsiEngineExecutePackage(hwndParent, &executeAction, pVariables, fRollback, MsiExecuteMessageHandler, hPipe, &msiRestart);
     ExitOnFailure(hr, "Failed to execute MSI package.");
 
@@ -2157,12 +2173,12 @@ static HRESULT OnExecuteMspPackage(
 
     executeAction.type = BURN_EXECUTE_ACTION_TYPE_MSP_TARGET;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczPackage);
-    ExitOnFailure(hr, "Failed to read action.");
+    ExitOnFailure(hr, "Failed to read MSP package id.");
 
     hr = PackageFindById(pPackages, sczPackage, &executeAction.mspTarget.pPackage);
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&hwndParent);
     ExitOnFailure(hr, "Failed to read parent hwnd.");
@@ -2170,7 +2186,7 @@ static HRESULT OnExecuteMspPackage(
     executeAction.mspTarget.fPerMachineTarget = TRUE; // we're in the elevated process, clearly we're targeting a per-machine product.
 
     hr = BuffReadString(pbData, cbData, &iData, &executeAction.mspTarget.sczTargetProductCode);
-    ExitOnFailure(hr, "Failed to read package log.");
+    ExitOnFailure(hr, "Failed to read target product code.");
 
     hr = BuffReadString(pbData, cbData, &iData, &executeAction.mspTarget.sczLogPath);
     ExitOnFailure(hr, "Failed to read package log.");
@@ -2198,17 +2214,17 @@ static HRESULT OnExecuteMspPackage(
             ExitOnFailure(hr, "Failed to read ordered patch package id.");
 
             hr = PackageFindById(pPackages, sczPackage, &executeAction.mspTarget.rgOrderedPatches[i].pPackage);
-            ExitOnFailure1(hr, "Failed to find ordered patch package: %ls", sczPackage);
+            ExitOnFailure(hr, "Failed to find ordered patch package: %ls", sczPackage);
         }
     }
 
-    hr = VariableDeserialize(pVariables, pbData, cbData, &iData);
+    hr = VariableDeserialize(pVariables, FALSE, pbData, cbData, &iData);
     ExitOnFailure(hr, "Failed to read variables.");
 
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&fRollback);
     ExitOnFailure(hr, "Failed to read rollback flag.");
 
-    // execute MSP package
+    // Execute MSP package.
     hr = MspEngineExecutePackage(hwndParent, &executeAction, pVariables, fRollback, MsiExecuteMessageHandler, hPipe, &restart);
     ExitOnFailure(hr, "Failed to execute MSP package.");
 
@@ -2249,9 +2265,9 @@ static HRESULT OnExecuteMsuPackage(
 
     executeAction.type = BURN_EXECUTE_ACTION_TYPE_MSU_PACKAGE;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczPackage);
-    ExitOnFailure(hr, "Failed to read package id.");
+    ExitOnFailure(hr, "Failed to read MSU package id.");
 
     hr = BuffReadString(pbData, cbData, &iData, &executeAction.msuPackage.sczLogPath);
     ExitOnFailure(hr, "Failed to read package log.");
@@ -2266,7 +2282,7 @@ static HRESULT OnExecuteMsuPackage(
     ExitOnFailure(hr, "Failed to read StopWusaService.");
 
     hr = PackageFindById(pPackages, sczPackage, &executeAction.msuPackage.pPackage);
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     // execute MSU package
     hr = MsuEngineExecutePackage(&executeAction, pVariables, static_cast<BOOL>(dwRollback), static_cast<BOOL>(dwStopWusaService), GenericExecuteMessageHandler, hPipe, &restart);
@@ -2318,7 +2334,7 @@ static HRESULT OnExecutePackageProviderAction(
     {
         hr = PackageFindRelatedById(pRelatedBundles, sczPackage, &executeAction.packageProvider.pPackage);
     }
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     // Execute the package provider action.
     hr = DependencyExecutePackageProviderAction(&executeAction);
@@ -2361,7 +2377,7 @@ static HRESULT OnExecutePackageDependencyAction(
     {
         hr = PackageFindRelatedById(pRelatedBundles, sczPackage, &executeAction.packageDependency.pPackage);
     }
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     // Execute the package dependency action.
     hr = DependencyExecutePackageDependencyAction(TRUE, &executeAction);
@@ -2393,7 +2409,7 @@ static HRESULT OnLoadCompatiblePackage(
 
     // Find the reference package.
     hr = PackageFindById(pPackages, sczPackage, &executeAction.compatiblePackage.pReferencePackage);
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     hr = BuffReadString(pbData, cbData, &iData, &executeAction.compatiblePackage.sczInstalledProductCode);
     ExitOnFailure(hr, "Failed to read installed ProductCode from message buffer.");
@@ -2547,7 +2563,7 @@ static int MsiExecuteMessageHandler(
 
     default:
         hr = E_UNEXPECTED;
-        ExitOnFailure1(hr, "Invalid message type: %d", pMessage->type);
+        ExitOnFailure(hr, "Invalid message type: %d", pMessage->type);
     }
 
     // send message
@@ -2571,16 +2587,16 @@ static HRESULT OnCleanPackage(
     LPWSTR sczPackage = NULL;
     BURN_PACKAGE* pPackage = NULL;
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &sczPackage);
     ExitOnFailure(hr, "Failed to read package id.");
 
     hr = PackageFindById(pPackages, sczPackage, &pPackage);
-    ExitOnFailure1(hr, "Failed to find package: %ls", sczPackage);
+    ExitOnFailure(hr, "Failed to find package: %ls", sczPackage);
 
     // Remove the package from the cache.
     hr = CacheRemovePackage(TRUE, pPackage->sczId, pPackage->sczCacheId);
-    ExitOnFailure1(hr, "Failed to remove from cache package: %ls", pPackage->sczId);
+    ExitOnFailure(hr, "Failed to remove from cache package: %ls", pPackage->sczId);
 
 LExit:
     ReleaseStr(sczPackage);
@@ -2608,7 +2624,7 @@ static HRESULT OnLaunchApprovedExe(
 
     pLaunchApprovedExe = (BURN_LAUNCH_APPROVED_EXE*)MemAlloc(sizeof(BURN_LAUNCH_APPROVED_EXE), TRUE);
 
-    // deserialize message data
+    // Deserialize message data.
     hr = BuffReadString(pbData, cbData, &iData, &pLaunchApprovedExe->sczId);
     ExitOnFailure(hr, "Failed to read approved exe id.");
 
@@ -2619,7 +2635,7 @@ static HRESULT OnLaunchApprovedExe(
     ExitOnFailure(hr, "Failed to read approved exe WaitForInputIdle timeout.");
 
     hr = ApprovedExesFindById(pApprovedExes, pLaunchApprovedExe->sczId, &pApprovedExe);
-    ExitOnFailure1(hr, "The per-user process requested unknown approved exe with id: %ls", pLaunchApprovedExe->sczId);
+    ExitOnFailure(hr, "The per-user process requested unknown approved exe with id: %ls", pLaunchApprovedExe->sczId);
 
     LogId(REPORT_STANDARD, MSG_LAUNCH_APPROVED_EXE_SEARCH, pApprovedExe->sczKey, pApprovedExe->sczValueName ? pApprovedExe->sczValueName : L"", pApprovedExe->fWin64 ? L"yes" : L"no");
 
@@ -2635,7 +2651,7 @@ static HRESULT OnLaunchApprovedExe(
     ExitOnFailure(hr, "Failed to read the value for the approved exe path.");
 
     hr = ApprovedExesVerifySecureLocation(pVariables, pLaunchApprovedExe);
-    ExitOnFailure1(hr, "Failed to verify the executable path is in a secure location: %ls", pLaunchApprovedExe->sczExecutablePath);
+    ExitOnFailure(hr, "Failed to verify the executable path is in a secure location: %ls", pLaunchApprovedExe->sczExecutablePath);
     if (S_FALSE == hr)
     {
         LogStringLine(REPORT_STANDARD, "The executable path is not in a secure location: %ls", pLaunchApprovedExe->sczExecutablePath);
@@ -2643,7 +2659,7 @@ static HRESULT OnLaunchApprovedExe(
     }
 
     hr = ApprovedExesLaunch(pVariables, pLaunchApprovedExe, &dwProcessId);
-    ExitOnFailure1(hr, "Failed to launch approved exe: %ls", pLaunchApprovedExe->sczExecutablePath);
+    ExitOnFailure(hr, "Failed to launch approved exe: %ls", pLaunchApprovedExe->sczExecutablePath);
 
     //send process id over pipe
     hr = BuffWriteNumber(&pbSendData, &cbSendData, dwProcessId);

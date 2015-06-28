@@ -20,6 +20,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
     using System.Collections.Generic;
     using System.Globalization;
     using System.Runtime.InteropServices;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml;
 
@@ -888,7 +889,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     project = ConstructMsbuild40Project(projectFile, this.Core, this.configuration, this.platform);
                     break;
                 case "12.0":
-                    project = ConstructMsbuild40Project(projectFile, this.Core, this.configuration, this.platform, "12.0.0.0");
+                    project = ConstructMsbuildWrapperProject(projectFile, this.Core, this.configuration, this.platform, "12");
+                    break;
+                case "14.0":
+                    project = ConstructMsbuildWrapperProject(projectFile, this.Core, this.configuration, this.platform, "14");
                     break;
                 default:
                     project = ConstructMsbuild35Project(projectFile, this.Core, this.configuration, this.platform);
@@ -1092,17 +1096,72 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             return new MSBuild40Project(null, projectType, buildItemType, loadVersion, types, harvesterCore, configuration, platform);
         }
 
+        private static MSBuildProject ConstructMsbuildWrapperProject(string projectFile, HarvesterCore harvesterCore, string configuration, string platform, string shortVersion)
+        {
+            // Until MSBuild 12.0, we were able to compile the HarvestLogger class which derives from ILogger and use that for all versions of MSBuild.
+            // Starting in MSBuild 12.0, the ILogger that we compile against doesn't match the ILogger during runtime.  This DLL targets .NET 3.5,
+            // so we can't reference the newer MSBuild assemblies.  This requires building new assemblies.  We reflect into these instead of MSBuild.
+
+            const string MSBuildWrapperAssemblyName = "WixVSExtension.MSBuild{0}, Version={1}, Culture=neutral, PublicKeyToken={2}";
+            Assembly msbuildWrapperAssembly = null;
+
+            // Load the custom assembly for the requested version of MSBuild.
+            try
+            {
+                Assembly thisAssembly = Assembly.GetExecutingAssembly();
+                AssemblyName thisAssemblyName = thisAssembly.GetName();
+                StringBuilder publicKeyToken = new StringBuilder();
+                foreach (byte b in thisAssemblyName.GetPublicKeyToken())
+                {
+                    publicKeyToken.Append(b.ToString("x2"));
+                }
+
+                msbuildWrapperAssembly = Assembly.Load(String.Format(MSBuildWrapperAssemblyName, shortVersion, thisAssemblyName.Version, publicKeyToken));
+            }
+            catch (Exception e)
+            {
+                throw new WixException(VSErrors.CannotLoadMSBuildAssembly(e.Message));
+            }
+
+            const string MSBuildWrapperTypeName = "Microsoft.Tools.WindowsInstallerXml.Extensions.WixVSExtension.MSBuild{0}Project";
+            Type projectWrapperType = null;
+
+            // Get the type of the class that inherits from MSBuildProject.
+            try
+            {
+                projectWrapperType = msbuildWrapperAssembly.GetType(String.Format(MSBuildWrapperTypeName, shortVersion), true);
+            }
+            catch (TargetInvocationException tie)
+            {
+                throw new WixException(VSErrors.CannotLoadMSBuildEngine(tie.InnerException.Message));
+            }
+            catch (Exception e)
+            {
+                throw new WixException(VSErrors.CannotLoadMSBuildEngine(e.Message));
+            }
+            
+            // Get the constructor of the class so we can "new it up".
+            ConstructorInfo wrapperCtor = projectWrapperType.GetConstructor(
+                new Type[]
+                {
+                    typeof(HarvesterCore),
+                    typeof(string),
+                    typeof(string),
+                });
+            return (MSBuildProject)wrapperCtor.Invoke(new object[] { harvesterCore, configuration, platform });
+        }
+
         private static bool AreTypesEquivalent(Type a, Type b)
         {
             return (a == b) || (a.IsAssignableFrom(b) && b.IsAssignableFrom(a));
         }
 
-        private abstract class MSBuildProject
+        public abstract class MSBuildProject
         {
             protected Type projectType;
             protected Type buildItemType;
             protected object project;
-            protected string loadVersion;
+            private string loadVersion;
 
             public MSBuildProject(object project, Type projectType, Type buildItemType, string loadVersion)
             {
@@ -1128,7 +1187,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             public abstract void Load(string projectFileName);
         }
 
-        private abstract class MSBuildProjectItemType
+        public abstract class MSBuildProjectItemType
         {
             public MSBuildProjectItemType(object buildItem)
             {

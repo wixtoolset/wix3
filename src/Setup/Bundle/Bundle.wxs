@@ -31,82 +31,11 @@
           <Payload SourceFile='..\..\..\License.txt' />
         </BootstrapperApplicationRef>
 
-        <Variable Name='InstallFolder' Type='string' Value='[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)' />
-        <util:RegistrySearch Id="PreviousInstallFolderSearch" Root='HKLM' Key='SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajorMinor)' Value='InstallFolder' Variable='PreviousInstallFolder' />
-        <util:DirectorySearch Path='[PreviousInstallFolder]' Variable='InstallFolder' After='PreviousInstallFolderSearch' Condition='PreviousInstallFolder' />
-
-        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\10.0' Value='InstallDir' Variable='VS2010InstallFolder' />
-        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\11.0' Value='InstallDir' Variable='VS2012InstallFolder' />
-        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\12.0' Value='InstallDir' Variable='VS2013InstallFolder' />
-        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\14.0' Value='InstallDir' Variable='VS2015InstallFolder' />
-        
-        <util:ComponentSearch Guid="{B455E8D3-90CB-47F6-AB7B-9B31E5DE6266}" Variable="VS2010VCExpressInstalled" />
-        <util:ComponentSearch Guid="{55C6B9D6-A824-4AFC-8D08-20E581B6F42C}" Variable="VS2012WDExpressInstalled" />
-        <util:ComponentSearch Guid="{6C65247B-900C-45AD-8ED8-3F20E668348E}" Variable="VS2013WDExpressInstalled" />
-
         <util:RegistrySearchRef Id="NETFRAMEWORK35_SP_LEVEL" />
 
         <Chain>
             <PackageGroupRef Id='NetFx40Web' />
-
-            <MsiPackage Id='Wix' Vital='yes' Name='data\core.msi' SourceFile='data\core.msi'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-
-            <MsiPackage Id='Wix64' Vital='yes' Name='data\wix64.msi' SourceFile='data\wix64.msi'
-                         
-                        InstallCondition='VersionNT64' />
-
-            <MsiPackage Vital='yes' Name='data\msdk.msi' SourceFile='data\msdk.msi'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-
-            <PackageGroupRef Id='NativeSdkPackages' />
-
-            <!-- Votive needs to be last as it runs devenv /setup -->
-            <MsiPackage Vital='yes' Name='data\votive.msi' SourceFile='data\votive.msi'
-                        InstallCondition='VS2010InstallFolder OR VS2012InstallFolder OR VS2013InstallFolder OR VS2015InstallFolder'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
+            <PackageGroupRef Id='WixPackages' />
         </Chain>
     </Bundle>
-
-    <Fragment>
-        <PackageGroup Id='NativeSdkPackages'>
-            <?ifdef VS2010Available ?>
-            <MsiPackage Vital='yes' Name='data\nsdk2010.msi' SourceFile='data\nsdk2010.msi'
-                        InstallCondition='VS2010InstallFolder OR VS2010VCExpressInstalled'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-            <?endif?>
-
-            <?ifdef VS2012Available ?>
-            <MsiPackage Vital='yes' Name='data\nsdk2012.msi' SourceFile='data\nsdk2012.msi'
-                        InstallCondition='VS2012InstallFolder OR VS2012WDExpressInstalled'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-            <?endif?>
-
-            <?ifdef VS2013Available ?>
-            <MsiPackage Vital='yes' Name='data\nsdk2013.msi' SourceFile='data\nsdk2013.msi'
-                        InstallCondition='VS2013InstallFolder OR VS2013WDExpressInstalled'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-            <?endif?>
-
-            <?ifdef VS2015Available ?>
-            <MsiPackage Vital='yes' Name='data\nsdk2015.msi' SourceFile='data\nsdk2015.msi'
-                        InstallCondition='VS2015InstallFolder'
-                        >
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
-            <?endif?>
-        </PackageGroup>
-    </Fragment>
 </Wix>
