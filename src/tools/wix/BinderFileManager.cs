@@ -786,14 +786,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <typeparam name="T">Return type of the file action.</typeparam>
         /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
         /// <returns>
-        /// Returns the result of the delegate on success.
+        /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
         /// </returns>
         private T RetryFileAction<T>(string path, Func<T> func)
         {
-            var autoResetEvent = new AutoResetEvent(false);
-            int retries = 3;
+            // initial state unsignaled
+            AutoResetEvent are = new AutoResetEvent(false);
+            int i = 0;
+            int j = 0;
 
-            while (true)
+            while (16 > i++ && 3 > j)
             {
                 try
                 {
@@ -801,30 +803,29 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
                 catch (IOException)
                 {
-                    var fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
 
+                    // register for Changed provided path (file) matches
                     fsw.Changed += (o, e) =>
                         {
-                            if (Path.GetFullPath(e.FullPath).Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
                             {
-                                autoResetEvent.Set();
+                                // set the state of the event to signaled and proceed
+                                are.Set();
                             }
                         };
 
-                    autoResetEvent.WaitOne();
+                    // block until signaled
+                    are.WaitOne();
                 }
                 catch (UnauthorizedAccessException)  // for MoveFile and CopyFile
                 {
-                    if (1 > retries)
-                    {
-                        // done trying, permissions/access issues remain
-                        throw;
-                    }
-
-                    // unlikely to improve past 3 retries
-                    --retries;
+                    // increment and retry
+                    j++;
                 }
             }
+
+            return default(T);
         }
 
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
