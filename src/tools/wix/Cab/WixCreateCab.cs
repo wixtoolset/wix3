@@ -209,12 +209,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             }
             catch (IOException)
             {
+                // don't need to generically rethrow, just need to do this so we get a file path with the exception message.
                 throw new WixSharingViolationException(file);
-            }
-            catch (Exception)
-            {
-                // preserve the stack trace
-                throw;
             }
         }
 
