@@ -296,7 +296,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         /// <summary>
         /// Private method to retry a <c>CAB</c> action that may block because
         /// another process is working the file.  Retries on
-        /// an <see cref="IOException" />.
+        /// an <see cref="COMException" />.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
@@ -316,22 +316,29 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 {
                     return func();
                 }
-                catch (IOException)
+                catch (COMException ce)
                 {
-                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
-
-                    // register for Changed provided path (file) matches
-                    fsw.Changed += (o, e) =>
+                    if (0x80070020 == unchecked((uint)ce.ErrorCode))
                     {
-                        if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                        {
-                            // set the state of the event to signaled and proceed
-                            are.Set();
-                        }
-                    };
+                        FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
 
-                    // block until signaled
-                    are.WaitOne();
+                        // register for Changed provided path (file) matches
+                        fsw.Changed += (o, e) =>
+                        {
+                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                            {
+                                // set the state of the event to signaled and proceed
+                                are.Set();
+                            }
+                        };
+
+                        // block until signaled
+                        are.WaitOne();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
