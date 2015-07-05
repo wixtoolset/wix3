@@ -233,7 +233,7 @@ HRESULT DAPI MultiSzReplaceString(
     __in_z LPCWSTR pwzString
     );
 
-LPCWSTR wcsistr(
+LPCWSTR DAPI wcsistr(
     __in_z LPCWSTR wzString,
     __in_z LPCWSTR wzCharSet
     );
