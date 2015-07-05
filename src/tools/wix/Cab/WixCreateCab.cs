@@ -178,25 +178,28 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         {
             try
             {
-                RetryCabAction(file, () => { NativeMethods.CreateCabAddFile(file, token, fileHash, this.handle); return true; });
+                bool success = RetryCabAction(file, () => { NativeMethods.CreateCabAddFile(file, token, fileHash, this.handle); return true; });
+
+                if (!success)
+                {
+                    throw new IOException();
+                }
             }
             catch (COMException ce)
             {
-                if (0x80004005 == unchecked((uint)ce.ErrorCode)) // E_FAIL
+                switch(unchecked((uint)ce.ErrorCode))
                 {
-                    throw new WixException(WixErrors.CreateCabAddFileFailed());
-                }
-                else if (0x80070070 == unchecked((uint)ce.ErrorCode)) // ERROR_DISK_FULL
-                {
-                    throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
-                }
-                else if (0x80070020 == unchecked((uint)ce.ErrorCode)) // ERROR_SHARING_VIOLATION
-                {
-                    throw new WixException(WixErrors.FileInUse(null, file));
-                }
-                else
-                {
-                    throw;
+                    case 0x80004005:    // E_FAIL
+                        throw new WixException(WixErrors.CreateCabAddFileFailed());
+
+                    case 0x80070020:    // ERROR_SHARING_VIOLATION
+                        throw new WixException(WixErrors.FileInUse(null, file));
+
+                    case 0x80070070:    // ERROR_DISK_FULL
+                        throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
+
+                    default:
+                        throw;
                 }
             }
             catch (DirectoryNotFoundException)
@@ -209,7 +212,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             }
             catch (IOException)
             {
-                // don't need to generically rethrow, just need to do this so we get a file path with the exception message.
+                // get a file path with the exception message.
                 throw new WixSharingViolationException(file);
             }
         }
