@@ -71,7 +71,7 @@
     <Error
       Code="WIXBUILDINIT"
       Condition=" '$(OFFICIAL_WIX_BUILD)'=='' and ($(DisabledWixStrongName32) == 'ABSENT' or $(DisabledWixStrongName64) == 'ABSENT') "
-      Text="Strong name validation for the WiX toolset must be disabled on a developer machine to build. Execute 'msbuild $(MSBuildThisFileDirectory)Tools\OneTimeWixBuildInitialization.proj' from an elevated command prompt." />
+      Text="Strong name validation for the WiX toolset must be disabled on a developer machine to build. Execute 'msbuild $(MSBuildThisFileDirectory)OneTimeWixBuildInitialization.proj' from an elevated command prompt." />
 
     <Error
       Code="WIXBUILD000"
