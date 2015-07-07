@@ -639,13 +639,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             if (overwrite && File.Exists(destination))
             {
-                RetryFileAction(destination, () =>
+                bool success = RetryPermissionAction(destination, () =>
                 {
                     FileAttributes attributes = File.GetAttributes(destination);
                     File.SetAttributes(destination, attributes & ~FileAttributes.ReadOnly);
                     File.Delete(destination);
                     return true;
                 });
+
+                if (!success)
+                {
+                    throw new UnauthorizedAccessException(string.Format("CopyFile():  Cannot set attributes and delete '{0}'.", destination));
+                }
             }
 
             if (!CreateHardLink(destination, source, IntPtr.Zero))
@@ -655,12 +660,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
 #endif
 
                 // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
-                RetryFileAction(destination, () =>
+                bool success = RetryFileAction(destination, () =>
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(destination));
                     File.Copy(source, destination, overwrite);
                     return true;
                 });
+
+                if (!success)
+                {
+                    throw new IOException(string.Format("CopyFile():  Cannot copy '{0}' {1} '{2}'.", source, overwrite ? "overwriting" : "to", destination));
+                }
             }
         }
 
@@ -678,13 +688,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             if (File.Exists(destination))
             {
-                RetryFileAction(destination, () =>
+                bool success = RetryPermissionAction(destination, () =>
                 {
                     FileAttributes attributes = File.GetAttributes(destination);
                     File.SetAttributes(destination, attributes & ~FileAttributes.ReadOnly);
                     File.Delete(destination);
                     return true;
                 });
+
+                if (!success)
+                {
+                    throw new UnauthorizedAccessException(string.Format("MoveFile():  Cannot set attributes and delete '{0}'.", destination));
+                }
             }
 
             // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
@@ -793,9 +808,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
-            int j = 0;
 
-            while (16 > i++ && 3 > j)
+            while (16 > i++)
             {
                 try
                 {
@@ -818,10 +832,35 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     // block until signaled
                     are.WaitOne();
                 }
-                catch (UnauthorizedAccessException)  // for MoveFile and CopyFile
+            }
+
+            return default(T);
+        }
+
+        /// <summary>
+        /// Private method to retry a file action that may block because
+        /// another process is working the file.  Retries on
+        /// an <see cref="IOException" />.
+        /// </summary>
+        /// <param name="path">File path to watch.</param>
+        /// <typeparam name="T">Return type of the file action.</typeparam>
+        /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
+        /// <returns>
+        /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
+        /// </returns>
+        private T RetryPermissionAction<T>(string path, Func<T> func)
+        {
+            int i = 0;
+
+            while (3 > i++)
+            {
+                try
                 {
-                    // increment and retry
-                    j++;
+                    return func();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    Thread.Sleep(330 * i);
                 }
             }
 
