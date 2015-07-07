@@ -20,6 +20,7 @@
   <?define NetFx451MinRelease = 378675 ?>
   <?define NetFx451WebLink = http://go.microsoft.com/fwlink/?LinkId=322115 ?>
   <?define NetFx451RedistLink = http://go.microsoft.com/fwlink/?LinkId=322116 ?>
+  <?define NetFx451EulaLink = http://wixtoolset.org/licenses/netfx451 ?>
 
   <Fragment>
     <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
@@ -32,6 +33,8 @@
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx451Web" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx451EulaLink)" />
     <WixVariable Id="NetFx451WebDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)" Overridable="yes" />
     <WixVariable Id="NetFx451WebInstallCondition" Value="" Overridable="yes" />
     <WixVariable Id="NetFx451WebPackageDirectory" Value="redist\" Overridable="yes" />
@@ -67,6 +70,8 @@
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx451Redist" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx451EulaLink)" />
     <WixVariable Id="NetFx451RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)" Overridable="yes" />
     <WixVariable Id="NetFx451RedistInstallCondition" Value="" Overridable="yes" />
     <WixVariable Id="NetFx451RedistPackageDirectory" Value="redist\" Overridable="yes" />
