@@ -839,12 +839,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
         /// <summary>
         /// Private method to retry a file action that may block because
-        /// another process is working the file.  Retries on
-        /// an <see cref="IOException" />.
+        /// of permissions.  Retries on
+        /// an <see cref="UnauthorizedAccessException" />.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
-        /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
+        /// <param name="func">File Permission Delegate to retry.</param>
         /// <returns>
         /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
         /// </returns>
