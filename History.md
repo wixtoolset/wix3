@@ -1,3 +1,5 @@
+* jmcooper8654: WIXFEAT:4437 - Modify Wix.CA.targets to add PDB files to CA Package when /p:Configuration=Debug.
+
 ## WixBuild: Version 3.10.0.1823
 
 * jmcooper8654: WIXBUG:4791 - Fix race in lit.exe/light.exe related to wixlibs and large binaries.
