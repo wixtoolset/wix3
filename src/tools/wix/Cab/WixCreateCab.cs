@@ -17,8 +17,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
     using System.Globalization;
     using System.IO;
     using System.Runtime.InteropServices;
-    using System.Threading;
-
     using Microsoft.Tools.WindowsInstallerXml.Cab.Interop;
     using Microsoft.Tools.WindowsInstallerXml.Msi;
     using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
@@ -80,7 +78,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             {
                 throw new WixException(WixErrors.IllegalEnvironmentVariable(CompressionLevelVariable, compressionLevelVariable));
             }
-
+        
             if (String.IsNullOrEmpty(cabDir))
             {
                 cabDir = Directory.GetCurrentDirectory();
@@ -178,28 +176,21 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         {
             try
             {
-                bool success = RetryCabAction(file, () => { NativeMethods.CreateCabAddFile(file, token, fileHash, this.handle); return true; });
-
-                if (!success)
-                {
-                    throw new IOException();
-                }
+                NativeMethods.CreateCabAddFile(file, token, fileHash, this.handle);
             }
             catch (COMException ce)
             {
-                switch(unchecked((uint)ce.ErrorCode))
+                if (0x80004005 == unchecked((uint)ce.ErrorCode)) // E_FAIL
                 {
-                    case 0x80004005:    // E_FAIL
-                        throw new WixException(WixErrors.CreateCabAddFileFailed());
-
-                    case 0x80070020:    // ERROR_SHARING_VIOLATION
-                        throw new WixException(WixErrors.FileInUse(null, file));
-
-                    case 0x80070070:    // ERROR_DISK_FULL
-                        throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
-
-                    default:
-                        throw;
+                    throw new WixException(WixErrors.CreateCabAddFileFailed());
+                }
+                else if (0x80070070 == unchecked((uint)ce.ErrorCode)) // ERROR_DISK_FULL
+                {
+                    throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
+                }
+                else
+                {
+                    throw;
                 }
             }
             catch (DirectoryNotFoundException)
@@ -209,11 +200,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             catch (FileNotFoundException)
             {
                 throw new WixFileNotFoundException(file);
-            }
-            catch (IOException)
-            {
-                // get a file path with the exception message.
-                throw new WixSharingViolationException(file);
             }
         }
 
@@ -246,7 +232,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                     {
                         NativeMethods.CreateCabFinish(this.handle, IntPtr.Zero);
                     }
-
+                        
                     GC.SuppressFinalize(this);
                     this.disposed = true;
                 }
@@ -290,58 +276,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 GC.SuppressFinalize(this);
                 this.disposed = true;
             }
-        }
-
-        /// <summary>
-        /// Private method to retry a <c>CAB</c> action that may block because
-        /// another process is working the file.  Retries on
-        /// an <see cref="COMException" />.
-        /// </summary>
-        /// <param name="path">File path to watch.</param>
-        /// <typeparam name="T">Return type of the file action.</typeparam>
-        /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
-        /// <returns>
-        /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
-        /// </returns>
-        private T RetryCabAction<T>(string path, Func<T> func)
-        {
-            // initial state unsignaled
-            AutoResetEvent are = new AutoResetEvent(false);
-            int i = 0;
-
-            while (16 > i++)
-            {
-                try
-                {
-                    return func();
-                }
-                catch (COMException ce)
-                {
-                    if (0x80070020 == unchecked((uint)ce.ErrorCode))
-                    {
-                        FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
-
-                        // register for Changed provided path (file) matches
-                        fsw.Changed += (o, e) =>
-                        {
-                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                            {
-                                // set the state of the event to signaled and proceed
-                                are.Set();
-                            }
-                        };
-
-                        // block until signaled
-                        are.WaitOne();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            return default(T);
         }
     }
 }
