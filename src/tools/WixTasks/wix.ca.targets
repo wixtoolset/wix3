@@ -144,11 +144,11 @@
     </CreateItem>
 
     <!--
-  Items to include in the CA package:
-     - Reference assemblies marked CopyLocal
-     - Project items of type Content
-     - Additional items in the CustomActionContents property
-  -->
+    Items to include in the CA package:
+      - Reference assemblies marked CopyLocal
+      - Project items of type Content
+      - Additional items in the CustomActionContents property
+    -->
     <CreateProperty Value="@(CustomActionReferenceContents);@(Content->'%(FullPath)');$(CustomActionContents)">
       <Output TaskParameter="Value" PropertyName="CustomActionContents" />
     </CreateProperty>
