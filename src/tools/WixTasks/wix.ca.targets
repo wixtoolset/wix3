@@ -16,19 +16,19 @@
   </remarks>
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
-		 InitialTargets="_SetDefaultPathValues">
+     InitialTargets="_SetDefaultPathValues">
 
-	<Import Project="$(CustomBeforeWixCATargets)" Condition=" '$(CustomBeforeWixCATargets)' != '' and Exists('$(CustomBeforeWixCATargets)')" />
+  <Import Project="$(CustomBeforeWixCATargets)" Condition=" '$(CustomBeforeWixCATargets)' != '' and Exists('$(CustomBeforeWixCATargets)')" />
 
-	<PropertyGroup>
-		<WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.ca.targets</WixCATargetsPath>
-		<WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.10\bin\WixTasks.dll</WixTasksPath>
-		<WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix.ca.targets</WixCATargetsPath>
-		<WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.10\bin\WixTasks.dll</WixTasksPath>
-		<TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
-	</PropertyGroup>
+  <PropertyGroup>
+    <WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.ca.targets</WixCATargetsPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.10\bin\WixTasks.dll</WixTasksPath>
+    <WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix.ca.targets</WixCATargetsPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.10\bin\WixTasks.dll</WixTasksPath>
+    <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
+  </PropertyGroup>
 
-	<UsingTask TaskName="ReadRegistry" AssemblyFile="$(WixTasksPath)"/>
+  <UsingTask TaskName="ReadRegistry" AssemblyFile="$(WixTasksPath)"/>
 
   <!--
   ==================================================================================================
@@ -41,57 +41,57 @@
     $(WixToolPath) - Default Wix Tool install folder
   ==================================================================================================
   -->
-	<PropertyGroup>
-		<WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.10</WixInstallRegKey>
-		<WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.10</WixInstallRegKeyWow64>
-	</PropertyGroup>
-	
-	<Target Name="_SetDefaultPathValues">
+  <PropertyGroup>
+    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.10</WixInstallRegKey>
+    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.10</WixInstallRegKeyWow64>
+  </PropertyGroup>
 
-		<ReadRegistry
-				Hive="LocalMachine"
-				Key="$(WixInstallRegKey)"
-				Name="InstallRoot"
-				FailIfMissing="false"
-				Condition=" '$(WixToolPath)' == '' ">
+  <Target Name="_SetDefaultPathValues">
 
-			<Output TaskParameter="Value" PropertyName="WixToolPath" />
-		</ReadRegistry>
+    <ReadRegistry
+        Hive="LocalMachine"
+        Key="$(WixInstallRegKey)"
+        Name="InstallRoot"
+        FailIfMissing="false"
+        Condition=" '$(WixToolPath)' == '' ">
 
-		<!-- If we didn't find the first registry path, assume we're in a 64bit process. -->
-		<ReadRegistry
-				Hive="LocalMachine"
-				Key="$(WixInstallRegKeyWow64)"
-				Name="InstallRoot"
-				FailIfMissing="false"
-				Condition=" '$(WixToolPath)' == '' ">
+      <Output TaskParameter="Value" PropertyName="WixToolPath" />
+    </ReadRegistry>
 
-			<Output TaskParameter="Value" PropertyName="WixToolPath" />
-		</ReadRegistry>
+    <!-- If we didn't find the first registry path, assume we're in a 64bit process. -->
+    <ReadRegistry
+        Hive="LocalMachine"
+        Key="$(WixInstallRegKeyWow64)"
+        Name="InstallRoot"
+        FailIfMissing="false"
+        Condition=" '$(WixToolPath)' == '' ">
 
-		<CreateProperty Value="$(WixToolPath)..\sdk\" Condition=" '$(WixSdkPath)' == '' ">
-			<Output TaskParameter="Value" PropertyName="WixSdkPath" />
-		</CreateProperty>
-		<CreateProperty Value="$(WixSdkPath)x86\" Condition=" '$(WixSdkX86Path)' == '' ">
-			<Output TaskParameter="Value" PropertyName="WixSdkX86Path" />
-		</CreateProperty>
-		<CreateProperty Value="$(WixSdkPath)x64\" Condition=" '$(WixSdkX64Path)' == '' ">
-			<Output TaskParameter="Value" PropertyName="WixSdkX64Path" />
-		</CreateProperty>
+      <Output TaskParameter="Value" PropertyName="WixToolPath" />
+    </ReadRegistry>
 
-		<CreateProperty Value="$(WixSdkPath)MakeSfxCA.exe" Condition=" '$(MakeSfxCA)' == '' ">
-			<Output TaskParameter="Value" PropertyName="MakeSfxCA" />
-		</CreateProperty>
-		<CreateProperty Value="$(WixSdkX86Path)SfxCA.dll" Condition=" '$(SfxCADll)' == '' and '$(Platform)' != 'x64'">
-			<Output TaskParameter="Value" PropertyName="SfxCADll" />
-		</CreateProperty>
-		<CreateProperty Value="$(WixSdkX64Path)SfxCA.dll" Condition=" '$(SfxCADll)' == '' and '$(Platform)' == 'x64'">
-			<Output TaskParameter="Value" PropertyName="SfxCADll" />
-		</CreateProperty>
+    <CreateProperty Value="$(WixToolPath)..\sdk\" Condition=" '$(WixSdkPath)' == '' ">
+      <Output TaskParameter="Value" PropertyName="WixSdkPath" />
+    </CreateProperty>
+    <CreateProperty Value="$(WixSdkPath)x86\" Condition=" '$(WixSdkX86Path)' == '' ">
+      <Output TaskParameter="Value" PropertyName="WixSdkX86Path" />
+    </CreateProperty>
+    <CreateProperty Value="$(WixSdkPath)x64\" Condition=" '$(WixSdkX64Path)' == '' ">
+      <Output TaskParameter="Value" PropertyName="WixSdkX64Path" />
+    </CreateProperty>
 
-	</Target>
+    <CreateProperty Value="$(WixSdkPath)MakeSfxCA.exe" Condition=" '$(MakeSfxCA)' == '' ">
+      <Output TaskParameter="Value" PropertyName="MakeSfxCA" />
+    </CreateProperty>
+    <CreateProperty Value="$(WixSdkX86Path)SfxCA.dll" Condition=" '$(SfxCADll)' == '' and '$(Platform)' != 'x64'">
+      <Output TaskParameter="Value" PropertyName="SfxCADll" />
+    </CreateProperty>
+    <CreateProperty Value="$(WixSdkX64Path)SfxCA.dll" Condition=" '$(SfxCADll)' == '' and '$(Platform)' == 'x64'">
+      <Output TaskParameter="Value" PropertyName="SfxCADll" />
+    </CreateProperty>
 
-	<!--
+  </Target>
+
+  <!--
   ==================================================================================================
   PackCustomAction
 
@@ -107,72 +107,72 @@
     $(IntermediateOutputPath)$(TargetCAFileName) - Managed custom action package with unmanaged stub.
   ==================================================================================================
   -->
-	<Target Name="PackCustomAction"
-			Inputs="@(IntermediateAssembly);@(Content);$(CustomActionContents)"
-			Outputs="$(IntermediateOutputPath)$(TargetCAFileName)">
+  <Target Name="PackCustomAction"
+      Inputs="@(IntermediateAssembly);@(Content);$(CustomActionContents)"
+      Outputs="$(IntermediateOutputPath)$(TargetCAFileName)">
 
-		<!-- Find all referenced items marked CopyLocal, but exclude non-binary files. -->
-		<CreateItem
-				Include="@(ReferenceCopyLocalPaths)"
-				Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.dll' or '%(ReferenceCopyLocalPaths.extension)' == '.exe' ">
-			<Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-		</CreateItem>
+    <!-- Find all referenced items marked CopyLocal, but exclude non-binary files. -->
+    <CreateItem
+        Include="@(ReferenceCopyLocalPaths)"
+        Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.dll' or '%(ReferenceCopyLocalPaths.extension)' == '.exe' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
 
-		<CreateItem
-				Include="@(ReferenceComWrappersToCopyLocal)"
-				Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.dll' or '%(ReferenceComWrappersToCopyLocal.extension)' == '.exe' ">
-			<Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-		</CreateItem>
+    <CreateItem
+        Include="@(ReferenceComWrappersToCopyLocal)"
+        Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.dll' or '%(ReferenceComWrappersToCopyLocal.extension)' == '.exe' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
 
-		<!-- include PDBs for Debug only -->
-		<CreateItem
-				Include="@(IntermediateAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
-				Condition=" Exists('%(RootDir)%(Directory)%(Filename).pdb') and '$(Configuration)' == 'Debug' ">
-			<Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-		</CreateItem>
+    <!-- include PDBs for Debug only -->
+    <CreateItem
+        Include="@(IntermediateAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
+        Condition=" Exists('%(RootDir)%(Directory)%(Filename).pdb') and '$(Configuration)' == 'Debug' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
 
-		<CreateItem
-				Include="@(ReferenceCopyLocalPaths)"
-				Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
-			<Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-		</CreateItem>
+    <CreateItem
+        Include="@(ReferenceCopyLocalPaths)"
+        Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
 
-		<CreateItem
-				Include="@(ReferenceComWrappersToCopyLocal)"
-				Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
-			<Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-		</CreateItem>
+    <CreateItem
+        Include="@(ReferenceComWrappersToCopyLocal)"
+        Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
 
-		<!--
+    <!--
   Items to include in the CA package:
      - Reference assemblies marked CopyLocal
      - Project items of type Content
      - Additional items in the CustomActionContents property
   -->
-		<CreateProperty Value="@(CustomActionReferenceContents);@(Content->'%(FullPath)');$(CustomActionContents)">
-			<Output TaskParameter="Value" PropertyName="CustomActionContents" />
-		</CreateProperty>
+    <CreateProperty Value="@(CustomActionReferenceContents);@(Content->'%(FullPath)');$(CustomActionContents)">
+      <Output TaskParameter="Value" PropertyName="CustomActionContents" />
+    </CreateProperty>
 
-		<CreateItem Include="@(IntermediateAssembly->'%(FullPath)')">
-			<Output TaskParameter="Include" ItemName="IntermediateCAAssembly" />
-		</CreateItem>
+    <CreateItem Include="@(IntermediateAssembly->'%(FullPath)')">
+      <Output TaskParameter="Include" ItemName="IntermediateCAAssembly" />
+    </CreateItem>
 
-		<CreateItem Include="@(IntermediateAssembly->'%(RootDir)%(Directory)$(TargetCAFileName)')">
-			<Output TaskParameter="Include" ItemName="IntermediateCAPackage" />
-		</CreateItem>
+    <CreateItem Include="@(IntermediateAssembly->'%(RootDir)%(Directory)$(TargetCAFileName)')">
+      <Output TaskParameter="Include" ItemName="IntermediateCAPackage" />
+    </CreateItem>
 
-		<!-- Run the MakeSfxCA.exe CA packaging tool. -->
-		<Exec Command='"$(MakeSfxCA)" "@(IntermediateCAPackage)" "$(SfxCADll)" "@(IntermediateCAAssembly)" "$(CustomActionContents)"'
-			  WorkingDirectory="$(ProjectDir)" />
+    <!-- Run the MakeSfxCA.exe CA packaging tool. -->
+    <Exec Command='"$(MakeSfxCA)" "@(IntermediateCAPackage)" "$(SfxCADll)" "@(IntermediateCAAssembly)" "$(CustomActionContents)"'
+        WorkingDirectory="$(ProjectDir)" />
 
-		<!-- Add modules to be copied to output dir. -->
-		<CreateItem Include="@(AddModules);@(IntermediateCAPackage)">
-			<Output TaskParameter="Include" ItemName="AddModules" />
-		</CreateItem>
+    <!-- Add modules to be copied to output dir. -->
+    <CreateItem Include="@(AddModules);@(IntermediateCAPackage)">
+      <Output TaskParameter="Include" ItemName="AddModules" />
+    </CreateItem>
 
-	</Target>
+  </Target>
 
-	<!--
+  <!--
   ==================================================================================================
   CleanCustomAction
 
@@ -180,12 +180,12 @@
 
   ==================================================================================================
   -->
-	<Target Name="CleanCustomAction">
-		<Delete Files="$(IntermediateOutputPath)$(TargetCAFileName)"
-				TreatErrorsAsWarnings="true" />
-	</Target>
+  <Target Name="CleanCustomAction">
+    <Delete Files="$(IntermediateOutputPath)$(TargetCAFileName)"
+        TreatErrorsAsWarnings="true" />
+  </Target>
 
-	<!--
+  <!--
   ==================================================================================================
   AfterCompile (redefinition)
 
@@ -194,10 +194,10 @@
 
   ==================================================================================================
   -->
-	<Target Name="AfterCompile"
-			DependsOnTargets="PackCustomAction" />
+  <Target Name="AfterCompile"
+      DependsOnTargets="PackCustomAction" />
 
-	<!--
+  <!--
   ==================================================================================================
   BeforeClean (redefinition)
 
@@ -206,9 +206,9 @@
 
   ==================================================================================================
   -->
-	<Target Name="BeforeClean"
-			DependsOnTargets="CleanCustomAction" />
+  <Target Name="BeforeClean"
+      DependsOnTargets="CleanCustomAction" />
 
-	<Import Project="$(CustomAfterWixCATargets)" Condition=" '$(CustomAfterWixCATargets)' != '' and Exists('$(CustomAfterWixCATargets)')" />
+  <Import Project="$(CustomAfterWixCATargets)" Condition=" '$(CustomAfterWixCATargets)' != '' and Exists('$(CustomAfterWixCATargets)')" />
 
 </Project>
