@@ -659,9 +659,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 int er = Marshal.GetLastWin32Error();
 #endif
 
-                // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
                 bool success = RetryFileAction(destination, () =>
                 {
+                    // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
                     Directory.CreateDirectory(Path.GetDirectoryName(destination));
                     File.Copy(source, destination, overwrite);
                     return true;
@@ -701,14 +701,22 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     throw new UnauthorizedAccessException(string.Format("MoveFile():  Cannot set attributes and delete '{0}'.", destination));
                 }
             }
-
-            // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
-            RetryFileAction(destination, () =>
+            
+            // main execution scoping block
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(destination));
-                File.Move(source, destination);
-                return true;
-            });
+                bool success = RetryFileAction(destination, () =>
+                {
+                    // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
+                    Directory.CreateDirectory(Path.GetDirectoryName(destination));
+                    File.Move(source, destination);
+                    return true;
+                });
+
+                if (!success)
+                {
+                    throw new IOException(string.Format("MoveFile():  Cannot move '{0}' to '{1}'.", source, destination));
+                }
+            }
         }
 
         /// <summary>
@@ -840,7 +848,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Private method to retry a file action that may block because
         /// of permissions.  Retries on
-        /// an <see cref="UnauthorizedAccessException" />.
+        /// an <see cref="UnauthorizedAccessException" /> and an
+        /// <see cref="IOException"/>.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
@@ -850,17 +859,37 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// </returns>
         private T RetryPermissionAction<T>(string path, Func<T> func)
         {
+            // initial state unsignaled
+            AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
+            int j = 0;
 
-            while (3 > i++)
+            while (3 > i++ && 16 > j++)
             {
                 try
                 {
                     return func();
                 }
+                catch (IOException)
+                {
+                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+
+                    // register for Changed provided path (file) matches
+                    fsw.Changed += (o, e) =>
+                        {
+                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                            {
+                                // set the state of the event to signaled and proceed
+                                are.Set();
+                            }
+                        };
+
+                    // block until signaled
+                    are.WaitOne();
+                }
                 catch (UnauthorizedAccessException)
                 {
-                    Thread.Sleep(330 * i);
+                    Thread.Sleep(100 + (int)Math.Pow(10.0, i));
                 }
             }
 

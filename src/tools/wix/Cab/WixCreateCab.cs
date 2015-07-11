@@ -187,19 +187,41 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             }
             catch (COMException ce)
             {
-                switch(unchecked((uint)ce.ErrorCode))
+                const uint E_FAIL = 0x80004005;
+
+                // from winerror.h
+                const uint ERROR_ACCESS_DENIED = 5;
+                const uint ERROR_SHARING_VIOLATION = 32;
+                const uint ERROR_LOCK_VIOLATION = 33;
+                const uint ERROR_OPEN_FAILED = 110;
+                const uint ERROR_PATH_BUSY = 148;
+                const uint ERROR_FILE_CHECKED_OUT = 220;
+                const uint ERROR_HANDLE_DISK_FULL = 39;
+                const uint ERROR_DISK_FULL = 112;
+
+                if (E_FAIL == unchecked((uint)ce.ErrorCode))
                 {
-                    case 0x80004005:    // E_FAIL
-                        throw new WixException(WixErrors.CreateCabAddFileFailed());
+                    throw new WixException(WixErrors.CreateCabAddFileFailed());
+                }
+                else
+                {
+                    switch (unchecked((uint)ce.ErrorCode) & 0xffff)
+                    {
+                        case ERROR_ACCESS_DENIED:
+                        case ERROR_SHARING_VIOLATION:
+                        case ERROR_LOCK_VIOLATION:
+                        case ERROR_OPEN_FAILED:
+                        case ERROR_PATH_BUSY:
+                        case ERROR_FILE_CHECKED_OUT:
+                            throw new WixException(WixErrors.FileInUse(null, file));
 
-                    case 0x80070020:    // ERROR_SHARING_VIOLATION
-                        throw new WixException(WixErrors.FileInUse(null, file));
+                        case ERROR_HANDLE_DISK_FULL:
+                        case ERROR_DISK_FULL:
+                            throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
 
-                    case 0x80070070:    // ERROR_DISK_FULL
-                        throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
-
-                    default:
-                        throw;
+                        default:
+                            throw;
+                    }
                 }
             }
             catch (DirectoryNotFoundException)
@@ -295,7 +317,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         /// <summary>
         /// Private method to retry a <c>CAB</c> action that may block because
         /// another process is working the file.  Retries on
-        /// an <see cref="COMException" />.
+        /// an <see cref="COMException" /> or an <see cref="IOException"/>.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
@@ -317,27 +339,59 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 }
                 catch (COMException ce)
                 {
-                    if (0x80070020 == unchecked((uint)ce.ErrorCode))
-                    {
-                        FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+                    // from winerror.h
+                    const uint ERROR_ACCESS_DENIED = 5;
+                    const uint ERROR_SHARING_VIOLATION = 32;
+                    const uint ERROR_LOCK_VIOLATION = 33;
+                    const uint ERROR_OPEN_FAILED = 110;
+                    const uint ERROR_PATH_BUSY = 148;
+                    const uint ERROR_FILE_CHECKED_OUT = 220;
 
-                        // register for Changed provided path (file) matches
-                        fsw.Changed += (o, e) =>
-                        {
-                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                    switch (unchecked((uint)ce.ErrorCode) & 0xffff)
+                    {
+                        case ERROR_ACCESS_DENIED:
+                        case ERROR_SHARING_VIOLATION:
+                        case ERROR_LOCK_VIOLATION:
+                        case ERROR_OPEN_FAILED:
+                        case ERROR_PATH_BUSY:
+                        case ERROR_FILE_CHECKED_OUT:
+                            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+
+                            // register for Changed provided path (file) matches
+                            fsw.Changed += (o, e) =>
                             {
-                                // set the state of the event to signaled and proceed
-                                are.Set();
-                            }
-                        };
+                                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                                {
+                                    // set the state of the event to signaled and proceed
+                                    are.Set();
+                                }
+                            };
 
-                        // block until signaled
-                        are.WaitOne();
+                            // block until signaled
+                            are.WaitOne();
+                            break;
+
+                        default:
+                            throw;
                     }
-                    else
+                }
+                catch (IOException)
+                {
+                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+
+                    // register for Changed provided path (file) matches
+                    fsw.Changed += (o, e) =>
                     {
-                        throw;
-                    }
+                        if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                        {
+                            // set the state of the event to signaled and proceed
+                            are.Set();
+                        }
+                    };
+
+                    // block until signaled
+                    are.WaitOne();
+                    break;
                 }
             }
 
