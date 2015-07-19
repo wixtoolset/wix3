@@ -330,6 +330,32 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
+            Random gen = new Random(Environment.TickCount);
+
+            // from winerror.h
+            const uint ERROR_ACCESS_DENIED = 5;
+            const uint ERROR_SHARING_VIOLATION = 32;
+            const uint ERROR_LOCK_VIOLATION = 33;
+            const uint ERROR_OPEN_FAILED = 110;
+            const uint ERROR_PATH_BUSY = 148;
+            const uint ERROR_FILE_CHECKED_OUT = 220;
+
+            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
+            fsw.Filter = Path.GetFileName(path);
+            fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+
+            // register for Changed provided path (file) matches
+            fsw.Changed += (o, e) =>
+            {
+                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                {
+                    // set the state of the event to signaled and proceed
+                    are.Set();
+                }
+            };
+
+            // disalbe until we have an exception
+            fsw.EnableRaisingEvents = false;
 
             while (64 > i++)
             {
@@ -339,14 +365,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 }
                 catch (COMException ce)
                 {
-                    // from winerror.h
-                    const uint ERROR_ACCESS_DENIED = 5;
-                    const uint ERROR_SHARING_VIOLATION = 32;
-                    const uint ERROR_LOCK_VIOLATION = 33;
-                    const uint ERROR_OPEN_FAILED = 110;
-                    const uint ERROR_PATH_BUSY = 148;
-                    const uint ERROR_FILE_CHECKED_OUT = 220;
-
                     switch (unchecked((uint)ce.ErrorCode) & 0xffff)
                     {
                         case ERROR_ACCESS_DENIED:
@@ -355,22 +373,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                         case ERROR_OPEN_FAILED:
                         case ERROR_PATH_BUSY:
                         case ERROR_FILE_CHECKED_OUT:
-                            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+                            fsw.EnableRaisingEvents = true;
 
-                            fsw.Filter = Path.GetFileName(path);
-
-                            // register for Changed provided path (file) matches
-                            fsw.Changed += (o, e) =>
-                            {
-                                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                                {
-                                    // set the state of the event to signaled and proceed
-                                    are.Set();
-                                }
-                            };
-
-                            // block until signaled or 100 ms
-                            are.WaitOne(100);
+                            // block until signaled or after a random number of ms [90, 900).
+                            are.WaitOne(gen.Next(90, 900));
                             break;
 
                         default:
@@ -379,22 +385,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 }
                 catch (IOException)
                 {
-                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+                    fsw.EnableRaisingEvents = true;
 
-                    fsw.Filter = Path.GetFileName(path);
-
-                    // register for Changed provided path (file) matches
-                    fsw.Changed += (o, e) =>
-                    {
-                        if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                        {
-                            // set the state of the event to signaled and proceed
-                            are.Set();
-                        }
-                    };
-
-                    // block until signaled or 100 ms
-                    are.WaitOne(100);
+                    // block until signaled or after a random number of ms [130, 1300).
+                    are.WaitOne(gen.Next(130, 1300));
                 }
             }
 

@@ -816,31 +816,36 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
+            Random gen = new Random(Environment.TickCount);
+            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
 
             while (64 > i++)
             {
                 try
                 {
+                    fsw.Filter = Path.GetFileName(path);
+                    fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+
+                    // register for Changed provided path (file) matches
+                    fsw.Changed += (o, e) =>
+                    {
+                        if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                        {
+                            // set the state of the event to signaled and proceed
+                            are.Set();
+                        }
+                    };
+
+                    fsw.EnableRaisingEvents = false;
+
                     return func();
                 }
                 catch (IOException)
                 {
-                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+                    fsw.EnableRaisingEvents = true;
 
-                    fsw.Filter = Path.GetFileName(path);
-
-                    // register for Changed provided path (file) matches
-                    fsw.Changed += (o, e) =>
-                        {
-                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                            {
-                                // set the state of the event to signaled and proceed
-                                are.Set();
-                            }
-                        };
-
-                    // block until signaled or after 100 ms
-                    are.WaitOne(100);
+                    // block until signaled or after a random number of ms [90, 900).
+                    are.WaitOne(gen.Next(90, 900));
                 }
             }
 
@@ -864,9 +869,25 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
-            int j = 0;
+            Random gen = new Random(Environment.TickCount);
+            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
 
-            while (3 > i && 64 > j)
+            fsw.Filter = Path.GetFileName(path);
+            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.Security;
+
+            // register for Changed provided path (file) matches
+            fsw.Changed += (o, e) =>
+            {
+                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                {
+                    // set the state of the event to signaled and proceed
+                    are.Set();
+                }
+            };
+
+            fsw.EnableRaisingEvents = false;
+
+            while (64 > i++)
             {
                 try
                 {
@@ -874,28 +895,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
                 catch (IOException)
                 {
-                    FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+                    fsw.EnableRaisingEvents = true;
 
-                    fsw.Filter = Path.GetFileName(path);
-
-                    // register for Changed provided path (file) matches
-                    fsw.Changed += (o, e) =>
-                        {
-                            if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                            {
-                                // set the state of the event to signaled and proceed
-                                are.Set();
-                            }
-                        };
-
-                    // block until signaled or after 100 ms
-                    are.WaitOne(100);
-                    j++;
+                    // block until signaled or after a random number of ms [100, 1000).
+                    are.WaitOne(gen.Next(100, 1000));
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    Thread.Sleep(100 + (int)Math.Pow(10.0, i));
-                    i++;
+                    fsw.EnableRaisingEvents = true;
+
+                    // block until signaled or after a random number of ms [100, 1000).
+                    are.WaitOne(gen.Next(110, 1100));
                 }
             }
 
