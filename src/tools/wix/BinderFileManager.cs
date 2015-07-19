@@ -817,7 +817,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
 
-            while (16 > i++)
+            while (64 > i++)
             {
                 try
                 {
@@ -826,6 +826,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 catch (IOException)
                 {
                     FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+
+                    fsw.Filter = Path.GetFileName(path);
 
                     // register for Changed provided path (file) matches
                     fsw.Changed += (o, e) =>
@@ -837,8 +839,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             }
                         };
 
-                    // block until signaled
-                    are.WaitOne();
+                    // block until signaled or after 100 ms
+                    are.WaitOne(100);
                 }
             }
 
@@ -864,7 +866,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             int i = 0;
             int j = 0;
 
-            while (3 > i++ && 16 > j++)
+            while (3 > i && 64 > j)
             {
                 try
                 {
@@ -873,6 +875,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 catch (IOException)
                 {
                     FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+
+                    fsw.Filter = Path.GetFileName(path);
 
                     // register for Changed provided path (file) matches
                     fsw.Changed += (o, e) =>
@@ -884,12 +888,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             }
                         };
 
-                    // block until signaled
-                    are.WaitOne();
+                    // block until signaled or after 100 ms
+                    are.WaitOne(100);
+                    j++;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     Thread.Sleep(100 + (int)Math.Pow(10.0, i));
+                    i++;
                 }
             }
 

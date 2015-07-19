@@ -331,7 +331,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
 
-            while (16 > i++)
+            while (64 > i++)
             {
                 try
                 {
@@ -357,6 +357,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                         case ERROR_FILE_CHECKED_OUT:
                             FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
 
+                            fsw.Filter = Path.GetFileName(path);
+
                             // register for Changed provided path (file) matches
                             fsw.Changed += (o, e) =>
                             {
@@ -367,8 +369,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                                 }
                             };
 
-                            // block until signaled
-                            are.WaitOne();
+                            // block until signaled or 100 ms
+                            are.WaitOne(100);
                             break;
 
                         default:
@@ -378,6 +380,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 catch (IOException)
                 {
                     FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path)) { EnableRaisingEvents = true };
+
+                    fsw.Filter = Path.GetFileName(path);
 
                     // register for Changed provided path (file) matches
                     fsw.Changed += (o, e) =>
@@ -389,9 +393,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                         }
                     };
 
-                    // block until signaled
-                    are.WaitOne();
-                    break;
+                    // block until signaled or 100 ms
+                    are.WaitOne(100);
                 }
             }
 
