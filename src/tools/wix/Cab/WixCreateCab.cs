@@ -342,7 +342,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
 
             FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
             fsw.Filter = Path.GetFileName(path);
-            fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+            fsw.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size;
 
             // register for Changed provided path (file) matches
             fsw.Changed += (o, e) =>

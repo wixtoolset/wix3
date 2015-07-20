@@ -824,7 +824,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 try
                 {
                     fsw.Filter = Path.GetFileName(path);
-                    fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+                    fsw.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size;
 
                     // register for Changed provided path (file) matches
                     fsw.Changed += (o, e) =>
@@ -873,7 +873,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
 
             fsw.Filter = Path.GetFileName(path);
-            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.Security;
+            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite;
 
             // register for Changed provided path (file) matches
             fsw.Changed += (o, e) =>
