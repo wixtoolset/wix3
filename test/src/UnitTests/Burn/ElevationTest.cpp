@@ -147,7 +147,7 @@ static DWORD CALLBACK ElevateTest_ThreadProc(
     StrAlloc(&connection.sczSecret, MAX_PATH);
 
     // parse command line arguments
-    if (3 != swscanf_s(sczArguments, L"-q -burn.elevated %s %s %u", connection.sczName, MAX_PATH, connection.sczSecret, MAX_PATH, &connection.dwProcessId, sizeof(connection.dwProcessId)))
+    if (3 != swscanf_s(sczArguments, L"-q -burn.elevated %s %s %u", connection.sczName, MAX_PATH, connection.sczSecret, MAX_PATH, &connection.dwProcessId))
     {
         hr = E_INVALIDARG;
         ExitOnFailure(hr, "Failed to parse argument string.");
