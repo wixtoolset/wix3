@@ -803,7 +803,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Private method to retry a file action that may block because
         /// another process is working the file.  Retries on
-        /// an <see cref="IOException" />.
+        /// an <see cref="IOException" /> to implement the WatchHandler pattern.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
@@ -816,38 +816,36 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
-            Random gen = new Random(Environment.TickCount);
             FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
 
-            while (64 > i++)
+            fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+
+            // register for Changed provided path (file) matches
+            fsw.Changed += (sender, e) =>
+            {
+                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                {
+                    // set the state of the event to signaled and proceed
+                    are.Set();
+                }
+            };
+
+            fsw.EnableRaisingEvents = false;
+
+            do
             {
                 try
                 {
-                    fsw.Filter = Path.GetFileName(path);
-                    fsw.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size;
-
-                    // register for Changed provided path (file) matches
-                    fsw.Changed += (o, e) =>
-                    {
-                        if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
-                        {
-                            // set the state of the event to signaled and proceed
-                            are.Set();
-                        }
-                    };
-
-                    fsw.EnableRaisingEvents = false;
-
                     return func();
                 }
                 catch (IOException)
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after a random number of ms [90, 900).
-                    are.WaitOne(gen.Next(90, 900));
+                    // block until signaled or after 20000 ms.
+                    are.WaitOne(20000);
                 }
-            }
+            } while (8 > i++);
 
             return default(T);
         }
@@ -856,7 +854,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// Private method to retry a file action that may block because
         /// of permissions.  Retries on
         /// an <see cref="UnauthorizedAccessException" /> and an
-        /// <see cref="IOException"/>.
+        /// <see cref="IOException"/> to implement the WatchHandler pattern.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
@@ -869,14 +867,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
-            Random gen = new Random(Environment.TickCount);
             FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
 
-            fsw.Filter = Path.GetFileName(path);
-            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite;
+            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Security;
 
             // register for Changed provided path (file) matches
-            fsw.Changed += (o, e) =>
+            fsw.Changed += (sender, e) =>
             {
                 if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
                 {
@@ -887,7 +883,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             fsw.EnableRaisingEvents = false;
 
-            while (64 > i++)
+            do
             {
                 try
                 {
@@ -897,17 +893,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after a random number of ms [100, 1000).
-                    are.WaitOne(gen.Next(100, 1000));
+                    // block until signaled or after 20000 ms.
+                    are.WaitOne(20000);
                 }
                 catch (UnauthorizedAccessException)
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after a random number of ms [100, 1000).
-                    are.WaitOne(gen.Next(110, 1100));
+                    // block until signaled or after 20000 ms.
+                    are.WaitOne(20000);
                 }
-            }
+            } while (8 > i++);
 
             return default(T);
         }

@@ -330,7 +330,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
             int i = 0;
-            Random gen = new Random(Environment.TickCount);
 
             // from winerror.h
             const uint ERROR_ACCESS_DENIED = 5;
@@ -341,11 +340,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             const uint ERROR_FILE_CHECKED_OUT = 220;
 
             FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
-            fsw.Filter = Path.GetFileName(path);
-            fsw.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size;
+
+            fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
 
             // register for Changed provided path (file) matches
-            fsw.Changed += (o, e) =>
+            fsw.Changed += (sender, e) =>
             {
                 if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
                 {
@@ -357,7 +356,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             // disalbe until we have an exception
             fsw.EnableRaisingEvents = false;
 
-            while (64 > i++)
+            do
             {
                 try
                 {
@@ -365,7 +364,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 }
                 catch (COMException ce)
                 {
-                    switch (unchecked((uint)ce.ErrorCode) & 0xffff)
+                    switch (unchecked((uint)ce.ErrorCode) & 0xFFFF)
                     {
                         case ERROR_ACCESS_DENIED:
                         case ERROR_SHARING_VIOLATION:
@@ -375,8 +374,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                         case ERROR_FILE_CHECKED_OUT:
                             fsw.EnableRaisingEvents = true;
 
-                            // block until signaled or after a random number of ms [90, 900).
-                            are.WaitOne(gen.Next(90, 900));
+                            // block until signaled or after 20000 ms.
+                            are.WaitOne(20000);
                             break;
 
                         default:
@@ -387,10 +386,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after a random number of ms [130, 1300).
-                    are.WaitOne(gen.Next(130, 1300));
+                    // block until signaled or after 20000 ms.
+                    are.WaitOne(20000);
                 }
-            }
+            } while (8 > i++);
 
             return default(T);
         }
