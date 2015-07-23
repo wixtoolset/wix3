@@ -844,8 +844,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled.
-                    are.WaitOne();
+                    // block until signaled or a maximum of 20000 ms.
+                    are.WaitOne(20000);
                 }
             } while (true);
 
@@ -897,8 +897,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled.
-                    are.WaitOne();
+                    // block until signaled or a maximum of 20000 ms.
+                    are.WaitOne(20000);
                 }
             } while (true);
 

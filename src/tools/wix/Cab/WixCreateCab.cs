@@ -375,8 +375,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                         case ERROR_FILE_CHECKED_OUT:
                             fsw.EnableRaisingEvents = true;
 
-                            // block until signaled.
-                            are.WaitOne();
+                            // block until signaled or a maximum of 20000 ms.
+                            are.WaitOne(20000);
                             break;
 
                         default:
@@ -387,8 +387,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled.
-                    are.WaitOne();
+                    // block until signaled or a maximum of 20000 ms.
+                    are.WaitOne(20000);
                 }
             } while (true);
 
