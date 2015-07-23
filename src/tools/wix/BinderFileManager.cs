@@ -815,7 +815,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
-            //// int i = 0;
+            int i = 0;
             FileInfo fi = new FileInfo(path);
 
             FileSystemWatcher fsw = new FileSystemWatcher(fi.DirectoryName);
@@ -847,9 +847,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     // block until signaled or a maximum of 20000 ms.
                     are.WaitOne(20000);
                 }
-            } while (true);
+            } while (8 > i++);
 
-            //// return default(T);
+            return default(T);
         }
 
         /// <summary>
@@ -868,7 +868,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
-            //// int i = 0;
+            int i = 0;
             FileInfo fi = new FileInfo(path);
 
             FileSystemWatcher fsw = new FileSystemWatcher(fi.DirectoryName);
@@ -897,12 +897,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or a maximum of 20000 ms.
-                    are.WaitOne(20000);
+                    // block until signaled or a maximum of 6000 ms.
+                    are.WaitOne(6000);
                 }
-            } while (true);
+            } while (4 > i++);
 
-            //// return default(T);
+            return default(T);
         }
 
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]

@@ -329,7 +329,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         {
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
-            //// int i = 0;
+            int i = 0;
             FileInfo fi = new FileInfo(file);
 
             // from winerror.h
@@ -390,9 +390,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                     // block until signaled or a maximum of 20000 ms.
                     are.WaitOne(20000);
                 }
-            } while (true);
+            } while (8 > i++);
 
-            //// return default(T);
+            return default(T);
         }
     }
 }
