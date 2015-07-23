@@ -809,7 +809,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <typeparam name="T">Return type of the file action.</typeparam>
         /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
         /// <returns>
-        /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
+        /// Returns the result of the delegate on success, or <c>default(T)</c>
+        /// on failure.
         /// </returns>
         private T RetryFileAction<T>(string path, Func<T> func)
         {
@@ -855,14 +856,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <summary>
         /// Private method to retry a file action that may block because
         /// of permissions.  Retries on
-        /// an <see cref="UnauthorizedAccessException" /> and an
-        /// <see cref="IOException"/> to implement the WatchHandler pattern.
+        /// an <see cref="UnauthorizedAccessException" /> to implement the
+        /// WatchHandler pattern.
         /// </summary>
         /// <param name="path">File path to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
         /// <param name="func">File Permission Delegate to retry.</param>
         /// <returns>
-        /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
+        /// Returns the result of the delegate on success, or <c>default(T)</c>
+        /// on failure.
         /// </returns>
         private T RetryPermissionAction<T>(string path, Func<T> func)
         {
