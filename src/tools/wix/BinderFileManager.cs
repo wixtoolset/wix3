@@ -297,15 +297,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         {
                             return false;
                         }
-
-                        for (int i = 0; i < targetReadLength; ++i)
+                        else if (0 < targetReadLength)
                         {
                             if (0 != memcmp(targetBuffer, updatedBuffer, targetReadLength))
                             {
                                 return false;
                             }
                         }
-
                     } while (0 < targetReadLength);
                 }
             }
