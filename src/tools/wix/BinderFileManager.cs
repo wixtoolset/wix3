@@ -275,7 +275,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 using (FileStream updatedStream = RetryFileAction(updatedFile, () => { return updatedFileInfo.OpenRead(); }))
                 {
-                    if (RetryFileAction(targetFile, () => { return targetStream.Length; }) != RetryFileAction(updatedFile, () => { return updatedStream.Length; }))
+                    if (targetStream.Length != updatedStream.Length)
                     {
                         return false;
                     }
@@ -290,8 +290,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     do
                     {
-                        targetReadLength = RetryFileAction(targetFile, () => { return targetStream.Read(targetBuffer, 0, targetBuffer.Length); });
-                        updatedReadLength = RetryFileAction(updatedFile, () => { return updatedStream.Read(updatedBuffer, 0, updatedBuffer.Length); });
+                        targetReadLength = targetStream.Read(targetBuffer, 0, targetBuffer.Length);
+                        updatedReadLength = updatedStream.Read(updatedBuffer, 0, updatedBuffer.Length);
 
                         if (targetReadLength != updatedReadLength)
                         {
@@ -701,7 +701,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     throw new UnauthorizedAccessException(string.Format("MoveFile():  Cannot set attributes and delete '{0}'.", destination));
                 }
             }
-            
+
             // main execution scoping block
             {
                 bool success = RetryFileAction(destination, () =>
@@ -815,15 +815,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
-            int i = 0;
-            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
+            //// int i = 0;
+            FileInfo fi = new FileInfo(path);
 
-            fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+            FileSystemWatcher fsw = new FileSystemWatcher(fi.DirectoryName);
+
+            fsw.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
 
             // register for Changed provided path (file) matches
             fsw.Changed += (sender, e) =>
             {
-                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                if (e.FullPath.Equals(fi.FullName, StringComparison.OrdinalIgnoreCase))
                 {
                     // set the state of the event to signaled and proceed
                     are.Set();
@@ -842,12 +844,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after 20000 ms.
-                    are.WaitOne(20000);
+                    // block until signaled.
+                    are.WaitOne();
                 }
-            } while (8 > i++);
+            } while (true);
 
-            return default(T);
+            //// return default(T);
         }
 
         /// <summary>
@@ -866,15 +868,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
-            int i = 0;
-            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
+            //// int i = 0;
+            FileInfo fi = new FileInfo(path);
 
-            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Security;
+            FileSystemWatcher fsw = new FileSystemWatcher(fi.DirectoryName);
+
+            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.FileName;
 
             // register for Changed provided path (file) matches
             fsw.Changed += (sender, e) =>
             {
-                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                if (e.FullPath.Equals(fi.FullName, StringComparison.OrdinalIgnoreCase))
                 {
                     // set the state of the event to signaled and proceed
                     are.Set();
@@ -889,23 +893,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     return func();
                 }
-                catch (IOException)
-                {
-                    fsw.EnableRaisingEvents = true;
-
-                    // block until signaled or after 20000 ms.
-                    are.WaitOne(20000);
-                }
                 catch (UnauthorizedAccessException)
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after 20000 ms.
-                    are.WaitOne(20000);
+                    // block until signaled.
+                    are.WaitOne();
                 }
-            } while (8 > i++);
+            } while (true);
 
-            return default(T);
+            //// return default(T);
         }
 
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]

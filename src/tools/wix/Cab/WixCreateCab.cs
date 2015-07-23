@@ -319,17 +319,18 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         /// another process is working the file.  Retries on
         /// an <see cref="COMException" /> or an <see cref="IOException"/>.
         /// </summary>
-        /// <param name="path">File path to watch.</param>
+        /// <param name="path">File source to watch.</param>
         /// <typeparam name="T">Return type of the file action.</typeparam>
         /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
         /// <returns>
         /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
         /// </returns>
-        private T RetryCabAction<T>(string path, Func<T> func)
+        private T RetryCabAction<T>(string file, Func<T> func)
         {
             // initial state unsignaled
             AutoResetEvent are = new AutoResetEvent(false);
-            int i = 0;
+            //// int i = 0;
+            FileInfo fi = new FileInfo(file);
 
             // from winerror.h
             const uint ERROR_ACCESS_DENIED = 5;
@@ -339,14 +340,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             const uint ERROR_PATH_BUSY = 148;
             const uint ERROR_FILE_CHECKED_OUT = 220;
 
-            FileSystemWatcher fsw = new FileSystemWatcher(Path.GetDirectoryName(path));
+            FileSystemWatcher fsw = new FileSystemWatcher(string.IsNullOrEmpty(fi.DirectoryName) || !Directory.Exists(fi.DirectoryName) ? Directory.GetCurrentDirectory() : fi.DirectoryName);
 
             fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
 
             // register for Changed provided path (file) matches
             fsw.Changed += (sender, e) =>
             {
-                if (e.FullPath.Equals(Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                if (e.FullPath.Equals(fi.FullName, StringComparison.OrdinalIgnoreCase))
                 {
                     // set the state of the event to signaled and proceed
                     are.Set();
@@ -374,8 +375,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                         case ERROR_FILE_CHECKED_OUT:
                             fsw.EnableRaisingEvents = true;
 
-                            // block until signaled or after 20000 ms.
-                            are.WaitOne(20000);
+                            // block until signaled.
+                            are.WaitOne();
                             break;
 
                         default:
@@ -386,12 +387,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or after 20000 ms.
-                    are.WaitOne(20000);
+                    // block until signaled.
+                    are.WaitOne();
                 }
-            } while (8 > i++);
+            } while (true);
 
-            return default(T);
+            //// return default(T);
         }
     }
 }
