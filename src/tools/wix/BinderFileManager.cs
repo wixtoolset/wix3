@@ -282,7 +282,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     // Using a larger buffer than the default buffer of 4 * 1024 used by FileStream.ReadByte improves performance.
                     // The buffer size is based on user feedback. Based on performance results, a better buffer size may be determined.
-                    const int bufferSize = 64 * 1024;
+                    const int bufferSize = 60 * 1024;
                     byte[] targetBuffer = new byte[bufferSize];
                     byte[] updatedBuffer = new byte[bufferSize];
                     int targetReadLength;
