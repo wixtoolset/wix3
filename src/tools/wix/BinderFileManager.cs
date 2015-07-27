@@ -843,17 +843,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or a maximum of 20000 ms.
-                    are.WaitOne(20000);
+                    // block until signaled or a maximum of 3000 ms.
+                    are.WaitOne(3000);
                 }
-            } while (8 > i++);
+            } while (64 > i++);
 
             return default(T);
         }
 
         /// <summary>
         /// Private method to retry a file action that may block because
-        /// of permissions.  Retries on
+        /// of permissions.  Retries on an <see cref="IOException" /> or
         /// an <see cref="UnauthorizedAccessException" /> to implement the
         /// WatchHandler pattern.
         /// </summary>
@@ -893,14 +893,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     return func();
                 }
-                catch (UnauthorizedAccessException)
+                catch (Exception ex)
                 {
-                    fsw.EnableRaisingEvents = true;
+                    if (ex is IOException || ex is UnauthorizedAccessException)
+                    {
+                        fsw.EnableRaisingEvents = true;
 
-                    // block until signaled or a maximum of 6000 ms.
-                    are.WaitOne(6000);
+                        // block until signaled or a maximum of 2500 ms.
+                        are.WaitOne(2500);
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-            } while (4 > i++);
+            } while (64 > i++);
 
             return default(T);
         }
