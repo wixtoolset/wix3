@@ -20,7 +20,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
     using System.Threading;
 
     using Microsoft.Tools.WindowsInstallerXml.Cab.Interop;
-    using Microsoft.Tools.WindowsInstallerXml.Msi;
     using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
 
     /// <summary>
