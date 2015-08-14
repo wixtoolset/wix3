@@ -87,6 +87,8 @@
     <Stage Include="$(OutputPath)WixUIExtension.dll" />
     <Stage Include="$(OutputPath)WixUtilExtension.dll" />
     <Stage Include="$(OutputPath)WixVSExtension.dll" />
+    <Stage Include="$(OutputPath)WixVSExtension.MSBuild12.dll" />
+    <Stage Include="$(OutputPath)WixVSExtension.MSBuild14.dll" />
 
     <!-- special wixlib handling -->
     <Stage Include="$(OutputPath)difxapp_x86.wixlib" />
