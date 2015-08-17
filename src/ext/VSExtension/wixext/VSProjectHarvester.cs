@@ -1120,7 +1120,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
             catch (Exception e)
             {
-                throw new WixException(VSErrors.CannotLoadMSBuildAssembly(e.Message));
+                throw new WixException(VSErrors.CannotLoadMSBuildWrapperAssembly(e.Message));
             }
 
             const string MSBuildWrapperTypeName = "Microsoft.Tools.WindowsInstallerXml.Extensions.WixVSExtension.MSBuild{0}Project";
@@ -1133,22 +1133,33 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
             catch (TargetInvocationException tie)
             {
-                throw new WixException(VSErrors.CannotLoadMSBuildEngine(tie.InnerException.Message));
+                throw new WixException(VSErrors.CannotLoadMSBuildWrapperType(tie.InnerException.Message));
             }
             catch (Exception e)
             {
-                throw new WixException(VSErrors.CannotLoadMSBuildEngine(e.Message));
+                throw new WixException(VSErrors.CannotLoadMSBuildWrapperType(e.Message));
             }
-            
-            // Get the constructor of the class so we can "new it up".
-            ConstructorInfo wrapperCtor = projectWrapperType.GetConstructor(
-                new Type[]
-                {
-                    typeof(HarvesterCore),
-                    typeof(string),
-                    typeof(string),
-                });
-            return (MSBuildProject)wrapperCtor.Invoke(new object[] { harvesterCore, configuration, platform });
+
+            try
+            {
+                // Get the constructor of the class so we can "new it up".
+                ConstructorInfo wrapperCtor = projectWrapperType.GetConstructor(
+                    new Type[]
+                    {
+                        typeof(HarvesterCore),
+                        typeof(string),
+                        typeof(string),
+                    });
+                return (MSBuildProject)wrapperCtor.Invoke(new object[] { harvesterCore, configuration, platform });
+            }
+            catch (TargetInvocationException tie)
+            {
+                throw new WixException(VSErrors.CannotLoadMSBuildWrapperObject(tie.InnerException.Message));
+            }
+            catch (Exception e)
+            {
+                throw new WixException(VSErrors.CannotLoadMSBuildWrapperObject(e.Message));
+            }
         }
 
         private static bool AreTypesEquivalent(Type a, Type b)

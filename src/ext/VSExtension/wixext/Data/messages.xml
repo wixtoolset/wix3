@@ -90,6 +90,24 @@
               <Parameter Type="System.String" Name="buildError" />
             </Instance>
         </Message>
+        <Message Id="CannotLoadMSBuildWrapperAssembly" Number="5314" SourceLineNumbers="no">
+            <Instance>
+                Failed to load MSBuild wrapper assembly: {0}
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
+        <Message Id="CannotLoadMSBuildWrapperType" Number="5315" SourceLineNumbers="no">
+            <Instance>
+                Failed to load MSBuild wrapper type: {0}
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
+        <Message Id="CannotLoadMSBuildWrapperObject" Number="5316" SourceLineNumbers="no">
+            <Instance>
+                Failed to load MSBuild wrapper object: {0}
+                <Parameter Type="System.String" Name="innerExceptionMessage" />
+            </Instance>
+        </Message>
     </Class>
     <Class Name="VSWarnings" ContainerName="VSWarningEventArgs" BaseContainerName="WixWarningEventArgs">
       <Message Id="NoLogger" Number="5399" SourceLineNumbers="no">
