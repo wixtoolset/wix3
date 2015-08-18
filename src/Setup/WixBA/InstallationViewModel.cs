@@ -272,7 +272,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 if (this.tryAgainCommand == null)
                 {
-                    this.tryAgainCommand = new RelayCommand(param => WixBA.Plan(WixBA.Model.PlannedAction), param => this.root.InstallState == InstallationState.Failed);
+                    this.tryAgainCommand = new RelayCommand(param => 
+                        {
+                            this.root.Canceled = false;
+                            WixBA.Plan(WixBA.Model.PlannedAction);
+                        }, param => this.root.InstallState == InstallationState.Failed);
                 }
 
                 return this.tryAgainCommand;
