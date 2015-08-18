@@ -47,6 +47,7 @@ typedef struct _BURN_VARIABLE
     // If fLiteral, then when formatting this variable its value should be used as is (don't continue recursively formatting).
     BOOL fLiteral;
     BOOL fPersisted;
+    BOOL fRejectFromUnelevated;
 
     // used for late initialization of built-in variables
     BOOL fBuiltIn;
