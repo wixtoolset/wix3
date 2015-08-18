@@ -1,3 +1,5 @@
+* MikeGC: WIXBUG:4852 - Keep QuietExec function definition the same as in prior versions to avoid breaking anyone. The new function (with more parameters) is now named QuietExecEx.
+
 ## WixBuild: Version 3.10.0.1823
 
 * @barnson: WIXFEAT:4789 - Phase I of .NET Framework 4.6 support (RC, full redist).
