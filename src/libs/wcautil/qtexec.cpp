@@ -237,6 +237,14 @@ LExit:
 
 HRESULT WIXAPI QuietExec(
     __inout_z LPWSTR wzCommand,
+    __in DWORD dwTimeout
+    )
+{
+    return QuietExecEx(wzCommand, dwTimeout, TRUE, TRUE);
+}
+
+HRESULT WIXAPI QuietExecEx(
+    __inout_z LPWSTR wzCommand,
     __in DWORD dwTimeout,
     __in BOOL fLogCommand,
     __in BOOL fLogOutput

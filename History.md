@@ -1,3 +1,5 @@
+* MikeGC: WIXBUG:4852 - Keep QuietExec function definition the same as in prior versions to avoid breaking anyone. The new function (with more parameters) is now named QuietExecEx.
+
 ## WixBuild: Version 3.10.0.1823
 
 * jmcooper8654: WIXBUG:4791 - Fix race in lit.exe/light.exe related to wixlibs and large binaries.
