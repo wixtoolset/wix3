@@ -105,7 +105,6 @@
     <ClInclude Include="payload.h" />
     <ClInclude Include="pipe.h" />
     <ClInclude Include="platform.h" />
-    <ClInclude Include="property.h" />
     <ClInclude Include="pseudobundle.h" />
     <ClInclude Include="registration.h" />
     <ClInclude Include="relatedbundle.h" />

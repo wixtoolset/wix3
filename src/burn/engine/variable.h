@@ -37,20 +37,28 @@ typedef HRESULT (*PFN_INITIALIZEVARIABLE)(
     );
 
 
+// constants
+
+enum BURN_VARIABLE_INTERNAL_TYPE
+{
+    BURN_VARIABLE_INTERNAL_TYPE_NORMAL, // the BA can set this variable.
+    BURN_VARIABLE_INTERNAL_TYPE_OVERRIDABLE_BUILTIN, // the BA can't set this variable, but the unelevated process can serialize it to the elevated process.
+    BURN_VARIABLE_INTERNAL_TYPE_BUILTIN, // the BA can't set this variable, and the unelevated process can't serialize it to the elevated process.
+};
+
+
 // structs
 
 typedef struct _BURN_VARIABLE
 {
     LPWSTR sczName;
     BURN_VARIANT Value;
-    BOOL fHidden;
-    // If fLiteral, then when formatting this variable its value should be used as is (don't continue recursively formatting).
-    BOOL fLiteral;
+    BOOL fHidden;    
+    BOOL fLiteral; // if fLiteral, then when formatting this variable its value should be used as is (don't continue recursively formatting).
     BOOL fPersisted;
-    BOOL fRejectFromUnelevated;
 
     // used for late initialization of built-in variables
-    BOOL fBuiltIn;
+    BURN_VARIABLE_INTERNAL_TYPE internalType;
     PFN_INITIALIZEVARIABLE pfnInitialize;
     DWORD_PTR dwpInitializeData;
 } BURN_VARIABLE;

@@ -24,7 +24,7 @@ typedef const struct _BUILT_IN_VARIABLE_DECLARATION
     PFN_INITIALIZEVARIABLE pfnInitialize;
     DWORD_PTR dwpInitializeData;
     BOOL fPersist;
-    BOOL fRejectFromUnelevated;
+    BOOL fOverridable;
 } BUILT_IN_VARIABLE_DECLARATION;
 
 
@@ -74,7 +74,7 @@ static HRESULT AddBuiltInVariable(
     __in PFN_INITIALIZEVARIABLE pfnInitialize,
     __in DWORD_PTR dwpInitializeData,
     __in BOOL fPersist,
-    __in BOOL fRejectFromUnelevated
+    __in BOOL fOverridable
     );
 static HRESULT GetVariable(
     __in BURN_VARIABLES* pVariables,
@@ -204,28 +204,28 @@ extern "C" HRESULT VariableInitialize(
     ::InitializeCriticalSection(&pVariables->csAccess);
 
     const BUILT_IN_VARIABLE_DECLARATION vrgBuiltInVariables[] = {
-        {L"AdminToolsFolder", InitializeVariableCsidlFolder, CSIDL_ADMINTOOLS, FALSE, TRUE},
-        {L"AppDataFolder", InitializeVariableCsidlFolder, CSIDL_APPDATA, FALSE, TRUE},
-        {L"CommonAppDataFolder", InitializeVariableCsidlFolder, CSIDL_COMMON_APPDATA, FALSE, TRUE},
+        {L"AdminToolsFolder", InitializeVariableCsidlFolder, CSIDL_ADMINTOOLS},
+        {L"AppDataFolder", InitializeVariableCsidlFolder, CSIDL_APPDATA},
+        {L"CommonAppDataFolder", InitializeVariableCsidlFolder, CSIDL_COMMON_APPDATA},
 #if defined(_WIN64)
-        {L"CommonFiles64Folder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES_COMMON, FALSE, TRUE},
-        {L"CommonFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES_COMMONX86, FALSE, TRUE},
+        {L"CommonFiles64Folder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES_COMMON},
+        {L"CommonFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES_COMMONX86},
 #else
-        {L"CommonFiles64Folder", InitializeVariableRegistryFolder, CSIDL_PROGRAM_FILES_COMMON, FALSE, TRUE},
-        {L"CommonFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES_COMMON, FALSE, TRUE},
+        {L"CommonFiles64Folder", InitializeVariableRegistryFolder, CSIDL_PROGRAM_FILES_COMMON},
+        {L"CommonFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES_COMMON},
 #endif
-        {L"CommonFiles6432Folder", InitializeVariable6432Folder, CSIDL_PROGRAM_FILES_COMMON, FALSE, TRUE},
+        {L"CommonFiles6432Folder", InitializeVariable6432Folder, CSIDL_PROGRAM_FILES_COMMON},
         {L"CompatibilityMode", InitializeVariableOsInfo, OS_INFO_VARIABLE_CompatibilityMode},
         {VARIABLE_DATE, InitializeVariableDate, 0},
         {L"ComputerName", InitializeVariableComputerName, 0},
-        {L"DesktopFolder", InitializeVariableCsidlFolder, CSIDL_DESKTOP, FALSE, TRUE},
-        {L"FavoritesFolder", InitializeVariableCsidlFolder, CSIDL_FAVORITES, FALSE, TRUE},
-        {L"FontsFolder", InitializeVariableCsidlFolder, CSIDL_FONTS, FALSE, TRUE},
+        {L"DesktopFolder", InitializeVariableCsidlFolder, CSIDL_DESKTOP},
+        {L"FavoritesFolder", InitializeVariableCsidlFolder, CSIDL_FAVORITES},
+        {L"FontsFolder", InitializeVariableCsidlFolder, CSIDL_FONTS},
         {VARIABLE_INSTALLERNAME, InitializeVariableInstallerName, 0},
         {VARIABLE_INSTALLERVERSION, InitializeVariableInstallerVersion, 0},
-        {L"LocalAppDataFolder", InitializeVariableCsidlFolder, CSIDL_LOCAL_APPDATA, FALSE, TRUE},
+        {L"LocalAppDataFolder", InitializeVariableCsidlFolder, CSIDL_LOCAL_APPDATA},
         {VARIABLE_LOGONUSER, InitializeVariableLogonUser, 0},
-        {L"MyPicturesFolder", InitializeVariableCsidlFolder, CSIDL_MYPICTURES, FALSE, TRUE},
+        {L"MyPicturesFolder", InitializeVariableCsidlFolder, CSIDL_MYPICTURES},
         {L"NTProductType", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTProductType},
         {L"NTSuiteBackOffice", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteBackOffice},
         {L"NTSuiteDataCenter", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteDataCenter},
@@ -234,52 +234,52 @@ extern "C" HRESULT VariableInitialize(
         {L"NTSuiteSmallBusiness", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteSmallBusiness},
         {L"NTSuiteSmallBusinessRestricted", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteSmallBusinessRestricted},
         {L"NTSuiteWebServer", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteWebServer},
-        {L"PersonalFolder", InitializeVariableCsidlFolder, CSIDL_PERSONAL, FALSE, TRUE},
+        {L"PersonalFolder", InitializeVariableCsidlFolder, CSIDL_PERSONAL},
         {L"Privileged", InitializeVariablePrivileged, 0},
         {L"ProcessorArchitecture", InitializeVariableSystemInfo, OS_INFO_VARIABLE_ProcessorArchitecture},
 #if defined(_WIN64)
-        {L"ProgramFiles64Folder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES, FALSE, TRUE},
-        {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILESX86, FALSE, TRUE},
+        {L"ProgramFiles64Folder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES},
+        {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILESX86},
 #else
-        {L"ProgramFiles64Folder", InitializeVariableRegistryFolder, CSIDL_PROGRAM_FILES, FALSE, TRUE},
-        {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES, FALSE, TRUE },
+        {L"ProgramFiles64Folder", InitializeVariableRegistryFolder, CSIDL_PROGRAM_FILES},
+        {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES },
 #endif
-        {L"ProgramFiles6432Folder", InitializeVariable6432Folder, CSIDL_PROGRAM_FILES, FALSE, TRUE},
-        {L"ProgramMenuFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAMS, FALSE, TRUE},
+        {L"ProgramFiles6432Folder", InitializeVariable6432Folder, CSIDL_PROGRAM_FILES},
+        {L"ProgramMenuFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAMS},
         {L"RebootPending", InitializeVariableRebootPending, 0},
         {L"SendToFolder", InitializeVariableCsidlFolder, CSIDL_SENDTO},
         {L"ServicePackLevel", InitializeVariableVersionNT, OS_INFO_VARIABLE_ServicePackLevel},
-        {L"StartMenuFolder", InitializeVariableCsidlFolder, CSIDL_STARTMENU, FALSE, TRUE},
-        {L"StartupFolder", InitializeVariableCsidlFolder, CSIDL_STARTUP, FALSE, TRUE},
-        {L"SystemFolder", InitializeVariableSystemFolder, FALSE, FALSE, TRUE},
-        {L"System64Folder", InitializeVariableSystemFolder, TRUE, FALSE, TRUE},
+        {L"StartMenuFolder", InitializeVariableCsidlFolder, CSIDL_STARTMENU},
+        {L"StartupFolder", InitializeVariableCsidlFolder, CSIDL_STARTUP},
+        {L"SystemFolder", InitializeVariableSystemFolder, FALSE},
+        {L"System64Folder", InitializeVariableSystemFolder, TRUE},
         {L"SystemLanguageID", InitializeSystemLanguageID, 0},
         {L"TempFolder", InitializeVariableTempFolder, 0},
-        {L"TemplateFolder", InitializeVariableCsidlFolder, CSIDL_TEMPLATES, FALSE, TRUE},
+        {L"TemplateFolder", InitializeVariableCsidlFolder, CSIDL_TEMPLATES},
         {L"TerminalServer", InitializeVariableOsInfo, OS_INFO_VARIABLE_TerminalServer},
         {L"UserLanguageID", InitializeUserLanguageID, 0},
         {L"VersionMsi", InitializeVariableVersionMsi, 0},
         {L"VersionNT", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT},
         {L"VersionNT64", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT64},
-        {L"WindowsFolder", InitializeVariableCsidlFolder, CSIDL_WINDOWS, FALSE, TRUE},
+        {L"WindowsFolder", InitializeVariableCsidlFolder, CSIDL_WINDOWS},
         {L"WindowsVolume", InitializeVariableWindowsVolumeFolder, 0},
-        {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0},
+        {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0, FALSE, TRUE},
         {BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, InitializeVariableString, NULL, FALSE, TRUE},
-        {BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, InitializeVariableString, NULL},
-        {BURN_BUNDLE_FORCED_RESTART_PACKAGE, InitializeVariableString, NULL, TRUE},
-        {BURN_BUNDLE_INSTALLED, InitializeVariableNumeric, 0},
-        {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0},
-        {BURN_BUNDLE_ACTIVE_PARENT, InitializeVariableString, NULL},
-        {BURN_BUNDLE_PROVIDER_KEY, InitializeVariableString, (DWORD_PTR)L""},
-        {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L""},
-        {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0},
+        {BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, InitializeVariableString, NULL, FALSE, TRUE},
+        {BURN_BUNDLE_FORCED_RESTART_PACKAGE, InitializeVariableString, NULL, TRUE, TRUE},
+        {BURN_BUNDLE_INSTALLED, InitializeVariableNumeric, 0, FALSE, TRUE},
+        {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0, FALSE, TRUE},
+        {BURN_BUNDLE_ACTIVE_PARENT, InitializeVariableString, NULL, FALSE, TRUE},
+        {BURN_BUNDLE_PROVIDER_KEY, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
+        {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
+        {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0, FALSE, TRUE},
     };
 
     for (DWORD i = 0; i < countof(vrgBuiltInVariables); ++i)
     {
         BUILT_IN_VARIABLE_DECLARATION* pBuiltInVariable = &vrgBuiltInVariables[i];
 
-        hr = AddBuiltInVariable(pVariables, pBuiltInVariable->wzVariable, pBuiltInVariable->pfnInitialize, pBuiltInVariable->dwpInitializeData, pBuiltInVariable->fPersist, pBuiltInVariable->fRejectFromUnelevated);
+        hr = AddBuiltInVariable(pVariables, pBuiltInVariable->wzVariable, pBuiltInVariable->pfnInitialize, pBuiltInVariable->dwpInitializeData, pBuiltInVariable->fPersist, pBuiltInVariable->fOverridable);
         ExitOnFailure(hr, "Failed to add built-in variable: %ls.", pBuiltInVariable->wzVariable);
     }
 
@@ -399,7 +399,7 @@ extern "C" HRESULT VariablesParseFromXml(
             hr = InsertVariable(pVariables, sczId, iVariable);
             ExitOnFailure(hr, "Failed to insert variable '%ls'.", sczId);
         }
-        else if (pVariables->rgVariables[iVariable].fBuiltIn)
+        else if (BURN_VARIABLE_INTERNAL_TYPE_NORMAL < pVariables->rgVariables[iVariable].internalType)
         {
             hr = E_INVALIDARG;
             ExitOnRootFailure(hr, "Attempt to set built-in variable value: %ls", sczId);
@@ -641,7 +641,9 @@ extern "C" HRESULT VariableGetFormatted(
     ExitOnFailure(hr, "Failed to get variable: %ls", wzVariable);
 
     // Strings need to get expanded unless they're built-in or literal because they're guaranteed not to have embedded variables.
-    if (BURN_VARIANT_TYPE_STRING == pVariable->Value.Type && !pVariable->fBuiltIn && !pVariable->fLiteral)
+    if (BURN_VARIANT_TYPE_STRING == pVariable->Value.Type &&
+        BURN_VARIABLE_INTERNAL_TYPE_NORMAL == pVariable->internalType &&
+        !pVariable->fLiteral)
     {
         hr = BVariantGetString(&pVariable->Value, &scz);
         ExitOnFailure(hr, "Failed to get unformatted string.");
@@ -836,7 +838,7 @@ extern "C" HRESULT VariableSerialize(
 
         // If we aren't persisting, include only variables that aren't rejected by the elevated process.
         // If we are persisting, include only variables that should be persisted.
-        fIncluded = (!fPersisting && !pVariable->fRejectFromUnelevated) || 
+        fIncluded = (!fPersisting && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariable->internalType) || 
                     (fPersisting && pVariable->fPersisted);
 
         // Write included flag.
@@ -1351,7 +1353,7 @@ static HRESULT AddBuiltInVariable(
     __in PFN_INITIALIZEVARIABLE pfnInitialize,
     __in DWORD_PTR dwpInitializeData,
     __in BOOL fPersist,
-    __in BOOL fRejectFromUnelevated
+    __in BOOL fOverridable
     )
 {
     HRESULT hr = S_OK;
@@ -1371,8 +1373,7 @@ static HRESULT AddBuiltInVariable(
     // set variable values
     pVariable = &pVariables->rgVariables[iVariable];
     pVariable->fPersisted = fPersist;
-    pVariable->fRejectFromUnelevated = fRejectFromUnelevated;
-    pVariable->fBuiltIn = TRUE;
+    pVariable->internalType = fOverridable ? BURN_VARIABLE_INTERNAL_TYPE_OVERRIDABLE_BUILTIN : BURN_VARIABLE_INTERNAL_TYPE_BUILTIN;
     pVariable->pfnInitialize = pfnInitialize;
     pVariable->dwpInitializeData = dwpInitializeData;
 
@@ -1401,7 +1402,7 @@ static HRESULT GetVariable(
     pVariable = &pVariables->rgVariables[iVariable];
 
     // initialize built-in variable
-    if (BURN_VARIANT_TYPE_NONE == pVariable->Value.Type && pVariable->fBuiltIn)
+    if (BURN_VARIANT_TYPE_NONE == pVariable->Value.Type && BURN_VARIABLE_INTERNAL_TYPE_NORMAL < pVariable->internalType)
     {
         hr = pVariable->pfnInitialize(pVariable->dwpInitializeData, &pVariable->Value);
         ExitOnFailure(hr, "Failed to initialize built-in variable value '%ls'.", wzVariable);
@@ -1536,11 +1537,11 @@ static HRESULT SetVariableValue(
         hr = InsertVariable(pVariables, wzVariable, iVariable);
         ExitOnFailure(hr, "Failed to insert variable '%ls'.", wzVariable);
     }
-    else if (pVariables->rgVariables[iVariable].fBuiltIn) // built-in variables must be overridden.
+    else if (BURN_VARIABLE_INTERNAL_TYPE_NORMAL < pVariables->rgVariables[iVariable].internalType) // built-in variables must be overridden.
     {
         if (SET_VARIABLE_OVERRIDE_BUILTIN == setBuiltin ||
             (SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS == setBuiltin && pVariables->rgVariables[iVariable].fPersisted) ||
-            SET_VARIABLE_ANY == setBuiltin && !pVariables->rgVariables[iVariable].fRejectFromUnelevated)
+            SET_VARIABLE_ANY == setBuiltin && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariables->rgVariables[iVariable].internalType)
         {
             hr = S_OK;
         }
@@ -1557,7 +1558,7 @@ static HRESULT SetVariableValue(
     }
 
     // Log value when not overwriting a built-in variable.
-    if (fLog && !pVariables->rgVariables[iVariable].fBuiltIn)
+    if (fLog && BURN_VARIABLE_INTERNAL_TYPE_NORMAL == pVariables->rgVariables[iVariable].internalType)
     {
         if (pVariables->rgVariables[iVariable].fHidden)
         {
