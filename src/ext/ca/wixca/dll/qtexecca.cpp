@@ -123,7 +123,7 @@ HRESULT ExecCommon(
 
     dwTimeout = GetTimeout(wzTimeoutProperty);
 
-    hr = QuietExec(pwzCommand, dwTimeout, fLogCommand, fLogOutput);
+    hr = QuietExecEx(pwzCommand, dwTimeout, fLogCommand, fLogOutput);
     ExitOnFailure(hr, "QuietExec Failed");
 
 LExit:
@@ -162,7 +162,7 @@ HRESULT ExecCommon64(
 
     dwTimeout = GetTimeout(wzTimeoutProperty);
 
-    hr = QuietExec(pwzCommand, dwTimeout, fLogCommand, fLogOutput);
+    hr = QuietExecEx(pwzCommand, dwTimeout, fLogCommand, fLogOutput);
     ExitOnFailure(hr, "QuietExec64 Failed");
 
 LExit:
