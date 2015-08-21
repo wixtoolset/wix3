@@ -242,7 +242,7 @@ extern "C" HRESULT VariableInitialize(
         {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILESX86},
 #else
         {L"ProgramFiles64Folder", InitializeVariableRegistryFolder, CSIDL_PROGRAM_FILES},
-        {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES },
+        {L"ProgramFilesFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAM_FILES},
 #endif
         {L"ProgramFiles6432Folder", InitializeVariable6432Folder, CSIDL_PROGRAM_FILES},
         {L"ProgramMenuFolder", InitializeVariableCsidlFolder, CSIDL_PROGRAMS},
