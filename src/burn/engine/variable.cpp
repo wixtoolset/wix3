@@ -24,6 +24,7 @@ typedef const struct _BUILT_IN_VARIABLE_DECLARATION
     PFN_INITIALIZEVARIABLE pfnInitialize;
     DWORD_PTR dwpInitializeData;
     BOOL fPersist;
+    BOOL fOverridable;
 } BUILT_IN_VARIABLE_DECLARATION;
 
 
@@ -72,7 +73,8 @@ static HRESULT AddBuiltInVariable(
     __in LPCWSTR wzVariable,
     __in PFN_INITIALIZEVARIABLE pfnInitialize,
     __in DWORD_PTR dwpInitializeData,
-    __in BOOL fPersist
+    __in BOOL fPersist,
+    __in BOOL fOverridable
     );
 static HRESULT GetVariable(
     __in BURN_VARIABLES* pVariables,
@@ -261,23 +263,23 @@ extern "C" HRESULT VariableInitialize(
         {L"VersionNT64", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT64},
         {L"WindowsFolder", InitializeVariableCsidlFolder, CSIDL_WINDOWS},
         {L"WindowsVolume", InitializeVariableWindowsVolumeFolder, 0},
-        {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0},
-        {BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, InitializeVariableString, NULL},
-        {BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, InitializeVariableString, NULL},
-        {BURN_BUNDLE_FORCED_RESTART_PACKAGE, InitializeVariableString, NULL, TRUE},
-        {BURN_BUNDLE_INSTALLED, InitializeVariableNumeric, 0},
-        {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0},
-        {BURN_BUNDLE_ACTIVE_PARENT, InitializeVariableString, NULL},
-        {BURN_BUNDLE_PROVIDER_KEY, InitializeVariableString, (DWORD_PTR)L""},
-        {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L""},
-        {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0},
+        {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0, FALSE, TRUE},
+        {BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, InitializeVariableString, NULL, FALSE, TRUE},
+        {BURN_BUNDLE_EXECUTE_PACKAGE_ACTION, InitializeVariableString, NULL, FALSE, TRUE},
+        {BURN_BUNDLE_FORCED_RESTART_PACKAGE, InitializeVariableString, NULL, TRUE, TRUE},
+        {BURN_BUNDLE_INSTALLED, InitializeVariableNumeric, 0, FALSE, TRUE},
+        {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0, FALSE, TRUE},
+        {BURN_BUNDLE_ACTIVE_PARENT, InitializeVariableString, NULL, FALSE, TRUE},
+        {BURN_BUNDLE_PROVIDER_KEY, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
+        {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
+        {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0, FALSE, TRUE},
     };
 
     for (DWORD i = 0; i < countof(vrgBuiltInVariables); ++i)
     {
         BUILT_IN_VARIABLE_DECLARATION* pBuiltInVariable = &vrgBuiltInVariables[i];
 
-        hr = AddBuiltInVariable(pVariables, pBuiltInVariable->wzVariable, pBuiltInVariable->pfnInitialize, pBuiltInVariable->dwpInitializeData, pBuiltInVariable->fPersist);
+        hr = AddBuiltInVariable(pVariables, pBuiltInVariable->wzVariable, pBuiltInVariable->pfnInitialize, pBuiltInVariable->dwpInitializeData, pBuiltInVariable->fPersist, pBuiltInVariable->fOverridable);
         ExitOnFailure(hr, "Failed to add built-in variable: %ls.", pBuiltInVariable->wzVariable);
     }
 
@@ -397,7 +399,7 @@ extern "C" HRESULT VariablesParseFromXml(
             hr = InsertVariable(pVariables, sczId, iVariable);
             ExitOnFailure(hr, "Failed to insert variable '%ls'.", sczId);
         }
-        else if (pVariables->rgVariables[iVariable].fBuiltIn)
+        else if (BURN_VARIABLE_INTERNAL_TYPE_NORMAL < pVariables->rgVariables[iVariable].internalType)
         {
             hr = E_INVALIDARG;
             ExitOnRootFailure(hr, "Attempt to set built-in variable value: %ls", sczId);
@@ -639,7 +641,9 @@ extern "C" HRESULT VariableGetFormatted(
     ExitOnFailure(hr, "Failed to get variable: %ls", wzVariable);
 
     // Strings need to get expanded unless they're built-in or literal because they're guaranteed not to have embedded variables.
-    if (BURN_VARIANT_TYPE_STRING == pVariable->Value.Type && !pVariable->fBuiltIn && !pVariable->fLiteral)
+    if (BURN_VARIANT_TYPE_STRING == pVariable->Value.Type &&
+        BURN_VARIABLE_INTERNAL_TYPE_NORMAL == pVariable->internalType &&
+        !pVariable->fLiteral)
     {
         hr = BVariantGetString(&pVariable->Value, &scz);
         ExitOnFailure(hr, "Failed to get unformatted string.");
@@ -832,8 +836,10 @@ extern "C" HRESULT VariableSerialize(
     {
         BURN_VARIABLE* pVariable = &pVariables->rgVariables[i];
 
+        // If we aren't persisting, include only variables that aren't rejected by the elevated process.
         // If we are persisting, include only variables that should be persisted.
-        fIncluded = !fPersisting || pVariable->fPersisted;
+        fIncluded = (!fPersisting && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariable->internalType) || 
+                    (fPersisting && pVariable->fPersisted);
 
         // Write included flag.
         hr = BuffWriteNumber(ppbBuffer, piBuffer, (DWORD)fIncluded);
@@ -1346,7 +1352,8 @@ static HRESULT AddBuiltInVariable(
     __in LPCWSTR wzVariable,
     __in PFN_INITIALIZEVARIABLE pfnInitialize,
     __in DWORD_PTR dwpInitializeData,
-    __in BOOL fPersist
+    __in BOOL fPersist,
+    __in BOOL fOverridable
     )
 {
     HRESULT hr = S_OK;
@@ -1366,7 +1373,7 @@ static HRESULT AddBuiltInVariable(
     // set variable values
     pVariable = &pVariables->rgVariables[iVariable];
     pVariable->fPersisted = fPersist;
-    pVariable->fBuiltIn = TRUE;
+    pVariable->internalType = fOverridable ? BURN_VARIABLE_INTERNAL_TYPE_OVERRIDABLE_BUILTIN : BURN_VARIABLE_INTERNAL_TYPE_BUILTIN;
     pVariable->pfnInitialize = pfnInitialize;
     pVariable->dwpInitializeData = dwpInitializeData;
 
@@ -1395,7 +1402,7 @@ static HRESULT GetVariable(
     pVariable = &pVariables->rgVariables[iVariable];
 
     // initialize built-in variable
-    if (BURN_VARIANT_TYPE_NONE == pVariable->Value.Type && pVariable->fBuiltIn)
+    if (BURN_VARIANT_TYPE_NONE == pVariable->Value.Type && BURN_VARIABLE_INTERNAL_TYPE_NORMAL < pVariable->internalType)
     {
         hr = pVariable->pfnInitialize(pVariable->dwpInitializeData, &pVariable->Value);
         ExitOnFailure(hr, "Failed to initialize built-in variable value '%ls'.", wzVariable);
@@ -1530,11 +1537,11 @@ static HRESULT SetVariableValue(
         hr = InsertVariable(pVariables, wzVariable, iVariable);
         ExitOnFailure(hr, "Failed to insert variable '%ls'.", wzVariable);
     }
-    else if (pVariables->rgVariables[iVariable].fBuiltIn) // built-in variables must be overridden.
+    else if (BURN_VARIABLE_INTERNAL_TYPE_NORMAL < pVariables->rgVariables[iVariable].internalType) // built-in variables must be overridden.
     {
         if (SET_VARIABLE_OVERRIDE_BUILTIN == setBuiltin ||
             (SET_VARIABLE_OVERRIDE_PERSISTED_BUILTINS == setBuiltin && pVariables->rgVariables[iVariable].fPersisted) ||
-            SET_VARIABLE_ANY == setBuiltin)
+            SET_VARIABLE_ANY == setBuiltin && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariables->rgVariables[iVariable].internalType)
         {
             hr = S_OK;
         }
@@ -1551,7 +1558,7 @@ static HRESULT SetVariableValue(
     }
 
     // Log value when not overwriting a built-in variable.
-    if (fLog && !pVariables->rgVariables[iVariable].fBuiltIn)
+    if (fLog && BURN_VARIABLE_INTERNAL_TYPE_NORMAL == pVariables->rgVariables[iVariable].internalType)
     {
         if (pVariables->rgVariables[iVariable].fHidden)
         {
