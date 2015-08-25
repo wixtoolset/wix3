@@ -10,7 +10,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="WixTagInstallFolder">
-            <Directory Id="WixTagFolder" Name="swidtag" ComponentGuidGenerationSeed="0F673797-85FC-49D8-A0D8-B5C81C7C9CDC" />
+            <Directory Id="WixTagFolder" Name="swidtag" ComponentGuidGenerationSeed="4BAD0C8B-3AF0-BFE3-CC83-094749A1C4B1" />
         </DirectoryRef>
     </Fragment>
 </Wix>
