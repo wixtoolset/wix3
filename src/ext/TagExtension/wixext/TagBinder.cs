@@ -105,11 +105,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 Table summaryInformationTable = output.Tables["_SummaryInformation"];
                 foreach (Row summaryInformationRow in summaryInformationTable.Rows)
                 {
-                    switch ((int)summaryInformationRow[0])
+                    // PID_REVNUMBER
+                    if (9 == (int)summaryInformationRow[0])
                     {
-                        case 9: // PID_REVNUMBER
-                            packageCode = (string)summaryInformationRow[1];
-                            break;
+                        packageCode = (string)summaryInformationRow[1];
+                        break;
                     }
                 }
 
