@@ -11,6 +11,7 @@
     <String Id="Company" Overridable="yes">Outercurve Foundation</String>
     <String Id="Copyright" Overridable="yes">Copyright (c) Outercurve Foundation. All rights reserved.</String>
     <String Id="Product" Overridable="yes">Windows Installer XML Toolset</String>
+    <String Id="Regid" Overridable="yes">outercurve.org</String>
     <String Id="ShortProduct" Overridable="yes">WiX Toolset</String>
     <String Id="SupportUrl" Overridable="yes">http://wixtoolset.org</String>
     <String Id="UpdateUrl" Overridable="yes">http://wixtoolset.org/releases/feed/v3.10</String>

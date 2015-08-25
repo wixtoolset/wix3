@@ -51,6 +51,11 @@ HRESULT DAPI DirEnsureDeleteEx(
     __in DWORD dwFlags
     );
 
+DWORD DAPI DirDeleteEmptyDirectoriesToRoot(
+    __in_z LPCWSTR wzPath,
+    __in DWORD dwFlags
+    );
+
 HRESULT DAPI DirGetCurrent(
     __deref_out_z LPWSTR* psczCurrentDirectory
     );

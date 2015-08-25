@@ -24,6 +24,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
     /// </summary>
     public sealed class BinderCore : IMessageHandler
     {
+        public static readonly string IntermediateFolder = "IntermediateFolder";
+        public static readonly string OutputPath = "OutputPath";
+
         private bool encounteredError;
         private TableDefinitionCollection tableDefinitions;
         private Dictionary<string, object> additionalProperties;

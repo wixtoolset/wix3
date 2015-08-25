@@ -11,18 +11,18 @@
 -->
 <tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
     <tableDefinition name="WixBundleTag" unreal="yes">
-      <columnDefinition name="Filename" type="string" length="255" primaryKey="yes"
-          category="filename" description="The file name for the software id tag."/>
-      <columnDefinition name="Regid" type="string" length="0" primaryKey="yes"
+        <columnDefinition name="Filename" type="string" length="255" primaryKey="yes"
+            category="filename" description="The file name for the software id tag."/>
+        <columnDefinition name="Regid" type="string" length="0" primaryKey="yes"
             category="text" description="The regid for the software id tag."/>
         <columnDefinition name="Name" type="string" length="255" nullable="yes"
             category="text" description="The name for the software id tag."/>
+        <columnDefinition name="InstallPath" type="string" length="0"
+            category="text" description="The install path for the software id tag."/>
         <columnDefinition name="Attributes" type="number" length="4" nullable="yes"
-            minValue="0" maxValue="2147483647" description="A 32-bit word that specifies bits of software id tag."/>
+              minValue="0" maxValue="2147483647" description="A 32-bit word that specifies bits of software id tag."/>
         <columnDefinition name="Xml" type="string" length="0" nullable="yes"
             category="text" description="The software id tag as XML. Only valid after binding"/>
-      <columnDefinition name="Type" type="string" length="0" nullable="yes"
-          category="text" description="The type of the software id tag."/>
     </tableDefinition>
     <tableDefinition name="WixProductTag" unreal="yes">
         <columnDefinition name="File_" type="string" length="72" modularize="column" primaryKey="yes"
@@ -33,17 +33,17 @@
             category="text" description="The name for the software id tag."/>
         <columnDefinition name="Attributes" type="number" length="4" nullable="yes"
             minValue="0" maxValue="2147483647" description="A 32-bit word that specifies bits of software id tag."/>
-      <columnDefinition name="Type" type="string" length="0" nullable="yes"
-          category="text" description="The type of the software id tag."/>
     </tableDefinition>
     <tableDefinition name="SoftwareIdentificationTag">
         <columnDefinition name="File_" type="string" length="72" modularize="column" primaryKey="yes"
             keyTable="File" keyColumn="1" category="identifier" description="The file that installs the software id tag."/>
         <columnDefinition name="Regid" type="string" length="0"
             category="text" description="The regid for the software id tag."/>
-        <columnDefinition name="UniqueId" type="string" length="0"
+        <columnDefinition name="TagId" type="string" length="0"
             category="text" description="The unique id for the software id tag."/>
-        <columnDefinition name="Type" type="string" length="0"
+        <columnDefinition name="PersistentId" type="string" length="0"
             category="text" description="The type of the software id tag."/>
+        <columnDefinition name="Alias" type="string" length="0" nullable="yes"
+            category="text" description="Alias for the software id tag."/>
     </tableDefinition>
 </tableDefinitions>

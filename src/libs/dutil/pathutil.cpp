@@ -211,6 +211,39 @@ LExit:
 }
 
 
+DAPI_(HRESULT) PathGetParentPath(
+    __in_z LPCWSTR wzPath,
+    __out LPWSTR *psczParent
+    )
+{
+    HRESULT hr = S_OK;
+    LPCWSTR wzParent = NULL;
+
+    for (LPCWSTR wz = wzPath; *wz; ++wz)
+    {
+        if (wz[1] && (L'\\' == *wz || L'/' == *wz))
+        {
+            wzParent = wz;
+        }
+    }
+
+    if (wzParent)
+    {
+        DWORD cchPath = static_cast<DWORD>(wzParent - wzPath) + 1;
+
+        hr = StrAllocString(psczParent, wzPath, cchPath);
+        ExitOnFailure(hr, "Failed to copy directory.");
+    }
+    else
+    {
+        ReleaseNullStr(psczParent);
+    }
+
+LExit:
+    return hr;
+}
+
+
 DAPI_(HRESULT) PathExpand(
     __out LPWSTR *psczFullPath,
     __in_z LPCWSTR wzRelativePath,

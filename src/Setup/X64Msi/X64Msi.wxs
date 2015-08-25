@@ -14,14 +14,14 @@
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) X64" Language="1033" Manufacturer="!(loc.Company)"
              Version="$(var.WixMsiProductVersion)" UpgradeCode="4BF424CC-D118-4018-B49D-CC1A26968834">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
-        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" />
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
         <MediaTemplate CabinetTemplate="wix64{0}.cab" />
 
         <DirectoryRef Id="SdkFolder" />
-        
+
         <Feature Id="Feature_WiX" Title="WiX Toolset" Level="1">
             <Component Directory="ProgramFiles64Folder">
                 <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework\AssemblyFolders\WiX $(var.WixMajorMinor)">

@@ -14,7 +14,7 @@
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Visual Studio Integration" Language="1033" Manufacturer="!(loc.Company)"
              Version="$(var.WixMsiProductVersion)" UpgradeCode="B6D64CBC-7075-4A94-AD48-DB084C0E70B1">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
-        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" />
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
