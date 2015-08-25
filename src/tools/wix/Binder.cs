@@ -621,6 +621,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.SetProperty(Binder.PARAM_SPSD_NAME, true);
             }
 
+            this.core.SetProperty(BinderCore.OutputPath, file);
+
+            if (!String.IsNullOrEmpty(this.outputsFile))
+            {
+                this.core.SetProperty(BinderCore.IntermediateFolder, Path.GetDirectoryName(this.outputsFile));
+            }
+            else if (!String.IsNullOrEmpty(this.contentsFile))
+            {
+                this.core.SetProperty(BinderCore.IntermediateFolder, Path.GetDirectoryName(this.contentsFile));
+            }
+            else if (!String.IsNullOrEmpty(this.builtOutputsFile))
+            {
+                this.core.SetProperty(BinderCore.IntermediateFolder, Path.GetDirectoryName(this.builtOutputsFile));
+            }
+
             foreach (BinderExtension extension in this.extensions)
             {
                 extension.Core = this.core;
@@ -4475,7 +4490,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         writer.WriteStartElement("SoftwareTag");
                         writer.WriteAttributeString("Filename", (string)row[0]);
                         writer.WriteAttributeString("Regid", (string)row[1]);
-                        writer.WriteCData((string)row[4]);
+                        writer.WriteAttributeString("Path", (string)row[3]);
+                        writer.WriteCData((string)row[5]);
                         writer.WriteEndElement();
                     }
                 }

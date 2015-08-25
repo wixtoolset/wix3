@@ -26,7 +26,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
     /// </summary>
     public sealed class TagBinder : BinderExtensionEx
     {
-        private string overallRegid;
         private RowDictionary<Row> swidRows = new RowDictionary<Row>();
 
         /// <summary>
@@ -34,32 +33,31 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         /// </summary>
         public override void BundleFinalize(Output output)
         {
-            this.overallRegid = null; // always reset overall regid on initialize.
-
             Table tagTable = output.Tables["WixBundleTag"];
             if (null != tagTable)
             {
                 Table table = output.Tables["WixBundle"];
                 WixBundleRow bundleInfo = (WixBundleRow)table.Rows[0];
+                string bundleId = bundleInfo.BundleId.ToString("D").ToUpperInvariant();
                 Version bundleVersion = TagBinder.CreateFourPartVersion(bundleInfo.Version);
+                string upgradeCode = NormalizeGuid(bundleInfo.UpgradeCode);
+
+                string uniqueId = String.Concat("wix:bundle/", bundleId);
+
+                string persistentId = String.Concat("wix:bundle.upgrade/", upgradeCode);
 
                 // Try to collect all the software id tags from all the child packages.
-                IList<SoftwareTag> allTags = TagBinder.CollectPackageTags(output);
+                IList<SoftwareTag> containedTags = TagBinder.CollectPackageTags(output);
 
                 foreach (Row tagRow in tagTable.Rows)
                 {
                     string regid = (string)tagRow[1];
                     string name = (string)tagRow[2];
-                    bool licensed = (null != tagRow[3] && 0 != (int)tagRow[3]);
-                    string typeString = (string)tagRow[5];
-
-                    TagType type = String.IsNullOrEmpty(typeString) ? TagType.Unknown : (TagType)Enum.Parse(typeof(TagType), typeString);
-                    IList<SoftwareTag> containedTags = TagBinder.CalculateContainedTagsAndType(allTags, ref type);
 
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        TagBinder.CreateTagFile(ms, regid, bundleInfo.BundleId.ToString("D").ToUpperInvariant(), bundleInfo.Name, bundleVersion, bundleInfo.Publisher, licensed, type, containedTags);
-                        tagRow[4] = Encoding.UTF8.GetString(ms.ToArray());
+                        TagBinder.CreateTagFile(ms, uniqueId, bundleInfo.Name, bundleVersion, regid, bundleInfo.Publisher, persistentId, containedTags);
+                        tagRow[5] = Encoding.UTF8.GetString(ms.ToArray());
                     }
                 }
             }
@@ -70,8 +68,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         /// </summary>
         public override void DatabaseInitialize(Output output)
         {
-            this.overallRegid = null; // always reset overall regid on initialize.
-
             // Ensure the tag files are generated to be imported by the MSI.
             this.CreateProductTagFiles(output);
         }
@@ -96,24 +92,34 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         private List<WixFileRow> CreateProductTagFiles(Output output)
         {
             List<WixFileRow> updatedFileRows = new List<WixFileRow>();
-            SourceLineNumberCollection sourceLineNumbers = null;
 
             Table tagTable = output.Tables["WixProductTag"];
             if (null != tagTable)
             {
-                string productCode = null;
+                string packageCode = null;
                 string productName = null;
                 Version productVersion = null;
                 string manufacturer = null;
+                string upgradeCode = null;
+
+                Table summaryInformationTable = output.Tables["_SummaryInformation"];
+                foreach (Row summaryInformationRow in summaryInformationTable.Rows)
+                {
+                    switch ((int)summaryInformationRow[0])
+                    {
+                        case 9: // PID_REVNUMBER
+                            packageCode = (string)summaryInformationRow[1];
+                            break;
+                    }
+                }
+
+                packageCode = NormalizeGuid(packageCode);
 
                 Table properties = output.Tables["Property"];
                 foreach (Row property in properties.Rows)
                 {
                     switch ((string)property[0])
                     {
-                        case "ProductCode":
-                            productCode = (string)property[1];
-                            break;
                         case "ProductName":
                             productName = (string)property[1];
                             break;
@@ -123,22 +129,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         case "Manufacturer":
                             manufacturer = (string)property[1];
                             break;
+                        case "UpgradeCode":
+                            upgradeCode = (string)property[1];
+                            break;
                     }
                 }
 
-                // If the ProductCode is available, only keep it if it is a GUID.
-                if (!String.IsNullOrEmpty(productCode))
-                {
-                    try
-                    {
-                        Guid guid = new Guid(productCode);
-                        productCode = guid.ToString("D").ToUpperInvariant();
-                    }
-                    catch // not a GUID, erase it.
-                    {
-                        productCode = null;
-                    }
-                }
+                upgradeCode = NormalizeGuid(upgradeCode);
 
                 Table wixFileTable = output.Tables["WixFile"];
                 foreach (Row tagRow in tagTable.Rows)
@@ -146,32 +143,31 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     string fileId = (string)tagRow[0];
                     string regid = (string)tagRow[1];
                     string name = (string)tagRow[2];
-                    bool licensed = (null != tagRow[3] && 1 == (int)tagRow[3]);
-                    string typeString = (string)tagRow[4];
 
-                    TagType type = String.IsNullOrEmpty(typeString) ? TagType.Application : (TagType)Enum.Parse(typeof(TagType), typeString);
-                    string uniqueId = String.IsNullOrEmpty(productCode) ? name.Replace(" ", "-") : productCode;
-
-                    if (String.IsNullOrEmpty(this.overallRegid))
-                    {
-                        this.overallRegid = regid;
-                        sourceLineNumbers = tagRow.SourceLineNumbers;
-                    }
-                    else if (!this.overallRegid.Equals(regid, StringComparison.Ordinal))
-                    {
-                        // TODO: display error that only one regid supported.
-                    }
+                    string uniqueId = String.Concat("msi:package/", packageCode);
+                    string persistentId = String.IsNullOrEmpty(upgradeCode) ? null : String.Concat("msi:upgrade/", upgradeCode);
 
                     // Find the WixFileRow that matches for this WixProductTag.
                     foreach (WixFileRow wixFileRow in wixFileTable.Rows)
                     {
                         if (fileId == wixFileRow.File)
                         {
+                            string source = this.Core.GetProperty<string>(BinderCore.IntermediateFolder);
+
+                            if (String.IsNullOrEmpty(source))
+                            {
+                                source = Path.GetTempFileName();
+                            }
+                            else
+                            {
+                                source = Path.Combine(source, String.Concat(wixFileRow.File, ".swidtag"));
+                            }
+
                             // Write the tag file.
-                            wixFileRow.Source = Path.GetTempFileName();
+                            wixFileRow.Source = source;
                             using (FileStream fs = new FileStream(wixFileRow.Source, FileMode.Create))
                             {
-                                TagBinder.CreateTagFile(fs, regid, uniqueId, productName, productVersion, manufacturer, licensed, type, null);
+                                TagBinder.CreateTagFile(fs, uniqueId, productName, productVersion, regid, manufacturer, persistentId, null);
                             }
 
                             updatedFileRows.Add(wixFileRow); // remember that we modified this file.
@@ -184,28 +180,17 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                 Table swid = output.Tables["SoftwareIdentificationTag"];
                                 swidRow = swid.CreateRow(wixFileRow.SourceLineNumbers);
                                 swidRow[0] = fileId;
-                                swidRow[1] = this.overallRegid;
+                                swidRow[1] = regid;
 
                                 this.swidRows.Add(swidRow);
                             }
 
                             // Always rewrite.
                             swidRow[2] = uniqueId;
-                            swidRow[3] = type.ToString();
+                            swidRow[3] = persistentId;
                         }
                     }
                 }
-            }
-
-            // If we remembered the source line number for the regid, then add
-            // a WixVariable to map to the regid.
-            if (null != sourceLineNumbers)
-            {
-                Table wixVariableTable = output.Tables.EnsureTable(output.EntrySection, this.Core.TableDefinitions["WixVariable"]);
-                WixVariableRow wixVariableRow = (WixVariableRow)wixVariableTable.CreateRow(sourceLineNumbers);
-                wixVariableRow.Id = "WixTagRegid";
-                wixVariableRow.Value = this.overallRegid;
-                wixVariableRow.Overridable = false;
             }
 
             return updatedFileRows;
@@ -218,6 +203,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                -1 < version.Minor ? version.Minor : 0,
                                -1 < version.Build ? version.Build : 0,
                                -1 < version.Revision ? version.Revision : 0);
+        }
+
+        private static string NormalizeGuid(string guidString)
+        {
+            try
+            {
+                Guid guid = new Guid(guidString);
+                return guid.ToString("D").ToUpperInvariant();
+            }
+            catch // not a GUID, erase it.
+            {
+                return null;
+            }
         }
 
         private static IList<SoftwareTag> CollectPackageTags(Output bundle)
@@ -241,7 +239,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         {
                             if (db.Tables.Contains("SoftwareIdentificationTag"))
                             {
-                                using (View view = db.OpenView("SELECT `Regid`, `UniqueId`, `Type` FROM `SoftwareIdentificationTag`"))
+                                using (View view = db.OpenView("SELECT `TagId` FROM `SoftwareIdentificationTag`"))
                                 {
                                     view.Execute();
                                     while (true)
@@ -253,8 +251,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                                 break;
                                             }
 
-                                            TagType type = String.IsNullOrEmpty(record.GetString(3)) ? TagType.Unknown : (TagType)Enum.Parse(typeof(TagType), record.GetString(3));
-                                            tags.Add(new SoftwareTag() { Regid = record.GetString(1), Id = record.GetString(2), Type = type });
+                                            tags.Add(new SoftwareTag() { Id = record.GetString(1), });
                                         }
                                     }
                                 }
@@ -267,134 +264,51 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             return tags;
         }
 
-        private static IList<SoftwareTag> CalculateContainedTagsAndType(IEnumerable<SoftwareTag> allTags, ref TagType type)
-        {
-            List<SoftwareTag> containedTags = new List<SoftwareTag>();
-            foreach (SoftwareTag tag in allTags)
-            {
-                // If this tag type is an Application or Group then try to coerce our type to a Group.
-                if (TagType.Application == tag.Type || TagType.Group == tag.Type)
-                {
-                    // If the type is still unknown, change our tag type and clear any contained tags that might have already
-                    // been colllected.
-                    if (TagType.Unknown == type)
-                    {
-                        type = TagType.Group;
-                        containedTags = new List<SoftwareTag>();
-                    }
-
-                    // If we are a Group then we can add this as a contained tag, otherwise skip it.
-                    if (TagType.Group == type)
-                    {
-                        containedTags.Add(tag);
-                    }
-
-                    // TODO: should we warn if this bundle is typed as a non-Group software id tag but is actually
-                    // carrying Application or Group software tags?
-                }
-                else if (TagType.Component == tag.Type || TagType.Feature == tag.Type)
-                {
-                    // We collect Component and Feature tags only if the our tag is an Application or might still default to an Application.
-                    if (TagType.Application == type || TagType.Unknown == type)
-                    {
-                        containedTags.Add(tag);
-                    }
-                }
-            }
-
-            // If our type was not set by now, we'll default to an Application.
-            if (TagType.Unknown == type)
-            {
-                type = TagType.Application;
-            }
-
-            return containedTags;
-        }
-
-        private static void CreateTagFile(Stream stream, string regid, string uniqueId, string name, Version version, string manufacturer, bool licensed, TagType tagType, IList<SoftwareTag> containedTags)
+        private static void CreateTagFile(Stream stream, string uniqueId, string name, Version version, string regid, string manufacturer, string persistendId, IList<SoftwareTag> containedTags)
         {
             using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8))
             {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 2;
+
                 writer.WriteStartDocument();
-                writer.WriteStartElement("software_identification_tag", "http://standards.iso.org/iso/19770/-2/2009/schema.xsd");
-                writer.WriteElementString("entitlement_required_indicator", licensed ? "true" : "false");
+                writer.WriteStartElement("SoftwareIdentity", "http://standards.iso.org/iso/19770/-2/2015/schema.xsd");
+                writer.WriteAttributeString("tagId", uniqueId);
+                writer.WriteAttributeString("name", name);
+                writer.WriteAttributeString("version", version.ToString());
+                writer.WriteAttributeString("versionScheme", "multipartnumeric");
 
-                writer.WriteElementString("product_title", name);
+                writer.WriteStartElement("Entity");
+                writer.WriteAttributeString("name", manufacturer);
+                writer.WriteAttributeString("regid", regid);
+                writer.WriteAttributeString("role", "softwareCreator tagCreator");
+                writer.WriteEndElement(); // </Entity>
 
-                writer.WriteStartElement("product_version");
-                writer.WriteElementString("name", version.ToString());
-                writer.WriteStartElement("numeric");
-                writer.WriteElementString("major", version.Major.ToString());
-                writer.WriteElementString("minor", version.Minor.ToString());
-                writer.WriteElementString("build", version.Build.ToString());
-                writer.WriteElementString("review", version.Revision.ToString());
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("software_creator");
-                writer.WriteElementString("name", manufacturer);
-                writer.WriteElementString("regid", regid);
-                writer.WriteEndElement();
-
-                if (licensed)
+                if (!String.IsNullOrEmpty(persistendId))
                 {
-                    writer.WriteStartElement("software_licensor");
-                    writer.WriteElementString("name", manufacturer);
-                    writer.WriteElementString("regid", regid);
-                    writer.WriteEndElement();
+                    writer.WriteStartElement("Meta");
+                    writer.WriteAttributeString("persistentId", persistendId);
+                    writer.WriteEndElement(); // </Meta>
                 }
 
-                writer.WriteStartElement("software_id");
-                writer.WriteElementString("unique_id", uniqueId);
-                writer.WriteElementString("tag_creator_regid", regid);
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("tag_creator");
-                writer.WriteElementString("name", manufacturer);
-                writer.WriteElementString("regid", regid);
-                writer.WriteEndElement();
-
-                if (null != containedTags && 0 < containedTags.Count)
+                if (null != containedTags)
                 {
-                    writer.WriteStartElement("complex_of");
                     foreach (SoftwareTag tag in containedTags)
                     {
-                        writer.WriteStartElement("software_id");
-                        writer.WriteElementString("unique_id", tag.Id);
-                        writer.WriteElementString("tag_creator_regid", tag.Regid);
-                        writer.WriteEndElement(); // </software_id>
+                        writer.WriteStartElement("Link");
+                        writer.WriteAttributeString("rel", "component");
+                        writer.WriteAttributeString("href", String.Concat("swid:", tag.Id));
+                        writer.WriteEndElement(); // </Link>
                     }
-                    writer.WriteEndElement(); // </complex_of>
                 }
 
-                if (TagType.Unknown != tagType)
-                {
-                    writer.WriteStartElement("extended_information");
-                    writer.WriteStartElement("tag_type", "http://www.tagvault.org/tv_extensions.xsd");
-                    writer.WriteValue(tagType.ToString());
-                    writer.WriteEndElement(); // </tag_type>
-                    writer.WriteEndElement(); // </extended_information>
-                }
-
-                writer.WriteEndElement(); // </software_identification_tag>
+                writer.WriteEndElement(); // </SoftwareIdentity>
             }
-        }
-
-        private enum TagType
-        {
-            Unknown,
-            Application,
-            Component,
-            Feature,
-            Group,
-            Patch,
         }
 
         private class SoftwareTag
         {
-            public string Regid { get; set; }
             public string Id { get; set; }
-            public TagType Type { get; set; }
         }
     }
 }

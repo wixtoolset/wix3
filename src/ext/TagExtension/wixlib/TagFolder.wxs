@@ -9,15 +9,8 @@
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <Property Id="ProductRegid" Value="!(wix.WixTagRegid=InvalidRegid)" />
-
-        <DirectoryRef Id="TARGETDIR">
-            <Directory Id="WixTagFolder" Name="swidtags" ComponentGuidGenerationSeed="0F673797-85FC-49D8-A0D8-B5C81C7C9CDC">
-                <Directory Id="WixTagRegidFolder" Name="!(wix.WixTagRegid=InvalidRegid)" />
-            </Directory>
+        <DirectoryRef Id="WixTagInstallFolder">
+            <Directory Id="WixTagFolder" Name="swidtag" ComponentGuidGenerationSeed="0F673797-85FC-49D8-A0D8-B5C81C7C9CDC" />
         </DirectoryRef>
-
-        <SetProperty Action="SetWixTagFolderPerUser" Id="WixTagFolder" Value="[LocalAppDataFolder]" Sequence="both" Before="CostFinalize">NOT ALLUSERS</SetProperty>
-        <SetProperty Action="SetWixTagFolderPerMachine" Id="WixTagFolder" Value="[CommonAppDataFolder]" Sequence="both" Before="CostFinalize">ALLUSERS</SetProperty>
     </Fragment>
 </Wix>
