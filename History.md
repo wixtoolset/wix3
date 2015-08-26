@@ -1,3 +1,13 @@
+## WixBuild: Version 3.10.0.2026
+
+* RobMen: WIXFEAT:4867 - Support ISO/IEC 19770-2:2105 (aka SWID Tags-2).
+
+* RobMen: WIXBUG:4817 - fix error message in OneTimeWixBuildInitialization.proj
+
+* BobArnson: WIXBUG:4180 - Add wixtoolset.org EULA service links.
+
+* BobArnson: WIXBUG:4804 - Add DAPI to get the right calling convention.
+
 * MikeGC: WIXBUG:4852 - Keep QuietExec function definition the same as in prior versions to avoid breaking anyone. The new function (with more parameters) is now named QuietExecEx.
 
 ## WixBuild: Version 3.10.0.1823
