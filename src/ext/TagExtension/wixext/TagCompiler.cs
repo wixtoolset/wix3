@@ -25,6 +25,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
     public sealed class TagCompiler : CompilerExtension
     {
         private static readonly string TagFolderId = "WixTagFolder";
+        private const int MsidbComponentAttributes64bit = 256;
 
         private XmlSchema schema;
 
@@ -119,6 +120,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             regid = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
                             break;
                         case "InstallDirectory":
+                        case "Win64":
                             this.Core.OnMessage(WixErrors.ExpectedParentWithAttribute(sourceLineNumbers, node.Name, attrib.Name, "Product"));
                             break;
                         case "InstallPath":
@@ -217,6 +219,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string regid = null;
             string feature = "WixSwidTag";
             string installDirectory = null;
+            bool win64 = (Platform.IA64 == this.Core.CurrentPlatform || Platform.X64 == this.Core.CurrentPlatform);
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -244,6 +247,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             break;
                         case "Type":
                             this.Core.OnMessage(WixWarnings.DeprecatedAttribute(sourceLineNumbers, node.Name, attrib.Name));
+                            break;
+                        case "Win64":
+                            win64 = (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib));
                             break;
                         default:
                             this.Core.UnexpectedAttribute(sourceLineNumbers, attrib);
@@ -325,7 +331,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 ComponentRow componentRow = (ComponentRow)this.Core.CreateRow(sourceLineNumbers, "Component");
                 componentRow.Component = fileId;
                 componentRow.Guid = "*";
-                componentRow[3] = 0;
+                componentRow[3] = (win64 ? TagCompiler.MsidbComponentAttributes64bit : 0);
                 componentRow.Directory = TagCompiler.TagFolderId;
                 componentRow.IsLocalOnly = true;
                 componentRow.KeyPath = fileId;

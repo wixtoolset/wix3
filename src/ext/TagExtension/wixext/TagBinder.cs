@@ -198,11 +198,18 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 
         private static Version CreateFourPartVersion(string versionString)
         {
-            Version version = new Version(versionString);
-            return new Version(version.Major,
-                               -1 < version.Minor ? version.Minor : 0,
-                               -1 < version.Build ? version.Build : 0,
-                               -1 < version.Revision ? version.Revision : 0);
+            try
+            {
+                Version version = new Version(versionString);
+                return new Version(version.Major,
+                                   -1 < version.Minor ? version.Minor : 0,
+                                   -1 < version.Build ? version.Build : 0,
+                                   -1 < version.Revision ? version.Revision : 0);
+            }
+            catch (FormatException)
+            {
+                return new Version();
+            }
         }
 
         private static string NormalizeGuid(string guidString)
