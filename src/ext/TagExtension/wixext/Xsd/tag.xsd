@@ -78,7 +78,7 @@
                   It is recommended to <html:strong>not</html:strong> set this attribute.</xs:documentation>
               </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="Win64" type="xs:string">
+          <xs:attribute name="Win64" type="YesNoTypeUnion">
               <xs:annotation>
                   <xs:documentation>
                     This attribute facilitates the installation of packages that install both 32-bit and 64-bit files. Set this attribute to 'no'
