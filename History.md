@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.0.2101
+
+* RobMen: WIXBUG:4879 - support x64 folders and bind variables in SWID Tags.
+
 ## WixBuild: Version 3.10.0.2026
 
 * RobMen: WIXFEAT:4867 - Support ISO/IEC 19770-2:2105 (aka SWID Tags-2).

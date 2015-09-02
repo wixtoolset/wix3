@@ -14,7 +14,7 @@
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) X64" Language="1033" Manufacturer="!(loc.Company)"
              Version="$(var.WixMsiProductVersion)" UpgradeCode="4BF424CC-D118-4018-B49D-CC1A26968834">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
-        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" />
+        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" Win64="no" />
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 

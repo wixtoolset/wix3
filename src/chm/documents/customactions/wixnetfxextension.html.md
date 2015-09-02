@@ -121,6 +121,26 @@ The WixNetfxExtension includes package groups that make it easier to include .NE
       <p>.Net Framework 4.5.2 standalone setup.</p>
     </td>
   </tr>
+
+  <tr>
+    <td valign="top">
+      <p>NetFx46Web</p>
+    </td>
+
+    <td>
+      <p>.Net Framework 4.6 web setup.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      <p>NetFx46Redist</p>
+    </td>
+
+    <td>
+      <p>.Net Framework 4.6 standalone setup.</p>
+    </td>
+  </tr>
 </table>
 
 ## Properties
