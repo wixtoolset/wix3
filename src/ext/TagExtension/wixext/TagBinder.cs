@@ -206,10 +206,17 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                    -1 < version.Build ? version.Build : 0,
                                    -1 < version.Revision ? version.Revision : 0);
             }
+            catch (ArgumentException)
+            {
+            }
             catch (FormatException)
             {
-                return new Version();
             }
+            catch (OverflowException)
+            {
+            }
+
+            return new Version();
         }
 
         private static string NormalizeGuid(string guidString)
