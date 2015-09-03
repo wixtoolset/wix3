@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.0.2103
+
+* RobMen: WIXBUG:4882 - handle all kinds of bad version strings in WixTagExtension.
+
 ## WixBuild: Version 3.10.0.2101
 
 * RobMen: WIXBUG:4879 - support x64 folders and bind variables in SWID Tags.
