@@ -2846,7 +2846,7 @@ private: // privates
         LPWSTR sczLaunchTargetElevatedId = NULL;
         LPWSTR sczUnformattedArguments = NULL;
         LPWSTR sczArguments = NULL;
-		LPWSTR sczUnformattedLaunchFolder = NULL;
+        LPWSTR sczUnformattedLaunchFolder = NULL;
         LPWSTR sczLaunchFolder = NULL;
         int nCmdShow = SW_SHOWNORMAL;
 
@@ -2899,11 +2899,11 @@ private: // privates
                 BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
             }
 
-			if (sczUnformattedLaunchFolder)
-			{
-				hr = BalFormatString(sczUnformattedLaunchFolder, &sczLaunchFolder);
-				BalExitOnFailure1(hr, "Failed to format launch working directory variable: %ls", sczUnformattedLaunchFolder);
-			}
+            if (sczUnformattedLaunchFolder)
+            {
+                hr = BalFormatString(sczUnformattedLaunchFolder, &sczLaunchFolder);
+                BalExitOnFailure1(hr, "Failed to format launch working directory variable: %ls", sczUnformattedLaunchFolder);
+            }
 
             hr = ShelExec(sczLaunchTarget, sczArguments, L"open", sczLaunchFolder, nCmdShow, m_hWnd, NULL);
             BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
@@ -2911,8 +2911,8 @@ private: // privates
             ::PostMessageW(m_hWnd, WM_CLOSE, 0, 0);
         }
 
-	LExit:
-		StrSecureZeroFreeString(sczLaunchFolder);
+    LExit:
+        StrSecureZeroFreeString(sczLaunchFolder);
         ReleaseStr(sczUnformattedLaunchFolder);
         StrSecureZeroFreeString(sczArguments);
         ReleaseStr(sczUnformattedArguments);
