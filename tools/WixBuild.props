@@ -119,7 +119,7 @@
     <VS2010SdkTargetsPath Condition=" '$(VS2010SdkTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets</VS2010SdkTargetsPath>
     <VS2010SdkTargetsPath Condition=" '$(VS2010SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets</VS2010SdkTargetsPath>
 
-    <VS2010Available Condition=" '$(VS2010Path)'!='' and Exists('$(VS2010Path)')">true</VS2010Available>
+    <VS2010Available Condition=" '$(DisableVS2010)'!='true' and '$(VS2010Path)'!='' and Exists('$(VS2010Path)')">true</VS2010Available>
     <VS2010Available Condition=" '$(VS2010Available)'=='' ">false</VS2010Available>
     <VS2010SdkAvailable Condition=" $(VS2010Available) and '$(VS2010SdkPath)'!='' and Exists('$(VS2010SdkTargetsPath)')">true</VS2010SdkAvailable>
     <VS2010SdkAvailable Condition=" '$(VS2010SdkAvailable)'=='' ">false</VS2010SdkAvailable>
@@ -137,7 +137,7 @@
     <VS2012SdkTargetsPath Condition=" '$(VS2012SdkTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v11.0\VSSDK\Microsoft.VsSDK.targets</VS2012SdkTargetsPath>
     <VS2012SdkTargetsPath Condition=" '$(VS2012SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v11.0\VSSDK\Microsoft.VsSDK.targets</VS2012SdkTargetsPath>
 
-    <VS2012Available Condition=" '$(VS2012Path)'!='' and Exists('$(VS2012Path)')">true</VS2012Available>
+    <VS2012Available Condition=" '$(DisableVS2012)'!='true' and '$(VS2012Path)'!='' and Exists('$(VS2012Path)')">true</VS2012Available>
     <VS2012Available Condition=" '$(VS2012Available)'=='' ">false</VS2012Available>
     <VS2012SdkAvailable Condition=" $(VS2012Available) and '$(VS2012SdkPath)'!='' and Exists('$(VS2012SdkTargetsPath)')">true</VS2012SdkAvailable>
     <VS2012SdkAvailable Condition=" '$(VS2012SdkAvailable)'=='' ">false</VS2012SdkAvailable>
@@ -155,7 +155,7 @@
     <VS2013SdkTargetsPath Condition=" '$(VS2013SdkTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v12.0\VSSDK\Microsoft.VsSDK.targets</VS2013SdkTargetsPath>
     <VS2013SdkTargetsPath Condition=" '$(VS2013SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v12.0\VSSDK\Microsoft.VsSDK.targets</VS2013SdkTargetsPath>
 
-    <VS2013Available Condition=" '$(VS2013Path)'!='' and Exists('$(VS2013Path)')">true</VS2013Available>
+    <VS2013Available Condition=" '$(DisableVS2013)'!='true' and '$(VS2013Path)'!='' and Exists('$(VS2013Path)')">true</VS2013Available>
     <VS2013Available Condition=" '$(VS2013Available)'=='' ">false</VS2013Available>
     <VS2013SdkAvailable Condition=" $(VS2013Available) and '$(VS2013SdkPath)'!='' and Exists('$(VS2013SdkTargetsPath)')">true</VS2013SdkAvailable>
     <VS2013SdkAvailable Condition=" '$(VS2013SdkAvailable)'=='' ">false</VS2013SdkAvailable>
@@ -174,7 +174,7 @@
     <VS2015SdkTargetsPath Condition=" '$(VS2015SdkTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\VSSDK\Microsoft.VsSDK.targets</VS2015SdkTargetsPath>
     <VS2015SdkTargetsPath Condition=" '$(VS2015SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v14.0\VSSDK\Microsoft.VsSDK.targets</VS2015SdkTargetsPath>
 
-    <VS2015Available Condition=" '$(VS2015Path)'!='' and Exists('$(VS2015Path)')">true</VS2015Available>
+    <VS2015Available Condition=" '$(DisableVS2015)'!='true' and '$(VS2015Path)'!='' and Exists('$(VS2015Path)')">true</VS2015Available>
     <VS2015Available Condition=" '$(VS2015Available)'=='' ">false</VS2015Available>
     <VS2015SdkAvailable Condition=" $(VS2015Available) and '$(VS2015SdkPath)'!='' and Exists('$(VS2015SdkTargetsPath)')">true</VS2015SdkAvailable>
     <VS2015SdkAvailable Condition=" '$(VS2015SdkAvailable)'=='' ">false</VS2015SdkAvailable>
