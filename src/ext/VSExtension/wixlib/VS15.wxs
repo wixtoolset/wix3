@@ -130,7 +130,7 @@
     <Fragment>
         <Property Id="VS15_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes">
             <ComponentSearch Id="SearchForVWD15ProjectSystemUnderVSSetup" Guid="1DD6505F-9FB3-5690-98FA-735BB51A6631" />
-            <ComponentSearch Id="SearchForVWD15ProjectSystemUnderVWDSetup" Guid="71EBDA4A-4A15-426F-95C4-4FC051FD7AA4" Type="directory" />
+            <ComponentSearch Id="SearchForVWD15ProjectSystemUnderVWDSetup" Guid="3447C110-9E65-5206-B39E-F8847D1DEA9A" Type="directory" />
         </Property>
     </Fragment>
 
