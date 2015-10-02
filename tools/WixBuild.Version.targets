@@ -12,6 +12,7 @@
         <MajorBuildNumber>3</MajorBuildNumber>
         <MinorBuildNumber>10</MinorBuildNumber>
         <StartBuildYear>2014</StartBuildYear>
+        <BuildRevision>1</BuildRevision>
 
         <MajorMinorVersionString>$(MajorBuildNumber)$(MinorBuildNumber)</MajorMinorVersionString>
         <MajorMinorVersionDottedString>$(MajorBuildNumber).$(MinorBuildNumber)</MajorMinorVersionDottedString>
@@ -29,7 +30,6 @@
         <BuildYearInMonths>$([MSBuild]::Multiply($([MSBuild]::Subtract($(BuildYear),$(StartBuildYear))), 12))</BuildYearInMonths>
         <UpperBuildNumber>$([MSBuild]::Add($(BuildYearInMonths), $(BuildMonth)))</UpperBuildNumber>
         <BuildNumber>$(UpperBuildNumber)$(BuildDay)</BuildNumber>
-        <BuildRevision>0</BuildRevision>
 
         <FullBuildVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildRevision).$(BuildNumber)</FullBuildVersionString>
         <FullBuildVersionStringDashed>$(MajorBuildNumber)-$(MinorBuildNumber)-$(BuildRevision)-$(BuildNumber)</FullBuildVersionStringDashed>
