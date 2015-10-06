@@ -78,6 +78,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-YlprecompDefine</AdditionalOptions>
+      <AdditionalOptions Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
