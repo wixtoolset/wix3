@@ -1,3 +1,9 @@
+## WixBuild: Version 3.10.1.2207
+
+* jchoover: WIXBUG:4899 - Modified WixStdBA handling of XmlGetAttribute to handle S_FALSE.
+
+* BobArnson: Work around Dev14 change that breaks XP compatibility even when used with v140_xp toolset. See [Connect item on this very issue](https://connect.microsoft.com/VisualStudio/feedback/details/1789709/visual-c-2015-runtime-broken-on-windows-server-2003-c-11-magic-statics). Fixes WIXBUG:4902 and WIXBUG:4908.
+
 ## WixBuild: Version 3.10.0.2103
 
 * RobMen: WIXBUG:4882 - handle all kinds of bad version strings in WixTagExtension.
