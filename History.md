@@ -1,3 +1,5 @@
+## WixBuild: Version 3.10.1.2213
+
 ## WixBuild: Version 3.10.1.2207
 
 * jchoover: WIXBUG:4899 - Modified WixStdBA handling of XmlGetAttribute to handle S_FALSE.
