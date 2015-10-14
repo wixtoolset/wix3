@@ -639,6 +639,13 @@ Language=English
 Could not remove bundle dependency provider: %1!ls!, error: 0x%2!x!
 .
 
+MessageId=334
+Severity=Error
+SymbolicName=MSG_CACHE_PREPARE_PACKAGE_FAILED
+Language=English
+Failed to prepare package: %2!ls!, error: 0x%1!ls!
+.
+
 MessageId=335
 Severity=Success
 SymbolicName=MSG_ACQUIRE_BUNDLE_PAYLOAD

@@ -67,6 +67,10 @@ HRESULT ElevationLayoutBundle(
     __in_z LPCWSTR wzLayoutDirectory,
     __in_z LPCWSTR wzUnverifiedPath
     );
+HRESULT ElevationCachePreparePackage(
+    __in HANDLE hPipe,
+    __in BURN_PACKAGE* pPackage
+    );
 HRESULT ElevationCacheOrLayoutContainerOrPayload(
     __in HANDLE hPipe,
     __in_opt BURN_CONTAINER* pContainer,

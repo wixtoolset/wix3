@@ -87,6 +87,9 @@ void CacheSendErrorCallback(
     __out_opt BOOL* pfRetry
     );
 BOOL CacheBundleRunningFromCache();
+HRESULT CachePreparePackage(
+    __in BURN_PACKAGE* pPackage
+    );
 HRESULT CacheBundleToWorkingDirectory(
     __in_z LPCWSTR wzBundleId,
     __in_z LPCWSTR wzExecutableName,

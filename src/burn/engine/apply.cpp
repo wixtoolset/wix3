@@ -514,6 +514,23 @@ extern "C" HRESULT ApplyCache(
                 {
                     LogErrorId(hr, MSG_USER_CANCELED, L"begin cache package", pStartedPackage->sczId, NULL);
                 }
+                else
+                {
+                    if (INVALID_HANDLE_VALUE != hPipe)
+                    {
+                        hr = ElevationCachePreparePackage(hPipe, pStartedPackage);
+                    }
+                    else
+                    {
+                        hr = CachePreparePackage(pStartedPackage);
+                    }
+
+                    if (FAILED(hr))
+                    {
+                        LogErrorId(hr, MSG_CACHE_PREPARE_PACKAGE_FAILED, pStartedPackage->sczId, NULL, NULL);
+                    }
+                }
+
                 break;
 
             case BURN_CACHE_ACTION_TYPE_ACQUIRE_CONTAINER:
