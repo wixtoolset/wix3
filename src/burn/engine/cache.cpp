@@ -183,6 +183,10 @@ extern "C" HRESULT CacheEnsureWorkingFolder(
     ExitOnFailure(hr, "Failed to calculate working folder to ensure it exists.");
 
     hr = DirEnsureExists(sczWorkingFolder, NULL);
+    if (HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED) == hr)
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_INSTALL_TEMP_UNWRITABLE);
+    }
     ExitOnFailure(hr, "Failed create working folder.");
 
     // Best effort to ensure our working folder is not encrypted.
