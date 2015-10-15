@@ -14,6 +14,7 @@
 #include "precomp.h"
 
 #define PATH_GOOD_ENOUGH 64
+static const DWORD TEMP_FILE_CREATE_RETRY_COUNT = 3;
 
 
 DAPI_(HRESULT) PathCommandLineAppend(
@@ -634,6 +635,7 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
 {
     HRESULT hr = S_OK;
     BOOL fRetry = FALSE;
+    DWORD cRetry = 0;
     WCHAR wzTempPath[MAX_PATH] = { };
     LPWSTR sczPrefix = NULL;
     LPWSTR sczPrefixFolder = NULL;
@@ -689,8 +691,12 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
             {
                 ::Sleep(100);
 
-                er = ERROR_SUCCESS;
-                fRetry = TRUE;
+                ++cRetry;
+                if (cRetry <= TEMP_FILE_CREATE_RETRY_COUNT)
+                {
+                    fRetry = TRUE;
+                    er = ERROR_SUCCESS;
+                }
             }
 
             hr = HRESULT_FROM_WIN32(er);
