@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.1.2213
+
+* PavelAnfimov: WIXBUG:4772 - Add support for Windows XP for ShelExecUnelevated.
+
 ## WixBuild: Version 3.10.1.2207
 
 * jchoover: WIXBUG:4899 - Modified WixStdBA handling of XmlGetAttribute to handle S_FALSE.
