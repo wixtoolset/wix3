@@ -293,17 +293,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         targetReadLength = targetStream.Read(targetBuffer, 0, targetBuffer.Length);
                         updatedReadLength = updatedStream.Read(updatedBuffer, 0, updatedBuffer.Length);
 
-                        if (targetReadLength != updatedReadLength)
+                        // if different, stop looping and return.
+                        // Try to mimic the code used for String.Equals more closely
+                        if ((targetReadLength != updatedReadLength) || (0 != memcmp(targetBuffer, updatedBuffer, targetReadLength)))
                         {
                             return false;
                         }
-                        else if (0 < targetReadLength)
-                        {
-                            if (0 != memcmp(targetBuffer, updatedBuffer, targetReadLength))
-                            {
-                                return false;
-                            }
-                        }
+
                     } while (0 < targetReadLength);
                 }
             }
@@ -916,6 +912,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
 
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern int memcmp(byte[] buf1, byte[] buf2, long count);
+        static extern int memcmp(byte[] left, byte[] right, long count);
     }
 }
