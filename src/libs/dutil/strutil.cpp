@@ -1169,11 +1169,21 @@ extern "C" HRESULT DAPI StrAllocFromError(
 
     if (0 == cchMessage)
     {
-        ExitWithLastError1(hr, "Failed to format message for error: 0x%x", hrError);
+        if(ERROR_FAIL_NOACTION_REBOOT == HRESULT_CODE(hrError)) // Windows XP
+        {
+            hr = StrAllocString(ppwzMessage, L"No action was taken as a system reboot is required.", 0);
+            ExitOnFailure(hr, "Failed to allocate string for message.");
+        }
+        else
+        {
+            ExitWithLastError1(hr, "Failed to format message for error: 0x%x", hrError);
+        }
     }
-
-    hr = StrAllocString(ppwzMessage, reinterpret_cast<LPCWSTR>(pvMessage), cchMessage);
-    ExitOnFailure(hr, "Failed to allocate string for message.");
+    else
+    {
+        hr = StrAllocString(ppwzMessage, reinterpret_cast<LPCWSTR>(pvMessage), cchMessage);
+        ExitOnFailure(hr, "Failed to allocate string for message.");
+    }
 
 LExit:
     if (pvMessage)
