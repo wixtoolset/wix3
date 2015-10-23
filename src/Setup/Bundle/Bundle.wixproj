@@ -17,7 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Bundle.wxs" />
+    <Compile Include="Bundle.wxs" Condition="'$(WixStdBundle)' != 'true'" />
+    <Compile Include="WixStdBundle.wxs" Condition="'$(WixStdBundle)' == 'true'" />
+    <Compile Include="PackageGroups.wxs" />
     <Content Include="License.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -44,8 +46,11 @@
     <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2013.wixproj" Condition="$(VS2013Available)">
         <Properties>VisualStudioTargetVersion=2013</Properties>
     </ProjectReference>
+    <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2015.wixproj" Condition="$(VS2015Available)">
+        <Properties>VisualStudioTargetVersion=2015</Properties>
+    </ProjectReference>
     <ProjectReference Include="..\VotiveMsi\VotiveMsi.wixproj" />
-    <ProjectReference Include="..\WixBA\WixBA.csproj" />
+    <ProjectReference Include="..\WixBA\WixBA.csproj" Condition="'$(WixStdBundle)' != 'true'" />
   </ItemGroup>
 
   <ItemGroup>

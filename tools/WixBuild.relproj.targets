@@ -11,6 +11,7 @@
 
   <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="GenerateReleaseInfo" />
   <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="GenerateReleaseHistory" />
+  <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="TransformHistoryEntries" />
   <UsingTask AssemblyFile="$(ExtensionPackPath)MSBuild.ExtensionPack.dll" TaskName="Zip" />
 
   <PropertyGroup>
@@ -115,13 +116,37 @@
 
   <!--
   ================================================================================================
+  TransformHistoryEntries
+
+    Converts history files into entries in a project's History.md.
+
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <TransformHistoryEntriesDependsOn>
+    </TransformHistoryEntriesDependsOn>
+  </PropertyGroup>
+  <Target Name="TransformHistoryEntries"
+          DependsOnTargets="$(TransformHistoryEntriesDependsOn)">
+    <TransformHistoryEntries
+      ProjectFolder="$(ProjectFolder)"
+      HistoryFolderRelativePath="$(HistoryFolderRelativePath)"
+      HistoryFile="$(HistoryFile)"
+      SpecialHistoryFileName="$(SpecialHistoryFileName)" />
+  </Target>
+
+  <!--
+  ================================================================================================
   GenerateReleaseMetadata
 
-    Generates a .json class file from input files to be Releaseed.
+    Generates a .json class file from input files to be Released.
 
     [IN]
-    $(HistoryFile) - The history.txt file in the root.
-    @(ReleaseFiles) - The items to add to the metadata.
+    $(ProjectFolder) - The root project folder.
+    $(HistoryFolderRelativePath) - The relative path to the folder with the history files.
+    $(HistoryFile) - The history.md file in the root.
+    $(SpecialHistoryFileName) - The name of the history readme file.
+    @(ReleaseFile) - The items to add to the metadata.
 
     [OUT]
     @(ReleaseMetadata) - The generated .json and .md metadata file.
@@ -129,6 +154,7 @@
   -->
   <PropertyGroup>
     <GenerateReleaseMetadataDependsOn>
+      TransformHistoryEntries
     </GenerateReleaseMetadataDependsOn>
     <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).json</ReleaseInfoFile>
     <ReleaseHistoryFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseHistoryFile>

@@ -1790,6 +1790,14 @@
         <columnDefinition name="ChainPackage_Msp" type="string" length="0" category="identifier" primaryKey="yes"
                 keyTable="ChainPackage" keyColumn="1" description="Reference to a ChainPackage entry in the ChainPackage table for the referenced Msp." />
     </tableDefinition>
+    <tableDefinition name="WixCommandLine" unreal="yes">
+        <columnDefinition name="ChainPackage_" type="string" length="0" category="identifier" 
+                keyTable="ChainPackage" keyColumn="1" description="Reference to a ChainPackage entry in the ChainPackage table."/>
+        <columnDefinition name="InstallArgument" type="string" length="0" nullable="yes" />
+        <columnDefinition name="UninstallArgument" type="string" length="0" nullable="yes" />
+        <columnDefinition name="RepairArgument" type="string" length="0" nullable="yes" />
+        <columnDefinition name="Condition" type="string" length="0" nullable="yes" />
+    </tableDefinition>
     <tableDefinition name="RelatedBundle" unreal="yes">
         <columnDefinition name="Id" type="string" length="38" category="guid" primaryKey="yes" />
         <columnDefinition name="Action" type="number" length="4" />

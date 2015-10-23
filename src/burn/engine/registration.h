@@ -87,6 +87,7 @@ typedef struct _BURN_SOFTWARE_TAG
 {
     LPWSTR sczFilename;
     LPWSTR sczRegid;
+    LPWSTR sczPath;
     LPSTR sczTag;
 } BURN_SOFTWARE_TAG;
 
@@ -200,6 +201,7 @@ HRESULT RegistrationSessionResume(
     );
 HRESULT RegistrationSessionEnd(
     __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
     __in BURN_RESUME_MODE resumeMode,
     __in BOOTSTRAPPER_APPLY_RESTART restart,
     __in BURN_DEPENDENCY_REGISTRATION_ACTION dependencyRegistrationAction

@@ -349,6 +349,37 @@ LExit:
 
 
 /*******************************************************************
+DirDeleteEmptyDirectoriesToRoot - removes an empty directory and as many
+                                  of its parents as possible.
+
+ Returns: count of directories deleted.
+*******************************************************************/
+extern "C" DWORD DAPI DirDeleteEmptyDirectoriesToRoot(
+    __in_z LPCWSTR wzPath,
+    __in DWORD /*dwFlags*/
+    )
+{
+    DWORD cDeletedDirs = 0;
+    LPWSTR sczPath = NULL;
+
+    while (wzPath && *wzPath && ::RemoveDirectoryW(wzPath))
+    {
+        ++cDeletedDirs;
+
+        HRESULT hr = PathGetParentPath(wzPath, &sczPath);
+        ExitOnFailure(hr, "Failed to get parent directory for path: %ls", wzPath);
+
+        wzPath = sczPath;
+    }
+
+LExit:
+    ReleaseStr(sczPath);
+
+    return cDeletedDirs;
+}
+
+
+/*******************************************************************
  DirGetCurrent - gets the current directory.
 
 *******************************************************************/

@@ -181,6 +181,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         Help,
         Layout,
         Uninstall,
+        Cache,
         Install,
         Modify,
         Repair,

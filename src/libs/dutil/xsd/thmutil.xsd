@@ -14,7 +14,7 @@
               xmlns="http://wixtoolset.org/schemas/thmutil/2010">
     <xs:annotation>
         <xs:documentation>
-            Schema for describing Theme files processsed by thmutil.
+            Schema for describing Theme files processed by thmutil.
         </xs:documentation>
     </xs:annotation>
 
@@ -55,7 +55,7 @@
                     </xs:annotation>
                     <xs:attribute name="Id" type="xs:nonNegativeInteger">
                         <xs:annotation>
-                            <xs:documentation>Numeric identifier for the font. Due to limitations in thmutil the first Font must start with "0" and each subsequent Font must increment the Id by 1. Failure to ensure the Font identifiers follow this strict ordering will create unexpected behavior or including crashes.</xs:documentation>
+                            <xs:documentation>Numeric identifier for the font. Due to limitations in thmutil the first Font must start with "0" and each subsequent Font must increment the Id by 1. Failure to ensure the Font identifiers follow this strict ordering will create unexpected behavior or crashes.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="Height" type="xs:int">
@@ -121,8 +121,7 @@
             <xs:attribute name="Name" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Relative path to an image file that can serve as a single source for images in the rest of the
-                        theme. This image is referenced by controls using the SourceX and SourceY attributes.
+                        Optional name for the page.
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
@@ -142,6 +141,11 @@
                     <xs:annotation>
                         <xs:documentation>Caption for the window.</xs:documentation>
                     </xs:annotation>
+                    <xs:attribute name="AutoResize" type="YesNoType">
+                        <xs:annotation>
+                            <xs:documentation>Specifies whether the ThmUtil default window proc should process WM_SIZE and WM_SIZING events.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
                     <xs:attribute name="FontId" type="xs:nonNegativeInteger">
                         <xs:annotation>
                             <xs:documentation>Numeric identifier to the Font element that serves as the default font for the window.</xs:documentation>
@@ -154,7 +158,10 @@
                     </xs:attribute>
                     <xs:attribute name="HexStyle" type="xs:hexBinary">
                         <xs:annotation>
-                            <xs:documentation>Hexadecimal window style. If this is not specified the default value is: WS_OVERLAPPED | WS_VISIBLE | WS_MINIMIZEBOX | WS_SYSMENU.</xs:documentation>
+                            <xs:documentation>
+                                Hexadecimal window style. If this is not specified the default value is: WS_OVERLAPPED | WS_VISIBLE | WS_MINIMIZEBOX | WS_SYSMENU.
+                                If SourceX and SourceY are greater than 0, then WS_OVERLAPPED is replaced with WS_POPUP.
+                            </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="IconFile" type="xs:string">
@@ -165,6 +172,16 @@
                     <xs:attribute name="IconResource" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>Identifier that references icon resource in the module for the window. Mutually exclusive with IconFile and SourceX and SourceY attributes.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="MinimumHeight" type="xs:positiveInteger">
+                      <xs:annotation>
+                          <xs:documentation>Minimum height of the window. Only functions if AutoResize is enabled.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="MinimumWidth" type="xs:positiveInteger">
+                        <xs:annotation>
+                            <xs:documentation>Minimum width of the window. Only functions if AutoResize is enabled.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="SourceX" type="xs:nonNegativeInteger">
@@ -178,7 +195,9 @@
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="Width" type="xs:positiveInteger">
-                        <xs:annotation><xs:documentation>Width of the window.</xs:documentation></xs:annotation>
+                        <xs:annotation>
+                            <xs:documentation>Width of the window.</xs:documentation>
+                        </xs:annotation>
                     </xs:attribute>
                 </xs:extension>
             </xs:simpleContent>
@@ -187,7 +206,7 @@
 
     <xs:element name="Billboard">
         <xs:annotation>
-            <xs:documentation>Defines a control that rotates through a set of images on a specfied interval.</xs:documentation>
+            <xs:documentation>Defines a control that rotates through a set of images on a specified interval.</xs:documentation>
             <xs:appinfo>
                 <xse:parent namespace="http://wixtoolset.org/schemas/thmutil/2010" ref="Page" />
                 <xse:parent namespace="http://wixtoolset.org/schemas/thmutil/2010" ref="Theme" />
@@ -238,7 +257,7 @@
                     </xs:attribute>
                     <xs:attribute name="ImageResource" type="xs:string">
                         <xs:annotation>
-                            <xs:documentation>Identifier that references image resource in the module for the control. The image must be 3x the height to represent the button in 3 states: unselected, hover, selected. Mutually exclusive with ImageFile and SourceX and SourceY attributes.</xs:documentation>
+                            <xs:documentation>Identifier that references an image resource in the module for the control. The image must be 3x the height to represent the button in 3 states: unselected, hover, selected. Mutually exclusive with ImageFile and SourceX and SourceY attributes.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                 </xs:extension>
@@ -346,7 +365,7 @@
                     <xs:attributeGroup ref="CommonControlAttributes" />
                     <xs:attribute name="FontId" type="xs:nonNegativeInteger" use="required">
                         <xs:annotation>
-                            <xs:documentation>Numeric identifier to the Font element that serves as the unselected font.</xs:documentation>
+                            <xs:documentation>Numeric identifier to the Font element that serves as the font for the control.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                 </xs:extension>
@@ -371,7 +390,7 @@
             </xs:attribute>
             <xs:attribute name="ImageResource" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Identifier that references image resource in the module. Mutually exclusive with ImageFile and SourceX and SourceY attributes.</xs:documentation>
+                    <xs:documentation>Identifier that references an image resource in the module. Mutually exclusive with ImageFile and SourceX and SourceY attributes.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
         </xs:complexType>
@@ -390,6 +409,11 @@
                 <xs:element ref="Column" />
             </xs:choice>
             <xs:attributeGroup ref="CommonControlAttributes" />
+            <xs:attribute name="FontId" type="xs:nonNegativeInteger">
+                <xs:annotation>
+                    <xs:documentation>Numeric identifier to the Font element that serves as the default font for the ListView.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
             <xs:attribute name="HexExtendedStyle" type="xs:hexBinary">
                 <xs:annotation>
                     <xs:documentation>Hexadecimal extended window style.</xs:documentation>
@@ -420,7 +444,7 @@
 
     <xs:element name="Progressbar">
         <xs:annotation>
-            <xs:documentation>Defines a progressbar.</xs:documentation>
+            <xs:documentation>Defines a progress bar.</xs:documentation>
             <xs:appinfo>
                 <xse:parent namespace="http://wixtoolset.org/schemas/thmutil/2010" ref="Page" />
                 <xse:parent namespace="http://wixtoolset.org/schemas/thmutil/2010" ref="Theme" />
@@ -435,7 +459,7 @@
             </xs:attribute>
             <xs:attribute name="ImageResource" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Identifier that references image resource in the module for the control. The image must be 4 pixels wide: left pixel is the left side of progress bar, left middle pixel is progress used, right middle pixel is progress unused, right pixel is right side of progress bar. Mutually exclusive with ImageFile and SourceX and SourceY attributes.</xs:documentation>
+                    <xs:documentation>Identifier that references an image resource in the module for the control. The image must be 4 pixels wide: left pixel is the left side of progress bar, left middle pixel is progress used, right middle pixel is progress unused, right pixel is right side of progress bar. Mutually exclusive with ImageFile and SourceX and SourceY attributes.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
         </xs:complexType>
@@ -504,7 +528,7 @@
                     <xs:attributeGroup ref="CommonControlAttributes" />
                     <xs:attribute name="Center" type="YesNoType" use="optional">
                         <xs:annotation>
-                            <xs:documentation>Specifies the text should be centered horizontally in the width of the control. Default is "no".</xs:documentation>
+                            <xs:documentation>Specifies whether the text should be centered horizontally in the width of the control. Default is "no".</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="DisablePrefix" type="YesNoType" use="optional">
@@ -535,7 +559,7 @@
             </xs:attribute>
             <xs:attribute name="FullRowSelect">
                 <xs:annotation>
-                    <xs:documentation>Specifies whether an entire row is selected for the treeivew.</xs:documentation>
+                    <xs:documentation>Specifies whether an entire row is selected for the treeview.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute name="asButtons">
@@ -577,6 +601,14 @@
                     <xs:attribute name="Width" type="xs:int">
                         <xs:annotation>
                             <xs:documentation>Width of the column.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Expands" type="YesNoType">
+                        <xs:annotation>
+                            <xs:documentation>Whether or not this column can grow to fill available width of the listview.
+                                More than one column can be marked with yes - all expandable columns will share available extra space.
+                                This is especially useful if the Window/@AutoResize is yes.
+                            </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                 </xs:extension>

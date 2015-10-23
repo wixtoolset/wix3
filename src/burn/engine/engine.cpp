@@ -81,10 +81,9 @@ extern "C" HRESULT EngineRun(
 
     BURN_ENGINE_STATE engineState = { };
 
-    hr = InitializeEngineState(&engineState);
-    ExitOnFailure(hr, "Failed to initialize engine state.");
-
-    engineState.command.nCmdShow = nCmdShow;
+    // Always initialize logging first
+    LogInitialize(::GetModuleHandleW(NULL));
+    fLogInitialized = TRUE;
 
     // Ensure that log contains approriate level of information
 #ifdef _DEBUG
@@ -92,6 +91,11 @@ extern "C" HRESULT EngineRun(
 #else
     LogSetLevel(REPORT_VERBOSE, FALSE); // FALSE means don't write an additional text line to the log saying the level changed
 #endif
+
+    hr = InitializeEngineState(&engineState);
+    ExitOnFailure(hr, "Failed to initialize engine state.");
+
+    engineState.command.nCmdShow = nCmdShow;
 
     // initialize platform layer
     PlatformInitialize();
@@ -102,9 +106,6 @@ extern "C" HRESULT EngineRun(
     fComInitialized = TRUE;
 
     // Initialize dutil.
-    LogInitialize(::GetModuleHandleW(NULL));
-    fLogInitialized = TRUE;
-
     hr = CrypInitialize();
     ExitOnFailure(hr, "Failed to initialize Cryputil.");
     fCrypInitialized = TRUE;
@@ -128,7 +129,7 @@ extern "C" HRESULT EngineRun(
     }
 
     PathForCurrentProcess(&sczExePath, NULL); // Ignore failure.
-    LogId(REPORT_STANDARD, MSG_BURN_INFO, szVerMajorMinorBuild, ovix.dwMajorVersion, ovix.dwMinorVersion, ovix.dwBuildNumber, ovix.wServicePackMajor, sczExePath, wzCommandLine ? wzCommandLine : L"");
+    LogId(REPORT_STANDARD, MSG_BURN_INFO, szVerMajorMinorBuild, ovix.dwMajorVersion, ovix.dwMinorVersion, ovix.dwBuildNumber, ovix.wServicePackMajor, sczExePath);
     ReleaseNullStr(sczExePath);
 
     // initialize core
@@ -549,7 +550,7 @@ static HRESULT RunRunOnce(
     ExitOnFailure(hr, "Failed to get current process path.");
 
     hr = ProcExec(sczBurnPath, 0 < sczNewCommandLine ? sczNewCommandLine : L"", nCmdShow, &hProcess);
-    ExitOnFailure1(hr, "Failed to re-launch bundle process after RunOnce: %ls", sczBurnPath);
+    ExitOnFailure(hr, "Failed to re-launch bundle process after RunOnce: %ls", sczBurnPath);
 
 LExit:
     ReleaseHandle(hProcess);

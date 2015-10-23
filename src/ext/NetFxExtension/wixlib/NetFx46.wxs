@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="NetFx46.wxs" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following location:
+
+           .NET Framework 4.5/4.5.1/4.5.2/4.6 - http://msdn.microsoft.com/en-us/library/w0x726c2(v=vs.110).aspx
+    -->
+
+  <?define NetFx46MinRelease = 393295 ?>
+  <?define NetFx46WebLink = http://go.microsoft.com/fwlink/?LinkId=560371 ?>
+  <?define NetFx46RedistLink = http://go.microsoft.com/fwlink/?LinkId=560369 ?>
+  <?define NetFx46EulaLink = http://go.microsoft.com/fwlink/?LinkID=558772 ?>
+
+  <Fragment>
+    <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
+    <Property Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx46MinRelease)"
+    </SetProperty>
+  </Fragment>
+
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx46Web" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx46EulaLink)" />
+    <WixVariable Id="NetFx46WebDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx46MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx46WebInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx46WebPackageDirectory" Value="redist\" Overridable="yes" />
+
+    <PackageGroup Id="NetFx46Web">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          PerMachine="yes"
+          DetectCondition="!(wix.NetFx46WebDetectCondition)"
+          InstallCondition="!(wix.NetFx46WebInstallCondition)"
+          Id="NetFx46Web"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx46WebLink)"
+          LogPathVariable="NetFx46FullLog"
+          Compressed="no"
+          Name="!(wix.NetFx46WebPackageDirectory)NDP46-KB3045557-x86-x64-AllOS-ENU.exe">
+        <RemotePayload 
+          CertificatePublicKey="52868DFCA6E3AF2632389E6C1EE7D0468D3797D0" 
+          CertificateThumbprint="3BDA323E552DB1FDE5F4FBEE75D6D5B2B187EEDC" 
+          Description="Microsoft .NET Framework 4.6 Setup" 
+          Hash="480CA134B9E3F2437DF10719D5A8C77DDEC0A4F1" 
+          ProductName="Microsoft .NET Framework 4.6" 
+          Size="1497400" 
+          Version="4.6.81.0" />
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+
+  <Fragment>
+    <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx46Redist" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx46EulaLink)" />
+    <WixVariable Id="NetFx46RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx46MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx46RedistInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx46RedistPackageDirectory" Value="redist\" Overridable="yes" />
+
+    <PackageGroup Id="NetFx46Redist">
+      <ExePackage
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx46FullLog].html&quot;"
+          PerMachine="yes"
+          DetectCondition="!(wix.NetFx46RedistDetectCondition)"
+          InstallCondition="!(wix.NetFx46RedistInstallCondition)"
+          Id="NetFx46Redist"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          DownloadUrl="$(var.NetFx46RedistLink)"
+          LogPathVariable="NetFx46FullLog"
+          Compressed="no"
+          Name="!(wix.NetFx46RedistPackageDirectory)NDP46-KB3045557-x86-x64-AllOS-ENU.exe">
+        <RemotePayload
+          CertificatePublicKey="52868DFCA6E3AF2632389E6C1EE7D0468D3797D0" 
+          CertificateThumbprint="3BDA323E552DB1FDE5F4FBEE75D6D5B2B187EEDC" 
+          Description="Microsoft .NET Framework 4.6 Setup" 
+          Hash="3049A85843EAF65E89E2336D5FE6E85E416797BE" 
+          ProductName="Microsoft .NET Framework 4.6" 
+          Size="65444688" 
+          Version="4.6.81.0" />
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+</Wix>

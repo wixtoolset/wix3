@@ -141,13 +141,20 @@ extern "C" HRESULT CacheInitialize(
         hr = VariableGetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, &sczOriginalSource);
         if (E_NOTFOUND == hr)
         {
-            hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczCurrentPath, FALSE);
+            hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE, sczCurrentPath);
             ExitOnFailure(hr, "Failed to set original source variable.");
 
-            hr = PathGetDirectory(sczCurrentPath, &sczOriginalSourceFolder);
+            hr = StrAllocString(&sczOriginalSource, sczCurrentPath, 0);
+            ExitOnFailure(hr, "Failed to copy current path to original source.");
+        }
+
+        hr = VariableGetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, &sczOriginalSourceFolder);
+        if (E_NOTFOUND == hr)
+        {
+            hr = PathGetDirectory(sczOriginalSource, &sczOriginalSourceFolder);
             ExitOnFailure(hr, "Failed to get directory from original source path.");
 
-            hr = VariableSetString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, sczOriginalSourceFolder, FALSE);
+            hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_ORIGINAL_SOURCE_FOLDER, sczOriginalSourceFolder);
             ExitOnFailure(hr, "Failed to set original source directory variable.");
         }
     }
@@ -386,7 +393,9 @@ extern "C" HRESULT CacheFindLocalSource(
     LPWSTR sczCurrentPath = NULL;
     LPWSTR sczLastSourcePath = NULL;
     LPWSTR sczLastSourceFolder = NULL;
-    LPCWSTR rgwzSearchPaths[2] = { };
+    LPWSTR sczLayoutPath = NULL;
+    LPWSTR sczLayoutFolder = NULL;
+    LPCWSTR rgwzSearchPaths[3] = { };
     DWORD cSearchPaths = 0;
 
     // If the source path provided is a full path, obviously that is where we should be looking.
@@ -430,6 +439,19 @@ extern "C" HRESULT CacheFindLocalSource(
                 ++cSearchPaths;
             }
         }
+
+        // Also consider the layout directory if set on the command line or by the BA.
+        hr = VariableGetString(pVariables, BURN_BUNDLE_LAYOUT_DIRECTORY, &sczLayoutFolder);
+        if (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get bundle layout directory property.");
+
+            hr = PathConcat(sczLayoutFolder, wzSourcePath, &sczLayoutPath);
+            ExitOnFailure(hr, "Failed to combine layout source with source.");
+
+            rgwzSearchPaths[cSearchPaths] = sczLayoutPath;
+            ++cSearchPaths;
+        }
     }
 
     *pfFound = FALSE; // assume we won't find the file locally.
@@ -461,6 +483,8 @@ LExit:
     ReleaseStr(sczCurrentProcess);
     ReleaseStr(sczLastSourceFolder);
     ReleaseStr(sczLastSourcePath);
+    ReleaseStr(sczLayoutFolder);
+    ReleaseStr(sczLayoutPath);
 
     return hr;
 }
@@ -512,7 +536,7 @@ extern "C" HRESULT CacheSetLastUsedSource(
 
         if (CSTR_EQUAL != nCompare)
         {
-            hr = VariableSetString(pVariables, BURN_BUNDLE_LAST_USED_SOURCE, sczSourceFolder, FALSE);
+            hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_LAST_USED_SOURCE, sczSourceFolder);
             ExitOnFailure(hr, "Failed to set last source.");
         }
     }
@@ -1718,6 +1742,8 @@ static HRESULT VerifyHash(
     HRESULT hr = S_OK;
     BYTE rgbActualHash[SHA1_HASH_LEN] = { };
     DWORD64 qwHashedBytes;
+    LPWSTR pszExpected = NULL;
+    LPWSTR pszActual = NULL;
 
     // TODO: create a cryp hash file that sends progress.
     hr = CrypHashFileHandle(hFile, PROV_RSA_FULL, CALG_SHA1, rgbActualHash, sizeof(rgbActualHash), &qwHashedBytes);
@@ -1727,10 +1753,23 @@ static HRESULT VerifyHash(
     if (cbHash != sizeof(rgbActualHash) || 0 != memcmp(pbHash, rgbActualHash, SHA1_HASH_LEN))
     {
         hr = CRYPT_E_HASH_VALUE;
-        ExitOnFailure1(hr, "Hash mismatch for path: %ls", wzUnverifiedPayloadPath);
+
+        // Best effort to log the expected and actual hash value strings.
+        if (SUCCEEDED(StrAllocHexEncode(pbHash, cbHash, &pszExpected)) &&
+            SUCCEEDED(StrAllocHexEncode(rgbActualHash, SHA1_HASH_LEN, &pszActual)))
+        {
+            ExitOnFailure3(hr, "Hash mismatch for path: %ls, expected: %ls, actual: %ls", wzUnverifiedPayloadPath, pszExpected, pszActual);
+        }
+        else
+        {
+            ExitOnFailure1(hr, "Hash mismatch for path: %ls", wzUnverifiedPayloadPath);
+        }
     }
 
 LExit:
+    ReleaseStr(pszActual);
+    ReleaseStr(pszExpected);
+
     return hr;
 }
 

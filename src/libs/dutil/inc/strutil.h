@@ -169,6 +169,11 @@ HRESULT DAPI StrHexEncode(
     __out_ecount(cchDest) LPWSTR wzDest,
     __in DWORD_PTR cchDest
     );
+HRESULT DAPI StrAllocHexEncode(
+    __in_ecount(cbSource) const BYTE* pbSource,
+    __in DWORD_PTR cbSource,
+    __deref_out_ecount_z(2*(cbSource+1)) LPWSTR* ppwzDest
+    );
 HRESULT DAPI StrHexDecode(
     __in_z LPCWSTR wzSource,
     __out_bcount(cbDest) BYTE* pbDest,
@@ -228,7 +233,7 @@ HRESULT DAPI MultiSzReplaceString(
     __in_z LPCWSTR pwzString
     );
 
-LPCWSTR wcsistr(
+LPCWSTR DAPI wcsistr(
     __in_z LPCWSTR wzString,
     __in_z LPCWSTR wzCharSet
     );

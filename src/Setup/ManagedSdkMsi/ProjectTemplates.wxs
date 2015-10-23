@@ -14,6 +14,7 @@
           <ComponentGroupRef Id="ProjectTemplates2010Components" />
           <ComponentGroupRef Id="ProjectTemplates2012Components" />
           <ComponentGroupRef Id="ProjectTemplates2013Components" />
+          <ComponentGroupRef Id="ProjectTemplates2015Components" />
           <?endif?>
         </ComponentGroup>
     </Fragment>
@@ -71,6 +72,25 @@
             <Component Transitive="yes">
                 <Condition>VS2013_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
                 <File Id="CustomActionVB_2013.zip" Name="CustomActionVB.zip" Source="templates\CustomActionVB.zip" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <!--
+            VS2015
+        -->
+        <PropertyRef Id="VS2015_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" />
+        <PropertyRef Id="VS2015_IDE_VB_PROJECTSYSTEM_INSTALLED" />
+
+        <ComponentGroup Id="ProjectTemplates2015Components" Directory="VsProjectTemplatesWix2015Folder">
+            <Component Transitive="yes">
+                <Condition>VS2015_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionCS_2015.zip" Name="CustomActionCS.zip" Source="templates\CustomActionCS.zip" />
+            </Component>
+            <Component Transitive="yes">
+                <Condition>VS2015_IDE_VB_PROJECTSYSTEM_INSTALLED</Condition>
+                <File Id="CustomActionVB_2015.zip" Name="CustomActionVB.zip" Source="templates\CustomActionVB.zip" />
             </Component>
         </ComponentGroup>
     </Fragment>

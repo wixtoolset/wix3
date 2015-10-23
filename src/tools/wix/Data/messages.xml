@@ -793,7 +793,7 @@
         </Message>
         <Message Id="IllegalAttributeWhenNested" Number="62">
             <Instance>
-                The {0}/@{1} attribute cannot be specified when the {0} element is nested underneath a {2} element.
+                The {0}/@{1} attribute cannot be specified when the {0} element is nested underneath a {2} element. If this {0} is a member of a ComponentGroup where ComponentGroup/@{1} is set, then the {0}/@{1} attribute should be removed.
                 <Parameter Type="System.String" Name="elementName" />
                 <Parameter Type="System.String" Name="attributeName" />
                 <Parameter Type="System.String" Name="parentElement" />
@@ -2957,6 +2957,16 @@
           <Parameter Type="System.Int32" Name="supportedColumnCount" />
         </Instance>
       </Message>
+      <Message Id="IncompatiblePackageElevationAttributes" Number="387">
+          <Instance>
+              The {0}/@{1} attribute's value, '{2}', is not compatible with attribute @{3}'s value, '{4}'. It is recommended that only the InstallScope attribute be used.
+              <Parameter Type="System.String" Name="elementName" />
+              <Parameter Type="System.String" Name="attribute1Name" />
+              <Parameter Type="System.String" Name="attribute1Value" />
+              <Parameter Type="System.String" Name="attribute2Name" />
+              <Parameter Type="System.String" Name="attribute2Value" />
+          </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">
@@ -3777,6 +3787,19 @@
                 <Parameter Type="System.String" Name="recessiveAttribute" />
                 <Parameter Type="System.String" Name="dominantAttribute" />
                 <Parameter Type="System.String" Name="dominantValue" />
+            </Instance>
+        </Message>
+        <Message Id="NoDifferencesInTransform" Number="1147">
+            <Instance>
+                The transform did not contain any valid product changes and will not be included in the patch.
+            </Instance>
+        </Message>
+        <Message Id="VersionTruncated" Number="1148">
+            <Instance>
+                Product version {0} in package '{1}' is not valid per the MSI SDK and cannot be represented in a bundle. It has been truncated to {2}.
+                <Parameter Type="System.String" Name="originalVersion" />
+                <Parameter Type="System.String" Name="package" />
+                <Parameter Type="System.String" Name="truncatedVersion" />
             </Instance>
         </Message>
     </Class>

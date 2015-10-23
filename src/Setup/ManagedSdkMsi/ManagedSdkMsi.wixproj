@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\dtf\dtf.proj" />
     <ProjectReference Include="..\CommonLib\CommonLib.wixproj" />
   </ItemGroup>
 

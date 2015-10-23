@@ -1404,6 +1404,30 @@ LExit:
 
 
 /****************************************************************************
+StrAllocHexEncode - converts an array of bytes to an allocated text string
+
+****************************************************************************/
+HRESULT DAPI StrAllocHexEncode(
+    __in_ecount(cbSource) const BYTE* pbSource,
+    __in DWORD_PTR cbSource,
+    __deref_out_ecount_z(2*(cbSource+1)) LPWSTR* ppwzDest
+    )
+{
+    HRESULT hr = S_OK;
+    DWORD_PTR cchSource = sizeof(WCHAR) * (cbSource + 1);
+
+    hr = StrAlloc(ppwzDest, cchSource);
+    ExitOnFailure(hr, "Failed to allocate hex string.");
+
+    hr = StrHexEncode(pbSource, cbSource, *ppwzDest, cchSource);
+    ExitOnFailure(hr, "Failed to encode hex string.");
+
+LExit:
+    return hr;
+}
+
+
+/****************************************************************************
 StrHexDecode - converts a string of text to array of bytes
 
 NOTE: wzSource must contain even number of characters
@@ -2211,7 +2235,7 @@ LExit:
 wcsistr - case insensitive find a substring
 
 ****************************************************************************/
-extern "C" LPCWSTR wcsistr(
+extern "C" LPCWSTR DAPI wcsistr(
     __in_z LPCWSTR wzString,
     __in_z LPCWSTR wzCharSet
     )

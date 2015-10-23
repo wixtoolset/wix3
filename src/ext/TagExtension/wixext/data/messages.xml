@@ -18,5 +18,19 @@
                 <Parameter Type="System.String" Name="name" />
             </Instance>
         </Message>
+        <Message Id="ExampleRegid" Number="6602">
+            <Instance>
+                Regid '{0}' is a placeholder that must be replaced with an appropriate value for your installation. Use the simplified URI for your organization or project.
+                <Parameter Type="System.String" Name="regid" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="TagWarnings" ContainerName="TagWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+        <Message Id="DeprecatedRegidFormat" Number="6701">
+            <Instance>
+                Regid '{0}' uses the deprecated format "regid.YYYY-MM.com.example" so the tag will be ignored. Regid should now be a simplified URI such as "example.com".
+                <Parameter Type="System.String" Name="regid" />
+            </Instance>
+        </Message>
     </Class>
 </Messages>

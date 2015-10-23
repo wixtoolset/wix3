@@ -48,6 +48,9 @@
     <WixExtension Include="WixTagExtension">
       <HintPath>$(OutputPath_x86)WixTagExtension.dll</HintPath>
     </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(OutputPath_x86)WixUtilExtension.dll</HintPath>
+    </WixExtension>
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />

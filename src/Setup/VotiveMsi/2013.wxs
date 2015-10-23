@@ -114,6 +114,9 @@
                 <File Id="ExtensionXsdGaming$(var.VsVersion)" Source="ext\GamingExtension\wixext\Xsd\gaming.xsd" />
             </Component>
             <Component>
+                <File Id="ExtensionXsdHttp$(var.VsVersion)" Source="ext\HttpExtension\wixext\Xsd\http.xsd" />
+            </Component>
+            <Component>
                 <File Id="ExtensionXsdIis$(var.VsVersion)" Source="ext\IIsExtension\wixext\xsd\iis.xsd" />
             </Component>
             <Component>

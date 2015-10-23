@@ -37,7 +37,7 @@
                 <util:RestartResource Path="[VS2010DEVENV]" />
                 <util:RestartResource Path="[VS2012DEVENV]" />
                 <util:RestartResource Path="[VS2013DEVENV]" />
-                <util:RestartResource Path="[VS14DEVENV]" />
+                <util:RestartResource Path="[VS2015DEVENV]" />
             </Component>
         </ComponentGroup>
     </Fragment>
@@ -121,6 +121,9 @@
             </Component>
             <Component>
                 <File Id="ExtensionXsdGaming$(var.VsVersion)" Source="ext\GamingExtension\wixext\Xsd\gaming.xsd" />
+            </Component>
+            <Component>
+                <File Id="ExtensionXsdHttp$(var.VsVersion)" Source="ext\HttpExtension\wixext\Xsd\http.xsd" />
             </Component>
             <Component>
                 <File Id="ExtensionXsdIis$(var.VsVersion)" Source="ext\IIsExtension\wixext\xsd\iis.xsd" />

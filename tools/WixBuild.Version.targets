@@ -12,6 +12,7 @@
         <MajorBuildNumber>3</MajorBuildNumber>
         <MinorBuildNumber>10</MinorBuildNumber>
         <StartBuildYear>2014</StartBuildYear>
+        <BuildRevision>1</BuildRevision>
 
         <MajorMinorVersionString>$(MajorBuildNumber)$(MinorBuildNumber)</MajorMinorVersionString>
         <MajorMinorVersionDottedString>$(MajorBuildNumber).$(MinorBuildNumber)</MajorMinorVersionDottedString>
@@ -29,10 +30,10 @@
         <BuildYearInMonths>$([MSBuild]::Multiply($([MSBuild]::Subtract($(BuildYear),$(StartBuildYear))), 12))</BuildYearInMonths>
         <UpperBuildNumber>$([MSBuild]::Add($(BuildYearInMonths), $(BuildMonth)))</UpperBuildNumber>
         <BuildNumber>$(UpperBuildNumber)$(BuildDay)</BuildNumber>
-        <BuildRevision>0</BuildRevision>
 
-        <FullBuildVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildNumber).$(BuildRevision)</FullBuildVersionString>
-        <FullBuildVersionStringDashed>$(MajorBuildNumber)-$(MinorBuildNumber)-$(BuildNumber)-$(BuildRevision)</FullBuildVersionStringDashed>
+        <FullBuildVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildRevision).$(BuildNumber)</FullBuildVersionString>
+        <FullBuildVersionStringDashed>$(MajorBuildNumber)-$(MinorBuildNumber)-$(BuildRevision)-$(BuildNumber)</FullBuildVersionStringDashed>
+        <MsiProductVersionString>$(MajorBuildNumber).$(MinorBuildNumber).$(BuildNumber)</MsiProductVersionString>
     </PropertyGroup>
 
   <!--
@@ -144,7 +145,7 @@ using System.Reflection%3B
   &lt;?ifdef WixMajorMinor?&gt;
     &lt;?error WixMajorMinor variable is already defined?&gt;
   &lt;?endif?&gt;
-  &lt;?define WixMajorMinor = '$(MajorBuildNumber).$(MinorBuildNumber)' ?&gt;
+  &lt;?define WixMajorMinor = '$(MajorMinorVersionDottedString)' ?&gt;
   &lt;?ifdef WixBuildNum?&gt;
     &lt;?error WixBuildNum variable is already defined?&gt;
   &lt;?endif?&gt;
@@ -152,7 +153,11 @@ using System.Reflection%3B
   &lt;?ifdef WixVersion?&gt;
     &lt;?error WixVersion variable is already defined?&gt;
   &lt;?endif?&gt;
-  &lt;?define WixVersion = '%24(var.WixMajorMinor).%24(var.WixBuildNum).0' ?&gt;
+  &lt;?define WixVersion = '$(FullBuildVersionString)' ?&gt;
+  &lt;?ifdef WixMsiProductVersion?&gt;
+    &lt;?error WixMsiProductVersion variable is already defined?&gt;
+  &lt;?endif?&gt;
+  &lt;?define WixMsiProductVersion = '$(MsiProductVersionString)' ?&gt;
 &lt;/Include&gt;
 "/>
     </ItemGroup>

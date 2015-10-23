@@ -129,7 +129,7 @@ namespace Bootstrapper
                 Assert::Equal(String::Concat(L"\"", Path::Combine(cacheDirectory, gcnew String(L"setup.exe")), L"\" /burn.log.append \"BurnUnitTest.txt\" /burn.runonce"), (String^)(Registry::GetValue(gcnew String(TEST_RUN_KEY), gcnew String(L"{D54F896D-1952-43e6-9C67-B5652240618C}"), nullptr)));
 
                 // end session
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
                 TestThrowOnFailure(hr, L"Failed to unregister bundle.");
 
                 // verify that registration was removed
@@ -218,7 +218,7 @@ namespace Bootstrapper
                 Assert::Equal(String::Concat(L"\"", Path::Combine(cacheDirectory, gcnew String(L"setup.exe")), L"\" /burn.log.append \"BurnUnitTest.txt\" /burn.runonce"), (String^)Registry::GetValue(gcnew String(TEST_RUN_KEY), gcnew String(L"{D54F896D-1952-43e6-9C67-B5652240618C}"), nullptr));
 
                 // complete registration
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_ARP, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_REGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_ARP, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_REGISTER);
                 TestThrowOnFailure(hr, L"Failed to unregister bundle.");
 
                 // verify that registration was updated
@@ -240,7 +240,7 @@ namespace Bootstrapper
                 Assert::Equal(String::Concat(L"\"", Path::Combine(cacheDirectory, gcnew String(L"setup.exe")), L"\" /burn.log.append \"BurnUnitTest.txt\" /burn.runonce"), (String^)Registry::GetValue(gcnew String(TEST_RUN_KEY), gcnew String(L"{D54F896D-1952-43e6-9C67-B5652240618C}"), nullptr));
 
                 // delete registration
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
                 TestThrowOnFailure(hr, L"Failed to unregister bundle.");
 
                 // verify that registration was removed
@@ -330,7 +330,7 @@ namespace Bootstrapper
                 Assert::Equal(String::Concat(L"\"", Path::Combine(cacheDirectory, gcnew String(L"setup.exe")), L"\" /burn.log.append \"BurnUnitTest.txt\" /burn.runonce"), (String^)Registry::GetValue(gcnew String(TEST_RUN_KEY), gcnew String(L"{D54F896D-1952-43e6-9C67-B5652240618C}"), nullptr));
 
                 // finish registration
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_ARP, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_REGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_ARP, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_REGISTER);
                 TestThrowOnFailure(hr, L"Failed to register bundle.");
 
                 // verify that registration was updated
@@ -363,7 +363,7 @@ namespace Bootstrapper
                 Assert::Equal(String::Concat(L"\"", Path::Combine(cacheDirectory, gcnew String(L"setup.exe")), L"\" /burn.log.append \"BurnUnitTest.txt\" /burn.runonce"), (String^)Registry::GetValue(gcnew String(TEST_RUN_KEY), gcnew String(L"{D54F896D-1952-43e6-9C67-B5652240618C}"), nullptr));
 
                 // delete registration
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
                 TestThrowOnFailure(hr, L"Failed to unregister bundle.");
 
                 // verify that registration was removed
@@ -467,7 +467,7 @@ namespace Bootstrapper
                 Assert::Equal((int)BOOTSTRAPPER_RESUME_TYPE_INTERRUPTED, (int)resumeType);
 
                 // suspend session
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_SUSPEND, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_REGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_SUSPEND, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_REGISTER);
                 TestThrowOnFailure(hr, L"Failed to suspend session.");
 
                 // verify that run key was removed
@@ -494,7 +494,7 @@ namespace Bootstrapper
                 Assert::NotEqual((Object^)nullptr, Registry::GetValue(gcnew String(TEST_RUN_KEY), gcnew String(L"{D54F896D-1952-43e6-9C67-B5652240618C}"), nullptr));
 
                 // end session
-                hr = RegistrationSessionEnd(&registration, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
+                hr = RegistrationSessionEnd(&registration, &variables, BURN_RESUME_MODE_NONE, BOOTSTRAPPER_APPLY_RESTART_NONE, BURN_DEPENDENCY_REGISTRATION_ACTION_UNREGISTER);
                 TestThrowOnFailure(hr, L"Failed to unregister bundle.");
 
                 // read resume type after session

@@ -94,6 +94,16 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
+            <xs:attribute name="LaunchWorkingFolder" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        WixStdBA will use this working folder when launching the specified application.
+                        The string value can be formatted using Burn variables enclosed in brackets,
+                        to refer to installation directories and so forth.
+                        This attribute is ignored when the LaunchTargetElevatedId attribute is specified.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
             <xs:attribute name="LicenseFile" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>Source file of the RTF license file. Cannot be used simultaneously with LicenseUrl.</xs:documentation>
@@ -144,6 +154,16 @@
                 <xs:annotation>
                     <xs:documentation>If set to "yes", the application version will be displayed on the UI.</xs:documentation>
                 </xs:annotation>
+            </xs:attribute>
+          <xs:attribute name="SupportCacheOnly" type="YesNoType">
+              <xs:annotation>
+                    <xs:documentation>If set to "yes", the bundle can be pre-cached using the /cache command line argument.</xs:documentation>
+              </xs:annotation>
+          </xs:attribute>
+            <xs:attribute name="ShowFilesInUse" type="YesNoType">
+              <xs:annotation>
+                <xs:documentation>If set to "yes", WixStdBA will show a page allowing the user to restart applications when files are in use.</xs:documentation>
+              </xs:annotation>
             </xs:attribute>
         </xs:complexType>
     </xs:element>

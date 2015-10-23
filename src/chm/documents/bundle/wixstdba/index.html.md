@@ -29,7 +29,8 @@ To use the WiX Standard Bootstrapper Application, a [&lt;BootstrapperApplication
 HyperlinkLargeTheme, HyperlinkSidebarTheme, and RtfLargeTheme can optionally display the bundle version on the welcome page:
 
 <pre>    &lt;?xml version=&quot;1.0&quot;?&gt;
-    &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot;&gt;
+    &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot; 
+		xmlns:bal=&quot;http://schemas.microsoft.com/wix/BalExtension&quot;&gt;
       &lt;Bundle&gt;
         &lt;BootstrapperApplicationRef Id=&quot;WixStandardBootstrapperApplication.RtfLicense&quot;&gt;
           &lt;bal:WixStandardBootstrapperApplication
@@ -52,3 +53,4 @@ The following topics provide information about how to customize the WiX Standard
 *  [Specifying the WiX Standard Bootstrapper Application License](wixstdba_license.html)
 *  [Changing the WiX Standard Bootstrapper Application Branding](wixstdba_branding.html)
 *  [Customize the WiX Standard Bootstrapper Application Layout](wixstdba_customize.html)
+*  [Using WiX Standard Bootstrapper Application Variables](wixstdba_variables.html)

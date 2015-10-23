@@ -47,11 +47,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         {
             foreach (Row row in table.Rows)
             {
-                Tag.Tag tag= new Tag.Tag();
+                Tag.Tag tag = new Tag.Tag();
 
                 tag.Regid = (string)row[1];
-                tag.Name = (string)row[2];
-                tag.Licensed = null == row[3] ? Tag.YesNoType.NotSet : 1 == (int)row[3] ? Tag.YesNoType.yes : Tag.YesNoType.no;
 
                 this.Core.RootElement.AddChild(tag);
             }

@@ -810,7 +810,7 @@ extern "C" UINT __stdcall ExecNetFx(
         hr = WcaReadIntegerFromCaData(&pwz, &iCost);
         ExitOnFailure(hr, "failed to read cost from custom action data");
 
-        hr = QuietExec(pwzData, NGEN_TIMEOUT);
+        hr = QuietExecEx(pwzData, NGEN_TIMEOUT, TRUE, TRUE);
         // If we fail here it isn't critical - keep looping through to try to act on the other assemblies on our list
         if (FAILED(hr))
         {

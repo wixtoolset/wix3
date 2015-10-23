@@ -201,7 +201,7 @@ extern "C" HRESULT LoggingSetPackageVariable(
     if ((!fRollback && pPackage->sczLogPathVariable && *pPackage->sczLogPathVariable) ||
         (fRollback && pPackage->sczRollbackLogPathVariable && *pPackage->sczRollbackLogPathVariable))
     {
-        hr = StrAllocFormatted(&sczLogPath, L"%ls%hs%ls_%u_%ls%ls.%ls", pLog->sczPrefix, wzSuffix && *wzSuffix ? "_" : "", wzSuffix && *wzSuffix ? wzSuffix : L"", vdwPackageSequence, pPackage->sczId, fRollback ? L"_rollback" : L"", pLog->sczExtension);
+        hr = StrAllocFormatted(&sczLogPath, L"%ls%hs%ls_%03u_%ls%ls.%ls", pLog->sczPrefix, wzSuffix && *wzSuffix ? "_" : "", wzSuffix && *wzSuffix ? wzSuffix : L"", vdwPackageSequence, pPackage->sczId, fRollback ? L"_rollback" : L"", pLog->sczExtension);
         ExitOnFailure(hr, "Failed to allocate path for package log.");
 
         hr = VariableSetString(pVariables, fRollback ? pPackage->sczRollbackLogPathVariable : pPackage->sczLogPathVariable, sczLogPath, FALSE);
@@ -232,6 +232,8 @@ extern "C" LPCSTR LoggingBurnActionToString(
         return "Help";
     case BOOTSTRAPPER_ACTION_LAYOUT:
         return "Layout";
+    case BOOTSTRAPPER_ACTION_CACHE:
+        return "Cache";
     case BOOTSTRAPPER_ACTION_UNINSTALL:
         return "Uninstall";
     case BOOTSTRAPPER_ACTION_INSTALL:
@@ -452,6 +454,27 @@ extern "C" LPCSTR LoggingRestartToString(
         return "Required";
     case BOOTSTRAPPER_APPLY_RESTART_INITIATED:
         return "Initiated";
+    default:
+        return "Invalid";
+    }
+}
+
+extern "C" LPCSTR LoggingResumeModeToString(
+    __in BURN_RESUME_MODE resumeMode
+    )
+{
+    switch (resumeMode)
+    {
+    case BURN_RESUME_MODE_NONE:
+        return "None";
+    case BURN_RESUME_MODE_ACTIVE:
+        return "Active";
+    case BURN_RESUME_MODE_SUSPEND:
+        return "Suspend";
+    case BURN_RESUME_MODE_ARP:
+        return "ARP";
+    case BURN_RESUME_MODE_REBOOT_PENDING:
+        return "Reboot Pending";
     default:
         return "Invalid";
     }

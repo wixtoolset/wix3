@@ -35,14 +35,26 @@
   <String Id="ModifyRepairButton">&amp;Repair</String>
   <String Id="ModifyUninstallButton">&amp;Uninstall</String>
   <String Id="ModifyCloseButton">&amp;Close</String>
-  <String Id="SuccessHeader">Setup Successful</String>
+  <String Id="SuccessRepairHeader">Repair Successfully Completed</String>
+  <String Id="SuccessUninstallHeader">Uninstall Successfully Completed</String>
+  <String Id="SuccessInstallHeader">Installation Successfully Completed</String> 
+  <String Id="SuccessHeader">Setup Successful</String>	
   <String Id="SuccessLaunchButton">&amp;Launch</String>
   <String Id="SuccessRestartText">You must restart your computer before you can use the software.</String>
   <String Id="SuccessRestartButton">&amp;Restart</String>
   <String Id="SuccessCloseButton">&amp;Close</String>
   <String Id="FailureHeader">Setup Failed</String>
+  <String Id="FailureInstallHeader">Setup Failed</String>
+  <String Id="FailureUninstallHeader">Uninstall Failed</String>
+  <String Id="FailureRepairHeader">Repair Failed</String> 
   <String Id="FailureHyperlinkLogText">One or more issues caused the setup to fail. Please fix the issues and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
   <String Id="FailureRestartText">You must restart your computer to complete the rollback of the software.</String>
   <String Id="FailureRestartButton">&amp;Restart</String>
   <String Id="FailureCloseButton">&amp;Close</String>
+  <String Id="FilesInUseHeader">Files In Use</String>
+  <String Id="FilesInUseLabel">The following applications are using files that need to be updated:</String>
+  <String Id="FilesInUseCloseRadioButton">Close the &amp;applications and attempt to restart them.</String>
+  <String Id="FilesInUseDontCloseRadioButton">&amp;Do not close applications. A reboot will be required.</String>
+  <String Id="FilesInUseOkButton">&amp;OK</String>
+  <String Id="FilesInUseCancelButton">&amp;Cancel</String>
 </WixLocalization>

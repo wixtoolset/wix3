@@ -12,7 +12,7 @@ Follow the instructions in [Building Installation Package Bundles](~/bundle/inde
 ## Step 2: Add a reference to one of the .NET PackageGroups
 <ol>
 <li>Add a reference to WixNetFxExtension to your bundle project.</li>
-<li>Add a PayloadGroupRef element to your bundle&apos;s chain that references the .NET package required by your application.  For a full list, see [WixNetfxExtension](~/customactions/wixnetfxextension.html). Ensure that the PayloadGroupRef is placed before any other packages that require .NET.</li>
+<li>Add a PackageGroupRef element to your bundle&apos;s chain that references the .NET package required by your application.  For a full list, see [WixNetfxExtension](~/customactions/wixnetfxextension.html). Ensure that the PayloadGroupRef is placed before any other packages that require .NET.</li>
 <pre>
 <font size="2" color="#0000FF">&lt;</font><font size="2" color="#A31515">Chain</font><font size="2" color="#0000FF">&gt;
     &lt;</font><font size="2" color="#A31515">PackageGroupRef</font><font size="2" color="#0000FF"> </font><font size="2" color="#FF0000">Id</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">NetFx45Web</font><font size="2">"</font><font size="2" color="#0000FF">/&gt;
@@ -20,6 +20,21 @@ Follow the instructions in [Building Installation Package Bundles](~/bundle/inde
 &lt;/</font><font size="2" color="#A31515">Chain</font><font size="2" color="#0000FF">&gt;</font>
 </pre>
 </ol>
+
+## Step 3: Optionally package the .NET Framework redistributable
+
+The .NET PackageGroups use remote payloads to download the .NET redistributable when required. If you want to create a bundle that does not require Internet connectivity, you can package the .NET redistributable with your bundle. Doing so requires you have a local copy of the redistributable, such as checked in to your source-control system.
+
+<pre>
+<font size="2" color="#0000FF">&lt;</font><font size="2" color="#A31515">Bundle</font><font size="2" color="#0000FF">&gt;
+    &lt;</font><font size="2" color="#A31515">PayloadGroup</font><font size="2" color="#0000FF"> </font><font size="2" color="#FF0000">Id</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">NetFx452RedistPayload</font><font size="2">"</font><font size="2" color="#0000FF">&gt;
+        &lt;</font><font size="2" color="#A31515">Payload</font><font size="2" color="#0000FF"> </font><font size="2" color="#FF0000">Name</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">redist\NDP452-KB2901907-x86-x64-AllOS-ENU.exe</font><font size="2">"</font>
+                 <font size="2" color="#FF0000">SourceFile</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">X:\path\to\redists\in\repo\NDP452-KB2901907-x86-x64-AllOS-ENU.exe</font><font size="2">"</font><font size="2" color="#0000FF">/&gt;
+    &lt;</font><font size="2" color="#A31515">PayloadGroup</font><font size="2" color="#0000FF">/&gt;
+&lt;/</font><font size="2" color="#A31515">Bundle</font><font size="2" color="#0000FF">&gt;</font>
+</pre>
+
+Note that the PackageGroupRef in the bundle's chain is still required.
 
 ## Customizing your bootstrapper application
 Any native bootstrapper application, including the [WiX Standard Bootstrapper Application](~/bundle/wixstdba/index.html), will work well with bundles that include .NET.

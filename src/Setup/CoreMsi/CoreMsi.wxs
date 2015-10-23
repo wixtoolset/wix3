@@ -12,9 +12,9 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Core" Language="1033" Manufacturer="!(loc.Company)"
-             Version="$(var.WixVersion)" UpgradeCode="3618724B-2523-44F9-A908-866AA619504D">
+             Version="$(var.WixMsiProductVersion)" UpgradeCode="3618724B-2523-44F9-A908-866AA619504D">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
-        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" />
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 

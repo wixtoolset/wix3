@@ -12,5 +12,5 @@
     <HtmlHelp1xCompilerPath>$(HelpCompilerPath)</HtmlHelp1xCompilerPath>
   </PropertyGroup>
 
-  <Import Project="$(SandcastleHelpFileBuilderTargets)" />
+  <Import Project="$(SHFBROOT)SandcastleHelpFileBuilder.targets" />
 </Project>

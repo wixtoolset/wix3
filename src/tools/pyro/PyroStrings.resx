@@ -123,6 +123,7 @@
   <data name="HelpMessage" xml:space="preserve">
     <value><![CDATA[ usage: pyro.exe [-?] [-nologo] inputFile -out outputFile [-t baseline wixTransform] [@responseFile]
 
+   -aet       allow patches to be created with one or more empty product transforms
    -bt <path> new bind path to replace the original target path.
               It accepts two formats matching the exact light behavior.
               (example: -bt name1=c:\feature1\component1 -bt c:\feature2)

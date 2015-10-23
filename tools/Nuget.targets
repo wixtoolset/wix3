@@ -17,6 +17,9 @@
   <PropertyGroup>
     <AzureStorageBuildTasksPath>$(NugetPackageFolder)FireGiant.BuildTasks.AzureStorage.1.0.0.0\tools\</AzureStorageBuildTasksPath>
     <ExtensionPackPath>$(NugetPackageFolder)MSBuild.Extension.Pack.1.2.0\lib\net40\</ExtensionPackPath>
+    <LibGit2SharpPath>$(NugetPackageFolder)LibGit2Sharp.0.21.0.176\lib\net40\</LibGit2SharpPath>
+    <LibGit2SharpPropsFilePath>$(NugetPackageFolder)LibGit2Sharp.0.21.0.176\build\net40\LibGit2Sharp.props</LibGit2SharpPropsFilePath>
+    <SHFBROOT>$(NugetPackageFolder)EWSoftware.SHFB.2014.11.22.0\Tools\</SHFBROOT>
     <XunitPath>$(NugetPackageFolder)xunit.1.9.2\lib\net20\</XunitPath>
   </PropertyGroup>
 
@@ -28,10 +31,16 @@
   ================================================================================================
   -->
   <ItemGroup>
+    <RestoreNugetPackage Include="EWSoftware.SHFB">
+      <Version>2014.11.22.0</Version>
+    </RestoreNugetPackage>
     <RestoreNugetPackage Include="FireGiant.BuildTasks.AzureStorage">
       <Version>1.0.0.0</Version>
     </RestoreNugetPackage>
-    <RestoreNugetPackage Include="MSBuild.Extension.Pack ">
+    <RestoreNugetPackage Include="LibGit2Sharp">
+      <Version>0.21.0.176</Version>
+    </RestoreNugetPackage>
+    <RestoreNugetPackage Include="MSBuild.Extension.Pack">
       <Version>1.2.0</Version>
     </RestoreNugetPackage>
     <RestoreNugetPackage Include="xunit">

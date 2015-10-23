@@ -324,7 +324,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             if (!Common.IsValidBinderVariable(version))
             {
-                Version ver = new Version(version);
+                Version ver = null;
+
+                try
+                {
+                    ver = new Version(version);
+                }
+                catch (ArgumentException)
+                {
+                    return false;
+                }
 
                 if (65535 < ver.Major || 65535 < ver.Minor || 65535 < ver.Build || 65535 < ver.Revision)
                 {

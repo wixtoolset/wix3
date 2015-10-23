@@ -33,6 +33,7 @@ static HRESULT ParseCommandLine(
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_PIPE_CONNECTION* pCompanionConnection,
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
+    __in BURN_VARIABLES* pVariables,
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
     __out BOOL* pfDisableSystemRestore,
@@ -43,7 +44,8 @@ static HRESULT ParseCommandLine(
     __out_z LPWSTR* psczLogFile,
     __out_z LPWSTR* psczActiveParent,
     __out_z LPWSTR* psczIgnoreDependencies,
-    __out_z LPWSTR* psczAncestors
+    __out_z LPWSTR* psczAncestors,
+    __out_z LPWSTR* psczSanitizedCommandLine
     );
 static HRESULT ParsePipeConnection(
     __in LPWSTR* rgArgs,
@@ -75,29 +77,22 @@ extern "C" HRESULT CoreInitialize(
     )
 {
     HRESULT hr = S_OK;
+    LPWSTR sczSanitizedCommandLine = NULL;
     LPWSTR sczStreamName = NULL;
     BYTE* pbBuffer = NULL;
     SIZE_T cbBuffer = 0;
     BURN_CONTAINER_CONTEXT containerContext = { };
     LPWSTR sczOriginalSource = NULL;
 
-    // parse command line
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczOriginalSource, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors);
-    ExitOnFailure(hr, "Failed to parse command line.");
-
-    // initialize variables
+    // Initialize variables.
     hr = VariableInitialize(&pEngineState->variables);
     ExitOnFailure(hr, "Failed to initialize variables.");
 
-    // retain whether burn was initially run elevated
-    hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, BURN_ELEVATION_STATE_UNELEVATED != pEngineState->elevationState, TRUE);
-    ExitOnFailure1(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
-
-    // open attached UX container
+    // Open attached UX container.
     hr = ContainerOpenUX(&pEngineState->section, &containerContext);
     ExitOnFailure(hr, "Failed to open attached UX container.");
 
-    // load manifest
+    // Load manifest.
     hr = ContainerNextStream(&containerContext, &sczStreamName);
     ExitOnFailure(hr, "Failed to open manifest stream.");
 
@@ -107,11 +102,21 @@ extern "C" HRESULT CoreInitialize(
     hr = ManifestLoadXmlFromBuffer(pbBuffer, cbBuffer, pEngineState);
     ExitOnFailure(hr, "Failed to load manifest.");
 
+    // Parse command line.
+    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczOriginalSource, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
+    ExitOnFailure(hr, "Failed to parse command line.");
+
+    LogId(REPORT_STANDARD, MSG_BURN_COMMAND_LINE, sczSanitizedCommandLine ? sczSanitizedCommandLine : L"");
+
+    // Retain whether bundle was initially run elevated.
+    hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, BURN_ELEVATION_STATE_UNELEVATED != pEngineState->elevationState, TRUE);
+    ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
+
     // Set BURN_BUNDLE_ORIGINAL_SOURCE, if it was passed in on the command line.
     // Needs to be done after ManifestLoadXmlFromBuffer.
     if (sczOriginalSource)
     {
-        hr = VariableSetString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
+        hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource);
         ExitOnFailure(hr, "Failed to set original source variable.");
     }
 
@@ -126,7 +131,7 @@ extern "C" HRESULT CoreInitialize(
         hr = PayloadExtractFromContainer(&pEngineState->userExperience.payloads, NULL, &containerContext, pEngineState->userExperience.sczTempDirectory);
         ExitOnFailure(hr, "Failed to extract bootstrapper application payloads.");
 
-        // Load the catalog files as soon as they are extracted
+        // Load the catalog files as soon as they are extracted.
         hr = CatalogLoadFromPayload(&pEngineState->catalogs, &pEngineState->userExperience.payloads);
         ExitOnFailure(hr, "Failed to load catalog files.");
     }
@@ -135,6 +140,7 @@ LExit:
     ReleaseStr(sczOriginalSource);
     ContainerClose(&containerContext);
     ReleaseStr(sczStreamName);
+    ReleaseStr(sczSanitizedCommandLine);
     ReleaseMem(pbBuffer);
 
     return hr;
@@ -179,7 +185,7 @@ extern "C" HRESULT CoreQueryRegistration(
         hr = RegistrationLoadState(&pEngineState->registration, &pbBuffer, &cbBuffer);
         if (SUCCEEDED(hr))
         {
-            hr = VariableDeserialize(&pEngineState->variables, pbBuffer, cbBuffer, &iBuffer);
+            hr = VariableDeserialize(&pEngineState->variables, TRUE, pbBuffer, cbBuffer, &iBuffer);
         }
 
         // Log any failures and continue.
@@ -231,7 +237,7 @@ extern "C" HRESULT CoreDetect(
     hr = DependencyDetectProviderKeyBundleId(&pEngineState->registration);
     if (SUCCEEDED(hr))
     {
-        HRESULT hr = DetectForwardCompatibleBundle(&pEngineState->userExperience, &pEngineState->command, &pEngineState->registration);
+        hr = DetectForwardCompatibleBundle(&pEngineState->userExperience, &pEngineState->command, &pEngineState->registration);
         ExitOnFailure(hr, "Failed to detect forward compatible bundle.");
 
         // If a forward compatible bundle was detected, skip rest of bundle detection
@@ -274,7 +280,7 @@ extern "C" HRESULT CoreDetect(
 
         // Detect the cache state of the package.
         hr = DetectPackagePayloadsCached(pPackage);
-        ExitOnFailure1(hr, "Failed to detect if payloads are all cached for package: %ls", pPackage->sczId);
+        ExitOnFailure(hr, "Failed to detect if payloads are all cached for package: %ls", pPackage->sczId);
 
         // Use the correct engine to detect the package.
         switch (pPackage->type)
@@ -507,7 +513,7 @@ extern "C" HRESULT CoreElevate(
         ExitOnFailure(hr, "Failed to actually elevate.");
 
         hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, TRUE, TRUE);
-        ExitOnFailure1(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
+        ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
     }
 
 LExit:
@@ -959,6 +965,7 @@ static HRESULT ParseCommandLine(
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_PIPE_CONNECTION* pCompanionConnection,
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
+    __in BURN_VARIABLES* pVariables,
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
     __out BOOL* pfDisableSystemRestore,
@@ -969,14 +976,18 @@ static HRESULT ParseCommandLine(
     __out_z LPWSTR* psczLogFile,
     __out_z LPWSTR* psczActiveParent,
     __out_z LPWSTR* psczIgnoreDependencies,
-    __out_z LPWSTR* psczAncestors
+    __out_z LPWSTR* psczAncestors,
+    __out_z LPWSTR* psczSanitizedCommandLine
     )
 {
     HRESULT hr = S_OK;
     int argc = 0;
     LPWSTR* argv = NULL;
     BOOL fUnknownArg = FALSE;
+    BOOL fHidden = FALSE;
     LPWSTR sczCommandLine = NULL;
+    LPWSTR sczSanitizedArgument = NULL;
+    LPWSTR sczVariableName = NULL;
 
     if (wzCommandLine && *wzCommandLine)
     {
@@ -996,6 +1007,8 @@ static HRESULT ParseCommandLine(
     for (int i = 1; i < argc; ++i) // skip "ignored" argument/hack
     {
         fUnknownArg = FALSE;
+        int originalIndex = i;
+        ReleaseNullStr(sczSanitizedArgument);
 
         if (argv[i][0] == L'-' || argv[i][0] == L'/')
         {
@@ -1252,7 +1265,7 @@ static HRESULT ParseCommandLine(
                 LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES)];
                 if (L'=' != wzParam[0] || L'\0' == wzParam[1])
                 {
-                    ExitOnRootFailure1(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES);
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES);
                 }
 
                 hr = StrAllocString(psczIgnoreDependencies, &wzParam[1], 0);
@@ -1264,7 +1277,7 @@ static HRESULT ParseCommandLine(
                 LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_ANCESTORS)];
                 if (L'=' != wzParam[0] || L'\0' == wzParam[1])
                 {
-                    ExitOnRootFailure1(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_ANCESTORS);
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_ANCESTORS);
                 }
 
                 hr = StrAllocString(psczAncestors, &wzParam[1], 0);
@@ -1285,12 +1298,40 @@ static HRESULT ParseCommandLine(
         else
         {
             fUnknownArg = TRUE;
+
+            const wchar_t* pwc = wcschr(argv[i], L'=');
+            if (pwc)
+            {
+                hr = StrAllocString(&sczVariableName, argv[i], pwc - argv[i]);
+                ExitOnFailure(hr, "Failed to copy variable name.");
+
+                hr = VariableIsHidden(pVariables, sczVariableName, &fHidden);
+                ExitOnFailure(hr, "Failed to determine whether variable is hidden.");
+
+                if (fHidden)
+                {
+                    hr = StrAllocFormatted(&sczSanitizedArgument, L"%ls=*****", sczVariableName);
+                    ExitOnFailure(hr, "Failed to copy sanitized argument.");
+                }
+            }
         }
 
         // Remember command-line switch to pass off to UX.
         if (fUnknownArg)
         {
             PathCommandLineAppend(&pCommand->wzCommandLine, argv[i]);
+        }
+
+        if (sczSanitizedArgument)
+        {
+            PathCommandLineAppend(psczSanitizedCommandLine, sczSanitizedArgument);
+        }
+        else
+        {
+            for (; originalIndex <= i; ++originalIndex)
+            {
+                PathCommandLineAppend(psczSanitizedCommandLine, argv[originalIndex]);
+            }
         }
     }
 
@@ -1326,6 +1367,8 @@ LExit:
         ::LocalFree(argv);
     }
 
+    ReleaseStr(sczVariableName);
+    ReleaseStr(sczSanitizedArgument);
     ReleaseStr(sczCommandLine);
 
     return hr;
@@ -1508,7 +1551,7 @@ static void LogPackages(
             LogId(REPORT_STANDARD, MSG_PLANNED_PACKAGE, pPackage->sczId, LoggingPackageStateToString(pPackage->currentState), LoggingRequestStateToString(pPackage->defaultRequested), LoggingRequestStateToString(pPackage->requested), LoggingActionStateToString(pPackage->execute), LoggingActionStateToString(pPackage->rollback), LoggingBoolToString(pPackage->fAcquire), LoggingBoolToString(pPackage->fUncache), LoggingDependencyActionToString(pPackage->dependencyExecute));
         }
 
-        // Display related bundles last if installing, modifying, or repairing.
+        // Display related bundles last if caching, installing, modifying, or repairing.
         if (BOOTSTRAPPER_ACTION_UNINSTALL < action && 0 < pRelatedBundles->cRelatedBundles)
         {
             for (DWORD i = 0; i < pRelatedBundles->cRelatedBundles; ++i)

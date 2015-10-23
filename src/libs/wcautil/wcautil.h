@@ -363,6 +363,13 @@ HRESULT WIXAPI QuietExec(
     __in DWORD dwTimeout
     );
 
+HRESULT WIXAPI QuietExecEx(
+    __inout_z LPWSTR wzCommand,
+    __in DWORD dwTimeout,
+    __in BOOL fLogCommand,
+    __in BOOL fLogOutput
+    );
+
 WCA_TODO WIXAPI WcaGetComponentToDo(
     __in_z LPCWSTR wzComponentId
     );
