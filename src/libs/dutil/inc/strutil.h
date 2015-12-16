@@ -105,6 +105,11 @@ HRESULT __cdecl StrAllocFormatted(
     __in __format_string LPCWSTR wzFormat,
     ...
     );
+HRESULT __cdecl StrAllocConcatFormatted(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    );
 HRESULT __cdecl StrAllocFormattedSecure(
     __deref_out_z LPWSTR* ppwz,
     __in __format_string LPCWSTR wzFormat,
