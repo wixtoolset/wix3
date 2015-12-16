@@ -524,6 +524,11 @@ DAPI_(HRESULT) ThemeLoadControls(
         case THEME_CONTROL_TYPE_TEXT:
             wzWindowClass = WC_STATICW;
             break;
+            
+        case THEME_CONTROL_TYPE_COMBOBOX:
+            wzWindowClass = WC_COMBOBOXW;
+            dwWindowBits |= CBS_DROPDOWNLIST | CBS_HASSTRINGS;
+            break;
         }
         ExitOnNull(wzWindowClass, hr, E_INVALIDDATA, "Failed to configure control %u because of unknown type: %u", i, pControl->type);
 
@@ -2428,6 +2433,10 @@ static HRESULT ParseControls(
                  CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstrType, -1, L"tb", 2))
         {
             type = THEME_CONTROL_TYPE_TAB;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstrType, -1, L"Combobox", -1))
+        {
+            type = THEME_CONTROL_TYPE_COMBOBOX;
         }
 
         if (THEME_CONTROL_TYPE_UNKNOWN != type)
