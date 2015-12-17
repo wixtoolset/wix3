@@ -456,7 +456,7 @@ extern "C" HRESULT CorePlan(
             DWORD dwExecuteActionEarlyIndex = pEngineState->plan.cExecuteActions;
 
             // Plan the related bundles first to support downgrades with ref-counting.
-            hr = PlanRelatedBundlesBegin(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan, pEngineState->mode);
+            hr = PlanRelatedBundlesBegin(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan);
             ExitOnFailure(hr, "Failed to plan related bundles.");
 
             hr = PlanPackages(&pEngineState->registration, &pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, pEngineState->registration.fInstalled, pEngineState->command.display, pEngineState->command.relationType, NULL, &hSyncpointEvent);
