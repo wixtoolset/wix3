@@ -53,6 +53,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ClCompile Include="exbinary.cpp" />
     <ClCompile Include="wcalog.cpp" />
     <ClCompile Include="wcascript.cpp" />
     <ClCompile Include="wcautil.cpp" />
