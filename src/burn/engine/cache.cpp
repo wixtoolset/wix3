@@ -21,6 +21,7 @@ static const DWORD FILE_OPERATION_RETRY_WAIT = 2000;
 
 static BOOL vfInitializedCache = FALSE;
 static BOOL vfRunningFromCache = FALSE;
+static LPWSTR vsczWorkingFolder = NULL;
 static LPWSTR vsczDefaultUserPackageCache = NULL;
 static LPWSTR vsczDefaultMachinePackageCache = NULL;
 static LPWSTR vsczCurrentMachinePackageCache = NULL;
@@ -1108,28 +1109,48 @@ extern "C" void CacheCleanup(
 
 extern "C" void CacheUninitialize()
 {
-    ReleaseStr(vsczCurrentMachinePackageCache);
-    ReleaseStr(vsczDefaultMachinePackageCache);
-    ReleaseStr(vsczDefaultUserPackageCache);
+    ReleaseNullStr(vsczCurrentMachinePackageCache);
+    ReleaseNullStr(vsczDefaultMachinePackageCache);
+    ReleaseNullStr(vsczDefaultUserPackageCache);
+    ReleaseNullStr(vsczWorkingFolder);
 }
 
 // Internal functions.
 
 static HRESULT CalculateWorkingFolder(
-    __in_z LPCWSTR wzBundleId,
+    __in_z LPCWSTR /*wzBundleId*/,
     __deref_out_z LPWSTR* psczWorkingFolder
     )
 {
     HRESULT hr = S_OK;
+    RPC_STATUS rs = RPC_S_OK;
     WCHAR wzTempPath[MAX_PATH] = { };
+    UUID guid = {};
+    WCHAR wzGuid[39];
 
-    if (0 == ::GetTempPathW(countof(wzTempPath), wzTempPath))
+    if (!vsczWorkingFolder)
     {
-        ExitWithLastError(hr, "Failed to get temp path for working folder.");
+        if (0 == ::GetTempPathW(countof(wzTempPath), wzTempPath))
+        {
+            ExitWithLastError(hr, "Failed to get temp path for working folder.");
+        }
+
+        rs = ::UuidCreate(&guid);
+        hr = HRESULT_FROM_RPC(rs);
+        ExitOnFailure(hr, "Failed to create working folder guid.");
+
+        if (!::StringFromGUID2(guid, wzGuid, countof(wzGuid)))
+        {
+            hr = E_OUTOFMEMORY;
+            ExitOnRootFailure(hr, "Failed to convert working folder guid into string.");
+        }
+
+        hr = StrAllocFormatted(&vsczWorkingFolder, L"%ls%ls\\", wzTempPath, wzGuid);
+        ExitOnFailure(hr, "Failed to append bundle id on to temp path for working folder.");
     }
 
-    hr = StrAllocFormatted(psczWorkingFolder, L"%ls%ls\\", wzTempPath, wzBundleId);
-    ExitOnFailure(hr, "Failed to append bundle id on to temp path for working folder.");
+    hr = StrAllocString(psczWorkingFolder, vsczWorkingFolder, 0);
+    ExitOnFailure(hr, "Failed to copy working folder path.");
 
 LExit:
     return hr;
