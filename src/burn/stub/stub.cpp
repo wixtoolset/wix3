@@ -21,10 +21,11 @@ int WINAPI wWinMain(
     __in int nCmdShow
     )
 {
-    ::HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
-
     HRESULT hr = S_OK;
     DWORD dwExitCode = 0;
+    LPCWSTR rgsczSafelyLoadSystemDlls[] = { L"cabinet.dll", L"feclient.dll", L"msi.dll", L"uxtheme.dll", L"version.dll", L"wininet.dll" };
+
+    AppInitialize(rgsczSafelyLoadSystemDlls, countof(rgsczSafelyLoadSystemDlls));
 
     // call run
     hr = EngineRun(hInstance, lpCmdLine, nCmdShow, &dwExitCode);
