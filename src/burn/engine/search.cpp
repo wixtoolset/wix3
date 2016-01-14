@@ -611,7 +611,7 @@ static HRESULT DirectorySearchPath(
     }
     else if (dwAttributes & FILE_ATTRIBUTE_DIRECTORY)
     {
-        hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath);
+        hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath, FALSE);
         ExitOnFailure(hr, "Failed to set directory search path variable.");
     }
     else // must have found a file.
@@ -731,7 +731,7 @@ static HRESULT FileSearchPath(
     }
     else // found our file.
     {
-        hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath);
+        hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath, FALSE);
         ExitOnFailure(hr, "Failed to set variable to file search path.");
     }
 
@@ -1015,7 +1015,7 @@ static HRESULT MsiComponentSearch(
     case BURN_MSI_COMPONENT_SEARCH_TYPE_KEYPATH:
         if (INSTALLSTATE_ABSENT == is || INSTALLSTATE_LOCAL == is || INSTALLSTATE_SOURCE == is)
         {
-            hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath);
+            hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath, FALSE);
         }
         break;
     case BURN_MSI_COMPONENT_SEARCH_TYPE_STATE:
@@ -1031,7 +1031,7 @@ static HRESULT MsiComponentSearch(
                 wz[1] = L'\0';
             }
 
-            hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath);
+            hr = VariableSetLiteralString(pVariables, pSearch->sczVariable, sczPath, FALSE);
         }
         break;
     }

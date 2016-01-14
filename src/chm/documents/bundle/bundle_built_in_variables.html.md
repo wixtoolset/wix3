@@ -66,6 +66,8 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * WixBundleManufacturer - gets the manufacturer of the bundle (from Bundle/@Manufacturer).
 * WixBundleOriginalSource - gets the source path from where the bundle originally ran.
 * WixBundleOriginalSourceFolder - gets the folder from where the bundle originally ran.
+* WixBundleSourceProcessPath - gets the source path of the bundle where originally executed. Will only be set when bundle is executing in the clean room.
+* WixBundleSourceProcessFolder - gets the source folder of the bundle where originally executed. Will only be set when bundle is executing in the clean room.
 * WixBundleProviderKey - gets the bundle dependency provider key.
 * WixBundleTag - gets the developer-defined tag string for this bundle (from Bundle/@Tag).
 * WixBundleVersion - gets the version for this bundle (from Bundle/@Version).
