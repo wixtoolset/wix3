@@ -2967,6 +2967,12 @@
               <Parameter Type="System.String" Name="attribute2Value" />
           </Instance>
       </Message>
+      <Message Id="InsecureBundleFilename" Number="388" SourceLineNumbers="no">
+        <Instance>
+          The file name '{0}' creates an insecure bundle. Windows will load unnecessary compatibility shims into a bundle with that file name. These compatibility shims can be DLL hijacked allowing attackers to compromise your customers' computer. Choose a different bundle file name.
+          <Parameter Type="System.String" Name="filename" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">
