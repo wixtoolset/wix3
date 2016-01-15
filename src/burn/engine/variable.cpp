@@ -271,6 +271,8 @@ extern "C" HRESULT VariableInitialize(
         {BURN_BUNDLE_ELEVATED, InitializeVariableNumeric, 0, FALSE, TRUE},
         {BURN_BUNDLE_ACTIVE_PARENT, InitializeVariableString, NULL, FALSE, TRUE},
         {BURN_BUNDLE_PROVIDER_KEY, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
+        {BURN_BUNDLE_SOURCE_PROCESS_PATH, InitializeVariableString, NULL, FALSE, TRUE},
+        {BURN_BUNDLE_SOURCE_PROCESS_FOLDER, InitializeVariableString, NULL, FALSE, TRUE},
         {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
         {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0, FALSE, TRUE},
     };
@@ -683,7 +685,8 @@ extern "C" HRESULT VariableSetNumeric(
 extern "C" HRESULT VariableSetLiteralString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
-    __in_z_opt LPCWSTR wzValue
+    __in_z_opt LPCWSTR wzValue,
+    __in BOOL fOverwriteBuiltIn
     )
 {
     BURN_VARIANT variant = { };
@@ -692,7 +695,7 @@ extern "C" HRESULT VariableSetLiteralString(
     variant.sczValue = (LPWSTR)wzValue;
     variant.Type = BURN_VARIANT_TYPE_STRING;
 
-    return SetVariableValue(pVariables, wzVariable, &variant, TRUE, SET_VARIABLE_NOT_BUILTIN, TRUE);
+    return SetVariableValue(pVariables, wzVariable, &variant, TRUE, fOverwriteBuiltIn ? SET_VARIABLE_OVERRIDE_BUILTIN : SET_VARIABLE_NOT_BUILTIN, TRUE);
 }
 
 extern "C" HRESULT VariableSetString(

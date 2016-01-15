@@ -21,6 +21,9 @@
     <ClCompile Include="aclutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="apputil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="apuputil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -177,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\aclutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\apputil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\apuputil.h">

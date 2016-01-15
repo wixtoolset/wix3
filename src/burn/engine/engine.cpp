@@ -26,6 +26,10 @@ static HRESULT InitializeEngineState(
 static void UninitializeEngineState(
     __in BURN_ENGINE_STATE* pEngineState
     );
+static HRESULT RunUntrusted(
+    __in LPCWSTR wzCommandLine,
+    __in BURN_ENGINE_STATE* pEngineState
+    );
 static HRESULT RunNormal(
     __in HINSTANCE hInstance,
     __in BURN_ENGINE_STATE* pEngineState
@@ -136,9 +140,14 @@ extern "C" HRESULT EngineRun(
     hr = CoreInitialize(wzCommandLine, &engineState);
     ExitOnFailure(hr, "Failed to initialize core.");
 
-    // select run mode
+    // Select run mode.
     switch (engineState.mode)
     {
+    case BURN_MODE_UNTRUSTED:
+        hr = RunUntrusted(wzCommandLine, &engineState);
+        ExitOnFailure(hr, "Failed to run untrusted mode.");
+        break;
+
     case BURN_MODE_NORMAL:
         fRunNormal = TRUE;
 
@@ -259,7 +268,6 @@ static HRESULT InitializeEngineState(
     )
 {
     HRESULT hr = S_OK;
-    BOOL fElevated = FALSE;
 
     pEngineState->automaticUpdates = BURN_AU_PAUSE_ACTION_IFELEVATED;
     pEngineState->dwElevatedLoggingTlsId = TLS_OUT_OF_INDEXES;
@@ -267,9 +275,6 @@ static HRESULT InitializeEngineState(
     ::InitializeCriticalSection(&pEngineState->userExperience.csEngineActive);
     PipeConnectionInitialize(&pEngineState->companionConnection);
     PipeConnectionInitialize(&pEngineState->embeddedConnection);
-
-    ProcElevated(::GetCurrentProcess(), &fElevated);
-    pEngineState->elevationState = fElevated ? BURN_ELEVATION_STATE_ELEVATED : BURN_ELEVATION_STATE_UNELEVATED;
 
     hr = SectionInitialize(&pEngineState->section);
     ExitOnFailure(hr, "Failed to initialize engine section.");
@@ -323,6 +328,52 @@ static void UninitializeEngineState(
     memset(pEngineState, 0, sizeof(BURN_ENGINE_STATE));
 }
 
+static HRESULT RunUntrusted(
+    __in LPCWSTR wzCommandLine,
+    __in BURN_ENGINE_STATE* pEngineState
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczCurrentProcessPath = NULL;
+    LPWSTR sczCleanRoomBundlePath = NULL;
+    LPWSTR sczParameters = NULL;
+    HANDLE hProcess = NULL;
+
+    hr = PathForCurrentProcess(&sczCurrentProcessPath, NULL);
+    ExitOnFailure(hr, "Failed to get path for current process.");
+
+    hr = CacheBundleToCleanRoom(&pEngineState->userExperience.payloads, &pEngineState->section, &sczCleanRoomBundlePath);
+    ExitOnFailure(hr, "Failed to cache to clean room.");
+
+    hr = StrAllocFormatted(&sczParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, wzCommandLine);
+    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
+
+#ifdef ENABLE_UNELEVATE
+    if (!pEngineState->fDisableUnelevate)
+    {
+        // Try to launch unelevated and if that fails for any reason, we'll launch our process normally (even though that may make it elevated).
+        hr = ProcExecuteAsInteractiveUser(sczCleanRoomBundlePath, sczParameters, &hProcess);
+    }
+#endif
+
+    if (!hProcess)
+    {
+        hr = ProcExec(sczCleanRoomBundlePath, sczParameters, pEngineState->command.nCmdShow, &hProcess);
+        ExitOnFailure1(hr, "Failed to launch clean room process: %ls", sczCleanRoomBundlePath);
+    }
+
+    hr = ProcWaitForCompletion(hProcess, INFINITE, &pEngineState->userExperience.dwExitCode);
+    ExitOnFailure(hr, "Failed to wait for clean room process: %ls", sczCleanRoomBundlePath);
+
+LExit:
+    ReleaseHandle(hProcess);
+    ReleaseStr(sczParameters);
+    ReleaseStr(sczCleanRoomBundlePath);
+    ReleaseStr(sczCurrentProcessPath);
+
+    return hr;
+}
+
 static HRESULT RunNormal(
     __in HINSTANCE hInstance,
     __in BURN_ENGINE_STATE* pEngineState
@@ -336,29 +387,6 @@ static HRESULT RunNormal(
     // Initialize logging.
     hr = LoggingOpen(&pEngineState->log, &pEngineState->variables, pEngineState->command.display, pEngineState->registration.sczDisplayName);
     ExitOnFailure(hr, "Failed to open log.");
-
-    // Ensure the cache functions are initialized since we might use them soon.
-    hr = CacheInitialize(&pEngineState->registration, &pEngineState->variables);
-    ExitOnFailure(hr, "Failed to initialize internal cache functionality.");
-
-    // When launched explicitly unelevated, create the pipes so the elevated process can connect.
-    if (BURN_ELEVATION_STATE_UNELEVATED_EXPLICITLY == pEngineState->elevationState)
-    {
-        Assert(pEngineState->companionConnection.dwProcessId);
-        Assert(pEngineState->companionConnection.sczName);
-        Assert(pEngineState->companionConnection.sczSecret);
-        Assert(!pEngineState->companionConnection.hProcess);
-        Assert(INVALID_HANDLE_VALUE == pEngineState->companionConnection.hPipe);
-        Assert(INVALID_HANDLE_VALUE == pEngineState->companionConnection.hCachePipe);
-
-        hr = PipeCreatePipes(&pEngineState->companionConnection, TRUE, &hPipesCreatedEvent);
-        ExitOnFailure(hr, "Failed to create pipes to connect to elevated parent process.");
-
-        hr = PipeWaitForChildConnect(&pEngineState->companionConnection);
-        ExitOnFailure(hr, "Failed to connect to elevated parent process.");
-
-        ReleaseHandle(hPipesCreatedEvent);
-    }
 
     // Ensure we're on a supported operating system.
     hr = ConditionGlobalCheck(&pEngineState->variables, &pEngineState->condition, pEngineState->command.display, pEngineState->registration.sczDisplayName, &pEngineState->userExperience.dwExitCode, &fContinueExecution);
@@ -416,7 +444,7 @@ LExit:
     // end per-machine process if running
     if (INVALID_HANDLE_VALUE != pEngineState->companionConnection.hPipe)
     {
-        PipeTerminateChildProcess(&pEngineState->companionConnection, pEngineState->userExperience.dwExitCode, (BURN_ELEVATION_STATE_UNELEVATED_EXPLICITLY == pEngineState->elevationState) ? pEngineState->fRestart : FALSE);
+        PipeTerminateChildProcess(&pEngineState->companionConnection, pEngineState->userExperience.dwExitCode, FALSE);
     }
 
     // If the splash screen is still around, close it.
@@ -432,33 +460,20 @@ LExit:
 
 static HRESULT RunElevated(
     __in HINSTANCE hInstance,
-    __in LPCWSTR wzCommandLine,
+    __in LPCWSTR /*wzCommandLine*/,
     __in BURN_ENGINE_STATE* pEngineState
     )
 {
     HRESULT hr = S_OK;
     HANDLE hLock = NULL;
     BOOL fDisabledAutomaticUpdates = FALSE;
-
-    // If we were launched elevated implicitly, launch an unelevated copy of ourselves.
-    if (BURN_ELEVATION_STATE_ELEVATED == pEngineState->elevationState)
-    {
-        Assert(!pEngineState->companionConnection.dwProcessId);
-        Assert(!pEngineState->companionConnection.sczName);
-        Assert(!pEngineState->companionConnection.sczSecret);
-
-        hr = PipeCreateNameAndSecret(&pEngineState->companionConnection.sczName, &pEngineState->companionConnection.sczSecret);
-        ExitOnFailure(hr, "Failed to create implicit elevated connection name and secret.");
-
-        hr = PipeLaunchParentProcess(wzCommandLine, pEngineState->command.nCmdShow, pEngineState->companionConnection.sczName, pEngineState->companionConnection.sczSecret, pEngineState->fDisableUnelevate);
-        ExitOnFailure(hr, "Failed to launch unelevated process.");
-    }
-
+    
     // connect to per-user process
     hr = PipeChildConnect(&pEngineState->companionConnection, TRUE);
     ExitOnFailure(hr, "Failed to connect to unelevated process.");
 
-    // Set up the thread local storage to store the correct pipe to communicate logging.
+    // Set up the thread local storage to store the correct pipe to communicate logging then
+    // override logging to write over the pipe.
     pEngineState->dwElevatedLoggingTlsId = ::TlsAlloc();
     if (TLS_OUT_OF_INDEXES == pEngineState->dwElevatedLoggingTlsId)
     {
@@ -470,14 +485,13 @@ static HRESULT RunElevated(
         ExitWithLastError(hr, "Failed to set elevated pipe into thread local storage for logging.");
     }
 
+    LogRedirect(RedirectLoggingOverPipe, pEngineState);
+
     // Create a top-level window to prevent shutting down the elevated process.
     hr = UiCreateMessageWindow(hInstance, pEngineState);
     ExitOnFailure(hr, "Failed to create the message window.");
 
     SrpInitialize(TRUE);
-
-    // Override logging to write over the pipe.
-    LogRedirect(RedirectLoggingOverPipe, pEngineState);
 
     // Pump messages from parent process.
     hr = ElevationChildPumpMessages(pEngineState->dwElevatedLoggingTlsId, pEngineState->companionConnection.hPipe, pEngineState->companionConnection.hCachePipe, &pEngineState->approvedExes, &pEngineState->containers, &pEngineState->packages, &pEngineState->payloads, &pEngineState->variables, &pEngineState->registration, &pEngineState->userExperience, &hLock, &fDisabledAutomaticUpdates, &pEngineState->userExperience.dwExitCode, &pEngineState->fRestart);

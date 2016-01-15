@@ -346,6 +346,7 @@ LExit:
                            communication pipe.
 
 *******************************************************************/
+const LPCWSTR BURN_COMMANDLINE_SWITCH_UNELEVATED = L"burn.unelevated";
 HRESULT PipeLaunchParentProcess(
     __in_z LPCWSTR wzCommandLine,
     __in int nCmdShow,

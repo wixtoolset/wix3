@@ -121,7 +121,8 @@ HRESULT VariableSetNumeric(
 HRESULT VariableSetLiteralString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
-    __in_z_opt LPCWSTR wzValue
+    __in_z_opt LPCWSTR wzValue,
+    __in BOOL fOverwriteBuiltIn
     );
 HRESULT VariableSetString(
     __in BURN_VARIABLES* pVariables,

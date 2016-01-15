@@ -3912,6 +3912,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             // layout media
+            string bundleFilename = Path.GetFileName(bundleFile);
+            if ("setup.exe".Equals(bundleFilename, StringComparison.OrdinalIgnoreCase))
+            {
+                this.core.OnMessage(WixErrors.InsecureBundleFilename(bundleFilename));
+            }
+
             try
             {
                 this.core.OnMessage(WixVerboses.LayingOutMedia());

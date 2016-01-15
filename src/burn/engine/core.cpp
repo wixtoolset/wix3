@@ -37,8 +37,8 @@ static HRESULT ParseCommandLine(
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
     __out BOOL* pfDisableSystemRestore,
+    __out_z LPWSTR* psczSourceProcessPath,
     __out_z LPWSTR* psczOriginalSource,
-    __out BURN_ELEVATION_STATE* pElevationState,
     __out BOOL* pfDisableUnelevate,
     __out DWORD *pdwLoggingAttributes,
     __out_z LPWSTR* psczLogFile,
@@ -82,6 +82,9 @@ extern "C" HRESULT CoreInitialize(
     BYTE* pbBuffer = NULL;
     SIZE_T cbBuffer = 0;
     BURN_CONTAINER_CONTEXT containerContext = { };
+    BOOL fElevated = FALSE;
+    LPWSTR sczSourceProcessPath = NULL;
+    LPWSTR sczSourceProcessFolder = NULL;
     LPWSTR sczOriginalSource = NULL;
 
     // Initialize variables.
@@ -103,26 +106,53 @@ extern "C" HRESULT CoreInitialize(
     ExitOnFailure(hr, "Failed to load manifest.");
 
     // Parse command line.
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczOriginalSource, &pEngineState->elevationState, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
+    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczSourceProcessPath, &sczOriginalSource, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
     ExitOnFailure(hr, "Failed to parse command line.");
 
     LogId(REPORT_STANDARD, MSG_BURN_COMMAND_LINE, sczSanitizedCommandLine ? sczSanitizedCommandLine : L"");
 
     // Retain whether bundle was initially run elevated.
-    hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, BURN_ELEVATION_STATE_UNELEVATED != pEngineState->elevationState, TRUE);
+    ProcElevated(::GetCurrentProcess(), &fElevated);
+
+    hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, fElevated, TRUE);
     ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
+
+    if (sczSourceProcessPath)
+    {
+        hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_SOURCE_PROCESS_PATH, sczSourceProcessPath, TRUE);
+        ExitOnFailure(hr, "Failed to set source process path variable.");
+
+        hr = PathGetDirectory(sczSourceProcessPath, &sczSourceProcessFolder);
+        ExitOnFailure(hr, "Failed to get source process folder from path.");
+
+        hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_SOURCE_PROCESS_FOLDER, sczSourceProcessFolder, TRUE);
+        ExitOnFailure(hr, "Failed to set source process folder variable.");
+    }
 
     // Set BURN_BUNDLE_ORIGINAL_SOURCE, if it was passed in on the command line.
     // Needs to be done after ManifestLoadXmlFromBuffer.
     if (sczOriginalSource)
     {
-        hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource);
+        hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_ORIGINAL_SOURCE, sczOriginalSource, FALSE);
         ExitOnFailure(hr, "Failed to set original source variable.");
+    }
+
+    if (BURN_MODE_UNTRUSTED == pEngineState->mode || BURN_MODE_NORMAL == pEngineState->mode || BURN_MODE_EMBEDDED == pEngineState->mode)
+    {
+        hr = CacheInitialize(&pEngineState->registration, &pEngineState->variables, sczSourceProcessPath);
+        ExitOnFailure(hr, "Failed to initialize internal cache functionality.");
+
+        BOOL fRunningFromCache = CacheBundleRunningFromCache();
+
+        if (BURN_MODE_UNTRUSTED == pEngineState->mode && fRunningFromCache)
+        {
+            pEngineState->mode = BURN_MODE_NORMAL;
+        }
     }
 
     // If we're not elevated then we'll be loading the bootstrapper application, so extract
     // the payloads from the BA container.
-    if (pEngineState->elevationState == BURN_ELEVATION_STATE_UNELEVATED || pEngineState->elevationState == BURN_ELEVATION_STATE_UNELEVATED_EXPLICITLY)
+    if (BURN_MODE_NORMAL == pEngineState->mode || BURN_MODE_EMBEDDED == pEngineState->mode)
     {
         // Extract all UX payloads to working folder.
         hr = UserExperienceEnsureWorkingFolder(pEngineState->registration.sczId, &pEngineState->userExperience.sczTempDirectory);
@@ -138,6 +168,8 @@ extern "C" HRESULT CoreInitialize(
 
 LExit:
     ReleaseStr(sczOriginalSource);
+    ReleaseStr(sczSourceProcessFolder);
+    ReleaseStr(sczSourceProcessPath);
     ContainerClose(&containerContext);
     ReleaseStr(sczStreamName);
     ReleaseStr(sczSanitizedCommandLine);
@@ -969,8 +1001,8 @@ static HRESULT ParseCommandLine(
     __out BURN_MODE* pMode,
     __out BURN_AU_PAUSE_ACTION* pAutomaticUpdates,
     __out BOOL* pfDisableSystemRestore,
+    __out_z LPWSTR* psczSourceProcessPath,
     __out_z LPWSTR* psczOriginalSource,
-    __out BURN_ELEVATION_STATE* pElevationState,
     __out BOOL* pfDisableUnelevate,
     __out DWORD *pdwLoggingAttributes,
     __out_z LPWSTR* psczLogFile,
@@ -1176,7 +1208,12 @@ static HRESULT ParseCommandLine(
                     ExitOnRootFailure(hr = E_INVALIDARG, "Must specify the elevated name, token and parent process id.");
                 }
 
-                *pElevationState = BURN_ELEVATION_STATE_ELEVATED_EXPLICITLY;
+                if (BURN_MODE_UNTRUSTED != *pMode)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Multiple mode command-line switches were provided.");
+                }
+
+                *pMode = BURN_MODE_ELEVATED;
 
                 ++i;
 
@@ -1185,27 +1222,35 @@ static HRESULT ParseCommandLine(
 
                 i += 2;
             }
-            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_UNELEVATED, -1))
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_CLEAN_ROOM), BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, lstrlenW(BURN_COMMANDLINE_SWITCH_CLEAN_ROOM)))
             {
-                if (i + 3 >= argc)
+                // Get a pointer to the next character after the switch.
+                LPCWSTR wzParam = &argv[i][1 + lstrlenW(BURN_COMMANDLINE_SWITCH_CLEAN_ROOM)];
+                if (L'=' != wzParam[0] || L'\0' == wzParam[1])
                 {
-                    ExitOnRootFailure(hr = E_INVALIDARG, "Must specify the unelevated name, token and parent process id.");
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM);
                 }
 
-                *pElevationState = BURN_ELEVATION_STATE_UNELEVATED_EXPLICITLY;
+                if (BURN_MODE_UNTRUSTED != *pMode)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Multiple mode command-line switches were provided.");
+                }
 
-                ++i;
+                *pMode = BURN_MODE_NORMAL;
 
-                hr = ParsePipeConnection(argv + i, pCompanionConnection);
-                ExitOnFailure(hr, "Failed to parse unelevated connection.");
-
-                i += 2;
+                hr = StrAllocString(psczSourceProcessPath, wzParam + 1, 0);
+                ExitOnFailure(hr, "Failed to copy source process path.");
             }
             else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_EMBEDDED, -1))
             {
                 if (i + 3 >= argc)
                 {
                     ExitOnRootFailure(hr = E_INVALIDARG, "Must specify the embedded name, token and parent process id.");
+                }
+
+                if (BURN_MODE_UNTRUSTED != *pMode)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Multiple mode command-line switches were provided.");
                 }
 
                 *pMode = BURN_MODE_EMBEDDED;
@@ -1257,6 +1302,11 @@ static HRESULT ParseCommandLine(
             }
             else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, BURN_COMMANDLINE_SWITCH_RUNONCE, -1))
             {
+                if (BURN_MODE_UNTRUSTED != *pMode)
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Multiple mode command-line switches were provided.");
+                }
+
                 *pMode = BURN_MODE_RUNONCE;
             }
             else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES), BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES, lstrlenW(BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES)))
@@ -1335,12 +1385,8 @@ static HRESULT ParseCommandLine(
         }
     }
 
-    // Elevation trumps other modes, except RunOnce which is also elevated.
-    if (BURN_MODE_RUNONCE != *pMode && (BURN_ELEVATION_STATE_ELEVATED == *pElevationState || BURN_ELEVATION_STATE_ELEVATED_EXPLICITLY == *pElevationState))
-    {
-        *pMode = BURN_MODE_ELEVATED;
-    }
-    else if (BURN_MODE_EMBEDDED == *pMode) // if embedded, ensure the display goes embedded as well.
+    // If embedded, ensure the display goes embedded as well.
+    if (BURN_MODE_EMBEDDED == *pMode)
     {
         pCommand->display = BOOTSTRAPPER_DISPLAY_EMBEDDED;
     }

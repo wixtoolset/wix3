@@ -62,6 +62,9 @@
                 <File Source="aclutil.h" />
             </Component>
             <Component>
+                <File Source="apputil.h" />
+            </Component>
+            <Component>
                 <File Source="apuputil.h" />
             </Component>
             <Component>

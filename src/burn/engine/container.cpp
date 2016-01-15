@@ -94,11 +94,26 @@ extern "C" HRESULT ContainersParseFromXml(
             ExitOnFailure(hr, "Failed to get @AttachedIndex.");
         }
 
-        // @FilePath
-        hr = XmlGetAttributeEx(pixnNode, L"FilePath", &pContainer->sczFilePath);
-        if (E_NOTFOUND != hr)
+        // Attached containers are always found attached to the current process, so use the current proccess's
+        // name instead of what may be in the manifest.
+        if (pContainer->fAttached)
         {
-            ExitOnFailure(hr, "Failed to get @FilePath.");
+            hr = PathForCurrentProcess(&scz, NULL);
+            ExitOnFailure(hr, "Failed to get path to current process for attached container.");
+
+            LPCWSTR wzFileName = PathFile(scz);
+
+            hr = StrAllocString(&pContainer->sczFilePath, wzFileName, 0);
+            ExitOnFailure(hr, "Failed to set attached container file path.");
+        }
+        else
+        {
+            // @FilePath
+            hr = XmlGetAttributeEx(pixnNode, L"FilePath", &pContainer->sczFilePath);
+            if (E_NOTFOUND != hr)
+            {
+                ExitOnFailure(hr, "Failed to get @FilePath.");
+            }
         }
 
         // The source path starts as the file path.

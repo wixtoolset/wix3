@@ -58,6 +58,7 @@
   <ItemGroup>
     <ClCompile Include="acl2util.cpp" />
     <ClCompile Include="aclutil.cpp" />
+    <ClCompile Include="apputil.cpp" />
     <ClCompile Include="apuputil.cpp" />
     <ClCompile Include="atomutil.cpp" />
     <ClCompile Include="butil.cpp" />
@@ -112,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\aclutil.h" />
+    <ClInclude Include="inc\apputil.h" />
     <ClInclude Include="inc\apuputil.h" />
     <ClInclude Include="inc\atomutil.h" />
     <ClInclude Include="inc\buffutil.h" />
