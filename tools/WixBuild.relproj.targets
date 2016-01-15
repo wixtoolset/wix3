@@ -66,6 +66,8 @@
   -->
   <PropertyGroup>
     <ReleaseFilesDependsOn>
+      CalculateReleaseFiles;
+      CalculateReleaseDocuments;
       PrepareReleaseFiles
     </ReleaseFilesDependsOn>
   </PropertyGroup>
@@ -185,8 +187,6 @@
   <PropertyGroup>
     <BuildDependsOn>
       BuildProjectReferences;
-      CalculateReleaseFiles;
-      CalculateReleaseDocuments;
       ReleaseFiles;
       ReleaseDocumentation;
       GenerateReleaseMetadata
