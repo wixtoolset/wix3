@@ -156,30 +156,22 @@
     <GenerateReleaseMetadataDependsOn>
       TransformHistoryEntries
     </GenerateReleaseMetadataDependsOn>
-    <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).json</ReleaseInfoFile>
-    <ReleaseHistoryFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseHistoryFile>
+    <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseInfoFile>
   </PropertyGroup>
   <Target
     Name="GenerateReleaseMetadata"
     DependsOnTargets="$(GenerateReleaseMetadataDependsOn)"
     Inputs="@(ReleaseFile)"
-    Outputs="$(ReleaseInfoFile);$(ReleaseHistoryFile)">
+    Outputs="$(ReleaseInfoFile)">
 
     <GenerateReleaseInfo
+      HistoryFile="$(HistoryFile)"
       UploadFiles="@(ReleaseFile)"
       Version="$(FullBuildVersionString)"
       OutputFile="$(ReleaseInfoFile)">
 
       <Output TaskParameter="OutputFile" ItemName="FileWrites" /> <!-- This will tell MSBuild to clean up the file during a Clean build -->
     </GenerateReleaseInfo>
-
-    <GenerateReleaseHistory
-      HistoryFile="$(HistoryFile)"
-      Version="$(FullBuildVersionString)"
-      OutputFile="$(ReleaseHistoryFile)">
-
-      <Output TaskParameter="OutputFile" ItemName="FileWrites" /> <!-- This will tell MSBuild to clean up the file during a Clean build -->
-    </GenerateReleaseHistory>
   </Target>
 
   <!--

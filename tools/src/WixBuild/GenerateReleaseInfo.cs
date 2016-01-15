@@ -10,6 +10,7 @@
 namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
     using Microsoft.Build.Framework;
@@ -25,6 +26,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
         /// </summary>
         [Required]
         public string Version
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets and sets the set history file to process.
+        /// </summary>
+        [Required]
+        public ITaskItem HistoryFile
         {
             get;
             set;
@@ -56,41 +67,80 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
         /// <returns><see langword="true"/> if the task successfully executed; otherwise, <see langword="false"/>.</returns>
         public override bool Execute()
         {
-            ////{
-            ////    "id" : "v3.6.2517.0",
-            ////    "downloadable" : true,
-            ////    "date" : "2012/1/17",
-            ////    "roots" : [ "~" ],
-            ////    "files" :
-            ////    [
-            ////      { "name" : "wix36.exe", "contentType" : "application/octet-stream", "size" : 100, "show" : true },
-            ////      { "name" : "data/wix36.msi", "contentType" : "application/octet-stream", "size" : 110 },
-            ////      { "name" : "data/wix36.cab", "contentType" : "application/octet-stream", "size" : 120 },
-            ////      { "name" : "wix36-binaries.zip", "contentType" : "application/octet-stream", "size" : 130, "show" : true, "protected" : true }
-            ////    ]
-            ////}
-            StringBuilder json = new StringBuilder();
-            json.AppendLine("{");
-            json.AppendFormat(" \"id\":  \"v{0}\",\r\n", this.Version);
-            json.AppendLine(" \"downloadable\":  true,");
-            json.AppendFormat(" \"date\":  \"{0}\",\r\n", DateTime.Now.ToString("yyyy-MM-dd"));
-            json.AppendLine(" \"roots\": [ \"~\"],");
-            json.AppendLine(" \"files\":");
-            json.AppendLine(" [");
-            json.AppendLine(this.UploadFilesToString());
-            json.AppendLine(" ]");
-            json.AppendLine("}");
+            string files = this.UploadFilesToJsonString();
+            string history = this.GatherHistoryInString();
+
+            string[] lines = {
+                "---",
+                "title: v" + this.Version,
+                "date: " + DateTime.Now.ToString("yyyy-MM-dd"),
+                "files: [",
+                files,
+                " ]",
+                "---",
+                String.Empty,
+                history
+            };
 
             Directory.CreateDirectory(Path.GetDirectoryName(this.OutputFile.ItemSpec));
             using (StreamWriter stream = File.CreateText(this.OutputFile.ItemSpec))
             {
-                stream.Write(json.ToString());
+                stream.Write(String.Join(Environment.NewLine, lines));
             }
 
             return true;
         }
 
-        private string UploadFilesToString()
+        private string GatherHistoryInString()
+        {
+            List<string> lines = new List<string>();
+
+            string[] history = File.ReadAllLines(this.HistoryFile.ItemSpec);
+
+            int start = -1;
+            int end = -1;
+
+            for (int i = 0; i < history.Length; ++i)
+            {
+                string line = history[i];
+                if (String.IsNullOrEmpty(line) || line.StartsWith("# "))
+                {
+                    continue;
+                }
+                else if (start < -1)
+                {
+                    if (line.StartsWith("## "))
+                    {
+                        // could get the version of the build now.
+                    }
+                    else
+                    {
+                        lines.Add(line);
+                    }
+
+                    start = i;
+                }
+                else if (line.StartsWith("## "))
+                {
+                    end = i;
+                    break;
+                }
+                else
+                {
+                    lines.Add(line);
+                }
+            }
+
+            if (0 > end)
+            {
+                this.Log.LogError("Could not find beginning and ending lines for history.");
+                return String.Empty;
+            }
+
+            return String.Join(Environment.NewLine, lines.ToArray());
+        }
+
+        private string UploadFilesToJsonString()
         {
             string[] files = new string[this.UploadFiles.Length];
 
@@ -131,7 +181,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
                 files[i] = sb.Append(" }").ToString();
             }
 
-            return String.Join(",\r\n", files);
+            return String.Join("," + Environment.NewLine, files);
         }
 
         private string GuessContentType(string extension)
