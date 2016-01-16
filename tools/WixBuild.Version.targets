@@ -11,7 +11,7 @@
     <PropertyGroup>
         <MajorBuildNumber>3</MajorBuildNumber>
         <MinorBuildNumber>10</MinorBuildNumber>
-        <StartBuildYear>2016</StartBuildYear>
+        <StartBuildYear>2014</StartBuildYear>
         <BuildRevision>2</BuildRevision>
 
         <MajorMinorVersionString>$(MajorBuildNumber)$(MinorBuildNumber)</MajorMinorVersionString>
