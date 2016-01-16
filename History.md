@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.2.2516
+
+* RobMen: Fix WiX v3.10.2 build version.
+
 ## WixBuild: Version 3.10.2.115
 
 * RobMen: WIXBUG:5184 - Create Burn "clean room" to prevent DLL hijacking.
