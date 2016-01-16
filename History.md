@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.2.115
+
+* RobMen: WIXBUG:5184 - Create Burn "clean room" to prevent DLL hijacking.
+
 ## WixBuild: Version 3.10.1.2213
 
 * PavelAnfimov: WIXBUG:4772 - Add support for Windows XP for ShelExecUnelevated.
