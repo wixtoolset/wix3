@@ -128,7 +128,9 @@
     <VS2010SdkPath Condition=" $(VS2010SdkAvailable) and !HasTrailingSlash('$(VS2010SdkPath)')">$(VS2010SdkPath)\</VS2010SdkPath>
 
     <VS2010PublicAssembliesPath>$(VS2010Path)PublicAssemblies\</VS2010PublicAssembliesPath>
-    <VS2010SdkVisualStudioIntegrationAssembliesPath>$(VS2010SdkPath)VisualStudioIntegration\Common\Assemblies\v4.0\</VS2010SdkVisualStudioIntegrationAssembliesPath>
+    <VS2010SdkVisualStudioIntegrationAssembliesPath>$(VS2010SdkPath)VisualStudioIntegration\Common\Assemblies\</VS2010SdkVisualStudioIntegrationAssembliesPath>
+    <VS2010SdkVisualStudioIntegrationAssembliesPath20>$(VS2010SdkVisualStudioIntegrationAssembliesPath)v2.0\</VS2010SdkVisualStudioIntegrationAssembliesPath20>
+    <VS2010SdkVisualStudioIntegrationAssembliesPath40>$(VS2010SdkVisualStudioIntegrationAssembliesPath)v4.0\</VS2010SdkVisualStudioIntegrationAssembliesPath40>
   </PropertyGroup>
 
   <PropertyGroup>
