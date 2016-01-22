@@ -21,10 +21,25 @@ int WINAPI wWinMain(
     __in int nCmdShow
     )
 {
-    ::HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
-
     HRESULT hr = S_OK;
     DWORD dwExitCode = 0;
+
+    LPCWSTR rgsczSafelyLoadSystemDlls[] =
+    {
+        L"cabinet.dll", // required by Burn.
+        L"msi.dll", // required by Burn.
+        L"version.dll", // required by Burn.
+        L"wininet.dll", // required by Burn.
+
+        L"comres.dll", // required by CLSIDFromProgID() when loading clbcatq.dll.
+        L"clbcatq.dll", // required by CLSIDFromProgID() when loading msxml?.dll.
+
+        L"msasn1.dll", // required by DecryptFile() when loading crypt32.dll.
+        L"crypt32.dll", // required by DecryptFile() when loading feclient.dll.
+        L"feclient.dll", // unsafely loaded by DecryptFile().
+    };
+
+    AppInitialize(rgsczSafelyLoadSystemDlls, countof(rgsczSafelyLoadSystemDlls));
 
     // call run
     hr = EngineRun(hInstance, lpCmdLine, nCmdShow, &dwExitCode);

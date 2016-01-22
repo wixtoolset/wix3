@@ -9,14 +9,14 @@
 
 namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
 {
-    using LibGit2Sharp;
-    using Microsoft.Build.Framework;
-    using Microsoft.Build.Utilities;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
+    using LibGit2Sharp;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Utilities;
 
     /// <summary>
     /// MSBuild task for converting history files into entries in a git project's History.md.

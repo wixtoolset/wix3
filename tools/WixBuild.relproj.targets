@@ -15,8 +15,9 @@
   <UsingTask AssemblyFile="$(ExtensionPackPath)MSBuild.ExtensionPack.dll" TaskName="Zip" />
 
   <PropertyGroup>
-    <IntermediateDocumentsFolder>$(BaseIntermediateOutputPath)chm\intermediate\</IntermediateDocumentsFolder>
     <HistoryFile>$(WixRoot)History.md</HistoryFile>
+
+    <IntermediateDocumentsFolder>$(BaseIntermediateOutputPath)chm\intermediate\</IntermediateDocumentsFolder>
     <ReleasesContainerFolder>$(BaseOutputPath)upload\releases\</ReleasesContainerFolder>
     <StagedContainerFolder>$(BaseOutputPath)upload\staged\</StagedContainerFolder>
 
@@ -66,6 +67,8 @@
   -->
   <PropertyGroup>
     <ReleaseFilesDependsOn>
+      CalculateReleaseFiles;
+      CalculateReleaseDocuments;
       PrepareReleaseFiles
     </ReleaseFilesDependsOn>
   </PropertyGroup>
@@ -125,11 +128,16 @@
   <PropertyGroup>
     <TransformHistoryEntriesDependsOn>
     </TransformHistoryEntriesDependsOn>
+
+    <HistoryFolderRelativePath>history</HistoryFolderRelativePath>
+    <SpecialHistoryFileName>readme.md</SpecialHistoryFileName>
   </PropertyGroup>
   <Target Name="TransformHistoryEntries"
           DependsOnTargets="$(TransformHistoryEntriesDependsOn)">
+    <Error Text="Cannot locate project's history folder at: $(WixRoot)$(HistoryFolderRelativePath)." Condition=" !Exists('$(WixRoot)$(HistoryFolderRelativePath)') " />
+
     <TransformHistoryEntries
-      ProjectFolder="$(ProjectFolder)"
+      ProjectFolder="$(WixRoot)"
       HistoryFolderRelativePath="$(HistoryFolderRelativePath)"
       HistoryFile="$(HistoryFile)"
       SpecialHistoryFileName="$(SpecialHistoryFileName)" />
@@ -142,44 +150,34 @@
     Generates a .json class file from input files to be Released.
 
     [IN]
-    $(ProjectFolder) - The root project folder.
-    $(HistoryFolderRelativePath) - The relative path to the folder with the history files.
     $(HistoryFile) - The history.md file in the root.
-    $(SpecialHistoryFileName) - The name of the history readme file.
     @(ReleaseFile) - The items to add to the metadata.
 
     [OUT]
-    @(ReleaseMetadata) - The generated .json and .md metadata file.
+    @(ReleaseMetadata) - The generated .md metadata file.
   ================================================================================================
   -->
   <PropertyGroup>
     <GenerateReleaseMetadataDependsOn>
+      ReleaseFiles;
       TransformHistoryEntries
     </GenerateReleaseMetadataDependsOn>
-    <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).json</ReleaseInfoFile>
-    <ReleaseHistoryFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseHistoryFile>
+    <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseInfoFile>
   </PropertyGroup>
   <Target
     Name="GenerateReleaseMetadata"
     DependsOnTargets="$(GenerateReleaseMetadataDependsOn)"
     Inputs="@(ReleaseFile)"
-    Outputs="$(ReleaseInfoFile);$(ReleaseHistoryFile)">
+    Outputs="$(ReleaseInfoFile)">
 
     <GenerateReleaseInfo
+      HistoryFile="$(HistoryFile)"
       UploadFiles="@(ReleaseFile)"
       Version="$(FullBuildVersionString)"
       OutputFile="$(ReleaseInfoFile)">
 
       <Output TaskParameter="OutputFile" ItemName="FileWrites" /> <!-- This will tell MSBuild to clean up the file during a Clean build -->
     </GenerateReleaseInfo>
-
-    <GenerateReleaseHistory
-      HistoryFile="$(HistoryFile)"
-      Version="$(FullBuildVersionString)"
-      OutputFile="$(ReleaseHistoryFile)">
-
-      <Output TaskParameter="OutputFile" ItemName="FileWrites" /> <!-- This will tell MSBuild to clean up the file during a Clean build -->
-    </GenerateReleaseHistory>
   </Target>
 
   <!--
@@ -193,8 +191,6 @@
   <PropertyGroup>
     <BuildDependsOn>
       BuildProjectReferences;
-      CalculateReleaseFiles;
-      CalculateReleaseDocuments;
       ReleaseFiles;
       ReleaseDocumentation;
       GenerateReleaseMetadata

@@ -24,7 +24,8 @@ extern "C" {
 
 HRESULT CacheInitialize(
     __in BURN_REGISTRATION* pRegistration,
-    __in BURN_VARIABLES* pVariables
+    __in BURN_VARIABLES* pVariables,
+    __in_z_opt LPCWSTR wzSourceProcessPath
     );
 HRESULT CacheEnsureWorkingFolder(
     __in LPCWSTR wzBundleId,
@@ -87,6 +88,11 @@ void CacheSendErrorCallback(
     __out_opt BOOL* pfRetry
     );
 BOOL CacheBundleRunningFromCache();
+HRESULT CacheBundleToCleanRoom(
+    __in BURN_PAYLOADS* pUxPayloads,
+    __in BURN_SECTION* pSection,
+    __deref_out_z_opt LPWSTR* psczCleanRoomBundlePath
+    );
 HRESULT CacheBundleToWorkingDirectory(
     __in_z LPCWSTR wzBundleId,
     __in_z LPCWSTR wzExecutableName,

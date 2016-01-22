@@ -16,7 +16,6 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GenerateReleaseHistory.cs" />
     <Compile Include="GenerateReleaseInfo.cs" />
     <Compile Include="TransformHistoryEntries.cs" />
   </ItemGroup>

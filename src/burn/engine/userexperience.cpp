@@ -156,8 +156,11 @@ extern "C" HRESULT UserExperienceEnsureWorkingFolder(
     hr = CacheEnsureWorkingFolder(wzBundleId, &sczWorkingFolder);
     ExitOnFailure(hr, "Failed to create working folder.");
 
-    hr = PathCreateTempDirectory(sczWorkingFolder, L".ba%d", 999999, psczUserExperienceWorkingFolder);
-    ExitOnFailure(hr, "Failed to get unique temporary folder for bootstrapper application.");
+    hr = StrAllocFormatted(psczUserExperienceWorkingFolder, L"%ls%ls\\", sczWorkingFolder, L".ba");
+    ExitOnFailure(hr, "Failed to calculate the bootstrapper application working path.");
+
+    hr = DirEnsureExists(*psczUserExperienceWorkingFolder, NULL);
+    ExitOnFailure(hr, "Failed create bootstrapper application working folder.");
 
 LExit:
     ReleaseStr(sczWorkingFolder);
