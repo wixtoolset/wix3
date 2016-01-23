@@ -1729,7 +1729,6 @@ static HRESULT ParseImage(
 {
     HRESULT hr = S_OK;
     BSTR bstr = NULL;
-    LPSTR pszId = NULL;
     LPWSTR sczImageFile = NULL;
     int iResourceId = 0;
     Gdiplus::Bitmap* pBitmap = NULL;
@@ -1788,7 +1787,6 @@ LExit:
     }
 
     ReleaseStr(sczImageFile);
-    ReleaseStr(pszId);
     ReleaseBSTR(bstr);
 
     return hr;
