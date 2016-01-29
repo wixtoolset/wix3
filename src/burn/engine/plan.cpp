@@ -387,11 +387,15 @@ extern "C" HRESULT PlanLayoutBundle(
     hr = VariableGetString(pVariables, BURN_BUNDLE_LAYOUT_DIRECTORY, &sczLayoutDirectory);
     if (E_NOTFOUND == hr) // if not set, use the current directory as the layout directory.
     {
-        hr = PathForCurrentProcess(&sczExecutablePath, NULL);
-        ExitOnFailure(hr, "Failed to get path for current executing process as layout directory.");
+        hr = VariableGetString(pVariables, BURN_BUNDLE_SOURCE_PROCESS_FOLDER, &sczLayoutDirectory);
+        if (E_NOTFOUND == hr) // if not set, use the current directory as the layout directory.
+        {
+            hr = PathForCurrentProcess(&sczExecutablePath, NULL);
+            ExitOnFailure(hr, "Failed to get path for current executing process as layout directory.");
 
-        hr = PathGetDirectory(sczExecutablePath, &sczLayoutDirectory);
-        ExitOnFailure(hr, "Failed to get executing process as layout directory.");
+            hr = PathGetDirectory(sczExecutablePath, &sczLayoutDirectory);
+            ExitOnFailure(hr, "Failed to get executing process as layout directory.");
+        }
     }
     ExitOnFailure(hr, "Failed to get bundle layout directory property.");
 
