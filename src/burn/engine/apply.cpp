@@ -958,9 +958,6 @@ static HRESULT LayoutBundle(
     BURN_CACHE_ACQUIRE_PROGRESS_CONTEXT progress = { };
     BOOL fRetry = FALSE;
 
-    hr = VariableGetString(pVariables, BURN_BUNDLE_SOURCE_PROCESS_PATH, &sczBundleSourcePath);
-    ExitOnFailure(hr, "Failed to get path to bundle source process path to layout.");
-
     hr = PathForCurrentProcess(&sczBundlePath, NULL);
     ExitOnFailure(hr, "Failed to get path to bundle to layout.");
 
@@ -976,13 +973,19 @@ static HRESULT LayoutBundle(
         ExitFunction1(hr = S_OK);
     }
 
-    // If the destination path is the currently running bundles source process, bail.
-    hr = PathCompare(sczBundleSourcePath, sczDestinationPath, &nEquivalentPaths);
-    ExitOnFailure(hr, "Failed to determine if layout bundle path was equivalent with source process path.");
-
-    if (CSTR_EQUAL == nEquivalentPaths)
+    hr = VariableGetString(pVariables, BURN_BUNDLE_SOURCE_PROCESS_PATH, &sczBundleSourcePath);
+    if (E_NOTFOUND != hr)
     {
-        ExitFunction1(hr = S_OK);
+        ExitOnFailure(hr, "Failed to get path to bundle source process path to layout.");
+
+        // If the destination path is the currently running bundles source process, bail.
+        hr = PathCompare(sczBundleSourcePath, sczDestinationPath, &nEquivalentPaths);
+        ExitOnFailure(hr, "Failed to determine if layout bundle path was equivalent with source process path.");
+
+        if (CSTR_EQUAL == nEquivalentPaths)
+        {
+            ExitFunction1(hr = S_OK);
+        }
     }
 
     progress.pUX = pUX;
@@ -1052,6 +1055,7 @@ static HRESULT LayoutBundle(
     LogExitOnFailure2(hr, MSG_FAILED_LAYOUT_BUNDLE, "Failed to layout bundle: %ls to layout directory: %ls", sczBundlePath, wzLayoutDirectory);
 
 LExit:
+    ReleaseStr(sczBundleSourcePath);
     ReleaseStr(sczDestinationPath);
     ReleaseStr(sczBundlePath);
 
