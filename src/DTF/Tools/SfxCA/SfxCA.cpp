@@ -107,33 +107,42 @@ int InvokeOutOfProcManagedCustomAction(MSIHANDLE hSession, const wchar_t* szEntr
         wchar_t szModule[MAX_PATH] = {0};
         GetModuleFileName(g_hModule, szModule, MAX_PATH);
 
-        const wchar_t* rundll32 = L"rundll32.exe";
+        wchar_t szSystemPath[MAX_PATH] = {0};
+        GetSystemDirectory(szSystemPath, MAX_PATH);
+
         wchar_t szRunDll32Path[MAX_PATH] = {0};
-        GetSystemDirectory(szRunDll32Path, MAX_PATH);
-        wcscat_s(szRunDll32Path, MAX_PATH, L"\\");
-        wcscat_s(szRunDll32Path, MAX_PATH, rundll32);
+        wcscat_s(szRunDll32Path, MAX_PATH, szSystemPath);
+        wcscat_s(szRunDll32Path, MAX_PATH, L"\\rundll32.exe");
 
         const wchar_t* entry = L"zzzzInvokeManagedCustomActionOutOfProc";
         wchar_t szCommandLine[1024] = {0};
-        swprintf_s(szCommandLine, 1024, L"%s \"%s\",%s %s %d %s",
-                rundll32, szModule, entry, szSessionName, hSession, szEntryPoint);
+        swprintf_s(szCommandLine, 1024, L"\"%s\",%s %s %d %s",
+                szModule, entry, szSessionName, hSession, szEntryPoint);
 
-        STARTUPINFO si;
-        SecureZeroMemory(&si, sizeof(STARTUPINFO));
-        si.cb = sizeof(STARTUPINFO);
-        
-        PROCESS_INFORMATION pi;
-        SecureZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
+        SHELLEXECUTEINFO sei;
+        SecureZeroMemory(&sei, sizeof(SHELLEXECUTEINFO));
+        sei.cbSize = sizeof(SHELLEXECUTEINFO);
+        sei.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_NOASYNC;
+        sei.lpVerb = L"open";
+        sei.lpFile = szRunDll32Path;
+        sei.lpDirectory = szSystemPath;
+        sei.lpParameters = szCommandLine;
+        sei.nShow = SW_HIDE;
 
-        if (!CreateProcess(szRunDll32Path, szCommandLine, NULL, NULL, FALSE,
-                0, NULL, NULL, &si, &pi))
+        if (!ShellExecuteEx(&sei))
         {
                 DWORD err = GetLastError();
-                Log(hSession, L"Failed to create new CA process via RUNDLL32. Error code: %d", err);
+                Log(hSession, L"Failed to shellex new CA process via RUNDLL32. Error code: %d", err);
                 return ERROR_INSTALL_FAILURE;
         }
 
-        DWORD dwWait = WaitForSingleObject(pi.hProcess, INFINITE);
+        if (!sei.hProcess)
+        {
+                Log(hSession, L"shellex didn't return a process handle.");
+                return ERROR_INSTALL_FAILURE;
+        }
+
+        DWORD dwWait = WaitForSingleObject(sei.hProcess, INFINITE);
         if (dwWait != WAIT_OBJECT_0)
         {
                 DWORD err = GetLastError();
@@ -142,7 +151,7 @@ int InvokeOutOfProcManagedCustomAction(MSIHANDLE hSession, const wchar_t* szEntr
         }
 
         DWORD dwExitCode;
-        BOOL bRet = GetExitCodeProcess(pi.hProcess, &dwExitCode);
+        BOOL bRet = GetExitCodeProcess(sei.hProcess, &dwExitCode);
         if (!bRet)
         {
                 DWORD err = GetLastError();
@@ -155,8 +164,7 @@ int InvokeOutOfProcManagedCustomAction(MSIHANDLE hSession, const wchar_t* szEntr
                 return ERROR_INSTALL_FAILURE;
         }
 
-        CloseHandle(pi.hThread);
-        CloseHandle(pi.hProcess);
+        CloseHandle(sei.hProcess);
 
         remote.WaitExitCode();
         return remote.ExitCode;
