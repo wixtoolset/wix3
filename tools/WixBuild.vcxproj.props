@@ -20,9 +20,10 @@
 
   <PropertyGroup>
     <!-- If available and we're not explicitly setting the toolset, use VS2015; otherwise fall back to VS2013 then VS2012 then VS2010. -->
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2015Available) ">v140_xp</PlatformToolset>
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2013Available) ">v120_xp</PlatformToolset>
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2012Available) ">v110_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2015Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2015') ">v140_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2013Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2013') ">v120_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2012Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2012') ">v110_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2010Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2010') ">v100</PlatformToolset>
     <ProjectSubSystem Condition=" '$(ProjectSubSystem)'=='' ">Windows</ProjectSubSystem>
     <!-- VS2015: turn off 'typedef ignored when no variable declared' -->
     <!-- VS2015: turn off 'declaration hides class member' -->

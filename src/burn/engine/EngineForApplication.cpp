@@ -491,8 +491,8 @@ public: // IBootstrapperEngine
         __in_z LPCWSTR wzPackageOrContainerId,
         __in_z_opt LPCWSTR wzPayloadId,
         __in_z LPCWSTR wzUrl,
-        __in_z_opt LPWSTR wzUser,
-        __in_z_opt LPWSTR wzPassword
+        __in_z_opt LPCWSTR wzUser,
+        __in_z_opt LPCWSTR wzPassword
         )
     {
         HRESULT hr = S_OK;

@@ -125,6 +125,25 @@
       <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
     </CreateItem>
 	
+	<!-- include PDBs for Debug only -->
+	<CreateItem
+	 Include="@(IntermediateAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
+	 Condition=" Exists('%(RootDir)%(Directory)%(Filename).pdb') and '$(Configuration)' == 'Debug' ">
+	  <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+	</CreateItem>
+	
+	<CreateItem
+	 Include="@(ReferenceCopyLocalPaths)"
+	 Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
+	  <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+	</CreateItem>
+	
+	<CreateItem
+     Include="@(ReferenceComWrappersToCopyLocal)"
+     Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
+	
     <!--
   Items to include in the CA package:
      - Reference assemblies marked CopyLocal

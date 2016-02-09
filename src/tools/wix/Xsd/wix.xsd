@@ -10764,7 +10764,7 @@
       </xs:choice>
       <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The Id cannot by longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
+          <xs:documentation>The Id cannot be longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceFile" type="xs:string">
@@ -10810,7 +10810,7 @@
     <xs:complexType>
       <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The Id cannot by longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
+          <xs:documentation>The Id cannot be longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceFile" type="xs:string">
