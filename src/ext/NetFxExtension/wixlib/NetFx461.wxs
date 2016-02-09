@@ -20,7 +20,7 @@
   <?define NetFx461MinRelease = 394254 ?>
   <?define NetFx461WebLink = http://go.microsoft.com/fwlink/?LinkId=671728 ?>
   <?define NetFx461RedistLink = http://go.microsoft.com/fwlink/?LinkId=671743 ?>
-  <?define NetFx461EulaLink = https://msdn.microsoft.com/en-us/library/ee942965.aspx ?>
+  <?define NetFx461EulaLink = http://referencesource.microsoft.com/license.html ?>
 
   <Fragment>
     <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
