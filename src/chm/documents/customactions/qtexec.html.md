@@ -8,6 +8,18 @@ after: using_standard_customactions
 
 The QtExec custom action allows you to run an arbitrary command line in an MSI-based setup in silent mode. QtExec is commonly used to suppress console windows that would otherwise appear appear when invoking the executable directly. The custom action is located in the WixCA library, which is a part of the WixUtilExtension.
 
+
+## Naming in WiX v3.x and WiX v4.0
+
+Prior to WiX v3.10, only `CAQuietExec` and `CAQuietExec64` are available, which used the properties `QtExecCmdTimeout` (used for both 32-bit and 64-bit custom actions), `QtExecCmdLine`, and `QtExec64CmdLine`.
+
+Starting in WiX v3.10, those same identifiers are available but the new, preferred custom action names are `WixQuietExec` and `WixQuietExec64` with properties named `WixQuietExecCmdTimeout`, `WixQuietExec64CmdTimeout`, `WixQuietExecCmdLine`, and `WixQuietExec64CmdLine`.
+
+In WiX v4.0, only the `WixQuietExec` names will be supported.
+
+The `WixSilentExec` actions introduced in WiX v3.10 already support the new naming scheme.
+
+
 ## Immediate execution
 
 When the QtExec action is run as an immediate custom action, it will try to execute the command stored in the WixQuietExecCmdLine property. The following is an example of authoring an immediate QtExec custom action:
