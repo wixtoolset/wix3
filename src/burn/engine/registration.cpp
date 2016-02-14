@@ -644,13 +644,15 @@ extern "C" HRESULT RegistrationSessionBegin(
         hr = RegWriteStringArray(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_PATCH_CODE, pRegistration->rgsczPatchCodes, pRegistration->cPatchCodes);
         ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_PATCH_CODE);
 
-        hr = RegWriteStringFormatted(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION, L"%hu.%hu.%hu.%hu", (WORD) (pRegistration->qwVersion >> 48), (WORD) (pRegistration->qwVersion >> 32), (WORD) (pRegistration->qwVersion >> 16), (WORD) (pRegistration->qwVersion));
+        hr = RegWriteStringFormatted(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION, L"%hu.%hu.%hu.%hu", 
+            static_cast<WORD>(pRegistration->qwVersion >> 48), static_cast<WORD>(pRegistration->qwVersion >> 32), 
+            static_cast<WORD>(pRegistration->qwVersion >> 16), static_cast<WORD>(pRegistration->qwVersion));
         ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION);
 
-        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MAJOR, (WORD) (pRegistration->qwVersion >> 48));
+        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MAJOR, static_cast<WORD>(pRegistration->qwVersion >> 48));
         ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_VERSION_MAJOR);
 
-        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MINOR, (WORD) (pRegistration->qwVersion >> 32));
+        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MINOR, static_cast<WORD>(pRegistration->qwVersion >> 32));
         ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_VERSION_MINOR);
 
         if (pRegistration->sczProviderKey)
