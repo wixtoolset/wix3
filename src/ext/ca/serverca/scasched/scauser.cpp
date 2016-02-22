@@ -529,6 +529,8 @@ HRESULT ScaUserExecute(
             ueUserExists = USER_EXISTS_INDETERMINATE;
             hr = HRESULT_FROM_WIN32(er);
             WcaLog(LOGMSG_VERBOSE, "Failed to check existence of domain: %ls, user: %ls (error code 0x%x) - continuing", wzDomain, psu->wzName, hr);
+			hr = S_OK;
+			er = ERROR_SUCCESS;
         }
 
         if (WcaIsInstalling(psu->isInstalled, psu->isAction))
