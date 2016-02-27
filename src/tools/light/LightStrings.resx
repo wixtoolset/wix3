@@ -119,6 +119,7 @@
   </resheader>
   <data name="CommandLineArguments" xml:space="preserve">
     <value>   -ai        allow identical rows, identical rows will be treated as a warning
+   -ad        allow duplicate directory identities from other libraries
    -au        (experimental) allow unresolved references
               (will not create a valid output)
    -b &lt;path&gt;  specify a binder path to locate all files
