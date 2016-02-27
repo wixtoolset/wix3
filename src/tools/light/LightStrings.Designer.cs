@@ -62,6 +62,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools {
         
         /// <summary>
         ///   Looks up a localized string similar to    -ai        allow identical rows, identical rows will be treated as a warning
+        ///   -ad        allow duplicate directory identities from other libraries
         ///   -au        (experimental) allow unresolved references
         ///              (will not create a valid output)
         ///   -b &lt;path&gt;  specify a base path to locate all files

@@ -911,6 +911,7 @@ namespace WixTest
                 switch ((string)row[0])
                 {
                     case "ProductCode":
+                    case "WixPdbPath":
                         return true;
                 }
             }

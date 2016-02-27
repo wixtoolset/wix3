@@ -35,6 +35,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
     {
         private string[] cultures;
         private bool allowIdenticalRows;
+        private bool allowDuplicateDirectoryIds;
         private bool allowUnresolvedReferences;
         private bool bindFiles;
         private WixBinder binder;
@@ -211,6 +212,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                 }
 
                 linker.AllowIdenticalRows = this.allowIdenticalRows;
+                linker.AllowDuplicateDirectoryIds = this.allowDuplicateDirectoryIds;
                 linker.AllowUnresolvedReferences = this.allowUnresolvedReferences;
                 linker.Cultures = this.cultures;
                 linker.UnreferencedSymbolsFile = this.unreferencedSymbolsFile;
@@ -517,6 +519,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     {
                         this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("ai"));
                         this.allowIdenticalRows = true;
+                    }
+                    else if (parameter.Equals("ad", StringComparison.Ordinal))
+                    {
+                        this.allowDuplicateDirectoryIds = true;
                     }
                     else if (parameter.Equals("au", StringComparison.Ordinal))
                     {
