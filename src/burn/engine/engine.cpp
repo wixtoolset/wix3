@@ -287,6 +287,8 @@ static void UninitializeEngineState(
     __in BURN_ENGINE_STATE* pEngineState
     )
 {
+    ReleaseFileHandle(pEngineState->hSourceEngineFile);
+
     ReleaseStr(pEngineState->sczIgnoreDependencies);
 
     PipeConnectionUninitialize(&pEngineState->embeddedConnection);
