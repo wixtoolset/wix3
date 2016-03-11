@@ -505,7 +505,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Users group (WinBuiltinUsersSid.</p>
+<p>Localized qualified name of the Users group (WinBuiltinUsersSid).</p>
 </td>
 </tr>
 
