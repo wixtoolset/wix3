@@ -522,6 +522,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if (parameter.Equals("ad", StringComparison.Ordinal))
                     {
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("ad"));
                         this.allowDuplicateDirectoryIds = true;
                     }
                     else if (parameter.Equals("au", StringComparison.Ordinal))
