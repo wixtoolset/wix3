@@ -1,3 +1,13 @@
+## WixBuild: Version 3.11.0.321
+
+* HeathS: WIXFEAT:5230 - Support adding users to Performance Log users group
+
+* HeathS: WIXBUG:5229 - Allow processes to terminate with 0 exit code
+
+* HeathS: WIXBUG:5227 - Allow for merging of directories from different wixlibs and sources
+
+* HeathS: WIXBUG:4894 - Allow lit binder extensions to parse command line arguments
+
 ## WixBuild: Version 3.11.0.226
 
 * HeathS: WIXBUG:4880 - Add detection support for VS15
