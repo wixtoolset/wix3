@@ -139,6 +139,8 @@ typedef struct _BURN_ENGINE_STATE
     BOOL fDisableUnelevate;
 
     LPWSTR sczIgnoreDependencies;
+
+    HANDLE hSourceEngineFile;
 } BURN_ENGINE_STATE;
 
 

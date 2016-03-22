@@ -119,6 +119,9 @@ extern "C" HRESULT CoreInitialize(
 
     if (sczSourceProcessPath)
     {
+        pEngineState->hSourceEngineFile = ::CreateFileW(sczSourceProcessPath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        // Best effort to get handle to the untrusted engine, since that makes it much more likely to be able to get the attached container.
+
         hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_SOURCE_PROCESS_PATH, sczSourceProcessPath, TRUE);
         ExitOnFailure(hr, "Failed to set source process path variable.");
 
@@ -256,7 +259,7 @@ extern "C" HRESULT CoreDetect(
     pEngineState->userExperience.hwndDetect = hwndParent;
 
     // Always reset the detect state which means the plan should be reset too.
-    DetectReset(&pEngineState->registration, &pEngineState->packages, &pEngineState->update);
+    DetectReset(&pEngineState->registration, &pEngineState->packages, &pEngineState->containers);
     PlanReset(&pEngineState->plan, &pEngineState->packages);
 
     hr = SearchesExecute(&pEngineState->searches, &pEngineState->variables);
@@ -1517,7 +1520,7 @@ static DWORD WINAPI CacheThreadProc(
     fComInitialized = TRUE;
 
     // cache packages
-    hr = ApplyCache(pEngineState->section.hEngineFile, &pEngineState->userExperience, &pEngineState->variables, &pEngineState->plan, pEngineState->companionConnection.hCachePipe, pcOverallProgressTicks, pfRollback);
+    hr = ApplyCache(pEngineState->hSourceEngineFile, &pEngineState->userExperience, &pEngineState->variables, &pEngineState->plan, pEngineState->companionConnection.hCachePipe, pcOverallProgressTicks, pfRollback);
 
 LExit:
     UserExperienceExecutePhaseComplete(&pEngineState->userExperience, hr); // signal that cache completed.

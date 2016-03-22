@@ -30,7 +30,7 @@ extern "C" {
 void DetectReset(
     __in BURN_REGISTRATION* pRegistration,
     __in BURN_PACKAGES* pPackages,
-    __in BURN_UPDATE* pUpdate
+    __in BURN_CONTAINERS* pContainers
     );
 
 HRESULT DetectForwardCompatibleBundle(
