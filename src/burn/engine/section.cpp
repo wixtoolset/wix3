@@ -42,11 +42,11 @@ typedef struct _BURN_SECTION_HEADER
 
 
 extern "C" HRESULT SectionInitialize(
-    __in BURN_SECTION* pSection
+    __in BURN_SECTION* pSection,
+    __in HANDLE hEngineFile
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR sczPath = NULL;
     DWORD cbRead = 0;
     LARGE_INTEGER li = { };
     LONGLONG llSize = 0;
@@ -60,16 +60,8 @@ extern "C" HRESULT SectionInitialize(
     DWORD dwOriginalChecksumAndSignatureOffset = 0;
     BURN_SECTION_HEADER* pBurnSectionHeader = NULL;
 
-    // Initialize in case of failure.
-    pSection->hEngineFile = INVALID_HANDLE_VALUE;
-
-    // Get a handle to the engine and hold on to it in case the file on disk ever gets moved
-    // away (aka: deleted).
-    hr = PathForCurrentProcess(&sczPath, NULL);
-    ExitOnFailure(hr, "Failed to get path to engine process.");
-
-    pSection->hEngineFile = ::CreateFileW(sczPath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    ExitOnInvalidHandleWithLastError1(pSection->hEngineFile, hr, "Failed to open handle to engine process path: %ls", sczPath);
+    pSection->hEngineFile = hEngineFile;
+    ExitOnInvalidHandleWithLastError(pSection->hEngineFile, hr, "Failed to open handle to engine process path.");
 
     //
     // First, make sure we have a valid DOS signature.
@@ -254,7 +246,6 @@ extern "C" HRESULT SectionInitialize(
 
 LExit:
     ReleaseMem(pBurnSectionHeader);
-    ReleaseStr(sczPath);
 
     return hr;
 }
@@ -264,7 +255,6 @@ extern "C" void SectionUninitialize(
     )
 {
     ReleaseMem(pSection->rgcbContainers);
-    ReleaseFileHandle(pSection->hEngineFile);
     memset(pSection, 0, sizeof(BURN_SECTION));
 }
 

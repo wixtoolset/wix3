@@ -25,6 +25,7 @@ extern "C" {
 
 HRESULT EngineRun(
     __in HINSTANCE hInstance,
+    __in HANDLE hEngineFile,
     __in_z_opt LPCWSTR wzCommandLine,
     __in int nCmdShow,
     __out DWORD* pdwExitCode
