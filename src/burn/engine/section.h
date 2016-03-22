@@ -44,7 +44,8 @@ typedef struct _BURN_SECTION
 
 
 HRESULT SectionInitialize(
-    __in BURN_SECTION* pSection
+    __in BURN_SECTION* pSection,
+    __in HANDLE hEngineFile
     );
 void SectionUninitialize(
     __in BURN_SECTION* pSection
