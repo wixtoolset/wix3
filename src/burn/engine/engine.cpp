@@ -21,7 +21,8 @@ const DWORD RESTART_RETRIES = 10;
 // internal function declarations
 
 static HRESULT InitializeEngineState(
-    __in BURN_ENGINE_STATE* pEngineState
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in HANDLE hEngineFile
     );
 static void UninitializeEngineState(
     __in BURN_ENGINE_STATE* pEngineState
@@ -66,6 +67,7 @@ static HRESULT Restart();
 
 extern "C" HRESULT EngineRun(
     __in HINSTANCE hInstance,
+    __in HANDLE hEngineFile,
     __in_z_opt LPCWSTR wzCommandLine,
     __in int nCmdShow,
     __out DWORD* pdwExitCode
@@ -96,7 +98,7 @@ extern "C" HRESULT EngineRun(
     LogSetLevel(REPORT_VERBOSE, FALSE); // FALSE means don't write an additional text line to the log saying the level changed
 #endif
 
-    hr = InitializeEngineState(&engineState);
+    hr = InitializeEngineState(&engineState, hEngineFile);
     ExitOnFailure(hr, "Failed to initialize engine state.");
 
     engineState.command.nCmdShow = nCmdShow;
@@ -264,7 +266,8 @@ LExit:
 // internal function definitions
 
 static HRESULT InitializeEngineState(
-    __in BURN_ENGINE_STATE* pEngineState
+    __in BURN_ENGINE_STATE* pEngineState,
+    __in HANDLE hEngineFile
     )
 {
     HRESULT hr = S_OK;
@@ -276,7 +279,7 @@ static HRESULT InitializeEngineState(
     PipeConnectionInitialize(&pEngineState->companionConnection);
     PipeConnectionInitialize(&pEngineState->embeddedConnection);
 
-    hr = SectionInitialize(&pEngineState->section);
+    hr = SectionInitialize(&pEngineState->section, hEngineFile);
     ExitOnFailure(hr, "Failed to initialize engine section.");
 
 LExit:
