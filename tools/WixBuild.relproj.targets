@@ -8,10 +8,7 @@
   </copyright>
 -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="GenerateReleaseInfo" />
-  <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="GenerateReleaseHistory" />
-  <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="TransformHistoryEntries" />
   <UsingTask AssemblyFile="$(ExtensionPackPath)MSBuild.ExtensionPack.dll" TaskName="Zip" />
 
   <PropertyGroup>
@@ -119,32 +116,6 @@
 
   <!--
   ================================================================================================
-  TransformHistoryEntries
-
-    Converts history files into entries in a project's History.md.
-
-  ================================================================================================
-  -->
-  <PropertyGroup>
-    <TransformHistoryEntriesDependsOn>
-    </TransformHistoryEntriesDependsOn>
-
-    <HistoryFolderRelativePath>history</HistoryFolderRelativePath>
-    <SpecialHistoryFileName>readme.md</SpecialHistoryFileName>
-  </PropertyGroup>
-  <Target Name="TransformHistoryEntries"
-          DependsOnTargets="$(TransformHistoryEntriesDependsOn)">
-    <Error Text="Cannot locate project's history folder at: $(WixRoot)$(HistoryFolderRelativePath)." Condition=" !Exists('$(WixRoot)$(HistoryFolderRelativePath)') " />
-
-    <TransformHistoryEntries
-      ProjectFolder="$(WixRoot)"
-      HistoryFolderRelativePath="$(HistoryFolderRelativePath)"
-      HistoryFile="$(HistoryFile)"
-      SpecialHistoryFileName="$(SpecialHistoryFileName)" />
-  </Target>
-
-  <!--
-  ================================================================================================
   GenerateReleaseMetadata
 
     Generates a .json class file from input files to be Released.
@@ -159,8 +130,7 @@
   -->
   <PropertyGroup>
     <GenerateReleaseMetadataDependsOn>
-      ReleaseFiles;
-      TransformHistoryEntries
+      ReleaseFiles
     </GenerateReleaseMetadataDependsOn>
     <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseInfoFile>
   </PropertyGroup>
