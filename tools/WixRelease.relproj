@@ -17,6 +17,10 @@
       <Properties>Configuration=$(Configuration)</Properties>
       <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
+    <ProjectReference Include="release\WixHistory.proj">
+      <Properties>Configuration=$(Configuration)</Properties>
+      <BuildInParallel>false</BuildInParallel>
+    </ProjectReference>
 
     <ProjectReference Include="..\src\setup\zip\binaries.zipproj">
       <Properties>Configuration=$(Configuration)</Properties>
