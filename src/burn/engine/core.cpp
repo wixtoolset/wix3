@@ -29,7 +29,8 @@ struct BURN_CACHE_THREAD_CONTEXT
 // internal function declarations
 
 static HRESULT ParseCommandLine(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in int argc,
+    __in LPWSTR* argv,
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_PIPE_CONNECTION* pCompanionConnection,
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
@@ -72,7 +73,6 @@ static void LogPackages(
 // function definitions
 
 extern "C" HRESULT CoreInitialize(
-    __in_z_opt LPCWSTR wzCommandLine,
     __in BURN_ENGINE_STATE* pEngineState
     )
 {
@@ -106,7 +106,7 @@ extern "C" HRESULT CoreInitialize(
     ExitOnFailure(hr, "Failed to load manifest.");
 
     // Parse command line.
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczSourceProcessPath, &sczOriginalSource, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
+    hr = ParseCommandLine(pEngineState->argc, pEngineState->argv, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczSourceProcessPath, &sczOriginalSource, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
     ExitOnFailure(hr, "Failed to parse command line.");
 
     LogId(REPORT_STANDARD, MSG_BURN_COMMAND_LINE, sczSanitizedCommandLine ? sczSanitizedCommandLine : L"");
@@ -993,10 +993,58 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
+    __in LPCWSTR wzExecutablePath,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine,
+    __deref_inout_z_opt LPWSTR* psczObfuscatedCommandLine
+    )
+{
+    HRESULT hr = S_OK;
+    HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
+    LPWSTR sczCommandLine = NULL;
+    LPWSTR sczObfuscatedCommandLine = NULL;
+    SECURITY_ATTRIBUTES securityAttributes = { };
+    securityAttributes.bInheritHandle = TRUE;
+    *phExecutableFile = INVALID_HANDLE_VALUE;
+
+    hExecutableFile = ::CreateFileW(wzExecutablePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, &securityAttributes, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (INVALID_HANDLE_VALUE != hExecutableFile)
+    {
+        hr = StrAllocFormattedSecure(&sczCommandLine, L"-%ls=%u %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile, *psczCommandLine);
+        ExitOnFailure(hr, "Failed to append the file handle to the command line.");
+
+        StrSecureZeroFreeString(*psczCommandLine);
+        *psczCommandLine = sczCommandLine;
+        sczCommandLine = NULL;
+
+        if (psczObfuscatedCommandLine)
+        {
+            hr = StrAllocFormatted(&sczObfuscatedCommandLine, L"-%ls=%u %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile, *psczObfuscatedCommandLine);
+            ExitOnFailure(hr, "Failed to append the file handle to the obfuscated command line.");
+
+            StrSecureZeroFreeString(*psczObfuscatedCommandLine);
+            *psczObfuscatedCommandLine = sczObfuscatedCommandLine;
+            sczObfuscatedCommandLine = NULL;
+        }
+
+        *phExecutableFile = hExecutableFile;
+        hExecutableFile = INVALID_HANDLE_VALUE;
+    }
+
+LExit:
+    StrSecureZeroFreeString(sczObfuscatedCommandLine);
+    StrSecureZeroFreeString(sczCommandLine);
+    ReleaseFileHandle(hExecutableFile);
+
+    return hr;
+}
+
 // internal helper functions
 
 static HRESULT ParseCommandLine(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in int argc,
+    __in LPWSTR* argv,
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_PIPE_CONNECTION* pCompanionConnection,
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
@@ -1016,19 +1064,11 @@ static HRESULT ParseCommandLine(
     )
 {
     HRESULT hr = S_OK;
-    int argc = 0;
-    LPWSTR* argv = NULL;
     BOOL fUnknownArg = FALSE;
     BOOL fHidden = FALSE;
     LPWSTR sczCommandLine = NULL;
     LPWSTR sczSanitizedArgument = NULL;
     LPWSTR sczVariableName = NULL;
-
-    if (wzCommandLine && *wzCommandLine)
-    {
-        hr = AppParseCommandLine(wzCommandLine, &argc, &argv);
-        ExitOnFailure(hr, "AppParseCommandLine failed.");
-    }
 
     for (int i = 0; i < argc; ++i)
     {
@@ -1402,11 +1442,6 @@ static HRESULT ParseCommandLine(
     }
 
 LExit:
-    if (argv)
-    {
-        AppFreeCommandLineArgs(argv);
-    }
-
     ReleaseStr(sczVariableName);
     ReleaseStr(sczSanitizedArgument);
     ReleaseStr(sczCommandLine);

@@ -399,6 +399,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     LPWSTR sczExecutablePath = NULL;
     LPWSTR sczCommand = NULL;
     LPWSTR sczCommandObfuscated = NULL;
+    HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
     STARTUPINFOW si = { };
     PROCESS_INFORMATION pi = { };
     DWORD dwExitCode = 0;
@@ -522,6 +523,12 @@ extern "C" HRESULT ExeEngineExecutePackage(
         }
     }
 
+    if (BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    {
+        hr = CoreAppendFileHandleSelfToCommandLine(sczExecutablePath, &hExecutableFile, &sczCommand, &sczCommandObfuscated);
+        ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF);
+    }
+
     // Log before we add the secret pipe name and client token for embedded processes.
     LogId(REPORT_STANDARD, MSG_APPLYING_PACKAGE, LoggingRollbackOrExecute(fRollback), pExecuteAction->exePackage.pPackage->sczId, LoggingActionStateToString(pExecuteAction->exePackage.action), sczExecutablePath, sczCommandObfuscated);
 
@@ -545,9 +552,9 @@ extern "C" HRESULT ExeEngineExecutePackage(
         }
 
         si.cb = sizeof(si); // TODO: hookup the stdin/stdout/stderr pipes for logging purposes?
-        if (!::CreateProcessW(sczExecutablePath, sczCommand, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+        if (!::CreateProcessW(sczExecutablePath, sczCommand, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
         {
-            ExitWithLastError1(hr, "Failed to CreateProcess on path: %ls", sczExecutablePath);
+            ExitWithLastError(hr, "Failed to CreateProcess on path: %ls", sczExecutablePath);
         }
 
         if (pExecuteAction->exePackage.fFireAndForget)
@@ -574,7 +581,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     }
 
     hr = HandleExitCode(pExecuteAction->exePackage.pPackage, dwExitCode, pRestart);
-    ExitOnRootFailure1(hr, "Process returned error: 0x%x", dwExitCode);
+    ExitOnRootFailure(hr, "Process returned error: 0x%x", dwExitCode);
 
 LExit:
     if (fChangedCurrentDirectory)
@@ -592,6 +599,7 @@ LExit:
 
     ReleaseHandle(pi.hThread);
     ReleaseHandle(pi.hProcess);
+    ReleaseFileHandle(hExecutableFile);
 
     // Best effort to clear the execute package cache folder and action variables.
     VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);
