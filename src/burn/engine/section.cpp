@@ -40,6 +40,10 @@ typedef struct _BURN_SECTION_HEADER
     DWORD rgcbContainers[1];
 } BURN_SECTION_HEADER;
 
+static HRESULT VerifySectionMatchesMemoryPEHeader(
+    __in REFGUID pSection
+    );
+
 
 extern "C" HRESULT SectionInitialize(
     __in BURN_SECTION* pSection,
@@ -247,6 +251,10 @@ extern "C" HRESULT SectionInitialize(
 
     memcpy(pSection->rgcbContainers, pBurnSectionHeader->rgcbContainers, sizeof(DWORD) * pSection->cContainers);
 
+    // TODO: verify more than just the GUID.
+    hr = VerifySectionMatchesMemoryPEHeader(pBurnSectionHeader->guidBundleId);
+    ExitOnRootFailure(hr, "PE Header from file didn't match PE Header in memory.");
+
 LExit:
     ReleaseMem(pBurnSectionHeader);
 
@@ -302,6 +310,100 @@ extern "C" HRESULT SectionGetAttachedContainerInfo(
     *pfPresent = (*pqwOffset + *pqwSize) <= pSection->qwBundleSize;
 
     AssertSz(*pfPresent || pSection->qwBundleSize <= *pqwOffset, "An attached container should either be present or completely absent from the bundle. Found a case where the attached container is partially present which is wrong.");
+
+LExit:
+    return hr;
+}
+
+HRESULT VerifySectionMatchesMemoryPEHeader(
+    __in REFGUID pBundleId
+    )
+{
+    HRESULT hr = S_OK;
+    BYTE* pbPEHeader = NULL;
+    PIMAGE_DOS_HEADER pDosHeader = NULL;
+    PIMAGE_NT_HEADERS pNtHeader = NULL;
+    PIMAGE_SECTION_HEADER pSections = NULL;
+    PIMAGE_SECTION_HEADER pSectionHeader = NULL;
+    BURN_SECTION_HEADER* pBurnSectionHeader = NULL;
+
+    pbPEHeader = reinterpret_cast<BYTE*>(::GetModuleHandleW(NULL));
+    ExitOnNullWithLastError(pbPEHeader, hr, "Failed to get module handle to process.");
+
+    //
+    // First, make sure we have a valid DOS signature.
+    //
+
+    pDosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(pbPEHeader);
+    if (IMAGE_DOS_SIGNATURE != pDosHeader->e_magic)
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
+        ExitOnRootFailure(hr, "Failed to find valid DOS image header in buffer.");
+    }
+
+    //
+    // Now, make sure we have a valid NT signature.
+    //
+
+    pNtHeader = reinterpret_cast<PIMAGE_NT_HEADERS>(pbPEHeader + pDosHeader->e_lfanew);
+    if (IMAGE_NT_SIGNATURE != pNtHeader->Signature)
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
+        ExitOnRootFailure(hr, "Failed to find valid NT image header in buffer.");
+    }
+
+    //
+    // Finally, get into the section table and look for the Burn section info.
+    //
+
+    pSections = reinterpret_cast<PIMAGE_SECTION_HEADER>(pbPEHeader + pDosHeader->e_lfanew + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER) + pNtHeader->FileHeader.SizeOfOptionalHeader);
+
+    // Read sections one by one until we find our section.
+    for (DWORD i = 0; ; ++i)
+    {
+        pSectionHeader = pSections + i;
+
+        // Compare header name.
+        C_ASSERT(sizeof(pSectionHeader->Name) == sizeof(BURN_SECTION_NAME) - 1);
+        if (0 == memcmp(pSectionHeader->Name, BURN_SECTION_NAME, sizeof(pSectionHeader->Name)))
+        {
+            break;
+        }
+
+        // Fail if we hit the end.
+        if (i + 1 >= pNtHeader->FileHeader.NumberOfSections)
+        {
+            hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
+            ExitOnRootFailure(hr, "Failed to find Burn section.");
+        }
+    }
+
+    //
+    // We've arrived at the section info.
+    //
+
+    // Check size of section.
+    if (sizeof(BURN_SECTION_HEADER) > pSectionHeader->SizeOfRawData)
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
+        ExitOnRootFailure(hr, "Failed to read section info, data to short: %u", pSectionHeader->SizeOfRawData);
+    }
+
+    // Get Burn section info.
+    pBurnSectionHeader = reinterpret_cast<BURN_SECTION_HEADER*>(pbPEHeader + pSectionHeader->VirtualAddress);
+
+    // Validate version of section info.
+    if (BURN_SECTION_VERSION != pBurnSectionHeader->dwVersion)
+    {
+        hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
+        ExitOnRootFailure(hr, "Failed to read section info, unsupported version: %08x", pBurnSectionHeader->dwVersion);
+    }
+
+    if (!::IsEqualGUID(pBundleId, pBurnSectionHeader->guidBundleId))
+    {
+        hr = E_INVALIDDATA;
+        ExitOnRootFailure(hr, "Bundle guid didn't match the guid in the PE Header in memory.");
+    }
 
 LExit:
     return hr;
