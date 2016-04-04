@@ -43,7 +43,8 @@ typedef struct _BURN_SECTION_HEADER
 
 extern "C" HRESULT SectionInitialize(
     __in BURN_SECTION* pSection,
-    __in HANDLE hEngineFile
+    __in HANDLE hEngineFile,
+    __in HANDLE hSourceEngineFile
     )
 {
     HRESULT hr = S_OK;
@@ -62,6 +63,8 @@ extern "C" HRESULT SectionInitialize(
 
     pSection->hEngineFile = hEngineFile;
     ExitOnInvalidHandleWithLastError(pSection->hEngineFile, hr, "Failed to open handle to engine process path.");
+
+    pSection->hSourceEngineFile = INVALID_HANDLE_VALUE == hSourceEngineFile ? hEngineFile : hSourceEngineFile;
 
     //
     // First, make sure we have a valid DOS signature.
@@ -208,7 +211,7 @@ extern "C" HRESULT SectionInitialize(
         ExitOnRootFailure1(hr, "Failed to read section info, unsupported version: %08x", pBurnSectionHeader->dwVersion);
     }
 
-    hr = FileSizeByHandle(pSection->hEngineFile, &llSize);
+    hr = FileSizeByHandle(pSection->hSourceEngineFile, &llSize);
     ExitOnFailure(hr, "Failed to get total size of bundle.");
 
     pSection->cbStub = pBurnSectionHeader->dwStubSize;

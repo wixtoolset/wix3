@@ -80,7 +80,6 @@ static HRESULT LayoutBundle(
     __in DWORD64 qwTotalCacheSize
     );
 static HRESULT AcquireContainerOrPayload(
-    __in HANDLE hSourceEngineFile,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_VARIABLES* pVariables,
     __in_opt BURN_CONTAINER* pContainer,
@@ -518,7 +517,7 @@ extern "C" HRESULT ApplyCache(
                 break;
 
             case BURN_CACHE_ACTION_TYPE_ACQUIRE_CONTAINER:
-                hr = AcquireContainerOrPayload(hSourceEngineFile, pUX, pVariables, pCacheAction->resolveContainer.pContainer, NULL, NULL, pCacheAction->resolveContainer.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
+                hr = AcquireContainerOrPayload(pUX, pVariables, pCacheAction->resolveContainer.pContainer, NULL, NULL, pCacheAction->resolveContainer.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
                 if (SUCCEEDED(hr))
                 {
                     qwSuccessfulCachedProgress += pCacheAction->resolveContainer.pContainer->qwFileSize;
@@ -567,7 +566,7 @@ extern "C" HRESULT ApplyCache(
                 break;
 
             case BURN_CACHE_ACTION_TYPE_ACQUIRE_PAYLOAD:
-                hr = AcquireContainerOrPayload(hSourceEngineFile, pUX, pVariables, NULL, pCacheAction->resolvePayload.pPackage, pCacheAction->resolvePayload.pPayload, pCacheAction->resolvePayload.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
+                hr = AcquireContainerOrPayload(pUX, pVariables, NULL, pCacheAction->resolvePayload.pPackage, pCacheAction->resolvePayload.pPayload, pCacheAction->resolvePayload.sczUnverifiedPath, qwSuccessfulCachedProgress, pPlan->qwCacheSizeTotal);
                 if (SUCCEEDED(hr))
                 {
                     qwSuccessfulCachedProgress += pCacheAction->resolvePayload.pPayload->qwFileSize;
@@ -873,7 +872,8 @@ static HRESULT ExtractContainer(
     HANDLE hContainerHandle = INVALID_HANDLE_VALUE;
     LPWSTR sczExtractPayloadId = NULL;
 
-    if (pContainer->fAcquiredThroughSourceEngine)
+    // If the container is actually attached, then it was planned to be acquired through hSourceEngineFile.
+    if (pContainer->fActuallyAttached)
     {
         hContainerHandle = hSourceEngineFile;
     }
@@ -1065,7 +1065,6 @@ LExit:
 }
 
 static HRESULT AcquireContainerOrPayload(
-    __in HANDLE hSourceEngineFile,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_VARIABLES* pVariables,
     __in_opt BURN_CONTAINER* pContainer,
@@ -1086,8 +1085,6 @@ static HRESULT AcquireContainerOrPayload(
     LPWSTR sczSourceFullPath = NULL;
     BURN_CACHE_ACQUIRE_PROGRESS_CONTEXT progress = { };
     BOOL fRetry = FALSE;
-    LPWSTR sczSourceProcessPath = NULL;
-    int nContainerPathIsSourceProcessPath = 0;
 
     progress.pContainer = pContainer;
     progress.pPackage = pPackage;
@@ -1102,7 +1099,6 @@ static HRESULT AcquireContainerOrPayload(
         LPCWSTR wzSourcePath = pContainer ? pContainer->sczSourcePath : pPayload->sczSourcePath;
 
         BOOL fFoundLocal = FALSE;
-        BOOL fAcquiredThroughSourceEngine = FALSE;
         BOOL fCopy = FALSE;
         BOOL fDownload = FALSE;
 
@@ -1111,32 +1107,8 @@ static HRESULT AcquireContainerOrPayload(
 
         hr = CacheFindLocalSource(wzSourcePath, pVariables, &fFoundLocal, &sczSourceFullPath);
         ExitOnFailure(hr, "Failed to search local source.");
-
-        // If the container is attached to the source executable
-        // and the container path points at the source process executable
-        // then use the source engine file handle
-        // since it might have been deleted or moved since initialization.
-        if (pContainer && pContainer->fPrimary && !pContainer->fActuallyAttached && INVALID_HANDLE_VALUE != hSourceEngineFile)
-        {
-            // This is all "best effort" since in the worst case scenario we open a new
-            // handle to the container.
-            hr = VariableGetString(pVariables, BURN_BUNDLE_SOURCE_PROCESS_PATH, &sczSourceProcessPath);
-            if (SUCCEEDED(hr))
-            {
-                hr = PathCompare(sczSourceProcessPath, sczSourceFullPath, &nContainerPathIsSourceProcessPath);
-                if (SUCCEEDED(hr) && CSTR_EQUAL == nContainerPathIsSourceProcessPath)
-                {
-                    fAcquiredThroughSourceEngine = TRUE;
-                }
-            }
-        }
-
-        if (fAcquiredThroughSourceEngine)
-        {
-            // TODO: verify the container is actually attached?
-            pContainer->fAcquiredThroughSourceEngine = TRUE;
-        }
-        else if (fFoundLocal) // the file exists locally, so copy it.
+        
+        if (fFoundLocal) // the file exists locally, so copy it.
         {
             // If the source path and destination path are different, do the copy (otherwise there's no point).
             hr = PathCompare(sczSourceFullPath, wzDestinationPath, &nEquivalentPaths);
@@ -1190,38 +1162,8 @@ static HRESULT AcquireContainerOrPayload(
             hr = DownloadPayload(&progress, wzDestinationPath);
             // Error handling happens after sending complete message to BA.
         }
-        else if (fAcquiredThroughSourceEngine)
-        {
-            int nResult = pUX->pUserExperience->OnCacheAcquireBegin(wzPackageOrContainerId, wzPayloadId, BOOTSTRAPPER_CACHE_OPERATION_COPY, sczSourceFullPath);
-            hr = UserExperienceInterpretExecuteResult(pUX, FALSE, MB_OKCANCEL, nResult);
-            ExitOnRootFailure(hr, "BA aborted cache acquire begin.");
 
-            // Send fake progress.
-            LARGE_INTEGER totalFileSize = { };
-            LARGE_INTEGER totalBytesTransferred = { };
-            static LARGE_INTEGER LARGE_INTEGER_ZERO = { };
-            totalFileSize.QuadPart = pContainer->qwFileSize;
-            totalBytesTransferred.QuadPart = pContainer->qwFileSize;
-            DWORD dwResult = CacheProgressRoutine(totalFileSize, totalBytesTransferred, LARGE_INTEGER_ZERO, LARGE_INTEGER_ZERO, 0, 0, NULL, NULL, &progress);
-            switch (dwResult)
-            {
-            case PROGRESS_CONTINUE:
-            case PROGRESS_QUIET:
-                hr = S_OK;
-                break;
-
-            case PROGRESS_CANCEL: __fallthrough;
-            case PROGRESS_STOP:
-                hr = HRESULT_FROM_WIN32(ERROR_INSTALL_USEREXIT);
-                ExitOnRootFailure(hr, "BA aborted on acquire progress.");
-
-            default:
-                hr = E_UNEXPECTED;
-                ExitOnRootFailure(hr, "Invalid return code from progress routine.");
-            }
-        }
-
-        if (fCopy || fDownload || fAcquiredThroughSourceEngine)
+        if (fCopy || fDownload)
         {
             int nResult = pUX->pUserExperience->OnCacheAcquireComplete(wzPackageOrContainerId, wzPayloadId, hr, IDNOACTION);
             nResult = UserExperienceCheckExecuteResult(pUX, FALSE, MB_RETRYCANCEL, nResult);
@@ -1231,13 +1173,12 @@ static HRESULT AcquireContainerOrPayload(
                 hr = S_OK;
             }
         }
-        ExitOnFailure2(hr, "Failed to acquire payload from: '%ls' to working path: '%ls'", fCopy ? sczSourceFullPath : wzDownloadUrl, wzDestinationPath);
+        ExitOnFailure(hr, "Failed to acquire payload from: '%ls' to working path: '%ls'", fCopy ? sczSourceFullPath : wzDownloadUrl, wzDestinationPath);
     } while (fRetry);
     ExitOnFailure(hr, "Failed to find external payload to cache.");
 
 LExit:
     ReleaseStr(sczSourceFullPath);
-    ReleaseStr(sczSourceProcessPath);
 
     return hr;
 }

@@ -119,9 +119,6 @@ extern "C" HRESULT CoreInitialize(
 
     if (sczSourceProcessPath)
     {
-        pEngineState->hSourceEngineFile = ::CreateFileW(sczSourceProcessPath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-        // Best effort to get handle to the untrusted engine, since that makes it much more likely to be able to get the attached container.
-
         hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_SOURCE_PROCESS_PATH, sczSourceProcessPath, TRUE);
         ExitOnFailure(hr, "Failed to set source process path variable.");
 
@@ -259,7 +256,7 @@ extern "C" HRESULT CoreDetect(
     pEngineState->userExperience.hwndDetect = hwndParent;
 
     // Always reset the detect state which means the plan should be reset too.
-    DetectReset(&pEngineState->registration, &pEngineState->packages, &pEngineState->containers);
+    DetectReset(&pEngineState->registration, &pEngineState->packages);
     PlanReset(&pEngineState->plan, &pEngineState->packages);
 
     hr = SearchesExecute(&pEngineState->searches, &pEngineState->variables);
@@ -993,6 +990,40 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT CoreAppendFileHandleAttachedToCommandLine(
+    __in HANDLE hFileWithAttachedContainer,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine
+    )
+{
+    HRESULT hr = S_OK;
+    HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
+    LPWSTR sczCommandLine = NULL;
+
+    *phExecutableFile = INVALID_HANDLE_VALUE;
+
+    if (!::DuplicateHandle(::GetCurrentProcess(), hFileWithAttachedContainer, ::GetCurrentProcess(), &hExecutableFile, 0, TRUE, DUPLICATE_SAME_ACCESS))
+    {
+        ExitWithLastError(hr, "Failed to duplicate file handle for attached container.");
+    }
+
+    hr = StrAllocFormattedSecure(&sczCommandLine, L"-%ls=%u %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, hExecutableFile, *psczCommandLine);
+    ExitOnFailure(hr, "Failed to append the file handle to the command line.");
+
+    StrSecureZeroFreeString(*psczCommandLine);
+    *psczCommandLine = sczCommandLine;
+    sczCommandLine = NULL;
+
+    *phExecutableFile = hExecutableFile;
+    hExecutableFile = INVALID_HANDLE_VALUE;
+
+LExit:
+    StrSecureZeroFreeString(sczCommandLine);
+    ReleaseFileHandle(hExecutableFile);
+
+    return hr;
+}
+
 extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
     __in LPCWSTR wzExecutablePath,
     __out HANDLE* phExecutableFile,
@@ -1367,6 +1398,14 @@ static HRESULT ParseCommandLine(
                 hr = StrAllocString(psczAncestors, &wzParam[1], 0);
                 ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
             }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED), BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED)))
+            {
+                // Already processed in InitializeEngineState.
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF), BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF)))
+            {
+                // Already processed in InitializeEngineState.
+            }
             else if (lstrlenW(&argv[i][1]) >= lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX) &&
                 CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX), BURN_COMMANDLINE_SWITCH_PREFIX, lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX)))
             {
@@ -1546,7 +1585,7 @@ static DWORD WINAPI CacheThreadProc(
     fComInitialized = TRUE;
 
     // cache packages
-    hr = ApplyCache(pEngineState->hSourceEngineFile, &pEngineState->userExperience, &pEngineState->variables, &pEngineState->plan, pEngineState->companionConnection.hCachePipe, pcOverallProgressTicks, pfRollback);
+    hr = ApplyCache(pEngineState->section.hSourceEngineFile, &pEngineState->userExperience, &pEngineState->variables, &pEngineState->plan, pEngineState->companionConnection.hCachePipe, pcOverallProgressTicks, pfRollback);
 
 LExit:
     UserExperienceExecutePhaseComplete(&pEngineState->userExperience, hr); // signal that cache completed.
