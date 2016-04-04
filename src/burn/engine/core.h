@@ -41,6 +41,7 @@ const LPCWSTR BURN_COMMANDLINE_SWITCH_PASSTHROUGH = L"burn.passthrough";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_DISABLE_UNELEVATE = L"burn.disable.unelevate";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES = L"burn.ignoredependencies";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_ANCESTORS = L"burn.ancestors";
+const LPCWSTR BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED = L"burn.filehandle.attached";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF = L"burn.filehandle.self";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_PREFIX = L"burn.";
 
@@ -143,7 +144,6 @@ typedef struct _BURN_ENGINE_STATE
 
     int argc;
     LPWSTR* argv;
-    HANDLE hSourceEngineFile;
 } BURN_ENGINE_STATE;
 
 
@@ -206,6 +206,11 @@ HRESULT CoreRecreateCommandLine(
     __in_z_opt LPCWSTR wzAncestors,
     __in_z_opt LPCWSTR wzAppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
+    );
+HRESULT CoreAppendFileHandleAttachedToCommandLine(
+    __in HANDLE hFileWithAttachedContainer,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine
     );
 HRESULT CoreAppendFileHandleSelfToCommandLine(
     __in LPCWSTR wzExecutablePath,

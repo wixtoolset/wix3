@@ -276,6 +276,7 @@ static HRESULT InitializeEngineState(
     HRESULT hr = S_OK;
     LPCWSTR wzParam = NULL;
     HANDLE hSectionFile = hEngineFile;
+    HANDLE hSourceEngineFile = INVALID_HANDLE_VALUE;
 
     pEngineState->automaticUpdates = BURN_AU_PAUSE_ACTION_IFELEVATED;
     pEngineState->dwElevatedLoggingTlsId = TLS_OUT_OF_INDEXES;
@@ -288,6 +289,17 @@ static HRESULT InitializeEngineState(
     {
         if (pEngineState->argv[i][0] == L'-')
         {
+            if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &pEngineState->argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED), BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED)))
+            {
+                wzParam = &pEngineState->argv[i][2 + lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED)];
+                if (L'=' != wzParam[-1] || L'\0' == wzParam[0])
+                {
+                    ExitOnRootFailure(hr = E_INVALIDARG, "Missing required parameter for switch: %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED);
+                }
+
+                hr = StrStringToUInt32(wzParam, 0, reinterpret_cast<UINT*>(&hSourceEngineFile));
+                ExitOnFailure(hr, "Failed to parse file handle: '%ls'", (wzParam));
+            }
             if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &pEngineState->argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF), BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF)))
             {
                 wzParam = &pEngineState->argv[i][2 + lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF)];
@@ -298,13 +310,11 @@ static HRESULT InitializeEngineState(
 
                 hr = StrStringToUInt32(wzParam, 0, reinterpret_cast<UINT*>(&hSectionFile));
                 ExitOnFailure(hr, "Failed to parse file handle: '%ls'", (wzParam));
-
-                break;
             }
         }
     }
 
-    hr = SectionInitialize(&pEngineState->section, hSectionFile);
+    hr = SectionInitialize(&pEngineState->section, hSectionFile, hSourceEngineFile);
     ExitOnFailure(hr, "Failed to initialize engine section.");
 
 LExit:
@@ -319,8 +329,6 @@ static void UninitializeEngineState(
     {
         AppFreeCommandLineArgs(pEngineState->argv);
     }
-
-    ReleaseFileHandle(pEngineState->hSourceEngineFile);
 
     ReleaseStr(pEngineState->sczIgnoreDependencies);
 
@@ -375,7 +383,8 @@ static HRESULT RunUntrusted(
     LPWSTR sczFullCommandLine = NULL;
     STARTUPINFOW si = { };
     PROCESS_INFORMATION pi = { };
-    HANDLE hFile = NULL;
+    HANDLE hFileAttached = NULL;
+    HANDLE hFileSelf = NULL;
     HANDLE hProcess = NULL;
 
     hr = PathForCurrentProcess(&sczCurrentProcessPath, NULL);
@@ -387,8 +396,12 @@ static HRESULT RunUntrusted(
     hr = StrAllocFormattedSecure(&sczParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, wzCommandLine);
     ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
 
+    // Send a file handle for the child Burn process to access the attached container.
+    hr = CoreAppendFileHandleAttachedToCommandLine(pEngineState->section.hEngineFile, &hFileAttached, &sczParameters);
+    ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED);
+
     // Grab a file handle for the child Burn process.
-    hr = CoreAppendFileHandleSelfToCommandLine(sczCleanRoomBundlePath, &hFile, &sczParameters, NULL);
+    hr = CoreAppendFileHandleSelfToCommandLine(sczCleanRoomBundlePath, &hFileSelf, &sczParameters, NULL);
     ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF);
 
 #ifdef ENABLE_UNELEVATE
@@ -421,7 +434,8 @@ static HRESULT RunUntrusted(
 
 LExit:
     ReleaseHandle(pi.hThread);
-    ReleaseFileHandle(hFile);
+    ReleaseFileHandle(hFileSelf);
+    ReleaseFileHandle(hFileAttached);
     ReleaseHandle(hProcess);
     StrSecureZeroFreeString(sczFullCommandLine);
     StrSecureZeroFreeString(sczParameters);
