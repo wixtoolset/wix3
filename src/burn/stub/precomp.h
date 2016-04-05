@@ -17,5 +17,8 @@
 
 #include <dutil.h>
 #include <apputil.h>
+#include <strutil.h>
+#include <fileutil.h>
+#include <pathutil.h>
 
 #include "engine.h"

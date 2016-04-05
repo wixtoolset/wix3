@@ -429,8 +429,10 @@ extern "C" HRESULT PipeLaunchChildProcess(
     OsGetVersion(&osVersion, &dwServicePack);
     wzVerb = (OS_VERSION_VISTA > osVersion) || !fElevate ? L"open" : L"runas";
 
+    // Since ShellExecuteEx doesn't support passing inherited handles, don't bother with CoreAppendFileHandleSelfToCommandLine.
+    // We could fallback to using ::DuplicateHandle to inject the file handle later if necessary.
     hr = ShelExec(wzExecutablePath, sczParameters, wzVerb, NULL, SW_HIDE, hwndParent, &hProcess);
-    ExitOnFailure1(hr, "Failed to launch elevated child process: %ls", wzExecutablePath);
+    ExitOnFailure(hr, "Failed to launch elevated child process: %ls", wzExecutablePath);
 
     pConnection->dwProcessId = ::GetProcessId(hProcess);
     pConnection->hProcess = hProcess;

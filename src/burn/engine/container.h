@@ -83,7 +83,6 @@ typedef struct _BURN_CONTAINER
     DWORD cbHash;
     DWORD64 qwAttachedOffset;
     BOOL fActuallyAttached;     // indicates whether an attached container is attached or missing.
-    BOOL fAcquiredThroughSourceEngine;
 
     //LPWSTR* rgsczPayloads;
     //DWORD cPayloads;

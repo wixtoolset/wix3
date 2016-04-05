@@ -23,6 +23,7 @@
 #include <strsafe.h>
 
 #include "dutil.h"
+#include "apputil.h"
 #include "memutil.h"
 #include "dirutil.h"
 #include "fileutil.h"

@@ -45,8 +45,7 @@ static HRESULT DownloadUpdateFeed(
 
 extern "C" void DetectReset(
     __in BURN_REGISTRATION* pRegistration,
-    __in BURN_PACKAGES* pPackages,
-    __in BURN_CONTAINERS* pContainers
+    __in BURN_PACKAGES* pPackages
     )
 {
     RelatedBundlesUninitialize(&pRegistration->relatedBundles);
@@ -88,12 +87,6 @@ extern "C" void DetectReset(
         MSIPATCHSEQUENCEINFOW* pPatchInfo = pPackages->rgPatchInfo + iPatchInfo;
         pPatchInfo->dwOrder = 0;
         pPatchInfo->uStatus = 0;
-    }
-
-    for (DWORD iContainer = 0; iContainer < pContainers->cContainers; ++iContainer)
-    {
-        BURN_CONTAINER* pContainer = pContainers->rgContainers + iContainer;
-        pContainer->fAcquiredThroughSourceEngine = FALSE;
     }
 }
 
