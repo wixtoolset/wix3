@@ -78,23 +78,6 @@
 
   <!--
   ================================================================================================
-  UpdateHistory
-
-    Converts history files into entries in a project's History.md,
-    then updates it with the build version.
-
-  ================================================================================================
-  -->
-  <Target Name="UpdateHistory"
-          Condition=" $(SkipUpdateHistory)=='' "
-          DependsOnTargets="GetVersionNumber">
-
-    <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(ProjectHistoryFile) $(Version) //nologo"
-          WorkingDirectory="$(ProjectFolder)" />
-  </Target>
-
-  <!--
-  ================================================================================================
   BuildRelease
 
     Builds everything required to release.
@@ -103,8 +86,7 @@
   -->
   <PropertyGroup>
     <BuildReleaseDependsOn>
-      BuildProject;
-      UpdateHistory;
+      BuildProject
     </BuildReleaseDependsOn>
   </PropertyGroup>
   <Target Name="BuildRelease"

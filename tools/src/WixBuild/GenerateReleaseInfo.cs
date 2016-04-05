@@ -107,23 +107,21 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
                 {
                     continue;
                 }
-                else if (start < -1)
+                else if (line.StartsWith("## "))
                 {
-                    if (line.StartsWith("## "))
+                    if (-1 == start)
                     {
-                        // could get the version of the build now.
+                        start = i;
                     }
                     else
                     {
-                        lines.Add(line);
+                        end = i;
+                        break;
                     }
-
-                    start = i;
                 }
-                else if (line.StartsWith("## "))
+                else if (-1 == start)
                 {
-                    end = i;
-                    break;
+                    this.Log.LogWarning("Expected to find '## WixBuild' line but found this instead: '{0}'", line);
                 }
                 else
                 {
