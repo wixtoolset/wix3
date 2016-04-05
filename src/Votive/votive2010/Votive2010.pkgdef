@@ -6,7 +6,7 @@
 [$RootKey$\CLSID\{37DA98B6-C5F4-4ce6-867F-553EBE590ABE}]
 @="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixToolsSettingsPropertyPage"
 "Class"="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixToolsSettingsPropertyPage"
-"CodeBase"="$ProgramFiles$\WiX Toolset v3.10\bin\votive2010.dll"
+"CodeBase"="$ProgramFiles$\WiX Toolset v3.11\bin\votive2010.dll"
 "InprocServer32"="$System$\mscoree.dll"
 "ThreadingModel"="Both"
 
@@ -14,34 +14,34 @@
 [$RootKey$\CLSID\{3C50BD5E-0E85-4306-A0A8-5B39CCB07DA0}]
 @="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixInstallerPropertyPage"
 "Class"="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixInstallerPropertyPage"
-"CodeBase"="$ProgramFiles$\WiX Toolset v3.10\bin\votive2010.dll"
+"CodeBase"="$ProgramFiles$\WiX Toolset v3.11\bin\votive2010.dll"
 "InprocServer32"="$System$\mscoree.dll"
 "ThreadingModel"="Both"
 
 [$RootKey$\CLSID\{3ED6B659-F2FA-4252-8B3A-3736B04BFC4D}]
 @="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixPathsPropertyPage"
 "Class"="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixPathsPropertyPage"
-"CodeBase"="$ProgramFiles$\WiX Toolset v3.10\bin\votive2010.dll"
+"CodeBase"="$ProgramFiles$\WiX Toolset v3.11\bin\votive2010.dll"
 "InprocServer32"="$System$\mscoree.dll"
 "ThreadingModel"="Both"
 
 [$RootKey$\CLSID\{A71983CF-33B9-4241-9B5A-80091BCE57DA}]
 @="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixBuildEventsPropertyPage"
 "Class"="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixBuildEventsPropertyPage"
-"CodeBase"="$ProgramFiles$\WiX Toolset v3.10\bin\votive2010.dll"
+"CodeBase"="$ProgramFiles$\WiX Toolset v3.11\bin\votive2010.dll"
 "InprocServer32"="$System$\mscoree.dll"
 "ThreadingModel"="Both"
 
 [$RootKey$\CLSID\{E26242E0-4175-48e7-821E-FD0B17603811}]
 @="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixBuildPropertyPage"
 "Class"="Microsoft.Tools.WindowsInstallerXml.VisualStudio.PropertyPages.WixBuildPropertyPage"
-"CodeBase"="$ProgramFiles$\WiX Toolset v3.10\bin\votive2010.dll"
+"CodeBase"="$ProgramFiles$\WiX Toolset v3.11\bin\votive2010.dll"
 "InprocServer32"="$System$\mscoree.dll"
 "ThreadingModel"="Both"
 
 [$RootKey$\InstalledProducts\WiX]
 "Package"="{E0EE8E7D-F498-459E-9E90-2B3D73124AD5}"
-"ToolsDirectory"="$ProgramFiles$\WiX Toolset v3.10\bin\"
+"ToolsDirectory"="$ProgramFiles$\WiX Toolset v3.11\bin\"
 "UseInterface"=dword:00000001
 
 [$RootKey$\MSBuild\SafeImports]
@@ -60,7 +60,7 @@
 @="WiX Project Package"
 "Assembly"=""
 "Class"="Microsoft.Tools.WindowsInstallerXml.VisualStudio.WixPackage"
-"CodeBase"="$ProgramFiles$\WiX Toolset v3.10\bin\votive2010.dll"
+"CodeBase"="$ProgramFiles$\WiX Toolset v3.11\bin\votive2010.dll"
 "CompanyName"="Microsoft"
 "ID"=dword:00000096
 "InprocServer32"="$System$\mscoree.dll"

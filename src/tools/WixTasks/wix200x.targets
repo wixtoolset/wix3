@@ -2497,6 +2497,7 @@
       ObjectFiles="@(CompileObjOutput);@(WixObject);@(WixLibProjects);@(_ResolvedWixLibraryPaths)"
       AdditionalOptions="$(LinkerAdditionalOptions)" 
       AllowIdenticalRows="$(AllowIdenticalRows)"
+      AllowDuplicateDirectoryIds="$(AllowDuplicateDirectoryIds)"
       AllowUnresolvedReferences="$(AllowUnresolvedReferences)"
       AdditionalCub="$(AdditionalCub)" 
       BackwardsCompatibleGuidGeneration="$(BackwardsCompatibleGuidGeneration)" 

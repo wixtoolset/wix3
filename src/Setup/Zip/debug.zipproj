@@ -33,6 +33,8 @@
     <ExcludeFromZip Include="$(WixRoot)**\*.log" />
     <ExcludeFromZip Include="$(WixRoot)src\**\*.chm" />
     <ExcludeFromZip Include="$(WixRoot)src\**\*.dll" />
+    <ExcludeFromZip Include="$(WixRoot)src\**\*.ipch" />
+    <ExcludeFromZip Include="$(WixRoot)src\**\*.sdf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,15 @@
     </Stage>
     <Stage Include="$(WixRoot)src\**" Exclude="@(ExcludeFromZip)">
       <StageSubDirectory>src\%(RecursiveDir)</StageSubDirectory>
+    </Stage>
+    <Stage Include="debug\wix.proj">
+      <StageSubDirectory>src</StageSubDirectory>
+    </Stage>
+    <Stage Include="debug\WixBuild.props">
+      <StageSubDirectory>src\tools</StageSubDirectory>
+    </Stage>
+    <Stage Include="debug\WixBuild.targets">
+      <StageSubDirectory>src\tools</StageSubDirectory>
     </Stage>
   </ItemGroup>
 

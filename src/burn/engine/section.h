@@ -24,6 +24,7 @@ extern "C" {
 typedef struct _BURN_SECTION
 {
     HANDLE hEngineFile;
+    HANDLE hSourceEngineFile;
 
     DWORD cbStub;
     DWORD cbEngineSize;     // stub + UX container + original certficiate
@@ -44,7 +45,9 @@ typedef struct _BURN_SECTION
 
 
 HRESULT SectionInitialize(
-    __in BURN_SECTION* pSection
+    __in BURN_SECTION* pSection,
+    __in HANDLE hEngineFile,
+    __in HANDLE hSourceEngineFile
     );
 void SectionUninitialize(
     __in BURN_SECTION* pSection

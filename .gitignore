@@ -20,6 +20,7 @@ ipch/
 *.tlh
 *.tmp
 *.log
+*.opendb
 *.opensdf
 *.sdf
 /src/UpgradeLog.htm

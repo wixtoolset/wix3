@@ -141,7 +141,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
             // Parse the filtered command line arguments into a native array.
             int argc = 0;
-            IntPtr argv = NativeMethods.CommandLineToArgvW(this.wzCommandLine, out argc);
+
+            // CommandLineToArgvW tries to treat the first argument as the path to the process,
+            // which fails pretty miserably if your first argument is something like
+            // FOO="C:\Program Files\My Company". So give it something harmless to play with.
+            IntPtr argv = NativeMethods.CommandLineToArgvW("ignored " + this.wzCommandLine, out argc);
 
             if (IntPtr.Zero == argv)
             {
@@ -152,11 +156,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             // Marshal each native array pointer to a managed string.
             try
             {
-                string[] args = new string[argc];
-                for (int i = 0; i < argc; ++i)
+                // Skip "ignored" argument/hack.
+                string[] args = new string[argc - 1];
+                for (int i = 1; i < argc; ++i)
                 {
                     IntPtr argvi = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
-                    args[i] = Marshal.PtrToStringUni(argvi);
+                    args[i - 1] = Marshal.PtrToStringUni(argvi);
                 }
 
                 return args;

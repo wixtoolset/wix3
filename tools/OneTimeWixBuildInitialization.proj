@@ -34,8 +34,8 @@
 
     <Error Text="Could not find sn.exe. Expected to find it at: $(StrongNameSignFolder)sn.exe" Condition=" !Exists('$(StrongNameSignFolder)sn.exe') " />
 
-    <Exec Command="&quot;$(StrongNameSign64Folder)sn.exe&quot; -q -Vr *,36e4ce08b8ecfb17" Condition=" '$(StrongNameSign64Folder)'!='' " />
-    <Exec Command="&quot;$(StrongNameSignFolder)sn.exe&quot; -q -Vr *,36e4ce08b8ecfb17" />
+    <Exec Command="&quot;$(StrongNameSign64Folder)sn.exe&quot; -q -Vr *,ce35f76fcda82bad" Condition=" '$(StrongNameSign64Folder)'!='' " />
+    <Exec Command="&quot;$(StrongNameSignFolder)sn.exe&quot; -q -Vr *,ce35f76fcda82bad" />
   </Target>
 
 </Project>
