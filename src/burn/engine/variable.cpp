@@ -274,6 +274,7 @@ extern "C" HRESULT VariableInitialize(
         {BURN_BUNDLE_SOURCE_PROCESS_PATH, InitializeVariableString, NULL, FALSE, TRUE},
         {BURN_BUNDLE_SOURCE_PROCESS_FOLDER, InitializeVariableString, NULL, FALSE, TRUE},
         {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
+        {BURN_BUNDLE_UILEVEL, InitializeVariableNumeric, 0, FALSE, TRUE},
         {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0, FALSE, TRUE},
     };
 
