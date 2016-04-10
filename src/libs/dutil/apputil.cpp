@@ -17,6 +17,15 @@ const DWORD PRIVATE_LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800;
 typedef BOOL(WINAPI *LPFN_SETDEFAULTDLLDIRECTORIES)(DWORD);
 typedef BOOL(WINAPI *LPFN_SETDLLDIRECTORYW)(LPCWSTR);
 
+extern "C" void DAPI AppFreeCommandLineArgs(
+    __in LPWSTR* argv
+    )
+{
+    // The "ignored" hack in AppParseCommandLine requires an adjustment.
+    LPWSTR* argvOriginal = argv - 1;
+    ::LocalFree(argvOriginal);
+}
+
 /********************************************************************
 AppInitialize - initializes the standard safety precautions for an
                 installation application.
@@ -70,4 +79,37 @@ extern "C" void DAPI AppInitialize(
             }
         }
     }
+}
+
+extern "C" DAPI_(HRESULT) AppParseCommandLine(
+    __in LPCWSTR wzCommandLine,
+    __in int* pArgc,
+    __in LPWSTR** pArgv
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczCommandLine = NULL;
+    LPWSTR* argv = NULL;
+    int argc = 0;
+
+    // CommandLineToArgvW tries to treat the first argument as the path to the process,
+    // which fails pretty miserably if your first argument is something like
+    // FOO="C:\Program Files\My Company". So give it something harmless to play with.
+    hr = StrAllocConcat(&sczCommandLine, L"ignored ", 0);
+    ExitOnFailure(hr, "Failed to initialize command line.");
+
+    hr = StrAllocConcat(&sczCommandLine, wzCommandLine, 0);
+    ExitOnFailure(hr, "Failed to copy command line.");
+
+    argv = ::CommandLineToArgvW(sczCommandLine, &argc);
+    ExitOnNullWithLastError(argv, hr, "Failed to parse command line.");
+
+    // Skip "ignored" argument/hack.
+    *pArgv = argv + 1;
+    *pArgc = argc - 1;
+
+LExit:
+    ReleaseStr(sczCommandLine);
+
+    return hr;
 }

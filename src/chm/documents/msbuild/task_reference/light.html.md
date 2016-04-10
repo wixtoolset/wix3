@@ -123,6 +123,14 @@ The following table describes the parameters that are specific to the <b>Light</
   </tr>
 
   <tr>
+    <td><b>AllowDuplicateDirectoryIds</b></td>
+
+    <td>Optional <b>boolean</b> parameter.<br />
+    <br />
+    Specifies that the linker should allow duplicate directory identifiers. This allows duplicate directories from different libraries to be merged into the product. This is equivalent to the -ad switch in light.exe.</td>
+  </tr>
+
+  <tr>
     <td><b>AllowUnresolvedReferences</b></td>
 
     <td>Optional <b>boolean</b> parameter.<br />

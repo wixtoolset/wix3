@@ -1,3 +1,35 @@
+## WixBuild: Version 3.11.0.321
+
+* HeathS: WIXFEAT:5230 - Support adding users to Performance Log users group
+
+* HeathS: WIXBUG:5229 - Allow processes to terminate with 0 exit code
+
+* HeathS: WIXBUG:5227 - Allow for merging of directories from different wixlibs and sources
+
+* HeathS: WIXBUG:4894 - Allow lit binder extensions to parse command line arguments
+
+## WixBuild: Version 3.11.0.226
+
+* HeathS: WIXBUG:4880 - Add detection support for VS15
+
+* @barnson for @firegiantco: Fix wixtoolset/issues#5221.
+  * Use better logic to determine when to send the Burn ancestors switches.
+
+* @barnson: Write VersionMajor/VersionMinor Uninstall values.
+  * Partial fix for wixtoolset/issues#5171. (Does not write InstallLocation.)
+
+* @barnson: Fix up bad/old links in Learning WiX topic.
+
+* @barnson: WIXBUG:4802 - Clarify QtExec names by version.
+
+* @barnson: Correct paths in votive .pkgdef for v3.11.
+
+* BMurri: WIXBUG:5132 - fix incomplete usage of kbKeyBitness parameter of RegDelete() function in DUtil's RegUtil.
+
+* @barnson: WIXBUG:5185 - correct LPWSTR to LPCWSTR
+
+* @barnson: Correct file name of local name for Web package per wixtoolset/issues#4904
+
 ## WixBuild: Version 3.11.0.129
 
 * jchoover: WIXBUG:5193 - Fix /layout default directory with clean room:
