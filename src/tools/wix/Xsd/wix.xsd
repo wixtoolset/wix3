@@ -389,7 +389,7 @@
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder.</xs:documentation>
+          <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>
@@ -872,6 +872,7 @@
             The destination path and file name for this chain payload. Use this attribute to rename the
             chain entry point or extract it into a subfolder. The default value is the file name from the
             SourceFile attribute, if provided. At a minimum, the Name or SourceFile attribute must be specified.
+            The use of '..' directories is not allowed.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -1298,7 +1299,7 @@
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The destination path and file name for this payload. The default is the source file name.</xs:documentation>
+          <xs:documentation>The destination path and file name for this payload. The default is the source file name. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="DownloadUrl" type="xs:string">
