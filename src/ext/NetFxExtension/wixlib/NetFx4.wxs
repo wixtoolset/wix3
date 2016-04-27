@@ -40,7 +40,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK40"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40Web" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" Overridable="yes" />
 
     <PackageGroup Id="NetFx40Web">
       <ExePackage
