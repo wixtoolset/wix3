@@ -22,6 +22,13 @@ void DAPI AppInitialize(
     );
 
 /********************************************************************
+AppInitializeUnsafe - initializes without the full standard safety
+                      precautions for an application.
+
+********************************************************************/
+void DAPI AppInitializeUnsafe();
+
+/********************************************************************
 AppParseCommandLine - parses the command line using CommandLineToArgvW.
                       The caller must free the value of pArgv on success
                       by calling AppFreeCommandLineArgs.
