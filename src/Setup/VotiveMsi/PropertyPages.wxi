@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="PropertyPages.wxi" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 
 <?define WixVsPackageGuid       = "{E0EE8E7D-F498-459E-9E90-2B3D73124AD5}" ?>
 <?define WixVsProjectGuid       = "{930C7802-8A8C-48F9-8165-68863BCCD9DD}" ?>

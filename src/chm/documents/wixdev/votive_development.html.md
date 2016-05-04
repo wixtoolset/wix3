@@ -1,7 +1,6 @@
 ---
 title: Developing for Votive
 layout: documentation
-after: building_wix
 ---
 # Developing for Votive
 

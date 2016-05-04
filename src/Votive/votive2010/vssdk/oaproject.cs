@@ -1,11 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="oaproject.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 using System;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -508,7 +501,7 @@ namespace Microsoft.VisualStudio.Package.Automation
                             fullPath = Path.Combine(this.project.ProjectFolder, fileName);
                         }
                     }
-                    // We want to be consistent in the error message and exception we throw. fileName could be for example #¤&%"¤&"%  and that would trigger an ArgumentException on Path.IsRooted.
+                    // We want to be consistent in the error message and exception we throw. fileName could be for example #ï¿½&%"ï¿½&"%  and that would trigger an ArgumentException on Path.IsRooted.
                     catch (ArgumentException)
                     {
                         throw new InvalidOperationException(SR.GetString(SR.ErrorInvalidFileName, CultureInfo.CurrentUICulture));
