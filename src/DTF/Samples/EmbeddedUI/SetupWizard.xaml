@@ -1,4 +1,8 @@
-﻿<Window x:Class="Microsoft.Deployment.Samples.EmbeddedUI.SetupWizard"
+
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Window x:Class="Microsoft.Deployment.Samples.EmbeddedUI.SetupWizard"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Title="Sample Embedded UI" Height="400" Width="540" Visibility="Visible">

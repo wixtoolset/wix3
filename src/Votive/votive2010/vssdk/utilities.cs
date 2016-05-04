@@ -1,11 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="utilities.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 using System;
 using System.Collections.Generic;
@@ -964,7 +957,7 @@ namespace Microsoft.VisualStudio.Package
 			{
 				extension = Path.GetExtension(filePart);
 			}
-			// We catch the ArgumentException because we want this method to return true if the filename is not valid. FilePart could be for example #¤&%"¤&"% and that would throw ArgumentException on GetExtension
+			// We catch the ArgumentException because we want this method to return true if the filename is not valid. FilePart could be for example #ï¿½&%"ï¿½&"% and that would throw ArgumentException on GetExtension
 			catch (ArgumentException)
 			{
 				return true;

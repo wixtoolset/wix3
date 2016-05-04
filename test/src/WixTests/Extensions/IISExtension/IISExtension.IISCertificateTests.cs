@@ -1,12 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright file="IISExtension.IISCertificateTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>IIS Extension Certificate tests</summary>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.Tests.Extensions.IISExtension
 {
@@ -92,7 +84,7 @@ namespace WixTest.Tests.Extensions.IISExtension
         }
 
         [NamedFact]
-        [Description("Install the MSI. Verify that “TestCertifiate” was installed. Uninstall the MSi Verify that the certificate is removed")]
+        [Description("Install the MSI. Verify that ï¿½TestCertifiateï¿½ was installed. Uninstall the MSi Verify that the certificate is removed")]
         [Priority(2)]
         [RuntimeTest]
         public void IISCertificate_Install()
@@ -120,7 +112,7 @@ namespace WixTest.Tests.Extensions.IISExtension
         }
 
         [NamedFact]
-        [Description("Install the MSI. Verify that “TestCertifiate” was installed. Uninstall the MSi Verify that the certificate is removed")]
+        [Description("Install the MSI. Verify that ï¿½TestCertifiateï¿½ was installed. Uninstall the MSi Verify that the certificate is removed")]
         [Priority(2)]
         [RuntimeTest]
         public void IISCertificate_CertificateRef_Install()

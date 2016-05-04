@@ -1,14 +1,7 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
 
-REM -----------------------------------------------------------------------
-REM  <copyright file="test.bat" company="Outercurve Foundation">
-REM    Copyright (c) 2004, Outercurve Foundation.
-REM    This software is released under Microsoft Reciprocal License (MS-RL).
-REM    The license and further copyright text can be found in the file
-REM    LICENSE.TXT at the root directory of the distribution.
-REM  </copyright>
-REM -----------------------------------------------------------------------
+REM Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 set COMMAND=
 set ENABLERUNTIMETESTS=

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vsix Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
-    <Identifier Id="WiX.OutercurveFoundation">
+    <Identifier Id="WiX.NETFoundation">
         <Name>WiX Toolset</Name>
-        <Author>Outercurve Foundation</Author>
-        <Version>3.10</Version>
+        <Author>.NET Foundation and contributors</Author>
+        <Version>3.11</Version>
         <Description xml:space="preserve">Windows Installer XML toolset</Description>
         <Locale>1033</Locale>
         <Icon>wix.ico</Icon>

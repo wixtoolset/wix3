@@ -1,12 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="en-us.wxl" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <WixLocalization Culture="en-US" xmlns="http://schemas.microsoft.com/wix/2006/localization">
     <String Id="msierrDependencyMissingDependencies" Overridable="yes">If you continue with this install, the product may not work properly because [2] or more dependencies are missing. Do you want to continue with this install anyway?</String>
     <String Id="msierrDependencyHasDependents" Overridable="yes">If you continue with this uninstall, [2] or more products may stop working properly. Do you want to continue with this uninstall anyway?</String>

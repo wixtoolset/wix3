@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-  <copyright file="patch.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Patch Id="EB761DF7-9EF8-42EC-93D7-D409AB391BA6" AllowRemoval="yes" MinorUpdateTargetRTM="yes" Classification="Update" ClientPatchId="RTMLDR" Codepage="1252" Description="With this patch installed, limited distribution releases (QFEs) can be installed. Removing this patch will remove all installed QFEs." DisplayName="Limited Distribution Release Baseline" Manufacturer="My Company" MoreInfoURL="http://support.MyCompany.com/kb/999999">
 

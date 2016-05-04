@@ -1,37 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="Uuid.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <remarks>
-//     The code in this file is derived from a sample implementation
-//     found in RFC 4122 which has the following copyright notice:
-//
-//     Copyright (c) 1990- 1993, 1996 Open Software Foundation, Inc.
-//     Copyright (c) 1989 by Hewlett-Packard Company, Palo Alto, Ca. &amp;
-//     Digital Equipment Corporation, Maynard, Mass.
-// 
-//     To anyone who acknowledges that this file is provided "AS IS"
-//     without any express or implied warranty: permission to use, copy,
-//     modify, and distribute this file for any purpose is hereby
-//     granted without fee, provided that the above copyright notices and
-//     this notice appears in all source code copies, and that none of
-//     the names of Open Software Foundation, Inc., Hewlett-Packard
-//     Company, Microsoft, or Digital Equipment Corporation be used in
-//     advertising or publicity pertaining to distribution of the software
-//     without specific, written prior permission. Neither Open Software
-//     Foundation, Inc., Hewlett-Packard Company, Microsoft, nor Digital
-//     Equipment Corporation makes any representations about the
-//     suitability of this software for any purpose.
-// </remarks>
-//
-// <summary>
-// Implementation of RFC 4122 - A Universally Unique Identifier (UUID) URN Namespace.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {

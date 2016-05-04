@@ -1,52 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="wix2010.targets" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
-<!--
-  <remarks>
-    WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
-              created a backup copy.  Incorrect changes to this file will make it
-              impossible to load or build your projects from the command-line or the IDE.
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
-    This file defines the steps in the standard build process for WiX projects (.wixproj).
 
-    Conventions:
-      * Targets and properties that start with an underscore (_) are considered private and should not
-        be used outside of this file.
-
-    Coding Conventions:
-      * Two-space indentation of nested elements
-
-      * Self-closing elements should have a space before the /> ("<MyProperty />")
-
-      * Conditions should have a space before and after the "" and between any operators. For example:
-        <MyProperty Condition=" '$(MyProperty)' == '' ">Value</MyProperty>
-
-      * Targets should have each attribute on a single line and indented by two spaces. Also, there
-        should be a blank line between the Target and the beginning of the contents (a blank line is
-        optional before the closing </Target> tag).
-        For example:
-        <Target
-          Name="MyTarget"
-          DependsOnTargets="$(MyTargetDependsOn)">
-
-          <Message Importance="low" Text="MyTarget is doing something." />
-        </Target>
-  </remarks>
--->
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   DefaultTargets="Build"
   InitialTargets="_CheckForInvalidConfigurationAndPlatform;
                   _CheckRequiredProperties">
   <PropertyGroup>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.10@InstallRoot)</WixInstallPath>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.10@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.11@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.11@InstallRoot)</WixInstallPath>
   </PropertyGroup>
 
   <!--
