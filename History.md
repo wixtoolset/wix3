@@ -1,3 +1,13 @@
+## WixBuild: Version 3.10.3.2904
+
+* SeanHall: WIXBUG:5238 - Get the engine's file handle as soon as possible.  Also, when launching Burn processes, pass a file handle of the exe to the process on the command line.
+
+* SeanHall: WIXBUG:5234 - Make Burn grab a file handle to the original bundle so it can still access compressed payloads even if the original bundle was deleted after initialization (e.g. when a bundle uses Burn's built-in update mechanism). Also, when launching the clean room Burn process, pass a file handle of the original exe to the process on the command line. Use this file handle when using the attached container.
+
+* jchoover: WIXBUG:5193 - Fix /layout default directory with clean room:
+  * Attempt to use WixBundleSourceProcessPath / WixBundleSourceProcessFolder before defaulting to PathForCurrentProcess
+  * Prevent trying to layout the origional bundle exe on top of the existing exe, if the path provided to layout is the same as the bundles working directory.
+
 ## WixBuild: Version 3.10.2.2516
 
 * RobMen: Fix WiX v3.10.2 build version.
