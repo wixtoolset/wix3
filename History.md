@@ -1,3 +1,9 @@
+## WixBuild: Version 3.11.0.504
+
+* SeanHall: WIXBUG:5238 - Get the engine's file handle as soon as possible.  Also, when launching Burn processes, pass a file handle of the exe to the process on the command line.
+
+* SeanHall: WIXBUG:5234 - Make Burn grab a file handle to the original bundle so it can still access compressed payloads even if the original bundle was deleted after initialization (e.g. when a bundle uses Burn's built-in update mechanism). Also, when launching the clean room Burn process, pass a file handle of the original exe to the process on the command line. Use this file handle when using the attached container.
+
 ## WixBuild: Version 3.11.0.321
 
 * HeathS: WIXFEAT:5230 - Support adding users to Performance Log users group
