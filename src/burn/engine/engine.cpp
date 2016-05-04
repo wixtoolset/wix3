@@ -54,6 +54,29 @@ static HRESULT Restart();
 
 // function definitions
 
+extern "C" BOOL EngineInCleanRoom(
+    __in_z_opt LPCWSTR wzCommandLine
+    )
+{
+    // Be very careful with the functions you call from here.
+    // This function will be called before ::SetDefaultDllDirectories()
+    // has been called so dependencies outside of kernel32.dll are
+    // very likely to introduce DLL hijacking opportunities.
+
+    static DWORD cchCleanRoomSwitch = lstrlenW(BURN_COMMANDLINE_SWITCH_CLEAN_ROOM);
+
+    // This check is wholly dependent on the clean room command line switch being
+    // present at the beginning of the command line. Since Burn is the only thing
+    // that should be setting this command line option, that is in our control.
+    BOOL fInCleanRoom = (wzCommandLine &&
+        (wzCommandLine[0] == L'-' || wzCommandLine[0] == L'/') &&
+        CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, wzCommandLine + 1, cchCleanRoomSwitch, BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, cchCleanRoomSwitch) &&
+        wzCommandLine[1 + cchCleanRoomSwitch] == L'='
+    );
+
+    return fInCleanRoom;
+}
+
 extern "C" HRESULT EngineRun(
     __in HINSTANCE hInstance,
     __in HANDLE hEngineFile,
@@ -367,7 +390,8 @@ static HRESULT RunUntrusted(
 {
     HRESULT hr = S_OK;
     LPWSTR sczCurrentProcessPath = NULL;
-    LPWSTR sczCleanRoomBundlePath = NULL;
+    LPWSTR wzCleanRoomBundlePath = NULL;
+    LPWSTR sczCachedCleanRoomBundlePath = NULL;
     LPWSTR sczParameters = NULL;
     LPWSTR sczFullCommandLine = NULL;
     STARTUPINFOW si = { };
@@ -379,37 +403,58 @@ static HRESULT RunUntrusted(
     hr = PathForCurrentProcess(&sczCurrentProcessPath, NULL);
     ExitOnFailure(hr, "Failed to get path for current process.");
 
-    hr = CacheBundleToCleanRoom(&pEngineState->userExperience.payloads, &pEngineState->section, &sczCleanRoomBundlePath);
-    ExitOnFailure(hr, "Failed to cache to clean room.");
+    BOOL fRunningFromCache = CacheBundleRunningFromCache();
 
-    hr = StrAllocFormattedSecure(&sczParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, wzCommandLine);
-    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
+    // If we're running from the package cache, we're in a secure
+    // folder (DLLs cannot be inserted here for hijacking purposes)
+    // so just launch the current process's path as the clean room
+    // process. Technically speaking, we'd be able to skip creating
+    // a clean room process at all (since we're already running from
+    // a secure folder) but it makes the code that only wants to run
+    // in clean room more complicated if we don't launch an explicit
+    // clean room process.
+    if (fRunningFromCache)
+    {
+        wzCleanRoomBundlePath = sczCurrentProcessPath;
+    }
+    else
+    {
+        hr = CacheBundleToCleanRoom(&pEngineState->userExperience.payloads, &pEngineState->section, &sczCachedCleanRoomBundlePath);
+        ExitOnFailure(hr, "Failed to cache to clean room.");
+
+        wzCleanRoomBundlePath = sczCachedCleanRoomBundlePath;
+    }
 
     // Send a file handle for the child Burn process to access the attached container.
     hr = CoreAppendFileHandleAttachedToCommandLine(pEngineState->section.hEngineFile, &hFileAttached, &sczParameters);
     ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED);
 
     // Grab a file handle for the child Burn process.
-    hr = CoreAppendFileHandleSelfToCommandLine(sczCleanRoomBundlePath, &hFileSelf, &sczParameters, NULL);
+    hr = CoreAppendFileHandleSelfToCommandLine(wzCleanRoomBundlePath, &hFileSelf, &sczParameters, NULL);
     ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF);
+
+    // The clean room switch must always end up at the front of the command line so
+    // the EngineInCleanRoom function will operate correctly.
+    hr = StrAllocFormattedSecure(&sczParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, wzCommandLine);
+    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
 
 #ifdef ENABLE_UNELEVATE
     // TODO: Pass file handle to unelevated process if this ever gets reenabled.
     if (!pEngineState->fDisableUnelevate)
     {
         // Try to launch unelevated and if that fails for any reason, we'll launch our process normally (even though that may make it elevated).
-        hr = ProcExecuteAsInteractiveUser(sczCleanRoomBundlePath, sczParameters, &hProcess);
+        hr = ProcExecuteAsInteractiveUser(wzCleanRoomBundlePath, sczParameters, &hProcess);
     }
 #endif
 
     if (!hProcess)
     {
-        hr = StrAllocFormattedSecure(&sczFullCommandLine, L"\"%ls\" %ls", sczCleanRoomBundlePath, sczParameters);
+        hr = StrAllocFormattedSecure(&sczFullCommandLine, L"\"%ls\" %ls", wzCleanRoomBundlePath, sczParameters);
         ExitOnFailure(hr, "Failed to allocate full command-line.");
 
         si.cb = sizeof(si);
         si.wShowWindow = static_cast<WORD>(pEngineState->command.nCmdShow);
-        if (!::CreateProcessW(sczCleanRoomBundlePath, sczFullCommandLine, NULL, NULL, TRUE, 0, 0, NULL, &si, &pi))
+        if (!::CreateProcessW(wzCleanRoomBundlePath, sczFullCommandLine, NULL, NULL, TRUE, 0, 0, NULL, &si, &pi))
         {
             ExitWithLastError(hr, "Failed to launch clean room process: %ls", sczFullCommandLine);
         }
@@ -419,7 +464,7 @@ static HRESULT RunUntrusted(
     }
 
     hr = ProcWaitForCompletion(hProcess, INFINITE, &pEngineState->userExperience.dwExitCode);
-    ExitOnFailure(hr, "Failed to wait for clean room process: %ls", sczCleanRoomBundlePath);
+    ExitOnFailure(hr, "Failed to wait for clean room process: %ls", wzCleanRoomBundlePath);
 
 LExit:
     ReleaseHandle(pi.hThread);
@@ -428,7 +473,7 @@ LExit:
     ReleaseHandle(hProcess);
     StrSecureZeroFreeString(sczFullCommandLine);
     StrSecureZeroFreeString(sczParameters);
-    ReleaseStr(sczCleanRoomBundlePath);
+    ReleaseStr(sczCachedCleanRoomBundlePath);
     ReleaseStr(sczCurrentProcessPath);
 
     return hr;
@@ -527,7 +572,7 @@ static HRESULT RunElevated(
     HRESULT hr = S_OK;
     HANDLE hLock = NULL;
     BOOL fDisabledAutomaticUpdates = FALSE;
-    
+
     // connect to per-user process
     hr = PipeChildConnect(&pEngineState->companionConnection, TRUE);
     ExitOnFailure(hr, "Failed to connect to unelevated process.");

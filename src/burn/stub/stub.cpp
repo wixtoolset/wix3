@@ -38,7 +38,20 @@ int WINAPI wWinMain(
         hEngineFile = ::CreateFileW(sczPath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     }
 
-    AppInitialize(rgsczSafelyLoadSystemDlls, countof(rgsczSafelyLoadSystemDlls));
+    // If the engine is in the clean room, we'll do the unsafe initialization
+    // because some systems in Windows (namely GDI+) will fail when run in
+    // a process that protects against DLL hijacking. Since we know the clean
+    // room is in a clean folder and not subject to DLL hijacking we won't
+    // make ourselves perfectly secure so that we can load BAs that still
+    // depend on those parts of Windows that are insecure to DLL hijacking.
+    if (EngineInCleanRoom(lpCmdLine))
+    {
+        AppInitializeUnsafe();
+    }
+    else
+    {
+        AppInitialize(rgsczSafelyLoadSystemDlls, countof(rgsczSafelyLoadSystemDlls));
+    }
 
     // call run
     hr = EngineRun(hInstance, hEngineFile, lpCmdLine, nCmdShow, &dwExitCode);

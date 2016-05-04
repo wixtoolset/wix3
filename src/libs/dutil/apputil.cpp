@@ -70,6 +70,11 @@ extern "C" void DAPI AppInitialize(
     }
 }
 
+extern "C" void DAPI AppInitializeUnsafe()
+{
+    ::HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+}
+
 extern "C" DAPI_(HRESULT) AppParseCommandLine(
     __in LPCWSTR wzCommandLine,
     __in int* pArgc,
