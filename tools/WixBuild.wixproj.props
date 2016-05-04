@@ -5,7 +5,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <OutputPath Condition=" '$(OutputType)'=='Package' ">$(OutputPath)data\</OutputPath>
-    <SignOutput Condition=" '$(OutputType)'=='Bundle' and '$(SignServiceUrl)'!='' ">true</SignOutput>
+    <SignOutput Condition=" '$(OutputType)'=='Bundle' and '$(PleaseSignOutput)'!='' ">true</SignOutput>
     <DefineSolutionProperties>false</DefineSolutionProperties>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Cultures>neutral</Cultures>
