@@ -178,6 +178,10 @@ extern "C" HRESULT EngineRun(
 LExit:
     ReleaseStr(sczExePath);
 
+    if (FAILED(hr)) {
+        SplashScreenDisplayError(engineState.command.display, engineState.registration.sczDisplayName, hr);
+    }
+
     // If anything went wrong but the log was never open, try to open a "failure" log
     // and that will dump anything captured in the log memory buffer to the log.
     if (FAILED(hr) && BURN_LOGGING_STATE_CLOSED == engineState.log.state)
