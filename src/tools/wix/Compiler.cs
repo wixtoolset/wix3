@@ -10845,6 +10845,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         case "Id":
                             id = this.core.GetAttributeIdentifierValue(sourceLineNumbers, attrib);
+
+                            //http://wixtoolset.org/issues/4434/
+                            const int inputPatchBaselineNameLengthMax = 27;
+
+                            if (inputPatchBaselineNameLengthMax < id.Length)
+                            {
+                                this.core.OnMessage(WixErrors.IdentifierTooLongError(sourceLineNumbers, node.Name, "Id", id, inputPatchBaselineNameLengthMax));
+                            }
+
                             break;
                         default:
                             this.core.UnexpectedAttribute(sourceLineNumbers, attrib);
