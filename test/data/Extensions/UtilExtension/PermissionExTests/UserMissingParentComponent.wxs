@@ -1,12 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--
-  <copyright file="UserMissingParentComponent.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Codepage="932" Id="000C1109-0000-0000-C000-550000000046" Name="TestSecureObjProduct" Language="1033" Version="0.0.0.0" Manufacturer="Microsoft Corporation" UpgradeCode="{1B2C1E1E-8559-4694-892D-F44E3FE03BEF}">
     <Package Description="Test SecureObjects Custom Action" Comments="Test from: wix\examples\test\secureobjects\product.wxs" InstallerVersion="200" Compressed="yes" />

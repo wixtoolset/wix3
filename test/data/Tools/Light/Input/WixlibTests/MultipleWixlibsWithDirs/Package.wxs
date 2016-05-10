@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-  <copyright file="Package.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="0fa028f1-3c9e-40e0-bd29-71f7b419b63e" Name="MultipleSwrProjs" Language="1033" Version="1.1.2.3" Manufacturer="Microsoft Corporation" UpgradeCode="{e8b0f42b-2c73-47de-ac79-6c978b66e261}">
         <Package InstallScope="perMachine" Description="Test building against multiple swix" InstallerVersion="200" Compressed="yes" />

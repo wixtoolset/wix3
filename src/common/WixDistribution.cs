@@ -1,23 +1,12 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="WixDistribution.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Common assembly information.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Resources;
 
-[assembly: AssemblyCompany("Outercurve Foundation")]
-[assembly: AssemblyCopyright("Copyright (c) Outercurve Foundation. All rights reserved.")]
+[assembly: AssemblyCompany(".NET Foundation")]
+[assembly: AssemblyCopyright("Copyright (c) .NET Foundation and contributors. All rights reserved.")]
 [assembly: AssemblyProduct("Windows Installer XML Toolset")]
 
 #if DEBUG

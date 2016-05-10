@@ -1,14 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright file="Output.OutputTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>
-//     Test how Lit handles the Out switch. 
-// </summary>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.Tests.Tools.Lit.Output
 {
@@ -23,7 +13,7 @@ namespace WixTest.Tests.Tools.Lit.Output
     public class OutputTests : WixTests
     {
         [NamedFact]
-        [Description("Verify that the default behavior when the –out switch is not provided.")]
+        [Description("Verify that the default behavior when the ï¿½out switch is not provided.")]
         [Priority(1)]
         public void DefaultOutput()
         {

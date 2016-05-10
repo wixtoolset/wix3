@@ -84,7 +84,7 @@ The following example shows how to build an MSI using the Candle and Light wrapp
         
         // Query the resulting MSI for verification
         string query = "SELECT `Value` FROM `Property` WHERE `Property` = 'Manufacturer'";
-        Verifier.VerifyQuery(light.OutputFile, query, "Outercurve Foundation");
+        Verifier.VerifyQuery(light.OutputFile, query, ".NET Foundation");
     }
 
 ### Example: ICE Validation with Smoke

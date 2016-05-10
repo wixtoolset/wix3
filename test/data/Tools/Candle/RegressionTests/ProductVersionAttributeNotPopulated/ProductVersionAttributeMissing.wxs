@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-  <copyright file="ProductVersionAttributeMissing.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="{3AEEA070-FC68-46e1-8F98-776C11974A4B}" Name="Wix Test Product" Language="1033" Manufacturer="Microsoft Corporation" UpgradeCode="{4A899439-8022-46ad-8798-C778089D4A71}">
 

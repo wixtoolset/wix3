@@ -1,30 +1,7 @@
 #pragma once
-//-------------------------------------------------------------------------------------------------
-// <copyright file="custommsierrors.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-// Indexes for custom errors in the MSI
-// 
-// Note: Custom Errors must be in the range 25000-30000, all other error
-//   codes are reserved for the Windows Installer as standard error ranges
-//   NEVER reuse an error number or you're likely to break the builds.
-//---------------------------------------------------------------------------
-
-// Instructions:
-//    1. add the index to this file
-//    2. define the error table row
-//    3. #include CustomMsiErrors to refer to the index
-//    4. Import Misc\CustomErrors { MYDEFINE=1 };  with your errorgroup under MYDEFINE
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 
-//---------------------------------------------------------------------------
-// GLOBAL    25501-25600
 #define GLOBAL_ERROR_BASE                 25501
 
 #define msierrSecureObjectsFailedCreateSD    25520
