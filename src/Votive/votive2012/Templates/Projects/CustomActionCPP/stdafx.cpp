@@ -1,6 +1,4 @@
-// stdafx.cpp : source file that includes just the standard includes
-// $projectname$.pch will be the pre-compiled header
-// stdafx.obj will contain the pre-compiled type information
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "stdafx.h"
 

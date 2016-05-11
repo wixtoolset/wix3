@@ -1,11 +1,4 @@
-﻿//-------------------------------------------------------------------------------------------------
-// <copyright file="LinqTest.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 using System;
 using System.Text;
@@ -465,7 +458,7 @@ namespace Microsoft.Deployment.Test
         public void EnumProducts()
         {
             var products = from p in ProductInstallation.AllProducts
-                           where p.Publisher == "Outercurve Foundation"
+                           where p.Publisher == ".NET Foundation"
                            select new { Name = p.ProductName,
                                         Ver = p.ProductVersion,
                                         Company = p.Publisher,
@@ -475,7 +468,7 @@ namespace Microsoft.Deployment.Test
             foreach (var p in products)
             {
                 Console.WriteLine(p);
-                Assert.IsTrue(p.Company == "Outercurve Foundation");
+                Assert.IsTrue(p.Company == ".NET Foundation");
             }
         }
 
@@ -498,7 +491,7 @@ namespace Microsoft.Deployment.Test
         {
             var comps = from c in ComponentInstallation.AllComponents
                         where c.State == InstallState.Local &&
-                              c.Product.Publisher == "Outercurve Foundation"
+                              c.Product.Publisher == ".NET Foundation"
                         select c.Path;
 
             int count = 0;

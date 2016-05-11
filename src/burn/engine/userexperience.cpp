@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="userexperience.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -156,8 +145,11 @@ extern "C" HRESULT UserExperienceEnsureWorkingFolder(
     hr = CacheEnsureWorkingFolder(wzBundleId, &sczWorkingFolder);
     ExitOnFailure(hr, "Failed to create working folder.");
 
-    hr = PathCreateTempDirectory(sczWorkingFolder, L".ba%d", 999999, psczUserExperienceWorkingFolder);
-    ExitOnFailure(hr, "Failed to get unique temporary folder for bootstrapper application.");
+    hr = StrAllocFormatted(psczUserExperienceWorkingFolder, L"%ls%ls\\", sczWorkingFolder, L".ba");
+    ExitOnFailure(hr, "Failed to calculate the bootstrapper application working path.");
+
+    hr = DirEnsureExists(*psczUserExperienceWorkingFolder, NULL);
+    ExitOnFailure(hr, "Failed create bootstrapper application working folder.");
 
 LExit:
     ReleaseStr(sczWorkingFolder);

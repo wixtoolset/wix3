@@ -33,10 +33,10 @@ We would need to link this source file along with a source file that contained &
 &lt;?xml version='1.0'?&gt;
 &lt;Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'&gt;
    &lt;Product Id='PUT-GUID-HERE' Name='Test Package' Language='1033' 
-            Version='1.0.0.0' Manufacturer='Outercurve Foundation'&gt;
+            Version='1.0.0.0' Manufacturer='.NET Foundation'&gt;
       &lt;Package Description='My first Windows Installer package'
             Comments='This is my first attempt at creating a Windows Installer database' 
-            Manufacturer='Outercurve Foundation' InstallerVersion='200' Compressed='yes' /&gt;
+            Manufacturer='.NET Foundation' InstallerVersion='200' Compressed='yes' /&gt;
  
       &lt;Media Id='1' Cabinet='product.cab' EmbedCab='yes' /&gt;
  

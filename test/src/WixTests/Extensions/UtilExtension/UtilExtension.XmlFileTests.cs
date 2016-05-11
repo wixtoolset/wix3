@@ -1,12 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright file="UtilExtension.XmlFileTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>Util Extension XmlFile tests</summary>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.Tests.Extensions.UtilExtension
 {
@@ -259,34 +251,34 @@ namespace WixTest.Tests.Extensions.UtilExtension
         private static void VerifyXMLFileTransformation(string fileName)
         {
             // /Root
-            // Verify new attribute was added to root node (New=”hello”)
+            // Verify new attribute was added to root node (New=ï¿½helloï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root", "New", "hello");
 
             // Verify new Text was added to the root element
             XMLVerifier.VerifyElementValue(fileName, "/Root", "this is text");
 
             // /Root/Child
-            // Verify “Child” node has a childnode created ”NewElement”
+            // Verify ï¿½Childï¿½ node has a childnode created ï¿½NewElementï¿½
             XMLVerifier.VerifyElementExists(fileName, "/Root/Child/NewElement");
 
             // /Root/Child/NewElement
-            // Verify “NewElement” as an attribute (“EmptyAttr=”)
+            // Verify ï¿½NewElementï¿½ as an attribute (ï¿½EmptyAttr=ï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root/Child/NewElement", "EmptyAttr", string.Empty);
 
-            // Verify “NewElement” has text value “new element text”
+            // Verify ï¿½NewElementï¿½ has text value ï¿½new element textï¿½
             XMLVerifier.VerifyElementValue(fileName, "/Root/Child/NewElement", "new element text");
 
-            // Verify “NewElement” node has a childnode created ”NewElementchild”
+            // Verify ï¿½NewElementï¿½ node has a childnode created ï¿½NewElementchildï¿½
             XMLVerifier.VerifyElementExists(fileName, "/Root/Child/NewElement/NewElementChild");
 
             // /Root/Child/NewElement/NewElementChild
-            // Verify all test1 node have the text value “Allarethesame”
+            // Verify all test1 node have the text value ï¿½Allarethesameï¿½
             XMLVerifier.VerifyElementValue(fileName, "/Root/Child/NewElement/NewElementChild/test1[1]", "Allarethesame");
             XMLVerifier.VerifyElementValue(fileName, "/Root/Child/NewElement/NewElementChild/test1[2]", "Allarethesame");
             XMLVerifier.VerifyElementValue(fileName, "/Root/Child/NewElement/NewElementChild/test1[3]", "Allarethesame");
 
             // /Root/Child[2]
-            // Verify second child element has a new attribute added (foo=”bar”)
+            // Verify second child element has a new attribute added (foo=ï¿½barï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root/Child[2]", "foo", "bar");
 
             // /Root/Config

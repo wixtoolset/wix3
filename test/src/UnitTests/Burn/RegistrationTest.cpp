@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="RegistrationTest.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Unit tests for Burn registration.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -487,7 +476,7 @@ namespace Bootstrapper
                 Assert::True(0 == memcmp(pbBuffer, rgbData, sizeof(rgbData)));
 
                 // write active resume mode
-                hr = RegistrationSessionResume(&registration);
+                hr = RegistrationSessionResume(&registration, &variables);
                 TestThrowOnFailure(hr, L"Failed to write active resume mode.");
 
                 // verify that run key was put back

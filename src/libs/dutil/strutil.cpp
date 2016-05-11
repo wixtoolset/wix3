@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="strutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    String helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -893,6 +882,38 @@ extern "C" HRESULT __cdecl StrAllocFormatted(
     va_start(args, wzFormat);
     hr = StrAllocFormattedArgs(ppwz, wzFormat, args);
     va_end(args);
+
+    return hr;
+}
+
+
+/********************************************************************
+StrAllocConcatFormatted - allocates or reuses dynamic string memory
+and adds a formatted string
+
+NOTE: caller is responsible for freeing ppwz even if function fails
+********************************************************************/
+extern "C" HRESULT __cdecl StrAllocConcatFormatted(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    )
+{
+    Assert(ppwz && wzFormat && *wzFormat);
+
+    HRESULT hr = S_OK;
+    LPWSTR sczFormatted = NULL;
+    va_list args;
+
+    va_start(args, wzFormat);
+    hr = StrAllocFormattedArgs(&sczFormatted, wzFormat, args);
+    va_end(args);
+    ExitOnFailure(hr, "Failed to allocate formatted string");
+
+    hr = StrAllocConcat(ppwz, sczFormatted, 0);
+
+LExit:
+    ReleaseStr(sczFormatted);
 
     return hr;
 }

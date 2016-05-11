@@ -1,18 +1,7 @@
 #pragma once
-//-------------------------------------------------------------------------------------------------
-// <copyright file="xmlutil.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    XML helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
-// constant XML CLSIDs and IIDs
+
 extern __declspec(selectany) const CLSID XmlUtil_CLSID_DOMDocument   = {0x2933BF90, 0x7B36, 0x11d2, {0xB2, 0x0E, 0x00, 0xC0, 0x4F, 0x98, 0x3E, 0x60}};
 extern __declspec(selectany) const CLSID XmlUtil_CLSID_DOMDocument20  = {0xF6D90F11, 0x9C73, 0x11D3, {0xB3, 0x2E, 0x00, 0xC0, 0x4F, 0x99, 0x0B, 0xB4}};
 extern __declspec(selectany) const CLSID XmlUtil_CLSID_DOMDocument26 = {0xf5078f1b, 0xc551, 0x11d3, {0x89, 0xb9, 0x00, 0x00, 0xf8, 0x1f, 0xe2, 0x21}};

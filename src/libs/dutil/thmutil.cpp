@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="thmutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//  Theme helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -523,6 +512,11 @@ DAPI_(HRESULT) ThemeLoadControls(
 
         case THEME_CONTROL_TYPE_TEXT:
             wzWindowClass = WC_STATICW;
+            break;
+            
+        case THEME_CONTROL_TYPE_COMBOBOX:
+            wzWindowClass = WC_COMBOBOXW;
+            dwWindowBits |= CBS_DROPDOWNLIST | CBS_HASSTRINGS;
             break;
         }
         ExitOnNull(wzWindowClass, hr, E_INVALIDDATA, "Failed to configure control %u because of unknown type: %u", i, pControl->type);
@@ -1729,7 +1723,6 @@ static HRESULT ParseImage(
 {
     HRESULT hr = S_OK;
     BSTR bstr = NULL;
-    LPSTR pszId = NULL;
     LPWSTR sczImageFile = NULL;
     int iResourceId = 0;
     Gdiplus::Bitmap* pBitmap = NULL;
@@ -1788,7 +1781,6 @@ LExit:
     }
 
     ReleaseStr(sczImageFile);
-    ReleaseStr(pszId);
     ReleaseBSTR(bstr);
 
     return hr;
@@ -2430,6 +2422,10 @@ static HRESULT ParseControls(
                  CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstrType, -1, L"tb", 2))
         {
             type = THEME_CONTROL_TYPE_TAB;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstrType, -1, L"Combobox", -1))
+        {
+            type = THEME_CONTROL_TYPE_COMBOBOX;
         }
 
         if (THEME_CONTROL_TYPE_UNKNOWN != type)

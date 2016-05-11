@@ -1,12 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="WixStandardBootstrapperApplication.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
-
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -146,11 +138,11 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT,
     WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON,
     WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON,
-    
-    WIXSTDBA_CONTROL_SUCCESS_HEADER, 
-    WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, 
+
+    WIXSTDBA_CONTROL_SUCCESS_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER,
     WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER,
-    WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, 
+    WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER,
 
     // Failure page
     WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK,
@@ -158,9 +150,9 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT,
     WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON,
     WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON,
-    
-    WIXSTDBA_CONTROL_FAILURE_HEADER, 
-    WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, 
+
+    WIXSTDBA_CONTROL_FAILURE_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER,
     WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER,
     WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER,
 };
@@ -200,7 +192,7 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_PACKAGE_TEXT, L"ExecuteProgressPackageText" },
     { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_BAR, L"ExecuteProgressbar" },
     { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_TEXT, L"ExecuteProgressText" },
-    { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, L"ExecuteProgressActionDataText"},
+    { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, L"ExecuteProgressActionDataText" },
     { WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, L"OverallProgressPackageText" },
     { WIXSTDBA_CONTROL_OVERALL_PROGRESS_BAR, L"OverallProgressbar" },
     { WIXSTDBA_CONTROL_OVERALL_CALCULATED_PROGRESS_BAR, L"OverallCalculatedProgressbar" },
@@ -217,16 +209,16 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, L"FailureRestartText" },
     { WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, L"FailureRestartButton" },
     { WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON, L"FailureCloseButton" },
-    
-    { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" }, 
-    { WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, L"SuccessInstallHeader" }, 
+
+    { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, L"SuccessInstallHeader" },
     { WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, L"SuccessUninstallHeader" },
-    { WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, L"SuccessRepairHeader" }, 
-    
-    { WIXSTDBA_CONTROL_FAILURE_HEADER, L"FailureHeader" }, 
-    { WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, L"FailureInstallHeader" }, 
-    { WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, L"FailureUninstallHeader" }, 
-    { WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, L"FailureRepairHeader" }, 
+    { WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, L"SuccessRepairHeader" },
+
+    { WIXSTDBA_CONTROL_FAILURE_HEADER, L"FailureHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, L"FailureInstallHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, L"FailureUninstallHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, L"FailureRepairHeader" },
 };
 
 typedef struct _WIXSTDBA_PREREQ_PACKAGE
@@ -352,7 +344,7 @@ public: // IBootstrapperApplication
         if (SUCCEEDED(hrStatus))
         {
             hrStatus = EvaluateConditions();
-            
+
             if (m_fPrereq)
             {
                 m_fPrereqAlreadyInstalled = TRUE;
@@ -438,7 +430,7 @@ public: // IBootstrapperApplication
                 {
                     fInstall = TRUE;
                 }
-                else if(pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
+                else if (pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
                 {
                     hr = m_pEngine->EvaluateCondition(pPackage->sczInstallCondition, &fInstall);
                     if (FAILED(hr))
@@ -630,11 +622,11 @@ public: // IBootstrapperApplication
 
         if (BOOTSTRAPPER_DISPLAY_EMBEDDED == m_command.display)
         {
-             HRESULT hr = m_pEngine->SendEmbeddedError(dwCode, wzError, dwUIHint, &nResult);
-             if (FAILED(hr))
-             {
-                 nResult = IDERROR;
-             }
+            HRESULT hr = m_pEngine->SendEmbeddedError(dwCode, wzError, dwUIHint, &nResult);
+            if (FAILED(hr))
+            {
+                nResult = IDERROR;
+            }
         }
         else if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display)
         {
@@ -1161,8 +1153,8 @@ private: // privates
 
         if (m_command.wzCommandLine && *m_command.wzCommandLine)
         {
-            argv = ::CommandLineToArgvW(m_command.wzCommandLine, &argc);
-            ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
+            hr = AppParseCommandLine(m_command.wzCommandLine, &argc, &argv);
+            ExitOnFailure(hr, "Failed to parse command line.");
 
             for (int i = 0; i < argc; ++i)
             {
@@ -1220,7 +1212,7 @@ private: // privates
     LExit:
         if (argv)
         {
-            ::LocalFree(argv);
+            AppFreeCommandLineArgs(argv);
         }
 
         ReleaseStr(sczVariableName);
@@ -1544,7 +1536,7 @@ private: // privates
         BalExitOnFailure(hr, "Failed to read wixstdba options from BootstrapperApplication.xml manifest.");
 
         hr = XmlGetAttributeNumber(pNode, L"SuppressOptionsUI", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1556,7 +1548,7 @@ private: // privates
 
         dwBool = 0;
         hr = XmlGetAttributeNumber(pNode, L"SuppressDowngradeFailure", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1568,7 +1560,7 @@ private: // privates
 
         dwBool = 0;
         hr = XmlGetAttributeNumber(pNode, L"SuppressRepair", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1579,7 +1571,7 @@ private: // privates
         BalExitOnFailure(hr, "Failed to get SuppressRepair value.");
 
         hr = XmlGetAttributeNumber(pNode, L"ShowVersion", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1590,7 +1582,7 @@ private: // privates
         BalExitOnFailure(hr, "Failed to get ShowVersion value.");
 
         hr = XmlGetAttributeNumber(pNode, L"SupportCacheOnly", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1601,7 +1593,7 @@ private: // privates
         BalExitOnFailure(hr, "Failed to get SupportCacheOnly value.");
 
         hr = XmlGetAttributeNumber(pNode, L"ShowFilesInUse", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -2381,12 +2373,12 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_LAUNCH_BUTTON, fLaunchTargetExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON, fShowRestartButton);
-                    
+
                     if ((BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER)) ||
                         (BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER)) ||
                         (BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER)))
                     {
-                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE); 
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE);
                     }
                     else
                     {
@@ -2397,7 +2389,7 @@ private: // privates
                     {
                         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
                     }
-                    
+
                     if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER))
                     {
                         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
@@ -2487,7 +2479,7 @@ private: // privates
                         (BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER)) ||
                         (BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER)))
                     {
-                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE); 
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE);
                     }
                     else
                     {
@@ -2506,7 +2498,7 @@ private: // privates
 
                     if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER))
                     {
-                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction); 
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction);
                     }
                 }
 
@@ -2643,7 +2635,7 @@ private: // privates
         }
 
         // If we're doing progress then we never close, we just cancel to let rollback occur.
-        if ((WIXSTDBA_STATE_APPLYING <= m_state && WIXSTDBA_STATE_APPLIED > m_state) || WIXSTDBA_STATE_FILESINUSE == m_state )
+        if ((WIXSTDBA_STATE_APPLYING <= m_state && WIXSTDBA_STATE_APPLIED > m_state) || WIXSTDBA_STATE_FILESINUSE == m_state)
         {
             // If we canceled disable cancel button since clicking it again is silly.
             if (fClose)
@@ -2801,7 +2793,7 @@ private: // privates
 
         hr = LocLocalizeString(m_pWixLoc, &sczLicenseUrl);
         BalExitOnFailure1(hr, "Failed to localize license URL: %ls", m_sczLicenseUrl);
-        
+
         // Assume there is no hidden variables to be formatted
         // so don't worry about securely freeing it.
         hr = BalFormatString(sczLicenseUrl, &sczLicenseUrl);
@@ -3243,7 +3235,7 @@ private: // privates
     }
 
     int ShowFilesInUseModal(
-        __in DWORD cFiles, 
+        __in DWORD cFiles,
         __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
         )
     {

@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="registration.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -40,6 +29,8 @@ const LPCWSTR REGISTRY_BUNDLE_SYSTEM_COMPONENT = L"SystemComponent";
 const LPCWSTR REGISTRY_BUNDLE_QUIET_UNINSTALL_STRING = L"QuietUninstallString";
 const LPCWSTR REGISTRY_BUNDLE_UNINSTALL_STRING = L"UninstallString";
 const LPCWSTR REGISTRY_BUNDLE_RESUME_COMMAND_LINE = L"BundleResumeCommandLine";
+const LPCWSTR REGISTRY_BUNDLE_VERSION_MAJOR = L"VersionMajor";
+const LPCWSTR REGISTRY_BUNDLE_VERSION_MINOR = L"VersionMinor";
 
 const LPCWSTR SWIDTAG_FOLDER = L"swidtag";
 
@@ -98,7 +89,11 @@ static HRESULT RegWriteStringVariable(
     __in LPCWSTR wzVariable,
     __in LPCWSTR wzName
     );
-
+static HRESULT UpdateBundleNameRegistration(
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
+    __in HKEY hkRegistration
+    );
 
 // function definitions
 
@@ -600,7 +595,6 @@ extern "C" HRESULT RegistrationSessionBegin(
     HRESULT hr = S_OK;
     DWORD dwSize = 0;
     HKEY hkRegistration = NULL;
-    LPWSTR sczDisplayName = NULL;
     LPWSTR sczPublisher = NULL;
 
     LogId(REPORT_VERBOSE, MSG_SESSION_BEGIN, pRegistration->sczRegistrationKey, dwRegistrationOptions, LoggingBoolToString(pRegistration->fDisableResume));
@@ -639,8 +633,16 @@ extern "C" HRESULT RegistrationSessionBegin(
         hr = RegWriteStringArray(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_PATCH_CODE, pRegistration->rgsczPatchCodes, pRegistration->cPatchCodes);
         ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_PATCH_CODE);
 
-        hr = RegWriteStringFormatted(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION, L"%hu.%hu.%hu.%hu", (WORD)(pRegistration->qwVersion >> 48), (WORD)(pRegistration->qwVersion >> 32), (WORD)(pRegistration->qwVersion >> 16), (WORD)(pRegistration->qwVersion));
+        hr = RegWriteStringFormatted(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION, L"%hu.%hu.%hu.%hu", 
+            static_cast<WORD>(pRegistration->qwVersion >> 48), static_cast<WORD>(pRegistration->qwVersion >> 32), 
+            static_cast<WORD>(pRegistration->qwVersion >> 16), static_cast<WORD>(pRegistration->qwVersion));
         ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION);
+
+        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MAJOR, static_cast<WORD>(pRegistration->qwVersion >> 48));
+        ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_VERSION_MAJOR);
+
+        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MINOR, static_cast<WORD>(pRegistration->qwVersion >> 32));
+        ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_VERSION_MINOR);
 
         if (pRegistration->sczProviderKey)
         {
@@ -661,10 +663,9 @@ extern "C" HRESULT RegistrationSessionBegin(
         hr = RegWriteStringFormatted(hkRegistration, REGISTRY_BUNDLE_DISPLAY_ICON, L"%s,0", pRegistration->sczCacheExecutablePath);
         ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_DISPLAY_ICON);
 
-        // DisplayName: provided by UI
-        hr = GetBundleName(pRegistration, pVariables, &sczDisplayName);
-        hr = RegWriteString(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_DISPLAY_NAME, SUCCEEDED(hr) ? sczDisplayName : pRegistration->sczDisplayName);
-        ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_DISPLAY_NAME);
+        // update display name
+        hr = UpdateBundleNameRegistration(pRegistration, pVariables, hkRegistration);
+        ExitOnFailure(hr, "Failed to update name and publisher.");
 
         // DisplayVersion: provided by UI
         if (pRegistration->sczDisplayVersion)
@@ -823,7 +824,6 @@ extern "C" HRESULT RegistrationSessionBegin(
     ExitOnFailure(hr, "Failed to update resume mode.");
 
 LExit:
-    ReleaseStr(sczDisplayName);
     ReleaseStr(sczPublisher);
     ReleaseRegKey(hkRegistration);
 
@@ -836,7 +836,8 @@ LExit:
 
 *******************************************************************/
 extern "C" HRESULT RegistrationSessionResume(
-    __in BURN_REGISTRATION* pRegistration
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables
     )
 {
     HRESULT hr = S_OK;
@@ -849,6 +850,10 @@ extern "C" HRESULT RegistrationSessionResume(
     // update resume mode
     hr = UpdateResumeMode(pRegistration, hkRegistration, BURN_RESUME_MODE_ACTIVE, FALSE);
     ExitOnFailure(hr, "Failed to update resume mode.");
+
+    // update display name
+    hr = UpdateBundleNameRegistration(pRegistration, pVariables, hkRegistration);
+    ExitOnFailure(hr, "Failed to update name and publisher.");
 
 LExit:
     ReleaseRegKey(hkRegistration);
@@ -1131,7 +1136,7 @@ static HRESULT GetBundleManufacturer(
     hr = VariableGetString(pVariables, BURN_BUNDLE_MANUFACTURER, psczBundleManufacturer);
     if (E_NOTFOUND == hr)
     {
-        hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_MANUFACTURER, pRegistration->sczPublisher);
+        hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_MANUFACTURER, pRegistration->sczPublisher, FALSE);
         ExitOnFailure(hr, "Failed to set bundle manufacturer.");
 
         hr = StrAllocString(psczBundleManufacturer, pRegistration->sczPublisher, 0);
@@ -1153,7 +1158,7 @@ static HRESULT GetBundleName(
     hr = VariableGetString(pVariables, BURN_BUNDLE_NAME, psczBundleName);
     if (E_NOTFOUND == hr)
     {
-        hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_NAME, pRegistration->sczDisplayName);
+        hr = VariableSetLiteralString(pVariables, BURN_BUNDLE_NAME, pRegistration->sczDisplayName, FALSE);
         ExitOnFailure(hr, "Failed to set bundle name.");
 
         hr = StrAllocString(psczBundleName, pRegistration->sczDisplayName, 0);
@@ -1576,6 +1581,26 @@ static HRESULT RegWriteStringVariable(
 
 LExit:
     StrSecureZeroFreeString(sczValue);
+
+    return hr;
+}
+
+static HRESULT UpdateBundleNameRegistration(
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
+    __in HKEY hkRegistration
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczDisplayName = NULL;
+
+    // DisplayName: provided by UI
+    hr = GetBundleName(pRegistration, pVariables, &sczDisplayName);
+    hr = RegWriteString(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_DISPLAY_NAME, SUCCEEDED(hr) ? sczDisplayName : pRegistration->sczDisplayName);
+    ExitOnFailure1(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_DISPLAY_NAME);
+
+LExit:
+    ReleaseStr(sczDisplayName);
 
     return hr;
 }

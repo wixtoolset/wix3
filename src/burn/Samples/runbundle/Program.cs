@@ -1,6 +1,9 @@
-﻿namespace Wix.Samples
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
+
+namespace Wix.Samples
 {
     using System;
+    using System.Linq;
     using Wix.Samples;
 
     /// <summary>
@@ -21,7 +24,7 @@
             runner.Progress += Program.OnProgress;
 
             Console.WriteLine("Installing: {0}", runner.Path);
-            int exitCode = runner.Run();
+            int exitCode = runner.Run(String.Join(" ", args.Skip(1).ToArray()));
             if (0 == exitCode)
             {
                 Console.WriteLine("\r\nUninstalling: {0}", runner.Path);

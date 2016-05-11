@@ -1,15 +1,4 @@
-﻿//-------------------------------------------------------------------------------------------------
-// <copyright file="IBootstrapperApplicationFactory.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Class interface for the BootstrapperApplicationFactory class.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 {
@@ -141,7 +130,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
 
             // Parse the filtered command line arguments into a native array.
             int argc = 0;
-            IntPtr argv = NativeMethods.CommandLineToArgvW(this.wzCommandLine, out argc);
+
+            // CommandLineToArgvW tries to treat the first argument as the path to the process,
+            // which fails pretty miserably if your first argument is something like
+            // FOO="C:\Program Files\My Company". So give it something harmless to play with.
+            IntPtr argv = NativeMethods.CommandLineToArgvW("ignored " + this.wzCommandLine, out argc);
 
             if (IntPtr.Zero == argv)
             {
@@ -152,11 +145,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             // Marshal each native array pointer to a managed string.
             try
             {
-                string[] args = new string[argc];
-                for (int i = 0; i < argc; ++i)
+                // Skip "ignored" argument/hack.
+                string[] args = new string[argc - 1];
+                for (int i = 1; i < argc; ++i)
                 {
                     IntPtr argvi = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
-                    args[i] = Marshal.PtrToStringUni(argvi);
+                    args[i - 1] = Marshal.PtrToStringUni(argvi);
                 }
 
                 return args;

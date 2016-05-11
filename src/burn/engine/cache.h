@@ -1,17 +1,5 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="cache.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Burn cache functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
-
 #pragma once
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 
 #ifdef __cplusplus
@@ -24,7 +12,8 @@ extern "C" {
 
 HRESULT CacheInitialize(
     __in BURN_REGISTRATION* pRegistration,
-    __in BURN_VARIABLES* pVariables
+    __in BURN_VARIABLES* pVariables,
+    __in_z_opt LPCWSTR wzSourceProcessPath
     );
 HRESULT CacheEnsureWorkingFolder(
     __in LPCWSTR wzBundleId,
@@ -87,6 +76,11 @@ void CacheSendErrorCallback(
     __out_opt BOOL* pfRetry
     );
 BOOL CacheBundleRunningFromCache();
+HRESULT CacheBundleToCleanRoom(
+    __in BURN_PAYLOADS* pUxPayloads,
+    __in BURN_SECTION* pSection,
+    __deref_out_z_opt LPWSTR* psczCleanRoomBundlePath
+    );
 HRESULT CacheBundleToWorkingDirectory(
     __in_z LPCWSTR wzBundleId,
     __in_z LPCWSTR wzExecutableName,

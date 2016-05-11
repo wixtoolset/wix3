@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="regutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Registry helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -200,9 +189,28 @@ extern "C" HRESULT DAPI RegDelete(
     HKEY hkKey = NULL;
     REGSAM samDesired = 0;
 
+    if (!vfRegInitialized && REG_KEY_DEFAULT != kbKeyBitness)
+    {
+        hr = E_INVALIDARG;
+        ExitOnFailure(hr, "RegInitialize must be called first in order to RegDelete() a key with non-default bit attributes!");
+    }
+
+    switch (kbKeyBitness)
+    {
+    case REG_KEY_32BIT:
+        samDesired = KEY_WOW64_32KEY;
+        break;
+    case REG_KEY_64BIT:
+        samDesired = KEY_WOW64_64KEY;
+        break;
+    case REG_KEY_DEFAULT:
+        // Nothing to do
+        break;
+    }
+
     if (fDeleteTree)
     {
-        hr = RegOpen(hkRoot, wzSubKey, KEY_READ, &hkKey);
+        hr = RegOpen(hkRoot, wzSubKey, KEY_READ | samDesired, &hkKey);
         if (E_FILENOTFOUND == hr)
         {
             ExitFunction1(hr = S_OK);
@@ -222,25 +230,6 @@ extern "C" HRESULT DAPI RegDelete(
         }
 
         hr = S_OK;
-    }
-
-    if (!vfRegInitialized && REG_KEY_DEFAULT != kbKeyBitness)
-    {
-        hr = E_INVALIDARG;
-        ExitOnFailure(hr, "RegInitialize must be called first in order to RegDelete() a key with non-default bit attributes!");
-    }
-
-    switch (kbKeyBitness)
-    {
-    case REG_KEY_32BIT:
-        samDesired = KEY_WOW64_32KEY;
-        break;
-    case REG_KEY_64BIT:
-        samDesired = KEY_WOW64_64KEY;
-        break;
-    case REG_KEY_DEFAULT:
-        // Nothing to do
-        break;
     }
 
     if (NULL != vpfnRegDeleteKeyExW)

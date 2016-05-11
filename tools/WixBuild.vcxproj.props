@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-  <copyright file="WixBuild.vcxproj.props" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 
   <PropertyGroup Condition=" $(StaticAnalysisEnabled) and ($(VS2013Available) or $(VS2015Available)) ">
@@ -20,9 +15,10 @@
 
   <PropertyGroup>
     <!-- If available and we're not explicitly setting the toolset, use VS2015; otherwise fall back to VS2013 then VS2012 then VS2010. -->
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2015Available) ">v140_xp</PlatformToolset>
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2013Available) ">v120_xp</PlatformToolset>
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2012Available) ">v110_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2015Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2015') ">v140_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2013Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2013') ">v120_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2012Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2012') ">v110_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2010Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2010') ">v100</PlatformToolset>
     <ProjectSubSystem Condition=" '$(ProjectSubSystem)'=='' ">Windows</ProjectSubSystem>
     <!-- VS2015: turn off 'typedef ignored when no variable declared' -->
     <!-- VS2015: turn off 'declaration hides class member' -->
@@ -78,6 +74,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-YlprecompDefine</AdditionalOptions>
+      <AdditionalOptions Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>

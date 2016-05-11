@@ -1,12 +1,7 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  <copyright file="FileAssociations.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
@@ -28,7 +23,7 @@
                 <!-- Icons to use for WiX file types -->
                 <File Source="Votive\Icons\ProjectFile.ico" />
 
-                <ProgId Id="WindowsInstallerXml.wixprojfile.3.10" Description="WiX Project File" Icon="ProjectFile.ico">
+                <ProgId Id="WindowsInstallerXml.wixprojfile.3.11" Description="WiX Project File" Icon="ProjectFile.ico">
                     <Extension Id="wixproj" ContentType="text/plain">
                         <Verb Id="Open" Command="[LATEST_DEVENV_EXE_COMMAND]" TargetProperty="LATEST_DEVENV_EXE" Argument="&quot;%1&quot;" />
                     </Extension>
@@ -38,7 +33,7 @@
             <Component>
                 <File Source="Votive\Icons\ProductFile.ico" />
 
-                <ProgId Id="WindowsInstallerXml.wxsfile.3.10" Description="WiX Source File" Icon="ProductFile.ico">
+                <ProgId Id="WindowsInstallerXml.wxsfile.3.11" Description="WiX Source File" Icon="ProductFile.ico">
                     <Extension Id="wxs" ContentType="text/xml">
                         <Verb Id="Open" Command="[LATEST_DEVENV_EXE_COMMAND]" TargetProperty="LATEST_DEVENV_EXE" Argument="&quot;%1&quot;" />
                     </Extension>
@@ -48,7 +43,7 @@
             <Component>
                 <File Source="Votive\Icons\IncludeFile.ico" />
 
-                <ProgId Id="WindowsInstallerXml.wxifile.3.10" Description="WiX Include File" Icon="IncludeFile.ico">
+                <ProgId Id="WindowsInstallerXml.wxifile.3.11" Description="WiX Include File" Icon="IncludeFile.ico">
                     <Extension Id="wxi" ContentType="text/xml">
                         <Verb Id="Open" Command="[LATEST_DEVENV_EXE_COMMAND]" TargetProperty="LATEST_DEVENV_EXE" Argument="&quot;%1&quot;" />
                     </Extension>
@@ -58,7 +53,7 @@
             <Component>
                 <File Source="Votive\Icons\LocalizationFile.ico" />
 
-                <ProgId Id="WindowsInstallerXml.wxlfile.3.10" Description="WiX Localization File" Icon="LocalizationFile.ico">
+                <ProgId Id="WindowsInstallerXml.wxlfile.3.11" Description="WiX Localization File" Icon="LocalizationFile.ico">
                     <Extension Id="wxl" ContentType="text/xml">
                         <Verb Id="Open" Command="[LATEST_DEVENV_EXE_COMMAND]" TargetProperty="LATEST_DEVENV_EXE" Argument="&quot;%1&quot;" />
                     </Extension>
@@ -68,7 +63,7 @@
             <Component>
                 <File Source="Votive\Icons\WixLibraryFile.ico" />
 
-                <ProgId Id="WindowsInstallerXml.wixlibfile.3.10" Description="WiX Library File" Icon="WixLibraryFile.ico">
+                <ProgId Id="WindowsInstallerXml.wixlibfile.3.11" Description="WiX Library File" Icon="WixLibraryFile.ico">
                     <Extension Id="wixlib" ContentType="text/xml" />
                 </ProgId>
             </Component>

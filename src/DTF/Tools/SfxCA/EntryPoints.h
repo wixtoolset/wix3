@@ -1,28 +1,5 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="EntryPoints.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
-/// <summary>
-/// Invokes a managed custom action from native code by
-/// extracting the package to a temporary working directory
-/// then hosting the CLR and locating and calling the entrypoint.
-/// </summary>
-/// <param name="hSession">Handle to the installation session.
-/// Passed to custom action entrypoints by the installer engine.</param>
-/// <param name="szWorkingDir">Directory containing the CA binaries
-/// and the CustomAction.config file defining the entrypoints.
-/// This may be NULL, in which case the current module must have
-/// a concatenated cabinet containing those files, which will be
-/// extracted to a temporary directory.</param>
-/// <param name="szEntryPoint">Name of the CA entrypoint to be invoked,
-/// in the form "AssemblyName!Namespace.Class.Method"</param>
-/// <returns>The value returned by the managed custom action method,
-/// or ERROR_INSTALL_FAILURE if the CA could not be invoked.</returns>
 int InvokeCustomAction(MSIHANDLE hSession,
 	const wchar_t* szWorkingDir, const wchar_t* szEntryPoint);
 
