@@ -2795,12 +2795,6 @@
           <Parameter Type="System.String" Name="value" />
         </Instance>
       </Message>
-      <Message Id="DisallowedMsiProperty" Number="365">
-        <Instance>
-          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. Remove the MsiProperty element.
-          <Parameter Type="System.String" Name="property" />
-        </Instance>
-      </Message>
       <Message Id="MissingOrInvalidModuleInstallerVersion" Number="366">
         <Instance>
           The merge module '{0}' from file '{1}' is either missing or has an invalid installer version. The value read from the installer version in module's summary information was '{2}'. This should be a numeric value representing a valid installer version such as 200 or 301.
@@ -3799,6 +3793,13 @@
                 <Parameter Type="System.String" Name="truncatedVersion" />
             </Instance>
         </Message>
+      <Message Id="DisallowedMsiProperty" Number="1149">
+        <Instance>
+          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. (Illegal properties are: {1}.) Remove the MsiProperty element. This restriction will be enforced as an error in WiX v4.0.
+          <Parameter Type="System.String" Name="property" />
+          <Parameter Type="System.String" Name="illegalValueList" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">
