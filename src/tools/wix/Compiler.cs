@@ -22228,7 +22228,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     switch (attrib.LocalName)
                     {
                         case "Name":
-                            name = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            name = this.core.GetAttributeMsiPropertyNameValue(sourceLineNumbers, attrib);
                             break;
                         case "Value":
                             value = this.core.GetAttributeValue(sourceLineNumbers, attrib);
