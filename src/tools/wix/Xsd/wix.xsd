@@ -1061,7 +1061,7 @@
     <xs:complexType>
       <xs:attribute name="Name" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The name of the MSI property to set.</xs:documentation>
+          <xs:documentation>The name of the MSI property to set. Burn controls the follow MSI properties so they cannot be set with MsiProperty: ACTION, ALLUSERS, REBOOT, REINSTALL, REINSTALLMODE</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Value" type="xs:string" use="required">
