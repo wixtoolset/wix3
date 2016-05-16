@@ -1,3 +1,9 @@
+## WixBuild: Version 3.10.3.2915
+
+RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
+
+* @barnson: Fix bad merge of v3.11 references into v3.10.3.
+
 ## WixBuild: Version 3.10.3.2904
 
 * SeanHall: WIXBUG:5238 - Get the engine's file handle as soon as possible.  Also, when launching Burn processes, pass a file handle of the exe to the process on the command line.
