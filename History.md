@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.3.2917
+
+* FRichter: WIXBUG:5277 - burn engine: Always use the bundle source path for all purposes. The original source path is needed in all cases: for copying the bundle to the layout directory as well as for checking whether we're layouting to the bundle location.
+
 ## WixBuild: Version 3.10.3.2915
 
 * RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
