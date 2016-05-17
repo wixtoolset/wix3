@@ -6,7 +6,7 @@
     <String Id="WixUIBack" Overridable="yes">&amp;Tagasi</String>
     <String Id="WixUINext" Overridable="yes">&amp;Edasi</String>
     <String Id="WixUICancel" Overridable="yes">Loobu</String>
-    <String Id="WixUIFinish" Overridable="yes">&amp;Valmis</String>
+    <String Id="WixUIFinish" Overridable="yes">&amp;Lõpeta</String>
     <String Id="WixUIRetry" Overridable="yes">&amp;Proovi uuesti</String>
     <String Id="WixUIIgnore" Overridable="yes">&amp;Ignoreeri</String>
     <String Id="WixUIYes" Overridable="yes">&amp;Jah</String>

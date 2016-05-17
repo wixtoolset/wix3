@@ -128,13 +128,6 @@ extern "C" HRESULT CoreInitialize(
     {
         hr = CacheInitialize(&pEngineState->registration, &pEngineState->variables, sczSourceProcessPath);
         ExitOnFailure(hr, "Failed to initialize internal cache functionality.");
-
-        BOOL fRunningFromCache = CacheBundleRunningFromCache();
-
-        if (BURN_MODE_UNTRUSTED == pEngineState->mode && fRunningFromCache)
-        {
-            pEngineState->mode = BURN_MODE_NORMAL;
-        }
     }
 
     // If we're not elevated then we'll be loading the bootstrapper application, so extract
@@ -1397,7 +1390,7 @@ static HRESULT ParseCommandLine(
                 CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX), BURN_COMMANDLINE_SWITCH_PREFIX, lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX)))
             {
                 // Skip (but log) any other private burn switches we don't recognize, so that
-                // adding future private variables doesn't break old bundles 
+                // adding future private variables doesn't break old bundles
                 LogId(REPORT_STANDARD, MSG_BURN_UNKNOWN_PRIVATE_SWITCH, &argv[i][1]);
             }
             else
