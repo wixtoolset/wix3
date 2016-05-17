@@ -1,6 +1,6 @@
 ## WixBuild: Version 3.10.3.2915
 
-RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
+* RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
 
 * @barnson: Fix bad merge of v3.11 references into v3.10.3.
 
