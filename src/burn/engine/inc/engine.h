@@ -9,6 +9,10 @@ extern "C" {
 
 // function declarations
 
+BOOL EngineInCleanRoom(
+    __in_z_opt LPCWSTR wzCommandLine
+    );
+
 HRESULT EngineRun(
     __in HINSTANCE hInstance,
     __in HANDLE hEngineFile,
