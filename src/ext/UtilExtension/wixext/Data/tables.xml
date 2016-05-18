@@ -134,6 +134,8 @@
                 category="text" description="Domain half of user account to secure"/>
         <columnDefinition name="User" type="string" length="255" primaryKey="yes" modularize="property"
                 category="text" description="Username half of user account to secure"/>
+        <columnDefinition name="Inheritable" type="number" length="1" modularize="column"
+                minValue="0" maxValue="1" description="Foreign key into the Component table used to determine install state"/>
         <columnDefinition name="Permission" type="number" length="4" nullable="yes"
                 minValue="-2147483647" maxValue="2147483647" description="Permissions to grant to User"/>
         <columnDefinition name="Component_" type="string" length="72" modularize="column"
