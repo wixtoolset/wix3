@@ -393,6 +393,7 @@ static HRESULT RunUntrusted(
     LPWSTR wzCleanRoomBundlePath = NULL;
     LPWSTR sczCachedCleanRoomBundlePath = NULL;
     LPWSTR sczParameters = NULL;
+    LPWSTR sczFullParameters = NULL;
     LPWSTR sczFullCommandLine = NULL;
     STARTUPINFOW si = { };
     PROCESS_INFORMATION pi = { };
@@ -425,6 +426,9 @@ static HRESULT RunUntrusted(
         wzCleanRoomBundlePath = sczCachedCleanRoomBundlePath;
     }
 
+    hr = StrAllocStringSecure(&sczParameters, wzCommandLine, 0);
+    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
+
     // Send a file handle for the child Burn process to access the attached container.
     hr = CoreAppendFileHandleAttachedToCommandLine(pEngineState->section.hEngineFile, &hFileAttached, &sczParameters);
     ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED);
@@ -435,21 +439,21 @@ static HRESULT RunUntrusted(
 
     // The clean room switch must always end up at the front of the command line so
     // the EngineInCleanRoom function will operate correctly.
-    hr = StrAllocFormattedSecure(&sczParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, wzCommandLine);
-    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
+    hr = StrAllocFormattedSecure(&sczFullParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, sczParameters);
+    ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM);
 
 #ifdef ENABLE_UNELEVATE
     // TODO: Pass file handle to unelevated process if this ever gets reenabled.
     if (!pEngineState->fDisableUnelevate)
     {
         // Try to launch unelevated and if that fails for any reason, we'll launch our process normally (even though that may make it elevated).
-        hr = ProcExecuteAsInteractiveUser(wzCleanRoomBundlePath, sczParameters, &hProcess);
+        hr = ProcExecuteAsInteractiveUser(wzCleanRoomBundlePath, sczFullParameters, &hProcess);
     }
 #endif
 
     if (!hProcess)
     {
-        hr = StrAllocFormattedSecure(&sczFullCommandLine, L"\"%ls\" %ls", wzCleanRoomBundlePath, sczParameters);
+        hr = StrAllocFormattedSecure(&sczFullCommandLine, L"\"%ls\" %ls", wzCleanRoomBundlePath, sczFullParameters);
         ExitOnFailure(hr, "Failed to allocate full command-line.");
 
         si.cb = sizeof(si);
@@ -472,6 +476,7 @@ LExit:
     ReleaseFileHandle(hFileAttached);
     ReleaseHandle(hProcess);
     StrSecureZeroFreeString(sczFullCommandLine);
+    StrSecureZeroFreeString(sczFullParameters);
     StrSecureZeroFreeString(sczParameters);
     ReleaseStr(sczCachedCleanRoomBundlePath);
     ReleaseStr(sczCurrentProcessPath);
