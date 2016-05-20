@@ -425,6 +425,11 @@ static HRESULT RunUntrusted(
         wzCleanRoomBundlePath = sczCachedCleanRoomBundlePath;
     }
 
+    // The clean room switch must always be at the front of the command line so
+    // the EngineInCleanRoom function will operate correctly.
+    hr = StrAllocFormatted(&sczParameters, L"-%ls=\"%ls\"", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath);
+    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
+
     // Send a file handle for the child Burn process to access the attached container.
     hr = CoreAppendFileHandleAttachedToCommandLine(pEngineState->section.hEngineFile, &hFileAttached, &sczParameters);
     ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED);
@@ -433,10 +438,8 @@ static HRESULT RunUntrusted(
     hr = CoreAppendFileHandleSelfToCommandLine(wzCleanRoomBundlePath, &hFileSelf, &sczParameters, NULL);
     ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF);
 
-    // The clean room switch must always end up at the front of the command line so
-    // the EngineInCleanRoom function will operate correctly.
-    hr = StrAllocFormattedSecure(&sczParameters, L"-%ls=\"%ls\" %ls", BURN_COMMANDLINE_SWITCH_CLEAN_ROOM, sczCurrentProcessPath, wzCommandLine);
-    ExitOnFailure(hr, "Failed to allocate parameters for unelevated process.");
+    hr = StrAllocFormattedSecure(&sczParameters, L"%ls %ls", sczParameters, wzCommandLine);
+    ExitOnFailure(hr, "Failed to append original command line.");
 
 #ifdef ENABLE_UNELEVATE
     // TODO: Pass file handle to unelevated process if this ever gets reenabled.
