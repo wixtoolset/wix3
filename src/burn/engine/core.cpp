@@ -981,7 +981,6 @@ extern "C" HRESULT CoreAppendFileHandleAttachedToCommandLine(
 {
     HRESULT hr = S_OK;
     HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
-    LPWSTR sczCommandLine = NULL;
 
     *phExecutableFile = INVALID_HANDLE_VALUE;
 
@@ -990,18 +989,13 @@ extern "C" HRESULT CoreAppendFileHandleAttachedToCommandLine(
         ExitWithLastError(hr, "Failed to duplicate file handle for attached container.");
     }
 
-    hr = StrAllocFormattedSecure(&sczCommandLine, L"-%ls=%u %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, hExecutableFile, *psczCommandLine);
+    hr = StrAllocFormattedSecure(psczCommandLine, L"%ls -%ls=%u", *psczCommandLine, BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, hExecutableFile);
     ExitOnFailure(hr, "Failed to append the file handle to the command line.");
-
-    StrSecureZeroFreeString(*psczCommandLine);
-    *psczCommandLine = sczCommandLine;
-    sczCommandLine = NULL;
 
     *phExecutableFile = hExecutableFile;
     hExecutableFile = INVALID_HANDLE_VALUE;
 
 LExit:
-    StrSecureZeroFreeString(sczCommandLine);
     ReleaseFileHandle(hExecutableFile);
 
     return hr;
@@ -1016,8 +1010,6 @@ extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
 {
     HRESULT hr = S_OK;
     HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
-    LPWSTR sczCommandLine = NULL;
-    LPWSTR sczObfuscatedCommandLine = NULL;
     SECURITY_ATTRIBUTES securityAttributes = { };
     securityAttributes.bInheritHandle = TRUE;
     *phExecutableFile = INVALID_HANDLE_VALUE;
@@ -1025,21 +1017,13 @@ extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
     hExecutableFile = ::CreateFileW(wzExecutablePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, &securityAttributes, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if (INVALID_HANDLE_VALUE != hExecutableFile)
     {
-        hr = StrAllocFormattedSecure(&sczCommandLine, L"-%ls=%u %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile, *psczCommandLine);
+        hr = StrAllocFormattedSecure(psczCommandLine, L"%ls -%ls=%u", *psczCommandLine, BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile);
         ExitOnFailure(hr, "Failed to append the file handle to the command line.");
-
-        StrSecureZeroFreeString(*psczCommandLine);
-        *psczCommandLine = sczCommandLine;
-        sczCommandLine = NULL;
 
         if (psczObfuscatedCommandLine)
         {
-            hr = StrAllocFormatted(&sczObfuscatedCommandLine, L"-%ls=%u %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile, *psczObfuscatedCommandLine);
+            hr = StrAllocFormatted(psczObfuscatedCommandLine, L"%ls -%ls=%u", *psczObfuscatedCommandLine, BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile);
             ExitOnFailure(hr, "Failed to append the file handle to the obfuscated command line.");
-
-            StrSecureZeroFreeString(*psczObfuscatedCommandLine);
-            *psczObfuscatedCommandLine = sczObfuscatedCommandLine;
-            sczObfuscatedCommandLine = NULL;
         }
 
         *phExecutableFile = hExecutableFile;
@@ -1047,8 +1031,6 @@ extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
     }
 
 LExit:
-    StrSecureZeroFreeString(sczObfuscatedCommandLine);
-    StrSecureZeroFreeString(sczCommandLine);
     ReleaseFileHandle(hExecutableFile);
 
     return hr;
