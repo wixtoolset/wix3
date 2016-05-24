@@ -1,3 +1,9 @@
+## WixBuild: Version 3.10.3.2924
+
+* SeanHall: WIXBUG:5301 - Fix bug where file handles weren't being passed to the clean room process.
+
+* SeanHall: WIXBUG:5302 - Fix bug where the command line for burn exe packages had the executable path in the middle.
+
 ## WixBuild: Version 3.10.3.2917
 
 * FRichter: WIXBUG:5277 - burn engine: Always use the bundle source path for all purposes. The original source path is needed in all cases: for copying the bundle to the layout directory as well as for checking whether we're layouting to the bundle location.
