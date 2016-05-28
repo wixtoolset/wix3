@@ -1278,12 +1278,20 @@ static HRESULT ParseCommandLine(
                     ExitOnRootFailure(hr = E_INVALIDARG, "Must specify the embedded name, token and parent process id.");
                 }
 
-                if (BURN_MODE_UNTRUSTED != *pMode)
+                switch (*pMode)
                 {
+                case BURN_MODE_UNTRUSTED:
+                    // Leave mode as UNTRUSTED to launch the clean room process.
+                    break;
+                case BURN_MODE_NORMAL:
+                    // The initialization code already assumes that the
+                    // clean room switch is at the beginning of the command line,
+                    // so it's safe to assume that the mode is NORMAL in the clean room.
+                    *pMode = BURN_MODE_EMBEDDED;
+                    break;
+                default:
                     ExitOnRootFailure(hr = E_INVALIDARG, "Multiple mode command-line switches were provided.");
                 }
-
-                *pMode = BURN_MODE_EMBEDDED;
 
                 ++i;
 
