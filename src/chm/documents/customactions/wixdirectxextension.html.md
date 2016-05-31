@@ -13,25 +13,20 @@ The WixDirectXExtension includes a custom action named WixQueryDirectXCaps that 
     <td valign="top">
       <p><b>WixDirectXExtension properties</b></p>
     </td>
-
     <td></td>
   </tr>
-
   <tr>
     <td valign="top">
       <p>WIX_DIRECTX_PIXELSHADERVERSION</p>
     </td>
-
     <td>
       <p>Pixel shader version capability, expressed as <i>major</i>*100 + <i>minor</i>. For example, a shader model 3.0-compliant system would have a WIX_DIRECTX_PIXELSHADERVERSION value of 300.</p>
     </td>
   </tr>
-
   <tr>
     <td valign="top">
       <p>WIX_DIRECTX_VERTEXSHADERVERSION</p>
     </td>
-
     <td>
       <p>Vertex shader version capability, expressed as <i>major</i>*100 + <i>minor</i>. For example, a shader model 3.0-compliant system would have a WIX_DIRECTX_VERTEXSHADERVERSION value of 300.</p>
     </td>
