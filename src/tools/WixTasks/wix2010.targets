@@ -447,6 +447,7 @@
       TargetFileName=$(TargetFileName);
       TargetName=$(TargetName);
       TargetPath=$(TargetPath);
+      $(ProjectDefineConstants)
     </ProjectDefineConstants>
   </PropertyGroup>
   <!--
