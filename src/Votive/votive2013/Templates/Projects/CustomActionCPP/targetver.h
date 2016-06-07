@@ -1,6 +1,4 @@
 #pragma once
-// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
-
 
 #ifndef WINVER                  // Specifies that the minimum required platform is Windows 2000.
 #define WINVER 0x0500           // Change this to the appropriate value to target other versions of Windows.
