@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.3.3007
+
+* SeanHall: WIXBUG:5308 - Make embedded bundles launch a clean room process so the BA runs in a consistent environment.
+
 ## WixBuild: Version 3.10.3.2924
 
 * SeanHall: WIXBUG:5301 - Fix bug where file handles weren't being passed to the clean room process.
