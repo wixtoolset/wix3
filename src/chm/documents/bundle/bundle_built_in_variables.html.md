@@ -70,4 +70,5 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * WixBundleSourceProcessFolder - gets the source folder of the bundle where originally executed. Will only be set when bundle is executing in the clean room.
 * WixBundleProviderKey - gets the bundle dependency provider key.
 * WixBundleTag - gets the developer-defined tag string for this bundle (from Bundle/@Tag).
+* WixBundleUILevel - gets the level of the user interface (the value BOOTSTRAPPER\_DISPLAY enum).
 * WixBundleVersion - gets the version for this bundle (from Bundle/@Version).
