@@ -30,30 +30,20 @@ The PublishComponent functionality is available in WiX by using a [Category](~/x
 
 <dl>
   <dt>MSI</dt>
-
   <dd>
     <table>
       <tr>
         <th>ComponentId</th>
-
         <th>Qualifier</th>
-
         <th>Component_</th>
-
         <th>AppData</th>
-
         <th>Feature_</th>
       </tr>
-
       <tr>
         <td>{11111111-2222-3333-4444-5555555555555}</td>
-
         <td>1033</td>
-
         <td>MyComponent</td>
-
         <td>Random Data</td>
-
         <td>MyFeature</td>
       </tr>
     </table>
@@ -62,7 +52,6 @@ The PublishComponent functionality is available in WiX by using a [Category](~/x
 
 <dl>
   <dt>WiX</dt>
-
   <dd>
     <table class="command">
       <tr>
