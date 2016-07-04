@@ -3800,6 +3800,12 @@
           <Parameter Type="System.String" Name="illegalValueList" />
         </Instance>
       </Message>
+        <Message Id="ServiceConfigFamilyNotSupported" Number="1150">
+            <Instance>
+                {0} functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider replacing {0} with the WixUtilExtension ServiceConfig element.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">
