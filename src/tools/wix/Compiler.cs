@@ -15220,6 +15220,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string requiredPrivileges = null;
             string sid = null;
 
+            this.core.OnMessage(WixWarnings.ServiceConfigFamilyNotSupported(sourceLineNumbers, node.Name));
+
             foreach (XmlAttribute attrib in node.Attributes)
             {
                 if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
@@ -15569,6 +15571,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string command = null;
             string actions = null;
             string actionsDelays = null;
+
+            this.core.OnMessage(WixWarnings.ServiceConfigFamilyNotSupported(sourceLineNumbers, node.Name));
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
