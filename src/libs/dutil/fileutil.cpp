@@ -420,6 +420,14 @@ extern "C" HRESULT DAPI FileVersionFromStringEx(
         }
     }
 
+    if ((L'v' == *wzVersion) || (L'V' == *wzVersion))
+    {
+        ++wzVersion;
+        --cchVersion;
+        wzPartBegin = wzVersion;
+        wzPartEnd = wzVersion;
+    }
+
     // save end pointer
     wzEnd = wzVersion + cchVersion;
 

@@ -39,15 +39,10 @@ Three types of variables are supported:
 
 <dl>
   <dt>$(env._NtPostBld)</dt>
-
   <dd>Gets the environment variable %_NtPostBld%</dd>
-
   <dt>$(sys.CURRENTDIR)</dt>
-
   <dd>Gets the system variable for the current directory</dd>
-
   <dt>$(var.A)</dt>
-
   <dd>Gets the variable A that was defined in this xml</dd>
 </dl>
 
@@ -64,13 +59,10 @@ WiX has some built-in variables. They are referenced with the syntax $(sys.VARNA
 <dl>
   <dt>CURRENTDIR<dt>
   <dd>The current directory where the build process is running.</dd>
-
   <dt>SOURCEFILEPATH</dt>
   <dd>The full path to the file being processed.</dd>
-
   <dt>SOURCEFILEDIR</dt>
   <dd>The directory containing the file being processed.</dd>
-
   <dt>BUILDARCH</dt> 
   <dd>The platform (Intel, x64, Intel64, ARM) this package is compiled for (set by the -arch switch to Candle.exe or the InstallerPlatform MSBuild property).</dd>
 </dl>

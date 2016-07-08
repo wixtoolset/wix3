@@ -1,3 +1,31 @@
+## WixBuild: Version 3.11.0.705
+
+* @barnson: WIXBUG:5306 - Warn against ServiceConfig and ServiceConfigFailureActions.
+
+* @barnson: Fix WIXBUG:5294 - Move MsiProperty check from ChainPackageInfo,
+  where it was verifying MSI property names too early, to the compiler for the
+  earliest feedback.
+
+* @barnson for @firegiantco: Update FileVersionFromStringEx to handle "vVersion" syntax like FileVersionFromString.
+
+* @barnson: Enable the WiX native SDK when the new Visual C++ Build Tools bundle is installed. Fixes WIXBUG:5279.
+
+* SeanHall: WIXBUG:4810 - Fix bug where mbapreq tried to do something other than HELP or INSTALL.
+
+* SeanHall: WIXBUG:5308 - Make embedded bundles launch a clean room process so the BA runs in a consistent environment.
+
+* SeanHall: WIXBUG:5301 - Fix bug where file handles weren't being passed to the clean room process.
+
+* SeanHall: WIXBUG:5302 - Fix bug where the command line for burn exe packages had the executable path in the middle.
+
+* FRichter: WIXBUG:5277 - burn engine: Always use the bundle source path for all purposes. The original source path is needed in all cases: for copying the bundle to the layout directory as well as for checking whether we're layouting to the bundle location.
+
+* @barnson: Fix WIXBUG:5293 - Document illegal MsiProperty names.
+
+RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
+
+* FabienL: WIXBUG:4976 - Add support for .net framework 4.6.1 in netfxExtension
+
 ## WixBuild: Version 3.11.0.504
 
 * SeanHall: WIXBUG:5238 - Get the engine's file handle as soon as possible.  Also, when launching Burn processes, pass a file handle of the exe to the process on the command line.

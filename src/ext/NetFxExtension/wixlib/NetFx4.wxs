@@ -40,7 +40,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK40"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40Web" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" Overridable="yes" />
 
     <PackageGroup Id="NetFx40Web">
       <ExePackage
@@ -72,7 +72,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK40"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40Redist" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" Overridable="yes" />
 
     <PackageGroup Id="NetFx40Redist">
       <ExePackage
@@ -115,7 +115,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK40CLIENT"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40ClientWeb" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" Overridable="yes" />
 
     <PackageGroup Id="NetFx40ClientWeb">
       <ExePackage
@@ -147,7 +147,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK40CLIENT"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx40ClientRedist" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx40EulaLink)" Overridable="yes" />
 
     <PackageGroup Id="NetFx40ClientRedist">
       <ExePackage
