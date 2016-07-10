@@ -1,19 +1,5 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="core.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-//
-//    Setup chainer/bootstrapper core for WiX toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
-
 #pragma once
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 
 #if defined(__cplusplus)
@@ -41,6 +27,8 @@ const LPCWSTR BURN_COMMANDLINE_SWITCH_PASSTHROUGH = L"burn.passthrough";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_DISABLE_UNELEVATE = L"burn.disable.unelevate";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_IGNOREDEPENDENCIES = L"burn.ignoredependencies";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_ANCESTORS = L"burn.ancestors";
+const LPCWSTR BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED = L"burn.filehandle.attached";
+const LPCWSTR BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF = L"burn.filehandle.self";
 const LPCWSTR BURN_COMMANDLINE_SWITCH_PREFIX = L"burn.";
 
 const LPCWSTR BURN_BUNDLE_LAYOUT_DIRECTORY = L"WixBundleLayoutDirectory";
@@ -56,6 +44,7 @@ const LPCWSTR BURN_BUNDLE_MANUFACTURER = L"WixBundleManufacturer";
 const LPCWSTR BURN_BUNDLE_SOURCE_PROCESS_PATH = L"WixBundleSourceProcessPath";
 const LPCWSTR BURN_BUNDLE_SOURCE_PROCESS_FOLDER = L"WixBundleSourceProcessFolder";
 const LPCWSTR BURN_BUNDLE_TAG = L"WixBundleTag";
+const LPCWSTR BURN_BUNDLE_UILEVEL = L"WixBundleUILevel";
 const LPCWSTR BURN_BUNDLE_VERSION = L"WixBundleVersion";
 
 // The following constants must stay in sync with src\wix\Binder.cs
@@ -139,13 +128,15 @@ typedef struct _BURN_ENGINE_STATE
     BOOL fDisableUnelevate;
 
     LPWSTR sczIgnoreDependencies;
+
+    int argc;
+    LPWSTR* argv;
 } BURN_ENGINE_STATE;
 
 
 // function declarations
 
 HRESULT CoreInitialize(
-    __in_z_opt LPCWSTR wzCommandLine,
     __in BURN_ENGINE_STATE* pEngineState
     );
 HRESULT CoreSerializeEngineState(
@@ -202,6 +193,17 @@ HRESULT CoreRecreateCommandLine(
     __in_z_opt LPCWSTR wzAncestors,
     __in_z_opt LPCWSTR wzAppendLogPath,
     __in_z_opt LPCWSTR wzAdditionalCommandLineArguments
+    );
+HRESULT CoreAppendFileHandleAttachedToCommandLine(
+    __in HANDLE hFileWithAttachedContainer,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine
+    );
+HRESULT CoreAppendFileHandleSelfToCommandLine(
+    __in LPCWSTR wzExecutablePath,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine,
+    __deref_inout_z_opt LPWSTR* psczObfuscatedCommandLine
     );
 
 #if defined(__cplusplus)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Project InitialTargets="CheckRequiredProperties" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!--
+  This build file is just for the debug zip, and is intentionally empty.
+  Many WiX projects would fail to load if this file is missing.
+  -->
+</Project>

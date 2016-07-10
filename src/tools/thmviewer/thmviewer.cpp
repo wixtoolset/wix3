@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="thmviewer.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-// Theme viewer.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -192,8 +181,8 @@ static HRESULT ProcessCommandLine(
 
     if (wzCommandLine && *wzCommandLine)
     {
-        argv = ::CommandLineToArgvW(wzCommandLine, &argc);
-        ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
+        hr = AppParseCommandLine(wzCommandLine, &argc, &argv);
+        ExitOnFailure(hr, "Failed to parse command line.");
 
         for (int i = 0; i < argc; ++i)
         {
@@ -220,7 +209,7 @@ static HRESULT ProcessCommandLine(
 LExit:
     if (argv)
     {
-        ::LocalFree(argv);
+        AppFreeCommandLineArgs(argv);
     }
 
     return hr;

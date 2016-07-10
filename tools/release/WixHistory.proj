@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="TransformHistoryEntries" />
+
+  <!--
+  ================================================================================================
+  UpdateHistory
+
+    Converts history files into entries in a project's History.md,
+    then updates it with the build version.
+
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <UpdateHistoryDependsOn>
+    </UpdateHistoryDependsOn>
+  </PropertyGroup>
+  <Target Name="UpdateHistory"
+          Condition=" $(SkipUpdateHistory)=='' "
+          DependsOnTargets="$(UpdateHistoryDependsOn)">
+    <PropertyGroup>
+      <HistoryFile>$(WixRoot)History.md</HistoryFile>
+      <HistoryFolderRelativePath>history</HistoryFolderRelativePath>
+      <SpecialHistoryFileName>readme.md</SpecialHistoryFileName>
+    </PropertyGroup>
+    <Error Text="Cannot locate project's history file at: $(HistoryFile)." Condition=" !Exists('$(HistoryFile)') " />
+    <Error Text="Cannot locate project's history folder at: $(WixRoot)$(HistoryFolderRelativePath)." Condition=" !Exists('$(WixRoot)$(HistoryFolderRelativePath)') " />
+
+    <TransformHistoryEntries
+      ProjectFolder="$(WixRoot)"
+      HistoryFolderRelativePath="$(HistoryFolderRelativePath)"
+      HistoryFile="$(HistoryFile)"
+      SpecialHistoryFileName="$(SpecialHistoryFileName)" />
+
+    <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(HistoryFile) $(FullBuildVersionString) //nologo"
+          WorkingDirectory="$(WixRoot)" />
+  </Target>
+
+  <!--
+  ================================================================================================
+  Build
+
+    Updates the history file.
+
+  ================================================================================================
+  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      UpdateHistory
+    </BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="Build" 
+          DependsOnTargets="$(BuildDependsOn)" />
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
+</Project>

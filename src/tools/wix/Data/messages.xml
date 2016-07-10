@@ -1,16 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!--
-  <copyright file="messages.xml" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
-  <summary>
-    Wix error/verbose/warning messages.
-  </summary>
--->
+
 <Messages Namespace="Microsoft.Tools.WindowsInstallerXml" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
     <Class Name="WixErrors" ContainerName="WixErrorEventArgs" BaseContainerName="MessageEventArgs" Level="Error">
         <Message Id="UnexpectedException" Number="1" SourceLineNumbers="no">
@@ -2804,12 +2795,6 @@
           <Parameter Type="System.String" Name="value" />
         </Instance>
       </Message>
-      <Message Id="DisallowedMsiProperty" Number="365">
-        <Instance>
-          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. Remove the MsiProperty element.
-          <Parameter Type="System.String" Name="property" />
-        </Instance>
-      </Message>
       <Message Id="MissingOrInvalidModuleInstallerVersion" Number="366">
         <Instance>
           The merge module '{0}' from file '{1}' is either missing or has an invalid installer version. The value read from the installer version in module's summary information was '{2}'. This should be a numeric value representing a valid installer version such as 200 or 301.
@@ -3806,6 +3791,19 @@
                 <Parameter Type="System.String" Name="originalVersion" />
                 <Parameter Type="System.String" Name="package" />
                 <Parameter Type="System.String" Name="truncatedVersion" />
+            </Instance>
+        </Message>
+      <Message Id="DisallowedMsiProperty" Number="1149">
+        <Instance>
+          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. (Illegal properties are: {1}.) Remove the MsiProperty element. This restriction will be enforced as an error in WiX v4.0.
+          <Parameter Type="System.String" Name="property" />
+          <Parameter Type="System.String" Name="illegalValueList" />
+        </Instance>
+      </Message>
+        <Message Id="ServiceConfigFamilyNotSupported" Number="1150">
+            <Instance>
+                {0} functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider replacing {0} with the WixUtilExtension ServiceConfig element.
+                <Parameter Type="System.String" Name="elementName" />
             </Instance>
         </Message>
     </Class>

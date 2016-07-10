@@ -1,17 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="core.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-//
-//    Setup chainer/bootstrapper core for WiX toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -29,7 +16,8 @@ struct BURN_CACHE_THREAD_CONTEXT
 // internal function declarations
 
 static HRESULT ParseCommandLine(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in int argc,
+    __in LPWSTR* argv,
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_PIPE_CONNECTION* pCompanionConnection,
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
@@ -72,7 +60,6 @@ static void LogPackages(
 // function definitions
 
 extern "C" HRESULT CoreInitialize(
-    __in_z_opt LPCWSTR wzCommandLine,
     __in BURN_ENGINE_STATE* pEngineState
     )
 {
@@ -106,7 +93,7 @@ extern "C" HRESULT CoreInitialize(
     ExitOnFailure(hr, "Failed to load manifest.");
 
     // Parse command line.
-    hr = ParseCommandLine(wzCommandLine, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczSourceProcessPath, &sczOriginalSource, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
+    hr = ParseCommandLine(pEngineState->argc, pEngineState->argv, &pEngineState->command, &pEngineState->companionConnection, &pEngineState->embeddedConnection, &pEngineState->variables, &pEngineState->mode, &pEngineState->automaticUpdates, &pEngineState->fDisableSystemRestore, &sczSourceProcessPath, &sczOriginalSource, &pEngineState->fDisableUnelevate, &pEngineState->log.dwAttributes, &pEngineState->log.sczPath, &pEngineState->registration.sczActiveParent, &pEngineState->sczIgnoreDependencies, &pEngineState->registration.sczAncestors, &sczSanitizedCommandLine);
     ExitOnFailure(hr, "Failed to parse command line.");
 
     LogId(REPORT_STANDARD, MSG_BURN_COMMAND_LINE, sczSanitizedCommandLine ? sczSanitizedCommandLine : L"");
@@ -116,6 +103,9 @@ extern "C" HRESULT CoreInitialize(
 
     hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, fElevated, TRUE);
     ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
+
+    hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_UILEVEL, pEngineState->command.display, TRUE);
+    ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_UILEVEL);
 
     if (sczSourceProcessPath)
     {
@@ -141,13 +131,6 @@ extern "C" HRESULT CoreInitialize(
     {
         hr = CacheInitialize(&pEngineState->registration, &pEngineState->variables, sczSourceProcessPath);
         ExitOnFailure(hr, "Failed to initialize internal cache functionality.");
-
-        BOOL fRunningFromCache = CacheBundleRunningFromCache();
-
-        if (BURN_MODE_UNTRUSTED == pEngineState->mode && fRunningFromCache)
-        {
-            pEngineState->mode = BURN_MODE_NORMAL;
-        }
     }
 
     // If we're not elevated then we'll be loading the bootstrapper application, so extract
@@ -256,7 +239,7 @@ extern "C" HRESULT CoreDetect(
     pEngineState->userExperience.hwndDetect = hwndParent;
 
     // Always reset the detect state which means the plan should be reset too.
-    DetectReset(&pEngineState->registration, &pEngineState->packages, &pEngineState->update);
+    DetectReset(&pEngineState->registration, &pEngineState->packages);
     PlanReset(&pEngineState->plan, &pEngineState->packages);
 
     hr = SearchesExecute(&pEngineState->searches, &pEngineState->variables);
@@ -990,10 +973,74 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT CoreAppendFileHandleAttachedToCommandLine(
+    __in HANDLE hFileWithAttachedContainer,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine
+    )
+{
+    HRESULT hr = S_OK;
+    HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
+
+    *phExecutableFile = INVALID_HANDLE_VALUE;
+
+    if (!::DuplicateHandle(::GetCurrentProcess(), hFileWithAttachedContainer, ::GetCurrentProcess(), &hExecutableFile, 0, TRUE, DUPLICATE_SAME_ACCESS))
+    {
+        ExitWithLastError(hr, "Failed to duplicate file handle for attached container.");
+    }
+
+    hr = StrAllocFormattedSecure(psczCommandLine, L"%ls -%ls=%u", *psczCommandLine, BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, hExecutableFile);
+    ExitOnFailure(hr, "Failed to append the file handle to the command line.");
+
+    *phExecutableFile = hExecutableFile;
+    hExecutableFile = INVALID_HANDLE_VALUE;
+
+LExit:
+    ReleaseFileHandle(hExecutableFile);
+
+    return hr;
+}
+
+extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
+    __in LPCWSTR wzExecutablePath,
+    __out HANDLE* phExecutableFile,
+    __deref_inout_z LPWSTR* psczCommandLine,
+    __deref_inout_z_opt LPWSTR* psczObfuscatedCommandLine
+    )
+{
+    HRESULT hr = S_OK;
+    HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
+    SECURITY_ATTRIBUTES securityAttributes = { };
+    securityAttributes.bInheritHandle = TRUE;
+    *phExecutableFile = INVALID_HANDLE_VALUE;
+
+    hExecutableFile = ::CreateFileW(wzExecutablePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_DELETE, &securityAttributes, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (INVALID_HANDLE_VALUE != hExecutableFile)
+    {
+        hr = StrAllocFormattedSecure(psczCommandLine, L"%ls -%ls=%u", *psczCommandLine, BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile);
+        ExitOnFailure(hr, "Failed to append the file handle to the command line.");
+
+        if (psczObfuscatedCommandLine)
+        {
+            hr = StrAllocFormatted(psczObfuscatedCommandLine, L"%ls -%ls=%u", *psczObfuscatedCommandLine, BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, hExecutableFile);
+            ExitOnFailure(hr, "Failed to append the file handle to the obfuscated command line.");
+        }
+
+        *phExecutableFile = hExecutableFile;
+        hExecutableFile = INVALID_HANDLE_VALUE;
+    }
+
+LExit:
+    ReleaseFileHandle(hExecutableFile);
+
+    return hr;
+}
+
 // internal helper functions
 
 static HRESULT ParseCommandLine(
-    __in_z_opt LPCWSTR wzCommandLine,
+    __in int argc,
+    __in LPWSTR* argv,
     __in BOOTSTRAPPER_COMMAND* pCommand,
     __in BURN_PIPE_CONNECTION* pCompanionConnection,
     __in BURN_PIPE_CONNECTION* pEmbeddedConnection,
@@ -1013,30 +1060,13 @@ static HRESULT ParseCommandLine(
     )
 {
     HRESULT hr = S_OK;
-    int argc = 0;
-    LPWSTR* argv = NULL;
     BOOL fUnknownArg = FALSE;
     BOOL fHidden = FALSE;
     LPWSTR sczCommandLine = NULL;
     LPWSTR sczSanitizedArgument = NULL;
     LPWSTR sczVariableName = NULL;
 
-    if (wzCommandLine && *wzCommandLine)
-    {
-        // CommandLineToArgvW tries to treat the first argument as the path to the process,
-        // which fails pretty miserably if your first argument is something like
-        // FOO="C:\Program Files\My Company". So give it something harmless to play with.
-        hr = StrAllocConcat(&sczCommandLine, L"ignored ", 0);
-        ExitOnFailure(hr, "Failed to initialize command line.");
-
-        hr = StrAllocConcat(&sczCommandLine, wzCommandLine, 0);
-        ExitOnFailure(hr, "Failed to copy command line.");
-
-        argv = ::CommandLineToArgvW(sczCommandLine, &argc);
-        ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
-    }
-
-    for (int i = 1; i < argc; ++i) // skip "ignored" argument/hack
+    for (int i = 0; i < argc; ++i)
     {
         fUnknownArg = FALSE;
         int originalIndex = i;
@@ -1248,12 +1278,20 @@ static HRESULT ParseCommandLine(
                     ExitOnRootFailure(hr = E_INVALIDARG, "Must specify the embedded name, token and parent process id.");
                 }
 
-                if (BURN_MODE_UNTRUSTED != *pMode)
+                switch (*pMode)
                 {
+                case BURN_MODE_UNTRUSTED:
+                    // Leave mode as UNTRUSTED to launch the clean room process.
+                    break;
+                case BURN_MODE_NORMAL:
+                    // The initialization code already assumes that the
+                    // clean room switch is at the beginning of the command line,
+                    // so it's safe to assume that the mode is NORMAL in the clean room.
+                    *pMode = BURN_MODE_EMBEDDED;
+                    break;
+                default:
                     ExitOnRootFailure(hr = E_INVALIDARG, "Multiple mode command-line switches were provided.");
                 }
-
-                *pMode = BURN_MODE_EMBEDDED;
 
                 ++i;
 
@@ -1333,11 +1371,19 @@ static HRESULT ParseCommandLine(
                 hr = StrAllocString(psczAncestors, &wzParam[1], 0);
                 ExitOnFailure(hr, "Failed to allocate the list of ancestors.");
             }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED), BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED, lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_ATTACHED)))
+            {
+                // Already processed in InitializeEngineState.
+            }
+            else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF), BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF, lstrlenW(BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF)))
+            {
+                // Already processed in InitializeEngineState.
+            }
             else if (lstrlenW(&argv[i][1]) >= lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX) &&
                 CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX), BURN_COMMANDLINE_SWITCH_PREFIX, lstrlenW(BURN_COMMANDLINE_SWITCH_PREFIX)))
             {
                 // Skip (but log) any other private burn switches we don't recognize, so that
-                // adding future private variables doesn't break old bundles 
+                // adding future private variables doesn't break old bundles
                 LogId(REPORT_STANDARD, MSG_BURN_UNKNOWN_PRIVATE_SWITCH, &argv[i][1]);
             }
             else
@@ -1408,11 +1454,6 @@ static HRESULT ParseCommandLine(
     }
 
 LExit:
-    if (argv)
-    {
-        ::LocalFree(argv);
-    }
-
     ReleaseStr(sczVariableName);
     ReleaseStr(sczSanitizedArgument);
     ReleaseStr(sczCommandLine);
@@ -1517,7 +1558,7 @@ static DWORD WINAPI CacheThreadProc(
     fComInitialized = TRUE;
 
     // cache packages
-    hr = ApplyCache(pEngineState->section.hEngineFile, &pEngineState->userExperience, &pEngineState->variables, &pEngineState->plan, pEngineState->companionConnection.hCachePipe, pcOverallProgressTicks, pfRollback);
+    hr = ApplyCache(pEngineState->section.hSourceEngineFile, &pEngineState->userExperience, &pEngineState->variables, &pEngineState->plan, pEngineState->companionConnection.hCachePipe, pcOverallProgressTicks, pfRollback);
 
 LExit:
     UserExperienceExecutePhaseComplete(&pEngineState->userExperience, hr); // signal that cache completed.

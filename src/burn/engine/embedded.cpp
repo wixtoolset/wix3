@@ -1,17 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="embedded.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Module: Embedded
-//
-//    Burn embedded process handler.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -84,9 +71,9 @@ extern "C" HRESULT EmbeddedRunBundle(
     hr = StrAllocFormattedSecure(&sczCommand, L"%ls -%ls %ls %ls %u", wzArguments, BURN_COMMANDLINE_SWITCH_EMBEDDED, connection.sczName, connection.sczSecret, dwCurrentProcessId);
     ExitOnFailure(hr, "Failed to allocate embedded command.");
 
-    if (!::CreateProcessW(wzExecutablePath, sczCommand, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+    if (!::CreateProcessW(wzExecutablePath, sczCommand, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
     {
-        ExitWithLastError1(hr, "Failed to create embedded process atpath: %ls", wzExecutablePath);
+        ExitWithLastError(hr, "Failed to create embedded process at path: %ls", wzExecutablePath);
     }
 
     connection.dwProcessId = ::GetProcessId(pi.hProcess);
@@ -101,7 +88,7 @@ extern "C" HRESULT EmbeddedRunBundle(
 
     // Get the return code from the embedded process.
     hr = ProcWaitForCompletion(connection.hProcess, INFINITE, pdwExitCode);
-    ExitOnFailure1(hr, "Failed to wait for embedded executable: %ls", wzExecutablePath);
+    ExitOnFailure(hr, "Failed to wait for embedded executable: %ls", wzExecutablePath);
 
 LExit:
     ReleaseHandle(pi.hThread);

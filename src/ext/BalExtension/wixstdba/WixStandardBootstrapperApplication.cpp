@@ -1,12 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="WixStandardBootstrapperApplication.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
-
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -1161,8 +1153,8 @@ private: // privates
 
         if (m_command.wzCommandLine && *m_command.wzCommandLine)
         {
-            argv = ::CommandLineToArgvW(m_command.wzCommandLine, &argc);
-            ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
+            hr = AppParseCommandLine(m_command.wzCommandLine, &argc, &argv);
+            ExitOnFailure(hr, "Failed to parse command line.");
 
             for (int i = 0; i < argc; ++i)
             {
@@ -1220,7 +1212,7 @@ private: // privates
     LExit:
         if (argv)
         {
-            ::LocalFree(argv);
+            AppFreeCommandLineArgs(argv);
         }
 
         ReleaseStr(sczVariableName);
@@ -3350,10 +3342,13 @@ public:
         m_hModule = hModule;
         memcpy_s(&m_command, sizeof(m_command), pCommand, sizeof(BOOTSTRAPPER_COMMAND));
 
-        // Pre-req BA should only show help or do an install (to launch the Managed BA which can then do the right action).
-        if (fPrereq && BOOTSTRAPPER_ACTION_HELP != m_command.action && BOOTSTRAPPER_ACTION_INSTALL != m_command.action)
+        if (fPrereq)
         {
-            m_command.action = BOOTSTRAPPER_ACTION_INSTALL;
+            // Pre-req BA should only show help or do an install (to launch the Managed BA which can then do the right action).
+            if (BOOTSTRAPPER_ACTION_HELP != m_command.action)
+            {
+                m_command.action = BOOTSTRAPPER_ACTION_INSTALL;
+            }
         }
         else // maybe modify the action state if the bundle is or is not already installed.
         {

@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="Compiler.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Compiler core of the Windows Installer Xml toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
@@ -15231,6 +15220,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string requiredPrivileges = null;
             string sid = null;
 
+            this.core.OnMessage(WixWarnings.ServiceConfigFamilyNotSupported(sourceLineNumbers, node.Name));
+
             foreach (XmlAttribute attrib in node.Attributes)
             {
                 if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
@@ -15580,6 +15571,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string command = null;
             string actions = null;
             string actionsDelays = null;
+
+            this.core.OnMessage(WixWarnings.ServiceConfigFamilyNotSupported(sourceLineNumbers, node.Name));
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -22239,7 +22232,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     switch (attrib.LocalName)
                     {
                         case "Name":
-                            name = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            name = this.core.GetAttributeMsiPropertyNameValue(sourceLineNumbers, attrib);
                             break;
                         case "Value":
                             value = this.core.GetAttributeValue(sourceLineNumbers, attrib);

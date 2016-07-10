@@ -1,14 +1,7 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
 
-REM -----------------------------------------------------------------------
-REM  <copyright file="test.bat" company="Outercurve Foundation">
-REM    Copyright (c) 2004, Outercurve Foundation.
-REM    This software is released under Microsoft Reciprocal License (MS-RL).
-REM    The license and further copyright text can be found in the file
-REM    LICENSE.TXT at the root directory of the distribution.
-REM  </copyright>
-REM -----------------------------------------------------------------------
+REM Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 set COMMAND=
 set ENABLERUNTIMETESTS=
@@ -52,6 +45,11 @@ if not "%INTEGRATIONTESTS%"=="true" (
     set TESTASSEMBLIES=!TESTASSEMBLIES! "%WIX_BUILD_X86%\WixTests.dll"
 )
 
+REM Enable runtime tests
+if "%ENABLERUNTIMETESTS%"=="true" (
+    set RuntimeTestsEnabled=true
+)
+
 for /f "usebackq" %%i in (`where /f xunit.console.clr4.*`) do (
     set COMMAND=%%i
 )
@@ -62,7 +60,7 @@ if not "!COMMAND!"=="" (
         if not "!EXITCODE!"=="0" set EXITCODE=%ERRORLEVEL%
     )
 ) else (
-    call msbuild "%~dp0\test\All.testproj" /p:Configuration=%FLAVOR%
+    call msbuild "%WIX_TEST_ROOT%test\All.testproj" /p:Configuration=%FLAVOR%
     if not "!EXITCODE!"=="0" set EXITCODE=%ERRORLEVEL%
 )
 

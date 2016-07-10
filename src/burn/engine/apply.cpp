@@ -1,17 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="apply.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-//
-//    Apply phase functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -60,8 +47,7 @@ static HRESULT ExecuteDependentRegistrationActions(
     __in DWORD cActions
     );
 static HRESULT ExtractContainer(
-    __in HANDLE hEngineFile,
-    __in BURN_USER_EXPERIENCE* pUX,
+    __in HANDLE hSourceEngineFile,
     __in BURN_CONTAINER* pContainer,
     __in_z LPCWSTR wzContainerPath,
     __in_ecount(cExtractPayloads) BURN_EXTRACT_PAYLOAD* rgExtractPayloads,
@@ -429,7 +415,7 @@ LExit:
 }
 
 extern "C" HRESULT ApplyCache(
-    __in HANDLE hEngineFile,
+    __in HANDLE hSourceEngineFile,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_VARIABLES* pVariables,
     __in BURN_PLAN* pPlan,
@@ -539,7 +525,7 @@ extern "C" HRESULT ApplyCache(
                     break;
                 }
 
-                hr = ExtractContainer(hEngineFile, pUX, pCacheAction->extractContainer.pContainer, pCacheAction->extractContainer.sczContainerUnverifiedPath, pCacheAction->extractContainer.rgPayloads, pCacheAction->extractContainer.cPayloads);
+                hr = ExtractContainer(hSourceEngineFile, pCacheAction->extractContainer.pContainer, pCacheAction->extractContainer.sczContainerUnverifiedPath, pCacheAction->extractContainer.rgPayloads, pCacheAction->extractContainer.cPayloads);
                 if (SUCCEEDED(hr))
                 {
                     qwSuccessfulCachedProgress += pCacheAction->extractContainer.qwTotalExtractSize;
@@ -861,8 +847,7 @@ LExit:
 }
 
 static HRESULT ExtractContainer(
-    __in HANDLE /*hEngineFile*/,
-    __in BURN_USER_EXPERIENCE* /*pUX*/,
+    __in HANDLE hSourceEngineFile,
     __in BURN_CONTAINER* pContainer,
     __in_z LPCWSTR wzContainerPath,
     __in_ecount(cExtractPayloads) BURN_EXTRACT_PAYLOAD* rgExtractPayloads,
@@ -872,8 +857,13 @@ static HRESULT ExtractContainer(
     HRESULT hr = S_OK;
     BURN_CONTAINER_CONTEXT context = { };
     HANDLE hContainerHandle = INVALID_HANDLE_VALUE;
-    LPWSTR sczCurrentProcessPath = NULL;
     LPWSTR sczExtractPayloadId = NULL;
+
+    // If the container is actually attached, then it was planned to be acquired through hSourceEngineFile.
+    if (pContainer->fActuallyAttached)
+    {
+        hContainerHandle = hSourceEngineFile;
+    }
 
     hr = ContainerOpen(&context, pContainer, hContainerHandle, wzContainerPath);
     ExitOnFailure1(hr, "Failed to open container: %ls.", pContainer->sczId);
@@ -911,7 +901,6 @@ static HRESULT ExtractContainer(
 
 LExit:
     ReleaseStr(sczExtractPayloadId);
-    ReleaseStr(sczCurrentProcessPath);
     ContainerClose(&context);
 
     return hr;
@@ -958,8 +947,17 @@ static HRESULT LayoutBundle(
     BURN_CACHE_ACQUIRE_PROGRESS_CONTEXT progress = { };
     BOOL fRetry = FALSE;
 
-    hr = PathForCurrentProcess(&sczBundlePath, NULL);
-    ExitOnFailure(hr, "Failed to get path to bundle to layout.");
+    hr = VariableGetString(pVariables, BURN_BUNDLE_SOURCE_PROCESS_PATH, &sczBundlePath);
+    if (FAILED(hr))
+    {
+        if  (E_NOTFOUND != hr)
+        {
+            ExitOnFailure(hr, "Failed to get path to bundle source process path to layout.");
+        }
+
+        hr = PathForCurrentProcess(&sczBundlePath, NULL);
+        ExitOnFailure(hr, "Failed to get path to bundle to layout.");
+    }
 
     hr = PathConcat(wzLayoutDirectory, wzExecutableName, &sczDestinationPath);
     ExitOnFailure(hr, "Failed to concat layout path for bundle.");
@@ -1105,9 +1103,8 @@ static HRESULT AcquireContainerOrPayload(
 
         hr = CacheFindLocalSource(wzSourcePath, pVariables, &fFoundLocal, &sczSourceFullPath);
         ExitOnFailure(hr, "Failed to search local source.");
-
-        // If the file exists locally, copy it.
-        if (fFoundLocal)
+        
+        if (fFoundLocal) // the file exists locally, so copy it.
         {
             // If the source path and destination path are different, do the copy (otherwise there's no point).
             hr = PathCompare(sczSourceFullPath, wzDestinationPath, &nEquivalentPaths);
@@ -1115,7 +1112,7 @@ static HRESULT AcquireContainerOrPayload(
 
             fCopy = (CSTR_EQUAL != nEquivalentPaths);
         }
-        else // can't find the file locally so prompt for source.
+        else // can't find the file locally, so prompt for source.
         {
             DWORD dwLogId = pContainer ? (wzPayloadId ? MSG_PROMPT_CONTAINER_PAYLOAD_SOURCE : MSG_PROMPT_CONTAINER_SOURCE) : pPackage ? MSG_PROMPT_PACKAGE_PAYLOAD_SOURCE : MSG_PROMPT_BUNDLE_PAYLOAD_SOURCE;
             LogId(REPORT_STANDARD, dwLogId, wzPackageOrContainerId ? wzPackageOrContainerId : L"", wzPayloadId ? wzPayloadId : L"", sczSourceFullPath);
@@ -1172,7 +1169,7 @@ static HRESULT AcquireContainerOrPayload(
                 hr = S_OK;
             }
         }
-        ExitOnFailure2(hr, "Failed to acquire payload from: '%ls' to working path: '%ls'", fCopy ? sczSourceFullPath : wzDownloadUrl, wzDestinationPath);
+        ExitOnFailure(hr, "Failed to acquire payload from: '%ls' to working path: '%ls'", fCopy ? sczSourceFullPath : wzDownloadUrl, wzDestinationPath);
     } while (fRetry);
     ExitOnFailure(hr, "Failed to find external payload to cache.");
 

@@ -39,57 +39,37 @@ The WixUI dialog library includes default bitmaps for the background of the welc
 <table border="1" cellspacing="0" cellpadding="4" id="table1">
   <tr>
     <td><b>Variable name</b></td>
-
     <td><b>Description</b></td>
-
     <td><b>Dimensions</b></td>
   </tr>
-
   <tr>
     <td>WixUIBannerBmp</td>
-
     <td>Top banner</td>
-
     <td>493 &times; 58</td>
   </tr>
-
   <tr>
     <td>WixUIDialogBmp</td>
-
     <td>Background bitmap used on the welcome and completion dialogs</td>
-
     <td>493 &times; 312</td>
   </tr>
-
   <tr>
     <td>WixUIExclamationIco</td>
-
     <td>Exclamation icon on the WaitForCostingDlg</td>
-
     <td>32 &times; 32</td>
   </tr>
-
   <tr>
     <td>WixUIInfoIco</td>
-
     <td>Information icon on the cancel and error dialogs</td>
-
     <td>32 &times; 32</td>
   </tr>
-
   <tr>
     <td>WixUINewIco</td>
-
     <td>Button glyph on the BrowseDlg</td>
-
     <td>16 &times; 16</td>
   </tr>
-
   <tr>
     <td>WixUIUpIco</td>
-
     <td>Button glyph on the BrowseDlg</td>
-
     <td>16 &times; 16</td>
   </tr>
 </table>

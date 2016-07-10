@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="ChainPackageInfo.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-// Chain package info for binding Bundles.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
@@ -647,8 +636,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     this.Manufacturer = ChainPackageInfo.GetProperty(db, "Manufacturer");
 
-                    this.VerifyMsiProperties();
-
                     if (YesNoType.Yes == forcePerMachine)
                     {
                         if (YesNoDefaultType.No == this.PerMachine)
@@ -1182,23 +1169,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
 
                 this.PatchXml = writer.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Verifies that only allowed properties are passed to the MSI.
-        /// </summary>
-        private void VerifyMsiProperties()
-        {
-            foreach (string disallowed in new string[] { "ACTION", "ALLUSERS", "REBOOT", "REINSTALL", "REINSTALLMODE" })
-            {
-                foreach (MsiPropertyInfo propertyInfo in this.MsiProperties)
-                {
-                    if (disallowed.Equals(propertyInfo.Name, StringComparison.Ordinal))
-                    {
-                        this.core.OnMessage(WixErrors.DisallowedMsiProperty(this.PackagePayload.SourceLineNumbers, disallowed));
-                    }
-                }
             }
         }
 

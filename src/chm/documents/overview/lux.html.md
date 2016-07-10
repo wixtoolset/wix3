@@ -232,9 +232,6 @@ To run a test package under Nit, build the Test target using MSBuild 3.5:
 The test package will be built before the tests are run, if necessary. The output looks like the following, with failing tests highlighted in red as build errors:
   
     Test:
-      Windows Installer Xml Unit Test Runner version 3.5.1204.0
-      Copyright (C) Outercurve Foundation. All rights reserved.
-    
       Test luxB21F0D12E0701DBA30FFB92A532A5390 passed: Property 'SIMPLE' matched expected value '[INSTALLFOLDER]'.
       Test TestConditionBeforeVista passed: Property 'SIMPLE' matched expected value '[INSTALLFOLDER]'.
       Test TestConditionVistaOrLater passed: Property 'SIMPLE' matched expected value '[INSTALLFOLDER]'.

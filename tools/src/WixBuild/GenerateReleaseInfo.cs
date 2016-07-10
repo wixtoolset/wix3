@@ -1,11 +1,4 @@
-﻿//-------------------------------------------------------------------------------------------------
-// <copyright file="GenerateReleaseInfo.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
 {
@@ -107,23 +100,21 @@ namespace Microsoft.Tools.WindowsInstallerXml.WixBuild
                 {
                     continue;
                 }
-                else if (start < -1)
+                else if (line.StartsWith("## "))
                 {
-                    if (line.StartsWith("## "))
+                    if (-1 == start)
                     {
-                        // could get the version of the build now.
+                        start = i;
                     }
                     else
                     {
-                        lines.Add(line);
+                        end = i;
+                        break;
                     }
-
-                    start = i;
                 }
-                else if (line.StartsWith("## "))
+                else if (-1 == start)
                 {
-                    end = i;
-                    break;
+                    this.Log.LogWarning("Expected to find '## WixBuild' line but found this instead: '{0}'", line);
                 }
                 else
                 {

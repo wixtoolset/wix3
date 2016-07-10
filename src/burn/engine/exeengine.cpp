@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="exeengine.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: EXE Engine
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -399,6 +388,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     LPWSTR sczExecutablePath = NULL;
     LPWSTR sczCommand = NULL;
     LPWSTR sczCommandObfuscated = NULL;
+    HANDLE hExecutableFile = INVALID_HANDLE_VALUE;
     STARTUPINFOW si = { };
     PROCESS_INFORMATION pi = { };
     DWORD dwExitCode = 0;
@@ -499,7 +489,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     }
     ExitOnFailure(hr, "Failed to create obfuscated executable command.");
 
-    if (BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    if (pExecuteAction->exePackage.pPackage->Exe.fSupportsAncestors)
     {
         // Add the list of dependencies to ignore, if any, to the burn command line.
         if (pExecuteAction->exePackage.sczIgnoreDependencies && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
@@ -520,6 +510,12 @@ extern "C" HRESULT ExeEngineExecutePackage(
             hr = StrAllocFormatted(&sczCommandObfuscated, L"%ls -%ls=%ls", sczCommandObfuscated, BURN_COMMANDLINE_SWITCH_ANCESTORS, pExecuteAction->exePackage.sczAncestors);
             ExitOnFailure(hr, "Failed to append the list of ancestors to the obfuscated command line.");
         }
+    }
+
+    if (BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    {
+        hr = CoreAppendFileHandleSelfToCommandLine(sczExecutablePath, &hExecutableFile, &sczCommand, &sczCommandObfuscated);
+        ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF);
     }
 
     // Log before we add the secret pipe name and client token for embedded processes.
@@ -545,9 +541,9 @@ extern "C" HRESULT ExeEngineExecutePackage(
         }
 
         si.cb = sizeof(si); // TODO: hookup the stdin/stdout/stderr pipes for logging purposes?
-        if (!::CreateProcessW(sczExecutablePath, sczCommand, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+        if (!::CreateProcessW(sczExecutablePath, sczCommand, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
         {
-            ExitWithLastError1(hr, "Failed to CreateProcess on path: %ls", sczExecutablePath);
+            ExitWithLastError(hr, "Failed to CreateProcess on path: %ls", sczExecutablePath);
         }
 
         if (pExecuteAction->exePackage.fFireAndForget)
@@ -574,7 +570,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     }
 
     hr = HandleExitCode(pExecuteAction->exePackage.pPackage, dwExitCode, pRestart);
-    ExitOnRootFailure1(hr, "Process returned error: 0x%x", dwExitCode);
+    ExitOnRootFailure(hr, "Process returned error: 0x%x", dwExitCode);
 
 LExit:
     if (fChangedCurrentDirectory)
@@ -592,6 +588,7 @@ LExit:
 
     ReleaseHandle(pi.hThread);
     ReleaseHandle(pi.hProcess);
+    ReleaseFileHandle(hExecutableFile);
 
     // Best effort to clear the execute package cache folder and action variables.
     VariableSetString(pVariables, BURN_BUNDLE_EXECUTE_PACKAGE_CACHE_FOLDER, NULL, TRUE);

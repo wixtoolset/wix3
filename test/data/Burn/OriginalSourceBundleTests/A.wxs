@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="A.wxs" company="Microsoft Corporation">
-    Copyright (c) 1999, Microsoft Corporation.  All rights reserved.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 
 <?ifndef TestName?>
 <?define TestName = Test?>

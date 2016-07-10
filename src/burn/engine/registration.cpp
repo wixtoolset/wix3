@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="registration.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -40,6 +29,8 @@ const LPCWSTR REGISTRY_BUNDLE_SYSTEM_COMPONENT = L"SystemComponent";
 const LPCWSTR REGISTRY_BUNDLE_QUIET_UNINSTALL_STRING = L"QuietUninstallString";
 const LPCWSTR REGISTRY_BUNDLE_UNINSTALL_STRING = L"UninstallString";
 const LPCWSTR REGISTRY_BUNDLE_RESUME_COMMAND_LINE = L"BundleResumeCommandLine";
+const LPCWSTR REGISTRY_BUNDLE_VERSION_MAJOR = L"VersionMajor";
+const LPCWSTR REGISTRY_BUNDLE_VERSION_MINOR = L"VersionMinor";
 
 const LPCWSTR SWIDTAG_FOLDER = L"swidtag";
 
@@ -642,8 +633,16 @@ extern "C" HRESULT RegistrationSessionBegin(
         hr = RegWriteStringArray(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_PATCH_CODE, pRegistration->rgsczPatchCodes, pRegistration->cPatchCodes);
         ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_PATCH_CODE);
 
-        hr = RegWriteStringFormatted(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION, L"%hu.%hu.%hu.%hu", (WORD)(pRegistration->qwVersion >> 48), (WORD)(pRegistration->qwVersion >> 32), (WORD)(pRegistration->qwVersion >> 16), (WORD)(pRegistration->qwVersion));
+        hr = RegWriteStringFormatted(hkRegistration, BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION, L"%hu.%hu.%hu.%hu", 
+            static_cast<WORD>(pRegistration->qwVersion >> 48), static_cast<WORD>(pRegistration->qwVersion >> 32), 
+            static_cast<WORD>(pRegistration->qwVersion >> 16), static_cast<WORD>(pRegistration->qwVersion));
         ExitOnFailure(hr, "Failed to write %ls value.", BURN_REGISTRATION_REGISTRY_BUNDLE_VERSION);
+
+        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MAJOR, static_cast<WORD>(pRegistration->qwVersion >> 48));
+        ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_VERSION_MAJOR);
+
+        hr = RegWriteNumber(hkRegistration, REGISTRY_BUNDLE_VERSION_MINOR, static_cast<WORD>(pRegistration->qwVersion >> 32));
+        ExitOnFailure(hr, "Failed to write %ls value.", REGISTRY_BUNDLE_VERSION_MINOR);
 
         if (pRegistration->sczProviderKey)
         {

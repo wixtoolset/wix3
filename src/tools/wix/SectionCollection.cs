@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="SectionCollection.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Array collection of sections.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
@@ -200,12 +189,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <param name="allowIdenticalRows">Flag specifying whether identical rows are allowed or not.</param>
         /// <param name="messageHandler">Message handler object to route all errors through.</param>
         /// <param name="expectedOutputType">Expected entry output type, based on output file extension provided to the linker.</param>
+        /// <param name="allowDuplicateDirectoryIds">Allow duplicate directory IDs instead of erring.</param>
         /// <param name="entrySection">Located entry section.</param>
         /// <param name="allSymbols">Collection of symbols loaded.</param>
         internal void FindEntrySectionAndLoadSymbols(
             bool allowIdenticalRows,
             IMessageHandler messageHandler,
             OutputType expectedOutputType,
+            bool allowDuplicateDirectoryIds,
             out Section entrySection,
             out SymbolCollection allSymbols)
         {
@@ -259,7 +250,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         }
                         else
                         {
-                            allSymbols.AddDuplicate(symbol);
+                            // Allow linking wixlibs with the same directory definitions.
+                            if (!allowDuplicateDirectoryIds || symbol.Row.TableDefinition.Name != "Directory")
+                            {
+                                allSymbols.AddDuplicate(symbol);
+                            }
                         }
                     }
                     catch (DuplicateSymbolsException)

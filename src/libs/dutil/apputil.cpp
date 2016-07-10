@@ -1,21 +1,19 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="apputil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Application helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
 const DWORD PRIVATE_LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800;
 typedef BOOL(WINAPI *LPFN_SETDEFAULTDLLDIRECTORIES)(DWORD);
 typedef BOOL(WINAPI *LPFN_SETDLLDIRECTORYW)(LPCWSTR);
+
+extern "C" void DAPI AppFreeCommandLineArgs(
+    __in LPWSTR* argv
+    )
+{
+    // The "ignored" hack in AppParseCommandLine requires an adjustment.
+    LPWSTR* argvOriginal = argv - 1;
+    ::LocalFree(argvOriginal);
+}
 
 /********************************************************************
 AppInitialize - initializes the standard safety precautions for an
@@ -70,4 +68,42 @@ extern "C" void DAPI AppInitialize(
             }
         }
     }
+}
+
+extern "C" void DAPI AppInitializeUnsafe()
+{
+    ::HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+}
+
+extern "C" DAPI_(HRESULT) AppParseCommandLine(
+    __in LPCWSTR wzCommandLine,
+    __in int* pArgc,
+    __in LPWSTR** pArgv
+    )
+{
+    HRESULT hr = S_OK;
+    LPWSTR sczCommandLine = NULL;
+    LPWSTR* argv = NULL;
+    int argc = 0;
+
+    // CommandLineToArgvW tries to treat the first argument as the path to the process,
+    // which fails pretty miserably if your first argument is something like
+    // FOO="C:\Program Files\My Company". So give it something harmless to play with.
+    hr = StrAllocConcat(&sczCommandLine, L"ignored ", 0);
+    ExitOnFailure(hr, "Failed to initialize command line.");
+
+    hr = StrAllocConcat(&sczCommandLine, wzCommandLine, 0);
+    ExitOnFailure(hr, "Failed to copy command line.");
+
+    argv = ::CommandLineToArgvW(sczCommandLine, &argc);
+    ExitOnNullWithLastError(argv, hr, "Failed to parse command line.");
+
+    // Skip "ignored" argument/hack.
+    *pArgv = argv + 1;
+    *pArgc = argc - 1;
+
+LExit:
+    ReleaseStr(sczCommandLine);
+
+    return hr;
 }

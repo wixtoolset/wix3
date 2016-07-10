@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Theme xmlns="http://wixtoolset.org/schemas/thmutil/2010">
   <Window Width="600" Height="450" HexStyle="100a0000" FontId="0">#(loc.Caption)</Window>
   <Font Id="0" Height="-12" Weight="500" Foreground="000000" Background="FFFFFF">Segoe UI</Font>

@@ -1,12 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!--
-  <copyright file="WixBuildRelease.proj" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project InitialTargets="InitializeVariables" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 
   <Import Project="..\WixBuild.Version.targets" />
@@ -78,23 +73,6 @@
 
   <!--
   ================================================================================================
-  UpdateHistory
-
-    Converts history files into entries in a project's History.md,
-    then updates it with the build version.
-
-  ================================================================================================
-  -->
-  <Target Name="UpdateHistory"
-          Condition=" $(SkipUpdateHistory)=='' "
-          DependsOnTargets="GetVersionNumber">
-
-    <Exec Command="cscript $(MSBuildThisFileDirectory)histver.js $(ProjectHistoryFile) $(Version) //nologo"
-          WorkingDirectory="$(ProjectFolder)" />
-  </Target>
-
-  <!--
-  ================================================================================================
   BuildRelease
 
     Builds everything required to release.
@@ -103,8 +81,7 @@
   -->
   <PropertyGroup>
     <BuildReleaseDependsOn>
-      BuildProject;
-      UpdateHistory;
+      BuildProject
     </BuildReleaseDependsOn>
   </PropertyGroup>
   <Target Name="BuildRelease"
