@@ -217,7 +217,7 @@ HRESULT DAPI BundleEnumRelatedBundle(
                 hr = ::StringCchLengthW(sczUninstallSubKey, STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchUninstallSubKey));
                 ExitOnFailure(hr, "Failed to calculate length of string");
 
-                hr = ::StringCchCatNExW(lpBundleIdBuf, MAX_GUID_CHARS + 1, sczUninstallSubKey, cchUninstallSubKey, NULL, NULL, STRSAFE_FILL_BEHIND_NULL);
+                hr = ::StringCchCopyNExW(lpBundleIdBuf, MAX_GUID_CHARS + 1, sczUninstallSubKey, cchUninstallSubKey, NULL, NULL, STRSAFE_FILL_BEHIND_NULL);
                 ExitOnFailure(hr, "Failed to copy the property value to the output buffer.");
             }
 
