@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
+#include <cmath>
 
 #ifndef BCM_SETSHIELD
 #define BCM_SETSHIELD       (BCM_FIRST + 0x000C)
@@ -207,6 +208,18 @@ static void GetControlDimensions(
 // calculates final width of each column (storing result in each column's nWidth value)
 static HRESULT SizeListViewColumns(
     __inout THEME_CONTROL* pControl
+    );
+// DPI scaling functions
+static void ScaleApplication(
+    __in THEME* pTheme
+    );
+static void ScaleControl(
+    __in const THEME* pTheme,
+    __in THEME_CONTROL* pControl
+    );
+static void ScaleFont(
+    __in const THEME* pTheme,
+    __in LOGFONTW* lf
     );
 
 DAPI_(HRESULT) ThemeInitialize(
@@ -1660,6 +1673,9 @@ static HRESULT ParseTheme(
     THEME* pTheme = NULL;
     IXMLDOMElement *pThemeElement = NULL;
 
+    UINT nDpiX;
+    UINT nDpiY;
+
     hr = pixd->get_documentElement(&pThemeElement);
     ExitOnFailure(hr, "Failed to get theme element.");
 
@@ -1667,6 +1683,10 @@ static HRESULT ParseTheme(
     ExitOnNull(pTheme, hr, E_OUTOFMEMORY, "Failed to allocate memory for theme.");
 
     pTheme->wId = ++wThemeId;
+
+    GetDpiForMonitor(NULL, &nDpiX, &nDpiY);
+    pTheme->fScaleFactorX = GetScaleFactorForDpi(nDpiX);
+    pTheme->fScaleFactorY = GetScaleFactorForDpi(nDpiY);
 
     // Parse the optional background resource image.
     hr = ParseImage(hModule, wzRelativePath, pThemeElement, &pTheme->hImage);
@@ -1960,6 +1980,8 @@ static HRESULT ParseApplication(
         ExitOnFailure(hr, "Failed to copy application caption.");
     }
 
+    ScaleApplication(pTheme);
+
 LExit:
     ReleaseStr(sczIconFile);
     ReleaseBSTR(bstr);
@@ -2092,6 +2114,8 @@ static HRESULT ParseFonts(
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
             ExitOnRootFailure(hr, "Theme font id duplicated.");
         }
+
+        ScaleFont(pTheme, &lf);
 
         pFont->hFont = ::CreateFontIndirectW(&lf);
         ExitOnNullWithLastError(pFont->hFont, hr, "Failed to create product title font.");
@@ -2863,6 +2887,8 @@ static HRESULT ParseControl(
         ExitOnFailure(hr, "Failed to parse tabs");
     }
 
+    ScaleControl(pTheme, pControl);
+
 LExit:
     ReleaseBSTR(bstrText);
 
@@ -3621,4 +3647,58 @@ static HRESULT SizeListViewColumns(
 
 LExit:
     return hr;
+}
+
+DAPI_(int) ScaleByFactor(
+    int pixels,
+    FLOAT fScaleFactor
+    )
+{
+    if (pixels == -1)
+    {
+        return pixels;
+    }
+
+    float x = pixels * fScaleFactor;
+    return static_cast<int>(std::rintf(x));
+}
+
+static void ScaleApplication(
+    __in THEME* pTheme
+    )
+{
+    pTheme->nWidth = ScaleByFactor(pTheme->nWidth, pTheme->fScaleFactorX);
+    pTheme->nHeight = ScaleByFactor(pTheme->nHeight, pTheme->fScaleFactorY);
+
+    pTheme->nMinimumWidth = ScaleByFactor(pTheme->nMinimumWidth, pTheme->fScaleFactorX);
+    pTheme->nMinimumHeight = ScaleByFactor(pTheme->nMinimumHeight, pTheme->fScaleFactorY);
+
+    pTheme->nSourceX = ScaleByFactor(pTheme->nSourceX, pTheme->fScaleFactorX);
+    pTheme->nSourceY = ScaleByFactor(pTheme->nSourceY, pTheme->fScaleFactorY);
+}
+
+static void ScaleControl(
+    __in const THEME* pTheme,
+    __in THEME_CONTROL* pControl
+    )
+{
+    pControl->nX = ScaleByFactor(pControl->nX, pTheme->fScaleFactorX);
+    pControl->nY = ScaleByFactor(pControl->nY, pTheme->fScaleFactorY);
+
+    pControl->nWidth = ScaleByFactor(pControl->nWidth, pTheme->fScaleFactorX);
+    pControl->nHeight = ScaleByFactor(pControl->nHeight, pTheme->fScaleFactorY);
+
+    pControl->nSourceX = ScaleByFactor(pControl->nSourceX, pTheme->fScaleFactorX);
+    pControl->nSourceY = ScaleByFactor(pControl->nSourceY, pTheme->fScaleFactorY);
+}
+
+static void ScaleFont(
+    __in const THEME* pTheme,
+    __in LOGFONTW* lf
+    )
+{
+    if (lf->lfHeight < 0)
+    {
+        lf->lfHeight = ScaleByFactor(lf->lfHeight, pTheme->fScaleFactorX);
+    }
 }

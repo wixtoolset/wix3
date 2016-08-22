@@ -210,3 +210,55 @@ HRESULT DAPI GdipHresultFromStatus(
 
     return E_UNEXPECTED;
 }
+
+/********************************************************************
+GetDpiForMonitor - returns the X and Y DPI values for specified monitor.
+
+********************************************************************/
+BOOL DAPI GetDpiForMonitor(
+    __in_opt HWND hWnd,
+    __out UINT* nDpiX,
+    __out UINT* nDpiY
+    )
+{
+    HMONITOR hMonitor = NULL;
+    MONITORINFOEXW mi;
+    HDC hdc = NULL;
+
+    hMonitor = ::MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
+    if (hMonitor)
+    {
+        SecureZeroMemory(&mi, sizeof(mi));
+        mi.cbSize = sizeof(mi);
+
+        if (::GetMonitorInfoW(hMonitor, &mi))
+        {
+            hdc = ::CreateDCW(L"DISPLAY", mi.szDevice, NULL, NULL);
+            if (hdc)
+            {
+                *nDpiX = ::GetDeviceCaps(hdc, LOGPIXELSX);
+                *nDpiY = ::GetDeviceCaps(hdc, LOGPIXELSY);
+
+                ::ReleaseDC(NULL, hdc);
+
+                return TRUE;
+            }
+        }
+    }
+
+    *nDpiX = 96;
+    *nDpiY = 96;
+
+    return FALSE;
+}
+
+/********************************************************************
+GetScaleFactorForDpi - returns the scale factor for given DPI resolution.
+
+********************************************************************/
+FLOAT DAPI GetScaleFactorForDpi(
+    UINT nDpi
+    )
+{
+    return nDpi / 96.0f;
+}

@@ -35,6 +35,16 @@ HRESULT DAPI GdipHresultFromStatus(
     __in Gdiplus::Status gs
     );
 
+BOOL DAPI GetDpiForMonitor(
+    __in_opt HWND hWnd,
+    __out UINT* nDpiX,
+    __out UINT* nDpiY
+    );
+
+FLOAT DAPI GetScaleFactorForDpi(
+    UINT nDpi
+    );
+
 #ifdef __cplusplus
 }
 #endif

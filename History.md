@@ -1,3 +1,5 @@
+* JozefIzso: WIXBUG:3920 - Make themes DPI aware
+
 * HeathS: WIXBUG:4541 - Add support for high DPI to the Burn engine
 
 ## WixBuild: Version 3.11.0.705
