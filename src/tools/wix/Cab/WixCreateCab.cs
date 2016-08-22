@@ -6,8 +6,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
     using System.Globalization;
     using System.IO;
     using System.Runtime.InteropServices;
+    using System.Threading;
+
     using Microsoft.Tools.WindowsInstallerXml.Cab.Interop;
-    using Microsoft.Tools.WindowsInstallerXml.Msi;
     using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
 
     /// <summary>
@@ -67,7 +68,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             {
                 throw new WixException(WixErrors.IllegalEnvironmentVariable(CompressionLevelVariable, compressionLevelVariable));
             }
-        
+
             if (String.IsNullOrEmpty(cabDir))
             {
                 cabDir = Directory.GetCurrentDirectory();
@@ -165,21 +166,50 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
         {
             try
             {
-                NativeMethods.CreateCabAddFile(file, token, fileHash, this.handle);
+                bool success = RetryCabAction(file, () => { NativeMethods.CreateCabAddFile(file, token, fileHash, this.handle); return true; });
+
+                if (!success)
+                {
+                    throw new IOException();
+                }
             }
             catch (COMException ce)
             {
-                if (0x80004005 == unchecked((uint)ce.ErrorCode)) // E_FAIL
+                const uint E_FAIL = 0x80004005;
+
+                // from winerror.h
+                const uint ERROR_ACCESS_DENIED = 5;
+                const uint ERROR_SHARING_VIOLATION = 32;
+                const uint ERROR_LOCK_VIOLATION = 33;
+                const uint ERROR_OPEN_FAILED = 110;
+                const uint ERROR_PATH_BUSY = 148;
+                const uint ERROR_FILE_CHECKED_OUT = 220;
+                const uint ERROR_HANDLE_DISK_FULL = 39;
+                const uint ERROR_DISK_FULL = 112;
+
+                if (E_FAIL == unchecked((uint)ce.ErrorCode))
                 {
                     throw new WixException(WixErrors.CreateCabAddFileFailed());
                 }
-                else if (0x80070070 == unchecked((uint)ce.ErrorCode)) // ERROR_DISK_FULL
-                {
-                    throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
-                }
                 else
                 {
-                    throw;
+                    switch (unchecked((uint)ce.ErrorCode) & 0xffff)
+                    {
+                        case ERROR_ACCESS_DENIED:
+                        case ERROR_SHARING_VIOLATION:
+                        case ERROR_LOCK_VIOLATION:
+                        case ERROR_OPEN_FAILED:
+                        case ERROR_PATH_BUSY:
+                        case ERROR_FILE_CHECKED_OUT:
+                            throw new WixException(WixErrors.FileInUse(null, file));
+
+                        case ERROR_HANDLE_DISK_FULL:
+                        case ERROR_DISK_FULL:
+                            throw new WixException(WixErrors.CreateCabInsufficientDiskSpace());
+
+                        default:
+                            throw;
+                    }
                 }
             }
             catch (DirectoryNotFoundException)
@@ -189,6 +219,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
             catch (FileNotFoundException)
             {
                 throw new WixFileNotFoundException(file);
+            }
+            catch (IOException)
+            {
+                // get a file path with the exception message.
+                throw new WixSharingViolationException(file);
             }
         }
 
@@ -221,7 +256,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                     {
                         NativeMethods.CreateCabFinish(this.handle, IntPtr.Zero);
                     }
-                        
+
                     GC.SuppressFinalize(this);
                     this.disposed = true;
                 }
@@ -265,6 +300,87 @@ namespace Microsoft.Tools.WindowsInstallerXml.Cab
                 GC.SuppressFinalize(this);
                 this.disposed = true;
             }
+        }
+
+        /// <summary>
+        /// Private method to retry a <c>CAB</c> action that may block because
+        /// another process is working the file.  Retries on
+        /// an <see cref="COMException" /> or an <see cref="IOException"/>.
+        /// </summary>
+        /// <param name="path">File source to watch.</param>
+        /// <typeparam name="T">Return type of the file action.</typeparam>
+        /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
+        /// <returns>
+        /// Returns the result of the delegate on success, or <c>default(T)</c> on failure.
+        /// </returns>
+        private T RetryCabAction<T>(string file, Func<T> func)
+        {
+            // initial state unsignaled
+            AutoResetEvent are = new AutoResetEvent(false);
+            int i = 0;
+            FileInfo fi = new FileInfo(file);
+
+            // from winerror.h
+            const uint ERROR_ACCESS_DENIED = 5;
+            const uint ERROR_SHARING_VIOLATION = 32;
+            const uint ERROR_LOCK_VIOLATION = 33;
+            const uint ERROR_OPEN_FAILED = 110;
+            const uint ERROR_PATH_BUSY = 148;
+            const uint ERROR_FILE_CHECKED_OUT = 220;
+
+            FileSystemWatcher fsw = new FileSystemWatcher(string.IsNullOrEmpty(fi.DirectoryName) || !Directory.Exists(fi.DirectoryName) ? Directory.GetCurrentDirectory() : fi.DirectoryName);
+
+            fsw.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.Size;
+
+            // register for Changed provided path (file) matches
+            fsw.Changed += (sender, e) =>
+            {
+                if (e.FullPath.Equals(fi.FullName, StringComparison.OrdinalIgnoreCase))
+                {
+                    // set the state of the event to signaled and proceed
+                    are.Set();
+                }
+            };
+
+            // disalbe until we have an exception
+            fsw.EnableRaisingEvents = false;
+
+            do
+            {
+                try
+                {
+                    return func();
+                }
+                catch (COMException ce)
+                {
+                    switch (unchecked((uint)ce.ErrorCode) & 0xFFFF)
+                    {
+                        case ERROR_ACCESS_DENIED:
+                        case ERROR_SHARING_VIOLATION:
+                        case ERROR_LOCK_VIOLATION:
+                        case ERROR_OPEN_FAILED:
+                        case ERROR_PATH_BUSY:
+                        case ERROR_FILE_CHECKED_OUT:
+                            fsw.EnableRaisingEvents = true;
+
+                            // block until signaled or a maximum of 3000 ms.
+                            are.WaitOne(3000);
+                            break;
+
+                        default:
+                            throw;
+                    }
+                }
+                catch (IOException)
+                {
+                    fsw.EnableRaisingEvents = true;
+
+                    // block until signaled or a maximum of 20000 ms.
+                    are.WaitOne(3000);
+                }
+            } while (64 > i++);
+
+            return default(T);
         }
     }
 }

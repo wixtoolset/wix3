@@ -49,6 +49,7 @@
     <Compile Include="CompilerExtension.cs" />
     <Compile Include="ComponentRow.cs" />
     <Compile Include="ConsoleMessageHandler.cs" />
+    <Compile Include="Exceptions\WixSharingViolationException.cs" />
     <Compile Include="IfDefEventHandler.cs" />
     <Compile Include="Inscriber.cs" />
     <Compile Include="InspectorCore.cs" />

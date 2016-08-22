@@ -10,6 +10,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using System.Globalization;
     using System.IO;
     using System.Runtime.InteropServices;
+    using System.Threading;
 
     /// <summary>
     /// Options for building the cabinet.
@@ -258,9 +259,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 return false;
             }
 
-            using (FileStream targetStream = File.OpenRead(targetFile))
+            using (FileStream targetStream = RetryFileAction(targetFile, () => { return targetFileInfo.OpenRead(); }))
             {
-                using (FileStream updatedStream = File.OpenRead(updatedFile))
+                using (FileStream updatedStream = RetryFileAction(updatedFile, () => { return updatedFileInfo.OpenRead(); }))
                 {
                     if (targetStream.Length != updatedStream.Length)
                     {
@@ -269,26 +270,22 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     // Using a larger buffer than the default buffer of 4 * 1024 used by FileStream.ReadByte improves performance.
                     // The buffer size is based on user feedback. Based on performance results, a better buffer size may be determined.
-                    byte[] targetBuffer = new byte[16 * 1024];
-                    byte[] updatedBuffer = new byte[16 * 1024];
+                    const int bufferSize = 60 * 1024;
+                    byte[] targetBuffer = new byte[bufferSize];
+                    byte[] updatedBuffer = new byte[bufferSize];
                     int targetReadLength;
                     int updatedReadLength;
+
                     do
                     {
                         targetReadLength = targetStream.Read(targetBuffer, 0, targetBuffer.Length);
                         updatedReadLength = updatedStream.Read(updatedBuffer, 0, updatedBuffer.Length);
-                        
-                        if (targetReadLength != updatedReadLength)
+
+                        // if different, stop looping and return.
+                        // Try to mimic the code used for String.Equals more closely
+                        if ((targetReadLength != updatedReadLength) || (0 != memcmp(targetBuffer, updatedBuffer, targetReadLength)))
                         {
                             return false;
-                        }
-
-                        for (int i = 0; i < targetReadLength; ++i)
-                        {
-                            if (targetBuffer[i] != updatedBuffer[i])
-                            {
-                                return false;
-                            }
                         }
 
                     } while (0 < targetReadLength);
@@ -617,9 +614,25 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <param name="overwrite">true if the destination file can be overwritten; otherwise, false.</param>
         public virtual void CopyFile(string source, string destination, bool overwrite)
         {
-            if (overwrite)
+            if (!File.Exists(source))
             {
-                File.Delete(destination);
+                throw new WixFileNotFoundException(source);
+            }
+
+            if (overwrite && File.Exists(destination))
+            {
+                bool success = RetryPermissionAction(destination, () =>
+                {
+                    FileAttributes attributes = File.GetAttributes(destination);
+                    File.SetAttributes(destination, attributes & ~FileAttributes.ReadOnly);
+                    File.Delete(destination);
+                    return true;
+                });
+
+                if (!success)
+                {
+                    throw new UnauthorizedAccessException(string.Format("CopyFile():  Cannot set attributes and delete '{0}'.", destination));
+                }
             }
 
             if (!CreateHardLink(destination, source, IntPtr.Zero))
@@ -628,7 +641,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 int er = Marshal.GetLastWin32Error();
 #endif
 
-                File.Copy(source, destination, overwrite);
+                bool success = RetryFileAction(destination, () =>
+                {
+                    // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
+                    Directory.CreateDirectory(Path.GetDirectoryName(destination));
+                    File.Copy(source, destination, overwrite);
+                    return true;
+                });
+
+                if (!success)
+                {
+                    throw new IOException(string.Format("CopyFile():  Cannot copy '{0}' {1} '{2}'.", source, overwrite ? "overwriting" : "to", destination));
+                }
             }
         }
 
@@ -639,7 +663,42 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// <param name="destination">The destination file.</param>
         public virtual void MoveFile(string source, string destination)
         {
-            File.Move(source, destination);
+            if (!File.Exists(source))
+            {
+                throw new WixFileNotFoundException(source);
+            }
+
+            if (File.Exists(destination))
+            {
+                bool success = RetryPermissionAction(destination, () =>
+                {
+                    FileAttributes attributes = File.GetAttributes(destination);
+                    File.SetAttributes(destination, attributes & ~FileAttributes.ReadOnly);
+                    File.Delete(destination);
+                    return true;
+                });
+
+                if (!success)
+                {
+                    throw new UnauthorizedAccessException(string.Format("MoveFile():  Cannot set attributes and delete '{0}'.", destination));
+                }
+            }
+
+            // main execution scoping block
+            {
+                bool success = RetryFileAction(destination, () =>
+                {
+                    // this.core.OnMessage(WixVerboses.CreateDirectory(directory));
+                    Directory.CreateDirectory(Path.GetDirectoryName(destination));
+                    File.Move(source, destination);
+                    return true;
+                });
+
+                if (!success)
+                {
+                    throw new IOException(string.Format("MoveFile():  Cannot move '{0}' to '{1}'.", source, destination));
+                }
+            }
         }
 
         /// <summary>
@@ -723,7 +782,124 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
         }
 
+        /// <summary>
+        /// Private method to retry a file action that may block because
+        /// another process is working the file.  Retries on
+        /// an <see cref="IOException" /> to implement the WatchHandler pattern.
+        /// </summary>
+        /// <param name="path">File path to watch.</param>
+        /// <typeparam name="T">Return type of the file action.</typeparam>
+        /// <param name="func">File <c>I/O</c> Delegate to retry.</param>
+        /// <returns>
+        /// Returns the result of the delegate on success, or <c>default(T)</c>
+        /// on failure.
+        /// </returns>
+        private T RetryFileAction<T>(string path, Func<T> func)
+        {
+            // initial state unsignaled
+            AutoResetEvent are = new AutoResetEvent(false);
+            int i = 0;
+            FileInfo fi = new FileInfo(path);
+
+            FileSystemWatcher fsw = new FileSystemWatcher(fi.DirectoryName);
+
+            fsw.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
+
+            // register for Changed provided path (file) matches
+            fsw.Changed += (sender, e) =>
+            {
+                if (e.FullPath.Equals(fi.FullName, StringComparison.OrdinalIgnoreCase))
+                {
+                    // set the state of the event to signaled and proceed
+                    are.Set();
+                }
+            };
+
+            fsw.EnableRaisingEvents = false;
+
+            do
+            {
+                try
+                {
+                    return func();
+                }
+                catch (IOException)
+                {
+                    fsw.EnableRaisingEvents = true;
+
+                    // block until signaled or a maximum of 3000 ms.
+                    are.WaitOne(3000);
+                }
+            } while (64 > i++);
+
+            return default(T);
+        }
+
+        /// <summary>
+        /// Private method to retry a file action that may block because
+        /// of permissions.  Retries on an <see cref="IOException" /> or
+        /// an <see cref="UnauthorizedAccessException" /> to implement the
+        /// WatchHandler pattern.
+        /// </summary>
+        /// <param name="path">File path to watch.</param>
+        /// <typeparam name="T">Return type of the file action.</typeparam>
+        /// <param name="func">File Permission Delegate to retry.</param>
+        /// <returns>
+        /// Returns the result of the delegate on success, or <c>default(T)</c>
+        /// on failure.
+        /// </returns>
+        private T RetryPermissionAction<T>(string path, Func<T> func)
+        {
+            // initial state unsignaled
+            AutoResetEvent are = new AutoResetEvent(false);
+            int i = 0;
+            FileInfo fi = new FileInfo(path);
+
+            FileSystemWatcher fsw = new FileSystemWatcher(fi.DirectoryName);
+
+            fsw.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.FileName;
+
+            // register for Changed provided path (file) matches
+            fsw.Changed += (sender, e) =>
+            {
+                if (e.FullPath.Equals(fi.FullName, StringComparison.OrdinalIgnoreCase))
+                {
+                    // set the state of the event to signaled and proceed
+                    are.Set();
+                }
+            };
+
+            fsw.EnableRaisingEvents = false;
+
+            do
+            {
+                try
+                {
+                    return func();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is IOException || ex is UnauthorizedAccessException)
+                    {
+                        fsw.EnableRaisingEvents = true;
+
+                        // block until signaled or a maximum of 2500 ms.
+                        are.WaitOne(2500);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            } while (64 > i++);
+
+            return default(T);
+        }
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
+
+        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+        static extern int memcmp(byte[] left, byte[] right, long count);
     }
 }

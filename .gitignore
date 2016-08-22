@@ -2,7 +2,6 @@
 [Pp]ackages/
 ipch/
 .vs/
-
 *.chw
 *.suo
 *.user
@@ -24,3 +23,4 @@ ipch/
 *.opendb
 *.opensdf
 *.sdf
+/src/UpgradeLog.htm
