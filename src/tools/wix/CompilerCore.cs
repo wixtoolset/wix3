@@ -199,6 +199,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 "TempFolder",
                 "TemplateFolder",
                 "TerminalServer",
+                "UserUILanguageID",
                 "UserLanguageID",
                 "VersionMsi",
                 "VersionNT",

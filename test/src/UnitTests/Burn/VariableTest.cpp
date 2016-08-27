@@ -432,6 +432,7 @@ namespace Bootstrapper
                 VariableGetNumericHelper(&variables, L"Privileged");
                 VariableGetNumericHelper(&variables, L"SystemLanguageID");
                 VariableGetNumericHelper(&variables, L"TerminalServer");
+                VariableGetNumericHelper(&variables, L"UserUILanguageID");
                 VariableGetNumericHelper(&variables, L"UserLanguageID");
 
                 // known folders
