@@ -179,6 +179,10 @@ struct THEME
     // state variables that should be ignored
     HWND hwndParent; // parent for loaded controls
     HWND hwndHover; // current hwnd hovered over
+
+    // DPI scaling
+    FLOAT fScaleFactorX;
+    FLOAT fScaleFactorY;
 };
 
 
@@ -549,6 +553,11 @@ DAPI_(void) ThemeSetFocus(
     __in THEME* pTheme,
     __in DWORD dwControl
     );
+
+DAPI_(int) ScaleByFactor(
+    int pixels,
+    FLOAT fScaleFactor
+);
 
 #ifdef __cplusplus
 }

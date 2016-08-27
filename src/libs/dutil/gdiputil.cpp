@@ -5,6 +5,41 @@
 using namespace Gdiplus;
 
 /********************************************************************
+ GdipInitialize - initializes GDI+.
+
+ Note: pOutput must be non-NULL if pInput->SuppressBackgroundThread
+       is TRUE. See GdiplusStartup() for more information.
+********************************************************************/
+extern "C" HRESULT DAPI GdipInitialize(
+    __in const Gdiplus::GdiplusStartupInput* pInput,
+    __out ULONG_PTR* pToken,
+    __out_opt Gdiplus::GdiplusStartupOutput *pOutput
+    )
+{
+    AssertSz(!pInput->SuppressBackgroundThread || pOutput, "pOutput required if background thread suppressed.");
+
+    HRESULT hr = S_OK;
+    Status status = Ok;
+
+    status = GdiplusStartup(pToken, pInput, pOutput);
+    ExitOnGdipFailure(status, hr, "Failed to initialize GDI+.");
+
+LExit:
+    return hr;
+}
+
+/********************************************************************
+ GdipUninitialize - uninitializes GDI+.
+
+********************************************************************/
+extern "C" void DAPI GdipUninitialize(
+    __in ULONG_PTR token
+    )
+{
+    GdiplusShutdown(token);
+}
+
+/********************************************************************
  GdipBitmapFromResource - read a GDI+ image out of a resource stream
 
 ********************************************************************/
@@ -174,4 +209,56 @@ HRESULT DAPI GdipHresultFromStatus(
     }
 
     return E_UNEXPECTED;
+}
+
+/********************************************************************
+GetDpiForMonitor - returns the X and Y DPI values for specified monitor.
+
+********************************************************************/
+BOOL DAPI GetDpiForMonitor(
+    __in_opt HWND hWnd,
+    __out UINT* nDpiX,
+    __out UINT* nDpiY
+    )
+{
+    HMONITOR hMonitor = NULL;
+    MONITORINFOEXW mi;
+    HDC hdc = NULL;
+
+    hMonitor = ::MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
+    if (hMonitor)
+    {
+        SecureZeroMemory(&mi, sizeof(mi));
+        mi.cbSize = sizeof(mi);
+
+        if (::GetMonitorInfoW(hMonitor, &mi))
+        {
+            hdc = ::CreateDCW(L"DISPLAY", mi.szDevice, NULL, NULL);
+            if (hdc)
+            {
+                *nDpiX = ::GetDeviceCaps(hdc, LOGPIXELSX);
+                *nDpiY = ::GetDeviceCaps(hdc, LOGPIXELSY);
+
+                ::ReleaseDC(NULL, hdc);
+
+                return TRUE;
+            }
+        }
+    }
+
+    *nDpiX = 96;
+    *nDpiY = 96;
+
+    return FALSE;
+}
+
+/********************************************************************
+GetScaleFactorForDpi - returns the scale factor for given DPI resolution.
+
+********************************************************************/
+FLOAT DAPI GetScaleFactorForDpi(
+    UINT nDpi
+    )
+{
+    return nDpi / 96.0f;
 }

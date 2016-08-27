@@ -10,6 +10,16 @@
 extern "C" {
 #endif
 
+HRESULT DAPI GdipInitialize(
+    __in const Gdiplus::GdiplusStartupInput* pInput,
+    __out ULONG_PTR* pToken,
+    __out_opt Gdiplus::GdiplusStartupOutput *pOutput
+    );
+
+void DAPI GdipUninitialize(
+    __in ULONG_PTR token
+    );
+
 HRESULT DAPI GdipBitmapFromResource(
     __in_opt HINSTANCE hinst,
     __in_z LPCSTR szId,
@@ -23,6 +33,16 @@ HRESULT DAPI GdipBitmapFromFile(
 
 HRESULT DAPI GdipHresultFromStatus(
     __in Gdiplus::Status gs
+    );
+
+BOOL DAPI GetDpiForMonitor(
+    __in_opt HWND hWnd,
+    __out UINT* nDpiX,
+    __out UINT* nDpiY
+    );
+
+FLOAT DAPI GetScaleFactorForDpi(
+    UINT nDpi
     );
 
 #ifdef __cplusplus

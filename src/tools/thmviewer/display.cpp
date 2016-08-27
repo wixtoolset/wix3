@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
+#include "gdiputil.h"
 
 static const LPCWSTR THMVWR_WINDOW_CLASS_DISPLAY = L"ThmViewerDisplay";
 
@@ -106,8 +107,8 @@ static DWORD WINAPI DisplayThreadProc(
 
             if (CW_USEDEFAULT == x && CW_USEDEFAULT == y && ::GetWindowRect(hwndParent, &rc))
             {
-                x = rc.left;
-                y = rc.bottom + 20;
+                x = rc.right + ScaleByFactor(10, pTheme->fScaleFactorX);
+                y = rc.top;
             }
 
             hWnd = ::CreateWindowExW(0, wc.lpszClassName, pTheme->sczCaption, pTheme->dwStyle, x, y, pTheme->nWidth, pTheme->nHeight, hwndParent, NULL, hInstance, pCurrentHandle);
