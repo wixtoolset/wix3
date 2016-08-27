@@ -134,6 +134,10 @@ static HRESULT InitializeSystemLanguageID(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
     );
+static HRESULT InitializeUserUILanguageID(
+    __in DWORD_PTR dwpData,
+    __inout BURN_VARIANT* pValue
+    );
 static HRESULT InitializeUserLanguageID(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
@@ -244,6 +248,7 @@ extern "C" HRESULT VariableInitialize(
         {L"TempFolder", InitializeVariableTempFolder, 0},
         {L"TemplateFolder", InitializeVariableCsidlFolder, CSIDL_TEMPLATES},
         {L"TerminalServer", InitializeVariableOsInfo, OS_INFO_VARIABLE_TerminalServer},
+        {L"UserUILanguageID", InitializeUserUILanguageID, 0},
         {L"UserLanguageID", InitializeUserLanguageID, 0},
         {L"VersionMsi", InitializeVariableVersionMsi, 0},
         {L"VersionNT", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT},
@@ -2050,6 +2055,23 @@ static HRESULT InitializeSystemLanguageID(
 
     HRESULT hr = S_OK;
     LANGID langid = ::GetSystemDefaultLangID();
+
+    hr = BVariantSetNumeric(pValue, langid);
+    ExitOnFailure(hr, "Failed to set variant value.");
+
+LExit:
+    return hr;
+}
+
+static HRESULT InitializeUserUILanguageID(
+    __in DWORD_PTR dwpData,
+    __inout BURN_VARIANT* pValue
+    )
+{
+    UNREFERENCED_PARAMETER(dwpData);
+
+    HRESULT hr = S_OK;
+    LANGID langid = ::GetUserDefaultUILanguage();
 
     hr = BVariantSetNumeric(pValue, langid);
     ExitOnFailure(hr, "Failed to set variant value.");
