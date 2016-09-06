@@ -1,3 +1,11 @@
+## WixBuild: Version 3.11.0.906
+
+* @barnson: WIXBUG:5360: Replace Markdown-style link with HTML-style link to make the Markdown processor happy.
+
+* nathan-alden: WIXBUG:5370 - Support the newly-released .NET Framework 4.6.2
+
+* PhillHgl: WIXBUG:5331 - fix ConfigureSmbUninstall CA failures (on install) when util:FileShare/@Description was longer than 73 chars.  Increased to 255 chars, matching table definition.
+
 ## WixBuild: Version 3.11.0.705
 
 * @barnson: WIXBUG:5306 - Warn against ServiceConfig and ServiceConfigFailureActions.
