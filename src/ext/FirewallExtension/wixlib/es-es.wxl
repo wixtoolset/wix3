@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  <copyright file="en-us.wxl" company="Outercurve Foundation">
+    Copyright (c) 2004, Outercurve Foundation.
+    This software is released under Microsoft Reciprocal License (MS-RL).
+    The license and further copyright text can be found in the file
+    LICENSE.TXT at the root directory of the distribution.
+  </copyright>
+-->
+<WixLocalization Culture="es-es" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="msierrFirewallCannotConnect" Overridable="yes">No se puede conectar al Firewall de Windows.  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Configurando el Firewall de Windows</String>
+  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Configurando el Firewall de Windows</String>
+  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">Regresando la configuracion del Firewall de Windows</String>
+  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">Instalando la configuracion del Firewall de Windows</String>
+  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">Regresando la configuracion del Firewall de Windows</String>
+  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">Desinstalando la configuracion del Firewall de Windows</String>
+</WixLocalization>
