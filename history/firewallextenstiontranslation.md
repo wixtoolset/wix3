@@ -1,0 +1,1 @@
+* zakred: Add es-es translation for WixFirewallExtension.
