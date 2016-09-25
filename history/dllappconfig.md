@@ -1,0 +1,1 @@
+* apmorton: Fix app.config name translation for DLL projects.
