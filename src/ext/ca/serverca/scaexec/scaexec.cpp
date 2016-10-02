@@ -1790,7 +1790,7 @@ extern "C" UINT __stdcall CreateUser(
         if (pwzDomain && *pwzDomain)
         {
             er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, NULL, &pDomainControllerInfo );
-            if (HRESULT_FROM_WIN32(er) == RPC_S_SERVER_UNAVAILABLE)
+            if (RPC_S_SERVER_UNAVAILABLE == er)
             {
                 // MSDN says, if we get the above error code, try again with the "DS_FORCE_REDISCOVERY" flag
                 er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, DS_FORCE_REDISCOVERY, &pDomainControllerInfo );
@@ -1978,7 +1978,7 @@ extern "C" UINT __stdcall RemoveUser(
         if (pwzDomain && *pwzDomain)
         {
             er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, NULL, &pDomainControllerInfo );
-            if (HRESULT_FROM_WIN32(er) == RPC_S_SERVER_UNAVAILABLE)
+            if (RPC_S_SERVER_UNAVAILABLE == er)
             {
                 // MSDN says, if we get the above error code, try again with the "DS_FORCE_REDISCOVERY" flag
                 er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, DS_FORCE_REDISCOVERY, &pDomainControllerInfo );

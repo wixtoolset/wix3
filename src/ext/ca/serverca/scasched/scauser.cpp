@@ -504,7 +504,7 @@ HRESULT ScaUserExecute(
         if (wzDomain && *wzDomain)
         {
             er = ::DsGetDcNameW(NULL, wzDomain, NULL, NULL, NULL, &pDomainControllerInfo);
-            if (HRESULT_FROM_WIN32(er) == RPC_S_SERVER_UNAVAILABLE)
+            if (RPC_S_SERVER_UNAVAILABLE == er)
             {
                 // MSDN says, if we get the above error code, try again with the "DS_FORCE_REDISCOVERY" flag
                 er = ::DsGetDcNameW(NULL, wzDomain, NULL, NULL, DS_FORCE_REDISCOVERY, &pDomainControllerInfo);
