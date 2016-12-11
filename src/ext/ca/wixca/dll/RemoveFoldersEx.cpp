@@ -34,6 +34,7 @@ static HRESULT RecursePath(
         er = ::GetLastError();
         if (ERROR_PATH_NOT_FOUND == er)
         {
+            WcaLog(LOGMSG_STANDARD, "Search path not found: %ls", sczSearch);
             ExitFunction1(hr = S_FALSE);
         }
         else
