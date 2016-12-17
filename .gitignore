@@ -29,3 +29,5 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+/src/ext/UtilExtension/wixext/UpgradeLog.htm
+/src/ext/UtilExtension/wixext/WixUtilExtension.sln

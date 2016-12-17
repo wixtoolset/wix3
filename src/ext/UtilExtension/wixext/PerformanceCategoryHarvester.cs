@@ -1,5 +1,7 @@
 // Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
+using System.Linq;
+
 namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 {
     using System;
@@ -62,7 +64,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 Util.PerformanceCategory perfCategory = new Util.PerformanceCategory();
 
                 // Get the performance counter category and set the appropriate WiX attributes
-                PerformanceCounterCategory pcc = new PerformanceCounterCategory(category);
+                PerformanceCounterCategory pcc = PerformanceCounterCategory.GetCategories().Single(c => string.Equals(c.CategoryName, category));
                 perfCategory.Id = CompilerCore.GetIdentifierFromName(pcc.CategoryName);
                 perfCategory.Name = pcc.CategoryName;
                 perfCategory.Help = pcc.CategoryHelp;
@@ -71,15 +73,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     perfCategory.MultiInstance = Util.YesNoType.yes;
                 }
                 
-                foreach (InstanceDataCollection counter in pcc.ReadCategory().Values)
+                foreach (PerformanceCounter counter in pcc.GetCounters())
                 {
                     Util.PerformanceCounter perfCounter = new Util.PerformanceCounter();
 
                     // Get the performance counter and set the appropriate WiX attributes
-                    PerformanceCounter pc = new PerformanceCounter(pcc.CategoryName, counter.CounterName);
-                    perfCounter.Name = pc.CounterName;
-                    perfCounter.Type = CounterTypeToWix(pc.CounterType);
-                    perfCounter.Help = pc.CounterHelp;
+                    perfCounter.Name = counter.CounterName;
+                    perfCounter.Type = CounterTypeToWix(counter.CounterType);
+                    perfCounter.Help = counter.CounterHelp;
 
                     perfCategory.AddChild(perfCounter);
                 }
