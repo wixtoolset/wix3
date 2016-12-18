@@ -64,6 +64,12 @@ static HRESULT ParseApplication(
     __in IXMLDOMElement* pElement,
     __in THEME* pTheme
     );
+static HRESULT GetFontColor(
+    __in IXMLDOMNode* pixn,
+    __in_z LPCWSTR wzAttributeName,
+    __out COLORREF* pColorRef,
+    __out_opt DWORD* pdwSystemColor
+    );
 static HRESULT ParseFonts(
     __in IXMLDOMElement* pElement,
     __in THEME* pTheme
@@ -1982,6 +1988,8 @@ static HRESULT ParseFonts(
     LOGFONTW lf = { };
     COLORREF crForeground = THEME_INVISIBLE_COLORREF;
     COLORREF crBackground = THEME_INVISIBLE_COLORREF;
+    DWORD dwSystemForegroundColor = FALSE;
+    DWORD dwSystemBackgroundColor = FALSE;
 
     hr = XmlSelectNodes(pElement, L"Font|f", &pixnl);
     ExitOnFailure(hr, "Failed to find font elements.");
@@ -2062,29 +2070,10 @@ static HRESULT ParseFonts(
         }
         ExitOnFailure(hr, "Failed to find font underline attribute.");
 
-        hr = XmlGetAttributeNumberBase(pixn, L"Foreground", 16, &crForeground);
-        if (S_FALSE == hr)
-        {
-            hr = XmlGetAttributeNumberBase(pixn, L"f", 16, &crForeground);
-            if (S_FALSE == hr)
-            {
-                crForeground = THEME_INVISIBLE_COLORREF;
-                hr = S_OK;
-            }
-        }
+        hr = GetFontColor(pixn, L"Foreground", &crForeground, &dwSystemForegroundColor);        ExitOnFailure(hr, "Failed to find font foreground color.");
         ExitOnFailure(hr, "Failed to find font foreground color.");
 
-        hr = XmlGetAttributeNumberBase(pixn, L"Background", 16, &crBackground);
-        if (S_FALSE == hr)
-        {
-            hr = XmlGetAttributeNumberBase(pixn, L"b", 16, &crBackground);
-            if (S_FALSE == hr)
-            {
-                crBackground = THEME_INVISIBLE_COLORREF;
-                hr = S_OK;
-            }
-        }
-        ExitOnFailure(hr, "Failed to find font background color.");
+        hr = GetFontColor(pixn, L"Background", &crBackground, &dwSystemBackgroundColor);        ExitOnFailure(hr, "Failed to find font background color.");
 
         THEME_FONT* pFont = pTheme->rgFonts + dwId;
         if (pFont->hFont)
@@ -2099,14 +2088,14 @@ static HRESULT ParseFonts(
         pFont->crForeground = crForeground;
         if (THEME_INVISIBLE_COLORREF != pFont->crForeground)
         {
-            pFont->hForeground = ::CreateSolidBrush(pFont->crForeground);
+            pFont->hForeground = dwSystemForegroundColor ? ::GetSysColorBrush(dwSystemForegroundColor) : ::CreateSolidBrush(pFont->crForeground);
             ExitOnNullWithLastError(pFont->hForeground, hr, "Failed to create text foreground brush.");
         }
 
         pFont->crBackground = crBackground;
         if (THEME_INVISIBLE_COLORREF != pFont->crBackground)
         {
-            pFont->hBackground = ::CreateSolidBrush(pFont->crBackground);
+            pFont->hBackground = dwSystemBackgroundColor ? ::GetSysColorBrush(dwSystemBackgroundColor) : ::CreateSolidBrush(pFont->crBackground);
             ExitOnNullWithLastError(pFont->hBackground, hr, "Failed to create text background brush.");
         }
 
@@ -2128,6 +2117,74 @@ LExit:
     return hr;
 }
 
+
+static HRESULT GetFontColor(
+    __in IXMLDOMNode* pixn,
+    __in_z LPCWSTR wzAttributeName,
+    __out COLORREF* pColorRef,
+    __out_opt DWORD* pdwSystemColor
+    )
+{
+    HRESULT hr = S_OK;
+    BSTR bstr = NULL;
+
+    *pdwSystemColor = 0;
+
+    hr = XmlGetAttribute(pixn, wzAttributeName, &bstr);
+    if (S_FALSE == hr)
+    {
+        *pColorRef = THEME_INVISIBLE_COLORREF;
+        ExitFunction1(hr = S_OK);
+    }
+    ExitOnFailure(hr, "Failed to find font %ls color.", wzAttributeName);
+
+    if (pdwSystemColor && '$' == bstr[0])
+    {
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$btnface", -1))
+        {
+            *pdwSystemColor = COLOR_BTNFACE;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$btntext", -1))
+        {
+            *pdwSystemColor = COLOR_BTNTEXT;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$graytext", -1))
+        {
+            *pdwSystemColor = COLOR_GRAYTEXT;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$highlight", -1))
+        {
+            *pdwSystemColor = COLOR_HIGHLIGHT;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$highlighttext", -1))
+        {
+            *pdwSystemColor = COLOR_HIGHLIGHTTEXT;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$hotlight", -1))
+        {
+            *pdwSystemColor = COLOR_HOTLIGHT;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$window", -1))
+        {
+            *pdwSystemColor = COLOR_WINDOW;
+        }
+        else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, 0, bstr, -1, L"$windowtext", -1))
+        {
+            *pdwSystemColor = COLOR_WINDOWTEXT;
+        }
+
+        *pColorRef = ::GetSysColor(*pdwSystemColor);
+    }
+    else
+    {
+        *pColorRef = wcstoul(bstr, NULL, 16);
+    }
+
+LExit:
+    ReleaseBSTR(bstr);
+
+    return hr;
+}
 
 static HRESULT ParsePages(
     __in_opt HMODULE hModule,

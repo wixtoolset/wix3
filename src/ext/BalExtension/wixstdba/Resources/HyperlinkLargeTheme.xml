@@ -4,11 +4,10 @@
 
 <Theme xmlns="http://wixtoolset.org/schemas/thmutil/2010">
   <Window Width="500" Height="390" HexStyle="100a0000" FontId="0">#(loc.Caption)</Window>
-    <Font Id="0" Height="-12" Weight="500" Foreground="000000" Background="FFFFFF">Segoe UI</Font>
-    <Font Id="1" Height="-24" Weight="500" Foreground="000000">Segoe UI</Font>
-    <Font Id="2" Height="-22" Weight="500" Foreground="666666">Segoe UI</Font>
-    <Font Id="3" Height="-12" Weight="500" Foreground="000000" Background="FFFFFF">Segoe UI</Font>
-    <Font Id="4" Height="-12" Weight="500" Foreground="ff0000" Background="FFFFFF" Underline="yes">Segoe UI</Font>
+    <Font Id="0" Height="-12" Weight="500" Foreground="$windowtext" Background="$window">Segoe UI</Font>
+    <Font Id="1" Height="-24" Weight="500" Foreground="$windowtext">Segoe UI</Font>
+    <Font Id="2" Height="-22" Weight="500" Foreground="$graytext">Segoe UI</Font>
+    <Font Id="3" Height="-12" Weight="500" Foreground="$windowtext" Background="$window">Segoe UI</Font>
 
     <Image X="11" Y="11" Width="64" Height="64" ImageFile="logo.png" Visible="yes"/>
     <Text X="80" Y="11" Width="-11" Height="64" FontId="1" Visible="yes" DisablePrefix="yes">#(loc.Title)</Text>
@@ -32,7 +31,7 @@
         <Text X="11" Y="80" Width="-11" Height="30" FontId="2" DisablePrefix="yes">#(loc.OptionsHeader)</Text>
         <Text X="11" Y="121" Width="-11" Height="17" FontId="3" DisablePrefix="yes">#(loc.OptionsLocationLabel)</Text>
         <Editbox Name="FolderEditbox" X="11" Y="143" Width="-91" Height="21" TabStop="yes" FontId="3" FileSystemAutoComplete="yes" />
-        <Button Name="BrowseButton" X="-11" Y="142" Width="75" Height="23" TabStop="yes" FontId="3">#(loc.OptionsBrowseButton)</Button>
+        <Button Name="BrowseButton" X="-11" Y="142" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.OptionsBrowseButton)</Button>
         <Button Name="OptionsOkButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.OptionsOkButton)</Button>
         <Button Name="OptionsCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.OptionsCancelButton)</Button>
     </Page>
