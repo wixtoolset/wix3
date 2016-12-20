@@ -73,7 +73,17 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     perfCategory.MultiInstance = Util.YesNoType.yes;
                 }
                 
-                foreach (PerformanceCounter counter in pcc.GetCounters())
+                // If it's multi-instance, check if there are any instances and get counters from there; else we get 
+                // the counters straight up. For multi-instance, GetCounters() fails if there are any instances. If there
+                // are no instances, then GetCounters(instance) can't be called since there is no instance. Instances
+                // will exist for each counter even if only one of the counters was "intialized."
+                string[] instances = pcc.GetInstanceNames();
+                bool hasInstances = instances.Length > 0;
+                PerformanceCounter[] counters = hasInstances
+                    ? pcc.GetCounters(instances.First())
+                    : pcc.GetCounters();
+                    
+                foreach (PerformanceCounter counter in counters)
                 {
                     Util.PerformanceCounter perfCounter = new Util.PerformanceCounter();
 
