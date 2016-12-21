@@ -210,7 +210,7 @@ The following properties (available starting in WiX v3.10) let you detect a part
       <p>WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED</p>
     </td>
     <td>
-      <p>Set to 1 if .NET Framework 4.6.1 or later is installed.</p>
+      <p>Set to 1 if .NET Framework 4.6.1 or later is installed. Available starting in WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -218,7 +218,7 @@ The following properties (available starting in WiX v3.10) let you detect a part
       <p>WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED</p>
     </td>
     <td>
-      <p>Set to 1 if .NET Framework 4.6.2 or later is installed.</p>
+      <p>Set to 1 if .NET Framework 4.6.2 or later is installed. Available starting in WiX v3.11.</p>
     </td>
   </tr>
 </table>
