@@ -133,7 +133,7 @@ HRESULT __stdcall ScaGetUserDeferred(
         {
             AssertSz(FALSE, "Found multiple matching User rows");
         }
-        
+
         hr = WcaGetRecordString(hRec, vuqUser, &pwzData);
         ExitOnFailure(hr, "Failed to get User.User");
         hr = ::StringCchCopyW(pscau->wzKey, countof(pscau->wzKey), pwzData);
@@ -352,7 +352,7 @@ HRESULT ScaUserRead(
             ExitOnFailure(hr, "failed to copy user password");
 
             hr = WcaGetRecordInteger(hRec, vaqAttributes, &psu->iAttributes);
-            ExitOnFailure(hr, "failed to get User.Attributes"); 
+            ExitOnFailure(hr, "failed to get User.Attributes");
 
             // Check if this user is to be added to any groups
             if (fUserGroupExists)
@@ -529,8 +529,8 @@ HRESULT ScaUserExecute(
             ueUserExists = USER_EXISTS_INDETERMINATE;
             hr = HRESULT_FROM_WIN32(er);
             WcaLog(LOGMSG_VERBOSE, "Failed to check existence of domain: %ls, user: %ls (error code 0x%x) - continuing", wzDomain, psu->wzName, hr);
-			hr = S_OK;
-			er = ERROR_SUCCESS;
+            hr = S_OK;
+            er = ERROR_SUCCESS;
         }
 
         if (WcaIsInstalling(psu->isInstalled, psu->isAction))
@@ -608,7 +608,7 @@ HRESULT ScaUserExecute(
             // Schedule the removal because the user exists and we don't have any flags set
             // that say, don't remove the user on uninstall.
             //
-            // Note: We can't rollback the removal of a user which is why RemoveUser is a commit 
+            // Note: We can't rollback the removal of a user which is why RemoveUser is a commit
             // CustomAction.
             hr = WcaDoDeferredAction(PLATFORM_DECORATION(L"RemoveUser"), pwzActionData, COST_USER_DELETE);
             ExitOnFailure(hr, "failed to schedule RemoveUser");
