@@ -1,3 +1,15 @@
+## WixBuild: Version 3.11.0.1307
+
+* @barnson: Remove MS-RL references from MS-PL VS MPF sources.
+
+* @barnson: Fix RPC_S_SERVER_UNAVAILABLE as HRESULT, which it is not.
+
+* apmorton: Fix app.config name translation for DLL projects.
+
+* zakred: Add es-es translation for WixFirewallExtension.
+
+* fperin: Add es-es and fr-fr translations for WixUtilExtension.
+
 ## WixBuild: Version 3.11.0.906
 
 * @barnson: WIXBUG:5360: Replace Markdown-style link with HTML-style link to make the Markdown processor happy.
