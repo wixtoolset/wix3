@@ -98,6 +98,7 @@
     <EmbeddedResource Include="WixUI_ru-RU.wxl" />
     <EmbeddedResource Include="WixUI_sk-SK.wxl" />
     <EmbeddedResource Include="WixUI_sl-SI.wxl" />
+    <EmbeddedResource Include="WixUI_sq-AL.wxl" />
     <EmbeddedResource Include="WixUI_sr-Latn-CS.wxl" />
     <EmbeddedResource Include="WixUI_sv-SE.wxl" />
     <EmbeddedResource Include="WixUI_th-TH.wxl" />
