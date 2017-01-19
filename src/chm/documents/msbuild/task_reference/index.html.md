@@ -12,3 +12,4 @@ This section explains MSBuild tasks that are included with the WiX toolset.
 * [HeatProject Task](heatproject.html)
 * [Light Task](light.html)
 * [Lit Task](lit.html)
+* [Insignia Task](insignia.html)
