@@ -127,6 +127,9 @@ extern "C" HRESULT PseudoBundleInitialize(
 
     // Only support progress from engines that are compatible (aka: version greater than or equal to last protocol breaking change *and* versions that are older or the same as this engine).
     pPackage->Exe.protocol = (FILEMAKEVERSION(3, 6, 2221, 0) <= qwEngineVersion && qwEngineVersion <= FILEMAKEVERSION(rmj, rmm, rup, 0)) ? BURN_EXE_PROTOCOL_TYPE_BURN : BURN_EXE_PROTOCOL_TYPE_NONE;
+    
+    // All versions of Burn past v3.9 RTM support suppressing ancestors.
+    pPackage->Exe.fSupportsAncestors = FILEMAKEVERSION(3, 9, 1006, 0) <= qwEngineVersion;
 
     if (pDependencyProvider)
     {

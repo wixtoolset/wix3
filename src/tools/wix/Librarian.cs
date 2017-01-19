@@ -124,7 +124,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             Section entrySection;
             SymbolCollection allSymbols;
 
-            library.Sections.FindEntrySectionAndLoadSymbols(false, this, OutputType.Unknown, out entrySection, out allSymbols);
+            library.Sections.FindEntrySectionAndLoadSymbols(false, this, OutputType.Unknown, false, out entrySection, out allSymbols);
 
             foreach (Section section in library.Sections)
             {

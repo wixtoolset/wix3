@@ -29,7 +29,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx451Web" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx451EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx451EulaLink)" Overridable="yes" />
     <WixVariable Id="NetFx451WebDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)" Overridable="yes" />
     <WixVariable Id="NetFx451WebInstallCondition" Value="" Overridable="yes" />
     <WixVariable Id="NetFx451WebPackageDirectory" Value="redist\" Overridable="yes" />
@@ -66,7 +66,7 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx451Redist" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx451EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx451EulaLink)" Overridable="yes" />
     <WixVariable Id="NetFx451RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx451MinRelease)" Overridable="yes" />
     <WixVariable Id="NetFx451RedistInstallCondition" Value="" Overridable="yes" />
     <WixVariable Id="NetFx451RedistPackageDirectory" Value="redist\" Overridable="yes" />

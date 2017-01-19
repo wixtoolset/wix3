@@ -189,9 +189,28 @@ extern "C" HRESULT DAPI RegDelete(
     HKEY hkKey = NULL;
     REGSAM samDesired = 0;
 
+    if (!vfRegInitialized && REG_KEY_DEFAULT != kbKeyBitness)
+    {
+        hr = E_INVALIDARG;
+        ExitOnFailure(hr, "RegInitialize must be called first in order to RegDelete() a key with non-default bit attributes!");
+    }
+
+    switch (kbKeyBitness)
+    {
+    case REG_KEY_32BIT:
+        samDesired = KEY_WOW64_32KEY;
+        break;
+    case REG_KEY_64BIT:
+        samDesired = KEY_WOW64_64KEY;
+        break;
+    case REG_KEY_DEFAULT:
+        // Nothing to do
+        break;
+    }
+
     if (fDeleteTree)
     {
-        hr = RegOpen(hkRoot, wzSubKey, KEY_READ, &hkKey);
+        hr = RegOpen(hkRoot, wzSubKey, KEY_READ | samDesired, &hkKey);
         if (E_FILENOTFOUND == hr)
         {
             ExitFunction1(hr = S_OK);
@@ -211,25 +230,6 @@ extern "C" HRESULT DAPI RegDelete(
         }
 
         hr = S_OK;
-    }
-
-    if (!vfRegInitialized && REG_KEY_DEFAULT != kbKeyBitness)
-    {
-        hr = E_INVALIDARG;
-        ExitOnFailure(hr, "RegInitialize must be called first in order to RegDelete() a key with non-default bit attributes!");
-    }
-
-    switch (kbKeyBitness)
-    {
-    case REG_KEY_32BIT:
-        samDesired = KEY_WOW64_32KEY;
-        break;
-    case REG_KEY_64BIT:
-        samDesired = KEY_WOW64_64KEY;
-        break;
-    case REG_KEY_DEFAULT:
-        // Nothing to do
-        break;
     }
 
     if (NULL != vpfnRegDeleteKeyExW)

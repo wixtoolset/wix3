@@ -4,6 +4,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Diagnostics;
     using System.Globalization;
@@ -24,6 +25,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private bool bindFiles;
         private StringCollection inputFiles;
         private StringCollection invalidArgs;
+        private StringCollection unparsedArgs;
         private string outputFile;
         private bool showLogo;
         private bool showHelp;
@@ -43,6 +45,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             this.bindPaths = new StringCollection();
             this.inputFiles = new StringCollection();
             this.invalidArgs = new StringCollection();
+            this.unparsedArgs = new StringCollection();
             this.extensionList = new StringCollection();
             this.showLogo = true;
             this.messageHandler = new ConsoleMessageHandler("LIT", "lit.exe");
@@ -78,6 +81,22 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
 
                 // parse the command line
                 this.ParseCommandLine(args);
+
+                // load any extensions
+                List<WixExtension> loadedExtensionList = new List<WixExtension>();
+                foreach (string extension in this.extensionList)
+                {
+                    WixExtension wixExtension = WixExtension.Load(extension);
+                    loadedExtensionList.Add(wixExtension);
+
+                    // Have the binder extension parse the command line arguments lit did not recognized.
+                    if (0 < this.unparsedArgs.Count)
+                    {
+                        this.unparsedArgs = wixExtension.ParseCommandLine(this.unparsedArgs, this.messageHandler);
+                    }
+                }
+
+                this.ParseCommandLinePassTwo(this.unparsedArgs);
 
                 // exit if there was an error parsing the command line (otherwise the logo appears after error messages)
                 if (this.messageHandler.EncounteredError)
@@ -133,11 +152,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                 }
 
-                // load any extensions
-                foreach (string extension in this.extensionList)
+                foreach (WixExtension wixExtension in loadedExtensionList)
                 {
-                    WixExtension wixExtension = WixExtension.Load(extension);
-
                     librarian.AddExtension(wixExtension);
 
                     // load the binder file manager regardless of whether it will be used in case there is a collision
@@ -411,12 +427,41 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else
                     {
-                        this.invalidArgs.Add(parameter);
+                        this.unparsedArgs.Add(arg);
                     }
                 }
-                else if ('@' == arg[0])
+                else if (arg.Length > 1 && '@' == arg[0])
                 {
                     this.ParseCommandLine(CommandLineResponseFile.Parse(arg.Substring(1)));
+                }
+                else
+                {
+                    this.unparsedArgs.Add(arg);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Makes the second pass at the command line after binder extensions parse what they can.
+        /// Anything at this point should be a source file.
+        /// </summary>
+        /// <param name="args">The remaining arguments.</param>
+        private void ParseCommandLinePassTwo(StringCollection args)
+        {
+            for (int i = 0; i < args.Count; ++i)
+            {
+                string arg = args[i];
+                if (null == arg || 0 == arg.Length) // skip blank arguments
+                {
+                    continue;
+                }
+
+                if (arg.Length > 1 && ('-' == arg[0] || '/' == arg[0]))
+                {
+                    string parameter = arg.Substring(1);
+
+                    // We don't expect any unparsed switches at this point.
+                    this.invalidArgs.Add(parameter);
                 }
                 else
                 {

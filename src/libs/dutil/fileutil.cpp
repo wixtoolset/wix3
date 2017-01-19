@@ -420,6 +420,14 @@ extern "C" HRESULT DAPI FileVersionFromStringEx(
         }
     }
 
+    if ((L'v' == *wzVersion) || (L'V' == *wzVersion))
+    {
+        ++wzVersion;
+        --cchVersion;
+        wzPartBegin = wzVersion;
+        wzPartEnd = wzVersion;
+    }
+
     // save end pointer
     wzEnd = wzVersion + cchVersion;
 
@@ -1660,7 +1668,6 @@ extern "C" HRESULT DAPI FileToString(
     BYTE *pbFullFileBuffer = NULL;
     DWORD cbFullFileBuffer = 0;
     BOOL fNullCharFound = FALSE;
-    LPSTR sczAnsiFileText = NULL;
     LPWSTR sczFileText = NULL;
 
     // Check if the file is ANSI
@@ -1744,7 +1751,6 @@ extern "C" HRESULT DAPI FileToString(
     }
 
 LExit:
-    ReleaseStr(sczAnsiFileText);
     ReleaseStr(sczFileText);
     ReleaseMem(pbFullFileBuffer);
 

@@ -476,7 +476,7 @@ namespace Bootstrapper
                 Assert::True(0 == memcmp(pbBuffer, rgbData, sizeof(rgbData)));
 
                 // write active resume mode
-                hr = RegistrationSessionResume(&registration);
+                hr = RegistrationSessionResume(&registration, &variables);
                 TestThrowOnFailure(hr, L"Failed to write active resume mode.");
 
                 // verify that run key was put back

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+<WixLocalization Culture="es-es" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="msierrFirewallCannotConnect" Overridable="yes">No se puede conectar al Firewall de Windows.  ([2]   [3]   [4]   [5])</String>
+
+  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Configurando el Firewall de Windows</String>
+  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Configurando el Firewall de Windows</String>
+  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">Regresando la configuración del Firewall de Windows</String>
+  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">Instalando la configuración del Firewall de Windows</String>
+  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">Regresando la configuración del Firewall de Windows</String>
+  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">Desinstalando la configuración del Firewall de Windows</String>
+</WixLocalization>

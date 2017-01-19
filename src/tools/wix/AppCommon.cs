@@ -92,7 +92,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // Don't use the default AppSettings reader because
             // the tool may be called from within another process.
             // Instead, read the .exe.config file from the tool location.
-            string toolPath = Assembly.GetCallingAssembly().Location;
+            string toolPath = (new System.Uri(Assembly.GetCallingAssembly().CodeBase)).LocalPath;
             Configuration config = ConfigurationManager.OpenExeConfiguration(toolPath);
             if (config.HasFile)
             {

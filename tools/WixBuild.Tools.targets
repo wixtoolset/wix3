@@ -59,8 +59,8 @@
     <Message Importance="low" Text="WIX_BUILDROOT = $(WIX_BUILDROOT)" />
 
     <PropertyGroup>
-      <DisabledWixStrongName32>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,36e4ce08b8ecfb17', '', 'ABSENT', RegistryView.Registry32))</DisabledWixStrongName32>
-      <DisabledWixStrongName64>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,36e4ce08b8ecfb17', '', 'ABSENT', RegistryView.Registry64))</DisabledWixStrongName64>
+      <DisabledWixStrongName32>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,ce35f76fcda82bad', '', 'ABSENT', RegistryView.Registry32))</DisabledWixStrongName32>
+      <DisabledWixStrongName64>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,ce35f76fcda82bad', '', 'ABSENT', RegistryView.Registry64))</DisabledWixStrongName64>
     </PropertyGroup>
 
     <Error

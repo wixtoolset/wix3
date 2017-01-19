@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<WixLocalization Culture="it-it" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrUSRFailedUserCreate" Overridable="yes">Impossibile creare l'utente.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">Impossibile creare l'utente perchè la password è errata.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">Impossibile aggiungere l'utente al gruppo.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreateExists" Overridable="yes">Impossibile creare l'utente perchè già esistente.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSMBFailedCreate" Overridable="yes">Impossibile creare la risorsa di rete.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrSMBFailedDrop" Overridable="yes">Impossibile eliminare la risorsa di rete.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">Impossibile registrare la DLL con PerfMon.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">Impossibile rimuovere la registrazione della DLL con PerfMon.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrInstallPerfCounterData" Overridable="yes">Impossibile installare i contatori delle prestazioni.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUninstallPerfCounterData" Overridable="yes">Impossibile rimuovere i contatori delle prestazioni.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">Impossibile creare i descrittori di sicurezza per [3]\[4], errore di sistema: [2]</String>
+    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">Impossibile impostare i descrittori di sicurezza sull'oggetto [3], errore di sistema: [2]</String>
+    <String Id="msierrSecureObjectsUnknownType" Overridable="yes">Tipo di oggetto sconosciuto [3], errore di sistema: [2]</String>
+
+    <String Id="msierrXmlFileFailedRead" Overridable="yes">Si è verificato un errore durante la configurazione dei file XML.</String>
+    <String Id="msierrXmlFileFailedOpen" Overridable="yes">Impossibile aprire il file XML [3], errore di sistema: [2]</String>
+    <String Id="msierrXmlFileFailedSelect" Overridable="yes">Impossibile trovare il nodo: [3] nel file XML: [4], errore di sistema: [2]</String>
+    <String Id="msierrXmlFileFailedSave" Overridable="yes">Impossible salvare le modifiche al file XML [3], errore di sistema: [2]</String>
+
+    <String Id="msierrXmlConfigFailedRead" Overridable="yes">Si è verificato un errore durante la configurazione dei file XML.</String>
+    <String Id="msierrXmlConfigFailedOpen" Overridable="yes">Impossibile aprire il file XML [3], errore di sistema: [2]</String>
+    <String Id="msierrXmlConfigFailedSelect" Overridable="yes">Impossibile trovare il nodo: [3] nel file XML: [4], errore di sistema: [2]</String>
+    <String Id="msierrXmlConfigFailedSave" Overridable="yes">Impossibile salvare le modifiche al file XML [3], errore di sitema: [2]</String>
+</WixLocalization>

@@ -3,7 +3,7 @@
     <Identifier Id="WiX.NETFoundation">
         <Name>WiX Toolset</Name>
         <Author>.NET Foundation and contributors</Author>
-        <Version>3.10</Version>
+        <Version>3.11</Version>
         <Description xml:space="preserve">Windows Installer XML toolset</Description>
         <Locale>1033</Locale>
         <Icon>wix.ico</Icon>

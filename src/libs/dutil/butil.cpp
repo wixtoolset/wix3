@@ -130,6 +130,7 @@ HRESULT DAPI BundleEnumRelatedBundle(
     HKEY hkUninstall = NULL;
     HKEY hkBundle = NULL;
     LPWSTR sczUninstallSubKey = NULL;
+    DWORD cchUninstallSubKey = 0;
     LPWSTR sczUninstallSubKeyPath = NULL;
     LPWSTR sczValue = NULL;
     DWORD dwType = 0;
@@ -137,9 +138,6 @@ HRESULT DAPI BundleEnumRelatedBundle(
     LPWSTR* rgsczBundleUpgradeCodes = NULL;
     DWORD cBundleUpgradeCodes = 0;
     BOOL fUpgradeCodeFound = FALSE;
-
-    LPWSTR szProviderKey = NULL;
-    DWORD cchProviderKey = 0;
 
     if (!wzUpgradeCode || !lpBundleIdBuf || !pdwStartIndex)
     {
@@ -214,15 +212,12 @@ HRESULT DAPI BundleEnumRelatedBundle(
 
         if (fUpgradeCodeFound)
         {
-            hr = RegReadString(hkBundle, BUNDLE_REGISTRATION_REGISTRY_BUNDLE_PROVIDER_KEY, &szProviderKey );
-            ExitOnFailure(hr, "Failed to read the bundle provider key.");
-
-            hr = ::StringCchLengthW(szProviderKey, STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchProviderKey));
-            ExitOnFailure(hr, "Failed to calculate length of string");
-
             if (lpBundleIdBuf)
             {
-                hr = ::StringCchCatNExW(lpBundleIdBuf, MAX_GUID_CHARS + 1, szProviderKey, cchProviderKey, NULL, NULL, STRSAFE_FILL_BEHIND_NULL);
+                hr = ::StringCchLengthW(sczUninstallSubKey, STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchUninstallSubKey));
+                ExitOnFailure(hr, "Failed to calculate length of string");
+
+                hr = ::StringCchCopyNExW(lpBundleIdBuf, MAX_GUID_CHARS + 1, sczUninstallSubKey, cchUninstallSubKey, NULL, NULL, STRSAFE_FILL_BEHIND_NULL);
                 ExitOnFailure(hr, "Failed to copy the property value to the output buffer.");
             }
 
@@ -236,7 +231,6 @@ HRESULT DAPI BundleEnumRelatedBundle(
     }
 
 LExit:
-    ReleaseStr(szProviderKey);
     ReleaseStr(sczValue);
     ReleaseStr(sczUninstallSubKey);
     ReleaseStr(sczUninstallSubKeyPath);

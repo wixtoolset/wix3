@@ -353,6 +353,11 @@
         <Property Id="WIX_ACCOUNT_GUESTS" Secure="yes" />
         <CustomActionRef Id="WixQueryOsWellKnownSID" />
     </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_PERFLOGUSERS" Secure="yes" />
+        <Property Id="WIX_ACCOUNT_PERFLOGUSERS_NODOMAIN" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
 
     <Fragment>
       <CustomAction Id="WixQueryOsDriverInfo" BinaryKey="WixCA" DllEntry="WixQueryOsDriverInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />

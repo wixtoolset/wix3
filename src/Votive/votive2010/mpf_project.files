@@ -4,7 +4,9 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <VSIP10Dir>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\VSIP\10.0@InstallDir)\VisualStudioIntegration\Common\Assemblies</VSIP10Dir>
+    <VSIP10Dir>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\VSIP\10.0@InstallDir)\VisualStudioIntegration\Common\Assemblies\</VSIP10Dir>
+    <VSIP10Dir20>$(VSIP10Dir)v2.0</VSIP10Dir20>
+    <VSIP10Dir40>$(VSIP10Dir)v4.0</VSIP10Dir40>
     <VS10IDEDir>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0@InstallDir)</VS10IDEDir>
     <FxCopEnabled>false</FxCopEnabled>
   </PropertyGroup>
@@ -453,41 +455,40 @@
     </Reference>
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop">
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.CommonIDE">
+    <Reference Include="Microsoft.VisualStudio.CommonIDE, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.CommonIDE.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.10.0">
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Shell.10.0.dll</HintPath>
+      <HintPath>$(VSIP10Dir40)\Microsoft.VisualStudio.Shell.10.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Designer.Interfaces" >
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Designer.Interfaces.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.Designer.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" >
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Design" >
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.Shell.Design.dll</HintPath>
+      <HintPath>$(VSIP10Dir40)\Microsoft.VisualStudio.Shell.Design.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop" >
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.ProjectAggregator">
-      <HintPath>$(VSIP10Dir)\Microsoft.VisualStudio.ProjectAggregator.dll</HintPath>
+      <HintPath>$(VSIP10Dir20)\Microsoft.VisualStudio.ProjectAggregator.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WizardFramework" >
       <HintPath>$(VS10IDEDir)\Microsoft.WizardFramework.dll</HintPath>

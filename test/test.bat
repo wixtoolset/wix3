@@ -45,6 +45,11 @@ if not "%INTEGRATIONTESTS%"=="true" (
     set TESTASSEMBLIES=!TESTASSEMBLIES! "%WIX_BUILD_X86%\WixTests.dll"
 )
 
+REM Enable runtime tests
+if "%ENABLERUNTIMETESTS%"=="true" (
+    set RuntimeTestsEnabled=true
+)
+
 for /f "usebackq" %%i in (`where /f xunit.console.clr4.*`) do (
     set COMMAND=%%i
 )
@@ -55,7 +60,7 @@ if not "!COMMAND!"=="" (
         if not "!EXITCODE!"=="0" set EXITCODE=%ERRORLEVEL%
     )
 ) else (
-    call msbuild "%~dp0\test\All.testproj" /p:Configuration=%FLAVOR%
+    call msbuild "%WIX_TEST_ROOT%test\All.testproj" /p:Configuration=%FLAVOR%
     if not "!EXITCODE!"=="0" set EXITCODE=%ERRORLEVEL%
 )
 

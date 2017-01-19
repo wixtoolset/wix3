@@ -545,11 +545,13 @@ public class InstallPackage : Database
 
             if(cabFileIsTemp)
             {
-                Record streamRec = new Record(1);
-                streamRec.SetStream(1, cabFile);
-                this.Execute(String.Format(
-                    "UPDATE `_Streams` SET `Data` = ? WHERE `Name` = '{0}'", mediaCab),
-                    streamRec);
+              using (Record streamRec = new Record(1))
+              {
+                  streamRec.SetStream(1, cabFile);
+                  this.Execute(String.Format(
+                      "UPDATE `_Streams` SET `Data` = ? WHERE `Name` = '{0}'", mediaCab),
+                      streamRec);
+              }
             }
         }
 

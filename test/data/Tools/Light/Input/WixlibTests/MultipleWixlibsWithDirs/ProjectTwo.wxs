@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment Id="ProjectTwoDirSection">
+        <DirectoryRef Id="ProgramFilesFolder">
+            <Directory Id="Foo" Name="Foo">
+                <Directory Id="Bar" Name="Bar" />
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ProjectTwoGroup">
+            <ComponentRef Id="ProjectTwo" />
+        </ComponentGroup>
+        <DirectoryRef Id="Bar">
+            <Component Id="ProjectTwo">
+                <File Id="ProjectTwo" Name="ProjectTwo.wxs" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

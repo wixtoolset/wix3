@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
-
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{24A98296-9D58-42C1-95C0-CC36736409E2}</ProjectGuid>
@@ -61,28 +59,28 @@
     </Reference>
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop">
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath20)Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath20)Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath20)Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath20)Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.10.0">
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.Shell.10.0.dll</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath40)Microsoft.VisualStudio.Shell.10.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0">
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.Shell.Immutable.10.0</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath40)Microsoft.VisualStudio.Shell.Immutable.10.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop">
-      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath)Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+      <HintPath>$(VS2010SdkVisualStudioIntegrationAssembliesPath20)Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.VSHelp">
       <HintPath>$(VS2010Path)Microsoft.VisualStudio.VSHelp.dll</HintPath>

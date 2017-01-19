@@ -310,12 +310,12 @@ extern "C" HRESULT ApplyRegister(
         // resume previous session
         if (pEngineState->registration.fPerMachine)
         {
-            hr = ElevationSessionResume(pEngineState->companionConnection.hPipe, pEngineState->registration.sczResumeCommandLine, pEngineState->registration.fDisableResume);
+            hr = ElevationSessionResume(pEngineState->companionConnection.hPipe, pEngineState->registration.sczResumeCommandLine, pEngineState->registration.fDisableResume, &pEngineState->variables);
             ExitOnFailure(hr, "Failed to resume registration session in per-machine process.");
         }
         else
         {
-            hr =  RegistrationSessionResume(&pEngineState->registration);
+            hr = RegistrationSessionResume(&pEngineState->registration, &pEngineState->variables);
             ExitOnFailure(hr, "Failed to resume registration session.");
         }
     }

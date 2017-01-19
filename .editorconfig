@@ -1,0 +1,30 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+
+# C++ files
+[*.{cpp,h}]
+indent_style = space
+indent_size = 4
+
+# C# files
+[*.{cs}]
+indent_style = space
+indent_size = 4
+
+# MSBuild projects
+[*.{proj,targets,props,filters}]
+indent_style = space
+indent_size = 2
+
+# Batch scripts
+[*.{bat,cmd}]
+indent_style = space
+indent_size = 4
+
+# NuGet files
+[nuget.config]
+indent_style = space
+indent_size = 2
