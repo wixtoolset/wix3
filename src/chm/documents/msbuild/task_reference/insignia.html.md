@@ -78,12 +78,10 @@ The following table describes the parameters that are specific to the <b>Insigni
     <td><b>OutputFile</b></td>
     <td>Optional <b>string</b> parameter.<br />
     <br />
-    <pre>
     Specifies the output file in all cases. 
     In the case of singing a bundle, it specifies the signed bundle. 
     In the case of detaching the engine, it specifies the detached engine file.
     Lastly, when reattaching the engine, it specifies the new bundle with the reattached engine.
-    </pre>
     </td>
   </tr>
   <tr>
