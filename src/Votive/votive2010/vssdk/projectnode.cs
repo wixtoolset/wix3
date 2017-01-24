@@ -6325,8 +6325,8 @@ namespace Microsoft.VisualStudio.Package
         /// <summary>
         /// Get the value of the property in the project file
         /// </summary>
-        /// <param name="propertyName">Name of the property to remove</param>
-        /// <param name="configName">Configuration for which to remove the property</param>
+        /// <param name="propertyName">Name of the property to get</param>
+        /// <param name="configName">Canonical name of the configuration for which to get the property</param>
         /// <param name="storage">Project or user file (_PersistStorageType)</param>
         /// <param name="propertyValue">Value of the property (out parameter)</param>
         /// <returns>HRESULT</returns>
@@ -6340,8 +6340,9 @@ namespace Microsoft.VisualStudio.Package
             }
             else
             {
+                var canonicalName = new ConfigCanonicalName(configName);
                 IVsCfg configurationInterface;
-                ErrorHandler.ThrowOnFailure(this.ConfigProvider.GetCfgOfName(configName, string.Empty, out configurationInterface));
+                ErrorHandler.ThrowOnFailure(this.ConfigProvider.GetCfgOfName(canonicalName.ConfigName, canonicalName.Platform, out configurationInterface));
                 ProjectConfig config = (ProjectConfig)configurationInterface;
                 propertyValue = config.GetConfigurationProperty(propertyName, true);
             }
@@ -6383,7 +6384,7 @@ namespace Microsoft.VisualStudio.Package
         /// Set a project property
         /// </summary>
         /// <param name="propertyName">Name of the property to set</param>
-        /// <param name="configName">Configuration for which to set the property</param>
+        /// <param name="configName">Canonical name of the configuration for which to set the property</param>
         /// <param name="storage">Project file or user file (_PersistStorageType)</param>
         /// <param name="propertyValue">New value for that property</param>
         /// <returns>HRESULT</returns>
@@ -6396,8 +6397,9 @@ namespace Microsoft.VisualStudio.Package
             }
             else
             {
+                var canonicalName = new ConfigCanonicalName(configName);
                 IVsCfg configurationInterface;
-                ErrorHandler.ThrowOnFailure(this.ConfigProvider.GetCfgOfName(configName, string.Empty, out configurationInterface));
+                ErrorHandler.ThrowOnFailure(this.ConfigProvider.GetCfgOfName(canonicalName.ConfigName, canonicalName.Platform, out configurationInterface));
                 ProjectConfig config = (ProjectConfig)configurationInterface;
                 config.SetConfigurationProperty(propertyName, propertyValue);
             }
