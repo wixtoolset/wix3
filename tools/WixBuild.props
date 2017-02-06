@@ -71,10 +71,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot10', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
+    <PotentialPlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot10', null, RegistryView.Registry64, RegistryView.Registry32))</PotentialPlatformSdkInstallPath>
+    <PlatformSdkInstallPath Condition=" '$(PotentialPlatformSdkInstallPath)'!='' and Exists('$(PotentialPlatformSdkInstallPath)\include\10.0.14393.0\um') ">$(PotentialPlatformSdkInstallPath)</PlatformSdkInstallPath>
     <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v10</PlatformSdkRegistryVersion>
-    <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' and Exists('$(PlatformSdkInstallPath)\include\10.0.14393.0') ">$(PlatformSdkInstallPath)\include\10.0.14393.0</PlatformSdkIncludeRoot>
-    <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' and Exists('$(PlatformSdkInstallPath)\include\10.0.10240.0') ">$(PlatformSdkInstallPath)\include\10.0.10240.0</PlatformSdkIncludeRoot>
+    <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' and '$(PlatformSdkInstallPath)'!='' ">$(PlatformSdkInstallPath)\include\10.0.14393.0</PlatformSdkIncludeRoot>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(PlatformSdkInstallPath)'=='' ">
@@ -192,7 +192,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VS2017Path Condition=" '$(VS2017Path)'=='' ">$(VsInstallRoot)\</VS2017Path>
+    <VS2017Path Condition=" '$(VS2017Path)'=='' and '$(VsInstallRoot)'!=''">$(VsInstallRoot)\</VS2017Path>
     
     <VS2017Available Condition=" '$(DisableVS2017)'!='true' and '$(VS2017Path)'!='' and Exists('$(VS2017Path)')">true</VS2017Available>
     <VS2017Available Condition=" '$(VS2017Available)'=='' ">false</VS2017Available>
