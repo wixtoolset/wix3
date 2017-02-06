@@ -16,6 +16,7 @@
     <ProjectReference Include="votive2013\votive2013.csproj" Condition=" '$(VS2013SdkAvailable)'=='true' " />
 -->
     <ProjectReference Include="votive2015\votive2015.proj" Condition=" '$(VS2010SdkAvailable)'=='true' " />
+    <ProjectReference Include="votive2017\votive2017.proj" Condition=" '$(VS2010SdkAvailable)'=='true' " />
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
