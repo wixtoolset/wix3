@@ -71,6 +71,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot10', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
+    <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v10</PlatformSdkRegistryVersion>
+    <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' and Exists('$(PlatformSdkInstallPath)\include\10.0.14393.0') ">$(PlatformSdkInstallPath)\include\10.0.14393.0</PlatformSdkIncludeRoot>
+    <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' and Exists('$(PlatformSdkInstallPath)\include\10.0.10240.0') ">$(PlatformSdkInstallPath)\include\10.0.10240.0</PlatformSdkIncludeRoot>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(PlatformSdkInstallPath)'=='' ">
     <PlatformSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot81', null, RegistryView.Registry64, RegistryView.Registry32))</PlatformSdkInstallPath>
     <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v8.1</PlatformSdkRegistryVersion>
   </PropertyGroup>
@@ -93,11 +100,12 @@
   <PropertyGroup>
     <PlatformSdkInstallPath Condition="!HasTrailingSlash('$(PlatformSdkInstallPath)')">$(PlatformSdkInstallPath)\</PlatformSdkInstallPath>
 
-    <PlatformSdkIncludePath>$(PlatformSdkInstallPath)include</PlatformSdkIncludePath>
-    <PlatformSdkIncludePath Condition=" Exists('$(PlatformSdkInstallPath)include\shared') ">$(PlatformSdkIncludePath);$(PlatformSdkInstallPath)include\shared</PlatformSdkIncludePath>
-    <PlatformSdkIncludePath Condition=" Exists('$(PlatformSdkInstallPath)include\um') ">$(PlatformSdkIncludePath);$(PlatformSdkInstallPath)include\um</PlatformSdkIncludePath>
+    <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' ">$(PlatformSdkInstallPath)include</PlatformSdkIncludeRoot>
+    <PlatformSdkIncludePath Condition=" '$(PlatformSdkIncludePath)'=='' ">$(PlatformSdkIncludeRoot)</PlatformSdkIncludePath>
+    <PlatformSdkIncludePath Condition=" Exists('$(PlatformSdkIncludeRoot)\shared') ">$(PlatformSdkIncludePath);$(PlatformSdkIncludeRoot)\shared</PlatformSdkIncludePath>
+    <PlatformSdkIncludePath Condition=" Exists('$(PlatformSdkIncludeRoot)\um') ">$(PlatformSdkIncludePath);$(PlatformSdkIncludeRoot)\um</PlatformSdkIncludePath>
     <PlatformSdkBinPath>$(PlatformSdkInstallPath)bin\</PlatformSdkBinPath>
-    <PlatformSdkBinPath Condition=" Exists('$(PlatformSdkBinPath)x86') ">$(PlatformSdkBinPath)\x86\</PlatformSdkBinPath>
+    <PlatformSdkBinPath Condition=" Exists('$(PlatformSdkBinPath)x86') ">$(PlatformSdkBinPath)x86\</PlatformSdkBinPath>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -184,7 +192,22 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VCPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
+    <VS2017Path Condition=" '$(VS2017Path)'=='' ">$(VsInstallRoot)\</VS2017Path>
+    
+    <VS2017Available Condition=" '$(DisableVS2017)'!='true' and '$(VS2017Path)'!='' and Exists('$(VS2017Path)')">true</VS2017Available>
+    <VS2017Available Condition=" '$(VS2017Available)'=='' ">false</VS2017Available>
+
+    <VS2017SdkTargetsPath Condition=" '$(VS2017SdkTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v15.0\VSSDK\Microsoft.VsSDK.targets</VS2017SdkTargetsPath>
+    <VS2017SdkAvailable Condition=" $(VS2017Available) and Exists('$(VS2017SdkTargetsPath)')">true</VS2017SdkAvailable>
+    <VS2017SdkAvailable Condition=" '$(VS2017SdkAvailable)'=='' ">false</VS2017SdkAvailable>
+
+    <VS2017PublicAssembliesPath Condition=" $(VS2017SdkAvailable) ">$(VsInstallRoot)\Common7\IDE\PublicAssemblies\</VS2017PublicAssembliesPath>
+    <VS2017SdkVisualStudioIntegrationAssembliesPath Condition=" $(VS2017SdkAvailable) ">$(VsInstallRoot)\VSSDK\VisualStudioIntegration\Common\Assemblies\v4.0\</VS2017SdkVisualStudioIntegrationAssembliesPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VCPath Condition=" '$(VsInstallRoot)' != ''">$(VsInstallRoot)\VC\</VCPath>
+    <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
     <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\12.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
     <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\11.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
     <VCPath Condition=" '$(VCPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\Setup\VC', 'ProductDir', null, RegistryView.Registry64, RegistryView.Registry32))</VCPath>
