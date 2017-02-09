@@ -682,8 +682,11 @@ public: // IBootstrapperApplication
 #endif
         if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display && (INSTALLMESSAGE_WARNING == mt || INSTALLMESSAGE_USER == mt))
         {
-            int nResult = ::MessageBoxW(m_hWnd, wzMessage, m_pTheme->sczCaption, uiFlags);
-            return nResult;
+            if (!m_fShowingInternalUiThisPackage)
+            {
+                int nResult = ::MessageBoxW(m_hWnd, wzMessage, m_pTheme->sczCaption, uiFlags);
+                return nResult;
+            }
         }
 
         if (INSTALLMESSAGE_ACTIONSTART == mt)
