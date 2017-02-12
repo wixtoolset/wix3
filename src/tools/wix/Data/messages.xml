@@ -2958,6 +2958,14 @@
           <Parameter Type="System.String" Name="filename" />
         </Instance>
       </Message>
+      <Message Id="PayloadMustBeRelativeToCache" Number="389">
+        <Instance>
+          The {0}/@{1} attribute's value, '{2}', is not a legal path name: Payload names must be relative to their cache directory and cannot contain '..'.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+          <Parameter Type="System.String" Name="attributeValue" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixWarnings" ContainerName="WixWarningEventArgs" BaseContainerName="MessageEventArgs" Level="Warning">
