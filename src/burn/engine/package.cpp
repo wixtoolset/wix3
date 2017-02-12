@@ -253,7 +253,7 @@ extern "C" HRESULT PackagesParseFromXml(
         ExitOnNull(pPackages->rgPatchInfo, hr, E_OUTOFMEMORY, "Failed to allocate memory for MSP patch sequence information.");
 
         pPackages->rgPatchInfoToPackage = static_cast<BURN_PACKAGE**>(MemAlloc(sizeof(BURN_PACKAGE*) * cMspPackages, TRUE));
-        ExitOnNull(pPackages->rgPatchInfo, hr, E_OUTOFMEMORY, "Failed to allocate memory for patch sequence information to package lookup.");
+        ExitOnNull(pPackages->rgPatchInfoToPackage, hr, E_OUTOFMEMORY, "Failed to allocate memory for patch sequence information to package lookup.");
 
         for (DWORD i = 0; i < pPackages->cPackages; ++i)
         {
