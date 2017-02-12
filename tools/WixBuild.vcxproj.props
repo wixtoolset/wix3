@@ -98,7 +98,12 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition=" '$(Plaform)'=='arm' ">
+  <ItemDefinitionGroup Condition=" '$(Platform)'=='Win32' and '$(PlatformToolset)'!='v100'">
+    <ClCompile>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(Platform)'=='arm' ">
     <ClCompile>
       <CallingConvention>CDecl</CallingConvention>
     </ClCompile>
