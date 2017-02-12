@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+<!-- 
+Note that this MSI installs the VS2017 libraries but not the project templates, as they're instance-specific.
+-->
+
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioTargetVersion>2017</VisualStudioTargetVersion>
+    <NativeTemplatesFromVersion>2017</NativeTemplatesFromVersion>
+  </PropertyGroup>
+
+  <Import Project="NativeSdkMsi.targets" />
+</Project>
