@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Compile Include="SqlExtension.wxs" />
+    <EmbeddedResource Include="de-de.wxl" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="es-es.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />

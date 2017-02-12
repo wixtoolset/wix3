@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="de-de" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrSQLFailedCreateDatabase" Overridable="yes">Fehler [2]: Erstellen der SQL-Datenbank fehlgeschlagen: [3], Fehlerbeschreibung: [4].</String>
+    <String Id="msierrSQLFailedDropDatabase" Overridable="yes">Fehler [2]: Löschen der SQL-Datenbank fehlgeschlagen: [3], Fehlerbeschreibung: [4].</String>
+    <String Id="msierrSQLFailedConnectDatabase" Overridable="yes">Verbinden mit der SQL-Datenbank fehlgeschlagen.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrSQLFailedExecString" Overridable="yes">Fehler [2]: Das Erstellen der SQL Zeichenfolge ist fehlgeschlagen, Fehlerbeschreibung: [3], SQL-Schlüssel: [4] SQL-Zeichenfolge: [5]</String>
+    <String Id="msierrSQLDatabaseAlreadyExists" Overridable="yes">Die Datenbank [3] existiert bereits. Wollen Sie fortfahren?</String>
+
+    <String Id="ConfigureSql" Overridable="yes">Konfiguriere SQL Server</String>
+    <String Id="CreateDatabase" Overridable="yes">Erstelle Datenbanken</String>
+    <String Id="DropDatabase" Overridable="yes">Lösche Datenbanken</String>
+    <String Id="ExecuteSqlStrings" Overridable="yes">SQL-Zeichenfolgen werden erstellt</String>
+    <String Id="RollbackExecuteSqlStrings" Overridable="yes">SQL-Zeichenfolgen werden zurückgesetzt</String>
+</WixLocalization>
