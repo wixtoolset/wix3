@@ -73,6 +73,15 @@
         <Setter Property="RenderTransformOrigin" Value=".5,.5" />
     </Style>
 
+    <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="23,4,0,0"/>
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
     <Style x:Key="StatusTextStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="12"/>
