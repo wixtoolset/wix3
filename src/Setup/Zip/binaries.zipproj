@@ -106,6 +106,9 @@
 
   <!-- Doc -->
   <ItemGroup>
+    <Stage Include="$(WixRoot)LICENSE.TXT">
+      <Hardlink>false</Hardlink>
+    </Stage>
     <Stage Include="$(OutputPath)WiX.chm">
       <StageSubDirectory>doc</StageSubDirectory>
     </Stage>
