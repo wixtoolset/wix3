@@ -428,7 +428,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if ("ss" == parameter)
                     {
-                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sfdvital"));
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("ss"));
                         this.suppressSchema = true;
                     }
                     else if ("swall" == parameter)

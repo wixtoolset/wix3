@@ -38,7 +38,7 @@
     <tableDefinition name="IIsAppPool" createSymbols="yes">
         <columnDefinition name="AppPool" type="string" length="72" primaryKey="yes" modularize="column"
                 category="identifier" description="Primary key, non-localized token for apppool"/>
-        <columnDefinition name="Name" type="string" length="72"
+        <columnDefinition name="Name" type="string" length="72" modularize="property"
                 category="formatted" description="Name to be used for the IIs AppPool."/>
         <columnDefinition name="Component_" type="string" length="72" modularize="column" nullable="yes"
                 keyTable="Component" keyColumn="1" category="identifier" description="Foreign key referencing Component that controls the app pool"/>
@@ -168,7 +168,7 @@
     <tableDefinition name="IIsWebApplication" createSymbols="yes">
         <columnDefinition name="Application" type="string" length="72" primaryKey="yes" modularize="column"
                 category="identifier" description="Primary key, non-localized token for ASP Application"/>
-        <columnDefinition name="Name" type="localized" length="255"
+        <columnDefinition name="Name" type="localized" length="255" modularize="property"
                 category="formatted" description="Name of application in IIS MMC applet"/>
         <columnDefinition name="Isolation" type="number" length="2"
                 set="0;1;2" description="Isolation level for ASP Application: 0 == Low, 2 == Medium, 1 == High"/>
