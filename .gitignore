@@ -2,6 +2,7 @@
 [Pp]ackages/
 ipch/
 .vs/
+obj/
 
 *.chw
 *.suo
