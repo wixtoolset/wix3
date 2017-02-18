@@ -44,7 +44,8 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * ServicePackLevel - numeric value representing the installed OS service pack.
 * StartMenuFolder - gets the well-known folder for CSIDL\_STARTMENU.
 * StartupFolder - gets the well-known folder for CSIDL\_STARTUP.
-* SystemFolder - gets the well-known folder for CSIDL\_SYSTEMX86.
+* SystemFolder - gets the well-known folder for CSIDL\_SYSTEMX86 on 64-bit Windows and CSIDL\_SYSTEM on 32-bit Windows.
+* System64Folder - gets the well-known folder for CSIDL\_SYSTEM on 64-bit Windows and undefined on 32-bit Windows.
 * SystemLanguageID - gets the language ID for the system locale.
 * TempFolder - gets the well-known folder for temp location.
 * TemplateFolder - gets the well-known folder for CSIDL\_TEMPLATES.

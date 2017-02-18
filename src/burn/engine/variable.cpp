@@ -829,7 +829,7 @@ extern "C" HRESULT VariableSerialize(
 
         // If we aren't persisting, include only variables that aren't rejected by the elevated process.
         // If we are persisting, include only variables that should be persisted.
-        fIncluded = (!fPersisting && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariable->internalType) || 
+        fIncluded = (!fPersisting && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariable->internalType) ||
                     (fPersisting && pVariable->fPersisted);
 
         // Write included flag.
@@ -1634,7 +1634,7 @@ static HRESULT InitializeVariableVersionNT(
     {
         ExitWithLastError(hr, "Failed to locate RtlGetVersion.");
     }
-    
+
     ovix.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
     hr = static_cast<HRESULT>(rtlGetVersion(&ovix));
     ExitOnFailure(hr, "Failed to get OS info.");
@@ -1897,26 +1897,35 @@ static HRESULT InitializeVariableSystemFolder(
     BOOL f64 = (BOOL)dwpData;
     WCHAR wzSystemFolder[MAX_PATH] = { };
 
-#ifndef _WIN64
-    if (f64)
+#if !defined(_WIN64)
+    BOOL fIsWow64 = FALSE;
+    ProcWow64(::GetCurrentProcess(), &fIsWow64);
+
+    if (fIsWow64)
     {
-        // Try to get the WOW system folder. If this function is not implemented (aka: 32-bit Windows)
-        // then we'll leave the folder blank.
-        if (!::GetSystemWow64DirectoryW(wzSystemFolder, countof(wzSystemFolder)))
+        if (f64)
         {
-            DWORD er = ::GetLastError();
-            if (ERROR_CALL_NOT_IMPLEMENTED != er)
+            if (!::GetSystemDirectoryW(wzSystemFolder, countof(wzSystemFolder)))
             {
-                er = ERROR_SUCCESS;
+                ExitWithLastError(hr, "Failed to get 64-bit system folder.");
             }
-            ExitOnWin32Error(er, hr, "Failed to get 32-bit system folder.");
+        }
+        else
+        {
+            if (!::GetSystemWow64DirectoryW(wzSystemFolder, countof(wzSystemFolder)))
+            {
+                ExitWithLastError(hr, "Failed to get 32-bit system folder.");
+            }
         }
     }
     else
     {
-        if (!::GetSystemDirectoryW(wzSystemFolder, countof(wzSystemFolder)))
+        if (!f64)
         {
-            ExitWithLastError(hr, "Failed to get 64-bit system folder.");
+            if (!::GetSystemDirectoryW(wzSystemFolder, countof(wzSystemFolder)))
+            {
+                ExitWithLastError(hr, "Failed to get 32-bit system folder.");
+            }
         }
     }
 #else
