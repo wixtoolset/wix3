@@ -42,7 +42,7 @@
 
 * @barnson: Fix WIXBUG:5293 - Document illegal MsiProperty names.
 
-RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
+* RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's dependent on GDI+ (including WinForms).
 
 * FabienL: WIXBUG:4976 - Add support for .net framework 4.6.1 in netfxExtension
 
@@ -111,11 +111,11 @@ RobMen: WIXBUG:5282 - reduce clean room security to successfully load BA's depen
 
 * SeanHall: WIXBUG:4857 - Fix DTF custom actions in Win10 Apps and Features.
 
-jmcooper8654: WIXFEAT:4437 - Modify Wix.CA.targets to add PDB files to CA Package when /p:Configuration=Debug.
+* jmcooper8654: WIXFEAT:4437 - Modify Wix.CA.targets to add PDB files to CA Package when /p:Configuration=Debug.
 
 * DavidFlamme: WIXBUG:4785 - Fixing memory leak in InstallPackage.cs
 
-MikeGC: WIXBUG:4878 - fix iniutil memory leak
+* MikeGC: WIXBUG:4878 - fix iniutil memory leak
 
 * Himem: WIXBUG:4737 - fixed condition of showing InvalidDirDlg from BrowseDlg
 
