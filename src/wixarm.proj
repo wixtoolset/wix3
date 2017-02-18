@@ -14,19 +14,19 @@
   </ItemDefinitionGroup>
 
   <ItemGroup Condition=" $(BuildARM) ">
-    <ProjectReference Include="dutil\dutil.vcxproj" />
-    <ProjectReference Include="ca\wcautil\wcautil.vcxproj" />
-    <ProjectReference Include="ca\serverca\scasched\scasched.vcxproj" />
-    <ProjectReference Include="ca\serverca\scaexec\scaexec.vcxproj" />
-    <ProjectReference Include="ca\wixca\dll\wixca.vcxproj" />
-    <ProjectReference Include="ext\DependencyExtension\lib\deputil.vcxproj" />
+    <ProjectReference Include="libs\dutil\dutil.vcxproj" />
+    <ProjectReference Include="libs\wcautil\wcautil.vcxproj" />
+    <ProjectReference Include="ext\ca\serverca\scasched\scasched.vcxproj" />
+    <ProjectReference Include="ext\ca\serverca\scaexec\scaexec.vcxproj" />
+    <ProjectReference Include="ext\ca\wixca\dll\wixca.vcxproj" />
+    <ProjectReference Include="libs\deputil\deputil.vcxproj" />
     <ProjectReference Include="ext\DependencyExtension\ca\wixdepca.vcxproj" />
     <ProjectReference Include="ext\FirewallExtension\ca\firewall.vcxproj" />
     <ProjectReference Include="ext\HttpExtension\ca\wixhttpca.vcxproj" />
     <ProjectReference Include="ext\UIExtension\ca\uica.vcxproj" />
     <ProjectReference Include="burn\engine\engine.vcxproj" />
     <ProjectReference Include="burn\stub\stub.vcxproj" />
-    <ProjectReference Include="ext\BalExtension\balutil\balutil.vcxproj" />
+    <ProjectReference Include="libs\balutil\balutil.vcxproj" />
     <ProjectReference Include="ext\BalExtension\wixstdba\wixstdba.vcxproj" />
 
     <ProjectReference Include="ext\BalExtension\wixlib_arm\BalExtension_ARM.wixproj" />
