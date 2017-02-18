@@ -457,6 +457,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 this.root.InstallState = InstallationState.Failed;
             }
+
+            // Force all commands to reevaluate CanExecute.
+            // InvalidateRequerySuggested must be run on the UI thread.
+            WixBA.Dispatcher.Invoke(new Action(CommandManager.InvalidateRequerySuggested));
         }
 
         private void PlanPackageBegin(object sender, PlanPackageBeginEventArgs e)
@@ -591,6 +595,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         {
             WixBA.Model.Result = e.Status; // remember the final result of the apply.
 
+            // Set the state to applied or failed unless the state has already been set back to the preapply state
+            // which means we need to show the UI as it was before the apply started.
+            if (this.root.InstallState != this.root.PreApplyState)
+            {
+                this.root.InstallState = Hresult.Succeeded(e.Status) ? InstallationState.Applied : InstallationState.Failed;
+            }
+
             // If we're not in Full UI mode, we need to alert the dispatcher to stop and close the window for passive.
             if (Bootstrapper.Display.Full != WixBA.Model.Command.Display)
             {
@@ -598,33 +609,24 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                 if (Bootstrapper.Display.Passive == WixBA.Model.Command.Display)
                 {
                     WixBA.Model.Engine.Log(LogLevel.Verbose, "Automatically closing the window for non-interactive install");
-                    WixBA.Dispatcher.BeginInvoke((Action)delegate()
-                    {
-                        WixBA.View.Close();
-                    }
-                    );
+                    WixBA.Dispatcher.BeginInvoke(new Action(WixBA.View.Close));
                 }
                 else
                 {
                     WixBA.Dispatcher.InvokeShutdown();
                 }
+                return;
             }
             else if (Hresult.Succeeded(e.Status) && LaunchAction.UpdateReplace == WixBA.Model.PlannedAction) // if we successfully applied an update close the window since the new Bundle should be running now.
             {
                 WixBA.Model.Engine.Log(LogLevel.Verbose, "Automatically closing the window since update successful.");
-                WixBA.Dispatcher.BeginInvoke((Action)delegate()
-                {
-                    WixBA.View.Close();
-                }
-                );
+                WixBA.Dispatcher.BeginInvoke(new Action(WixBA.View.Close));
+                return;
             }
 
-            // Set the state to applied or failed unless the state has already been set back to the preapply state
-            // which means we need to show the UI as it was before the apply started.
-            if (this.root.InstallState != this.root.PreApplyState)
-            {
-                this.root.InstallState = Hresult.Succeeded(e.Status) ? InstallationState.Applied : InstallationState.Failed;
-            }
+            // Force all commands to reevaluate CanExecute.
+            // InvalidateRequerySuggested must be run on the UI thread.
+            WixBA.Dispatcher.Invoke(new Action(CommandManager.InvalidateRequerySuggested));
         }
 
         private void ParseCommandLine()
