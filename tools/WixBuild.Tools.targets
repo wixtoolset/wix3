@@ -39,7 +39,7 @@
     <Message Importance="high" Text="VS2017Available = $(VS2017Available)" />
     <Message Importance="high" Text="VS2017SdkAvailable = $(VS2017SdkAvailable)" />
     <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
-    <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
+    <Message Importance="high" Text="PlatformSdkArmLibraryRoot = $(PlatformSdkArmLibraryRoot)" />
     <Message Importance="high" Text="SqlCESdkIncludePath = $(SqlCESdkIncludePath)" />
   </Target>
 

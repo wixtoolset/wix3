@@ -75,6 +75,7 @@
     <PlatformSdkInstallPath Condition=" '$(PotentialPlatformSdkInstallPath)'!='' and Exists('$(PotentialPlatformSdkInstallPath)\include\10.0.14393.0\um') ">$(PotentialPlatformSdkInstallPath)</PlatformSdkInstallPath>
     <PlatformSdkRegistryVersion Condition=" '$(PlatformSdkInstallPath)'!='' ">v10</PlatformSdkRegistryVersion>
     <PlatformSdkIncludeRoot Condition=" '$(PlatformSdkIncludeRoot)'=='' and '$(PlatformSdkInstallPath)'!='' ">$(PlatformSdkInstallPath)\include\10.0.14393.0</PlatformSdkIncludeRoot>
+    <PlatformSdkArmLibraryRoot Condition=" '$(PlatformSdkArmLibraryRoot)'=='' and '$(PlatformSdkInstallPath)'!='' ">$(PlatformSdkInstallPath)lib\10.0.14393.0\um\arm</PlatformSdkArmLibraryRoot>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(PlatformSdkInstallPath)'=='' ">
