@@ -647,7 +647,24 @@ public: // IBootstrapperApplication
                         HRESULT hr = StrAllocFromError(&sczError, dwCode, NULL);
                         if (FAILED(hr) || !sczError || !*sczError)
                         {
-                            StrAllocFormatted(&sczError, L"0x%x", dwCode);
+                            // special case for ERROR_FAIL_NOACTION_REBOOT: use loc string for Windows XP
+                            if (ERROR_FAIL_NOACTION_REBOOT == dwCode)
+                            {
+                                LOC_STRING* pLocString = NULL;
+                                hr = LocGetString(m_pWixLoc, L"#(loc.ErrorFailNoActionReboot)", &pLocString);
+                                if (SUCCEEDED(hr))
+                                {
+                                    StrAllocString(&sczError, pLocString->wzText, 0);
+                                }
+                                else
+                                {
+                                    StrAllocFormatted(&sczError, L"0x%x", dwCode);
+                                }
+                            }
+                            else
+                            {
+                                StrAllocFormatted(&sczError, L"0x%x", dwCode);
+                            }
                         }
                     }
 
