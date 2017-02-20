@@ -9,7 +9,7 @@
 
   <ItemDefinitionGroup>
     <ProjectReference>
-      <Properties>VisualStudioVersion=11.0;PlatformToolset=v110;Platform=ARM</Properties>
+      <Properties>VisualStudioVersion=15.0;PlatformToolset=v141;Platform=ARM</Properties>
     </ProjectReference>
   </ItemDefinitionGroup>
 
