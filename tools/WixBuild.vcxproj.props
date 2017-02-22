@@ -53,7 +53,7 @@
   <PropertyGroup>
     <ResourceOnlyDll Condition=" '$(ResourceOnlyDll)'=='' ">false</ResourceOnlyDll>
     <GenerateManifest Condition="$(ResourceOnlyDll)">false</GenerateManifest>
-    <WindowsSDKDesktopARMSupport Condition=" '$(Platform)'=='arm' and $(VS2017Available) ">true</WindowsSDKDesktopARMSupport>
+    <WindowsSDKDesktopARMSupport Condition=" '$(Platform)'=='arm' and Exists('$(PlatformSdkArmLibraryRoot)') ">true</WindowsSDKDesktopARMSupport>
     <ArmLibraryDirectories Condition=" '$(Platform)'=='arm' ">$(PlatformSdkArmLibraryRoot)\</ArmLibraryDirectories>
     <ArmPreprocessorDefinitions Condition=" '$(Platform)'=='arm' ">ARM</ArmPreprocessorDefinitions>
     <UnicodePreprocessorDefinitions Condition=" '$(CharacterSet)'=='Unicode' ">UNICODE;_UNICODE</UnicodePreprocessorDefinitions>
