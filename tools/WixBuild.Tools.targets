@@ -121,6 +121,16 @@
       Condition=" $(VS2015Available) and '14.0'>'$(MSBuildToolsVersion)' "
       Text="When Visual Studio 2015 is installed, you must use MSBuild v14.0 to build. MSBuild v14.0 is typically found here: ProgramFiles(x86)\MSBuild\14.0\Bin\MSBuild.exe" />
 
+    <Error
+      Code="WIXBUILD012"
+      Condition=" $(BuildArm) and !($(VS2015Available) or $(VS2017Available)) "
+      Text="Visual Studio 2015 or higher is required to build ARM" />
+
+    <Error
+      Code="WIXBUILD013"
+      Condition=" $(BuildArm) and !(Exists('$(PlatformSdkArmLibraryRoot)')) "
+      Text="No suitable Windows SDK found to build ARM" />
+
   </Target>
 
   <!--
