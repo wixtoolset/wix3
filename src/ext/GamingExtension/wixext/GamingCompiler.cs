@@ -397,7 +397,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 // use the directory ID as the shortcut ID because Game Explorer wants one
                 // shortcut per directory, so that makes the directory ID unique
                 string directoryId = this.CreateTaskDirectoryRow(sourceLineNumbers, componentId, TaskType.Support, taskOrder);
-                Extensions.UtilCompiler.CreateWixInternetShortcut(this.Core, sourceLineNumbers, componentId, directoryId, directoryId, name, address, Extensions.UtilCompiler.InternetShortcutType.Link);
+                Extensions.UtilCompiler.CreateWixInternetShortcut(this.Core, sourceLineNumbers, componentId, directoryId, directoryId, name, address, Extensions.UtilCompiler.InternetShortcutType.Link, null, 0);
             }
         }
 
