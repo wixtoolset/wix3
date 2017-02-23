@@ -547,6 +547,22 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
+      <xs:attribute name="IconFile" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+            Icon file that should be displayed. Note that this is a formatted field, so you can use
+            [#fileId] syntax to refer to a file being installed (using the file:
+            protocol).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="IconIndex" type="xs:integer" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+            Index of the icon being referenced
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="PerformanceCategory">
