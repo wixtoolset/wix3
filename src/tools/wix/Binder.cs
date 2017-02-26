@@ -2058,13 +2058,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
             if (null != this.validator)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-              
+
                 // set the output file for source line information
                 this.validator.Output = output;
 
                 this.core.OnMessage(WixVerboses.ValidatingDatabase());
                 this.core.EncounteredError = !this.validator.Validate(tempDatabaseFile);
-              
+
                 stopwatch.Stop();
                 this.core.OnMessage(WixVerboses.ValidatedDatabase(stopwatch.ElapsedMilliseconds));
 
@@ -3372,6 +3372,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     payloadInfo.Packaging = bundleInfo.DefaultPackagingType;
                 }
+
+                string normalizedPath = payloadInfo.Name.Replace('\\', '/');
+                if (normalizedPath.StartsWith("../", StringComparison.Ordinal) || normalizedPath.Contains("/../"))
+                {
+                    this.core.OnMessage(WixWarnings.PayloadMustBeRelativeToCache(payloadInfo.SourceLineNumbers, "Payload", "Name", payloadInfo.Name));
+                }
             }
 
             Dictionary<string, ContainerInfo> containers = new Dictionary<string, ContainerInfo>();
@@ -3781,7 +3787,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     ApprovedExeForElevation approvedExeForElevation = new ApprovedExeForElevation(wixApprovedExeForElevationRow);
                     approvedExesForElevation.Add(approvedExeForElevation);
                 }
-            }            
+            }
 
             // Set the overridable bundle provider key.
             this.SetBundleProviderKey(bundle, bundleInfo);
@@ -7876,7 +7882,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
 
                 // The new Row has to be inserted just after the last cab in this cabinet split chain according to DiskID Sort
-                // This is because the FDI Extract requires DiskID of Split Cabinets to be continuous. It Fails otherwise with 
+                // This is because the FDI Extract requires DiskID of Split Cabinets to be continuous. It Fails otherwise with
                 // Error 2350 (FDI Server Error) as next DiskID did not have the right split cabinet during extraction
                 MediaRow newMediaRow = (MediaRow)mediaTable.CreateRow(null);
                 newMediaRow.Cabinet = newCabinetName;
