@@ -13,14 +13,13 @@ There are several variants of the WiX Standard Bootstrapper Application.
 1. WixStandardBootstrapperApplication.HyperlinkSidebarLicense - the third variant is based on HyperlinkLicense but provides a larger dialog and larger image on the initial page.
 1. WixStandardBootstrapperApplication.RtfLargeLicense - this variant is similar to RtfLicense but is a larger dialog and supports the option of displaying the version number.
 1. WixStandardBootstrapperApplication.HyperlinkLargeLicense - this variant is similar to HyperlinkLicense but is a larger dialog and supports the option of displaying the version number.
-1. WixStandardBootstrapperApplication.Foundation - the final variant is blank and requires the developer to provide a theme file that completely customizes the look and feel.
 
 To use the WiX Standard Bootstrapper Application, a [&lt;BootstrapperApplicationRef&gt;](~/xsd/wix/bootstrapperapplicationref.html) element must reference one of the above identifiers. The following example uses the bootstrapper application that displays the license:
 
 <pre>    &lt;?xml version=&quot;1.0&quot;?&gt;
     &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot;&gt;
       &lt;Bundle&gt;
-<strong class="highlight">        &lt;BootstrapperApplicationRef Id=&quot;WixStandardBootstrapperApplication.RtfLicense&quot; /&gt;</strong>
+        <strong class="highlight">&lt;BootstrapperApplicationRef Id=&quot;WixStandardBootstrapperApplication.RtfLicense&quot; /&gt;</strong>
         &lt;Chain&gt;
         &lt;/Chain&gt;
       &lt;/Bundle&gt;
@@ -29,8 +28,8 @@ To use the WiX Standard Bootstrapper Application, a [&lt;BootstrapperApplication
 HyperlinkLargeTheme, HyperlinkSidebarTheme, and RtfLargeTheme can optionally display the bundle version on the welcome page:
 
 <pre>    &lt;?xml version=&quot;1.0&quot;?&gt;
-    &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot; 
-		xmlns:bal=&quot;http://schemas.microsoft.com/wix/BalExtension&quot;&gt;
+    &lt;Wix xmlns=&quot;http://schemas.microsoft.com/wix/2006/wi&quot;
+            xmlns:bal=&quot;http://schemas.microsoft.com/wix/BalExtension&quot;&gt;
       &lt;Bundle&gt;
         &lt;BootstrapperApplicationRef Id=&quot;WixStandardBootstrapperApplication.RtfLicense&quot;&gt;
           &lt;bal:WixStandardBootstrapperApplication
