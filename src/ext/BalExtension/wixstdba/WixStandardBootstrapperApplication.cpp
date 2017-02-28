@@ -989,7 +989,7 @@ public: // IBootstrapperApplication
         __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
         )
     {
-        if (m_fShowFilesInUse && !m_fPrereq && wzPackageId && *wzPackageId)
+        if (m_fShowFilesInUse && !m_fShowingInternalUiThisPackage && !m_fPrereq && wzPackageId && *wzPackageId)
         {
             //If this is an MSI package, display the files in use page.
             BAL_INFO_PACKAGE* pPackage = NULL;
