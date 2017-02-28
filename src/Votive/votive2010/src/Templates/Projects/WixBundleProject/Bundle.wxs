@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 	<Bundle Name="$wixsafeprojectname$" Version="1.0.0.0" Manufacturer="$registeredorganization$" UpgradeCode="$guid1$">
-		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" bal:UseUILanguages="yes" />
 
 		<Chain>
 			<!-- $loc_WXS_TODO$ -->
