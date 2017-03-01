@@ -16,7 +16,6 @@
     <Compile Include="Dtf.wxs" />
     <Compile Include="ExtensionSdk.wxs" />
     <Compile Include="ManagedSdkMsi.wxs" />
-    <Compile Include="ProjectTemplates.wxs" />
   </ItemGroup>
 
   <ItemGroup>
