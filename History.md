@@ -1,3 +1,43 @@
+## WixBuild: Version 3.11.0.1501
+
+* RobMen: WIXBUG:4903 - Remove internal WixStandardBootstrapperApplication.Foundation from documentation.
+
+* RobMen: WIXBUG:4812 - Properly modularize IIsAppPool Name column.
+
+* RobMen: WIXBUG:4813 - Properly modularize IIsWebApplication Name column.
+
+* RobMen: WIXBUG:5438 - Fix typo in candle deprecation message.
+
+* RobMen: WIXBUG:5307 - Correctly set and document SystemFolder and System64Folder in Burn.
+
+* RobMen: WIXBUG:5270 - Properly set WixMerge columns nullable.
+
+* RobMen: WIXBUG:5265 - Prevent bad use of ".." in payload names.
+
+* @barnson: Add WixStdBA/PreqBA loc string for ERROR_FAIL_NOACTION_REBOOT.
+
+* Barnson: Correct condition to detect missing .NET 2.0/3.5.1.
+
+* jchoover: WIXBUG:4942 - fix perUser self updating BA.
+
+* ujdhesa: Add sq-AL translation for Wix3.
+
+* Barnson: Add LICENSE.TXT to binaries .zip. Fixes wixtoolset/issues/issues#5474.
+
+* Barnson: Fix null-check to check the right null. Fixes wixtoolset/issues/issues#5318.
+
+* Barnson: Prevent use of SSE for old-old CPUs. Fixes wixtoolset/issues/issues#4876.
+
+* Barnson: Add support for Visual Studio 2017 (current as of 15.0.26127.3).
+Adds C++ CA template but doesn't install it because templates are per-instance.
+Implements wixtoolset/issues/issues/5484.
+
+* Barnson: Correct `RemoveFolder` entry in shortcut how-to. Fixed wixtoolset/issues/issues#4869.
+
+* jchoover: WIXBUG:4847 - fix WixBA to show the title and fixed placement of the news feed image.
+
+* MarcSch WIXBUG:4932 - Adding german localization for SqlExtension
+
 ## WixBuild: Version 3.11.0.1307
 
 * @barnson: Remove MS-RL references from MS-PL VS MPF sources.
