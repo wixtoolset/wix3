@@ -23,8 +23,6 @@
 
     <ProjectReference Include="src\chm\chm.helpproj" />
 
-    <ProjectReference Include="src\votive\votive.proj" />
-
     <ProjectReference Include="src\wixarm.proj" />
 
     <ProjectReference Include="src\setup\setup.proj" />

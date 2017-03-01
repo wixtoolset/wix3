@@ -64,12 +64,6 @@
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
             <?endif?>
-
-            <!-- Votive needs to be last as it runs devenv /setup -->
-            <MsiPackage Name='data\votive.msi' SourceFile='data\'
-                        InstallCondition='VS2010InstallFolder OR VS2012InstallFolder OR VS2013InstallFolder OR VS2015InstallFolder'>
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
         </PackageGroup>
     </Fragment>
 </Wix>

@@ -1,8 +1,0 @@
-// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
-
-#define VER_DLL
-#define VER_LANG_NEUTRAL
-#define VER_ORIGINAL_FILENAME  "votive2010.dll"
-#define VER_INTERNAL_NAME      "votive2010"
-#define VER_FILE_DESCRIPTION   "WiX Visual Studio 2010 Package"
-#include "wix.rc"

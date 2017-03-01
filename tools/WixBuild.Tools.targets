@@ -29,15 +29,10 @@
     <Message Importance="high" Text="IntermediateOutputPath = $(IntermediateOutputPath)" />
     <Message Importance="high" Text="OutputPath = $(OutputPath)" />
     <Message Importance="high" Text="VS2010Available = $(VS2010Available)" />
-    <Message Importance="high" Text="VS2010SdkAvailable = $(VS2010SdkAvailable)" />
     <Message Importance="high" Text="VS2012Available = $(VS2012Available)" />
-    <Message Importance="high" Text="VS2012SdkAvailable = $(VS2012SdkAvailable)" />
     <Message Importance="high" Text="VS2013Available = $(VS2013Available)" />
-    <Message Importance="high" Text="VS2013SdkAvailable = $(VS2013SdkAvailable)" />
     <Message Importance="high" Text="VS2015Available = $(VS2015Available)" />
-    <Message Importance="high" Text="VS2015SdkAvailable = $(VS2015SdkAvailable)" />
     <Message Importance="high" Text="VS2017Available = $(VS2017Available)" />
-    <Message Importance="high" Text="VS2017SdkAvailable = $(VS2017SdkAvailable)" />
     <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
     <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
     <Message Importance="high" Text="SqlCESdkIncludePath = $(SqlCESdkIncludePath)" />
@@ -72,14 +67,8 @@
 
     <Error
       Code="WIXBUILD000"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2010SdkAvailable) and $(VS2012SdkAvailable) and $(VS2013SdkAvailable) and $(VS2015SdkAvailable) and $(VS2017SdkAvailable))"
-      Text="All versions of VS and VS SDK are required on an official build. Install VS2010, VS2012, VS2013, VS2015, VS2017, and matching SDKs." />
-
-    <!-- 
-        Note that we don't actually require any VSSDK beyond the VS2010 SDK. We'll build against later versions if 
-        available using the "latest available" logic in WixBuild.VisualStudioSDK.targets. However, we're not 
-        currently building Votive in a way that requires any version later than VS2010.
-    -->
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(VS2010Available) and $(VS2012Available) and $(VS2013Available) and $(VS2015Available) and $(VS2017Available))"
+      Text="All versions of VS are required on an official build. Install VS2010, VS2012, VS2013, VS2015, and VS2017." />
 
     <Error
       Code="WIXBUILD001"
@@ -93,7 +82,7 @@
 
     <Error
       Code="WIXBUILD004"
-      Condition="!Exists('$(HelpCompiler)')" 
+      Condition="!Exists('$(HelpCompiler)')"
       Text="$(HelpCompiler) does not exist. Please install the HTML Help Workshop that is part of the HTML Help SDK." />
 
     <Error

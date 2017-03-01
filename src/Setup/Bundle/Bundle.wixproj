@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <BindInputPaths Include="$(MSBuildProjectDirectory)" />
-    <BindInputPaths Include="$(WixRoot)src\Votive\votive2010\src\Icons" />
+    <BindInputPaths Include="$(WixRoot)src\common" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +47,6 @@
     <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2017.wixproj" Condition="$(VS2017Available)">
         <Properties>VisualStudioTargetVersion=2017</Properties>
     </ProjectReference>
-    <ProjectReference Include="..\VotiveMsi\VotiveMsi.wixproj" />
     <ProjectReference Include="..\WixBA\WixBA.csproj" Condition="'$(WixStdBundle)' != 'true'" />
   </ItemGroup>
 
