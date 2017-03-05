@@ -33,6 +33,7 @@ typedef struct _BURN_LOGGING
 
     DWORD dwAttributes;
     LPWSTR sczPath;
+    LPWSTR sczLoggingBaseFolder;
     LPWSTR sczPrefix;
     LPWSTR sczExtension;
 } BURN_LOGGING;

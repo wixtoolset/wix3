@@ -369,6 +369,7 @@ static void UninitializeEngineState(
 
     ReleaseStr(pEngineState->log.sczExtension);
     ReleaseStr(pEngineState->log.sczPrefix);
+    ReleaseStr(pEngineState->log.sczLoggingBaseFolder);
     ReleaseStr(pEngineState->log.sczPath);
     ReleaseStr(pEngineState->log.sczPathVariable);
 

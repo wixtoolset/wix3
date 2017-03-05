@@ -31,7 +31,6 @@ extern "C" HRESULT LoggingOpen(
     )
 {
     HRESULT hr = S_OK;
-    LPWSTR sczLoggingBaseFolder = NULL;
 
     // Check if the logging policy is set and configure the logging appropriately.
     CheckLoggingPolicy(&pLog->dwAttributes);
@@ -58,8 +57,11 @@ extern "C" HRESULT LoggingOpen(
     {
         DWORD cRetry = 0;
 
-        hr = DirGetCurrent(&sczLoggingBaseFolder);
-        ExitOnFailure(hr, "Failed to get current directory.");
+        if ((!pLog->sczLoggingBaseFolder || !*pLog->sczLoggingBaseFolder))
+        {
+            hr = DirGetCurrent(&pLog->sczLoggingBaseFolder);
+            ExitOnFailure(hr, "Failed to get current directory.");
+        }
 
         // Try pretty hard to open the log file when appending.
         do
@@ -69,7 +71,7 @@ extern "C" HRESULT LoggingOpen(
                 ::Sleep(LOG_OPEN_RETRY_WAIT);
             }
 
-            hr = LogOpen(sczLoggingBaseFolder, pLog->sczPath, NULL, NULL, pLog->dwAttributes & BURN_LOGGING_ATTRIBUTE_APPEND, FALSE, &pLog->sczPath);
+            hr = LogOpen(pLog->sczLoggingBaseFolder, pLog->sczPath, NULL, NULL, pLog->dwAttributes & BURN_LOGGING_ATTRIBUTE_APPEND, FALSE, &pLog->sczPath);
             if (pLog->dwAttributes & BURN_LOGGING_ATTRIBUTE_APPEND && HRESULT_FROM_WIN32(ERROR_SHARING_VIOLATION) == hr)
             {
                 ++cRetry;
@@ -104,11 +106,14 @@ extern "C" HRESULT LoggingOpen(
     }
     else if (pLog->sczPrefix && *pLog->sczPrefix)
     {
-        hr = GetNonSessionSpecificTempFolder(&sczLoggingBaseFolder);
-        ExitOnFailure(hr, "Failed to get non-session specific TEMP folder.");
+        if ((!pLog->sczLoggingBaseFolder || !*pLog->sczLoggingBaseFolder))
+        {
+            hr = GetNonSessionSpecificTempFolder(&pLog->sczLoggingBaseFolder);
+            ExitOnFailure(hr, "Failed to get non-session specific TEMP folder.");
+        }
 
         // Best effort to open default logging.
-        hr = LogOpen(sczLoggingBaseFolder, pLog->sczPrefix, NULL, pLog->sczExtension, FALSE, FALSE, &pLog->sczPath);
+        hr = LogOpen(pLog->sczLoggingBaseFolder, pLog->sczPrefix, NULL, pLog->sczExtension, FALSE, FALSE, &pLog->sczPath);
         if (FAILED(hr))
         {
             LogDisable();
@@ -153,8 +158,6 @@ extern "C" HRESULT LoggingOpen(
     }
 
 LExit:
-    ReleaseStr(sczLoggingBaseFolder);
-
     return hr;
 }
 
