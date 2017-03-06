@@ -2,14 +2,25 @@
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <BuildInParallel>false</BuildInParallel>
   </PropertyGroup>
 
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
+
+  <PropertyGroup Condition="$(VS2017Available)">
+    <ArmVSVersion Condition=" '$(ArmVSVersion)'=='' ">15.0</ArmVSVersion>
+    <ArmPlatformToolset Condition=" '$(ArmPlatformToolset)'=='' ">v141</ArmPlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(VS2015Available)">
+    <ArmVSVersion Condition=" '$(ArmVSVersion)'=='' ">14.0</ArmVSVersion>
+    <ArmPlatformToolset Condition=" '$(ArmPlatformToolset)'=='' ">v140</ArmPlatformToolset>
+  </PropertyGroup>
+
   <ItemDefinitionGroup>
     <ProjectReference>
-      <Properties>VisualStudioVersion=11.0;PlatformToolset=v110;Platform=ARM</Properties>
+      <Properties>VisualStudioVersion=$(ArmVSVersion);PlatformToolset=$(ArmPlatformToolset);Platform=ARM</Properties>
     </ProjectReference>
   </ItemDefinitionGroup>
 
@@ -36,6 +47,4 @@
     <ProjectReference Include="ext\UIExtension\wixlib_arm\UIExtension_ARM.wixproj" />
     <ProjectReference Include="ext\UtilExtension\wixlib_arm\UtilExtension_ARM.wixproj" />
   </ItemGroup>
-
-  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
 </Project>
