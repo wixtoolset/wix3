@@ -188,15 +188,15 @@ LExit:
 static HRESULT CreateUrl(
     __in LPCWSTR wzTarget,
     __in LPCWSTR wzShortcutPath,
-	__in LPCWSTR wzIconPath,
-	__in int iconIndex
+    __in LPCWSTR wzIconPath,
+    __in int iconIndex
     )
 {
     HRESULT hr = S_OK;
     IUniformResourceLocatorW* piURL = NULL;
     IPersistFile* piPersistFile = NULL;
-	IPropertySetStorage* piProperties = NULL;
-	IPropertyStorage* piStorage = NULL;
+    IPropertySetStorage* piProperties = NULL;
+    IPropertyStorage* piStorage = NULL;
 
     // create an internet shortcut object
     WcaLog(LOGMSG_STANDARD, "Creating IUniformResourceLocatorW shortcut '%ls' target '%ls'", wzShortcutPath, wzTarget);
@@ -207,30 +207,31 @@ static HRESULT CreateUrl(
     hr = piURL->SetURL(wzTarget, 0);
     ExitOnFailure2(hr, "failed to set shortcut '%ls' target '%ls'", wzShortcutPath, wzTarget);
 
-	if (wzIconPath != NULL) {
-		hr = piURL->QueryInterface(IID_IPropertySetStorage, (void **) &piProperties);
-		ExitOnFailure1(hr, "failed to get IPropertySetStorage for shortcut '%ls'", wzShortcutPath);
-		
-		hr = piProperties->Open(FMTID_Intshcut, STGM_WRITE, &piStorage);		
-		ExitOnFailure1(hr, "failed to open storage for shortcut '%ls'", wzShortcutPath);
+    if (wzIconPath)
+    {
+        hr = piURL->QueryInterface(IID_IPropertySetStorage, (void **)&piProperties);
+        ExitOnFailure1(hr, "failed to get IPropertySetStorage for shortcut '%ls'", wzShortcutPath);
+        
+        hr = piProperties->Open(FMTID_Intshcut, STGM_WRITE, &piStorage);
+        ExitOnFailure1(hr, "failed to open storage for shortcut '%ls'", wzShortcutPath);
 
-		PROPSPEC ppids[2] = { {PRSPEC_PROPID, PID_IS_ICONINDEX}, {PRSPEC_PROPID, PID_IS_ICONFILE} };
-		PROPVARIANT ppvar[2];
+        PROPSPEC ppids[2] = { {PRSPEC_PROPID, PID_IS_ICONINDEX}, {PRSPEC_PROPID, PID_IS_ICONFILE} };
+        PROPVARIANT ppvar[2];
 
-		PropVariantInit( ppvar );
-		PropVariantInit( ppvar + 1 );
+        PropVariantInit(ppvar);
+        PropVariantInit(ppvar + 1);
 
-		ppvar[0].vt = VT_I4;
-		ppvar[0].lVal = iconIndex;
-		ppvar[1].vt = VT_LPWSTR; 
-		ppvar[1].pwszVal = (LPWSTR) wzIconPath; 
+        ppvar[0].vt = VT_I4;
+        ppvar[0].lVal = iconIndex;
+        ppvar[1].vt = VT_LPWSTR; 
+        ppvar[1].pwszVal = (LPWSTR) wzIconPath; 
 
-		hr = piStorage->WriteMultiple( 2, ppids, ppvar, 0 );
-		ExitOnFailure1(hr, "failed to write icon storage for shortcut '%ls'", wzShortcutPath);
-	
-		hr = piStorage->Commit(STGC_DEFAULT);
-		ExitOnFailure1(hr, "failed to commit icon storage for shortcut '%ls'", wzShortcutPath);
-	}
+        hr = piStorage->WriteMultiple(2, ppids, ppvar, 0);
+        ExitOnFailure1(hr, "failed to write icon storage for shortcut '%ls'", wzShortcutPath);
+      
+        hr = piStorage->Commit(STGC_DEFAULT);
+        ExitOnFailure1(hr, "failed to commit icon storage for shortcut '%ls'", wzShortcutPath);
+    }
 
     // get an IPersistFile and save the shortcut
     hr = piURL->QueryInterface(IID_IPersistFile, (void**)&piPersistFile);
@@ -255,8 +256,8 @@ LExit:
 static HRESULT CreateLink(
     __in LPCWSTR wzTarget,
     __in LPCWSTR wzShortcutPath,
-	__in LPCWSTR wzIconPath,
-	__in int iconIndex
+    __in LPCWSTR wzIconPath,
+    __in int iconIndex
     )
 {
     HRESULT hr = S_OK;
@@ -272,10 +273,11 @@ static HRESULT CreateLink(
     hr = piShellLink->SetPath(wzTarget);
     ExitOnFailure2(hr, "failed to set shortcut '%ls' target '%ls'", wzShortcutPath, wzTarget);
 
-	if (wzIconPath != NULL) {
-		hr = piShellLink->SetIconLocation(wzIconPath, iconIndex);
-		ExitOnFailure2(hr, "failed to set icon for shortcut '%ls'", wzShortcutPath);
-	}
+    if (wzIconPath)
+    {
+        hr = piShellLink->SetIconLocation(wzIconPath, iconIndex);
+        ExitOnFailure2(hr, "failed to set icon for shortcut '%ls'", wzShortcutPath);
+    }
 
     // get an IPersistFile and save the shortcut
     hr = piShellLink->QueryInterface(IID_IPersistFile, (void**)&piPersistFile);
@@ -308,9 +310,10 @@ extern "C" UINT __stdcall WixCreateInternetShortcuts(
     LPWSTR pwzCustomActionData = NULL;
     LPWSTR pwzTarget = NULL;
     LPWSTR pwzShortcutPath = NULL;
-	LPWSTR pwzIconPath = NULL;
+    LPWSTR pwzIconPath = NULL;
     BOOL fInitializedCom = FALSE;
-    int iAttr = 0, iIconIndex = 0;
+    int iAttr = 0;
+    int iIconIndex = 0;
 
     // initialize
     hr = WcaInitialize(hInstall, "WixCreateInternetShortcuts");
@@ -334,9 +337,9 @@ extern "C" UINT __stdcall WixCreateInternetShortcuts(
         ExitOnFailure(hr, "failed to read shortcut target from custom action data");
         hr = WcaReadIntegerFromCaData(&pwz, &iAttr);
         ExitOnFailure(hr, "failed to read shortcut attributes from custom action data");
-		hr = WcaReadStringFromCaData(&pwz, &pwzIconPath);
+        hr = WcaReadStringFromCaData(&pwz, &pwzIconPath);
         ExitOnFailure(hr, "failed to read shortcut icon path from custom action data");
-		hr = WcaReadIntegerFromCaData(&pwz, &iIconIndex);
+        hr = WcaReadIntegerFromCaData(&pwz, &iIconIndex);
         ExitOnFailure(hr, "failed to read shortcut icon index from custom action data");
 
         if ((iAttr & esaURL) == esaURL)
