@@ -3300,7 +3300,7 @@ private: // privates
         BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "WIXSTDBA: LoadBootstrapperBAFunctions() - BA function DLL %ls", sczBafPath);
 #endif
 
-        m_hBAFModule = ::LoadLibraryW(sczBafPath);
+        m_hBAFModule = ::LoadLibraryExW(sczBafPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
         if (m_hBAFModule)
         {
             PFN_BOOTSTRAPPER_BA_FUNCTION_CREATE pfnBAFunctionCreate = reinterpret_cast<PFN_BOOTSTRAPPER_BA_FUNCTION_CREATE>(::GetProcAddress(m_hBAFModule, "CreateBootstrapperBAFunction"));
