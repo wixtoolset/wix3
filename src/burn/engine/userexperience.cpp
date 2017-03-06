@@ -83,10 +83,46 @@ extern "C" HRESULT UserExperienceLoad(
     )
 {
     HRESULT hr = S_OK;
+	BOOL bRes = TRUE;
+	LPWSTR szPayloadDir = NULL;
+	HMODULE hKernel32 = NULL;
+	
+	///////////////////////////////
+	// Optional: Add UX payloads folder to default library search path
+	typedef PVOID (*AddDllDirectoryFunc)(LPCTSTR lpPathName);
+	typedef BOOL (*SetDefaultDllDirectoriesFunc)(DWORD DirectoryFlags);	
+	AddDllDirectoryFunc pfnAddDllDirectory = NULL;
+	SetDefaultDllDirectoriesFunc pfnSetDefaultDllDirectories = NULL;
+	PVOID pVoid = NULL;
 
-    // load UX DLL
-    pUserExperience->hUXModule = ::LoadLibraryW(pUserExperience->payloads.rgPayloads[0].sczLocalFilePath);
-    ExitOnNullWithLastError(pUserExperience->hUXModule, hr, "Failed to load UX DLL.");
+	hr = StrAllocString(&szPayloadDir, pUserExperience->payloads.rgPayloads[0].sczLocalFilePath, NULL);
+	ExitOnFailure(hr, "Failed allocating memory.");
+
+	bRes = ::PathRemoveFileSpec(szPayloadDir);
+	ExitOnNullWithLastError(bRes, hr, "Failed to get payload folder.");
+
+	hKernel32 = ::LoadLibraryW(L"Kernel32.dll");
+	ExitOnNullWithLastError(hKernel32, hr, "Failed to load Kernel32.dll");
+
+	// Get AddDllDirectory and SetDefaultDllDirectories entry-points
+	pfnAddDllDirectory = (AddDllDirectoryFunc)::GetProcAddress(hKernel32, "AddDllDirectory");
+	pfnSetDefaultDllDirectories = (SetDefaultDllDirectoriesFunc)::GetProcAddress(hKernel32, "SetDefaultDllDirectories");
+	if ((pfnAddDllDirectory != NULL) && (pfnSetDefaultDllDirectories != NULL))
+	{
+		bRes = pfnSetDefaultDllDirectories(/*LOAD_LIBRARY_SEARCH_DEFAULT_DIRS*/ 0x00001000);
+		ExitOnNullWithLastError(bRes, hr, "Failed to set default dynamic load search paths.");
+
+		pVoid = pfnAddDllDirectory(szPayloadDir);
+		ExitOnNullWithLastError(pVoid, hr, "Failed to add payload folder to dynamic load search paths.");
+	}
+	else
+	{
+		Log(REPORT_STANDARD, "Not adding payloads folder to dynamic search path as it is not supported on this platform");
+	}
+
+	// load UX DLL
+	pUserExperience->hUXModule = ::LoadLibraryW(pUserExperience->payloads.rgPayloads[0].sczLocalFilePath);
+	ExitOnNullWithLastError(pUserExperience->hUXModule, hr, "Failed to load UX DLL.");
 
     // get BoostrapperApplicationCreate entry-point
     PFN_BOOTSTRAPPER_APPLICATION_CREATE pfnCreate = (PFN_BOOTSTRAPPER_APPLICATION_CREATE)::GetProcAddress(pUserExperience->hUXModule, "BootstrapperApplicationCreate");
@@ -97,6 +133,14 @@ extern "C" HRESULT UserExperienceLoad(
     ExitOnFailure(hr, "Failed to create UX.");
 
 LExit:
+	ReleaseStr(szPayloadDir);
+
+	if (hKernel32 != NULL)
+	{
+		::FreeLibrary(hKernel32);
+		hKernel32 = NULL;
+	}
+
     return hr;
 }
 
