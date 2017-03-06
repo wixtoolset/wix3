@@ -630,6 +630,7 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
 
     LPWSTR sczTempPath = NULL;
     HANDLE hTempFile = INVALID_HANDLE_VALUE;
+    DWORD dwAttempts = 0;
 
     if (wzDirectory && *wzDirectory)
     {
@@ -662,6 +663,7 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
     do
     {
         fRetry = FALSE;
+        ++dwAttempts;
 
         ::GetLocalTime(&time);
 
@@ -678,8 +680,11 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
             {
                 ::Sleep(100);
 
-                er = ERROR_SUCCESS;
-                fRetry = TRUE;
+                if (10 > dwAttempts)
+                {
+                    er = ERROR_SUCCESS;
+                    fRetry = TRUE;
+                }
             }
 
             hr = HRESULT_FROM_WIN32(er);

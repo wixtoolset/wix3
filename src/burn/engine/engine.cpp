@@ -205,7 +205,7 @@ LExit:
     // and that will dump anything captured in the log memory buffer to the log.
     if (FAILED(hr) && BURN_LOGGING_STATE_CLOSED == engineState.log.state)
     {
-        LogOpen(NULL, L"Setup", L"_Failed", L"txt", FALSE, FALSE, NULL);
+        LoggingOpenFailed();
     }
 
     UserExperienceRemove(&engineState.userExperience);
