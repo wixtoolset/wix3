@@ -1560,6 +1560,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string target = null;
             string directoryId = null;
             string type = null;
+            string iconFile = null;
+            int iconIndex = 0;
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -1581,6 +1583,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             break;
                         case "Type":
                             type = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "IconFile":
+                            iconFile = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
+                        case "IconIndex":
+                            iconIndex = this.Core.GetAttributeIntegerValue(sourceLineNumbers, attrib, 0, int.MaxValue);
                             break;
                         default:
                             this.Core.UnexpectedAttribute(sourceLineNumbers, attrib);
@@ -1645,10 +1653,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             {
                 shortcutType = InternetShortcutType.Url;
             }
-                
+
             if (!this.Core.EncounteredError)
             {
-                CreateWixInternetShortcut(this.Core, sourceLineNumbers, componentId, directoryId, id, name, target, shortcutType);
+                CreateWixInternetShortcut(this.Core, sourceLineNumbers, componentId, directoryId, id, name, target, shortcutType, iconFile, iconIndex);
             }
         }
 
@@ -1662,7 +1670,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         /// <param name="id">Identifier of shortcut.</param>
         /// <param name="name">Name of shortcut without extension.</param>
         /// <param name="target">Target URL of shortcut.</param>
-        public static void CreateWixInternetShortcut(CompilerCore core, SourceLineNumberCollection sourceLineNumbers, string componentId, string directoryId, string shortcutId, string name, string target, InternetShortcutType type)
+        public static void CreateWixInternetShortcut(CompilerCore core, SourceLineNumberCollection sourceLineNumbers, string componentId, string directoryId, string shortcutId, string name, string target, InternetShortcutType type, string iconFile, int iconIndex)
         {
             // add the appropriate extension based on type of shortcut
             name = String.Concat(name, InternetShortcutType.Url == type ? ".url" : ".lnk");
@@ -1674,6 +1682,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             row[3] = name;
             row[4] = target;
             row[5] = (int)type;
+            row[6] = iconFile;
+            row[7] = iconIndex;
 
             // Reference custom action because nothing will happen without it
             if (core.CurrentPlatform == Platform.ARM)
