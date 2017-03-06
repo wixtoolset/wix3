@@ -87,6 +87,39 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         /// <param name="sourceLineNumbers">Source line number for the parent element.</param>
         /// <param name="parentElement">Parent element of element to process.</param>
         /// <param name="attribute">Attribute to process.</param>
+        public override void ParseAttribute(SourceLineNumberCollection sourceLineNumbers, XmlElement parentElement, XmlAttribute attribute)
+        {
+            switch (parentElement.LocalName)
+            {
+                case "BootstrapperApplication":
+                case "BootstrapperApplicationRef":
+                    switch (attribute.LocalName)
+                    {
+                        case "UseUILanguages":
+                            if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attribute))
+                            {
+                                Row row = this.Core.CreateRow(sourceLineNumbers, "WixStdbaSettings");
+                                row[0] = "UseUILanguages";
+                                row[1] = "1";
+                            }
+                            break;
+                        default:
+                            this.Core.UnexpectedAttribute(sourceLineNumbers, attribute);
+                            break;
+                    }
+                    break;
+                default:
+                    this.Core.UnexpectedAttribute(sourceLineNumbers, attribute);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Processes an attribute for the Compiler.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source line number for the parent element.</param>
+        /// <param name="parentElement">Parent element of element to process.</param>
+        /// <param name="attribute">Attribute to process.</param>
         /// <param name="contextValues">Extra information about the context in which this element is being parsed.</param>
         public override void ParseAttribute(SourceLineNumberCollection sourceLineNumbers, XmlElement parentElement, XmlAttribute attribute, Dictionary<string, string> contextValues)
         {
@@ -117,7 +150,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                 break;
                         }
                     }
-                        break;
+                    break;
                 case "Variable":
                     // at the time the extension attribute is parsed, the compiler might not yet have
                     // parsed the Name attribute, so we need to get it directly from the parent element.

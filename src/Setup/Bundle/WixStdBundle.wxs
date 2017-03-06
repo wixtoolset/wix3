@@ -17,7 +17,7 @@
         <swid:Tag Regid="!(loc.Regid)" InstallPath="[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)" />
         <Update Location='!(loc.UpdateUrl)' />
 
-        <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
+        <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense" bal:UseUILanguages="yes">
             <bal:WixStandardBootstrapperApplication LicenseUrl="http://wixtoolset.org/about/license/" />
         </BootstrapperApplicationRef>
 

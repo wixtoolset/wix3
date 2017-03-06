@@ -387,6 +387,14 @@
           <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax">
+        <xs:annotation>
+          <xs:documentation>
+              Extensibility point in the WiX XML Schema.  Schema extensions can register additional
+              attributes at this point in the schema.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:anyAttribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="BootstrapperApplicationRef">
