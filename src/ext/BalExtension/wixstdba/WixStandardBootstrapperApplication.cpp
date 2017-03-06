@@ -1389,7 +1389,7 @@ private: // privates
         LPWSTR sczName = NULL;
         LPWSTR sczValue = NULL;
 
-        hr = XmlSelectNodes(pixdManifest, L"/BootstrapperApplicationData/WixStdbaOptionVariables", &pNodes);
+        hr = XmlSelectNodes(pixdManifest, L"/BootstrapperApplicationData/WixStdbaSettings ", &pNodes);
         if (S_FALSE == hr)
         {
             ExitFunction1(hr = S_OK);

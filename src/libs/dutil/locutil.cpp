@@ -36,7 +36,7 @@ static HRESULT ParseWxlControl(
 #ifndef MUI_MERGE_SYSTEM_FALLBACK
 #define MUI_MERGE_SYSTEM_FALLBACK           0x10     // GetThreadPreferredUILanguages merges in parent and base languages
 #endif
-typedef WINBASEAPI BOOL (WINAPI *GET_THREAD_PREFERRED_UI_LANGUAGES) (
+typedef WINBASEAPI BOOL (WINAPI *PFN_GET_THREAD_PREFERRED_UI_LANGUAGES) (
     __in DWORD dwFlags,
     __out PULONG pulNumLanguages,
     __out_ecount_opt(*pcchLanguagesBuffer) PZZWSTR pwszLanguagesBuffer,
@@ -66,8 +66,8 @@ extern "C" HRESULT DAPI LocProbeForFileEx(
     LANGID langid = 0;
     LPWSTR sczLangIdFile = NULL;
     LPWSTR sczLangsBuff = NULL;
-    GET_THREAD_PREFERRED_UI_LANGUAGES pvfnGetThreadPreferredUILanguages =
-        reinterpret_cast<GET_THREAD_PREFERRED_UI_LANGUAGES>(
+    PFN_GET_THREAD_PREFERRED_UI_LANGUAGES pfnGetThreadPreferredUILanguages =
+        reinterpret_cast<PFN_GET_THREAD_PREFERRED_UI_LANGUAGES>(
             ::GetProcAddress(::GetModuleHandle("Kernel32.dll"), "GetThreadPreferredUILanguages"));
 
     // If a language was specified, look for a loc file in that as a directory.
@@ -85,24 +85,24 @@ extern "C" HRESULT DAPI LocProbeForFileEx(
         }
     }
 
-    if (useUILanguage && pvfnGetThreadPreferredUILanguages)
+    if (useUILanguage && pfnGetThreadPreferredUILanguages)
     {
         ULONG nLangs;
         ULONG cchLangs = 0;
-        if (!(*pvfnGetThreadPreferredUILanguages)(MUI_LANGUAGE_ID | MUI_MERGE_USER_FALLBACK | MUI_MERGE_SYSTEM_FALLBACK,
+        if (!(*pfnGetThreadPreferredUILanguages)(MUI_LANGUAGE_ID | MUI_MERGE_USER_FALLBACK | MUI_MERGE_SYSTEM_FALLBACK,
                 &nLangs, NULL, &cchLangs))
         {
-            ExitWithLastError(hr, "GetUserPreferredUILanguages failed to return buffer size");
+            ExitWithLastError(hr, "GetThreadPreferredUILanguages failed to return buffer size");
         }
 
         hr = StrAlloc(&sczLangsBuff, cchLangs);
         ExitOnFailure(hr, "Failed to allocate buffer for languages");
 
         nLangs = 0;
-        if (!(*pvfnGetThreadPreferredUILanguages)(MUI_LANGUAGE_ID | MUI_MERGE_USER_FALLBACK | MUI_MERGE_SYSTEM_FALLBACK,
+        if (!(*pfnGetThreadPreferredUILanguages)(MUI_LANGUAGE_ID | MUI_MERGE_USER_FALLBACK | MUI_MERGE_SYSTEM_FALLBACK,
                 &nLangs, sczLangsBuff, &cchLangs))
         {
-            ExitWithLastError(hr, "GetUserPreferredUILanguages failed to return language list");
+            ExitWithLastError(hr, "GetThreadPreferredUILanguages failed to return language list");
         }
 
         LPWSTR szLangs = sczLangsBuff;

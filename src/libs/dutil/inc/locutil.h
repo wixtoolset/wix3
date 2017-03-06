@@ -39,7 +39,7 @@ struct WIX_LOCALIZATION
 };
 
 /********************************************************************
- LocProbeForFile - Searches for a localization file on disk using incorrect set of APIs.
+ LocProbeForFile - Searches for a localization file on disk.
 
 *******************************************************************/
 HRESULT DAPI LocProbeForFile(

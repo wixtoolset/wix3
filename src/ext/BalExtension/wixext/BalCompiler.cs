@@ -98,7 +98,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         case "UseUILanguages":
                             if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attribute))
                             {
-                                Row row = this.Core.CreateRow(sourceLineNumbers, "WixStdbaOptionVariables");
+                                Row row = this.Core.CreateRow(sourceLineNumbers, "WixStdbaSettings");
                                 row[0] = "UseUILanguages";
                                 row[1] = "1";
                             }
