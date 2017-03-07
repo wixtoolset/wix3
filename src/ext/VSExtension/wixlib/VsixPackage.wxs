@@ -22,18 +22,14 @@
             </RegistrySearch>
         </Property>
 
+        <!-- VS2015 is the latest VSIX at this point in time, so search for that by default. -->
         <Property Id="VS2015_VSIX_INSTALLER_PATH" Secure="yes">
             <RegistrySearch Id="WixVS2015EnvDir" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VS" Name="EnvironmentDirectory" Type="directory">
                 <FileSearch Id="WixVS2015VsixInstaller" Name="VSIXInstaller.exe" />
             </RegistrySearch>
         </Property>
 
-        <!-- VS15 is the latest VSIX at this point in time, so search for that by default. -->
-        <Property Id="VS_VSIX_INSTALLER_PATH" Secure="yes">
-            <RegistrySearch Id="WixVS15EnvDir" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\15.0\Setup\VS" Name="EnvironmentDirectory" Type="directory">
-                <FileSearch Id="WixVS15VsixInstaller" Name="VSIXInstaller.exe" />
-            </RegistrySearch>
-        </Property>
+        <Property Id="VS_VSIX_INSTALLER_PATH" Secure="yes" />
 
         <!-- VWD2012 registers differently than the rest of Visual Studio, so search for it in the case VS2012 is missing. -->
         <Property Id="VWD2012_VSIX_INSTALL_ROOT">
