@@ -1119,7 +1119,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017DEVENV</p>
     </td>
     <td>
-      <p>Full path to devenv.exe for Visual Studio 2017 if it is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Full path to devenv.exe for Visual Studio 2017 if it is installed on the system. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1127,7 +1127,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_EXTENSIONS_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 2017 extensions directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 extensions directory. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1135,7 +1135,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_ITEMTEMPLATES_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 2017 item templates directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 item templates directory. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1143,7 +1143,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_PROJECTTEMPLATES_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 2017 project templates directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 project templates directory. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1151,7 +1151,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_SCHEMAS_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 2017 XML schemas directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 XML schemas directory. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1159,7 +1159,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_ROOT_FOLDER</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 2017 root installation directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 root installation directory. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1175,7 +1175,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual Basic project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual Basic project system is installed for it. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1183,7 +1183,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual C++ project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual C++ project system is installed for it. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1191,7 +1191,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual C# project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual C# project system is installed for it. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1199,7 +1199,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual Web Developer project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual Web Developer project system is installed for it. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1207,7 +1207,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether or not the Visual Studio 2017 Team Test project system is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether or not the Visual Studio 2017 Team Test project system is installed on the system. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1215,7 +1215,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether or not the Visual Studio 2017 Modeling project system is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether or not the Visual Studio 2017 Modeling project system is installed on the system. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1223,7 +1223,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether or not the Visual Studio 2017 F# project system is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether or not the Visual Studio 2017 F# project system is installed on the system. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
@@ -1231,7 +1231,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_BOOTSTRAPPER_PACKAGE_FOLDER</p>
     </td>
     <td>
-      <p>The location of the Visual Studio 2017 bootstrapper package folder. This property is available starting with WiX v3.10.</p>
+      <p>The location of the Visual Studio 2017 bootstrapper package folder. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
 </table>
