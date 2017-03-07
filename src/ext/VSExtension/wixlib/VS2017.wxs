@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="VS2017_ROOT_FOLDER" Secure="yes" />
+
+        <!-- Currently supported only on x86 -->
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2017_ROOT_FOLDER" />
+        <Property Id="VS2017_IDE_DIR" Secure="yes">
+            <DirectorySearch Id="VS2017DirectorySearch" Path="[VS2017_ROOT_FOLDER]">
+                <DirectorySearch Id="VS2017EnvironmentDirectorySearch" Path="Common7\IDE" Depth="1" />
+            </DirectorySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2017_EXTENSIONS_DIR" Secure="yes">
+            <DirectorySearchRef Id="VS2017EnvironmentDirectorySearch" Parent="VS2017DirectorySearch" Path="Common7\IDE">
+                <DirectorySearch Id="VS2017ExtensionsDirectorySearch" Path="Extensions" Depth="1" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2017_PROJECTTEMPLATES_DIR" Secure="yes">
+            <DirectorySearchRef Id="VS2017EnvironmentDirectorySearch" Parent="VS2017DirectorySearch" Path="Common7\IDE">
+                <DirectorySearch Id="VS2017ProjectTemplatesDirectorySearch" Path="ProjectTemplates" Depth="1" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2017_ROOT_FOLDER" />
+        <Property Id="VS2017_SCHEMAS_DIR" Secure="yes">
+            <DirectorySearch Id="VS2017XmlDirectorySearch" Path="[VS2017_ROOT_FOLDER]\Xml" Depth="1">
+                <DirectorySearch Id="VS2017XmlSchemasDirectorySearch" Path="Schemas" Depth="1" />
+            </DirectorySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2017_ITEMTEMPLATES_DIR" Secure="yes">
+            <DirectorySearchRef Id="VS2017EnvironmentDirectorySearch" Parent="VS2017DirectorySearch" Path="Common7\IDE">
+                <DirectorySearch Id="VS2017ItemTemplatesDirectorySearch" Path="ItemTemplates" Depth="1" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2017_ROOT_FOLDER" />
+        <Property Id="VS2017_BOOTSTRAPPER_PACKAGE_FOLDER" Secure="yes">
+            <DirectorySearch Id="VS2017SDKDirectorySearch" Path="[VS2017_ROOT_FOLDER]\SDK" Depth="1">
+                <DirectorySearch Id="SearchForVS2017BootstrapperPackageDirectory" Path="Bootstrapper" Depth="1" />
+            </DirectorySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2017DEVENV" Secure="yes">
+            <DirectorySearchRef Id="VS2017EnvironmentDirectorySearch" Parent="VS2017DirectorySearch" Path="Common7\IDE">
+                <FileSearch Id="VS2017DevEnvSearch" Name="devenv.exe" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2017Setup" Property="VS2017DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2017DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2017Setup" Before="InstallFinalize" Overridable="yes">VS2017DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2017InstallVSTemplates" Property="VS2017DEVENV" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2017DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2017InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2017DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# project system is installed as a part of  -->
+    <!-- Visual Studio 2017 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2017 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2017 setup.              -->
+    <Fragment>
+        <Property Id="VS2017_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic project system is installed as a part of -->
+    <!-- Visual Studio 2017 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2017 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2017 setup.             -->
+    <Fragment>
+        <Property Id="VS2017_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
+    <!-- Visual Studio 2017 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2017 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2017 setup.             -->
+    <Fragment>
+        <Property Id="VS2017_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ project system is installed as a part of -->
+    <!-- Visual Studio 2017 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2017 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2017 setup.             -->
+    <Fragment>
+        <Property Id="VS2017_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2017 Team Test project system is installed -->
+    <Fragment>
+        <Property Id="VS2017_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Modeling project system is installed -->
+    <Fragment>
+        <Property Id="VS2017_IDE_MODELING_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio F# project system is installed -->
+    <Fragment>
+        <Property Id="VS2017_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+</Wix>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caSuffix.wxi ?>
+    <Fragment>
+        <CustomAction Id="VSFindInstances$(var.Suffix)" BinaryKey="VSCA$(var.Suffix)" DllEntry="FindInstances" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+        <InstallExecuteSequence>
+            <Custom Action="VSFindInstances$(var.Suffix)" Before="AppSearch" Overridable="yes" />
+        </InstallExecuteSequence>
+        <InstallUISequence>
+            <Custom Action="VSFindInstances$(var.Suffix)" Before="AppSearch" Overridable="yes" />
+        </InstallUISequence>
+    </Fragment>
+    <Fragment>
+        <Binary Id="VSCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))vsca.dll" />
+    </Fragment>
+</Include>

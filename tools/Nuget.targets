@@ -35,6 +35,9 @@
     <RestoreNugetPackage Include="LibGit2Sharp">
       <Version>0.21.0.176</Version>
     </RestoreNugetPackage>
+    <RestoreNugetPackage Include="Microsoft.VisualStudio.Setup.Configuration.Native">
+      <Version>1.7.13-rc</Version>
+    </RestoreNugetPackage>
     <RestoreNugetPackage Include="MSBuild.Extension.Pack">
       <Version>1.2.0</Version>
     </RestoreNugetPackage>
