@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <PropertyRef Id="VS$(var.VsVersion)DEVENV" />
+    <PropertyRef Id="VS$(var.VsVersion)_ROOT_FOLDER" />
+
+    <Feature Id="Feature_Intellisense$(var.VsVersion)" Title="Visual Studio $(var.VsVersion) IntelliSense" Description="Schema files for IntelliSense in the Visual Studio $(var.VsVersion) editor" AllowAdvertise="no" Display="expand" InstallDefault="local" Level="0" TypicalDefault="install">
+        <Condition Level="1">VS$(var.VsVersion)DEVENV OR VS$(var.VsVersion)_ROOT_FOLDER OR REMOVE</Condition>
+        <ComponentGroupRef Id="Schema$(var.VsVersion)Components" />
+    </Feature>
+
+    <ComponentGroup Id="Schema$(var.VsVersion)Components" Directory="VS$(var.VsVersion)_SCHEMAS_DIR">
+        <Component>
+            <File Id="LuxSchema$(var.VsVersion)" Source="lux\wixext\Xsd\lux.xsd" />
+        </Component>
+        <Component>
+            <File Id="ThmutilSchema$(var.VsVersion)" Source="dutil\Xsd\thmutil.xsd" />
+        </Component>
+        <Component>
+            <File Id="WixSchema$(var.VsVersion)" Source="wix\Xsd\wix.xsd" />
+        </Component>
+        <Component>
+            <File Id="WixLocSchema$(var.VsVersion)" Source="wix\Xsd\wixloc.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdBalSchema$(var.VsVersion)" Source="ext\BalExtension\wixext\Xsd\bal.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdDependency$(var.VsVersion)" Source="ext\DependencyExtension\wixext\Xsd\Dependency.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdComplus$(var.VsVersion)" Source="ext\ComPlusExtension\wixext\xsd\complus.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdDifxApp$(var.VsVersion)" Source="ext\DifxAppExtension\wixext\Xsd\difxapp.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdFirewall$(var.VsVersion)" Source="ext\FirewallExtension\wixext\Xsd\firewall.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdGaming$(var.VsVersion)" Source="ext\GamingExtension\wixext\Xsd\gaming.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdHttp$(var.VsVersion)" Source="ext\HttpExtension\wixext\Xsd\http.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdIis$(var.VsVersion)" Source="ext\IIsExtension\wixext\xsd\iis.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdMsmq$(var.VsVersion)" Source="ext\MsmqExtension\wixext\xsd\msmq.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdNetFx$(var.VsVersion)" Source="ext\NetFxExtension\wixext\Xsd\netfx.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdPS$(var.VsVersion)" Source="ext\PSExtension\wixext\xsd\ps.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdSql$(var.VsVersion)" Source="ext\SqlExtension\wixext\Xsd\sql.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdTag$(var.VsVersion)" Source="ext\TagExtension\wixext\Xsd\tag.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdUtil$(var.VsVersion)" Source="ext\UtilExtension\wixext\Xsd\util.xsd" />
+        </Component>
+        <Component>
+            <File Id="ExtensionXsdVS$(var.VsVersion)" Source="ext\VSExtension\wixext\xsd\vs.xsd" />
+        </Component>
+    </ComponentGroup>
+</Include>
