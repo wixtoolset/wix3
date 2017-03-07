@@ -25,6 +25,7 @@
     <!-- VS2015: turn off 'typedef ignored when no variable declared' -->
     <!-- VS2015: turn off 'declaration hides class member' -->
     <DisableSpecificCompilerWarnings Condition=" $(PlatformToolset.StartsWith('v14')) ">$(DisableSpecificCompilerWarnings);4091;4458</DisableSpecificCompilerWarnings>
+    <DisableSpecificCompilerWarnings Condition=" '$(Platform)'=='arm' ">$(DisableSpecificCompilerWarnings);4996</DisableSpecificCompilerWarnings>
   </PropertyGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -52,6 +53,8 @@
   <PropertyGroup>
     <ResourceOnlyDll Condition=" '$(ResourceOnlyDll)'=='' ">false</ResourceOnlyDll>
     <GenerateManifest Condition="$(ResourceOnlyDll)">false</GenerateManifest>
+    <WindowsSDKDesktopARMSupport Condition=" '$(Platform)'=='arm' and Exists('$(PlatformSdkArmLibraryRoot)') ">true</WindowsSDKDesktopARMSupport>
+    <ArmLibraryDirectories Condition=" '$(Platform)'=='arm' ">$(PlatformSdkArmLibraryRoot)\</ArmLibraryDirectories>
     <ArmPreprocessorDefinitions Condition=" '$(Platform)'=='arm' ">ARM</ArmPreprocessorDefinitions>
     <UnicodePreprocessorDefinitions Condition=" '$(CharacterSet)'=='Unicode' ">UNICODE;_UNICODE</UnicodePreprocessorDefinitions>
     <StaticLibPreprocessorDefinitions Condition=" '$(ConfigurationType)'=='StaticLibrary' ">_LIB</StaticLibPreprocessorDefinitions>
@@ -93,7 +96,7 @@
       <NoEntryPoint>$(ResourceOnlyDll)</NoEntryPoint>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(ProjectAdditionalLinkLibraries);advapi32.lib;comdlg32.lib;user32.lib;oleaut32.lib;gdi32.lib;shell32.lib;ole32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutputPath);$(AdditionalMultiTargetLibraryPath);$(ProjectAdditionalLinkLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutputPath);$(AdditionalMultiTargetLibraryPath);$(ArmLibraryDirectories);$(ProjectAdditionalLinkLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions Condition=" $(PlatformToolset.StartsWith('v14')) ">/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
