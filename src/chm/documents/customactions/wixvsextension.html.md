@@ -15,7 +15,7 @@ The [WixVSExtension](~/xsd/vs/index.html) includes a set of custom actions to ma
   * [Visual Studio 2012](#vs2012properties)
   * [Visual Studio 2013](#vs2013properties)
   * [Visual Studio 2015](#vs2015properties)
-  * [Visual Studio 15](#vs15properties)
+  * [Visual Studio 2017](#vs2017properties)
 * [Custom Actions](#allcustomactions)
 
 ## <a name="allproperties"></a> Properties
@@ -1103,7 +1103,7 @@ Here is a complete list of properties for the <a name="vs2015properties">**Visua
   </tr>
 </table>
 
-Here is a complete list of properties for the <a name="vs15properties">**Visual Studio 15**</a> product family:
+Here is a complete list of properties for the <a name="vs2017properties">**Visual Studio 2017**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
     <tr>
@@ -1116,114 +1116,122 @@ Here is a complete list of properties for the <a name="vs15properties">**Visual 
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15DEVENV</p>
+      <p>VS2017DEVENV</p>
     </td>
     <td>
-      <p>Full path to devenv.exe for Visual Studio 15 if it is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Full path to devenv.exe for Visual Studio 2017 if it is installed on the system. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_EXTENSIONS_DIR</p>
+      <p>VS2017_EXTENSIONS_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 15 extensions directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 extensions directory. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_ITEMTEMPLATES_DIR</p>
+      <p>VS2017_ITEMTEMPLATES_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 15 item templates directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 item templates directory. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_PROJECTTEMPLATES_DIR</p>
+      <p>VS2017_PROJECTTEMPLATES_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 15 project templates directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 project templates directory. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_SCHEMAS_DIR</p>
+      <p>VS2017_SCHEMAS_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 15 XML schemas directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 XML schemas directory. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_ROOT_FOLDER</p>
+      <p>VS2017_ROOT_FOLDER</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 15 root installation directory. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 root installation directory. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_DIR</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 15 Professional Edition or higher is installed and the Visual Basic project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Full path to the Visual Studio 2017 directory containing devenv.exe.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 15 Professional Edition or higher is installed and the Visual C++ project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual Basic project system is installed for it. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 15 Professional Edition or higher is installed and the Visual C# project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual C++ project system is installed for it. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether Visual Studio 15 Professional Edition or higher is installed and the Visual Web Developer project system is installed for it. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual C# project system is installed for it. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether or not the Visual Studio 15 Team Test project system is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether Visual Studio 2017 Professional Edition or higher is installed and the Visual Web Developer project system is installed for it. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether or not the Visual Studio 15 Modeling project system is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether or not the Visual Studio 2017 Team Test project system is installed on the system. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
+      <p>VS2017_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>Indicates whether or not the Visual Studio 15 F# project system is installed on the system. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether or not the Visual Studio 2017 Modeling project system is installed on the system. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15_BOOTSTRAPPER_PACKAGE_FOLDER</p>
+      <p>VS2017_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
     </td>
     <td>
-      <p>The location of the Visual Studio 15 bootstrapper package folder. This property is available starting with WiX v3.10.</p>
+      <p>Indicates whether or not the Visual Studio 2017 F# project system is installed on the system. This property is available starting with WiX v3.10.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2017_BOOTSTRAPPER_PACKAGE_FOLDER</p>
+    </td>
+    <td>
+      <p>The location of the Visual Studio 2017 bootstrapper package folder. This property is available starting with WiX v3.10.</p>
     </td>
   </tr>
 </table>
@@ -1683,50 +1691,18 @@ Here is a complete list of custom actions:
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15Setup</p>
+      <p>VS2017Setup</p>
     </td>
     <td>
-      <p>Runs devenv.exe /setup if Visual Studio 15 Community Edition or higher is found on the system. Including this custom action automatically adds the VS15DEVENV property. This custom action is available starting with WiX v3.11.</p>
+      <p>Runs devenv.exe /setup if Visual Studio 2017 Community Edition or higher is found on the system. Including this custom action automatically adds the VS2017DEVENV property. This custom action is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS15InstallVSTemplates</p>
+      <p>VS2017InstallVSTemplates</p>
     </td>
     <td>
-      <p>Runs devenv.exe /InstallVSTemplates if Visual Studio 15 Community Edition or higher is found on the system. Including this custom action automatically adds the VS15DEVENV property. This custom action is available starting with WiX v3.11.</p>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <p>VWD15Setup</p>
-    </td>
-    <td>
-      <p>Runs vwdexpress.exe /setup if Visual Studio Express 15 for Web is found on the system. Including this custom action automatically adds the VWD15EXPRESS_IDE property. This custom action is available starting with WiX v3.11.</p>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <p>VWD15InstallVSTemplates</p>
-    </td>
-    <td>
-      <p>Runs vwdexpress.exe /InstallVSTemplates if Visual Studio Express 15 for Web is found on the system. Including this custom action automatically adds the VWD15EXPRESS_IDE property. This custom action is available starting with WiX v3.11.</p>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <p>VS15WinExpressSetup</p>
-    </td>
-    <td>
-      <p>Runs vswinexpress.exe /setup if Visual Studio Express 15 for Windows is found on the system. Including this custom action automatically adds the VS15WINEXPRESS_IDE property. This custom action is available starting with WiX v3.11.</p>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <p>VS15WinExpressInstallVSTemplates</p>
-    </td>
-    <td>
-      <p>Runs vswinexpress.exe /InstallVSTemplates if Visual Studio Express 15 for Windows is found on the system. Including this custom action automatically adds the VS15WINEXPRESS_IDE property. This custom action is available starting with WiX v3.11.</p>
+      <p>Runs devenv.exe /InstallVSTemplates if Visual Studio 2017 Community Edition or higher is found on the system. Including this custom action automatically adds the VS2017DEVENV property. This custom action is available starting with WiX v3.11.</p>
     </td>
   </tr>
 </table>
