@@ -23,9 +23,9 @@ struct VS_COMPONENT_PROPERTY
 
 static HRESULT InstanceIsGreater(
     __in_opt ISetupInstance* pPreviousInstance,
-    __in DWORD64 qwPreviousInstance,
+    __in DWORD64 qwPreviousVersion,
     __in ISetupInstance* pCurrentInstance,
-    __in DWORD64 qwCurrentInstance
+    __in DWORD64 qwCurrentVersion
     );
 
 static HRESULT ProcessInstance(
@@ -72,7 +72,7 @@ extern "C" UINT __stdcall FindInstances(
     BSTR bstrVersion = NULL;
     DWORD64 qwVersion = 0;
 
-    hr = WcaInitialize(hInstall, "FindInstances");
+    hr = WcaInitialize(hInstall, "VSFindInstances");
     ExitOnFailure(hr, "Failed to initialize custom action.");
 
     hr = ::CoInitialize(NULL);
@@ -172,18 +172,18 @@ LExit:
 
 static HRESULT InstanceIsGreater(
     __in_opt ISetupInstance* pPreviousInstance,
-    __in DWORD64 qwPreviousInstance,
+    __in DWORD64 qwPreviousVersion,
     __in ISetupInstance* pCurrentInstance,
-    __in DWORD64 qwCurrentInstance
+    __in DWORD64 qwCurrentVersion
     )
 {
     HRESULT hr = S_OK;
     FILETIME ftPreviousInstance = {};
     FILETIME ftCurrentInstance = {};
 
-    if (qwPreviousInstance != qwCurrentInstance)
+    if (qwPreviousVersion != qwCurrentVersion)
     {
-        return qwPreviousInstance < qwCurrentInstance ? S_OK : S_FALSE;
+        return qwPreviousVersion < qwCurrentVersion ? S_OK : S_FALSE;
     }
 
     hr = pPreviousInstance->GetInstallDate(&ftPreviousInstance);
@@ -311,7 +311,7 @@ static HRESULT ProcessVS2017(
     }
     else if (pInstance)
     {
-        hr =  InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
+        hr = InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
         ExitOnFailure(hr, "Failed to compare instances.");
 
         if (S_OK == hr)
