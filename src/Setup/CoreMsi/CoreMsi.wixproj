@@ -18,6 +18,7 @@
     <Compile Include="Lux.wxs" />
     <Compile Include="MSBuild.wxs" />
     <Compile Include="Nant.wxs" />
+    <Compile Include="Schemas.wxs" />
     <Compile Include="Toolset.wxs" />
   </ItemGroup>
 
@@ -45,6 +46,10 @@
     </WixExtension>
     <WixExtension Include="WixUtilExtension">
       <HintPath>$(OutputPath_x86)WixUtilExtension.dll</HintPath>
+    </WixExtension>
+    <WixExtension Include="WixVSExtension">
+      <Private>False</Private>
+      <HintPath>$(OutputPath_x86)WixVSExtension.dll</HintPath>
     </WixExtension>
   </ItemGroup>
 
