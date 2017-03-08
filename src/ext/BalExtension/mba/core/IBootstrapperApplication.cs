@@ -88,6 +88,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId
             );
 
+        [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnDetectCompatiblePackage(
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
