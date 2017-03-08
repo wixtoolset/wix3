@@ -1,3 +1,17 @@
+## WixBuild: Version 3.11.0.1507
+
+* HeathS: WIXFEAT:5433 - Add detection properties for VS2017
+
+* SeanHall: WIXFEAT:5435 - When loading the BA, include the BA's directory in the DLL search path.
+
+* SeanHall: WIXBUG:4929 - Fix infinite loop in PathCreateTimeBasedTempFile that caused Burn to hang if it didn't have rights to create the log file. Also, write entry in Application event log when Burn is unable to create the Failed log.
+
+* BMurri: WIXBUG:4499 - Bind MBApreq language to user language instead of user locale setting
+
+* BMurri: WIXBUG:5285 - Add UserUILanguageID variable
+
+* jabo2: WIXFEAT:3163 - add ability to specify an icon for InternetShortcut
+
 ## WixBuild: Version 3.11.0.1501
 
 * RobMen: WIXBUG:4903 - Remove internal WixStandardBootstrapperApplication.Foundation from documentation.
