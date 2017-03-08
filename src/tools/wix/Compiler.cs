@@ -20178,6 +20178,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             YesNoType disableLog = YesNoType.NotSet;
             string variable = "WixBundleLog";
             string logPrefix = fileSystemSafeBundleName ?? "Setup";
+            string loggingBaseFolder = null;
             string logExtension = ".log";
 
             foreach (XmlAttribute attrib in node.Attributes)
@@ -20191,6 +20192,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                             break;
                         case "PathVariable":
                             variable = this.core.GetAttributeValue(sourceLineNumbers, attrib, true);
+                            break;
+                        case "LoggingBaseFolder":
+                            loggingBaseFolder = this.core.GetAttributeValue(sourceLineNumbers, attrib, true);
                             break;
                         case "Prefix":
                             logPrefix = this.core.GetAttributeValue(sourceLineNumbers, attrib, false);
@@ -20229,7 +20233,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
-            return YesNoType.Yes == disableLog ? null : String.Concat(variable, ":", logPrefix, logExtension);
+            return YesNoType.Yes == disableLog ? null : String.Concat(variable, "|", loggingBaseFolder, "|", logPrefix, logExtension);
         }
 
         /// <summary>
