@@ -165,7 +165,7 @@ extern "C" HRESULT LoggingOpen(
     }
 
 LExit:
-	ReleaseStr(sczLoggingBaseFolder);
+    ReleaseStr(sczLoggingBaseFolder);
 
     return hr;
 }
