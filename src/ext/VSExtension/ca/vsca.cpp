@@ -124,7 +124,7 @@ extern "C" UINT __stdcall FindInstances(
 
                 for (DWORD i = 0; i < countof(vrgInstances); ++i)
                 {
-                    const VS_INSTANCE* pElem = &vrgInstances[0];
+                    const VS_INSTANCE* pElem = &vrgInstances[i];
 
                     if (pElem->qwMinVersion <= qwVersion && qwVersion <= pElem->qwMaxVersion)
                     {
@@ -134,6 +134,7 @@ extern "C" UINT __stdcall FindInstances(
                 }
             }
 
+            ReleaseNullBSTR(bstrVersion);
             ReleaseNullObject(pInstance);
         }
     } while (SUCCEEDED(hr) && cInstancesFetched);
@@ -141,7 +142,7 @@ extern "C" UINT __stdcall FindInstances(
     // Complete all registered processing functions.
     for (DWORD i = 0; i < countof(vrgInstances); ++i)
     {
-        const VS_INSTANCE* pElem = &vrgInstances[0];
+        const VS_INSTANCE* pElem = &vrgInstances[i];
 
         if (pElem->qwMinVersion <= qwVersion && qwVersion <= pElem->qwMaxVersion)
         {
@@ -192,7 +193,7 @@ static HRESULT InstanceIsGreater(
     hr = pCurrentInstance->GetInstallDate(&ftCurrentInstance);
     ExitOnFailure(hr, "Failed to get current install date.");
 
-    return 0 <= ::CompareFileTime(&ftPreviousInstance, &ftCurrentInstance) ? S_OK : S_FALSE;
+    return 0 > ::CompareFileTime(&ftPreviousInstance, &ftCurrentInstance) ? S_OK : S_FALSE;
 
 LExit:
     return hr;
