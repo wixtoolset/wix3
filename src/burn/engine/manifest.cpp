@@ -40,7 +40,7 @@ extern "C" HRESULT ManifestLoadXmlFromBuffer(
         hr = XmlGetAttributeEx(pixnLog, L"LoggingBaseFolder", &pEngineState->log.sczLoggingBaseFolder);
         if (E_NOTFOUND != hr)
         {
-          ExitOnFailure(hr, "Failed to get Log/@BaseFolderPath.");
+            ExitOnFailure(hr, "Failed to get Log/@BaseFolderPath.");
         }
 
         hr = XmlGetAttributeEx(pixnLog, L"Prefix", &pEngineState->log.sczPrefix);
