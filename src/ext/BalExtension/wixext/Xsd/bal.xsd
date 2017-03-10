@@ -190,6 +190,19 @@
         </xs:annotation>
     </xs:attribute>
 
+    <xs:attribute name="UseUILanguages" type="YesNoType">
+        <xs:annotation>
+            <xs:documentation>
+                When set to "yes", causes WixStdBA/Prereq BA to use the user's control panel language settings. Otherwise, the previous API (which uses locale instead of language) is used to maintain compatiblity with previous versions of WiX.
+                On Vista and newer platforms, this value set to "yes" will search all specified user languages, including fallback languages, in order.
+            </xs:documentation>
+            <xs:appinfo>
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="BootstrapperApplication" />
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="BootstrapperApplicationRef" />
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+
     <xs:element name="WixManagedBootstrapperApplicationHost">
         <xs:annotation>
             <xs:documentation>

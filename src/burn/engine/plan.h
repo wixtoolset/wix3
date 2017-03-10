@@ -436,8 +436,7 @@ HRESULT PlanRelatedBundlesBegin(
     __in BURN_USER_EXPERIENCE* pUserExperience,
     __in BURN_REGISTRATION* pRegistration,
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
-    __in BURN_PLAN* pPlan,
-    __in BURN_MODE mode
+    __in BURN_PLAN* pPlan
     );
 HRESULT PlanRelatedBundlesComplete(
     __in BURN_REGISTRATION* pRegistration,

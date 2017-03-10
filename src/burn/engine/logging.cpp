@@ -6,6 +6,7 @@
 static DWORD vdwPackageSequence = 0;
 static const DWORD LOG_OPEN_RETRY_COUNT = 3;
 static const DWORD LOG_OPEN_RETRY_WAIT = 2000;
+static CONST LPWSTR LOG_FAILED_EVENT_LOG_MESSAGE = L"Burn Engine Fatal Error: failed to open log file.";
 
 // structs
 
@@ -156,6 +157,33 @@ LExit:
     ReleaseStr(sczLoggingBaseFolder);
 
     return hr;
+}
+
+extern "C" void LoggingOpenFailed()
+{
+    HRESULT hr = S_OK;
+    HANDLE hEventLog = NULL;
+    LPCWSTR* lpStrings = const_cast<LPCWSTR*>(&LOG_FAILED_EVENT_LOG_MESSAGE);
+    WORD wNumStrings = 1;
+
+    hr = LogOpen(NULL, L"Setup", L"_Failed", L"txt", FALSE, FALSE, NULL);
+    if (SUCCEEDED(hr))
+    {
+        ExitFunction();
+    }
+
+    // If opening the "failure" log failed, then attempt to record that in the Application event log.
+    hEventLog = ::OpenEventLogW(NULL, L"Application");
+    ExitOnNullWithLastError(hEventLog, hr, "Failed to open Application event log");
+
+    hr = ::ReportEventW(hEventLog, EVENTLOG_ERROR_TYPE, 1, 1, NULL, wNumStrings, 0, lpStrings, NULL);
+    ExitOnNullWithLastError(hEventLog, hr, "Failed to write event log entry");
+
+LExit:
+    if (hEventLog)
+    {
+        ::CloseEventLog(hEventLog);
+    }
 }
 
 extern "C" void LoggingIncrementPackageSequence()

@@ -30,6 +30,13 @@
                 maxValue="1" description="If 1, the bundle can be pre-cached using the /cache command line argument."/>
     </tableDefinition>
 
+    <tableDefinition name="WixStdbaSettings" bootstrapperApplicationData="yes">
+        <columnDefinition name="Name" type="string" length="255" primaryKey="yes" 
+                category="identifier" description="Option variable name."/>
+        <columnDefinition name="Value" type="string" length="0" nullable="yes"
+                category="text" description="Option variable value"/>
+    </tableDefinition>
+
     <tableDefinition name="WixStdbaOverridableVariable" bootstrapperApplicationData="yes">
         <columnDefinition name="Name" type="string" length="255" primaryKey="yes" 
                 category="identifier" description="Variable name user can override."/>

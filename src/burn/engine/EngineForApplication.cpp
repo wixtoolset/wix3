@@ -380,8 +380,12 @@ public: // IBootstrapperEngine
         )
     {
         HRESULT hr = S_OK;
+        LPCWSTR sczId = NULL;
         LPWSTR sczLocalSource = NULL;
         LPWSTR sczCommandline = NULL;
+        UUID guid = {};
+        WCHAR wzGuid[39];
+        RPC_STATUS rs = RPC_S_OK;
 
         ::EnterCriticalSection(&m_pEngineState->csActive);
 
@@ -410,7 +414,29 @@ public: // IBootstrapperEngine
             hr = CoreRecreateCommandLine(&sczCommandline, BOOTSTRAPPER_ACTION_INSTALL, m_pEngineState->command.display, m_pEngineState->command.restart, BOOTSTRAPPER_RELATION_NONE, FALSE, m_pEngineState->registration.sczActiveParent, m_pEngineState->registration.sczAncestors, NULL, m_pEngineState->command.wzCommandLine);
             ExitOnFailure(hr, "Failed to recreate command-line for update bundle.");
 
-            hr = PseudoBundleInitialize(FILEMAKEVERSION(rmj, rmm, rup, 0), &m_pEngineState->update.package, FALSE, m_pEngineState->registration.sczId, BOOTSTRAPPER_RELATION_UPDATE, BOOTSTRAPPER_PACKAGE_STATE_ABSENT, m_pEngineState->registration.sczExecutableName, sczLocalSource ? sczLocalSource : wzLocalSource, wzDownloadSource, qwSize, TRUE, sczCommandline, NULL, NULL, NULL, rgbHash, cbHash);
+            // Per-user bundles would fail to use the downloaded update bundle, as the existing install would already be cached 
+            // at the registration id's location.  Here I am generating a random guid, but in the future it would be nice if the
+            // feed would provide the ID of the update.
+            if (!m_pEngineState->registration.fPerMachine)
+            {
+                rs = ::UuidCreate(&guid);
+                hr = HRESULT_FROM_RPC(rs);
+                ExitOnFailure(hr, "Failed to create bundle update guid.");
+
+                if (!::StringFromGUID2(guid, wzGuid, countof(wzGuid)))
+                {
+                    hr = E_OUTOFMEMORY;
+                    ExitOnRootFailure(hr, "Failed to convert bundle update guid into string.");
+                }
+
+                sczId = wzGuid;
+            }
+            else
+            {
+                sczId = m_pEngineState->registration.sczId;
+            }
+
+            hr = PseudoBundleInitialize(FILEMAKEVERSION(rmj, rmm, rup, 0), &m_pEngineState->update.package, FALSE, sczId, BOOTSTRAPPER_RELATION_UPDATE, BOOTSTRAPPER_PACKAGE_STATE_ABSENT, m_pEngineState->registration.sczExecutableName, sczLocalSource ? sczLocalSource : wzLocalSource, wzDownloadSource, qwSize, TRUE, sczCommandline, NULL, NULL, NULL, rgbHash, cbHash);
             ExitOnFailure(hr, "Failed to set update bundle.");
 
             m_pEngineState->update.fUpdateAvailable = TRUE;
@@ -478,8 +504,8 @@ public: // IBootstrapperEngine
         __in_z LPCWSTR wzPackageOrContainerId,
         __in_z_opt LPCWSTR wzPayloadId,
         __in_z LPCWSTR wzUrl,
-        __in_z_opt LPWSTR wzUser,
-        __in_z_opt LPWSTR wzPassword
+        __in_z_opt LPCWSTR wzUser,
+        __in_z_opt LPCWSTR wzPassword
         )
     {
         HRESULT hr = S_OK;

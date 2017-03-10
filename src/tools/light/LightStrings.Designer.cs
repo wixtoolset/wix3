@@ -53,9 +53,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to    -ai        allow identical rows, identical rows will be treated as a warning
+        ///   Looks up a localized string similar to    -ai        allow identical rows, identical rows will be treated as a warning (deprecated)
+        ///   -ad        allow duplicate directory identities from other libraries (deprecated)
         ///   -au        (experimental) allow unresolved references
-        ///              (will not create a valid output)
+        ///              (will not create a valid output) (deprecated)
         ///   -b &lt;path&gt;  specify a base path to locate all files
         ///              (default: current directory)
         ///   -bf        bind files into a wixout (only valid with -xo option)

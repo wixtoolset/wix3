@@ -171,8 +171,8 @@ DECLARE_INTERFACE_IID_(IBootstrapperEngine, IUnknown, "6480D616-27A0-44D7-905B-8
         __in_z LPCWSTR wzPackageOrContainerId,
         __in_z_opt LPCWSTR wzPayloadId,
         __in_z LPCWSTR wzUrl,
-        __in_z_opt LPWSTR wzUser,
-        __in_z_opt LPWSTR wzPassword
+        __in_z_opt LPCWSTR wzUser,
+        __in_z_opt LPCWSTR wzPassword
         ) = 0;
 
     STDMETHOD(SetVariableNumeric)(

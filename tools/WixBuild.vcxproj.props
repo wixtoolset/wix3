@@ -2,11 +2,12 @@
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup Condition=" $(StaticAnalysisEnabled) and ($(VS2013Available) or $(VS2015Available)) ">
+  <PropertyGroup Condition=" $(StaticAnalysisEnabled) and ($(VS2013Available) or $(VS2015Available) or $(VS2017Available)) ">
     <PlatformToolset Condition="$(VS2013Available)">v120</PlatformToolset>
     <PlatformToolset Condition="$(VS2015Available)">v140</PlatformToolset>
+    <PlatformToolset Condition="$(VS2017Available)">v140</PlatformToolset>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <!-- turn off deprecation warning -->
@@ -14,14 +15,17 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- If available and we're not explicitly setting the toolset, use VS2015; otherwise fall back to VS2013 then VS2012 then VS2010. -->
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2015Available) ">v140_xp</PlatformToolset>
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2013Available) ">v120_xp</PlatformToolset>
-    <PlatformToolset Condition=" '$(PlatformToolset)'=='' and $(VS2012Available) ">v110_xp</PlatformToolset>
+    <!-- If available and we're not explicitly setting the toolset, use VS2017; otherwise fall back to VS2015, VS2013, VS2012, VS2010, in that order. -->
+    <PlatformToolset Condition=" $(VS2017Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2017') ">v141_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2015Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2015') ">v140_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2013Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2013') ">v120_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2012Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2012') ">v110_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2010Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2010') ">v100</PlatformToolset>
     <ProjectSubSystem Condition=" '$(ProjectSubSystem)'=='' ">Windows</ProjectSubSystem>
     <!-- VS2015: turn off 'typedef ignored when no variable declared' -->
     <!-- VS2015: turn off 'declaration hides class member' -->
-    <DisableSpecificCompilerWarnings Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">$(DisableSpecificCompilerWarnings);4091;4458</DisableSpecificCompilerWarnings>
+    <DisableSpecificCompilerWarnings Condition=" $(PlatformToolset.StartsWith('v14')) ">$(DisableSpecificCompilerWarnings);4091;4458</DisableSpecificCompilerWarnings>
+    <DisableSpecificCompilerWarnings Condition=" '$(Platform)'=='arm' ">$(DisableSpecificCompilerWarnings);4996</DisableSpecificCompilerWarnings>
   </PropertyGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -32,6 +36,7 @@
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110_xp' ">2012</MultiTargetDirSuffix>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120_xp' ">2013</MultiTargetDirSuffix>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v140_xp' ">2015</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v141_xp' ">2017</MultiTargetDirSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -48,6 +53,8 @@
   <PropertyGroup>
     <ResourceOnlyDll Condition=" '$(ResourceOnlyDll)'=='' ">false</ResourceOnlyDll>
     <GenerateManifest Condition="$(ResourceOnlyDll)">false</GenerateManifest>
+    <WindowsSDKDesktopARMSupport Condition=" '$(Platform)'=='arm' and Exists('$(PlatformSdkArmLibraryRoot)') ">true</WindowsSDKDesktopARMSupport>
+    <ArmLibraryDirectories Condition=" '$(Platform)'=='arm' ">$(PlatformSdkArmLibraryRoot)\</ArmLibraryDirectories>
     <ArmPreprocessorDefinitions Condition=" '$(Platform)'=='arm' ">ARM</ArmPreprocessorDefinitions>
     <UnicodePreprocessorDefinitions Condition=" '$(CharacterSet)'=='Unicode' ">UNICODE;_UNICODE</UnicodePreprocessorDefinitions>
     <StaticLibPreprocessorDefinitions Condition=" '$(ConfigurationType)'=='StaticLibrary' ">_LIB</StaticLibPreprocessorDefinitions>
@@ -73,7 +80,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-YlprecompDefine</AdditionalOptions>
-      <AdditionalOptions Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition=" $(PlatformToolset.StartsWith('v14')) ">/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
@@ -89,12 +96,17 @@
       <NoEntryPoint>$(ResourceOnlyDll)</NoEntryPoint>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(ProjectAdditionalLinkLibraries);advapi32.lib;comdlg32.lib;user32.lib;oleaut32.lib;gdi32.lib;shell32.lib;ole32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutputPath);$(AdditionalMultiTargetLibraryPath);$(ProjectAdditionalLinkLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>$(OutputPath);$(AdditionalMultiTargetLibraryPath);$(ArmLibraryDirectories);$(ProjectAdditionalLinkLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions Condition=" $(PlatformToolset.StartsWith('v14')) ">/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition=" '$(Plaform)'=='arm' ">
+  <ItemDefinitionGroup Condition=" '$(Platform)'=='Win32' and '$(PlatformToolset)'!='v100'">
+    <ClCompile>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition=" '$(Platform)'=='arm' ">
     <ClCompile>
       <CallingConvention>CDecl</CallingConvention>
     </ClCompile>

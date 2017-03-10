@@ -2571,7 +2571,7 @@
         </Message>
         <Message Id="CannotDefaultComponentId" Number="330">
             <Instance>
-                The Component/@Id attribute was not found; it is required when there is no valid keypath to use as the default id value. 
+                The Component/@Id attribute was not found; it is required when there is no valid keypath to use as the default id value.
             </Instance>
         </Message>
         <Message Id="ParentElementAttributeRequired" Number="331">
@@ -2731,7 +2731,7 @@
         <Instance>
           Unable to read bundle executable '{0}', because this bundle was created with a newer version of WiX (bundle version '{1}'). You must use a newer version of Windows Installer XML in order to read this bundle.
           <Parameter Type="System.String" Name="bundleExecutable" />
-          <!-- we use a 64-bit field here because the field is really a 32-bit UInt, 
+          <!-- we use a 64-bit field here because the field is really a 32-bit UInt,
               but UInt gives a non-CLS-compliant warning.
               So 64-bit makes sure we don't drop the last bit -->
           <Parameter Type="System.Int64" Name="bundleVersion" />
@@ -2793,12 +2793,6 @@
           The MSI '{0}' set the ALLUSERS Property to '{0}' which is not supported. Remove the Property with Id='ALLUSERS' and use Package/@InstallScope attribute instead.
           <Parameter Type="System.String" Name="path" />
           <Parameter Type="System.String" Name="value" />
-        </Instance>
-      </Message>
-      <Message Id="DisallowedMsiProperty" Number="365">
-        <Instance>
-          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. Remove the MsiProperty element.
-          <Parameter Type="System.String" Name="property" />
         </Instance>
       </Message>
       <Message Id="MissingOrInvalidModuleInstallerVersion" Number="366">
@@ -3637,7 +3631,7 @@
         </Message>
         <Message Id="StandardDirectoryConflictInMergeModule" Number="1124">
             <Instance>
-                The Directory '{0}' starts with the same Id as the standard folder in Windows Installer '{1}'. A directory Id that begins with the same Id as a standard folder that is in an MSM may encounter a conflict when merging the MSM into an MSI. This may result in the contents of this merge module being installed to an unexpected location. To eliminate this warning, change your directory Id to not start with the same Id as any standard folders. 
+                The Directory '{0}' starts with the same Id as the standard folder in Windows Installer '{1}'. A directory Id that begins with the same Id as a standard folder that is in an MSM may encounter a conflict when merging the MSM into an MSI. This may result in the contents of this merge module being installed to an unexpected location. To eliminate this warning, change your directory Id to not start with the same Id as any standard folders.
                 <Parameter Type="System.String" Name="directory" />
                 <Parameter Type="System.String" Name="standardDirectory" />
             </Instance>
@@ -3799,6 +3793,27 @@
                 <Parameter Type="System.String" Name="truncatedVersion" />
             </Instance>
         </Message>
+      <Message Id="DisallowedMsiProperty" Number="1149">
+        <Instance>
+          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. (Illegal properties are: {1}.) Remove the MsiProperty element. This restriction will be enforced as an error in WiX v4.0.
+          <Parameter Type="System.String" Name="property" />
+          <Parameter Type="System.String" Name="illegalValueList" />
+        </Instance>
+      </Message>
+        <Message Id="ServiceConfigFamilyNotSupported" Number="1150">
+            <Instance>
+                {0} functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider replacing {0} with the WixUtilExtension ServiceConfig element.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+      <Message Id="PayloadMustBeRelativeToCache" Number="1151">
+        <Instance>
+          The {0}/@{1} attribute's value, '{2}', is not a legal path name: Payload names must be relative to their cache directory and cannot contain '..'.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+          <Parameter Type="System.String" Name="attributeValue" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">

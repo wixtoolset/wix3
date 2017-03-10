@@ -285,6 +285,24 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="Combobox">
+        <xs:annotation>
+            <xs:documentation>Defines a combobox.</xs:documentation>
+            <xs:appinfo>
+                <xse:parent namespace="http://wixtoolset.org/schemas/thmutil/2010" ref="Page" />
+                <xse:parent namespace="http://wixtoolset.org/schemas/thmutil/2010" ref="Theme" />
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attributeGroup ref="CommonControlAttributes" />
+            <xs:attribute name="FontId" type="xs:nonNegativeInteger" use="required">
+                <xs:annotation>
+                    <xs:documentation>Numeric identifier to the Font element that serves as the font for the control.</xs:documentation>
+                </xs:annotation>
+             </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="Editbox">
         <xs:annotation>
             <xs:documentation>Defines an edit box.</xs:documentation>
@@ -616,6 +634,7 @@
             <xs:element ref="Billboard" />
             <xs:element ref="Button" />
             <xs:element ref="Checkbox" />
+            <xs:element ref="Combobox" />
             <xs:element ref="Editbox" />
             <xs:element ref="Hyperlink" />
             <xs:element ref="Hypertext" />

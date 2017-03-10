@@ -48,5 +48,9 @@
         </Feature>
 
         <FeatureRef Id="Feature_MSBuild" />
+        <FeatureRef Id="Feature_Intellisense2010" />
+        <FeatureRef Id="Feature_Intellisense2012" />
+        <FeatureRef Id="Feature_Intellisense2013" />
+        <FeatureRef Id="Feature_Intellisense2015" />
     </Product>
 </Wix>

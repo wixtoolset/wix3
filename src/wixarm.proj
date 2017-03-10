@@ -2,31 +2,42 @@
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <BuildInParallel>false</BuildInParallel>
   </PropertyGroup>
 
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
+
+  <PropertyGroup Condition="$(VS2017Available)">
+    <ArmVSVersion Condition=" '$(ArmVSVersion)'=='' ">15.0</ArmVSVersion>
+    <ArmPlatformToolset Condition=" '$(ArmPlatformToolset)'=='' ">v141</ArmPlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(VS2015Available)">
+    <ArmVSVersion Condition=" '$(ArmVSVersion)'=='' ">14.0</ArmVSVersion>
+    <ArmPlatformToolset Condition=" '$(ArmPlatformToolset)'=='' ">v140</ArmPlatformToolset>
+  </PropertyGroup>
+
   <ItemDefinitionGroup>
     <ProjectReference>
-      <Properties>VisualStudioVersion=11.0;PlatformToolset=v110;Platform=ARM</Properties>
+      <Properties>VisualStudioVersion=$(ArmVSVersion);PlatformToolset=$(ArmPlatformToolset);Platform=ARM</Properties>
     </ProjectReference>
   </ItemDefinitionGroup>
 
   <ItemGroup Condition=" $(BuildARM) ">
-    <ProjectReference Include="dutil\dutil.vcxproj" />
-    <ProjectReference Include="ca\wcautil\wcautil.vcxproj" />
-    <ProjectReference Include="ca\serverca\scasched\scasched.vcxproj" />
-    <ProjectReference Include="ca\serverca\scaexec\scaexec.vcxproj" />
-    <ProjectReference Include="ca\wixca\dll\wixca.vcxproj" />
-    <ProjectReference Include="ext\DependencyExtension\lib\deputil.vcxproj" />
+    <ProjectReference Include="libs\dutil\dutil.vcxproj" />
+    <ProjectReference Include="libs\wcautil\wcautil.vcxproj" />
+    <ProjectReference Include="ext\ca\serverca\scasched\scasched.vcxproj" />
+    <ProjectReference Include="ext\ca\serverca\scaexec\scaexec.vcxproj" />
+    <ProjectReference Include="ext\ca\wixca\dll\wixca.vcxproj" />
+    <ProjectReference Include="libs\deputil\deputil.vcxproj" />
     <ProjectReference Include="ext\DependencyExtension\ca\wixdepca.vcxproj" />
     <ProjectReference Include="ext\FirewallExtension\ca\firewall.vcxproj" />
     <ProjectReference Include="ext\HttpExtension\ca\wixhttpca.vcxproj" />
     <ProjectReference Include="ext\UIExtension\ca\uica.vcxproj" />
     <ProjectReference Include="burn\engine\engine.vcxproj" />
     <ProjectReference Include="burn\stub\stub.vcxproj" />
-    <ProjectReference Include="ext\BalExtension\balutil\balutil.vcxproj" />
+    <ProjectReference Include="libs\balutil\balutil.vcxproj" />
     <ProjectReference Include="ext\BalExtension\wixstdba\wixstdba.vcxproj" />
 
     <ProjectReference Include="ext\BalExtension\wixlib_arm\BalExtension_ARM.wixproj" />
@@ -36,6 +47,4 @@
     <ProjectReference Include="ext\UIExtension\wixlib_arm\UIExtension_ARM.wixproj" />
     <ProjectReference Include="ext\UtilExtension\wixlib_arm\UtilExtension_ARM.wixproj" />
   </ItemGroup>
-
-  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
 </Project>

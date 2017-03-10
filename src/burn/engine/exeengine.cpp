@@ -489,7 +489,7 @@ extern "C" HRESULT ExeEngineExecutePackage(
     }
     ExitOnFailure(hr, "Failed to create obfuscated executable command.");
 
-    if (BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)
+    if (pExecuteAction->exePackage.pPackage->Exe.fSupportsAncestors)
     {
         // Add the list of dependencies to ignore, if any, to the burn command line.
         if (pExecuteAction->exePackage.sczIgnoreDependencies && BURN_EXE_PROTOCOL_TYPE_BURN == pExecuteAction->exePackage.pPackage->Exe.protocol)

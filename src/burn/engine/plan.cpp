@@ -1163,8 +1163,7 @@ extern "C" HRESULT PlanRelatedBundlesBegin(
     __in BURN_USER_EXPERIENCE* pUserExperience,
     __in BURN_REGISTRATION* pRegistration,
     __in BOOTSTRAPPER_RELATION_TYPE relationType,
-    __in BURN_PLAN* pPlan,
-    __in BURN_MODE mode
+    __in BURN_PLAN* pPlan
     )
 {
     HRESULT hr = S_OK;
@@ -1201,24 +1200,11 @@ extern "C" HRESULT PlanRelatedBundlesBegin(
                 ExitOnFailure(hr, "Failed to lookup the bundle ID in the ancestors dictionary.");
             }
         }
-        else if (BURN_MODE_EMBEDDED == mode)
+        else if (BOOTSTRAPPER_RELATION_DEPENDENT == pRelatedBundle->relationType && BOOTSTRAPPER_RELATION_NONE != relationType)
         {
-            BOOL fSkipBundle = TRUE;
-            for (DWORD j = 0; j < pRelatedBundle->package.cDependencyProviders; ++j)
-            {
-                const BURN_DEPENDENCY_PROVIDER* pProvider = pRelatedBundle->package.rgDependencyProviders + j;
-                if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pProvider->sczKey, -1, pRegistration->sczProviderKey, -1))
-                {
-                    fSkipBundle = FALSE;
-                }
-            }
-
-            if (fSkipBundle)
-            {
-                // Protect loops for older bundles that do not handle ancestors.
-                LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType));
-                continue;
-            }
+            // Avoid repair loops for older bundles that do not handle ancestors.
+            LogId(REPORT_STANDARD, MSG_PLAN_SKIPPED_RELATED_BUNDLE_DEPENDENT, pRelatedBundle->package.sczId, LoggingRelationTypeToString(pRelatedBundle->relationType), LoggingRelationTypeToString(relationType));
+            continue;
         }
 
         // Pass along any ancestors and ourself to prevent infinite loops.

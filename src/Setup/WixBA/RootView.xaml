@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
@@ -19,6 +19,8 @@
 
     <Grid>
         <Rectangle MouseLeftButtonDown="Background_MouseLeftButtonDown" Fill="{StaticResource BackgroundBrush}"/>
+        <!-- Title -->
+        <TextBlock Style="{StaticResource TitleTextStyle}" DataContext="{Binding InstallationViewModel}" Text="{Binding Title}"/>
         <Grid VerticalAlignment="Stretch" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -106,7 +108,7 @@
 
             <!-- News -->
             <Button Grid.Row="2" Grid.Column="1" DataContext="{Binding InstallationViewModel}" Command="{Binding LaunchNewsCommand}" Background="#FFCB0000">News</Button>
-            <Image Grid.Row="3" Grid.Column="1" Source="resources\news.png"/>
+            <Image Grid.Row="2" Grid.Column="1" Source="resources\news.png"/>
 
             <!-- Exit -->
             <Button Grid.Row="2" Grid.Column="2" Background="#FFCB0000" DataContext="{Binding InstallationViewModel}" Visibility="{Binding ExitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding CloseCommand}">Exit</Button>

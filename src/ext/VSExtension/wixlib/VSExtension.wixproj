@@ -23,6 +23,8 @@
     <Compile Include="Vs2013.wxs" />
     <Compile Include="VS14.wxs" />
     <Compile Include="VS2015.wxs" />
+    <Compile Include="VS2017.wxs" />
+    <Compile Include="VSExtension_x86.wxs" />
     <Compile Include="VsixPackage.wxs" />
     <Compile Include="vs2005\vs2005_VSIPCC_Collection_Files_RTL.wxs" />
     <Compile Include="vs2008\vs2008_VSIPCC_Collection_Files_RTL.wxs" />
@@ -31,6 +33,10 @@
   <ItemGroup>
     <Folder Include="vs2005\" />
     <Folder Include="vs2008\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ca\vsca.vcxproj" />
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />

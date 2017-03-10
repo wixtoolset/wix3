@@ -19,6 +19,7 @@
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\11.0' Value='InstallDir' Variable='VS2012InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\12.0' Value='InstallDir' Variable='VS2013InstallFolder' />
         <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualStudio\14.0' Value='InstallDir' Variable='VS2015InstallFolder' />
+        <util:RegistrySearch Root='HKLM' Key='SOFTWARE\Microsoft\VisualCppBuildTools\14.0' Value='Installed' Variable='VisualCppBuildTools14Installed' />
 
         <util:ComponentSearch Guid="{B455E8D3-90CB-47F6-AB7B-9B31E5DE6266}" Variable="VS2010VCExpressInstalled" />
         <util:ComponentSearch Guid="{55C6B9D6-A824-4AFC-8D08-20E581B6F42C}" Variable="VS2012WDExpressInstalled" />
@@ -59,16 +60,10 @@
 
             <?ifdef VS2015Available ?>
             <MsiPackage Name='data\nsdk2015.msi' SourceFile='data\'
-                        InstallCondition='VS2015InstallFolder'>
+                        InstallCondition='VS2015InstallFolder OR VisualCppBuildTools14Installed'>
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
             <?endif?>
-
-            <!-- Votive needs to be last as it runs devenv /setup -->
-            <MsiPackage Name='data\votive.msi' SourceFile='data\'
-                        InstallCondition='VS2010InstallFolder OR VS2012InstallFolder OR VS2013InstallFolder OR VS2015InstallFolder'>
-                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
-            </MsiPackage>
         </PackageGroup>
     </Fragment>
 </Wix>

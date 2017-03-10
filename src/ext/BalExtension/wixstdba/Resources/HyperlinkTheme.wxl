@@ -60,4 +60,5 @@
   <String Id="FilesInUseDontCloseRadioButton">&amp;Do not close applications. A reboot will be required.</String>
   <String Id="FilesInUseOkButton">&amp;OK</String>
   <String Id="FilesInUseCancelButton">&amp;Cancel</String>
+  <String Id="ErrorFailNoActionReboot">No action was taken as a system reboot is required.</String>
 </WixLocalization>

@@ -102,7 +102,7 @@ Light supports the following command line parameters:
       <p>-cultures:&lt;cultures&gt;</p>
     </td>
     <td>
-      <p>Specifies a semicolon or comma delimited list of localized string cultures to load from .wxl files and libraries.  Precedence of cultures is from left to right.  For more information see [Specifying cultures to build](~/howtos/ui_and_localization/specifying_cultures_to_build.html).</p>
+      <p>Specifies a semicolon or comma delimited list of localized string cultures to load from .wxl files and libraries.  Precedence of cultures is from left to right.  For more information see <a href="~/howtos/ui_and_localization/specifying_cultures_to_build.html">Specifying cultures to build</a>.</p>
     </td>
   </tr>
   <tr>

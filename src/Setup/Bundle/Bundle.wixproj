@@ -4,9 +4,9 @@
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.10</ProductVersion>
+    <ProductVersion>3.11</ProductVersion>
     <ProjectGuid>{196D63B1-29D8-4B4D-9C9C-4F043099066B}</ProjectGuid>
-    <OutputName>WiX310</OutputName>
+    <OutputName>WiX311</OutputName>
     <OutputType>Bundle</OutputType>
     <Cultures>en-us</Cultures>
   </PropertyGroup>
@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <BindInputPaths Include="$(MSBuildProjectDirectory)" />
-    <BindInputPaths Include="$(WixRoot)src\Votive\votive2010\src\Icons" />
+    <BindInputPaths Include="$(WixRoot)src\common" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +44,9 @@
     <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2015.wixproj" Condition="$(VS2015Available)">
         <Properties>VisualStudioTargetVersion=2015</Properties>
     </ProjectReference>
-    <ProjectReference Include="..\VotiveMsi\VotiveMsi.wixproj" />
+    <ProjectReference Include="..\NativeSdkMsi\NativeSdkMsi2017.wixproj" Condition="$(VS2017Available)">
+        <Properties>VisualStudioTargetVersion=2017</Properties>
+    </ProjectReference>
     <ProjectReference Include="..\WixBA\WixBA.csproj" Condition="'$(WixStdBundle)' != 'true'" />
   </ItemGroup>
 

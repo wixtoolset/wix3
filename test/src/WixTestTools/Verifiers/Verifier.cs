@@ -273,6 +273,15 @@ namespace WixTest
                 throw new NullReferenceException(String.Format("The Method {0} could not be found in {1}", getPropertyMethodName, summaryInformationTypeName));
             }
 
+            // Find the SummaryInformation.Dispose method
+            BindingFlags disposeBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            string disposeMethodName = "Dispose";
+            MethodInfo disposeMethod = summaryInformationType.GetMethod(disposeMethodName, disposeBindingFlags);
+            if (null == disposeMethod)
+            {
+                throw new NullReferenceException(String.Format("The Method {0} could not be found in {1}", disposeMethodName, summaryInformationTypeName));
+            }
+
             // Create an instance of a SummaryInformation object
             Object[] constructorArguments = { msi };
             BindingFlags constructorBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -281,6 +290,9 @@ namespace WixTest
             // Call the SummaryInformation.GetProperty method
             Object[] arguments = { propertyIndex };
             string value = (string)getPropertyMethod.Invoke(instance, arguments);
+            
+            // Dispose this instance explicitly so it is disposed on the same thread, avoiding a ?bug? in MSIHANDLEs
+            disposeMethod.Invoke(instance, null);
 
             return value;
         }
@@ -900,6 +912,7 @@ namespace WixTest
                 switch ((string)row[0])
                 {
                     case "ProductCode":
+                    case "WixPdbPath":
                         return true;
                 }
             }

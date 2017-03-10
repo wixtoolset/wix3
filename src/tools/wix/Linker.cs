@@ -26,6 +26,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private bool dropUnrealTables;
         private bool encounteredError;
         private bool allowIdenticalRows;
+        private bool allowDuplicateDirectoryIds;
         private bool allowUnresolvedReferences;
         private ArrayList extensions;
         private List<InspectorExtension> inspectorExtensions;
@@ -90,6 +91,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get { return this.allowIdenticalRows; }
             set { this.allowIdenticalRows = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether to allow duplicate directory IDs.
+        /// </summary>
+        /// <value>Whether to allow duplicate directory IDs.</value>
+        public bool AllowDuplicateDirectoryIds
+        {
+            get { return this.allowDuplicateDirectoryIds; }
+            set { this.allowDuplicateDirectoryIds = value; }
         }
 
         /// <summary>
@@ -350,7 +361,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
 
                 // first find the entry section and create the symbols hash for all the sections
-                sections.FindEntrySectionAndLoadSymbols(this.allowIdenticalRows, this, expectedOutputType, out entrySection, out allSymbols);
+                sections.FindEntrySectionAndLoadSymbols(this.allowIdenticalRows, this, expectedOutputType, this.allowDuplicateDirectoryIds, out entrySection, out allSymbols);
 
                 // should have found an entry section by now
                 if (null == entrySection)

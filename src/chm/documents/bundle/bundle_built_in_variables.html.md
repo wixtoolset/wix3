@@ -44,12 +44,14 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * ServicePackLevel - numeric value representing the installed OS service pack.
 * StartMenuFolder - gets the well-known folder for CSIDL\_STARTMENU.
 * StartupFolder - gets the well-known folder for CSIDL\_STARTUP.
-* SystemFolder - gets the well-known folder for CSIDL\_SYSTEMX86.
+* SystemFolder - gets the well-known folder for CSIDL\_SYSTEMX86 on 64-bit Windows and CSIDL\_SYSTEM on 32-bit Windows.
+* System64Folder - gets the well-known folder for CSIDL\_SYSTEM on 64-bit Windows and undefined on 32-bit Windows.
 * SystemLanguageID - gets the language ID for the system locale.
 * TempFolder - gets the well-known folder for temp location.
 * TemplateFolder - gets the well-known folder for CSIDL\_TEMPLATES.
 * TerminalServer - non-zero if the system is running in application server mode of Remote Desktop Services.
-* UserLanguageID - gets the language ID for the current user locale.
+* UserUILanguageID - gets the selection language ID for the current user locale.
+* UserLanguageID - gets the formatting language ID for the current user locale.
 * VersionMsi - version value representing the Windows Installer engine version.
 * VersionNT - version value representing the OS version. The result is a version variable (v#.#.#.#) which differs from the MSI Property &apos;VersionNT&apos; which is an integer. For example, to use this variable in a Bundle condition try: &quot;VersionNT &gt; v6.1&quot;.
 * VersionNT64 - version value representing the OS version if 64-bit. Undefined if running a 32-bit operating system. The result is a version variable (v#.#.#.#) which differs from the MSI Property &apos;VersionNT64&apos; which is an integer. For example, to use this variable in a Bundle condition try: &quot;VersionNT64 &gt; v6.1&quot;.
@@ -70,4 +72,5 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * WixBundleSourceProcessFolder - gets the source folder of the bundle where originally executed. Will only be set when bundle is executing in the clean room.
 * WixBundleProviderKey - gets the bundle dependency provider key.
 * WixBundleTag - gets the developer-defined tag string for this bundle (from Bundle/@Tag).
+* WixBundleUILevel - gets the level of the user interface (the value BOOTSTRAPPER\_DISPLAY enum).
 * WixBundleVersion - gets the version for this bundle (from Bundle/@Version).

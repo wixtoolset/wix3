@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<WixLocalization Culture="sq-SQ" Codepage="1252" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <!-- _locID@Culture="sq-SQ" _locComment="Shqip" -->
+    <!-- _locID@Codepage="1252" _locComment="Windows-1252" -->
+
+    <String Id="WixUIBack" Overridable="yes"><!-- _locID_text="WixUIBack" _locComment="WixUIBack" -->&amp;Mbrapsht</String>
+    <String Id="WixUINext" Overridable="yes"><!-- _locID_text="WixUINext" _locComment="WixUINext" -->P&amp;asuesi</String>
+    <String Id="WixUICancel" Overridable="yes"><!-- _locID_text="WixUICancel" _locComment="WixUICancel" -->Anuloje</String>
+    <String Id="WixUIFinish" Overridable="yes"><!-- _locID_text="WixUIFinish" _locComment="WixUIFinish" -->Për&amp;fundoje</String>
+    <String Id="WixUIRetry" Overridable="yes"><!-- _locID_text="WixUIRetry" _locComment="WixUIRetry" -->&amp;Riprovoni</String>
+    <String Id="WixUIIgnore" Overridable="yes"><!-- _locID_text="WixUIIgnore" _locComment="WixUIIgnore" -->&amp;Shpërfille</String>
+    <String Id="WixUIYes" Overridable="yes"><!-- _locID_text="WixUIYes" _locComment="WixUIYes" -->&amp;Po</String>
+    <String Id="WixUINo" Overridable="yes"><!-- _locID_text="WixUINo" _locComment="WixUINo" -->&amp;Jo</String>
+    <String Id="WixUIOK" Overridable="yes"><!-- _locID_text="WixUIOK" _locComment="WixUIOK" -->OK</String>
+    <String Id="WixUIPrint" Overridable="yes"><!-- _locID_text="WixUIPrint" _locComment="WixUIPrint" -->Sht&amp;ype</String>
+
+    <String Id="AdvancedWelcomeEulaDlg_Title" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlg_Title" _locComment="AdvancedWelcomeEulaDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgBannerBitmap" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgBannerBitmap" _locComment="AdvancedWelcomeEulaDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="AdvancedWelcomeEulaDlgTitle" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgTitle" _locComment="AdvancedWelcomeEulaDlgTitle" -->{\WixUI_Font_Title}Ju lutemi, lexoni Marrëveshjen e Licencës për [ProductName]</String>
+    <String Id="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" _locComment="AdvancedWelcomeEulaDlgLicenseAcceptedCheckBox" -->I &amp;pranoj kushtet e Marrëveshjes së Licencës</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerMachine" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgDescriptionPerMachine" _locComment="AdvancedWelcomeEulaDlgDescriptionPerMachine" -->Klikoni mbi Instaloje që të instalohet produkti me mundësitë parazgjedhje për krejt përdoruesit. Klikoni Të mëtejshme që të ndryshoni mundësitë e instalimit.</String>
+    <String Id="AdvancedWelcomeEulaDlgDescriptionPerUser" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgDescriptionPerUser" _locComment="AdvancedWelcomeEulaDlgDescriptionPerUser" -->Klikoni mbi Instaloje që të instalohet produkti me mundësitë parazgjedhje vetëm për ju. Klikoni Të mëtejshme që të ndryshoni mundësitë e instalimit.</String>
+    <String Id="AdvancedWelcomeEulaDlgInstall" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgInstall" _locComment="AdvancedWelcomeEulaDlgInstall" -->&amp;Instaloje</String>
+    <String Id="AdvancedWelcomeEulaDlgAdvanced" Overridable="yes"><!-- _locID_text="AdvancedWelcomeEulaDlgAdvanced" _locComment="AdvancedWelcomeEulaDlgAdvanced" -->Të &amp;mëtejshme</String>
+    <String Id="Advanced_Font_Normal_Size" Overridable="yes"><!-- _locID_text="Advanced_Font_Normal_Size" _locComment="Advanced_Font_Normal_Size" -->8</String>
+    <String Id="Advanced_Font_Bigger_Size" Overridable="yes"><!-- _locID_text="Advanced_Font_Bigger_Size" _locComment="Advanced_Font_Bigger_Size" -->12</String>
+    <String Id="Advanced_Font_Title_Size" Overridable="yes"><!-- _locID_text="Advanced_Font_Title_Size" _locComment="Advanced_Font_Title_Size" -->9</String>
+    <String Id="Advanced_Font_Emphasized_Size" Overridable="yes"><!-- _locID_text="Advanced_Font_Emphasized_Size" _locComment="Advanced_Font_Emphasized_Size" -->8</String>
+    <String Id="Advanced_Font_FaceName" Overridable="yes"><!-- _locID_text="Advanced_Font_FaceName" _locComment="Advanced_Font_FaceName" -->Tahoma</String>
+
+    <String Id="BrowseDlg_Title" Overridable="yes"><!-- _locID_text="BrowseDlg_Title" _locComment="BrowseDlg_Title" -->Rregullim i [ProductName] </String>
+    <String Id="BrowseDlgComboLabel" Overridable="yes"><!-- _locID_text="BrowseDlgComboLabel" _locComment="BrowseDlgComboLabel" -->&amp;Shih te:</String>
+    <String Id="BrowseDlgWixUI_Bmp_Up" Overridable="yes"><!-- _locID_text="BrowseDlgWixUI_Bmp_Up" _locComment="BrowseDlgWixUI_Bmp_Up" -->WixUI_Bmp_Up</String>
+    <String Id="BrowseDlgWixUI_Bmp_UpTooltip" Overridable="yes"><!-- _locID_text="BrowseDlgWixUI_Bmp_UpTooltip" _locComment="BrowseDlgWixUI_Bmp_UpTooltip" -->Një nivel më sipër</String>
+    <String Id="BrowseDlgNewFolder" Overridable="yes"><!-- _locID_text="BrowseDlgNewFolder" _locComment="BrowseDlgNewFolder" -->WixUI_Bmp_New</String>
+    <String Id="BrowseDlgNewFolderTooltip" Overridable="yes"><!-- _locID_text="BrowseDlgNewFolderTooltip" _locComment="BrowseDlgNewFolderTooltip" -->Krijo një dosje të re</String>
+    <String Id="BrowseDlgPathLabel" Overridable="yes"><!-- _locID_text="BrowseDlgPathLabel" _locComment="BrowseDlgPathLabel" -->Emër &amp;dosjeje:</String>
+    <String Id="BrowseDlgBannerBitmap" Overridable="yes"><!-- _locID_text="BrowseDlgBannerBitmap" _locComment="BrowseDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="BrowseDlgDescription" Overridable="yes"><!-- _locID_text="BrowseDlgDescription" _locComment="BrowseDlgDescription" -->Kaloni te dosja destinacion</String>
+    <String Id="BrowseDlgTitle" Overridable="yes"><!-- _locID_text="BrowseDlgTitle" _locComment="BrowseDlgTitle" -->{\WixUI_Font_Title}Ndryshoni dosjen destinacion</String>
+
+    <String Id="CancelDlg_Title" Overridable="yes"><!-- _locID_text="CancelDlg_Title" _locComment="CancelDlg_Title" -->Rregullim i [ProductName] </String>
+    <String Id="CancelDlgText" Overridable="yes"><!-- _locID_text="CancelDlgText" _locComment="CancelDlgText" -->Jeni i sigurt se doni të anulohet instalimi i [ProductName]?</String>
+    <String Id="CancelDlgIcon" Overridable="yes"><!-- _locID_text="CancelDlgIcon" _locComment="CancelDlgIcon" -->WixUI_Ico_Info</String>
+    <String Id="CancelDlgIconTooltip" Overridable="yes"><!-- _locID_text="CancelDlgIconTooltip" _locComment="CancelDlgIconTooltip" -->Ikonë informacioni</String>
+
+    <String Id="CustomizeDlg_Title" Overridable="yes"><!-- _locID_text="CustomizeDlg_Title" _locComment="CustomizeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="CustomizeDlgTree" Overridable="yes"><!-- _locID_text="CustomizeDlgTree" _locComment="CustomizeDlgTree" -->Pemë përzgjedhjesh</String>
+    <String Id="CustomizeDlgBrowse" Overridable="yes"><!-- _locID_text="CustomizeDlgBrowse" _locComment="CustomizeDlgBrowse" -->Shfle&amp;oni...</String>
+    <String Id="CustomizeDlgReset" Overridable="yes"><!-- _locID_text="CustomizeDlgReset" _locComment="CustomizeDlgReset" -->&amp;Riktheje në fillimet</String>
+    <String Id="CustomizeDlgDiskCost" Overridable="yes"><!-- _locID_text="CustomizeDlgDiskCost" _locComment="CustomizeDlgDiskCost" -->&amp;Përdorim Disku</String>
+    <String Id="CustomizeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="CustomizeDlgBannerBitmap" _locComment="CustomizeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="CustomizeDlgText" Overridable="yes"><!-- _locID_text="CustomizeDlgText" _locComment="CustomizeDlgText" -->Klikoni mbi ikonën te pema më poshtë që të ndryshoni mënyrën se si instalohen veçoritë.</String>
+    <String Id="CustomizeDlgDescription" Overridable="yes"><!-- _locID_text="CustomizeDlgDescription" _locComment="CustomizeDlgDescription" -->Përzgjidhni mënyrën se si instalohen veçoritë.</String>
+    <String Id="CustomizeDlgTitle" Overridable="yes"><!-- _locID_text="CustomizeDlgTitle" _locComment="CustomizeDlgTitle" -->{\WixUI_Font_Title}Rregullim Vetjak</String>
+    <String Id="CustomizeDlgItemDescription" Overridable="yes"><!-- _locID_text="CustomizeDlgItemDescription" _locComment="CustomizeDlgItemDescription" -->CustomizeDlgItemDescription-CustomizeDlgItemDescription</String>
+    <String Id="CustomizeDlgItemSize" Overridable="yes"><!-- _locID_text="CustomizeDlgItemSize" _locComment="CustomizeDlgItemSize" -->CustomizeDlgItemSize-CustomizeDlgItemSize</String>
+    <String Id="CustomizeDlgLocation" Overridable="yes"><!-- _locID_text="CustomizeDlgLocation" _locComment="CustomizeDlgLocation" -->CustomizeDlgLocation-CustomizeDlgLocation</String>
+    <String Id="CustomizeDlgLocationLabel" Overridable="yes"><!-- _locID_text="CustomizeDlgLocationLabel" _locComment="CustomizeDlgLocationLabel" -->Vend:</String>
+
+    <String Id="DiskCostDlg_Title" Overridable="yes"><!-- _locID_text="DiskCostDlg_Title" _locComment="DiskCostDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="DiskCostDlgBannerBitmap" Overridable="yes"><!-- _locID_text="DiskCostDlgBannerBitmap" _locComment="DiskCostDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="DiskCostDlgText" Overridable="yes"><!-- _locID_text="DiskCostDlgText" _locComment="DiskCostDlgText" -->Vëllimet e theksuar nuk kanë në disk hapësirë të mjaftueshme për veçoritë e përzgjedhura. Ose mund të hiqni skedarë prej vëllimeve të theksuar, ose të instaloni më pak veçori, ose të përzgjidhni disqe të tjerë destinacion.</String>
+    <String Id="DiskCostDlgDescription" Overridable="yes"><!-- _locID_text="DiskCostDlgDescription" _locComment="DiskCostDlgDescription" -->Hapësira e domosdoshme në disk për instalimin e veçorive të përzgjedhura.</String>
+    <String Id="DiskCostDlgTitle" Overridable="yes"><!-- _locID_text="DiskCostDlgTitle" _locComment="DiskCostDlgTitle" -->{\WixUI_Font_Title}Domosdoshmëri Hapësire Disku</String>
+    <String Id="DiskCostDlgVolumeList" Overridable="yes"><!-- _locID_text="DiskCostDlgVolumeList" _locComment="DiskCostDlgVolumeList" -->{120}{70}{70}{70}{70}</String>
+
+    <String Id="ErrorDlg_Title" Overridable="yes"><!-- _locID_text="ErrorDlg_Title" _locComment="ErrorDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="ErrorDlgErrorText" Overridable="yes"><!-- _locID_text="ErrorDlgErrorText" _locComment="ErrorDlgErrorText" -->Tekst informacioni</String>
+    <String Id="ErrorDlgErrorIcon" Overridable="yes"><!-- _locID_text="ErrorDlgErrorIcon" _locComment="ErrorDlgErrorIcon" -->WixUI_Ico_Info</String>
+    <String Id="ErrorDlgErrorIconTooltip" Overridable="yes"><!-- _locID_text="ErrorDlgErrorIconTooltip" _locComment="ErrorDlgErrorIconTooltip" -->Ikonë informacioni</String>
+
+    <String Id="ExitDialog_Title" Overridable="yes"><!-- _locID_text="ExitDialog_Title" _locComment="ExitDialog_Title" -->Rregullim i [ProductName]</String>
+    <String Id="ExitDialogBitmap" Overridable="yes"><!-- _locID_text="ExitDialogBitmap" _locComment="ExitDialogBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="ExitDialogDescription" Overridable="yes"><!-- _locID_text="ExitDialogDescription" _locComment="ExitDialogDescription" -->Klikoni mbi butonin Përfundoje që të dilet nga Ndihmësi i Rregullimit.</String>
+    <String Id="ExitDialogTitle" Overridable="yes"><!-- _locID_text="ExitDialogTitle" _locComment="ExitDialogTitle" -->{\WixUI_Font_Bigger}U plotësua Rregullimi i [ProductName] </String>
+
+    <String Id="FatalError_Title" Overridable="yes"><!-- _locID_text="FatalError_Title" _locComment="FatalError_Title" -->Rregullim i [ProductName]</String>
+    <String Id="FatalErrorBitmap" Overridable="yes"><!-- _locID_text="FatalErrorBitmap" _locComment="FatalErrorBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="FatalErrorTitle" Overridable="yes"><!-- _locID_text="FatalErrorTitle" _locComment="FatalErrorTitle" -->{\WixUI_Font_Bigger}Ndihmësi i Rregullimit të [ProductName] përfundoi para kohe</String>
+    <String Id="FatalErrorDescription1" Overridable="yes"><!-- _locID_text="FatalErrorDescription1" _locComment="FatalErrorDescription1" -->Ndihmësi i Rregullimit të [ProductName] përfundoi para kohe, për shkak të një gabimi. Sistemi juaj nuk u modifikua. Që të instaloni këtë program në një kohë tjetër, rixhironi Ndihmësin e Rregullimit.</String>
+    <String Id="FatalErrorDescription2" Overridable="yes"><!-- _locID_text="FatalErrorDescription2" _locComment="FatalErrorDescription2" -->Klikoni butonin Përfundoje që të dilni nga Ndihmësi i Rregullimit.</String>
+
+    <String Id="FeaturesDlg_Title" Overridable="yes"><!-- _locID_text="FeaturesDlg_Title" _locComment="FeaturesDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="FeaturesDlgTree" Overridable="yes"><!-- _locID_text="FeaturesDlgTree" _locComment="FeaturesDlgTree" -->Veçori produkti</String>
+    <String Id="FeaturesDlgBannerBitmap" Overridable="yes"><!-- _locID_text="FeaturesDlgBannerBitmap" _locComment="FeaturesDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="FeaturesDlgDescription" Overridable="yes"><!-- _locID_text="FeaturesDlgDescription" _locComment="FeaturesDlgDescription" -->Përzgjidhni mënyrën se si instalohen veçoritë.</String>
+    <String Id="FeaturesDlgTitle" Overridable="yes"><!-- _locID_text="FeaturesDlgTitle" _locComment="FeaturesDlgTitle" -->{\WixUI_Font_Title}Veçori Produkti</String>
+    <String Id="FeaturesDlgItemDescription" Overridable="yes"><!-- _locID_text="FeaturesDlgItemDescription" _locComment="FeaturesDlgItemDescription" -->FeaturesDlgItemDescription</String>
+    <String Id="FeaturesDlgItemSize" Overridable="yes"><!-- _locID_text="FeaturesDlgItemSize" _locComment="FeaturesDlgItemSize" -->FeaturesDlgItemSize</String>
+    <String Id="FeaturesDlgInstall" Overridable="yes"><!-- _locID_text="FeaturesDlgInstall" _locComment="FeaturesDlgInstall" -->&amp;Instaloje</String>
+    <String Id="FeaturesDlgChange" Overridable="yes"><!-- _locID_text="FeaturesDlgChange" _locComment="FeaturesDlgChange" -->&amp;Ndryshojini</String>
+
+    <String Id="FilesInUse_Title" Overridable="yes"><!-- _locID_text="FilesInUse_Title" _locComment="FilesInUse_Title" -->Rregullim i [ProductName]</String>
+    <String Id="FilesInUseExit" Overridable="yes"><!-- _locID_text="FilesInUseExit" _locComment="FilesInUseExit" -->&amp;Dilni</String>
+    <String Id="FilesInUseBannerBitmap" Overridable="yes"><!-- _locID_text="FilesInUseBannerBitmap" _locComment="FilesInUseBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="FilesInUseText" Overridable="yes"><!-- _locID_text="FilesInUseText" _locComment="FilesInUseText" -->Aplikacionet vijuese po përdorin skedarë që lypset të përditësohen nga ky rregullim. Mbyllini këto aplikacione dhe mandej klikoni mbi &amp;Riprovoni që të vazhdohet rregullimi, ose mbi Dilni që të dilet.</String>
+    <String Id="FilesInUseDescription" Overridable="yes"><!-- _locID_text="FilesInUseDescription" _locComment="FilesInUseDescription" -->Disa skedarë që lypset të përditësohen janë hëpërhë në përdorim e sipër.</String>
+    <String Id="FilesInUseTitle" Overridable="yes"><!-- _locID_text="FilesInUseTitle" _locComment="FilesInUseTitle" -->{\WixUI_Font_Title}Skedarë në Përdorim</String>
+
+    <String Id="InstallDirDlg_Title" Overridable="yes"><!-- _locID_text="InstallDirDlg_Title" _locComment="InstallDirDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="InstallDirDlgChange" Overridable="yes"><!-- _locID_text="InstallDirDlgChange" _locComment="InstallDirDlgChange" -->&amp;Ndryshojini...</String>
+    <String Id="InstallDirDlgTitle" Overridable="yes"><!-- _locID_text="InstallDirDlgTitle" _locComment="InstallDirDlgTitle" -->{\WixUI_Font_Title}Dosje destinacion</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes"><!-- _locID_text="InstallDirDlgDescription" _locComment="InstallDirDlgDescription" -->Klikoni mbi Pasuesi që të instalohet te dosja e parazgjedhje, ose klikoni mbi Ndryshojini që të zgjidhni një tjetër.</String>
+    <String Id="InstallDirDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallDirDlgBannerBitmap" _locComment="InstallDirDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="InstallDirDlgFolderLabel" Overridable="yes"><!-- _locID_text="InstallDirDlgFolderLabel" _locComment="InstallDirDlgFolderLabel" -->Instaloje [ProductName] te:</String>
+
+    <String Id="InstallScopeDlg_Title" Overridable="yes"><!-- _locID_text="InstallScopeDlg_Title" _locComment="InstallScopeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="InstallScopeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallScopeDlgBannerBitmap" _locComment="InstallScopeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Zgjidhni shtrirjen dhe dosjen e instalimit</String>
+    <String Id="InstallScopeDlgTitle" Overridable="yes"><!-- _locID_text="InstallScopeDlgTitle" _locComment="InstallScopeDlgTitle" -->{\WixUI_Font_Title}Shtrirje Instalimi</String>
+    <String Id="InstallScopeDlgPerUser" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUser" _locComment="InstallScopeDlgPerUser" -->{\WixUI_Font_Emphasized}Instalojeni &amp;vetëm për ju ([LogonUser])</String>
+    <String Id="InstallScopeDlgPerUserDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUserDescription" _locComment="InstallScopeDlgPerUserDescription" -->[ProductName] do të instalohet në një dosje përdoruesi dhe do të mund ta përdorni thjesht nga llogaria juaj e përdoruesit. S’keni nevojë për privilegje Administratori lokal.</String>
+    <String Id="InstallScopeDlgNoPerUserDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgNoPerUserDescription" _locComment="InstallScopeDlgNoPerUserDescription" -->[ProductName] nuk e mbulon instalimin me bazë përdoruesit.</String>
+    <String Id="InstallScopeDlgPerMachine" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerMachine" _locComment="InstallScopeDlgPerMachine" -->{\WixUI_Font_Emphasized}Instaloje për krejt përdoruesit e kësaj &amp;makine</String>
+    <String Id="InstallScopeDlgPerMachineDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerMachineDescription" _locComment="InstallScopeDlgPerMachineDescription" -->[ProductName] do të instalohet, si parazgjedhje, në një dosje për krejt makinën dhe do të mund të përdoret nga krejt përdoruesit. Dosjen parazgjedhje të instalimit mund ta ndryshoni. Duhet të keni privilegje Administratori lokal.</String>
+    <String Id="InstallScopeDlgFolderLabel" Overridable="yes"><!-- _locID_text="InstallScopeDlgFolderLabel" _locComment="InstallScopeDlgFolderLabel" -->&amp;Dosje instalimi:</String>
+    <String Id="InstallScopeDlgChange" Overridable="yes"><!-- _locID_text="InstallScopeDlgChange" _locComment="InstallScopeDlgChange" -->&amp;Ndryshojini...</String>
+
+    <String Id="InvalidDirDlg_Title" Overridable="yes"><!-- _locID_text="InvalidDirDlg_Title" _locComment="InvalidDirDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="InvalidDirDlgText" Overridable="yes"><!-- _locID_text="InvalidDirDlgText" _locComment="InvalidDirDlgText" -->Direktoria e instalimit duhet të gjenden në disk lokal.</String>
+    <String Id="InvalidDirDlgIcon" Overridable="yes"><!-- _locID_text="InvalidDirDlgIcon" _locComment="InvalidDirDlgIcon" -->WixUI_Ico_Info</String>
+    <String Id="InvalidDirDlgIconTooltip" Overridable="yes"><!-- _locID_text="InvalidDirDlgIconTooltip" _locComment="InvalidDirDlgIconTooltip" -->Ikonë informacioni</String>
+
+    <String Id="LicenseAgreementDlg_Title" Overridable="yes"><!-- _locID_text="LicenseAgreementDlg_Title" _locComment="LicenseAgreementDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgLicenseAcceptedCheckBox" _locComment="LicenseAgreementDlgLicenseAcceptedCheckBox" -->I &amp;pranoj kushtet e Marrëveshjesh së Licencës</String>
+    <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgBannerBitmap" _locComment="LicenseAgreementDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgDescription" _locComment="LicenseAgreementDlgDescription" -->Ju lutemi, lexojeni me kujdes marrëveshjen vijuese për licencën</String>
+    <String Id="LicenseAgreementDlgTitle" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgTitle" _locComment="LicenseAgreementDlgTitle" -->{\WixUI_Font_Title}Marrëveshje Licence Përdoruesi të Fundmë</String>
+
+    <String Id="MaintenanceTypeDlg_Title" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlg_Title" _locComment="MaintenanceTypeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="MaintenanceTypeDlgChangeButton" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeButton" _locComment="MaintenanceTypeDlgChangeButton" -->&amp;Ndryshoje</String>
+    <String Id="MaintenanceTypeDlgChangeButtonTooltip" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeButtonTooltip" _locComment="MaintenanceTypeDlgChangeButtonTooltip" -->Ndryshoni Instalimin</String>
+    <String Id="MaintenanceTypeDlgRepairButton" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRepairButton" _locComment="MaintenanceTypeDlgRepairButton" -->Ri&amp;paroje</String>
+    <String Id="MaintenanceTypeDlgRepairButtonTooltip" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRepairButtonTooltip" _locComment="MaintenanceTypeDlgRepairButtonTooltip" -->Riparoni Instalimin</String>
+    <String Id="MaintenanceTypeDlgRemoveButton" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveButton" _locComment="MaintenanceTypeDlgRemoveButton" -->&amp;Hiqe</String>
+    <String Id="MaintenanceTypeDlgRemoveButtonTooltip" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveButtonTooltip" _locComment="MaintenanceTypeDlgRemoveButtonTooltip" -->Hiqeni Instalimin</String>
+    <String Id="MaintenanceTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgBannerBitmap" _locComment="MaintenanceTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="MaintenanceTypeDlgDescription" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgDescription" _locComment="MaintenanceTypeDlgDescription" -->Përzgjidhni veprimin që dëshironi të kryhet.</String>
+    <String Id="MaintenanceTypeDlgTitle" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgTitle" _locComment="MaintenanceTypeDlgTitle" -->{\WixUI_Font_Title}Ndryshoni, riparoni, ose hiqni një instalim</String>
+    <String Id="MaintenanceTypeDlgChangeText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeText" _locComment="MaintenanceTypeDlgChangeText" -->Ju lejon të ndryshoni mënyrën se si instalohen veçoritë.</String>
+    <String Id="MaintenanceTypeDlgChangeDisabledText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgChangeDisabledText" _locComment="MaintenanceTypeDlgChangeDisabledText" -->[ProductName] nuk ka veçori që mund të përzgjidhen në mënyrë të pavarur.</String>
+    <String Id="MaintenanceTypeDlgRemoveText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveText" _locComment="MaintenanceTypeDlgRemoveText" -->E heq [ProductName] nga kompjuteri juaj.</String>
+    <String Id="MaintenanceTypeDlgRemoveDisabledText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRemoveDisabledText" _locComment="MaintenanceTypeDlgRemoveDisabledText" -->[ProductName] s’hiqet dot.</String>
+    <String Id="MaintenanceTypeDlgRepairText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRepairText" _locComment="MaintenanceTypeDlgRepairText" -->Ndreq gabimet në instalimin më të freskët duke riparuar skedarë që mungojnë ose janë të dëmtuar, shkurtore tastiere, dhe zëra regjistri.</String>
+    <String Id="MaintenanceTypeDlgRepairDisabledText" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlgRepairDisabledText" _locComment="MaintenanceTypeDlgRepairDisabledText" -->[ProductName] s’riparohet dot.</String>
+
+    <String Id="MaintenanceWelcomeDlg_Title" Overridable="yes"><!-- _locID_text="MaintenanceWelcomeDlg_Title" _locComment="MaintenanceWelcomeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="MaintenanceWelcomeDlgBitmap" Overridable="yes"><!-- _locID_text="MaintenanceWelcomeDlgBitmap" _locComment="MaintenanceWelcomeDlgBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="MaintenanceWelcomeDlgDescription" Overridable="yes"><!-- _locID_text="MaintenanceWelcomeDlgDescription" _locComment="MaintenanceWelcomeDlgDescription" -->Ndihmësi i Rregullimit ju lejon të ndryshoni mënyrën se si instalohen veçoritë e [ProductName] në kompjuterin tuaj, ose ta hiqni nga kompjuteri juaj. Klikoni mbi Pasuesi që të vazhdohet, ose mbi Anuloje që të dilet nga Ndihmësi i Rregullimit.</String>
+    <String Id="MaintenanceWelcomeDlgTitle" Overridable="yes"><!-- _locID_text="MaintenanceWelcomeDlgTitle" _locComment="MaintenanceWelcomeDlgTitle" -->{\WixUI_Font_Bigger}Mirë se vini te Ndihmësi i Rregullimit të [ProductName]</String>
+
+    <String Id="MsiRMFilesInUse_Title" Overridable="yes"><!-- _locID_text="MsiRMFilesInUse_Title" _locComment="MsiRMFilesInUse_Title" -->Rregullim i [ProductName]</String>
+    <String Id="MsiRMFilesInUseBannerBitmap" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseBannerBitmap" _locComment="MsiRMFilesInUseBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="MsiRMFilesInUseText" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseText" _locComment="MsiRMFilesInUseText" -->Aplikacionet vijuese po përdorin skedarë që lypset të përditësohen nga ky rregullim. Mund të lini Ndihmësin e Rregulluesit t’i mbyllë dhe t’i rinisë ato, ose të rinisë makinën më vonë.</String>
+    <String Id="MsiRMFilesInUseDescription" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseDescription" _locComment="MsiRMFilesInUseDescription" -->Disa skedarë që lypset të përditësohen janë hëpërhë në përdorim e sipër.</String>
+    <String Id="MsiRMFilesInUseTitle" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseTitle" _locComment="MsiRMFilesInUseTitle" -->{\WixUI_Font_Title}Skedarë në Përdorim</String>
+    <String Id="MsiRMFilesInUseUseRM" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseUseRM" _locComment="MsiRMFilesInUseUseRM" -->&amp;Mbylli aplikacionet dhe provo t’i rinisësh.</String>
+    <String Id="MsiRMFilesInUseDontUseRM" Overridable="yes"><!-- _locID_text="MsiRMFilesInUseDontUseRM" _locComment="MsiRMFilesInUseDontUseRM" -->M&amp;os i mbyll aplikacionet. Do të kërkohet një rinisje.</String>
+
+    <String Id="OutOfDiskDlg_Title" Overridable="yes"><!-- _locID_text="OutOfDiskDlg_Title" _locComment="OutOfDiskDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="OutOfDiskDlgBannerBitmap" Overridable="yes"><!-- _locID_text="OutOfDiskDlgBannerBitmap" _locComment="OutOfDiskDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="OutOfDiskDlgText" Overridable="yes"><!-- _locID_text="OutOfDiskDlgText" _locComment="OutOfDiskDlgText" -->Vëllimet e theksuar nuk kanë në disk hapësirë të mjaftueshme për veçoritë e përzgjedhura. Ose mund të hiqni skedarë prej vëllimeve të theksuar, ose të instaloni më pak veçori, ose të përzgjidhni një tjetër disk destinacion.</String>
+    <String Id="OutOfDiskDlgDescription" Overridable="yes"><!-- _locID_text="OutOfDiskDlgDescription" _locComment="OutOfDiskDlgDescription" -->Hapësira e diskut e domosdoshme për instalim e tejkalon hapësirën e mundshme në disk.</String>
+    <String Id="OutOfDiskDlgTitle" Overridable="yes"><!-- _locID_text="OutOfDiskDlgTitle" _locComment="OutOfDiskDlgTitle" -->{\WixUI_Font_Title}Pa Hapësirë Disku</String>
+    <String Id="OutOfDiskDlgVolumeList" Overridable="yes"><!-- _locID_text="OutOfDiskDlgVolumeList" _locComment="OutOfDiskDlgVolumeList" -->{120}{70}{70}{70}{70}</String>
+
+    <String Id="OutOfRbDiskDlg_Title" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlg_Title" _locComment="OutOfRbDiskDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="OutOfRbDiskDlgBannerBitmap" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgBannerBitmap" _locComment="OutOfRbDiskDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="OutOfRbDiskDlgText" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgText" _locComment="OutOfRbDiskDlgText" -->Vëllimet e theksuar nuk kanë në disk hapësirë të mjaftueshme për veçoritë e përzgjedhura. Ose mund të hiqni skedarë prej vëllimeve të theksuar, ose të instaloni më pak veçori, ose të përzgjidhni një tjetër disk destinacion.</String>
+    <String Id="OutOfRbDiskDlgDescription" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgDescription" _locComment="OutOfRbDiskDlgDescription" -->Hapësira e diskut e domosdoshme për instalim e tejkalon hapësirën e mundshme në disk..</String>
+    <String Id="OutOfRbDiskDlgTitle" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgTitle" _locComment="OutOfRbDiskDlgTitle" -->{\WixUI_Font_Title}Pa Hapësirë Disku</String>
+    <String Id="OutOfRbDiskDlgVolumeList" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgVolumeList" _locComment="OutOfRbDiskDlgVolumeList" -->{120}{70}{70}{70}{70}</String>
+    <String Id="OutOfRbDiskDlgText2" Overridable="yes"><!-- _locID_text="OutOfRbDiskDlgText2" _locComment="OutOfRbDiskDlgText2" -->Ndryshe, mund të zgjidhni të çaktivizohet funksioni i prapakthimit të instaluesit. Çaktivizimi i prapakthimit ia bën të pamundur instaluesit të rikthejë kompjuterin në gjendjen origjinale, në rastet kur instalimi ndërpritet për çfarëdo arsye. Klikoni mbi Po, nëse dëshironi të rrezikoni duke çaktivizuar prapakthimet.</String>
+
+    <String Id="PrepareDlg_Title" Overridable="yes"><!-- _locID_text="PrepareDlg_Title" _locComment="PrepareDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="PrepareDlgBitmap" Overridable="yes"><!-- _locID_text="PrepareDlgBitmap" _locComment="PrepareDlgBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="PrepareDlgDescription" Overridable="yes"><!-- _locID_text="PrepareDlgDescription" _locComment="PrepareDlgDescription" -->Ju lutemi, pritni teksa Ndihmësi i Rregullimit përgatitet t’ju udhëheqë përmes instalimit.</String>
+    <String Id="PrepareDlgTitle" Overridable="yes"><!-- _locID_text="PrepareDlgTitle" _locComment="PrepareDlgTitle" -->{\WixUI_Font_Bigger}Mirë se vini te Ndihmësi i Rregullimit të [ProductName]</String>
+
+    <String Id="ProgressDlg_Title" Overridable="yes"><!-- _locID_text="ProgressDlg_Title" _locComment="ProgressDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="ProgressDlgBannerBitmap" Overridable="yes"><!-- _locID_text="ProgressDlgBannerBitmap" _locComment="ProgressDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="ProgressDlgTextInstalling" Overridable="yes"><!-- _locID_text="ProgressDlgTextInstalling" _locComment="ProgressDlgTextInstalling" -->Ju lutemi, pritni teksa Ndihmësi i Rregullimit instalon [ProductName].</String>
+    <String Id="ProgressDlgTitleInstalling" Overridable="yes"><!-- _locID_text="ProgressDlgTitleInstalling" _locComment="ProgressDlgTitleInstalling" -->{\WixUI_Font_Title}Po instalohet [ProductName]</String>
+    <String Id="ProgressDlgTextChanging" Overridable="yes"><!-- _locID_text="ProgressDlgTextChanging" _locComment="ProgressDlgTextChanging" -->Ju lutemi, pritni teksa Ndihmësi i Rregullimit ndryshon [ProductName].</String>
+    <String Id="ProgressDlgTitleChanging" Overridable="yes"><!-- _locID_text="ProgressDlgTitleChanging" _locComment="ProgressDlgTitleChanging" -->{\WixUI_Font_Title}Po ndryshohet [ProductName]</String>
+    <String Id="ProgressDlgTextRepairing" Overridable="yes"><!-- _locID_text="ProgressDlgTextRepairing" _locComment="ProgressDlgTextRepairing" -->Ju lutemi, pritni teksa Ndihmësi i Rregullimit riparon [ProductName].</String>
+    <String Id="ProgressDlgTitleRepairing" Overridable="yes"><!-- _locID_text="ProgressDlgTitleRepairing" _locComment="ProgressDlgTitleRepairing" -->{\WixUI_Font_Title}Po riparohet [ProductName]</String>
+    <String Id="ProgressDlgTextRemoving" Overridable="yes"><!-- _locID_text="ProgressDlgTextRemoving" _locComment="ProgressDlgTextRemoving" -->Ju lutemi, pritni teksa Ndihmësi i Rregullimit heq [ProductName].</String>
+    <String Id="ProgressDlgTitleRemoving" Overridable="yes"><!-- _locID_text="ProgressDlgTitleRemoving" _locComment="ProgressDlgTitleRemoving" -->{\WixUI_Font_Title}Po hiqet [ProductName]</String>
+    <String Id="ProgressDlgTextUpdating" Overridable="yes"><!-- _locID_text="ProgressDlgTextUpdating" _locComment="ProgressDlgTextUpdating" -->Ju lutemi, pritni teksa Ndihmësi i Rregullimit përditëson [ProductName].</String>
+    <String Id="ProgressDlgTitleUpdating" Overridable="yes"><!-- _locID_text="ProgressDlgTitleUpdating" _locComment="ProgressDlgTitleUpdating" -->{\WixUI_Font_Title}Po përditësohet [ProductName]</String>
+    <String Id="ProgressDlgProgressBar" Overridable="yes"><!-- _locID_text="ProgressDlgProgressBar" _locComment="ProgressDlgProgressBar" -->Ecuria deri tani</String>
+    <String Id="ProgressDlgStatusLabel" Overridable="yes"><!-- _locID_text="ProgressDlgStatusLabel" _locComment="ProgressDlgStatusLabel" -->Gjendje:</String>
+
+    <String Id="ResumeDlg_Title" Overridable="yes"><!-- _locID_text="ResumeDlg_Title" _locComment="ResumeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="ResumeDlgInstall" Overridable="yes"><!-- _locID_text="ResumeDlgInstall" _locComment="ResumeDlgInstall" -->&amp;Instaloje</String>
+    <String Id="ResumeDlgBitmap" Overridable="yes"><!-- _locID_text="ResumeDlgBitmap" _locComment="ResumeDlgBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="ResumeDlgDescription" Overridable="yes"><!-- _locID_text="ResumeDlgDescription" _locComment="ResumeDlgDescription" -->Ndihmësi i Rregullimit do të plotësojë instalimin e [ProductName] në kompjuterin tuaj. Klikoni mbi Instaloje që të vazhdohet ose mbi Anuloje që të dilet nga Ndihmësi i Rregullimit.</String>
+    <String Id="ResumeDlgTitle" Overridable="yes"><!-- _locID_text="ResumeDlgTitle" _locComment="ResumeDlgTitle" -->{\WixUI_Font_Bigger}Po rimerret Ndihmësi i Rregullimit të [ProductName]</String>
+
+    <String Id="SetupTypeDlg_Title" Overridable="yes"><!-- _locID_text="SetupTypeDlg_Title" _locComment="SetupTypeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="SetupTypeDlgTypicalButton" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalButton" _locComment="SetupTypeDlgTypicalButton" -->I &amp;zakonshëm</String>
+    <String Id="SetupTypeDlgTypicalButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalButtonTooltip" _locComment="SetupTypeDlgTypicalButtonTooltip" -->Instalim i zakonshëm</String>
+    <String Id="SetupTypeDlgCustomButton" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomButton" _locComment="SetupTypeDlgCustomButton" -->&amp;Vetjak</String>
+    <String Id="SetupTypeDlgCustomButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomButtonTooltip" _locComment="SetupTypeDlgCustomButtonTooltip" -->Instalim Vetjak</String>
+    <String Id="SetupTypeDlgCompleteButton" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButton" _locComment="SetupTypeDlgCompleteButton" -->I &amp;plotë</String>
+    <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButtonTooltip" _locComment="SetupTypeDlgCompleteButtonTooltip" -->Instalim i Plotë</String>
+    <String Id="SetupTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="SetupTypeDlgBannerBitmap" _locComment="SetupTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="SetupTypeDlgTitle" Overridable="yes"><!-- _locID_text="SetupTypeDlgTitle" _locComment="SetupTypeDlgTitle" -->{\WixUI_Font_Title}Zgjidhni Lloj Rregulllimi</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Zgjidhni llojin e rregullimit që i përshtatet më mirë nevojave tuaja</String>
+    <String Id="SetupTypeDlgTypicalText" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalText" _locComment="SetupTypeDlgTypicalText" -->Instalon veçoritë më të zakonshme të programit. I këshillueshëm për shumicën e përdoruesve.</String>
+    <String Id="SetupTypeDlgCustomText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomText" _locComment="SetupTypeDlgCustomText" -->U lejon përdoruesve të zgjedhin cilat veçori të programit të instalohen dhe ku të instalohen. I këshillueshëm për përdorues të përparuar.</String>
+    <String Id="SetupTypeDlgCompleteText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteText" _locComment="SetupTypeDlgCompleteText" -->Do të instalohen krejt veçoritë e programit. Lyp më shumë hapësirë disku se të tjerët.</String>
+
+    <String Id="UserExit_Title" Overridable="yes"><!-- _locID_text="UserExit_Title" _locComment="UserExit_Title" -->Rregullim i [ProductName]</String>
+    <String Id="UserExitBitmap" Overridable="yes"><!-- _locID_text="UserExitBitmap" _locComment="UserExitBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="UserExitTitle" Overridable="yes"><!-- _locID_text="UserExitTitle" _locComment="UserExitTitle" -->{\WixUI_Font_Bigger}Puna e Ndihmësi i Rregullimit të [ProductName] u ndërpre</String>
+    <String Id="UserExitDescription1" Overridable="yes"><!-- _locID_text="UserExitDescription1" _locComment="UserExitDescription1" -->Rregullimi i [ProductName] u ndërpre. Sistemi juaj nuk u modifikua. Që të instaloni këtë program në një kohë tjetër, ju lutemi, xhironi sërish instalimin.</String>
+    <String Id="UserExitDescription2" Overridable="yes"><!-- _locID_text="UserExitDescription2" _locComment="UserExitDescription2" -->Klikoni mbi butonin Përfundoje që të dilet nga Ndihmësi i Rregullimit.</String>
+
+    <String Id="VerifyReadyDlg_Title" Overridable="yes"><!-- _locID_text="VerifyReadyDlg_Title" _locComment="VerifyReadyDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="VerifyReadyDlgBannerBitmap" Overridable="yes"><!-- _locID_text="VerifyReadyDlgBannerBitmap" _locComment="VerifyReadyDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
+    <String Id="VerifyReadyDlgInstall" Overridable="yes"><!-- _locID_text="VerifyReadyDlgInstall" _locComment="VerifyReadyDlgInstall" -->&amp;Instaloje</String>
+    <String Id="VerifyReadyDlgInstallText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgInstallText" _locComment="VerifyReadyDlgInstallText" -->Klikoni mbi Instaloje që të fillojë instalimi. Klikoni mbi Mbrapsht që të rishihni ose ndryshoni çfarëdo rregullimi tuajin për instalimin.</String>
+    <String Id="VerifyReadyDlgInstallTitle" Overridable="yes"><!-- _locID_text="VerifyReadyDlgInstallTitle" _locComment="VerifyReadyDlgInstallTitle" -->{\WixUI_Font_Title}Gati për të instaluar [ProductName]</String>
+    <String Id="VerifyReadyDlgChange" Overridable="yes"><!-- _locID_text="VerifyReadyDlgChange" _locComment="VerifyReadyDlgChange" -->&amp;Ndryshoje</String>
+    <String Id="VerifyReadyDlgChangeText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgChangeText" _locComment="VerifyReadyDlgChangeText" -->Klikoni mbi Ndryshoje që të fillojë instalimi. Klikoni mbi Mbrapsht që të rishihni ose ndryshoni çfarëdo rregullimi tuajin për instalimin. Klikoni mbi Anuloje që të dilet nga ndihmësi.</String>
+    <String Id="VerifyReadyDlgChangeTitle" Overridable="yes"><!-- _locID_text="VerifyReadyDlgChangeTitle" _locComment="VerifyReadyDlgChangeTitle" -->{\WixUI_Font_Title}Gati për të ndryshuar [ProductName]</String>
+    <String Id="VerifyReadyDlgRepair" Overridable="yes"><!-- _locID_text="VerifyReadyDlgRepair" _locComment="VerifyReadyDlgRepair" -->Ri&amp;paroje</String>
+    <String Id="VerifyReadyDlgRepairText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgRepairText" _locComment="VerifyReadyDlgRepairText" -->Klikoni mbi Riparoje që të riparohet instalimi i [ProductName]. Klikoni mbi Mbrapsht që të rishihni ose ndryshoni çfarëdo rregullimi tuajin për instalimin. Klikoni mbi Anuloje që të dilet nga ndihmësi.</String>
+    <String Id="VerifyReadyDlgRepairTitle" Overridable="yes"><!-- _locID_text="VerifyReadyDlgRepairTitle" _locComment="VerifyReadyDlgRepairTitle" -->{\WixUI_Font_Title}Gati për të riparuar [ProductName]</String>
+    <String Id="VerifyReadyDlgRemove" Overridable="yes"><!-- _locID_text="VerifyReadyDlgRemove" _locComment="VerifyReadyDlgRemove" -->&amp;Hiqe</String>
+    <String Id="VerifyReadyDlgRemoveText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgRemoveText" _locComment="VerifyReadyDlgRemoveText" -->Klikoni mbi Hiqe që të hiqet [ProductName] prej kompjuterit tuaj. Klikoni mbi Mbrapsht që të rishihni ose ndryshoni çfarëdo rregullimi tuajin për instalimin. Klikoni mbi Anuloje që të dilet nga ndihmësi.</String>
+    <String Id="VerifyReadyDlgRemoveTitle" Overridable="yes"><!-- _locID_text="VerifyReadyDlgRemoveTitle" _locComment="VerifyReadyDlgRemoveTitle" -->{\WixUI_Font_Title}Gati për të hequr [ProductName]</String>
+    <String Id="VerifyReadyDlgUpdate" Overridable="yes"><!-- _locID_text="VerifyReadyDlgUpdate" _locComment="VerifyReadyDlgUpdate" -->&amp;Update</String>
+    <String Id="VerifyReadyDlgUpdateText" Overridable="yes"><!-- _locID_text="VerifyReadyDlgUpdateText" _locComment="VerifyReadyDlgUpdateText" -->Klikoni mbi Përditësoje që të përditësohet [ProductName] në kompjuterin tuaj. Klikoni mbi Mbrapsht që të rishihni ose ndryshoni çfarëdo rregullimi tuajin për instalimin. Klikoni mbi Anuloje që të dilet nga ndihmësi.</String>
+    <String Id="VerifyReadyDlgUpdateTitle" Overridable="yes"><!-- _locID_text="VerifyReadyDlgUpdateTitle" _locComment="VerifyReadyDlgUpdateTitle" -->{\WixUI_Font_Title}Gati për të përditësuar [ProductName]</String>
+
+    <String Id="WaitForCostingDlg_Title" Overridable="yes"><!-- _locID_text="WaitForCostingDlg_Title" _locComment="WaitForCostingDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="WaitForCostingDlgReturn" Overridable="yes"><!-- _locID_text="WaitForCostingDlgReturn" _locComment="WaitForCostingDlgReturn" -->&amp;Kthehuni</String>
+    <String Id="WaitForCostingDlgText" Overridable="yes"><!-- _locID_text="WaitForCostingDlgText" _locComment="WaitForCostingDlgText" -->Ju lutemi, prisni që instaluesi të përfundojë përcaktimin e hapësirës së domosdoshme në hard diskun tuaj.</String>
+    <String Id="WaitForCostingDlgIcon" Overridable="yes"><!-- _locID_text="WaitForCostingDlgIcon" _locComment="WaitForCostingDlgIcon" -->WixUI_Ico_Exclam</String>
+    <String Id="WaitForCostingDlgIconTooltip" Overridable="yes"><!-- _locID_text="WaitForCostingDlgIconTooltip" _locComment="WaitForCostingDlgIconTooltip" -->Ikonë e pikës çuditëse</String>
+
+    <String Id="WelcomeDlg_Title" Overridable="yes"><!-- _locID_text="WelcomeDlg_Title" _locComment="WelcomeDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="WelcomeDlgBitmap" Overridable="yes"><!-- _locID_text="WelcomeDlgBitmap" _locComment="WelcomeDlgBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes"><!-- _locID_text="WelcomeDlgDescription" _locComment="WelcomeDlgDescription" -->Ndihmësi i Rregullimit do të instalojë [ProductName] në kompjuterin tuaj. Klikoni mbi Pasuesin që të vazhdohet, ose mbi Anuloje që të dilet nga Ndihmësi i Rregullimit.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes"><!-- _locID_text="WelcomeUpdateDlgDescriptionUpdate" _locComment="WelcomeUpdateDlgDescriptionUpdate" -->Ndihmësi i Rregullimit do të përditësojë [ProductName] në kompjuterin tuaj. Klikoni mbi Pasuesin që të vazhdohet, ose mbi Anuloje që të dilet nga Ndihmësi i Rregullimit.</String>
+    <String Id="WelcomeDlgTitle" Overridable="yes"><!-- _locID_text="WelcomeDlgTitle" _locComment="WelcomeDlgTitle" -->{\WixUI_Font_Bigger}Mirë se vini te Ndihmësi i Rregullimit të [ProductName]</String>
+
+    <String Id="WelcomeEulaDlg_Title" Overridable="yes"><!-- _locID_text="WelcomeEulaDlg_Title" _locComment="WelcomeEulaDlg_Title" -->Rregullim i [ProductName]</String>
+    <String Id="WelcomeEulaDlgBitmap" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgBitmap" _locComment="WelcomeEulaDlgBitmap" -->WixUI_Bmp_Dialog</String>
+    <String Id="WelcomeEulaDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgLicenseAcceptedCheckBox" _locComment="WelcomeEulaDlgLicenseAcceptedCheckBox" -->I &amp;pranoj kushtet e Marrëveshjes së Licencës</String>
+    <String Id="WelcomeEulaDlgInstall" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgInstall" _locComment="WelcomeEulaDlgInstall" -->&amp;Instaloje</String>
+    <String Id="WelcomeEulaDlgUpdate" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgUpdate" _locComment="WelcomeEulaDlgUpdate" -->&amp;Përditësoje</String>
+    <String Id="WelcomeEulaDlgTitle" Overridable="yes"><!-- _locID_text="WelcomeEulaDlgTitle" _locComment="WelcomeEulaDlgTitle" -->{\WixUI_Font_Title}Ju lutemi, lexoni Marrëveshjen e Licencës për [ProductName]</String>
+
+    <String Id="ProgressTextInstallValidate" Overridable="yes"><!-- _locID_text="ProgressTextInstallValidate" _locComment="ProgressTextInstallValidate" -->Po vleftësohet instalimi</String>
+    <String Id="ProgressTextInstallFiles" Overridable="yes"><!-- _locID_text="ProgressTextInstallFiles" _locComment="ProgressTextInstallFiles" -->Po kopjohen skedarë të rinj</String>
+    <String Id="ProgressTextInstallFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextInstallFilesTemplate" _locComment="ProgressTextInstallFilesTemplate" -->Skedar: [1],  Direktori: [9],  Madhësi: [6]</String>
+    <String Id="ProgressTextInstallAdminPackage" Overridable="yes"><!-- _locID_text="ProgressTextInstallAdminPackage" _locComment="ProgressTextInstallAdminPackage" -->Po kopjohen skedarë instalimi përmes rrjeti</String>
+    <String Id="ProgressTextInstallAdminPackageTemplate" Overridable="yes"><!-- _locID_text="ProgressTextInstallAdminPackageTemplate" _locComment="ProgressTextInstallAdminPackageTemplate" -->Skedar: [1],  Direktori: [9],  Madhësi: [6]</String>
+    <String Id="ProgressTextFileCost" Overridable="yes"><!-- _locID_text="ProgressTextFileCost" _locComment="ProgressTextFileCost" -->Po përllogariten hapësirat e domosdoshme</String>
+    <String Id="ProgressTextCostInitialize" Overridable="yes"><!-- _locID_text="ProgressTextCostInitialize" _locComment="ProgressTextCostInitialize" -->Po përllogariten hapësirat e domosdoshme</String>
+    <String Id="ProgressTextCostFinalize" Overridable="yes"><!-- _locID_text="ProgressTextCostFinalize" _locComment="ProgressTextCostFinalize" -->Po përllogariten hapësirat e domosdoshme</String>
+    <String Id="ProgressTextCreateShortcuts" Overridable="yes"><!-- _locID_text="ProgressTextCreateShortcuts" _locComment="ProgressTextCreateShortcuts" -->Po krijohen shkurtore tastiere</String>
+    <String Id="ProgressTextCreateShortcutsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextCreateShortcutsTemplate" _locComment="ProgressTextCreateShortcutsTemplate" -->Shkurtore: [1]</String>
+    <String Id="ProgressTextPublishComponents" Overridable="yes"><!-- _locID_text="ProgressTextPublishComponents" _locComment="ProgressTextPublishComponents" -->Po publikohen Përbërës të Kualifikuar</String>
+    <String Id="ProgressTextPublishComponentsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextPublishComponentsTemplate" _locComment="ProgressTextPublishComponentsTemplate" -->ID Përbërësi: [1], Kualifikues: [2]</String>
+    <String Id="ProgressTextPublishFeatures" Overridable="yes"><!-- _locID_text="ProgressTextPublishFeatures" _locComment="ProgressTextPublishFeatures" -->Po publikohen Veçori Produkti</String>
+    <String Id="ProgressTextPublishFeaturesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextPublishFeaturesTemplate" _locComment="ProgressTextPublishFeaturesTemplate" -->Veçori: [1]</String>
+    <String Id="ProgressTextPublishProduct" Overridable="yes"><!-- _locID_text="ProgressTextPublishProduct" _locComment="ProgressTextPublishProduct" -->Po publikohet informacion produkti</String>
+    <String Id="ProgressTextRegisterClassInfo" Overridable="yes"><!-- _locID_text="ProgressTextRegisterClassInfo" _locComment="ProgressTextRegisterClassInfo" -->Po regjistrohen shërbyes Klasash</String>
+    <String Id="ProgressTextRegisterClassInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterClassInfoTemplate" _locComment="ProgressTextRegisterClassInfoTemplate" -->ID Klase: [1]</String>
+    <String Id="ProgressTextRegisterExtensionInfo" Overridable="yes"><!-- _locID_text="ProgressTextRegisterExtensionInfo" _locComment="ProgressTextRegisterExtensionInfo" -->Po regjistrohen shërbyes zgjerimesh</String>
+    <String Id="ProgressTextRegisterExtensionInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterExtensionInfoTemplate" _locComment="ProgressTextRegisterExtensionInfoTemplate" -->Zgjerim: [1]</String>
+    <String Id="ProgressTextRegisterMIMEInfo" Overridable="yes"><!-- _locID_text="ProgressTextRegisterMIMEInfo" _locComment="ProgressTextRegisterMIMEInfo" -->Po regjistrohen të dhëna MIME</String>
+    <String Id="ProgressTextRegisterMIMEInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterMIMEInfoTemplate" _locComment="ProgressTextRegisterMIMEInfoTemplate" -->Lloj Lënde MIME: [1], Zgjerim: [2]</String>
+    <String Id="ProgressTextRegisterProgIdInfo" Overridable="yes"><!-- _locID_text="ProgressTextRegisterProgIdInfo" _locComment="ProgressTextRegisterProgIdInfo" -->Po regjistrohen identifikues programi</String>
+    <String Id="ProgressTextRegisterProgIdInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterProgIdInfoTemplate" _locComment="ProgressTextRegisterProgIdInfoTemplate" -->ProgId: [1]</String>
+    <String Id="ProgressTextAllocateRegistrySpace" Overridable="yes"><!-- _locID_text="ProgressTextAllocateRegistrySpace" _locComment="ProgressTextAllocateRegistrySpace" -->Po caktohet hapësirë regjistri</String>
+    <String Id="ProgressTextAllocateRegistrySpaceTemplate" Overridable="yes"><!-- _locID_text="ProgressTextAllocateRegistrySpaceTemplate" _locComment="ProgressTextAllocateRegistrySpaceTemplate" -->Hapësirë e lirë: [1]</String>
+    <String Id="ProgressTextAppSearch" Overridable="yes"><!-- _locID_text="ProgressTextAppSearch" _locComment="ProgressTextAppSearch" -->Po kërkohet për aplikacione të instaluar</String>
+    <String Id="ProgressTextAppSearchTemplate" Overridable="yes"><!-- _locID_text="ProgressTextAppSearchTemplate" _locComment="ProgressTextAppSearchTemplate" -->Veti: [1], Nënshkrim: [2]</String>
+    <String Id="ProgressTextBindImage" Overridable="yes"><!-- _locID_text="ProgressTextBindImage" _locComment="ProgressTextBindImage" -->Po krijohen lidhjet për të ekzekuteshmit</String>
+    <String Id="ProgressTextBindImageTemplate" Overridable="yes"><!-- _locID_text="ProgressTextBindImageTemplate" _locComment="ProgressTextBindImageTemplate" -->Skedar: [1]</String>
+    <String Id="ProgressTextCCPSearch" Overridable="yes"><!-- _locID_text="ProgressTextCCPSearch" _locComment="ProgressTextCCPSearch" -->Po kërkohet për produkte të kualifikueshëm</String>
+    <String Id="ProgressTextCreateFolders" Overridable="yes"><!-- _locID_text="ProgressTextCreateFolders" _locComment="ProgressTextCreateFolders" -->Po krijohen dosje</String>
+    <String Id="ProgressTextCreateFoldersTemplate" Overridable="yes"><!-- _locID_text="ProgressTextCreateFoldersTemplate" _locComment="ProgressTextCreateFoldersTemplate" -->Dosje: [1]</String>
+    <String Id="ProgressTextDeleteServices" Overridable="yes"><!-- _locID_text="ProgressTextDeleteServices" _locComment="ProgressTextDeleteServices" -->Po fshihen shërbimet</String>
+    <String Id="ProgressTextDeleteServicesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextDeleteServicesTemplate" _locComment="ProgressTextDeleteServicesTemplate" -->Shërbim: [1]</String>
+    <String Id="ProgressTextDuplicateFiles" Overridable="yes"><!-- _locID_text="ProgressTextDuplicateFiles" _locComment="ProgressTextDuplicateFiles" -->Po krijohen skedarë të përsëdytur</String>
+    <String Id="ProgressTextDuplicateFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextDuplicateFilesTemplate" _locComment="ProgressTextDuplicateFilesTemplate" -->Skedar: [1],  Direktori: [9],  Madhësi: [6]</String>
+    <String Id="ProgressTextFindRelatedProducts" Overridable="yes"><!-- _locID_text="ProgressTextFindRelatedProducts" _locComment="ProgressTextFindRelatedProducts" -->Po kërkohet për aplikacione që kanë lidhje</String>
+    <String Id="ProgressTextFindRelatedProductsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextFindRelatedProductsTemplate" _locComment="ProgressTextFindRelatedProductsTemplate" -->U gjet aplikacion: [1]</String>
+    <String Id="ProgressTextInstallODBC" Overridable="yes"><!-- _locID_text="ProgressTextInstallODBC" _locComment="ProgressTextInstallODBC" -->Po instalohen përbërës ODBC</String>
+    <String Id="ProgressTextInstallServices" Overridable="yes"><!-- _locID_text="ProgressTextInstallServices" _locComment="ProgressTextInstallServices" -->Po instalohen shërbime të reja</String>
+    <String Id="ProgressTextInstallServicesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextInstallServicesTemplate" _locComment="ProgressTextInstallServicesTemplate" -->Shërbim: [2]</String>
+    <String Id="ProgressTextLaunchConditions" Overridable="yes"><!-- _locID_text="ProgressTextLaunchConditions" _locComment="ProgressTextLaunchConditions" -->Po vlerësohen kushte për nisje</String>
+    <String Id="ProgressTextMigrateFeatureStates" Overridable="yes"><!-- _locID_text="ProgressTextMigrateFeatureStates" _locComment="ProgressTextMigrateFeatureStates" -->Po migrohen gjendje veçorish prej aplikacionesh që kanë lidhje</String>
+    <String Id="ProgressTextMigrateFeatureStatesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextMigrateFeatureStatesTemplate" _locComment="ProgressTextMigrateFeatureStatesTemplate" -->Aplikacion: [1]</String>
+    <String Id="ProgressTextMoveFiles" Overridable="yes"><!-- _locID_text="ProgressTextMoveFiles" _locComment="ProgressTextMoveFiles" -->Moving files</String>
+    <String Id="ProgressTextMoveFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextMoveFilesTemplate" _locComment="ProgressTextMoveFilesTemplate" -->Skedar: [1],  Direktori: [9],  Madhësi: [6]</String>
+    <String Id="ProgressTextPatchFiles" Overridable="yes"><!-- _locID_text="ProgressTextPatchFiles" _locComment="ProgressTextPatchFiles" -->Patching files</String>
+    <String Id="ProgressTextPatchFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextPatchFilesTemplate" _locComment="ProgressTextPatchFilesTemplate" -->Skedar: [1],  Direktori: [2],  Madhësi: [3]</String>
+    <String Id="ProgressTextProcessComponents" Overridable="yes"><!-- _locID_text="ProgressTextProcessComponents" _locComment="ProgressTextProcessComponents" -->Po përditësohet regjistrim përbërësi</String>
+    <String Id="ProgressTextRegisterComPlus" Overridable="yes"><!-- _locID_text="ProgressTextRegisterComPlus" _locComment="ProgressTextRegisterComPlus" -->Po regjistrohen Aplikacione dhe Përbërës COM+</String>
+    <String Id="ProgressTextRegisterComPlusTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterComPlusTemplate" _locComment="ProgressTextRegisterComPlusTemplate" -->AppId: [1]{{, AppType: [2], Përdorues: [3], RSN: [4]}}</String>
+    <String Id="ProgressTextRegisterFonts" Overridable="yes"><!-- _locID_text="ProgressTextRegisterFonts" _locComment="ProgressTextRegisterFonts" -->Po regjistrohen shkronja</String>
+    <String Id="ProgressTextRegisterFontsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterFontsTemplate" _locComment="ProgressTextRegisterFontsTemplate" -->Shkronja: [1]</String>
+    <String Id="ProgressTextRegisterProduct" Overridable="yes"><!-- _locID_text="ProgressTextRegisterProduct" _locComment="ProgressTextRegisterProduct" -->Po regjistrohet produkt</String>
+    <String Id="ProgressTextRegisterProductTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterProductTemplate" _locComment="ProgressTextRegisterProductTemplate" -->[1]</String>
+    <String Id="ProgressTextRegisterTypeLibraries" Overridable="yes"><!-- _locID_text="ProgressTextRegisterTypeLibraries" _locComment="ProgressTextRegisterTypeLibraries" -->Po regjistrohen lloje librarish</String>
+    <String Id="ProgressTextRegisterTypeLibrariesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterTypeLibrariesTemplate" _locComment="ProgressTextRegisterTypeLibrariesTemplate" -->LibID: [1]</String>
+    <String Id="ProgressTextRegisterUser" Overridable="yes"><!-- _locID_text="ProgressTextRegisterUser" _locComment="ProgressTextRegisterUser" -->Po regjistrohet përdorues</String>
+    <String Id="ProgressTextRegisterUserTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRegisterUserTemplate" _locComment="ProgressTextRegisterUserTemplate" -->[1]</String>
+    <String Id="ProgressTextRemoveDuplicateFiles" Overridable="yes"><!-- _locID_text="ProgressTextRemoveDuplicateFiles" _locComment="ProgressTextRemoveDuplicateFiles" -->Po hiqen skedarë të përsëdytur</String>
+    <String Id="ProgressTextRemoveDuplicateFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveDuplicateFilesTemplate" _locComment="ProgressTextRemoveDuplicateFilesTemplate" -->Skedar: [1], Direktori: [9]</String>
+    <String Id="ProgressTextRemoveEnvironmentStrings" Overridable="yes"><!-- _locID_text="ProgressTextRemoveEnvironmentStrings" _locComment="ProgressTextRemoveEnvironmentStrings" -->Po përditësohen vargje mjedisi</String>
+    <String Id="ProgressTextRemoveEnvironmentStringsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveEnvironmentStringsTemplate" _locComment="ProgressTextRemoveEnvironmentStringsTemplate" -->Emër: [1], Vlerë: [2], Veprim [3]</String>
+    <String Id="ProgressTextRemoveExistingProducts" Overridable="yes"><!-- _locID_text="ProgressTextRemoveExistingProducts" _locComment="ProgressTextRemoveExistingProducts" -->Po hiqen aplikacione</String>
+    <String Id="ProgressTextRemoveExistingProductsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveExistingProductsTemplate" _locComment="ProgressTextRemoveExistingProductsTemplate" -->Aplikacion: [1], Rresht urdhri: [2]</String>
+    <String Id="ProgressTextRemoveFiles" Overridable="yes"><!-- _locID_text="ProgressTextRemoveFiles" _locComment="ProgressTextRemoveFiles" -->Po hiqen skedarë</String>
+    <String Id="ProgressTextRemoveFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveFilesTemplate" _locComment="ProgressTextRemoveFilesTemplate" -->Skedar: [1], Direktori: [9]</String>
+    <String Id="ProgressTextRemoveFolders" Overridable="yes"><!-- _locID_text="ProgressTextRemoveFolders" _locComment="ProgressTextRemoveFolders" -->Po hiqen dosje</String>
+    <String Id="ProgressTextRemoveFoldersTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveFoldersTemplate" _locComment="ProgressTextRemoveFoldersTemplate" -->Dosje: [1]</String>
+    <String Id="ProgressTextRemoveIniValues" Overridable="yes"><!-- _locID_text="ProgressTextRemoveIniValues" _locComment="ProgressTextRemoveIniValues" -->Po hiqen zëra skedarësh INI</String>
+    <String Id="ProgressTextRemoveIniValuesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveIniValuesTemplate" _locComment="ProgressTextRemoveIniValuesTemplate" -->Skedar: [1],  Seksion: [2],  Kyç: [3], Vlerë: [4]</String>
+    <String Id="ProgressTextRemoveODBC" Overridable="yes"><!-- _locID_text="ProgressTextRemoveODBC" _locComment="ProgressTextRemoveODBC" -->Po hiqen përbërës ODBC</String>
+    <String Id="ProgressTextRemoveRegistryValues" Overridable="yes"><!-- _locID_text="ProgressTextRemoveRegistryValues" _locComment="ProgressTextRemoveRegistryValues" -->Po hiqen vlera regjistri sistemi</String>
+    <String Id="ProgressTextRemoveRegistryValuesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveRegistryValuesTemplate" _locComment="ProgressTextRemoveRegistryValuesTemplate" -->Kyç: [1], Emër: [2]</String>
+    <String Id="ProgressTextRemoveShortcuts" Overridable="yes"><!-- _locID_text="ProgressTextRemoveShortcuts" _locComment="ProgressTextRemoveShortcuts" -->Po hiqen shkurtore tastiere</String>
+    <String Id="ProgressTextRemoveShortcutsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRemoveShortcutsTemplate" _locComment="ProgressTextRemoveShortcutsTemplate" -->Shkurtore: [1]</String>
+    <String Id="ProgressTextRMCCPSearch" Overridable="yes"><!-- _locID_text="ProgressTextRMCCPSearch" _locComment="ProgressTextRMCCPSearch" -->Po kërkohet për produkte të kualifikueshëm</String>
+    <String Id="ProgressTextSelfRegModules" Overridable="yes"><!-- _locID_text="ProgressTextSelfRegModules" _locComment="ProgressTextSelfRegModules" -->Po regjistrohen module</String>
+    <String Id="ProgressTextSelfRegModulesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextSelfRegModulesTemplate" _locComment="ProgressTextSelfRegModulesTemplate" -->Skedar: [1], Dosje: [2]</String>
+    <String Id="ProgressTextSelfUnregModules" Overridable="yes"><!-- _locID_text="ProgressTextSelfUnregModules" _locComment="ProgressTextSelfUnregModules" -->Po çregjistrohen module</String>
+    <String Id="ProgressTextSelfUnregModulesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextSelfUnregModulesTemplate" _locComment="ProgressTextSelfUnregModulesTemplate" -->Skedar: [1], Dosje: [2]</String>
+    <String Id="ProgressTextSetODBCFolders" Overridable="yes"><!-- _locID_text="ProgressTextSetODBCFolders" _locComment="ProgressTextSetODBCFolders" -->Po gatiten direktori ODBC</String>
+    <String Id="ProgressTextStartServices" Overridable="yes"><!-- _locID_text="ProgressTextStartServices" _locComment="ProgressTextStartServices" -->Po nisen shërbime</String>
+    <String Id="ProgressTextStartServicesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextStartServicesTemplate" _locComment="ProgressTextStartServicesTemplate" -->Shërbime: [1]</String>
+    <String Id="ProgressTextStopServices" Overridable="yes"><!-- _locID_text="ProgressTextStopServices" _locComment="ProgressTextStopServices" -->Po ndalen shërbime</String>
+    <String Id="ProgressTextStopServicesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextStopServicesTemplate" _locComment="ProgressTextStopServicesTemplate" -->Shërbim: [1]</String>
+    <String Id="ProgressTextUnpublishComponents" Overridable="yes"><!-- _locID_text="ProgressTextUnpublishComponents" _locComment="ProgressTextUnpublishComponents" -->Po hiqen nga publikimi Përbërës të Kualifikuar</String>
+    <String Id="ProgressTextUnpublishComponentsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnpublishComponentsTemplate" _locComment="ProgressTextUnpublishComponentsTemplate" -->ID Përbërësi: [1], Kualifikues: [2]</String>
+    <String Id="ProgressTextUnpublishFeatures" Overridable="yes"><!-- _locID_text="ProgressTextUnpublishFeatures" _locComment="ProgressTextUnpublishFeatures" -->Po hiqen nga publikimi Veçori Produkti</String>
+    <String Id="ProgressTextUnpublishFeaturesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnpublishFeaturesTemplate" _locComment="ProgressTextUnpublishFeaturesTemplate" -->Veçori: [1]</String>
+    <String Id="ProgressTextUnregisterClassInfo" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterClassInfo" _locComment="ProgressTextUnregisterClassInfo" -->Po çregjistrohen shërbyes Klasash</String>
+    <String Id="ProgressTextUnregisterClassInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterClassInfoTemplate" _locComment="ProgressTextUnregisterClassInfoTemplate" -->ID Klase: [1]</String>
+    <String Id="ProgressTextUnregisterComPlus" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterComPlus" _locComment="ProgressTextUnregisterComPlus" -->Po çregjistrohen Aplikacione dhe Përbërës COM+</String>
+    <String Id="ProgressTextUnregisterComPlusTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterComPlusTemplate" _locComment="ProgressTextUnregisterComPlusTemplate" -->AppId: [1]{{, AppType: [2]}}</String>
+    <String Id="ProgressTextUnregisterExtensionInfo" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterExtensionInfo" _locComment="ProgressTextUnregisterExtensionInfo" -->Po çregjistrohen shërbyes zgjerimesh</String>
+    <String Id="ProgressTextUnregisterExtensionInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterExtensionInfoTemplate" _locComment="ProgressTextUnregisterExtensionInfoTemplate" -->Zgjerim: [1]</String>
+    <String Id="ProgressTextUnregisterFonts" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterFonts" _locComment="ProgressTextUnregisterFonts" -->Po çregjistrohen shkronja</String>
+    <String Id="ProgressTextUnregisterFontsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterFontsTemplate" _locComment="ProgressTextUnregisterFontsTemplate" -->Shkronja: [1]</String>
+    <String Id="ProgressTextUnregisterMIMEInfo" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterMIMEInfo" _locComment="ProgressTextUnregisterMIMEInfo" -->Po çregjistrohen të dhëna MIME</String>
+    <String Id="ProgressTextUnregisterMIMEInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterMIMEInfoTemplate" _locComment="ProgressTextUnregisterMIMEInfoTemplate" -->Lloj Lënde MIME: [1], Zgjerim: [2]</String>
+    <String Id="ProgressTextUnregisterProgIdInfo" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterProgIdInfo" _locComment="ProgressTextUnregisterProgIdInfo" -->Po çregjistrohen identifikues programi</String>
+    <String Id="ProgressTextUnregisterProgIdInfoTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterProgIdInfoTemplate" _locComment="ProgressTextUnregisterProgIdInfoTemplate" -->ProgId: [1]</String>
+    <String Id="ProgressTextUnregisterTypeLibraries" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterTypeLibraries" _locComment="ProgressTextUnregisterTypeLibraries" -->Po çregjistrohen lloje librarish</String>
+    <String Id="ProgressTextUnregisterTypeLibrariesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnregisterTypeLibrariesTemplate" _locComment="ProgressTextUnregisterTypeLibrariesTemplate" -->LibID: [1]</String>
+    <String Id="ProgressTextWriteEnvironmentStrings" Overridable="yes"><!-- _locID_text="ProgressTextWriteEnvironmentStrings" _locComment="ProgressTextWriteEnvironmentStrings" -->Po përditësohen vargje mjedisi</String>
+    <String Id="ProgressTextWriteEnvironmentStringsTemplate" Overridable="yes"><!-- _locID_text="ProgressTextWriteEnvironmentStringsTemplate" _locComment="ProgressTextWriteEnvironmentStringsTemplate" -->Emër: [1], Vlerë: [2], Veprim [3]</String>
+    <String Id="ProgressTextWriteIniValues" Overridable="yes"><!-- _locID_text="ProgressTextWriteIniValues" _locComment="ProgressTextWriteIniValues" -->Po shkruhen vlera skedarësh INI</String>
+    <String Id="ProgressTextWriteIniValuesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextWriteIniValuesTemplate" _locComment="ProgressTextWriteIniValuesTemplate" -->Skedar: [1],  Seksion: [2],  Kyç: [3], Vlerë: [4]</String>
+    <String Id="ProgressTextWriteRegistryValues" Overridable="yes"><!-- _locID_text="ProgressTextWriteRegistryValues" _locComment="ProgressTextWriteRegistryValues" -->Po shkruhen vlera regjistri sistemi</String>
+    <String Id="ProgressTextWriteRegistryValuesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextWriteRegistryValuesTemplate" _locComment="ProgressTextWriteRegistryValuesTemplate" -->Kyç: [1], Emër: [2], Vlerë: [3]</String>
+    <String Id="ProgressTextAdvertise" Overridable="yes"><!-- _locID_text="ProgressTextAdvertise" _locComment="ProgressTextAdvertise" -->Po reklamohet aplikacioni</String>
+    <String Id="ProgressTextGenerateScript" Overridable="yes"><!-- _locID_text="ProgressTextGenerateScript" _locComment="ProgressTextGenerateScript" -->Po prodhohen operacione skripti për veprim:</String>
+    <String Id="ProgressTextGenerateScriptTemplate" Overridable="yes"><!-- _locID_text="ProgressTextGenerateScriptTemplate" _locComment="ProgressTextGenerateScriptTemplate" -->[1]</String>
+    <String Id="ProgressTextInstallSFPCatalogFile" Overridable="yes"><!-- _locID_text="ProgressTextInstallSFPCatalogFile" _locComment="ProgressTextInstallSFPCatalogFile" -->Po instalohet katalog sistemi</String>
+    <String Id="ProgressTextInstallSFPCatalogFileTemplate" Overridable="yes"><!-- _locID_text="ProgressTextInstallSFPCatalogFileTemplate" _locComment="ProgressTextInstallSFPCatalogFileTemplate" -->Skedar: [1],  Varësi: [2]</String>
+    <String Id="ProgressTextMsiPublishAssemblies" Overridable="yes"><!-- _locID_text="ProgressTextMsiPublishAssemblies" _locComment="ProgressTextMsiPublishAssemblies" -->Po publikohet informacion  asembli</String>
+    <String Id="ProgressTextMsiPublishAssembliesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextMsiPublishAssembliesTemplate" _locComment="ProgressTextMsiPublishAssembliesTemplate" -->Kontekst Aplikacioni:[1], Emër Assembly:[2]</String>
+    <String Id="ProgressTextMsiUnpublishAssemblies" Overridable="yes"><!-- _locID_text="ProgressTextMsiUnpublishAssemblies" _locComment="ProgressTextMsiUnpublishAssemblies" -->Po hiqet publikim informacion asembli</String>
+    <String Id="ProgressTextMsiUnpublishAssembliesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextMsiUnpublishAssembliesTemplate" _locComment="ProgressTextMsiUnpublishAssembliesTemplate" -->Kontekst Aplikacioni:[1], Emër Asembli:[2]</String>
+    <String Id="ProgressTextRollback" Overridable="yes"><!-- _locID_text="ProgressTextRollback" _locComment="ProgressTextRollback" -->Veprim anulimi:</String>
+    <String Id="ProgressTextRollbackTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRollbackTemplate" _locComment="ProgressTextRollbackTemplate" -->[1]</String>
+    <String Id="ProgressTextRollbackCleanup" Overridable="yes"><!-- _locID_text="ProgressTextRollbackCleanup" _locComment="ProgressTextRollbackCleanup" -->Po hiqen skedarë kopjeruajtjesh</String>
+    <String Id="ProgressTextRollbackCleanupTemplate" Overridable="yes"><!-- _locID_text="ProgressTextRollbackCleanupTemplate" _locComment="ProgressTextRollbackCleanupTemplate" -->Skedar: [1]</String>
+    <String Id="ProgressTextUnmoveFiles" Overridable="yes"><!-- _locID_text="ProgressTextUnmoveFiles" _locComment="ProgressTextUnmoveFiles" -->Po hiqen skedarë të zhvendosur</String>
+    <String Id="ProgressTextUnmoveFilesTemplate" Overridable="yes"><!-- _locID_text="ProgressTextUnmoveFilesTemplate" _locComment="ProgressTextUnmoveFilesTemplate" -->Skedar: [1], Direktori: [9]</String>
+    <String Id="ProgressTextUnpublishProduct" Overridable="yes"><!-- _locID_text="ProgressTextUnpublishProduct" _locComment="ProgressTextUnpublishProduct" -->Po hiqet publikim informacioni produkti</String>
+
+    <String Id="Error0" Overridable="yes"><!-- _locID_text="Error0" _locComment="Error0" -->{{Gabim fatal: }}</String>
+    <String Id="Error1" Overridable="yes"><!-- _locID_text="Error1" _locComment="Error1" -->{{Gabim [1]. }}</String>
+    <String Id="Error2" Overridable="yes"><!-- _locID_text="Error2" _locComment="Error2" -->Kujdes [1]. </String>
+    <String Id="Error4" Overridable="yes"><!-- _locID_text="Error4" _locComment="Error4" -->Info [1]. </String>
+    <String Id="Error5" Overridable="yes"><!-- _locID_text="Error5" _locComment="Error5" -->Instaluesi hasi një gabim të papritur teksa instalonte këtë paketë. Kjo mund të jetë shenjë e një problemi me këtë paketë. Kodi i gabimit është [1]. {{Argumentet janë: [2], [3], [4]}}</String>
+    <String Id="Error7" Overridable="yes"><!-- _locID_text="Error7" _locComment="Error7" -->{{Disku plot: }}</String>
+    <String Id="Error8" Overridable="yes"><!-- _locID_text="Error8" _locComment="Error8" -->Veprim [Kohë]: [1]. [2]</String>
+    <String Id="Error9" Overridable="yes"><!-- _locID_text="Error9" _locComment="Error9" -->[ProductName]</String>
+    <String Id="Error10" Overridable="yes"><!-- _locID_text="Error10" _locComment="Error10" -->{[2]}{, [3]}{, [4]}</String>
+    <String Id="Error11" Overridable="yes"><!-- _locID_text="Error11" _locComment="Error11" -->Lloj mesazhi: [1], Argument: [2]</String>
+    <String Id="Error12" Overridable="yes"><!-- _locID_text="Error12" _locComment="Error12" -->=== Regjistrimi filloi më: [Date]  [Time] ===</String>
+    <String Id="Error13" Overridable="yes"><!-- _locID_text="Error13" _locComment="Error13" -->=== Regjistrimi ndali më: [Date]  [Time] ===</String>
+    <String Id="Error14" Overridable="yes"><!-- _locID_text="Error14" _locComment="Error14" -->Veprimi nisi më [Time]: [1].</String>
+    <String Id="Error15" Overridable="yes"><!-- _locID_text="Error15" _locComment="Error15" -->Veprimi mbaroi më [Time]: [1]. Vlera që dha [2].</String>
+    <String Id="Error16" Overridable="yes"><!-- _locID_text="Error16" _locComment="Error16" -->Kohë e mbetur: {[1] minuta }{[2] sekonda}</String>
+    <String Id="Error17" Overridable="yes"><!-- _locID_text="Error17" _locComment="Error17" -->Kujtesë e pamjaftueshme. Mbyllni aplikacione të tjera, përpara se të riprovoni.</String>
+    <String Id="Error18" Overridable="yes"><!-- _locID_text="Error18" _locComment="Error18" -->Instaluesi nuk po përgjigjet më.</String>
+    <String Id="Error19" Overridable="yes"><!-- _locID_text="Error19" _locComment="Error19" -->Instaluesi u ndal para kohe.</String>
+    <String Id="Error20" Overridable="yes"><!-- _locID_text="Error20" _locComment="Error20" -->Ju lutemi, prisni teksa Windows formëson [ProductName]</String>
+    <String Id="Error21" Overridable="yes"><!-- _locID_text="Error21" _locComment="Error21" -->Po grumbullohet informacion i domosdoshëm...</String>
+    <String Id="Error22" Overridable="yes"><!-- _locID_text="Error22" _locComment="Error22" -->Po hiqen versione të vjetër të këtij aplikacioni...</String>
+    <String Id="Error23" Overridable="yes"><!-- _locID_text="Error23" _locComment="Error23" -->Po përgatitet heqja e versioneve të vjetër të këtij aplikacioni...</String>
+    <String Id="Error32" Overridable="yes"><!-- _locID_text="Error32" _locComment="Error32" -->{[ProductName] }Rregullimi u plotësua me sukses.</String>
+    <String Id="Error33" Overridable="yes"><!-- _locID_text="Error33" _locComment="Error33" -->{[ProductName] }Rregullimi dështoi.</String>
+    <String Id="Error1101" Overridable="yes"><!-- _locID_text="Error1101" _locComment="Error1101" -->Gabim në leximin nga skedari: [2]. {{ Gabim sistemi [3].}}  Verifikoni që skedari ekziston dhe se ju lejohet ta përdorni.</String>
+    <String Id="Error1301" Overridable="yes"><!-- _locID_text="Error1301" _locComment="Error1301" -->S’krijohet dot skedari '[2]'. Ka tashmë një direktori me këtë emër. Anuloni instalimin dhe provoni ta instaloni në një vend tjetër.</String>
+    <String Id="Error1302" Overridable="yes"><!-- _locID_text="Error1302" _locComment="Error1302" -->Ju lutemi futni diskun: [2]</String>
+    <String Id="Error1303" Overridable="yes"><!-- _locID_text="Error1303" _locComment="Error1303" -->Instaluesi ka privilegje të pamjaftueshme hyrjeje në këtë direktori: [2]. Instalimi nuk mund të vazhdojë. Bëni hyrjen si administrator, ose lidhuni me administratorin e sistemit tuaj.</String>
+    <String Id="Error1304" Overridable="yes"><!-- _locID_text="Error1304" _locComment="Error1304" -->Gabim në shkrimin te skedari: [2]. Verifikoni që keni leje përdorimi mbi atë direktori.</String>
+    <String Id="Error1305" Overridable="yes"><!-- _locID_text="Error1305" _locComment="Error1305" -->Gabim në leximin nga skedari [2]. {{ Gabim sistemi [3].}} Verifikoni që skedari ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1306" Overridable="yes"><!-- _locID_text="Error1306" _locComment="Error1306" -->Një tjetër aplikacion ka të drejta ekskluzive mbi skedarin '[2]'. Ju lutemi, mbyllni krejt aplikacionet e tjera, mandej klikoni mbi Riprovo.</String>
+    <String Id="Error1307" Overridable="yes"><!-- _locID_text="Error1307" _locComment="Error1307" -->Nuk ka hapësirë të mjaftueshme në disk që të instalohet ky skedar: [2]. Lironi ca hapësirë disku dhe klikoni mbi Riprovo, ose klikoni mbi Anuloje që të dilet.</String>
+    <String Id="Error1308" Overridable="yes"><!-- _locID_text="Error1308" _locComment="Error1308" -->S’u gjet skedari burim: [2]. Verifikoni që skedari ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1309" Overridable="yes"><!-- _locID_text="Error1309" _locComment="Error1309" -->Gabim në leximin nga skedari: [3]. {{ Gabim sistemi [2].}}  Verifikoni që skedari ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1310" Overridable="yes"><!-- _locID_text="Error1310" _locComment="Error1310" -->Gabim në shkrimin te skedari: [3]. {{ Gabim sistemi [2].}}  Verifikoni që keni leje ta përdorni atë direktori.</String>
+    <String Id="Error1311" Overridable="yes"><!-- _locID_text="Error1311" _locComment="Error1311" -->S’u gjet skedari burim{{(cabinet)}}: [2]. Verifikoni që skedari ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1312" Overridable="yes"><!-- _locID_text="Error1312" _locComment="Error1312" -->S’krijohet dot drejtoria '[2]'. Ka tashmë një skedar me këtë emër. Ju lutemi, riemërtojeni ose hiqeni skedarin dhe klikoni mbi Riprovo, ose klikoni mbi Anuloje që të dilet.</String>
+    <String Id="Error1313" Overridable="yes"><!-- _locID_text="Error1313" _locComment="Error1313" -->Volumi [2] hëpërhë është i pakapshëm. Ju lutemi, përzgjidhni një tjetër.</String>
+    <String Id="Error1314" Overridable="yes"><!-- _locID_text="Error1314" _locComment="Error1314" -->Shtegu i treguar '[2]' është i pakapshëm.</String>
+    <String Id="Error1315" Overridable="yes"><!-- _locID_text="Error1315" _locComment="Error1315" -->S’arrihet të shkruhet te dosja e treguar: [2].</String>
+    <String Id="Error1316" Overridable="yes"><!-- _locID_text="Error1316" _locComment="Error1316" -->Ndodhi një gabim rrjeti teksa provohej të lexohej prej skedari: [2]</String>
+    <String Id="Error1317" Overridable="yes"><!-- _locID_text="Error1317" _locComment="Error1317" -->Ndodhi një gabim rrjeti teksa provohej të përpiqej të krijohej direktoria: [2]</String>
+    <String Id="Error1318" Overridable="yes"><!-- _locID_text="Error1318" _locComment="Error1318" -->Ndodhi një gabim rrjeti teksa provohej të krijohej direktoria: [2]</String>
+    <String Id="Error1319" Overridable="yes"><!-- _locID_text="Error1319" _locComment="Error1319" -->Ndodhi një gabim rrjeti teksa provohej të hapej skedari burim  cab: [2]</String>
+    <String Id="Error1320" Overridable="yes"><!-- _locID_text="Error1320" _locComment="Error1320" -->Shtegu i treguar është shumë i gjatë: [2]</String>
+    <String Id="Error1321" Overridable="yes"><!-- _locID_text="Error1321" _locComment="Error1321" -->Instaluesi ka privilegje të pamjaftueshme për modifikimin e këtij skedari: [2].</String>
+    <String Id="Error1322" Overridable="yes"><!-- _locID_text="Error1322" _locComment="Error1322" -->Një pjesë e shtegut të dosjes '[2]' është e pavlefshme. Ose është e zbrazët, ose e tejkalon gjatësinë e lejuar nga sistemi.</String>
+    <String Id="Error1323" Overridable="yes"><!-- _locID_text="Error1323" _locComment="Error1323" -->Shtegu i dosjes '[2]' përmban fjalë që s’janë të vlefshme në shtigje dosjesh.</String>
+    <String Id="Error1324" Overridable="yes"><!-- _locID_text="Error1324" _locComment="Error1324" -->Shtegu i dosjes '[2]' përmban një shenjë të pavlefshme.</String>
+    <String Id="Error1325" Overridable="yes"><!-- _locID_text="Error1325" _locComment="Error1325" -->'[2]' s’është emër i shkurtër skedarësh i vlefshëm.</String>
+    <String Id="Error1326" Overridable="yes"><!-- _locID_text="Error1326" _locComment="Error1326" -->Gabim në marrje sigurie skedari: [3] GetLastError: [2]</String>
+    <String Id="Error1327" Overridable="yes"><!-- _locID_text="Error1327" _locComment="Error1327" -->Disk i Pavlefshëm: [2]</String>
+    <String Id="Error1328" Overridable="yes"><!-- _locID_text="Error1328" _locComment="Error1328" -->Gabim në aplikim arnimi mbi skedarin [2]. Ka gjasa të jetë përditësuar në rrugë të tjera, dhe s’mund të përditësohet më përmes këtij arnimi. Për më tepër të dhëna lidhuni me shitësin e arnimit tuaj. {{Gabim Sistemi: [3]}}</String>
+    <String Id="Error1329" Overridable="yes"><!-- _locID_text="Error1329" _locComment="Error1329" -->S’instalohet dot një skedar që është i domosdoshëm,  ngaqë skedari cab [2] s’është nënshkruar në mënyrë dixhitale. Kjo mund të jetë shenjë që skedari cab të jetë i dëmtuar.</String>
+    <String Id="Error1330" Overridable="yes"><!-- _locID_text="Error1330" _locComment="Error1330" -->S’instalohet dot një skedar që është i domosdoshëm, ngaqë skedari cab [2] ka një nënshkrim dixhital të pavlefshëm. Kjo mund të jetë shenjë që skedari cab të jetë i dëmtuar.{{  Gabimi [3] u dha nga WinVerifyTrust.}}</String>
+    <String Id="Error1331" Overridable="yes"><!-- _locID_text="Error1331" _locComment="Error1331" -->U dështua të kopjohet saktë skedari [2]: Gabim CRC.</String>
+    <String Id="Error1332" Overridable="yes"><!-- _locID_text="Error1332" _locComment="Error1332" -->U dështua të zhvendoset saktë skedari [2]: Gabim CRC.</String>
+    <String Id="Error1333" Overridable="yes"><!-- _locID_text="Error1333" _locComment="Error1333" -->U dështua të arnohej saktë skedari [2]: Gabim CRC.</String>
+    <String Id="Error1334" Overridable="yes"><!-- _locID_text="Error1334" _locComment="Error1334" -->Skedari '[2]' s’mund të instalohet, ngaqë s’u gjet dot në skedar cab '[3]'. Kjo mund të jetë shenjë e një gabimi rrjeti, e një gabimi leximi nga CD-ROM-i, ose i një problemi me këtë paketë.</String>
+    <String Id="Error1335" Overridable="yes"><!-- _locID_text="Error1335" _locComment="Error1335" -->Skedari cab '[2]' i domosdoshëm për këtë instalim është i dëmtuar dhe nuk mund të përdoret. Kjo mund të jetë shenjë e një gabimi rrjeti, e një gabimi leximi nga CD-ROM-i, ose i një problemi me këtë paketë.</String>
+    <String Id="Error1336" Overridable="yes"><!-- _locID_text="Error1336" _locComment="Error1336" -->Pati një gabim me krijimin e një skedari të përkohshëm që është i nevojshëm për plotësimin e instalimit.{{  Dosje: [3]. Kod gabimi sistemi: [2]}}</String>
+    <String Id="Error1401" Overridable="yes"><!-- _locID_text="Error1401" _locComment="Error1401" -->Kyçi s’u krijua dot: [2]. {{ Gabim sistemi [3].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës. </String>
+    <String Id="Error1402" Overridable="yes"><!-- _locID_text="Error1402" _locComment="Error1402" -->Kyçi s’u hap dot: [2]. {{ Gabim sistemi [3].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës. </String>
+    <String Id="Error1403" Overridable="yes"><!-- _locID_text="Error1403" _locComment="Error1403" -->Vlera s’ u fshi dot [2] prej kyçit [3]. {{ Gabim sistemi [4].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës. </String>
+    <String Id="Error1404" Overridable="yes"><!-- _locID_text="Error1404" _locComment="Error1404" -->Kyçi s’u fshi dot [2]. {{ Gabim sistemi [3].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës. </String>
+    <String Id="Error1405" Overridable="yes"><!-- _locID_text="Error1405" _locComment="Error1405" -->S’u lexua dot vlera [2] prej kyçit [3]. {{ Gabim sistemi [4].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës. </String>
+    <String Id="Error1406" Overridable="yes"><!-- _locID_text="Error1406" _locComment="Error1406" -->S’u shkrua dot vlera [2] te kyçi [3]. {{ Gabim sistemi [4].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1407" Overridable="yes"><!-- _locID_text="Error1407" _locComment="Error1407" -->S’u morën dot emra vlerash për kyçin [2]. {{ Gabim sistemi [3].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1408" Overridable="yes"><!-- _locID_text="Error1408" _locComment="Error1408" -->S’u morën dot emra nënkyçash për kyçin [2]. {{ Gabim sistemi [3].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1409" Overridable="yes"><!-- _locID_text="Error1409" _locComment="Error1409" -->S’u lexua dot informacion sigurie për kyçin [2]. {{ Gabim sistemi [3].}}  Verifikoni që keni leje të mjaftueshme përdorimi të atij kyçi, ose lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1410" Overridable="yes"><!-- _locID_text="Error1410" _locComment="Error1410" -->S’u rrit dot hapësira e përdorshme nga regjistri. Për instalimin e këtij aplikacioni lypsen [2] KB hapësirë regjistri e lirë.</String>
+    <String Id="Error1500" Overridable="yes"><!-- _locID_text="Error1500" _locComment="Error1500" -->Ka në punë e sipër një tjetër instalim. Duhet të plotësoni atë instalim, përpara se të vazhdoni me këtë të riun.</String>
+    <String Id="Error1501" Overridable="yes"><!-- _locID_text="Error1501" _locComment="Error1501" -->Gabim hyrjeje në të dhëna të siguruara. Ju lutemi, sigurohuni që Windows Installer është formësuar si duhet dhe riprovoni instalimin.</String>
+    <String Id="Error1502" Overridable="yes"><!-- _locID_text="Error1502" _locComment="Error1502" -->Përdoruesi '[2]' ka nisur më parë një instalim për produktin '[3]'. Atij përdoruesi do t’i duhet ta xhirojë sërish instalimin, përpara se të mund të përdoret prej tyre ky produkt. Tani do të vazhdojë instalimi juaj.</String>
+    <String Id="Error1503" Overridable="yes"><!-- _locID_text="Error1503" _locComment="Error1503" -->Përdoruesi '[2]' ka nisur më parë një instalim për produktin '[3]'. Atij përdoruesi do t’i duhet ta xhirojë sërish instalimin, përpara se të mund të përdoret prej tyre ky produkt.</String>
+    <String Id="Error1601" Overridable="yes"><!-- _locID_text="Error1601" _locComment="Error1601" -->Pa hapësirë në disk -- Volum: '[2]'; hapësirë e domosdoshme: [3] KB; hapësirë e përdorshme: [4] KB. Lironi ca hapësirë në disk dhe riprovoni.</String>
+    <String Id="Error1602" Overridable="yes"><!-- _locID_text="Error1602" _locComment="Error1602" -->Jeni i sigurt se doni ta anuloni?</String>
+    <String Id="Error1603" Overridable="yes"><!-- _locID_text="Error1603" _locComment="Error1603" -->Skedari [2][3] po mbahet në përdorim{ nga procesi vijues: Emër: [4], Id: [5], Titull Dritareje: '[6]'}. Mbylleni atë aplikacion dhe riprovoni.</String>
+    <String Id="Error1604" Overridable="yes"><!-- _locID_text="Error1604" _locComment="Error1604" -->Produkti '[2]' është i instaluar tashmë, çka pengon instalim e këtij produkti. Dy produktet janë të papërputhshëm.</String>
+    <String Id="Error1605" Overridable="yes"><!-- _locID_text="Error1605" _locComment="Error1605" -->Në volumin '[2]' s’ka hapësirë të mjaftueshme për të vazhduar instalimin me proces rikthimi të aktivizuar. Janë të domosdoshëm [3] KB, por mund të përdoren vetëm [4] KB. Klikoni mbi Shpërfille që të vazhdohet instalimi pa ruajtur të dhëna procesi rikthimi, klikoni mbi Riprovo që të rikontrollohet për hapësirë të përdorshme, ose Anuloje për të dalë nga instalimi.</String>
+    <String Id="Error1606" Overridable="yes"><!-- _locID_text="Error1606" _locComment="Error1606" -->S’u hy dot në vend rrjeti [2].</String>
+    <String Id="Error1607" Overridable="yes"><!-- _locID_text="Error1607" _locComment="Error1607" -->Aplikacionet vijuese do të duheshin mbyllur përpara vazhdimit të instalimit:</String>
+    <String Id="Error1608" Overridable="yes"><!-- _locID_text="Error1608" _locComment="Error1608" -->S’u gjet dot ndonjë produkt i përshtatshëm i instaluar më parë te makina për instalimin e këtij produkti.</String>
+    <String Id="Error1609" Overridable="yes"><!-- _locID_text="Error1609" _locComment="Error1609" -->Ndodhi një gabim teksa zbatoheshin rregullime sigurie. [2] s’është përdorues ose grup i vlefshëm. Ky mund të jetë një problem me paketën, ose një problem lidhjeje me një kontrollor përkatësish te rrjeti. Kontrolloni lidhjen tuaj në rrjet dhe klikoni mbi Riprovo, ose Anulojeni që të përfundohet instalimi. {{S’arrihet të lokalizohet SID përdoruesi, gabim sistemi [3]}}</String>
+    <String Id="Error1701" Overridable="yes"><!-- _locID_text="Error1701" _locComment="Error1701" -->Kyçi [2] s’është i vlefshëm. Verifikoni në dhatë kyçin e saktë.</String>
+    <String Id="Error1702" Overridable="yes"><!-- _locID_text="Error1702" _locComment="Error1702" -->Instaluesi duhet të rinisë sistemin tuaj, përpara se të mund të vazhdohet me formësimin e [2]. Klikoni mbi Po, që të riniset tani, ose mbi Jo, nëse keni në plan ta rinisni dorazi më vonë.</String>
+    <String Id="Error1703" Overridable="yes"><!-- _locID_text="Error1703" _locComment="Error1703" -->Që të hyjnë në fuqi ndryshimet e formësimit të bëra te [2], duhet të rinisni sistemin tuaj. Klikoni mbi Po, që të riniset tani, ose mbi Jo, nëse keni në plan ta rinisni dorazi më vonë.</String>
+    <String Id="Error1704" Overridable="yes"><!-- _locID_text="Error1704" _locComment="Error1704" -->Ka të pezulluar një instalim për [2]. Që të vazhdohet, duhet të zhbëni ndryshimet e bëra nga ai instalim. Doni të zhbëhen ato ndryshime?</String>
+    <String Id="Error1705" Overridable="yes"><!-- _locID_text="Error1705" _locComment="Error1705" -->Ka në punë e sipër një instalim të mëparshëm të këtij produkti. Që të vazhdohet, duhet të zhbëni ndryshimet e bëra nga ai instalim. Doni të zhbëhen ato ndryshime?</String>
+    <String Id="Error1706" Overridable="yes"><!-- _locID_text="Error1706" _locComment="Error1706" -->S’gjendet dot një paketë instalimi për produktin [2]. Riprovoni instalimin duke përdorur një kopje të vlefshme të paketës së instalimit '[3]'.</String>
+    <String Id="Error1707" Overridable="yes"><!-- _locID_text="Error1707" _locComment="Error1707" -->Instalimi u plotësua me sukses.</String>
+    <String Id="Error1708" Overridable="yes"><!-- _locID_text="Error1708" _locComment="Error1708" -->Instalimi dështoi.</String>
+    <String Id="Error1709" Overridable="yes"><!-- _locID_text="Error1709" _locComment="Error1709" -->Produkt: [2] -- [3]</String>
+    <String Id="Error1710" Overridable="yes"><!-- _locID_text="Error1710" _locComment="Error1710" -->Ose mund ta riktheni kompjuterin tuaj në gjendjen e vet të mëparshme, ose të vazhdoni instalimin më vonë. Do të donit të rikthehet?</String>
+    <String Id="Error1711" Overridable="yes"><!-- _locID_text="Error1711" _locComment="Error1711" -->Ndodhi një gabim teksa shkruheshin në disk të dhëna instalimi. Kontrolloni për t’u siguruar se ka të përdorshme hapësirë disku të mjaftueshme, dhe klikoni mbi Riprovo, ose Anuloje që të përfundohet instalimi.</String>
+    <String Id="Error1712" Overridable="yes"><!-- _locID_text="Error1712" _locComment="Error1712" -->S’u gjet dot një ose më tepër skedarë të domosdoshëm për rikthimin e kompjuterit tuaj në gjendjen e vet të mëparshme. Rikthimi s’është i mundshëm.</String>
+    <String Id="Error1713" Overridable="yes"><!-- _locID_text="Error1713" _locComment="Error1713" -->[2] s’instalon dot një nga produktet e veta të domosdoshme. Lidhuni me grupin tuaj të asistencës teknike. {{Gabim Sistemi: [3].}}</String>
+    <String Id="Error1714" Overridable="yes"><!-- _locID_text="Error1714" _locComment="Error1714" -->Versioni i vjetër i [2] s’mund të hiqet. Lidhuni me grupin tuaj të asistencës teknike. {{Gabim Sistemi [3].}}</String>
+    <String Id="Error1715" Overridable="yes"><!-- _locID_text="Error1715" _locComment="Error1715" -->U instalua [2]</String>
+    <String Id="Error1716" Overridable="yes"><!-- _locID_text="Error1716" _locComment="Error1716" -->U formësua [2]</String>
+    <String Id="Error1717" Overridable="yes"><!-- _locID_text="Error1717" _locComment="Error1717" -->U hoq [2]</String>
+    <String Id="Error1718" Overridable="yes"><!-- _locID_text="Error1718" _locComment="Error1718" -->Skedari [2] u hodh poshtë nga rregullat mbi nënshkrimet dixhitale.</String>
+    <String Id="Error1719" Overridable="yes"><!-- _locID_text="Error1719" _locComment="Error1719" -->S’u hy dot te Windows Installer Service. Kjo mund të ngjasë kur Windows-in e xhironi nën mënyrën e sigurt, ose Windows Installer s’është instaluar si duhet. Për asistencë lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1720" Overridable="yes"><!-- _locID_text="Error1720" _locComment="Error1720" -->Ka një problem me këtë paketë Windows Installer. S’xhirohet dot një skript i domosdoshëm për plotësimin e këtij instalimi. Lidhuni me personelin tuaj të asistencës ose me shitësin e paketës. {{Veprim [2] gabim skripti [3], [4]: [5] Rresht [6], Shtyllë [7], [8] }}</String>
+    <String Id="Error1721" Overridable="yes"><!-- _locID_text="Error1721" _locComment="Error1721" -->Ka një problem me këtë paketë Windows Installer. S’xhirohet dot një program i domosdoshëm për plotësimin e këtij instalimi. Lidhuni me personelin tuaj të asistencës ose me shitësin e paketës. {{Veprim: [2], vend: [3], urdhër: [4] }}</String>
+    <String Id="Error1722" Overridable="yes"><!-- _locID_text="Error1722" _locComment="Error1722" -->Ka një problem me këtë paketë Windows Installer. Një program i xhiruar si pjesë e rregullimit s’përfundoi siç pritej. Lidhuni me personelin tuaj të asistencës ose me shitësin e paketës. {{Veprim [2], vend: [3], urdhër: [4] }}</String>
+    <String Id="Error1723" Overridable="yes"><!-- _locID_text="Error1723" _locComment="Error1723" -->Ka një problem me këtë paketë Windows Installer. S’u xhirua dot një DLL e domosdoshme për plotësimin e këtij instalimi. Lidhuni me personelin tuaj të asistencës ose me shitësin e paketës. {{Veprim [2], zë: [3], librari: [4] }}</String>
+    <String Id="Error1724" Overridable="yes"><!-- _locID_text="Error1724" _locComment="Error1724" -->Heqja u plotësua me sukses.</String>
+    <String Id="Error1725" Overridable="yes"><!-- _locID_text="Error1725" _locComment="Error1725" -->Heqja dështoi.</String>
+    <String Id="Error1726" Overridable="yes"><!-- _locID_text="Error1726" _locComment="Error1726" -->Lajmërimi u plotësua me sukses.</String>
+    <String Id="Error1727" Overridable="yes"><!-- _locID_text="Error1727" _locComment="Error1727" -->Lajmërimi dështoi.</String>
+    <String Id="Error1728" Overridable="yes"><!-- _locID_text="Error1728" _locComment="Error1728" -->Formësimi u plotësua me sukses.</String>
+    <String Id="Error1729" Overridable="yes"><!-- _locID_text="Error1729" _locComment="Error1729" -->Formësimi dështoi.</String>
+    <String Id="Error1730" Overridable="yes"><!-- _locID_text="Error1730" _locComment="Error1730" -->Që ta hiqni këtë aplikacion, duhet të jeni Administrator. Që ta hiqni këtë aplikacion, mund të hyni si Administrator, ose të lidheni për asistencë me grupin tuaj të asistencës teknike.</String>
+    <String Id="Error1731" Overridable="yes"><!-- _locID_text="Error1731" _locComment="Error1731" -->Paketa burim e instalimit për produktin [2] s’është e sinkronizuar me paketën klient. Riprovoni instalimin duke përdorur një kopje të vlefshme të paketës së instalimit '[3]'.</String>
+    <String Id="Error1732" Overridable="yes"><!-- _locID_text="Error1732" _locComment="Error1732" -->Që të mund të plotësohet instalimi i [2], kompjuteri duhet të riniset. Hëpërhë ka përdorues të tjerë që kanë bërë hyrjen në këtë kompjuter, dhe rinisja e tij mund të shkaktojë për ta humbjen e asaj që po bënin. Doni të riniset tani?</String>
+    <String Id="Error1801" Overridable="yes"><!-- _locID_text="Error1801" _locComment="Error1801" -->Shtegu [2] s’është i vlefshëm. Ju lutemi, përcaktoni një shteg të vlefshëm.</String>
+    <String Id="Error1802" Overridable="yes"><!-- _locID_text="Error1802" _locComment="Error1802" -->Kujtesë e pamjaftueshme. Para se të riprovoni, mbyllni aplikacione të tjera.</String>
+    <String Id="Error1803" Overridable="yes"><!-- _locID_text="Error1803" _locComment="Error1803" -->S’ka disk në pajisje [2]. Ju lutemi, futni një të tillë dhe klikoni mbi Riprovo, ose klikoni mbi Anulo që të kalohet mbrapsht te volumi i përzgjedhur më parë.</String>
+    <String Id="Error1804" Overridable="yes"><!-- _locID_text="Error1804" _locComment="Error1804" -->S’ka disk në pajisje [2]. Ju lutemi, futni një të tillë dhe klikoni mbi Riprovo, ose klikoni mbi Anulojeni që të rikthehet dialogu i shfletuesit dhe të përzgjidhni një volum tjetër.</String>
+    <String Id="Error1805" Overridable="yes"><!-- _locID_text="Error1805" _locComment="Error1805" -->Dosja [2] nuk ekziston. Ju lutemi, jepni një shteg për te një dosje që ekziston.</String>
+    <String Id="Error1806" Overridable="yes"><!-- _locID_text="Error1806" _locComment="Error1806" -->Keni privilegje të pamjaftueshme për leximin e kësaj dosjeje.</String>
+    <String Id="Error1807" Overridable="yes"><!-- _locID_text="Error1807" _locComment="Error1807" -->S’u përcaktua dot një dosje e vlefshme për instalimin.</String>
+    <String Id="Error1901" Overridable="yes"><!-- _locID_text="Error1901" _locComment="Error1901" -->Gabim në përpjekjen për të lexuar prej bazës së të dhënave burim të instalimit: [2].</String>
+    <String Id="Error1902" Overridable="yes"><!-- _locID_text="Error1902" _locComment="Error1902" -->Po planifikohet operacion rinisjeje: Po emërtohet skedari [2] si [3]. Që të plotësohet operacioni, duhet bërë rinisja.</String>
+    <String Id="Error1903" Overridable="yes"><!-- _locID_text="Error1903" _locComment="Error1903" -->Po planifikohet operacion rinisjeje: Po fshihet skedari [2]. Që të plotësohet operacioni, duhet bërë rinisja.</String>
+    <String Id="Error1904" Overridable="yes"><!-- _locID_text="Error1904" _locComment="Error1904" -->Dështoi regjistrimi i modulit [2]. HRESULT [3]. Lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1905" Overridable="yes"><!-- _locID_text="Error1905" _locComment="Error1905" -->Dështoi çregjistrimi i modulit [2]. HRESULT [3]. Lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1906" Overridable="yes"><!-- _locID_text="Error1906" _locComment="Error1906" -->Dështoi ruajtja në fshehtinë e paketës [2]. Gabim: [3]. Lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1907" Overridable="yes"><!-- _locID_text="Error1907" _locComment="Error1907" -->S’u regjistruan dot shkronjat [2]. Verifikoni se keni leje të mjaftueshme për instalim shkronjash, dhe se këto shkronja mbulohen nga sistemi.</String>
+    <String Id="Error1908" Overridable="yes"><!-- _locID_text="Error1908" _locComment="Error1908" -->S’u çregjistruan dot shkronjat [2]. Verifikoni se keni leje të mjaftueshme për heqje shkronjash.</String>
+    <String Id="Error1909" Overridable="yes"><!-- _locID_text="Error1909" _locComment="Error1909" -->S’u krijua dot shkurtore tastiere [2]. Verifikoni që dosja destinacion ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1910" Overridable="yes"><!-- _locID_text="Error1910" _locComment="Error1910" -->S’u hoq dot shkurtore tastiere [2]. Verifikoni që skedari i shkurtores ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1911" Overridable="yes"><!-- _locID_text="Error1911" _locComment="Error1911" -->S’u regjistrua dot lloj librarie për skedarin [2]. Lidhuni me personelin e asistencës tuaj.</String>
+    <String Id="Error1912" Overridable="yes"><!-- _locID_text="Error1912" _locComment="Error1912" -->S’u çregjistrua dot lloj librarie për skedarin [2]. Lidhuni me personelin e asistencës tuaj.</String>
+    <String Id="Error1913" Overridable="yes"><!-- _locID_text="Error1913" _locComment="Error1913" -->S’u përditësua dot skedari ini [2][3]. Verifikoni që skedari ekziston dhe se keni leje ta përdorni atë.</String>
+    <String Id="Error1914" Overridable="yes"><!-- _locID_text="Error1914" _locComment="Error1914" -->S’u planifikua dot zëvendësimi me skedarin [2] i skedarit [3] gjatë rinisjes. Verifikoni se keni leje shkrimi mbi skedarin [3].</String>
+    <String Id="Error1915" Overridable="yes"><!-- _locID_text="Error1915" _locComment="Error1915" -->Gabim në heqje përgjegjësi përudhësi ODBC, gabim ODBC [2]: [3]. Lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1916" Overridable="yes"><!-- _locID_text="Error1916" _locComment="Error1916" -->Gabim në instalim përgjegjësi përudhësi ODBC, gabim ODBC [2]: [3]. Lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1917" Overridable="yes"><!-- _locID_text="Error1917" _locComment="Error1917" -->Gabim në heqje përudhësi ODBC: [4], gabim ODBC [2]: [3]. Verifikoni se keni privilegje të mjaftueshme për heqje përudhësish ODBC.</String>
+    <String Id="Error1918" Overridable="yes"><!-- _locID_text="Error1918" _locComment="Error1918" -->Gabim në instalim përudhësi ODBC: [4], gabim ODBC [2]: [3]. Verifikoni se skedari [4] ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1919" Overridable="yes"><!-- _locID_text="Error1919" _locComment="Error1919" -->Gabim në formësim burimi ODBC të dhënash: [4], gabim ODBC [2]: [3]. Verifikoni se skedari [4] ekziston dhe se keni leje ta përdorni.</String>
+    <String Id="Error1920" Overridable="yes"><!-- _locID_text="Error1920" _locComment="Error1920" -->Shërbimi '[2]' ([3]) dështoi të nisej. Verifikoni se keni privilegje të mjaftueshme për nisje shërbimesh sistemi.</String>
+    <String Id="Error1921" Overridable="yes"><!-- _locID_text="Error1921" _locComment="Error1921" -->Shërbimi '[2]' ([3]) s’u ndal dot. Verifikoni se keni privilegje të mjaftueshme për ndalje shërbimesh sistemi.</String>
+    <String Id="Error1922" Overridable="yes"><!-- _locID_text="Error1922" _locComment="Error1922" -->Shërbimi '[2]' ([3]) s’u fshi dot. Verifikoni se keni privilegje të mjaftueshme për heqje shërbimesh sistemi.</String>
+    <String Id="Error1923" Overridable="yes"><!-- _locID_text="Error1923" _locComment="Error1923" -->Shërbimi '[2]' ([3]) s’u instalua dot. Verifikoni se keni privilegje të mjaftueshme për instalim shërbimesh sistemi.</String>
+    <String Id="Error1924" Overridable="yes"><!-- _locID_text="Error1924" _locComment="Error1924" -->S’u përditësua dot ndryshore mjedisi '[2]'. Verifikoni se keni privilegje të mjaftueshme për modifikim ndryshoresh mjedisi.</String>
+    <String Id="Error1925" Overridable="yes"><!-- _locID_text="Error1925" _locComment="Error1925" -->Nuk keni privilegje të mjaftueshme për plotësimin e këtij instalimi për krejt përdoruesit e makinës. Bëni hyrjen si administrator dhe mandej riprovoni këtë instalim.</String>
+    <String Id="Error1926" Overridable="yes"><!-- _locID_text="Error1926" _locComment="Error1926" -->S’u caktua dot siguri skedari për skedarin '[3]'. Gabim: [2]. Verifikoni se keni privilegje të mjaftueshme për modifikim lejesh sigurie për këtë skedar.</String>
+    <String Id="Error1927" Overridable="yes"><!-- _locID_text="Error1927" _locComment="Error1927" -->Shërbime Përbërësish (COM+ 1.0) nuk janë të instaluar në këtë kompjuter. Ky instalim lyp Shërbime Përbërësish që të mund të plotësohet me sukses. Shërbime Përbërësish gjenden te Windows 2000.</String>
+    <String Id="Error1928" Overridable="yes"><!-- _locID_text="Error1928" _locComment="Error1928" -->Gabim në regjistrim Aplikacioni COM+. Për më tepër të dhëna lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1929" Overridable="yes"><!-- _locID_text="Error1929" _locComment="Error1929" -->Gabim në çregjistrim Aplikacioni COM+. Për më tepër të dhëna lidhuni me personelin tuaj të asistencës.</String>
+    <String Id="Error1930" Overridable="yes"><!-- _locID_text="Error1930" _locComment="Error1930" -->S’u ndryshua dot përshkrimi për shërbimin '[2]' ([3]).</String>
+    <String Id="Error1931" Overridable="yes"><!-- _locID_text="Error1931" _locComment="Error1931" -->Shërbimi Windows Installer s’përditëson dot skedarin e sistemit [2], ngaqë skedari është i mbrojtur nga Windows-i. Që ky program të punojë si duhet, mund t’ju duhet të përditësoni sistemin tuaj operativ. {{Version pakete: [3], version OS i Mbrojtur: [4]}}</String>
+    <String Id="Error1932" Overridable="yes"><!-- _locID_text="Error1932" _locComment="Error1932" -->Shërbimi Windows Installer s’përditëson dot skedarin Windows të mbrojtur [2]. {{Version pakete: [3], version OS i Mbrojtur: [4], Gabim SFP: [5]}}</String>
+    <String Id="Error1933" Overridable="yes"><!-- _locID_text="Error1933" _locComment="Error1933" -->Shërbimi Windows Installer s’përditëson dot një ose më shumë skedarë Windows të mbrojtur. {{Gabim SFP: [2]. Listë skedarësh të mbrojtur:\r\n[3]}}</String>
+    <String Id="Error1934" Overridable="yes"><!-- _locID_text="Error1934" _locComment="Error1934" -->Instalimet nga përdorues janë çaktivizuar nga rregulla te makina.</String>
+    <String Id="Error1935" Overridable="yes"><!-- _locID_text="Error1935" _locComment="Error1935" -->Ndodhi një gabim gjatë instalimit të asemblit '[6]'. Për më tepër të dhëna, ju lutemi, referojuni Ndihmës dhe Asistencës. HRESULT: [3]. {{ndërfaqe asembli: [4], funksion: [5], përbërës: [2]}}</String>
+    <String Id="Error1936" Overridable="yes"><!-- _locID_text="Error1936" _locComment="Error1936" -->Ndodhi një gabim gjatë instalimit të asemblit '[6]'. Asembli s’është emërtuar fort, ose s’është nënshkruar me gjatësinë minimum për kyça. HRESULT: [3]. {{ndërfaqe asembli: [4], funksion: [5], përbërës: [2]}}</String>
+    <String Id="Error1937" Overridable="yes"><!-- _locID_text="Error1937" _locComment="Error1937" -->Ndodhi një gabim gjatë instalimit të asemblit '[6]'. Nënshkrimi ose katalogu s’u verifikuan dot, ose s’janë të vlefshëm. HRESULT: [3]. {{ndërfaqe asembli: [4], funksion: [5], përbërës: [2]}}</String>
+    <String Id="Error1938" Overridable="yes"><!-- _locID_text="Error1938" _locComment="Error1938" -->Ndodhi një gabim gjatë instalimit të asemblit '[6]'. S’u gjetën dot një ose më shumë module asembli. HRESULT: [3]. {{ndërfaqe asembli: [4], funksion: [5], përbërës: [2]}}</String>
+
+    <String Id="UITextbytes" Overridable="yes"><!-- _locID_text="UITextbytes" _locComment="UITextbytes" -->bajte</String>
+    <String Id="UITextGB" Overridable="yes"><!-- _locID_text="UITextGB" _locComment="UITextGB" -->GB</String>
+    <String Id="UITextKB" Overridable="yes"><!-- _locID_text="UITextKB" _locComment="UITextKB" -->KB</String>
+    <String Id="UITextMB" Overridable="yes"><!-- _locID_text="UITextMB" _locComment="UITextMB" -->MB</String>
+    <String Id="UITextMenuAbsent" Overridable="yes"><!-- _locID_text="UITextMenuAbsent" _locComment="UITextMenuAbsent" -->S’do të mund të përdoret dot krejt veçoria</String>
+    <String Id="UITextMenuAdvertise" Overridable="yes"><!-- _locID_text="UITextMenuAdvertise" _locComment="UITextMenuAdvertise" -->Veçoria do të instalohet kur  kjo të jetë e domosdoshme</String>
+    <String Id="UITextMenuAllCD" Overridable="yes"><!-- _locID_text="UITextMenuAllCD" _locComment="UITextMenuAllCD" -->Krejt veçoria do të instalohet për t’u xhiruar që nga CD-ja</String>
+    <String Id="UITextMenuAllLocal" Overridable="yes"><!-- _locID_text="UITextMenuAllLocal" _locComment="UITextMenuAllLocal" -->Krejt veçoria do të instalohet në hard disk lokal</String>
+    <String Id="UITextMenuAllNetwork" Overridable="yes"><!-- _locID_text="UITextMenuAllNetwork" _locComment="UITextMenuAllNetwork" -->Krejt veçoria do të instalohet për t’u xhiruar që nga rrjeti</String>
+    <String Id="UITextMenuCD" Overridable="yes"><!-- _locID_text="UITextMenuCD" _locComment="UITextMenuCD" -->Do të instalohet për t’u xhiruar që nga CD-ja</String>
+    <String Id="UITextMenuLocal" Overridable="yes"><!-- _locID_text="UITextMenuLocal" _locComment="UITextMenuLocal" -->Do të instalohet në hard disk lokal</String>
+    <String Id="UITextMenuNetwork" Overridable="yes"><!-- _locID_text="UITextMenuNetwork" _locComment="UITextMenuNetwork" -->Do të instalohet për t’u xhiruar që nga rrjeti</String>
+    <String Id="UITextNewFolder" Overridable="yes"><!-- _locID_text="UITextNewFolder" _locComment="UITextNewFolder" -->Dosje|Dosje e Re</String>
+    <String Id="UITextScriptInProgress" Overridable="yes"><!-- _locID_text="UITextScriptInProgress" _locComment="UITextScriptInProgress" -->Po grumbullohen të dhëna të domosdoshme…</String>
+    <String Id="UITextSelAbsentAbsent" Overridable="yes"><!-- _locID_text="UITextSelAbsentAbsent" _locComment="UITextSelAbsentAbsent" -->Kjo veçori do të mbesë e çinstaluar</String>
+    <String Id="UITextSelAbsentAdvertise" Overridable="yes"><!-- _locID_text="UITextSelAbsentAdvertise" _locComment="UITextSelAbsentAdvertise" -->Kjo veçori do të instalohet kur kjo të jetë e domosdoshme</String>
+    <String Id="UITextSelAbsentCD" Overridable="yes"><!-- _locID_text="UITextSelAbsentCD" _locComment="UITextSelAbsentCD" -->Kjo veçori do të instalohet për t’u xhiruar që nga CD-ja</String>
+    <String Id="UITextSelAbsentLocal" Overridable="yes"><!-- _locID_text="UITextSelAbsentLocal" _locComment="UITextSelAbsentLocal" -->Kjo veçori do të instalohet në hard diskun</String>
+    <String Id="UITextSelAbsentNetwork" Overridable="yes"><!-- _locID_text="UITextSelAbsentNetwork" _locComment="UITextSelAbsentNetwork" -->Kjo veçori do të instalohet për t’u xhiruar që nga rrjeti</String>
+    <String Id="UITextSelAdvertiseAbsent" Overridable="yes"><!-- _locID_text="UITextSelAdvertiseAbsent" _locComment="UITextSelAdvertiseAbsent" -->Kjo veçori do të bëhet e papërdorshme</String>
+    <String Id="UITextSelAdvertiseAdvertise" Overridable="yes"><!-- _locID_text="UITextSelAdvertiseAdvertise" _locComment="UITextSelAdvertiseAdvertise" -->Do të instalohet kur kjo të jetë e domosdoshme</String>
+    <String Id="UITextSelAdvertiseCD" Overridable="yes"><!-- _locID_text="UITextSelAdvertiseCD" _locComment="UITextSelAdvertiseCD" -->Kjo veçori do të jetë e përdorshme si xhirim që nga CD-ja</String>
+    <String Id="UITextSelAdvertiseLocal" Overridable="yes"><!-- _locID_text="UITextSelAdvertiseLocal" _locComment="UITextSelAdvertiseLocal" -->Kjo veçori do të instalohet hard diskun tuaj lokal</String>
+    <String Id="UITextSelAdvertiseNetwork" Overridable="yes"><!-- _locID_text="UITextSelAdvertiseNetwork" _locComment="UITextSelAdvertiseNetwork" -->Kjo veçori do të jetë e përdorshme si xhirim që nga rrjeti</String>
+    <String Id="UITextSelCDAbsent" Overridable="yes"><!-- _locID_text="UITextSelCDAbsent" _locComment="UITextSelCDAbsent" -->Kjo veçori do të çinstalohet plotësisht, s’do të jeni në gjendje ta xhironi që nga CD-ja</String>
+    <String Id="UITextSelCDAdvertise" Overridable="yes"><!-- _locID_text="UITextSelCDAdvertise" _locComment="UITextSelCDAdvertise" -->Kësaj veçorie do t’i ndryshohet gjendja nga xhirimi që nga CD-ja, në instalim kur kjo të jetë e domosdoshme</String>
+    <String Id="UITextSelCDCD" Overridable="yes"><!-- _locID_text="UITextSelCDCD" _locComment="UITextSelCDCD" -->Kjo veçori do të mbesë për xhirim që nga CD-ja</String>
+    <String Id="UITextSelCDLocal" Overridable="yes"><!-- _locID_text="UITextSelCDLocal" _locComment="UITextSelCDLocal" -->Kësaj veçorie do t’i ndryshohet gjendja nga xhirimi që nga CD-ja në instalim te hard disku lokal</String>
+    <String Id="UITextSelChildCostNeg" Overridable="yes"><!-- _locID_text="UITextSelChildCostNeg" _locComment="UITextSelChildCostNeg" -->Kjo veçori liron [1] në hard diskun tuaj.</String>
+    <String Id="UITextSelChildCostPos" Overridable="yes"><!-- _locID_text="UITextSelChildCostPos" _locComment="UITextSelChildCostPos" -->Kjo veçori lyp [1] në hard diskun tuaj.</String>
+    <String Id="UITextSelCostPending" Overridable="yes"><!-- _locID_text="UITextSelCostPending" _locComment="UITextSelCostPending" -->Po përpilohen kostot për këtë veçori…</String>
+    <String Id="UITextSelLocalAbsent" Overridable="yes"><!-- _locID_text="UITextSelLocalAbsent" _locComment="UITextSelLocalAbsent" -->Kjo veçori do të hiqet plotësisht</String>
+    <String Id="UITextSelLocalAdvertise" Overridable="yes"><!-- _locID_text="UITextSelLocalAdvertise" _locComment="UITextSelLocalAdvertise" -->Kjo veçori do të hiqet nga hard disku juaj vendor, por do t’i caktohet gjendja si e instalueshme kur kjo të jetë e domosdoshme</String>
+    <String Id="UITextSelLocalCD" Overridable="yes"><!-- _locID_text="UITextSelLocalCD" _locComment="UITextSelLocalCD" -->Kjo veçori do të hiqet nga hard disku juaj vendor, por do të jetë prapëseprapë e përdorshme si xhirim që nga CD-ja</String>
+    <String Id="UITextSelLocalLocal" Overridable="yes"><!-- _locID_text="UITextSelLocalLocal" _locComment="UITextSelLocalLocal" -->Kjo veçori do të mbesë në hard diskun tuaj lokal</String>
+    <String Id="UITextSelLocalNetwork" Overridable="yes"><!-- _locID_text="UITextSelLocalNetwork" _locComment="UITextSelLocalNetwork" -->Kjo veçori do të hiqet nga hard disku juaj vendor, por do të jetë prapëseprapë e përdorshme si xhirim që nga rrjeti</String>
+    <String Id="UITextSelNetworkAbsent" Overridable="yes"><!-- _locID_text="UITextSelNetworkAbsent" _locComment="UITextSelNetworkAbsent" -->Kjo veçori do të çinstalohet plotësisht, s’do të jeni në gjendje ta xhironi që nga rrjeti</String>
+    <String Id="UITextSelNetworkAdvertise" Overridable="yes"><!-- _locID_text="UITextSelNetworkAdvertise" _locComment="UITextSelNetworkAdvertise" -->Kësaj veçorie do t’i ndryshohet gjendja nga xhirimi që nga rrjeti, në instalim kur kjo të jetë e domosdoshme</String>
+    <String Id="UITextSelNetworkLocal" Overridable="yes"><!-- _locID_text="UITextSelNetworkLocal" _locComment="UITextSelNetworkLocal" -->Kësaj veçorie do t’i ndryshohet gjendja nga xhirimi që nga rrjeti, në instalim te hard disku lokal</String>
+    <String Id="UITextSelNetworkNetwork" Overridable="yes"><!-- _locID_text="UITextSelNetworkNetwork" _locComment="UITextSelNetworkNetwork" -->Kjo veçori do të mbesë për xhirim që nga rrjeti</String>
+    <String Id="UITextSelParentCostNegNeg" Overridable="yes"><!-- _locID_text="UITextSelParentCostNegNeg" _locComment="UITextSelParentCostNegNeg" -->Kjo veçori liron [1] në hard diskun tuaj. Ka të përzgjedhura [2] nga [3] nënveçori gjithsej. Nënveçoritë lirojnë [4] në hard diskun tuaj.</String>
+    <String Id="UITextSelParentCostNegPos" Overridable="yes"><!-- _locID_text="UITextSelParentCostNegPos" _locComment="UITextSelParentCostNegPos" -->Kjo veçori liron [1] në hard diskun tuaj. Ka të përzgjedhura [2] nga [3] nënveçori gjithsej. Nënveçoritë lypin [4] në hard diskun tuaj.</String>
+    <String Id="UITextSelParentCostPosNeg" Overridable="yes"><!-- _locID_text="UITextSelParentCostPosNeg" _locComment="UITextSelParentCostPosNeg" -->Kjo veçori lyp [1] në hard diskun tuaj. Ka të përzgjedhura [2] nga [3] nënveçori gjithsej. Nënveçoritë lirojnë [4] në hard diskun tuaj.</String>
+    <String Id="UITextSelParentCostPosPos" Overridable="yes"><!-- _locID_text="UITextSelParentCostPosPos" _locComment="UITextSelParentCostPosPos" -->Kjo veçori lyp [1] në hard diskun tuaj. Ka të përzgjedhura [2] nga [3] nënveçori gjithsej. Nënveçoritë lypin [4] në hard diskun tuaj.</String>
+    <String Id="UITextTimeRemaining" Overridable="yes"><!-- _locID_text="UITextTimeRemaining" _locComment="UITextTimeRemaining" -->Kohë e mbetur: {[1] minuta }{[2] sekonda}</String>
+    <String Id="UITextVolumeCostAvailable" Overridable="yes"><!-- _locID_text="UITextVolumeCostAvailable" _locComment="UITextVolumeCostAvailable" -->E gatshme</String>
+    <String Id="UITextVolumeCostDifference" Overridable="yes"><!-- _locID_text="UITextVolumeCostDifference" _locComment="UITextVolumeCostDifference" -->Diferencë</String>
+    <String Id="UITextVolumeCostRequired" Overridable="yes"><!-- _locID_text="UITextVolumeCostRequired" _locComment="UITextVolumeCostRequired" -->E domosdoshme</String>
+    <String Id="UITextVolumeCostSize" Overridable="yes"><!-- _locID_text="UITextVolumeCostSize" _locComment="UITextVolumeCostSize" -->Madhësi Disku</String>
+    <String Id="UITextVolumeCostVolume" Overridable="yes"><!-- _locID_text="UITextVolumeCostVolume" _locComment="UITextVolumeCostVolume" -->Volum</String>
+</WixLocalization>

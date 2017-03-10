@@ -168,7 +168,7 @@
     <Exec Command='git -c user.name="WixBuild" -c user.email="wix@wixtoolset.org" commit -m "WixBuild: Version $(Version)"'
           WorkingDirectory="$(ProjectFolder)" ContinueOnError="true" />
 
-    <Exec Command='git push --repo https://$(GithubUser):$(GithubPassword)@github.com/wixtoolset/wix3.git origin develop'
+    <Exec Command='git push --repo https://$(GithubUser):$(GithubPassword)@github.com/wixtoolset/wix3.git origin HEAD:develop'
           WorkingDirectory="$(ProjectFolder)" />
 
     <Message Importance="Normal" Text="History push complete." />

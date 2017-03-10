@@ -135,6 +135,7 @@ static HRESULT OnSessionBegin(
     );
 static HRESULT OnSessionResume(
     __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
     __in BYTE* pbData,
     __in DWORD cbData
     );
@@ -418,7 +419,8 @@ LExit:
 extern "C" HRESULT ElevationSessionResume(
     __in HANDLE hPipe,
     __in_z LPCWSTR wzResumeCommandLine,
-    __in BOOL fDisableResume
+    __in BOOL fDisableResume,
+    __in BURN_VARIABLES* pVariables
     )
 {
     HRESULT hr = S_OK;
@@ -432,6 +434,9 @@ extern "C" HRESULT ElevationSessionResume(
 
     hr = BuffWriteNumber(&pbData, &cbData, fDisableResume);
     ExitOnFailure(hr, "Failed to write resume flag.");
+
+    hr = VariableSerialize(pVariables, FALSE, &pbData, &cbData);
+    ExitOnFailure(hr, "Failed to write variables.");
 
     // send message
     hr = PipeSendMessage(hPipe, BURN_ELEVATION_MESSAGE_TYPE_SESSION_RESUME, pbData, cbData, NULL, NULL, &dwResult);
@@ -1452,7 +1457,7 @@ static HRESULT ProcessElevatedChildMessage(
         break;
 
     case BURN_ELEVATION_MESSAGE_TYPE_SESSION_RESUME:
-        hrResult = OnSessionResume(pContext->pRegistration, (BYTE*)pMsg->pvData, pMsg->cbData);
+        hrResult = OnSessionResume(pContext->pRegistration, pContext->pVariables, (BYTE*)pMsg->pvData, pMsg->cbData);
         break;
 
     case BURN_ELEVATION_MESSAGE_TYPE_SESSION_END:
@@ -1736,6 +1741,7 @@ LExit:
 
 static HRESULT OnSessionResume(
     __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
     __in BYTE* pbData,
     __in DWORD cbData
     )
@@ -1750,9 +1756,12 @@ static HRESULT OnSessionResume(
     hr = BuffReadNumber(pbData, cbData, &iData, (DWORD*)&pRegistration->fDisableResume);
     ExitOnFailure(hr, "Failed to read resume flag.");
 
-    // suspend session in per-machine process
-    hr = RegistrationSessionResume(pRegistration);
-    ExitOnFailure(hr, "Failed to suspend registration session.");
+    hr = VariableDeserialize(pVariables, FALSE, pbData, cbData, &iData);
+    ExitOnFailure(hr, "Failed to read variables.");
+
+    // resume session in per-machine process
+    hr = RegistrationSessionResume(pRegistration, pVariables);
+    ExitOnFailure(hr, "Failed to resume registration session.");
 
 LExit:
     return hr;

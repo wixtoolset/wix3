@@ -26,13 +26,13 @@
   <!-- These properties can be overridden to support non-default installations. -->
   <PropertyGroup>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.10\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.10\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
     <LuxTargetsPath Condition=" '$(LuxTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Lux.targets</LuxTargetsPath>
-    <LuxTasksPath Condition=" '$(LuxTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.10\bin\LuxTasks.dll</LuxTasksPath>
+    <LuxTasksPath Condition=" '$(LuxTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.11\bin\LuxTasks.dll</LuxTasksPath>
     <LuxTargetsPath Condition=" '$(LuxTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Lux.targets</LuxTargetsPath>
-    <LuxTasksPath Condition=" '$(LuxTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.10\bin\LuxTasks.dll</LuxTasksPath>
+    <LuxTasksPath Condition=" '$(LuxTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.11\bin\LuxTasks.dll</LuxTasksPath>
   </PropertyGroup>
 
   <!-- This makes the project files a dependency of all targets so that things rebuild if they change -->
@@ -453,8 +453,8 @@
   ==================================================================================================
   -->
   <PropertyGroup>
-    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.10</WixInstallRegKey>
-    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.10</WixInstallRegKeyWow64>
+    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.11</WixInstallRegKey>
+    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.11</WixInstallRegKeyWow64>
   </PropertyGroup>
   <Target
     Name="_SetDefaultPathValues">
@@ -2460,6 +2460,7 @@
       ObjectFiles="@(CompileObjOutput);@(WixObject);@(WixLibProjects);@(_ResolvedWixLibraryPaths)"
       AdditionalOptions="$(LinkerAdditionalOptions)" 
       AllowIdenticalRows="$(AllowIdenticalRows)"
+      AllowDuplicateDirectoryIds="$(AllowDuplicateDirectoryIds)"
       AllowUnresolvedReferences="$(AllowUnresolvedReferences)"
       AdditionalCub="$(AdditionalCub)" 
       BackwardsCompatibleGuidGeneration="$(BackwardsCompatibleGuidGeneration)" 

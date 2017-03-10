@@ -533,6 +533,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 // remove .lnk/.url extension because compiler extension adds it back for us
                 internetShortcut.Name = Path.ChangeExtension((string)row[3], null);
                 internetShortcut.Target = (string)row[4];
+                internetShortcut.IconFile = (string)row[6];
+                internetShortcut.IconIndex = (int)row[7];
+
                 UtilCompiler.InternetShortcutType shortcutType = (UtilCompiler.InternetShortcutType)row[5];
                 switch (shortcutType)
                 {

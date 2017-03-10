@@ -22,6 +22,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
 
         private string additionalCub;
         private bool allowIdenticalRows;
+        private bool allowDuplicateDirectoryIds;
         private bool allowUnresolvedReferences;
         private string[] baseInputPaths;
         private ITaskItem[] bindInputPaths;
@@ -93,6 +94,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         {
             get { return this.allowIdenticalRows; }
             set { this.allowIdenticalRows = value; }
+        }
+
+        public bool AllowDuplicateDirectoryIds
+        {
+            get { return this.allowDuplicateDirectoryIds; }
+            set { this.allowDuplicateDirectoryIds = value; }
         }
 
         public bool AllowUnresolvedReferences
@@ -432,6 +439,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             base.BuildCommandLine(commandLineBuilder);
 
             commandLineBuilder.AppendIfTrue("-ai", this.AllowIdenticalRows);
+            commandLineBuilder.AppendIfTrue("-ad", this.AllowDuplicateDirectoryIds);
             commandLineBuilder.AppendIfTrue("-au", this.AllowUnresolvedReferences);
             commandLineBuilder.AppendArrayIfNotNull("-b ", this.baseInputPaths);
 

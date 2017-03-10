@@ -19,7 +19,7 @@
         <columnDefinition name="Property" type="string" length="72" nullable="yes" localizable="yes" modularize="property"
                 category="identifier" description="Optional property that is set to the number of running instances of the app."/>
         <columnDefinition name="TerminateExitCode" type="number" length="4" nullable="yes"
-                minValue="1" maxValue="2147483647" description="Exit code to return from a terminated application."/>
+                minValue="0" maxValue="2147483647" description="Exit code to return from a terminated application."/>
         <columnDefinition name="Timeout" type="number" length="4" nullable="yes"
                 minValue="1" maxValue="2147483647" description="Timeout in milliseconds before scheduling restart or terminating application."/>
     </tableDefinition>
@@ -90,6 +90,10 @@
                 category="text" description="URL target."/>
         <columnDefinition name="Attributes" type="number" length="2"
                 description="Attribute flags that control how the shortcut is created."/>
+        <columnDefinition name="IconFile" type="localized" length="0" escapeIdtCharacters="yes"
+                category="text" description="Icon file for shortcut"/>
+        <columnDefinition name="IconIndex" type="number" length="4"
+                description="Index of the icon being referenced."/>
     </tableDefinition>
     <tableDefinition name="PerformanceCategory">
         <columnDefinition name="PerformanceCategory" type="string" length="72" primaryKey="yes" modularize="column"

@@ -354,9 +354,9 @@ Planned forward compatible bundle: %1!ls!, default requested: %2!hs!, ba request
 
 MessageId=213
 Severity=Success
-SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_DEPENDENT
 Language=English
-Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was embedded.
+Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was dependent and the current bundle is being executed as type: %3!hs!.
 .
 
 MessageId=214

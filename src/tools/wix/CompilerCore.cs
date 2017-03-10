@@ -154,6 +154,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
         private static readonly Regex PutGuidHere = new Regex(@"PUT\-GUID\-(?:\d+\-)?HERE", RegexOptions.Singleline);
 
+        private static readonly List<string> DisallowedMsiProperties = new List<string>(
+            new string[] { "ACTION", "ADDLOCAL", "ADDSOURCE", "ADDDEFAULT", "ADVERTISE", "ALLUSERS", "REBOOT", "REINSTALL", "REINSTALLMODE", "REMOVE" });
+
         // Built-in variables (from burn\engine\variable.cpp, "vrgBuiltInVariables", around line 113)
         private static readonly List<String> BuiltinBundleVariables = new List<string>(
             new string[] {
@@ -196,6 +199,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 "TempFolder",
                 "TemplateFolder",
                 "TerminalServer",
+                "UserUILanguageID",
                 "UserLanguageID",
                 "VersionMsi",
                 "VersionNT",
@@ -1457,6 +1461,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         this.OnMessage(WixErrors.IllegalLongFilename(sourceLineNumbers, attribute.OwnerElement.Name, attribute.Name, value));
                     }
                 }
+                else if (allowRelative)
+                {
+                    string normalizedPath = value.Replace('\\', '/');
+                    if (normalizedPath.StartsWith("../", StringComparison.Ordinal) || normalizedPath.Contains("/../"))
+                    {
+                        this.OnMessage(WixWarnings.PayloadMustBeRelativeToCache(sourceLineNumbers, attribute.OwnerElement.Name, attribute.Name, value));
+                    }
+                }
                 else if (CompilerCore.IsAmbiguousFilename(value))
                 {
                     this.OnMessage(WixWarnings.AmbiguousFileOrDirectoryName(sourceLineNumbers, attribute.OwnerElement.Name, attribute.Name, value));
@@ -1648,6 +1660,29 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             return exitValue;
+        }
+
+        /// <summary>
+        /// Gets an MsiProperty name value and displays an error for an illegal value.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source line information about the owner element.</param>
+        /// <param name="attribute">The attribute containing the value to get.</param>
+        /// <returns>The attribute's value.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes")]
+        public string GetAttributeMsiPropertyNameValue(SourceLineNumberCollection sourceLineNumbers, XmlAttribute attribute)
+        {
+            string value = this.GetAttributeValue(sourceLineNumbers, attribute);
+
+            if (0 < value.Length)
+            {
+                if (CompilerCore.DisallowedMsiProperties.Contains(value))
+                {
+                    string illegalValues = CompilerCore.CreateValueList(ValueListKind.Or, CompilerCore.DisallowedMsiProperties);
+                    this.OnMessage(WixWarnings.DisallowedMsiProperty(sourceLineNumbers, value, illegalValues));
+                }
+            }
+
+            return value;
         }
 
         /// <summary>

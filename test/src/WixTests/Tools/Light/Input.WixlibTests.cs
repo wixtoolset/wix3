@@ -96,5 +96,52 @@ namespace WixTest.Tests.Tools.Light.Input
             Verifier.VerifyResults(expectedMSI, light2.OutputFile);
         }
 
+        [NamedFact]
+        [Description("Verify that Light can link multiple wixlibs with same directories")]
+        [Priority(2)]
+        public void MultipleWixlibsWithSameDirectories()
+        {
+            // Create Temp Directory
+            string outputDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Utilities.FileUtilities.CreateOutputDirectory(outputDirectory);
+
+            string testDir = Path.Combine(WixlibTests.TestDataDirectory, "MultipleWixlibsWithDirs");
+
+            // Build the package
+            Candle candle1 = new Candle();
+            candle1.SourceFiles.Add(Path.Combine(testDir, "Package.wxs"));
+            candle1.OutputFile = Path.Combine(outputDirectory, "Package.wixobj");
+            candle1.Run();
+
+            // Build the first wixlib
+            Candle candle2 = new Candle();
+            candle2.SourceFiles.Add(Path.Combine(testDir, "ProjectOne.wxs"));
+            candle2.OutputFile = Path.Combine(outputDirectory, "ProjectOne.wixobj");
+            candle2.Run();
+
+            Lit lit2 = new Lit(candle2);
+            lit2.OutputFile = Path.Combine(outputDirectory, "ProjectOne.wixlib");
+            lit2.Run();
+
+            // Build the second wixlib
+            Candle candle3 = new Candle();
+            candle3.SourceFiles.Add(Path.Combine(testDir, "ProjectTwo.wxs"));
+            candle3.OutputFile = Path.Combine(outputDirectory, "ProjectTwo.wixobj");
+            candle3.Run();
+
+            Lit lit3 = new Lit(candle3);
+            lit3.OutputFile = Path.Combine(outputDirectory, "ProjectTwo.wixlib");
+            lit3.Run();
+
+            // Link everything together - will have duplicate directories
+            Light light = new Light();
+            light.ObjectFiles.Add(candle1.OutputFile);
+            light.ObjectFiles.Add(lit2.OutputFile);
+            light.ObjectFiles.Add(lit3.OutputFile);
+            light.OutputFile = Path.Combine(outputDirectory, "actual.msi");
+            light.Run("-ad");
+
+            // Verifier.VerifyResults(Path.Combine(testDir, "expected.msi"), light.OutputFile);
+        }
     }
 }

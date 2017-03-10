@@ -18,7 +18,7 @@ struct SCA_SMB  // hungarian ss
 {
 	WCHAR wzId[MAX_DARWIN_KEY + 1];
 	WCHAR wzShareName[MAX_DARWIN_KEY + 1];
-	WCHAR wzDescription[MAX_DARWIN_KEY + 1];
+	WCHAR wzDescription[MAX_DARWIN_COLUMN + 1];
 	WCHAR wzComponent[MAX_DARWIN_KEY + 1];
 	WCHAR wzDirectory[MAX_PATH + 1];
 

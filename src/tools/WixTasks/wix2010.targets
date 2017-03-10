@@ -8,8 +8,8 @@
   InitialTargets="_CheckForInvalidConfigurationAndPlatform;
                   _CheckRequiredProperties">
   <PropertyGroup>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.10@InstallRoot)</WixInstallPath>
-    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.10@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Installer XML\3.11@InstallRoot)</WixInstallPath>
+    <WixInstallPath Condition=" '$(WixInstallPath)' == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.11@InstallRoot)</WixInstallPath>
   </PropertyGroup>
 
   <!--
@@ -2436,6 +2436,7 @@
       ObjectFiles="@(CompileObjOutput);@(WixObject);@(WixLibProjects);@(_ResolvedWixLibraryPaths)"
       AdditionalOptions="$(LinkerAdditionalOptions)" 
       AllowIdenticalRows="$(AllowIdenticalRows)"
+      AllowDuplicateDirectoryIds="$(AllowDuplicateDirectoryIds)"
       AllowUnresolvedReferences="$(AllowUnresolvedReferences)"
       AdditionalCub="$(AdditionalCub)" 
       BackwardsCompatibleGuidGeneration="$(BackwardsCompatibleGuidGeneration)" 
@@ -3053,7 +3054,7 @@
 
   <!--
   ==================================================================================================
-  GetNativeManifest & GetCopyToOutputDirectoryItems
+  GetNativeManifest, GetCopyToOutputDirectoryItems, GetTargetFrameworkProperties
 
     Some project types expect these targets to be defined when they take a project reference. They
     are normally defined in Microsoft.Common.targets but we don't include that targets so we define
@@ -3062,6 +3063,7 @@
   -->
   <Target Name="GetNativeManifest"/>
   <Target Name="GetCopyToOutputDirectoryItems" />
+  <Target Name="GetTargetFrameworkProperties" />
 
   <!-- Extension point: Define CustomAfterWixTargets to a .targets file that you want to include after this file. -->
   <Import Project="$(CustomAfterWixTargets)" Condition=" '$(CustomAfterWixTargets)' != '' and Exists('$(CustomAfterWixTargets)')" />

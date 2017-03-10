@@ -15220,6 +15220,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string requiredPrivileges = null;
             string sid = null;
 
+            this.core.OnMessage(WixWarnings.ServiceConfigFamilyNotSupported(sourceLineNumbers, node.Name));
+
             foreach (XmlAttribute attrib in node.Attributes)
             {
                 if (0 == attrib.NamespaceURI.Length || attrib.NamespaceURI == this.schema.TargetNamespace)
@@ -15569,6 +15571,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string command = null;
             string actions = null;
             string actionsDelays = null;
+
+            this.core.OnMessage(WixWarnings.ServiceConfigFamilyNotSupported(sourceLineNumbers, node.Name));
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -20504,7 +20508,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
                 else
                 {
-                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                    this.core.ParseExtensionAttribute(sourceLineNumbers, node as XmlElement, attrib);
                 }
             }
 
@@ -20745,7 +20749,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
                 else
                 {
-                    this.core.UnsupportedExtensionAttribute(sourceLineNumbers, attrib);
+                    this.core.ParseExtensionAttribute(sourceLineNumbers, node as XmlElement, attrib);
                 }
             }
 
@@ -22228,7 +22232,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     switch (attrib.LocalName)
                     {
                         case "Name":
-                            name = this.core.GetAttributeValue(sourceLineNumbers, attrib);
+                            name = this.core.GetAttributeMsiPropertyNameValue(sourceLineNumbers, attrib);
                             break;
                         case "Value":
                             value = this.core.GetAttributeValue(sourceLineNumbers, attrib);

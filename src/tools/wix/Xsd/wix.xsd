@@ -384,9 +384,17 @@
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder.</xs:documentation>
+          <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax">
+        <xs:annotation>
+          <xs:documentation>
+              Extensibility point in the WiX XML Schema.  Schema extensions can register additional
+              attributes at this point in the schema.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:anyAttribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="BootstrapperApplicationRef">
@@ -867,6 +875,7 @@
             The destination path and file name for this chain payload. Use this attribute to rename the
             chain entry point or extract it into a subfolder. The default value is the file name from the
             SourceFile attribute, if provided. At a minimum, the Name or SourceFile attribute must be specified.
+            The use of '..' directories is not allowed.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -1061,7 +1070,7 @@
     <xs:complexType>
       <xs:attribute name="Name" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The name of the MSI property to set.</xs:documentation>
+          <xs:documentation>The name of the MSI property to set. Burn controls the follow MSI properties so they cannot be set with MsiProperty: ACTION, ALLUSERS, REBOOT, REINSTALL, REINSTALLMODE</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Value" type="xs:string" use="required">
@@ -1293,7 +1302,7 @@
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The destination path and file name for this payload. The default is the source file name.</xs:documentation>
+          <xs:documentation>The destination path and file name for this payload. The default is the source file name. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="DownloadUrl" type="xs:string">
@@ -10759,7 +10768,7 @@
       </xs:choice>
       <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The Id cannot by longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
+          <xs:documentation>The Id cannot be longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceFile" type="xs:string">
@@ -10805,7 +10814,7 @@
     <xs:complexType>
       <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The Id cannot by longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
+          <xs:documentation>The Id cannot be longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceFile" type="xs:string">

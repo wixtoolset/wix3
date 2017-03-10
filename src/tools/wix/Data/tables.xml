@@ -1519,8 +1519,8 @@
         <columnDefinition name="Directory_" type="string" nullable="yes" length="72"/>
         <columnDefinition name="SourceFile" type="object" length="0"/>
         <columnDefinition name="DiskId" type="number" length="2"/>
-        <columnDefinition name="FileCompression" type="number" length="2"/>
-        <columnDefinition name="ConfigurationData" type="string" length="255"/>
+        <columnDefinition name="FileCompression" type="number" length="2" nullable="yes"/>
+        <columnDefinition name="ConfigurationData" type="string" length="255" nullable="yes"/>
         <columnDefinition name="Feature_" type="string" length="72"/>
     </tableDefinition>
     <tableDefinition name="WixOrdering" createSymbols="yes" unreal="yes">

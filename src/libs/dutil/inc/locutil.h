@@ -50,6 +50,18 @@ HRESULT DAPI LocProbeForFile(
     );
 
 /********************************************************************
+ LocProbeForFileEx - Searches for a localization file on disk.
+ useUILanguage should be set to TRUE.
+*******************************************************************/
+extern "C" HRESULT DAPI LocProbeForFileEx(
+    __in_z LPCWSTR wzBasePath,
+    __in_z LPCWSTR wzLocFileName,
+    __in_z_opt LPCWSTR wzLanguage,
+    __inout LPWSTR* psczPath,
+    __in BOOL useUILanguage
+    );
+
+/********************************************************************
  LocLoadFromFile - Loads a localization file
 
 *******************************************************************/

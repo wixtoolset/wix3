@@ -23,7 +23,6 @@
     <Compile Include="Headers.wxs" />
     <Compile Include="Libs.wxs" />
     <Compile Include="NativeSdkMsi.wxs" />
-    <Compile Include="ProjectTemplates.wxs" />
   </ItemGroup>
 
   <ItemGroup>
