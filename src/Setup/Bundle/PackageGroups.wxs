@@ -64,6 +64,12 @@
                 <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
             </MsiPackage>
             <?endif?>
+
+            <?ifdef VS2017Available ?>
+            <MsiPackage Name='data\nsdk2017.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
         </PackageGroup>
     </Fragment>
 </Wix>
