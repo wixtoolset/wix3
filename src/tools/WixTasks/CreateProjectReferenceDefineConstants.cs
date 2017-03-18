@@ -112,9 +112,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
                 if (defineConstants.ContainsKey(targetPathDefine))
                 {
                     string oldTargetPath = defineConstants[targetPathDefine];
-                    defineConstants[targetPathDefine] += ";" + targetPath;
+                    if (!targetPath.Equals(oldTargetPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        defineConstants[targetPathDefine] += ";" + targetPath;
+                    }
 
-                    //If there was only one targetpath we need to create it's culture specific define
+                    //If there was only one targetpath we need to create its culture specific define
                     if (!oldTargetPath.Contains(";"))
                     {
                         string oldSubFolder = FindSubfolder(oldTargetPath, targetDir, targetFileName);
