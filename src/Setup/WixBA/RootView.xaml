@@ -56,7 +56,19 @@
             <Image Grid.Row="1" Grid.Column="0" Source="resources\gear.png" DataContext="{Binding InstallationViewModel}" Visibility="{Binding UninstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <!-- Complete -->
-            <Button Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" DataContext="{Binding InstallationViewModel}" IsEnabled="False" Visibility="{Binding CompleteEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">Complete</Button>
+            <Button Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" DataContext="{Binding InstallationViewModel}" Command="{Binding CompleteCommand}" Visibility="{Binding CompleteEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <!-- TODO: Don't hard code dimensions -->
+                <Grid Height="100" Width="230">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" TextWrapping="Wrap">Need Visual Studio integration? Click here to view available extensions.</TextBlock>
+                    <TextBlock Grid.Row="2">Complete</TextBlock>
+                </Grid>
+            </Button>
             <Image Grid.Row="1" Grid.Column="2" Source="resources\gear.png" DataContext="{Binding InstallationViewModel}" Visibility="{Binding CompleteEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <!-- Failed -->

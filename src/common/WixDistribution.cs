@@ -43,6 +43,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
         /// </summary>
         public static string TelemetryUrlFormat = "http://wixtoolset.org/telemetry/v{0}/?r={1}";
 
+        /// <summary>
+        /// VS Extensions Landing page Url for the distribution.
+        /// </summary>
+        public static string VSExtensionsLandingUrl = "http://wixtoolset.org/releases/";
+
         public static string ReplacePlaceholders(string original, Assembly assembly)
         {
             if (null != assembly)

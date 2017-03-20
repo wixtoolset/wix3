@@ -46,6 +46,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         private Dictionary<string, int> downloadRetries;
         private bool downgrade;
 
+        private ICommand completeCommand;
         private ICommand licenseCommand;
         private ICommand launchHomePageCommand;
         private ICommand launchNewsCommand;
@@ -139,6 +140,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                     this.downgrade = value;
                     base.OnPropertyChanged("Downgrade");
                 }
+            }
+        }
+
+        public ICommand CompleteCommand
+        {
+            get
+            {
+                if (this.completeCommand == null)
+                {
+                    this.completeCommand = new RelayCommand(param => WixBA.LaunchUrl(WixDistribution.VSExtensionsLandingUrl), param => true);
+                }
+
+                return this.completeCommand;
             }
         }
 
