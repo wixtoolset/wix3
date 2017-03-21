@@ -1167,7 +1167,7 @@ Here is a complete list of properties for the <a name="vs2017properties">**Visua
       <p>VS2017_IDE_DIR</p>
     </td>
     <td>
-      <p>Full path to the Visual Studio 2017 directory containing devenv.exe.</p>
+      <p>Full path to the Visual Studio 2017 directory containing devenv.exe. This property is available starting with WiX v3.11.</p>
     </td>
   </tr>
   <tr>
