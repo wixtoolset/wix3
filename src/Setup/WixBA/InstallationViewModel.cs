@@ -303,6 +303,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                     case InstallationState.Applying:
                         switch (WixBA.Model.PlannedAction)
                         {
+                            case LaunchAction.Layout:
+                                return "Laying out...";
+
                             case LaunchAction.Install:
                                 return "Installing...";
 
@@ -323,6 +326,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                     case InstallationState.Applied:
                         switch (WixBA.Model.PlannedAction)
                         {
+                            case LaunchAction.Layout:
+                                return "Successfully created layout";
+
                             case LaunchAction.Install:
                                 return "Successfully installed";
 
@@ -349,6 +355,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                         {
                             switch (WixBA.Model.PlannedAction)
                             {
+                                case LaunchAction.Layout:
+                                    return "Failed to create layout";
+
                                 case LaunchAction.Install:
                                     return "Failed to install";
 
