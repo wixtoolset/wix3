@@ -14,10 +14,14 @@
   -->
   <PropertyGroup>
     <NetfxSdkInstallPath>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v10.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
+    <NetfxSdkInstallPath Condition=" '$(NetfxSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Microsoft SDKs\NETFXSDK\4.6.2', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
+    <NetfxSdkInstallPath Condition=" '$(NetfxSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Microsoft SDKs\NETFXSDK\4.6.1', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
     <NetfxSdkInstallPath Condition=" '$(NetfxSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.1A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
     <NetfxSdkInstallPath Condition=" '$(NetfxSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v8.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
     <NetfxSdkInstallPath Condition=" '$(NetfxSdkInstallPath)'=='' ">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A', 'InstallationFolder', null, RegistryView.Registry64, RegistryView.Registry32))</NetfxSdkInstallPath>
     <NetfxSdkInstallPath Condition=" !HasTrailingSlash('$(NetfxSdkInstallPath)') ">$(NetfxSdkInstallPath)\</NetfxSdkInstallPath>
+    <StrongNameSignFolder Condition=" Exists('$(NetfxSdkInstallPath)bin\NETFX 4.6.2 Tools\sn.exe') ">$(NetfxSdkInstallPath)bin\NETFX 4.6.2 Tools\</StrongNameSignFolder>
+    <StrongNameSignFolder Condition=" Exists('$(NetfxSdkInstallPath)bin\NETFX 4.6.1 Tools\sn.exe') ">$(NetfxSdkInstallPath)bin\NETFX 4.6.1 Tools\</StrongNameSignFolder>
     <StrongNameSignFolder Condition=" Exists('$(NetfxSdkInstallPath)bin\NETFX 4.6 Tools\sn.exe') ">$(NetfxSdkInstallPath)bin\NETFX 4.6 Tools\</StrongNameSignFolder>
     <StrongNameSignFolder Condition=" Exists('$(NetfxSdkInstallPath)bin\NETFX 4.5.1 Tools\sn.exe') ">$(NetfxSdkInstallPath)bin\NETFX 4.5.1 Tools\</StrongNameSignFolder>
     <StrongNameSignFolder Condition=" Exists('$(NetfxSdkInstallPath)bin\NETFX 4.0 Tools\sn.exe') ">$(NetfxSdkInstallPath)bin\NETFX 4.0 Tools\</StrongNameSignFolder>
