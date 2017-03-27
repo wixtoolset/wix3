@@ -4,13 +4,15 @@
 
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  
+
   <!-- All common targets/items/properties -->
 
   <!-- Version specific targets/items/properties -->
   <PropertyGroup>
+    <WixTargetsImported>true</WixTargetsImported>
+
     <!-- MSBuild 4.0 -->
-    <!-- MSBuild does not do short circuit evaluation of the AND operator, so we cannot have 
+    <!-- MSBuild does not do short circuit evaluation of the AND operator, so we cannot have
          something like '$(MSBuildToolsVersion)' != '' AND '$(MSBuildToolsVersion)' &gt;= '4.0'
          instead set as default and override -->
     <WixVersionTargetsPath>wix2010.targets</WixVersionTargetsPath>
