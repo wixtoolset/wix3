@@ -9,6 +9,8 @@
   <Import Project="$(CustomBeforeWixCATargets)" Condition=" '$(CustomBeforeWixCATargets)' != '' and Exists('$(CustomBeforeWixCATargets)')" />
 
   <PropertyGroup>
+    <WixCATargetsImported>true</WixCATargetsImported>
+
     <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
     <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
     <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>

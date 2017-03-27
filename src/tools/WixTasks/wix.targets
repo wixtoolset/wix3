@@ -9,6 +9,8 @@
 
   <!-- Version specific targets/items/properties -->
   <PropertyGroup>
+    <WixTargetsImported>true</WixTargetsImported>
+
     <!-- MSBuild 4.0 -->
     <!-- MSBuild does not do short circuit evaluation of the AND operator, so we cannot have
          something like '$(MSBuildToolsVersion)' != '' AND '$(MSBuildToolsVersion)' &gt;= '4.0'
