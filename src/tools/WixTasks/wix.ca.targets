@@ -13,12 +13,10 @@
 
     <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
     <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
-    <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
-  </PropertyGroup>
-
-  <!-- These are fallbacks in case using the relative paths above did not work. -->
-  <PropertyGroup>
+    <!-- This is a fallback in case using the relative paths above did not work. -->
     <WixTasksPath Condition=" !Exists('$(WixTasksPath)') ">$(MSBuildProgramFiles32)\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
+
+    <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
   </PropertyGroup>
 
   <UsingTask TaskName="ReadRegistry" AssemblyFile="$(WixTasksPath)"/>
