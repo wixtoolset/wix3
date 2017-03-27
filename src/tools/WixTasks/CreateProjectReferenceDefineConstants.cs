@@ -101,7 +101,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
                         targetDir = commonDir;
                     }
                 }
-                defineConstants[targetDirDefine] = targetDir;
+                defineConstants[targetDirDefine] = CreateProjectReferenceDefineConstants.EnsureEndsWithBackslash(targetDir);
 
                 defineConstants[String.Format(CultureInfo.InvariantCulture, "{0}.TargetExt", referenceName)] = targetExt;
                 defineConstants[String.Format(CultureInfo.InvariantCulture, "{0}.TargetFileName", referenceName)] = targetFileName;
@@ -218,7 +218,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             path1 = path1.TrimEnd(Path.DirectorySeparatorChar);
             path2 = path2.TrimEnd(Path.DirectorySeparatorChar);
 
-            while(!String.IsNullOrEmpty(path1))
+            while (!String.IsNullOrEmpty(path1))
             {
                 for (string searchPath = path2; !String.IsNullOrEmpty(searchPath); searchPath = Path.GetDirectoryName(searchPath))
                 {
@@ -255,6 +255,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             }
 
             return String.Empty;
+        }
+
+        private static string EnsureEndsWithBackslash(string dir)
+        {
+            if (dir[dir.Length - 1] != Path.DirectorySeparatorChar)
+            {
+                dir += Path.DirectorySeparatorChar;
+            }
+
+            return dir;
         }
     }
 }
