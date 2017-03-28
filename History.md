@@ -1,3 +1,25 @@
+## WixBuild: Version 3.11.0.1528
+
+* @Barnson: Fix #5537 by ensuring TargetDir ends in a backslash.
+
+* @Barnson: Add VS2017 native SDK to bundle.
+
+* SeanHall: WIXFEAT:5510 - Point to WiX VS extensions in complete button.
+
+* SeanHall: WIXBUG:5521 - Add BOOTSTRAPPER_ERROR_TYPE_APPLY to managed IBootstrapperApplication definition.
+
+* SeanHall: WIXBUG:5512 - Fix declaration of OnDetectCompatiblePackage in managed IBootstrapperApplication.
+
+* @Barnson: Prevent TargetPath project reference preprocessor variable from 
+getting multiple identical items.
+
+* @Barnson: Fix util:InternetShortcut.
+  * Make icon optional.
+  * Add query of icon and index to immediate CA.
+  * Add wixtoolset.org shortcut with icon.
+
+* @Barnson: Show layout actions in WixBA.
+
 ## WixBuild: Version 3.11.0.1507
 
 * HeathS: WIXFEAT:5433 - Add detection properties for VS2017
