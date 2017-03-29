@@ -18,7 +18,7 @@
     <String Id="msierrUninstallPerfCounterData" Overridable="yes">Не удалось удалить счетчики производительности.  ([2]   [3]   [4]   [5])</String>
 
     <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">Не удалось создать дескриптор безопасности для [3]\[4], системная ошибка: [2]</String>
-    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">Не удалось установить десктриптор безопасности для объекта [3], системная ошибка: [2]</String>
+    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">Не удалось установить дескриптор безопасности для объекта [3], системная ошибка: [2]</String>
     <String Id="msierrSecureObjectsUnknownType" Overridable="yes">Неизвестный тип объекта [3], системная ошибка: [2]</String>
 
     <String Id="msierrXmlFileFailedRead" Overridable="yes">При настройке XML файлов произошел сбой.</String>
