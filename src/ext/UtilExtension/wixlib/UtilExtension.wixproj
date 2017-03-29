@@ -23,6 +23,7 @@
     <EmbeddedResource Include="ja-jp.wxl" />
     <EmbeddedResource Include="pt-br.wxl" />
     <EmbeddedResource Include="it-it.wxl" />
+	<EmbeddedResource Include="ru-ru.wxl" />
   </ItemGroup>
 
   <ItemGroup>
