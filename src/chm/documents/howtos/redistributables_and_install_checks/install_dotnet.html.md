@@ -30,7 +30,7 @@ The .NET PackageGroups use remote payloads to download the .NET redistributable 
     &lt;</font><font size="2" color="#A31515">PayloadGroup</font><font size="2" color="#0000FF"> </font><font size="2" color="#FF0000">Id</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">NetFx452RedistPayload</font><font size="2">"</font><font size="2" color="#0000FF">&gt;
         &lt;</font><font size="2" color="#A31515">Payload</font><font size="2" color="#0000FF"> </font><font size="2" color="#FF0000">Name</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">redist\NDP452-KB2901907-x86-x64-AllOS-ENU.exe</font><font size="2">"</font>
                  <font size="2" color="#FF0000">SourceFile</font><font size="2" color="#0000FF">=</font><font size="2">"</font><font size="2" color="#0000FF">X:\path\to\redists\in\repo\NDP452-KB2901907-x86-x64-AllOS-ENU.exe</font><font size="2">"</font><font size="2" color="#0000FF">/&gt;
-    &lt;</font><font size="2" color="#A31515">PayloadGroup</font><font size="2" color="#0000FF">/&gt;
+    &lt;/</font><font size="2" color="#A31515">PayloadGroup</font><font size="2" color="#0000FF">&gt;
 &lt;/</font><font size="2" color="#A31515">Bundle</font><font size="2" color="#0000FF">&gt;</font>
 </pre>
 
