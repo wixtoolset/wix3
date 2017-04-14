@@ -28,6 +28,8 @@
 
         <util:RegistrySearchRef Id="NETFRAMEWORK35_SP_LEVEL" />
 
+        <Variable Name="MbaNetfxPackageId" Value="!(wix.WixMbaPrereqPackageId)" />
+
         <Chain>
             <PackageGroupRef Id='NetFx40Web' />
             <PackageGroupRef Id='WixPackages' />
