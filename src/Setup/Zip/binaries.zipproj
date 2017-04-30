@@ -223,6 +223,12 @@
     </Stage>
   </ItemGroup>
 
+  <ItemGroup>
+    <Stage Include="$(OutputPath)wix.nativeca.targets">
+      <StageSubDirectory>sdk</StageSubDirectory>
+    </Stage>
+  </ItemGroup>
+
   <!-- Headers -->
   <ItemGroup>
     <Stage Include="$(WixRoot)src\burn\inc\*.h">

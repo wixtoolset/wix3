@@ -26,6 +26,10 @@
             <Component>
                 <File Source="wix.ca.targets" />
             </Component>
+
+            <Component>
+                <File Source="wix.nativeca.targets" />
+            </Component>
         </ComponentGroup>
     </Fragment>
 </Wix>
