@@ -1,3 +1,7 @@
+## WixBuild: Version 3.11.0.1701
+
+* RobMen: WIXBUG:5536 - introduce wix.nativeca.targets to simplify CPP CA projects.
+
 ## WixBuild: Version 3.11.0.1528
 
 * @Barnson: Fix #5537 by ensuring TargetDir ends in a backslash.
