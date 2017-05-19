@@ -2546,6 +2546,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 
                 if (null != messageFile)
                 {
+                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "File", messageFile);
                     Row messageRow = this.Core.CreateRow(sourceLineNumbers, "XmlFile");
                     messageRow[0] = String.Concat("Config_", fileId, "MessageFile");
                     messageRow[1] = String.Concat("[#", fileId, "]");
@@ -2555,8 +2556,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     messageRow[5] = 4 | 0x00001000;  //bulk write | preserve modified date
                     messageRow[6] = componentId;
                 }
+
                 if (null != parameterFile)
                 {
+                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "File", parameterFile);
                     Row resourceRow = this.Core.CreateRow(sourceLineNumbers, "XmlFile");
                     resourceRow[0] = String.Concat("Config_", fileId, "ParameterFile");
                     resourceRow[1] = String.Concat("[#", fileId, "]");
@@ -2566,8 +2569,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     resourceRow[5] = 4 | 0x00001000;  //bulk write | preserve modified date
                     resourceRow[6] = componentId;
                 }
+
                 if (null != resourceFile)
                 {
+                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "File", resourceFile);
                     Row resourceRow = this.Core.CreateRow(sourceLineNumbers, "XmlFile");
                     resourceRow[0] = String.Concat("Config_", fileId, "ResourceFile");
                     resourceRow[1] = String.Concat("[#", fileId, "]");
@@ -2593,7 +2598,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureEventManifestUnregister");
             }
 
-            if (null != messageFile || null !=  parameterFile || null != resourceFile)
+            if (null != messageFile || null != parameterFile || null != resourceFile)
             {
                 if (this.Core.CurrentPlatform == Platform.ARM)
                 {
