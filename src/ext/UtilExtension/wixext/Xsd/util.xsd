@@ -725,6 +725,7 @@
     <xs:complexType>
       <xs:attribute name="Domain" type="xs:string"></xs:attribute>
       <xs:attribute name="User" use="required" type="xs:string"></xs:attribute>
+      <xs:attribute name="Inheritable" type="YesNoType"></xs:attribute>
       <!-- Common ACLs -->
       <xs:attribute name="Read" type="YesNoType"></xs:attribute>
       <xs:attribute name="Delete" type="YesNoType"></xs:attribute>

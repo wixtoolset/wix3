@@ -2624,6 +2624,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             int permission = 0;
             string[] specialPermissions = null;
             string user = null;
+            bool isInheritable = false;
 
             PermissionType permissionType = PermissionType.SecureObjects;
 
@@ -2631,6 +2632,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             {
                 case "CreateFolder":
                     specialPermissions = UtilExtension.FolderPermissions;
+                    isInheritable = true; // For backward compatibility the default handling for folders is to enable inheritance, all others are not enabled
                     break;
                 case "File":
                     specialPermissions = UtilExtension.FilePermissions;
@@ -2657,6 +2659,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 {
                     switch (attrib.LocalName)
                     {
+                        case "Inheritable":
+                           isInheritable = YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                           break;
                         case "Domain":
                             if (PermissionType.FileSharePermissions == permissionType)
                             {
@@ -2747,8 +2752,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 row[1] = tableName;
                 row[2] = domain;
                 row[3] = user;
-                row[4] = permission;
-                row[5] = componentId;
+                row[4] = isInheritable ? 1 : 0;
+                row[5] = permission;
+                row[6] = componentId;
             }
         }
 

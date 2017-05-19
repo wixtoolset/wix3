@@ -20,12 +20,13 @@
       <Component Id="TestComponent" Guid="*">
         <File Id="MynewService.exe" Name="MynewService.exe" Source="$(env.WIX_ROOT)\test\data\Extensions\UtilExtension\PermissionExTests\MynewService.exe" DiskId="1" KeyPath="yes">
           <util:PermissionEx User="Guests" GenericAll="yes" />
-          <util:PermissionEx User="Everyone" GenericAll="yes" />
+          <util:PermissionEx User="Everyone" GenericAll="yes" Inheritable="no" />
           <util:PermissionEx User="LocalService" GenericAll="yes" />
         </File>
 
         <RegistryKey Id="MynewServiceCore" Root="HKLM" Key="SOFTWARE\Microsoft\Office\Delivery\MynewService" Action="createAndRemoveOnUninstall">
           <util:PermissionEx User="Guests" Read="yes" Write="yes" CreateSubkeys="yes" EnumerateSubkeys="yes" Notify="yes" CreateLink="yes" />
+          <util:PermissionEx User="Everyone" Inheritable="yes" Read="yes" Write="yes" CreateSubkeys="yes" EnumerateSubkeys="yes" Notify="yes" CreateLink="yes" />
         </RegistryKey>
 
         <ServiceInstall Id="MynewService.exe" Name="MynewService" DisplayName="MynewService" Type="ownProcess" Start="demand" ErrorControl="normal" Description="MynewService Service" Account="[MynewServiceUser]">
