@@ -63,14 +63,24 @@
                             <xs:documentation>Font weight.</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="Foreground" type="xs:hexBinary">
+                    <xs:attribute name="Foreground" type="xs:string">
                         <xs:annotation>
-                            <xs:documentation>Hexadecimal value representing BGR foreground color of the font. "ffffff" is white, "ff0000" is pure blue, "00ff00" is pure green, "0000ff" is pure red and "000000" is black. If this value is absent the foreground will be transparent.</xs:documentation>
+                            <xs:documentation>
+                              A system color id or a hexadecimal value representing BGR foreground color of the font.
+                              "ffffff" is white, "ff0000" is pure blue, "00ff00" is pure green, "0000ff" is pure red, and "000000" is black.
+                              If this value is absent the foreground will be transparent.
+                              Supported system color ids are: $btnface, $btntext, $graytext, $highlight, $highlighttext, $hotlight, $window, and $windowtext.
+                            </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
-                    <xs:attribute name="Background" type="xs:hexBinary">
+                    <xs:attribute name="Background" type="xs:string">
                         <xs:annotation>
-                            <xs:documentation>Hexadecimal value representing BGR background color of the font. "ffffff" is white, "ff0000" is pure blue, "00ff00" is pure green, "0000ff" is pure red and "000000" is black. If this value is absent the background will be transparent.</xs:documentation>
+                          <xs:documentation>
+                            A system color id or a hexadecimal value representing BGR background color of the font.
+                            "ffffff" is white, "ff0000" is pure blue, "00ff00" is pure green, "0000ff" is pure red, and "000000" is black.
+                            If this value is absent the background will be transparent.
+                            Supported system color ids are: $btnface, $btntext, $graytext, $highlight, $highlighttext, $hotlight, $window, and $windowtext.
+                          </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="Underline" type="YesNoType">
