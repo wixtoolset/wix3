@@ -773,7 +773,8 @@ static HRESULT HandleExitCode(
         {
             typeCode = pExitCode->type;
         }
-        else if (dwExitCode == pExitCode->dwCode) // If we have an exact match on the error code use that and stop looking.
+        else if (dwExitCode == pExitCode->dwCode || 
+			HRESULT_FROM_WIN32(pExitCode->dwCode) == static_cast<HRESULT>(dwExitCode)) // If we have an exact match on the error code use that and stop looking.
         {
             typeCode = pExitCode->type;
             break;
