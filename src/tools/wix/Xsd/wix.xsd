@@ -1285,6 +1285,20 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="RemotePayload" />
+        <xs:any namespace="##other" processContents="lax">
+          <xs:annotation>
+            <xs:documentation>
+                Extensibility point in the WiX XML Schema.  Schema extensions can register additional
+                elements at this point in the schema.  The extension's
+                <html:code><html:nobr>CompilerExtension.ParseElement()</html:nobr></html:code>
+                method will be called with the package identifier as the first value in
+                <html:code>contextValues</html:code>.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:any>
+      </xs:choice>
       <xs:attribute name="Id" type="xs:string">
         <xs:annotation>
           <xs:documentation>The identifier of Payload element.</xs:documentation>
@@ -1295,7 +1309,7 @@
           <xs:documentation>Whether the payload should be embedded in a container or left as an external payload.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
-      <xs:attribute name="SourceFile" type="xs:string" use="required">
+      <xs:attribute name="SourceFile" type="xs:string">
         <xs:annotation>
           <xs:documentation>Location of the source file.</xs:documentation>
         </xs:annotation>
@@ -1388,7 +1402,7 @@
           <xs:documentation>Thumbprint of the authenticode certificate used to sign the RemotePayload.  Include this attribute if the remote file is signed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
-      <xs:attribute name="Description" type="xs:string" use="required">
+      <xs:attribute name="Description" type="xs:string">
         <xs:annotation>
           <xs:documentation>Description of the file from version resources.</xs:documentation>
         </xs:annotation>
@@ -1398,7 +1412,7 @@
           <xs:documentation>SHA-1 hash of the RemotePayload.  Include this attribute if the remote file is unsigned or SuppressSignatureVerification is set to Yes.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
-      <xs:attribute name="ProductName" type="xs:string" use="required">
+      <xs:attribute name="ProductName" type="xs:string">
         <xs:annotation>
         <xs:documentation>Product name of the file from version resouces.</xs:documentation>
         </xs:annotation>
@@ -1408,7 +1422,7 @@
           <xs:documentation>Size of the remote file in bytes.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
-      <xs:attribute name="Version" type="VersionType" use="required">
+      <xs:attribute name="Version" type="VersionType">
         <xs:annotation>
           <xs:documentation>Version of the remote file</xs:documentation>
         </xs:annotation>
