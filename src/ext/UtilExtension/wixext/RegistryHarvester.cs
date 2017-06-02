@@ -314,7 +314,17 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 else if (value is string) // string, expandable (there is no way to differentiate a string and expandable value in .NET 1.1)
                 {
                     registryValue.Type = Wix.RegistryValue.TypeType.@string;
-                    registryValue.Value = (string)value;
+
+                    string valueStr = (string)value;
+                    int nullPos = valueStr.IndexOf('\0');
+                    if (-1 == nullPos)
+                    {
+                        registryValue.Value = valueStr;
+                    }
+                    else
+                    {
+                        registryValue.Value = valueStr.Substring(0, nullPos);
+                    }
                 }
                 else
                 {
