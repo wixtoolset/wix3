@@ -5,8 +5,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <MajorBuildNumber>3</MajorBuildNumber>
-        <MinorBuildNumber>11</MinorBuildNumber>
-        <StartBuildYear>2016</StartBuildYear>
+        <MinorBuildNumber>14</MinorBuildNumber>
+        <StartBuildYear>2017</StartBuildYear>
         <BuildRevision>0</BuildRevision>
 
         <MajorMinorVersionString>$(MajorBuildNumber)$(MinorBuildNumber)</MajorMinorVersionString>
