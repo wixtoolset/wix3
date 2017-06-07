@@ -4305,6 +4305,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         writer.WriteAttributeString("PathVariable", bundleInfo.LogPathVariable);
                     }
+                    writer.WriteAttributeString("LoggingBaseFolder", bundleInfo.LoggingBaseFolder);
                     writer.WriteAttributeString("Prefix", bundleInfo.LogPrefix);
                     writer.WriteAttributeString("Extension", bundleInfo.LogExtension);
                     writer.WriteEndElement();

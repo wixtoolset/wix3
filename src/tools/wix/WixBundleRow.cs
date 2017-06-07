@@ -112,8 +112,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get
             {
-                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split(':');
+                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split('|');
                 return logVariableAndPrefixExtension[0];
+            }
+        }
+
+        public string LoggingBaseFolder
+        {
+            get
+            {
+                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split('|');
+                return logVariableAndPrefixExtension[1];
             }
         }
 
@@ -121,12 +130,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get
             {
-                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split(':');
-                if (2 > logVariableAndPrefixExtension.Length)
+                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split('|');
+                if (3 > logVariableAndPrefixExtension.Length)
                 {
                     return String.Empty;
                 }
-                string logPrefixAndExtension = logVariableAndPrefixExtension[1];
+                string logPrefixAndExtension = logVariableAndPrefixExtension[2];
                 int extensionIndex = logPrefixAndExtension.LastIndexOf('.');
                 return logPrefixAndExtension.Substring(0, extensionIndex);
             }
@@ -136,12 +145,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get
             {
-                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split(':');
-                if (2 > logVariableAndPrefixExtension.Length)
+                string[] logVariableAndPrefixExtension = this.LogPathPrefixExtension.Split('|');
+                if (3 > logVariableAndPrefixExtension.Length)
                 {
                     return String.Empty;
                 }
-                string logPrefixAndExtension = logVariableAndPrefixExtension[1];
+                string logPrefixAndExtension = logVariableAndPrefixExtension[2];
                 int extensionIndex = logPrefixAndExtension.LastIndexOf('.');
                 return logPrefixAndExtension.Substring(extensionIndex + 1);
             }

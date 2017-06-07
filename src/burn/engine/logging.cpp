@@ -54,13 +54,22 @@ extern "C" HRESULT LoggingOpen(
         }
     }
 
+    if (pLog->sczLoggingBaseFolder && *pLog->sczLoggingBaseFolder)
+    {
+        hr = VariableFormatString(pVariables, pLog->sczLoggingBaseFolder, &sczLoggingBaseFolder, NULL);
+        ExitOnFailure(hr, "Failed to format LoggingBaseFolder.");
+    }
+
     // Open the log approriately.
     if (pLog->sczPath && *pLog->sczPath)
     {
         DWORD cRetry = 0;
 
-        hr = DirGetCurrent(&sczLoggingBaseFolder);
-        ExitOnFailure(hr, "Failed to get current directory.");
+        if (!sczLoggingBaseFolder || !*sczLoggingBaseFolder)
+        {
+            hr = DirGetCurrent(&sczLoggingBaseFolder);
+            ExitOnFailure(hr, "Failed to get current directory.");
+        }
 
         // Try pretty hard to open the log file when appending.
         do
@@ -105,8 +114,11 @@ extern "C" HRESULT LoggingOpen(
     }
     else if (pLog->sczPrefix && *pLog->sczPrefix)
     {
-        hr = GetNonSessionSpecificTempFolder(&sczLoggingBaseFolder);
-        ExitOnFailure(hr, "Failed to get non-session specific TEMP folder.");
+        if (!sczLoggingBaseFolder || !*sczLoggingBaseFolder)
+        {
+            hr = GetNonSessionSpecificTempFolder(&sczLoggingBaseFolder);
+            ExitOnFailure(hr, "Failed to get non-session specific TEMP folder.");
+        }
 
         // Best effort to open default logging.
         hr = LogOpen(sczLoggingBaseFolder, pLog->sczPrefix, NULL, pLog->sczExtension, FALSE, FALSE, &pLog->sczPath);

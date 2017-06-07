@@ -315,6 +315,11 @@
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="LoggingBaseFolder" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Overrides the default log folder location. Defaults to %TEMP%.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
       <xs:attribute name="Prefix" type="xs:string">
         <xs:annotation>
           <xs:documentation>
