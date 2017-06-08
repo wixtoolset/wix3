@@ -317,8 +317,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     payloadInfo.Version = version.ToString();
                 }
 
-                payloadInfo.ProductName = versionInfo.ProductName;
-                payloadInfo.Description = versionInfo.FileDescription;
+                if (!string.IsNullOrEmpty(versionInfo.ProductName))
+                {
+                    payloadInfo.ProductName = versionInfo.ProductName;
+                }
+                if (!string.IsNullOrEmpty(versionInfo.FileDescription))
+                {
+                    payloadInfo.Description = versionInfo.FileDescription;
+                }
             }
         }
     }

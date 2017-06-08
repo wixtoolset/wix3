@@ -29,11 +29,13 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     new HeatCommandLineOption("dir", "harvest a directory"),
                     new HeatCommandLineOption("file", "harvest a file"),
                     new HeatCommandLineOption("payload", "harvest a bundle payload as RemotePayload"),
+                    new HeatCommandLineOption("payload_dir", "harvest bundle payloads as RemotePayload"),
                     new HeatCommandLineOption("perf", "harvest performance counters"),
                     new HeatCommandLineOption("reg", "harvest a .reg file"),
                     new HeatCommandLineOption("-ag", "autogenerate component guids at compile time"),
                     new HeatCommandLineOption("-cg <ComponentGroupName>", "component group name (cannot contain spaces e.g -cg MyComponentGroup)"),
                     new HeatCommandLineOption("-dr <DirectoryName>", "directory reference to root directories (cannot contain spaces e.g. -dr MyAppDirRef)"),
+                    new HeatCommandLineOption("-url <DownloadUrl>", "when harvesting payload_dir, used as base download URL. Each payload DownloadUrl will be set to this field + payload name"),
                     new HeatCommandLineOption("-var <VariableName>", "substitute File/@Source=\"SourceDir\" with a preprocessor or a wix variable" + Environment.NewLine +
                                                       "(e.g. -var var.MySource will become File/@Source=\"$(var.MySource)\\myfile.txt\" and " + Environment.NewLine + 
                                                       "-var wix.MySource will become File/@Source=\"!(wix.MySource)\\myfile.txt\""),
@@ -79,6 +81,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     break;
                 case "payload":
                     harvesterExtension = new PayloadHarvester();
+                    active = true;
+                    break;
+                case "payload_dir":
+                    harvesterExtension = new DirPayloadsHarvester();
                     active = true;
                     break;
                 case "perf":
@@ -138,6 +144,20 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         else if (harvesterExtension is FileHarvester)
                         {
                             ((FileHarvester)harvesterExtension).RootedDirectoryRef = dr;
+                        }
+                    }
+                    else if ("url" == truncatedCommandSwitch)
+                    {
+                        string url = this.GetArgumentParameter(args, i);
+
+                        if (this.Core.EncounteredError)
+                        {
+                            return;
+                        }
+
+                        if (harvesterExtension is DirPayloadsHarvester)
+                        {
+                            ((DirPayloadsHarvester)harvesterExtension).BaseDownloadUrl = url;
                         }
                     }
                     else if ("gg" == truncatedCommandSwitch)

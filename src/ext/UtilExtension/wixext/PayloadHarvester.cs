@@ -10,7 +10,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
     /// <summary>
     /// Harvest WiX authoring for a payload from the file system.
     /// </summary>
-    public sealed class PayloadHarvester : HarvesterExtension
+    public class PayloadHarvester : HarvesterExtension
     {
         private bool setUniqueIdentifiers;
 
