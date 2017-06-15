@@ -64,6 +64,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             payload.Name = path.Substring(baseDir.Length + 1);
             payload.Id = this.Core.GenerateIdentifier(PayloadPrefix, BaseDownloadUrl, payload.Name);
             payload.DownloadUrl = BaseDownloadUrl + "/" + payload.Name.Replace("\\", "/");
+            payload.Compressed = Microsoft.Tools.WindowsInstallerXml.Serialize.YesNoDefaultType.no;
 
             // Harvest remote payload
             Wix.RemotePayload remotePayload = this.HarvestRemotePayload(path);
