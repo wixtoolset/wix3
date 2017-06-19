@@ -46,8 +46,6 @@
     <Stage Include="$(OutputPath)winterop.dll" />
     <Stage Include="$(OutputPath)wix.dll" />
     <Stage Include="$(OutputPath)wix.targets" />
-    <Stage Include="$(OutputPath)wix200x.targets" />
-    <Stage Include="$(OutputPath)wix2010.targets" />
     <Stage Include="$(OutputPath)WixCop.exe" />
     <Stage Include="$(OutputPath)WixTasks.dll" />
     <!--<Stage Include="$(OutputPath)wui.dll" />-->
