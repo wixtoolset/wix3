@@ -8,7 +8,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>WixTest.MsbuildIntegrationTests</RootNamespace>
     <AssemblyName>WixTest.MsbuildIntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BuildTests.cs" />

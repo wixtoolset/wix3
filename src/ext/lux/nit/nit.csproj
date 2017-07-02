@@ -27,7 +27,6 @@
       <ResourcesLogicalName>$(RootNamespace).Data.Messages.resources</ResourcesLogicalName>
     </MsgGenSource>
     <EmbeddedNativeResource Include="nit.rc" />
-    <None Include="app.config" />
     <EmbeddedResource Include="NitStrings.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>

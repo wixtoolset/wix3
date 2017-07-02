@@ -8,7 +8,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Extensions</RootNamespace>
     <AssemblyName>LuxCustomActions</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>

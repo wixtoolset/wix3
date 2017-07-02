@@ -10,7 +10,6 @@
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Build.Tasks</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <CreateDocumentationFile>true</CreateDocumentationFile>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
@@ -53,12 +52,6 @@
     <Content Include="wix.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="wix200x.targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wix2010.targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="wix.ca.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -82,12 +75,4 @@
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
-<!--
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="$(TargetPath);$(OutDir)wix.targets;$(OutDir)wix200x.targets;$(OutDir)wix2010.targets" DestinationFolder="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\" SkipUnchangedFiles="true" ContinueOnError="true" />
-    <CreateItem Include="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\$(TargetFileName);$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix.targets;$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix200x.targets;$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix2010.targets">
-      <Output TaskParameter="Include" ItemName="FileWrites" />
-    </CreateItem>
-  </Target>
--->
 </Project>
