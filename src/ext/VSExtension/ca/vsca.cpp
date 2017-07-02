@@ -21,6 +21,12 @@ struct VS_COMPONENT_PROPERTY
     LPCWSTR pwzProperty;
 };
 
+static HRESULT InstanceInProducts(
+    __in ISetupInstance* pInstance,
+    __in DWORD cProducts,
+    __in LPCWSTR* rgwzProducts
+    );
+
 static HRESULT InstanceIsGreater(
     __in_opt ISetupInstance* pPreviousInstance,
     __in DWORD64 qwPreviousVersion,
@@ -171,6 +177,54 @@ LExit:
     return WcaFinalize(er);
 }
 
+static HRESULT InstanceInProducts(
+    __in ISetupInstance* pInstance,
+    __in DWORD cProducts,
+    __in LPCWSTR* rgwzProducts
+    )
+{
+    HRESULT hr = S_OK;
+    ISetupInstance2* pInstance2 = NULL;
+    ISetupPackageReference* pProduct = NULL;
+    BSTR bstrId = NULL;
+
+    hr = pInstance->QueryInterface(IID_PPV_ARGS(&pInstance2));
+    if (FAILED(hr))
+    {
+        // Older implementations shipped when only VS SKUs were supported.
+        WcaLog(LOGMSG_VERBOSE, "Could not query instance for product information; assuming supported product.");
+
+        hr = S_OK;
+        ExitFunction();
+    }
+
+    hr = pInstance2->GetProduct(&pProduct);
+    ExitOnFailure(hr, "Failed to get product package reference.");
+
+    hr = pProduct->GetId(&bstrId);
+    ExitOnFailure(hr, "Failed to get product package ID.");
+
+    for (DWORD i = 0; i < cProducts; ++i)
+    {
+        const LPCWSTR wzProduct = rgwzProducts[i];
+
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, NORM_IGNORECASE, bstrId, -1, wzProduct, -1))
+        {
+            hr = S_OK;
+            ExitFunction();
+        }
+    }
+
+    hr = S_FALSE;
+
+LExit:
+    ReleaseBSTR(bstrId);
+    ReleaseObject(pProduct);
+    ReleaseObject(pInstance2);
+
+    return hr;
+}
+
 static HRESULT InstanceIsGreater(
     __in_opt ISetupInstance* pPreviousInstance,
     __in DWORD64 qwPreviousVersion,
@@ -288,6 +342,13 @@ static HRESULT ProcessVS2017(
     static ISetupInstance* pLatest = NULL;
     static DWORD64 qwLatest = 0;
 
+    static LPCWSTR rgwzProducts[] =
+    {
+        L"Microsoft.VisualStudio.Product.Community",
+        L"Microsoft.VisualStudio.Product.Professional",
+        L"Microsoft.VisualStudio.Product.Enterprise",
+    };
+
     // TODO: Consider making table-driven with these defaults per-version for easy customization.
     static VS_COMPONENT_PROPERTY rgComponents[] =
     {
@@ -312,19 +373,29 @@ static HRESULT ProcessVS2017(
     }
     else if (pInstance)
     {
+        hr = InstanceInProducts(pInstance, countof(rgwzProducts), rgwzProducts);
+        ExitOnFailure(hr, "Failed to compare product IDs.");
+
+        if (S_FALSE == hr)
+        {
+            ExitFunction();
+        }
+
         hr = InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
         ExitOnFailure(hr, "Failed to compare instances.");
 
-        if (S_OK == hr)
+        if (S_FALSE == hr)
         {
-            ReleaseNullObject(pLatest);
-
-            pLatest = pInstance;
-            qwLatest = qwVersion;
-
-            // Caller will do a final Release() otherwise.
-            pLatest->AddRef();
+            ExitFunction();
         }
+
+        ReleaseNullObject(pLatest);
+
+        pLatest = pInstance;
+        qwLatest = qwVersion;
+
+        // Caller will do a final Release() otherwise.
+        pLatest->AddRef();
     }
 
 LExit:
