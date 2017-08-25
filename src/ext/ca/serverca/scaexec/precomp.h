@@ -11,7 +11,7 @@
 #include <oleauto.h>
 
 #include <Iads.h>
-#include <activeds.h> 
+#include <activeds.h>
 #include <lm.h>        // NetApi32.lib
 #include <LMaccess.h>
 #include <LMErr.h>

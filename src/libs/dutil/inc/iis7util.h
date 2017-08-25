@@ -130,6 +130,11 @@ HRESULT DAPI Iis7PutPropertyInteger(
     __in DWORD dValue
     );
 
+HRESULT DAPI Iis7PutPropertyEmpty(
+    __in IAppHostElement *pElement,
+    __in LPCWSTR wzPropName
+    );
+
 HRESULT DAPI Iis7PutPropertyString(
     __in IAppHostElement *pElement,
     __in LPCWSTR wzPropName,

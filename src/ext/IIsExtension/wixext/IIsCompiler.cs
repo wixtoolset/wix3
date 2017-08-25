@@ -1039,6 +1039,26 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             }
 
                             managedRuntimeVersion = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
+
+                            switch (managedRuntimeVersion)
+                            {
+                                case "v2.0":
+                                    break;
+
+                                case "v4.0":
+                                    break;
+
+                                case "No Managed Code":
+                                    break;
+
+                                default:
+                                    if (!CompilerCore.ContainsProperty(managedRuntimeVersion))
+                                    {
+                                        this.Core.OnMessage(WixErrors.IllegalAttributeValue(sourceLineNumbers, node.Name, attrib.Name, managedRuntimeVersion, "v2.0", "v4.0", "No Managed Code"));
+                                    }
+                                    break;
+                            }
+                            
                             break;
                         case "MaxCpuUsage":
                             if (null == componentId)
