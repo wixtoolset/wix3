@@ -1074,7 +1074,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         /// </summary>
         private class NativeMethods
         {
-            private const int MaxPath = 255;
 
             /// <summary>
             /// Gets the short name for a file.
@@ -1083,9 +1082,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             /// <returns>Short name for file.</returns>
             internal static string GetShortPathName(string fullPath)
             {
-                StringBuilder shortPath = new StringBuilder(MaxPath, MaxPath);
+                StringBuilder shortPath = new StringBuilder();
 
-                uint result = GetShortPathName(fullPath, shortPath, MaxPath);
+                uint result = GetShortPathName(fullPath, null, 0);
 
                 if (0 == result)
                 {
