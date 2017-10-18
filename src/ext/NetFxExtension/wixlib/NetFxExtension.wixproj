@@ -25,6 +25,7 @@
     <Compile Include="NetFx46.wxs" />
     <Compile Include="NetFx461.wxs" />
     <Compile Include="NetFx462.wxs" />
+    <Compile Include="NetFx47.wxs" />
     <Compile Include="NetFxExtension_x86.wxs" />
   </ItemGroup>
 
