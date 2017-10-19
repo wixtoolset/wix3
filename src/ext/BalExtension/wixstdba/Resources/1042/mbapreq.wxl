@@ -28,7 +28,7 @@
   <String Id="InstallOptionsButton">&amp;옵션</String>
   <String Id="InstallInstallButton">&amp;설치</String>
   <String Id="InstallCloseButton">&amp;닫기</String>
-  <String Id="InstallMessage">[WixBundleName]를(을) 설치 하려고 합니다. 
+  <String Id="InstallMessage">[WixBundleName]를(을) 설치 합니다. 
 
 계속 하시려면 설치를 선택하여 주시기 바랍니다.
 옵션은 설치 할 경로를 설정 할 수 있으며, 닫기는 설치를 종료합니다.</String>
@@ -42,10 +42,10 @@
   <String Id="SuccessInstallHeader">[WixBundleName] 설치를 완료하였습니다.</String>
   <String Id="SuccessHeader">설치 성공</String>
   <String Id="SuccessLaunchButton">&amp;실행</String>
-  <String Id="SuccessRestartText">[WixBundleName] 를(을) 사용하기 전에 시스템을 재 시작 하여야 합니다.</String>
+  <String Id="SuccessRestartText">[WixBundleName]를(을) 사용하기 전에 시스템을 재시작 하여야 합니다.</String>
   <String Id="SuccessRestartButton">&amp;재시작</String>
   <String Id="SuccessCloseButton">&amp;닫기</String>
-  <String Id="ModifyHeader">변경 설정</String>
+  <String Id="ModifyHeader">변경</String>
   <String Id="ModifyRepairButton">&amp;수정</String>
   <String Id="ModifyUninstallButton">&amp;제거</String>
   <String Id="ModifyCloseButton">&amp;닫기</String>
