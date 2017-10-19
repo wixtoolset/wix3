@@ -30,7 +30,7 @@
   <String Id="InstallCloseButton">&amp;닫기</String>
   <String Id="InstallMessage">[WixBundleName]를(을) 설치 하려고 합니다. 
 
-계속 하시려면 설치를 선택하여 주시가 바랍니다.
+계속 하시려면 설치를 선택하여 주시기 바랍니다.
 옵션은 설치 할 경로를 설정 할 수 있으며, 닫기는 설치를 종료합니다.</String>
   <String Id="InstallVersion">버전: [WixBundleVersion]</String>
   <String Id="OptionsHeader">설치 옵션</String>
