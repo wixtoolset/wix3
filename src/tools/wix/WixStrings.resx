@@ -277,36 +277,38 @@
     <value>warning</value>
   </data>
   <data name="BinderArguments" xml:space="preserve">
-    <value>   -bcgg      use backwards compatible guid generation algorithm
-              (almost never needed)
-   -cc &lt;path&gt; path to cache built cabinets (will not be deleted after linking)
-   -ct &lt;N&gt;    number of threads to use when creating cabinets
-              (default: %NUMBER_OF_PROCESSORS%)
-   -cub &lt;file.cub&gt; additional .cub file containing ICEs to run
-   -dcl:level set default cabinet compression level
-              (low, medium, high, none, mszip; mszip default)
-   -eav       exact assembly versions (breaks .NET 1.1 RTM compatibility)
-   -fv        add a 'fileVersion' entry to the MsiAssemblyName table
-              (rarely needed)
+    <value>   -bcgg        use backwards compatible guid generation algorithm
+                (almost never needed)
+   -cc &lt;path&gt;   path to cache built cabinets (will not be deleted after linking)
+   -ct &lt;N&gt;      number of threads to use when creating cabinets
+                (default: %NUMBER_OF_PROCESSORS%)
+   -cub &lt;file.cub&gt;  additional .cub file containing ICEs to run
+   -dcl:level   set default cabinet compression level
+                (low, medium, high, none, mszip; mszip default)
+   -eav         exact assembly versions (breaks .NET 1.1 RTM compatibility)
+   -fv          add a 'fileVersion' entry to the MsiAssemblyName table
+                (rarely needed)
    -ice:&lt;ICE&gt;   run a specific internal consistency evaluator (ICE)
-   -O1        optimize smart cabbing for smallest cabinets (deprecated)
-   -O2        optimize smart cabbing for faster install time (deprecated)
+   -O1          optimize smart cabbing for smallest cabinets (deprecated)
+   -O2          optimize smart cabbing for faster install time (deprecated)
    -pdbout &lt;output.wixpdb&gt;  save the WixPdb to a specific file
-              (default: same name as output with wixpdb extension)
-   -reusecab  reuse cabinets from cabinet cache
-   -sa        suppress assemblies: do not get assembly name information
-              for assemblies
-   -sacl      suppress resetting ACLs
-              (useful when laying out image to a network share)
-   -sf        suppress files: do not get any file information
-              (equivalent to -sa and -sh)
-   -sh        suppress file info: do not get hash, version, language, etc
+                (default: same name as output with wixpdb extension)
+   -reusecab    reuse cabinets from cabinet cache
+   -sa          suppress assemblies: do not get assembly name information
+                for assemblies
+   -sacl        suppress resetting ACLs
+                (useful when laying out image to a network share)
+   -sf          suppress files: do not get any file information
+                (equivalent to -sa and -sh)
+   -sh          suppress file info: do not get hash, version, language, etc
+   -shardlinks  suppress creating hardlinks for files during build,
+                always copy.
    -sice:&lt;ICE&gt;  suppress an internal consistency evaluator (ICE)
-   -sl        suppress layout
-   -spdb      suppress outputting the WixPdb
-   -spsd      suppress patch sequence data in patch XML to decrease bundle
-              size and increase patch applicability performance
-              (patch packages themselves are not modified)
-   -sval      suppress MSI/MSM validation</value>
+   -sl          suppress layout
+   -spdb        suppress outputting the WixPdb
+   -spsd        suppress patch sequence data in patch XML to decrease bundle
+                size and increase patch applicability performance
+                (patch packages themselves are not modified)
+   -sval        suppress MSI/MSM validation</value>
   </data>
 </root>

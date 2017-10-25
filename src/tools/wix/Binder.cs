@@ -106,6 +106,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private bool suppressAssemblies;
         private bool suppressAclReset;
         private bool suppressFileHashAndInfo;
+        private bool suppressHardLinks;
         private StringCollection suppressICEs;
         private bool suppressLayout;
         private bool suppressPatchSequenceData;
@@ -252,6 +253,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get { return this.suppressFileHashAndInfo; }
             set { this.suppressFileHashAndInfo = value; }
+        }
+
+        /// <summary>
+        /// Gets and sets the option to suppress creating hardlinks for files at build time.
+        /// </summary>
+        /// <value>The option to suppress creating hardlinks for files at build time.</value>
+        public bool SuppressHardLinks
+        {
+            get { return this.suppressHardLinks; }
+            set { this.suppressHardLinks = value; }
         }
 
         /// <summary>
@@ -483,6 +494,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     {
                         consoleMessageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch(parameter));
                         this.suppressFileHashAndInfo = true;
+                    }
+                    else if (parameter.Equals("shardlinks", StringComparison.Ordinal))
+                    {
+                        this.suppressHardLinks = true;
                     }
                     else if (parameter.StartsWith("sice:", StringComparison.Ordinal))
                     {
@@ -741,6 +756,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
             this.FileManager.CabCachePath = this.cabCachePath;
             this.FileManager.ReuseCabinets = this.reuseCabinets;
+            this.FileManager.SuppressHardLinks = this.suppressHardLinks;
         }
 
         /// <summary>
