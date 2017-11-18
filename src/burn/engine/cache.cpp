@@ -1104,13 +1104,29 @@ static HRESULT CalculateWorkingFolder(
 {
     HRESULT hr = S_OK;
     RPC_STATUS rs = RPC_S_OK;
+    BOOL fElevated = FALSE;
     WCHAR wzTempPath[MAX_PATH] = { };
     UUID guid = {};
     WCHAR wzGuid[39];
 
     if (!vsczWorkingFolder)
     {
-        if (0 == ::GetTempPathW(countof(wzTempPath), wzTempPath))
+        ProcElevated(::GetCurrentProcess(), &fElevated);
+
+        if (fElevated)
+        {
+            if (!::GetWindowsDirectoryW(wzTempPath, countof(wzTempPath)))
+            {
+                ExitWithLastError(hr, "Failed to get windows path for working folder.");
+            }
+
+            hr = PathFixedBackslashTerminate(wzTempPath, countof(wzTempPath));
+            ExitOnFailure(hr, "Failed to ensure windows path for working folder ended in backslash.");
+
+            hr = ::StringCchCatW(wzTempPath, countof(wzTempPath), L"Temp\\");
+            ExitOnFailure(hr, "Failed to concat Temp directory on windows path for working folder.");
+        }
+        else if (0 == ::GetTempPathW(countof(wzTempPath), wzTempPath))
         {
             ExitWithLastError(hr, "Failed to get temp path for working folder.");
         }
