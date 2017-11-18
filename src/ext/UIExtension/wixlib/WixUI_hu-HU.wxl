@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Új mappa létrehozása</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mappa neve:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Tallózással keresse meg a célmappát..</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Tallózással keresse meg a célmappát.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Célmappa módosítása</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Elfogadom a licencszerződés feltételeit.</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Figyelmesen olvassa el az alábbi licencszerződést..</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Figyelmesen olvassa el az alábbi licencszerződést.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Végfelhasználói licencszerződés</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Teljes telepítés</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}A telepítéstípus kiválasztása</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Ezen a lapon választhatja ki a telepítés típusát..</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Ezen a lapon választhatja ki a telepítés típusát.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">A leggyakrabban használt szolgáltatások telepítése (a legtöbb esetben ez a lehetőség ajánlott).</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">A telepítendő szolgáltatások és azok helyének kiválasztása (tapasztalt felhasználóknak ajánlott).</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">A program minden szolgáltatása települ. Ehhez szükséges a legtöbb lemezterület.</String>

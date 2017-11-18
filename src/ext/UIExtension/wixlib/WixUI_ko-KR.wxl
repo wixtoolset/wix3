@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] 설치</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">동의함(&amp;A)</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">다음 사용 조건을 자세히 읽어 주십시오..</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">다음 사용 조건을 자세히 읽어 주십시오.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}최종 사용자 사용권 계약</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] 설치</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">전체 설치</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}설치 유형 선택</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">사용자의 요구 사항에 가장 적합한 설치 유형을 선택하십시오..</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">사용자의 요구 사항에 가장 적합한 설치 유형을 선택하십시오.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">가장 일반적인 프로그램 기능을 설치합니다. 대부분의 사용자에게 권장합니다.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">설치할 프로그램 기능과 위치를 선택할 수 있습니다. 고급 사용자에게 권장합니다.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">모든 프로그램 기능을 설치합니다. 가장 많은 디스크 공간이 필요합니다.</String>

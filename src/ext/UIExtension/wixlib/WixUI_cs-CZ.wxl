@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Umožňuje vytvořit novou složku.</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Název složky:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Umožňuje přejít do cílové složky..</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Umožňuje přejít do cílové složky.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Změnit cílovou složku</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalace produktu [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Instalace produktu [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Umožňuje zvolit obor instalace a instalační složku..</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Umožňuje zvolit obor instalace a instalační složku.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Obor instalace</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Nainstalovat &amp;pouze pro vás ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Produkt [ProductName] bude nainstalován do složky konkrétního uživatele a bude k dispozici pouze pro váš uživatelský účet. Nepotřebujete oprávnění místního správce.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalace produktu [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;S podmínkami licenční smlouvy souhlasím</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Přečtěte si pečlivě následující licenční smlouvu..</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Přečtěte si pečlivě následující licenční smlouvu.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Licenční smlouva s koncovým uživatelem (EULA)</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalace produktu [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Úplná instalace</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zvolit typ instalace</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Zvolte typ instalace, který nejlépe vyhovuje vašim potřebám..</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Zvolte typ instalace, který nejlépe vyhovuje vašim potřebám.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Nainstaluje nejběžnější součásti programu. Doporučeno pro většinu uživatelů.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Umožňuje uživatelům zvolit, které součásti programu budou nainstalovány a kam. Doporučeno pro zkušené uživatele.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Budou nainstalovány všechny součásti programu. Požaduje nejvíce místa na pevném disku.</String>
