@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Tam Yükleme</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Kurulum Türünü Seç</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Gereksinimlerinize en uygun kurulum türünü seçin</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Gereksinimlerinize en uygun kurulum türünü seçin.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">En sık kullanılan program özelliklerini yükler. Çoğu kullanıcı için önerilir.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Kullanıcıların yüklenecek program özelliklerini ve bu özelliklerin yükleneceği yeri seçmesine olanak verir. İleri düzey kullanıcılar için önerilir.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Tüm program özellikleri yüklenecek. En fazla disk alanını gerektirir.</String>

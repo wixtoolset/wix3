@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Teljes telepítés</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}A telepítéstípus kiválasztása</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Ezen a lapon választhatja ki a telepítés típusát.</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Ezen a lapon választhatja ki a telepítés típusát..</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">A leggyakrabban használt szolgáltatások telepítése (a legtöbb esetben ez a lehetőség ajánlott).</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">A telepítendő szolgáltatások és azok helyének kiválasztása (tapasztalt felhasználóknak ajánlott).</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">A program minden szolgáltatása települ. Ehhez szükséges a legtöbb lemezterület.</String>

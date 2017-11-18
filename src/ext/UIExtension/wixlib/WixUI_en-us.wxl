@@ -211,7 +211,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButtonTooltip" _locComment="SetupTypeDlgCompleteButtonTooltip" -->Complete Installation</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="SetupTypeDlgBannerBitmap" _locComment="SetupTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes"><!-- _locID_text="SetupTypeDlgTitle" _locComment="SetupTypeDlgTitle" -->{\WixUI_Font_Title}Choose Setup Type</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Choose the setup type that best suits your needs</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Choose the setup type that best suits your needs.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalText" _locComment="SetupTypeDlgTypicalText" -->Installs the most common program features. Recommended for most users.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomText" _locComment="SetupTypeDlgCustomText" -->Allows users to choose which program features will be installed and where they will be installed. Recommended for advanced users.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteText" _locComment="SetupTypeDlgCompleteText" -->All program features will be installed. Requires the most disk space.</String>

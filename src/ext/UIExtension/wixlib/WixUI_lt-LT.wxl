@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Visas diegimas</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Pasirinkite sąrankos tipą</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Pasirinkite sąrankos tipą, kuris geriausiai atitinka jūsų poreikius</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Pasirinkite sąrankos tipą, kuris geriausiai atitinka jūsų poreikius.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Diegia dažniausias programos priemones. Rekomenduojama daugumai vartotojų.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Leidžia vartotojams pasirinkti, kurias programos priemones diegti ir diegimo vietą. Rekomenduojama pažengusiems vartotojams.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Bus įdiegtos visos programos priemonės. Reikia daugiausia disko vietos.</String>

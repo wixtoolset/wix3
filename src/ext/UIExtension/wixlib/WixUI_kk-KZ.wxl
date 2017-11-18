@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Орнатуды аяқтау</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Орнату түрін таңдау</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Қажеттіліктерге сәйкес келетін орнату түрін таңдау</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Қажеттіліктерге сәйкес келетін орнату түрін таңдау.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Көптеген жалпы бағдарлама мүмкіндіктерін орнатады. Көптеген пайдаланушыларға ұсынылады.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Пайдаланушыларға орнатылатын бағдарлама мүмкіндіктерін және олардың орнатылатын жерін таңдауға мүмкіндік береді. Тәжірибелі пайдаланушылар үшін ұсынылады.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Барлық бағдарлама мүмкіндіктері орнатылады. Дискіде қосымша бос орын қажет.</String>

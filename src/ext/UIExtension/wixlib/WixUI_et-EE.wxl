@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Täielik install</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installitüübi valimine</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Valige oma vajadustele vastav installitüüp</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Valige oma vajadustele vastav installitüüp.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Installitakse levinumad programmifunktsioonid. Soovitatav enamikule kasutajatele.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Võimaldab kasutajatel otsustada programmifunktsioonide installimise valiku ja koha üle. Soovitatav kogenud kasutajatele.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Installitakse kõik programmifunktsioonid. Nõuab kõige rohkem kettaruumi.</String>

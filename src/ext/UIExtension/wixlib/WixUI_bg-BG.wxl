@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Пълна инсталация</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Избор на тип инсталация</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Избор на типа инсталация, който отговаря най-добре на вашите нужди</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Избор на типа инсталация, който отговаря най-добре на вашите нужди.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Инсталира най-често използваните програмни компоненти. Препоръчва се за повечето потребители.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Позволява на потребителите да изберат кои компоненти на програмата ще се инсталират и къде ще се инсталират. Препоръчва се за опитни потребители.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Всички програмни компоненти ще се инсталират. Изисква най-много дисково пространство.</String>

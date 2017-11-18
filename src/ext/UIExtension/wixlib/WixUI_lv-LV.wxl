@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Pilna instalācija</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Uzstādīšanas tipa izvēle</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Izvēlieties savām vajadzībām visatbilstošāko uzstādīšanas tipu</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Izvēlieties savām vajadzībām visatbilstošāko uzstādīšanas tipu.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Tiek instalēti visbiežāk lietotie programmas līdzekļi. Ieteicams lielākajai daļai lietotāju.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Lietotāji var izvēlēties instalēšanas vietu un instalējamos programmas līdzekļus. Ieteicams pieredzējušiem lietotājiem.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Tiks instalēti visi programmas līdzekļi. Aizņem visvairāk vietas diskā.</String>

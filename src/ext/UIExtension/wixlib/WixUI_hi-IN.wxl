@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">पूर्ण स्थापना</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}सेटअप प्रकार चुनें</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">वह सेटअप प्रकार चुनें को आपकी आवश्यकताओं के लिए श्रेष्ठ हो</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">वह सेटअप प्रकार चुनें को आपकी आवश्यकताओं के लिए श्रेष्ठ हो.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">सबसे सामान्य प्रोग्राम सुविधाएँ स्थापित करता है. अधिकांश उपयोगकर्ताओं के लिए अनुशंसित.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">उपयोगकर्ताओं को यह चुनने देता है कि कौन सा प्रोग्राम स्थापित होगा और वे कहाँ स्थापित होंगे. उन्नत उपयोगकर्ताओं के लिए अनुशंसित.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">सभी प्रोग्राम स्थापित किए जाएँगे. अधिक डिस्क स्थान की आवश्यकता होती है.</String>

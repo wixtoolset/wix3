@@ -211,7 +211,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButtonTooltip" _locComment="SetupTypeDlgCompleteButtonTooltip" -->Instalim i Plotë</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="SetupTypeDlgBannerBitmap" _locComment="SetupTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes"><!-- _locID_text="SetupTypeDlgTitle" _locComment="SetupTypeDlgTitle" -->{\WixUI_Font_Title}Zgjidhni Lloj Rregulllimi</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Zgjidhni llojin e rregullimit që i përshtatet më mirë nevojave tuaja</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Zgjidhni llojin e rregullimit që i përshtatet më mirë nevojave tuaja.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalText" _locComment="SetupTypeDlgTypicalText" -->Instalon veçoritë më të zakonshme të programit. I këshillueshëm për shumicën e përdoruesve.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomText" _locComment="SetupTypeDlgCustomText" -->U lejon përdoruesve të zgjedhin cilat veçori të programit të instalohen dhe ku të instalohen. I këshillueshëm për përdorues të përparuar.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteText" _locComment="SetupTypeDlgCompleteText" -->Do të instalohen krejt veçoritë e programit. Lyp më shumë hapësirë disku se të tjerët.</String>

@@ -213,7 +213,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Täydellinen asennus</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Valitse asennustyyppi</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Valitse tarpeitasi parhaiten vastaava asennustyyppi</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Valitse tarpeitasi parhaiten vastaava asennustyyppi.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Asentaa yleisimmät ohjelman ominaisuudet. Suositellaan useimmille käyttäjille.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Käyttäjä voi valita, mitkä ohjelman ominaisuudet asennetaan ja mihin ne asennetaan. Suositellaan kokeneille käyttäjille.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Kaikki ohjelman ominaisuudet asennetaan. Vaatii eniten levytilaa.</String>

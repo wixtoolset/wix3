@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Πλήρης εγκατάσταση</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Επιλογή τύπου εγκατάστασης</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Επιλέξτε τον τύπο εγκατάστασης που ταιριάζει καλύτερα στις ανάγκες σας</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Επιλέξτε τον τύπο εγκατάστασης που ταιριάζει καλύτερα στις ανάγκες σας.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Εγκαθιστά τις συνηθέστερες δυνατότητες του προγράμματος. Συνιστάται για τους περισσότερους χρήστες.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Επιτρέπει στους χρήστες να επιλέξουν τις δυνατότητες του προγράμματος που θα εγκατασταθούν και τη θέση στην οποία θα εγκατασταθούν. Συνιστάται για προχωρημένους χρήστες.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Θα εγκατασταθούν όλες οι δυνατότητες του προγράμματος. Απαιτεί τον περισσότερο χώρο στο δίσκο.</String>
