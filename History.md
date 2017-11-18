@@ -1,3 +1,7 @@
+## WixBuild: Version 3.10.4.4718
+
+* RobMen - WIXBUG:5724 - fix DLL hijack of clean room when bundle launched elevated.
+
 ## WixBuild: Version 3.10.3.3007
 
 * SeanHall: WIXBUG:5308 - Make embedded bundles launch a clean room process so the BA runs in a consistent environment.
