@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Πρόγραμμα εγκατάστασης του [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Αποδέχομαι τους όρους της άδειας χρήσης</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Διαβάστε προσεκτικά την παρακάτω άδειας χρήσης</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Διαβάστε προσεκτικά την παρακάτω άδειας χρήσης.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Άδεια χρήσης τελικού χρήστη</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Πρόγραμμα εγκατάστασης του [ProductName]</String>

@@ -129,7 +129,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Установка [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Я принимаю условия лицензионного соглашения</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Внимательно прочитайте следующее лицензионное соглашение</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Внимательно прочитайте следующее лицензионное соглашение.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Лицензионное соглашение</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Установка [ProductName]</String>

@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalación de [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">A&amp;cepto los términos del Contrato de licencia</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lea detenidamente el siguiente Contrato de licencia</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lea detenidamente el siguiente Contrato de licencia.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Contrato de licencia para el usuario final</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalación de [ProductName]</String>

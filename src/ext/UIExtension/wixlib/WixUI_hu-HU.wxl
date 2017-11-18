@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Elfogadom a licencszerződés feltételeit.</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Figyelmesen olvassa el az alábbi licencszerződést.</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Figyelmesen olvassa el az alábbi licencszerződést..</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Végfelhasználói licencszerződés</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>

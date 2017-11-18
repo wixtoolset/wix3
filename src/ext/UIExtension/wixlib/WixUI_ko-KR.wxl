@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] 설치</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">동의함(&amp;A)</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">다음 사용 조건을 자세히 읽어 주십시오.</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">다음 사용 조건을 자세히 읽어 주십시오..</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}최종 사용자 사용권 계약</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] 설치</String>

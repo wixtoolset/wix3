@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Prihv&amp;atam uslove navedene u ugovoru o licenciranju</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pažljivo pročitajte sledeći ugovor o licenciranju</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pažljivo pročitajte sledeći ugovor o licenciranju.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Ugovor o licenciranju sa krajnjim korisnikom</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>

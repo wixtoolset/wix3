@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Súhlasím s podmienkami licenčnej zmluvy</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pozorne si prečítajte nasledujúcu licenčnú zmluvu</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pozorne si prečítajte nasledujúcu licenčnú zmluvu.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Licenčná zmluva koncového používateľa</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>

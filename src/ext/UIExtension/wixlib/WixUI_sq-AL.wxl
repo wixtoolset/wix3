@@ -128,7 +128,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes"><!-- _locID_text="LicenseAgreementDlg_Title" _locComment="LicenseAgreementDlg_Title" -->Rregullim i [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgLicenseAcceptedCheckBox" _locComment="LicenseAgreementDlgLicenseAcceptedCheckBox" -->I &amp;pranoj kushtet e Marrëveshjesh së Licencës</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgBannerBitmap" _locComment="LicenseAgreementDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgDescription" _locComment="LicenseAgreementDlgDescription" -->Ju lutemi, lexojeni me kujdes marrëveshjen vijuese për licencën</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgDescription" _locComment="LicenseAgreementDlgDescription" -->Ju lutemi, lexojeni me kujdes marrëveshjen vijuese për licencën.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgTitle" _locComment="LicenseAgreementDlgTitle" -->{\WixUI_Font_Title}Marrëveshje Licence Përdoruesi të Fundmë</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlg_Title" _locComment="MaintenanceTypeDlg_Title" -->Rregullim i [ProductName]</String>

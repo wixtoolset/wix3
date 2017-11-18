@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">אני &amp;מקבל את תנאי הסכם הרשיון</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">קרא בעיון את הסכם הרשיון שלהלן</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">קרא בעיון את הסכם הרשיון שלהלן.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}הסכם רשיון למשתמש קצה</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>

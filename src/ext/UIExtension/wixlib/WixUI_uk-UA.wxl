@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Інсталяція програми [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Я &amp;приймаю умови ліцензійної угоди</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Уважно прочитайте наведену нижче ліцензійну угоду</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Уважно прочитайте наведену нижче ліцензійну угоду.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Ліцензійна угода</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Інсталяція програми [ProductName]</String>

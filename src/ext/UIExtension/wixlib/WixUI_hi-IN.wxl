@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] सेटअप</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">मुझे &amp;लायसेंस एग्रीमेंट की शर्तें स्वीकार हैं</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">कृपया निम्न लाइसेंस अनुबंध को ध्यानपूर्वक पढ़ें</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">कृपया निम्न लाइसेंस अनुबंध को ध्यानपूर्वक पढ़ें.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}एंड-यूज़र लाइसेंस एग्रीमेंट</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] सेटअप</String>
