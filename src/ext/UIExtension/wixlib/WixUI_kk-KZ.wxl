@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Орнату ауқымын және қалтасын таңдау</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Орнату ауқымын және қалтасын таңдау.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Орнату ауқымы</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}&amp;Тек өзіңіз үшін орнату ([USERNAME])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] бағдарламасы әрбір пайдаланушы қалтасына орнатылады және тек пайдаланушы тіркелгіңізге қол жетімді болады. Әкімші құқықтары қажет емес.</String>

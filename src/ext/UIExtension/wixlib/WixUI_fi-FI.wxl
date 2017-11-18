@@ -112,7 +112,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Valitse asennuksen laajuus ja kansio</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Valitse asennuksen laajuus ja kansio.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Asennuksen laajuus</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Asenna &amp;vain nykyiselle käyttäjälle ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] asennetaan käyttäjäkohtaiseen kansioon, ja se on vain nykyisen käyttäjätilin käytettävissä. Paikallisia järjestelmänvalvojaoikeuksia ei tarvita.</String>

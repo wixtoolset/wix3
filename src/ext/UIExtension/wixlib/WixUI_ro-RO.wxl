@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Programul de instalare [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Alegeţi aria de instalare şi folderul</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Alegeţi aria de instalare şi folderul.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Aria de instalare</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Se instalează &amp;numai pentru dvs. ([USERNAME])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] va fi instalat într-un folder la nivel de utilizator şi va fi disponibil numai pentru contul dvs. de utilizator. Nu sunt necesare privilegii de administrator local.</String>

@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Vyberte rozsah a priečinok inštalácie</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Vyberte rozsah a priečinok inštalácie.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Rozsah inštalácie</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Inštalovať len pre &amp;seba ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Program [ProductName] sa nainštaluje do priečinka pre konkrétneho používateľa a bude k dispozícii len pre vaše používateľské konto. Nepotrebujete lokálne oprávnenia správcu.</String>

@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">インストール範囲とフォルダーの選択</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">インストール範囲とフォルダーの選択.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}インストール範囲</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}自分のみを対象にインストール ([LogonUser])(&amp;J)</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] はユーザーごとのフォルダーにインストールされ、そのユーザー アカウントでのみ使用できます。ローカル管理者の権限は必要ありません。</String>

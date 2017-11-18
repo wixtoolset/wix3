@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] Installation</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Vælg installationsområde og -mappe</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Vælg installationsområde og -mappe.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installationsområde</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installer &amp;kun for dig ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] installeres i en mappe pr. bruger og er kun tilgængelig for din brugerkonto. Du behøver ikke lokale administratorrettigheder.</String>

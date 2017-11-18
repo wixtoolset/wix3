@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Odaberite opseg instalacije i instalacionu fasciklu</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Odaberite opseg instalacije i instalacionu fasciklu.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Opseg instalacije</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalirajte &amp;samo za sebe ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] će biti instaliran u fascikli po korisniku i biće dostupan samo za vaš korisnički nalog. Nisu vam potrebne lokalne administratorske privilegije.</String>

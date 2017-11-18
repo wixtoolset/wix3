@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Izvēlieties instalēšanas tvērumu un mapi</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Izvēlieties instalēšanas tvērumu un mapi.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Instalēšanas tvērums</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalēt &amp;tikai sev ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] tiks instalēts lietotājam paredzētā mapē un būs pieejams tikai jūsu lietotāja kontam. Nav nepieciešamas lokālā administratora atļaujas.</String>

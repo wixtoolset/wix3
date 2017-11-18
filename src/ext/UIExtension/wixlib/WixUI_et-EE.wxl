@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Valige installimise ulatus ja kaust</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Valige installimise ulatus ja kaust.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installimise ulatus</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installimine &amp;ainult teie jaoks ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Toode [ProductName] installitakse kasutajapõhisesse kausta ja see on saadaval ainult teie kasutajakontole. Teil ei ole vaja kohaliku administraatori õigusi.</String>

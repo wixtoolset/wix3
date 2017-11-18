@@ -112,7 +112,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Instalação do [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Escolha o escopo e a pasta de instalação</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Escolha o escopo e a pasta de instalação.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Escopo de Instalação</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalar ape&amp;nas para você ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">O [ProductName] será instalado em uma pasta por usuário e estará disponível apenas para a sua conta de usuário. Não é necessário ter privilégios de Administrador local.</String>

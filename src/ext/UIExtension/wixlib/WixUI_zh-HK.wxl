@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] 安裝程式</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">選擇安裝範圍和資料夾</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">選擇安裝範圍和資料夾.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}安裝範圍</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}僅為您安裝 ([LogonUser])(&amp;J)</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] 將安裝在個別使用者資料夾中，並且僅供您的使用者帳戶使用。您不需要本機系統管理員權限。</String>

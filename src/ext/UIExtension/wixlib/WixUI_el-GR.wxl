@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Πρόγραμμα εγκατάστασης του [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Επιλέξτε την εμβέλεια και το φάκελο εγκατάστασης</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Επιλέξτε την εμβέλεια και το φάκελο εγκατάστασης.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Εμβέλεια εγκατάστασης</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Εγκατάσταση &amp;μόνο για εσάς, το χρήστη ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Το [ProductName] θα εγκατασταθεί σε ένα φάκελο ανά χρήστη και θα είναι διαθέσιμο μόνο για τον δικό σας λογαριασμό χρήστη. Δεν χρειάζεστε δικαιώματα τοπικού διαχειριστή.</String>

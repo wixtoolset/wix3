@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Installation de [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Choisir l'étendue et le dossier d'installation</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Choisir l'étendue et le dossier d'installation.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Étendue d'installation</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installer &amp;uniquement pour vous ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] sera installé dans un dossier spécifique à chaque utilisateur et sera disponible uniquement pour votre compte d'utilisateur. Vous n'avez pas besoin de disposer de privilèges d'administrateur local.</String>

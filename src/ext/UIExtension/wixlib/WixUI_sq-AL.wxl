@@ -110,7 +110,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes"><!-- _locID_text="InstallScopeDlg_Title" _locComment="InstallScopeDlg_Title" -->Rregullim i [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallScopeDlgBannerBitmap" _locComment="InstallScopeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Zgjidhni shtrirjen dhe dosjen e instalimit</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Zgjidhni shtrirjen dhe dosjen e instalimit.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes"><!-- _locID_text="InstallScopeDlgTitle" _locComment="InstallScopeDlgTitle" -->{\WixUI_Font_Title}Shtrirje Instalimi</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUser" _locComment="InstallScopeDlgPerUser" -->{\WixUI_Font_Emphasized}Instalojeni &amp;vetëm për ju ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUserDescription" _locComment="InstallScopeDlgPerUserDescription" -->[ProductName] do të instalohet në një dosje përdoruesi dhe do të mund ta përdorni thjesht nga llogaria juaj e përdoruesit. S’keni nevojë për privilegje Administratori lokal.</String>

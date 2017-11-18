@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Programa de Configuração do [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Escolha o âmbito e a pasta de instalação</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Escolha o âmbito e a pasta de instalação.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Âmbito de Instalação</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}In&amp;stalar apenas para mim ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">O [ProductName] será instalado numa pasta por utilizador e estará disponível apenas para a sua conta de utilizador. Não é necessário ter privilégios de Administrador locais.</String>

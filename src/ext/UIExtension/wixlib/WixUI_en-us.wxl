@@ -110,7 +110,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes"><!-- _locID_text="InstallScopeDlg_Title" _locComment="InstallScopeDlg_Title" -->[ProductName] Setup</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallScopeDlgBannerBitmap" _locComment="InstallScopeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Choose the installation scope and folder</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Choose the installation scope and folder.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes"><!-- _locID_text="InstallScopeDlgTitle" _locComment="InstallScopeDlgTitle" -->{\WixUI_Font_Title}Installation Scope</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUser" _locComment="InstallScopeDlgPerUser" -->{\WixUI_Font_Emphasized}Install &amp;just for you ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUserDescription" _locComment="InstallScopeDlgPerUserDescription" -->[ProductName] will be installed in a per-user folder and be available just for your user account. You do not need local Administrator privileges.</String>

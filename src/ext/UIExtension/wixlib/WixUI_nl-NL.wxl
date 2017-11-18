@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] Setup</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Kies het installatiebereik en de installatiemap</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Kies het installatiebereik en de installatiemap.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installatiebereik</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Alleen voor &amp;uzelf installeren ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] wordt geïnstalleerd in een map per gebruiker en is alleen voor dit gebruikersaccount beschikbaar. U hebt geen lokale Administrator-bevoegdheden nodig.</String>

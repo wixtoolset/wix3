@@ -111,7 +111,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Установка [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Выберите область и папку для установки</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Выберите область и папку для установки.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Область установки</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Установка для &amp;текущего пользователя ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Продукт [ProductName] будет установлен в папке пользователя и доступен только для текущего пользователя. Привилегии локального администратора не требуются.</String>

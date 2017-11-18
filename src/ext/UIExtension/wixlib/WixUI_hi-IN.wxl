@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] सेटअप</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">स्थापना क्षेत्र और फ़ोल्डर चुनें</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">स्थापना क्षेत्र और फ़ोल्डर चुनें.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}स्थापना क्षेत्र</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Install &amp;केवल आपके लिए ([USERNAME])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] को प्रति उपयोगकर्ता फ़ोल्डर में स्थापित किया जाएगा और केवल आपके लिए उपलब्ध होगा. आपको स्थानीय व्यवस्थापक विशेषाधिकारों की आवश्यकता नहीं होगी.</String>

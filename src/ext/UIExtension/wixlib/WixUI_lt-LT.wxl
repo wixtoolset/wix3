@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] sąranka</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Pasirinkite diegimo aprėptį ir aplanką</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Pasirinkite diegimo aprėptį ir aplanką.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Diegimo aprėptis</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Diegti &amp;tik sau ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] bus įdiegta vartotojo aplanke ir bus pasiekiama tik jūsų vartotojo abonementui. Nereikia turėti vietinio administratoriaus teisių.</String>

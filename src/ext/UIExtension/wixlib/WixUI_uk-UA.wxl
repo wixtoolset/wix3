@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Інсталяція програми [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Вибір типу й папки для інсталяції</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Вибір типу й папки для інсталяції.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Тип інсталяції</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Інсталювати &amp;лише для себе ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] буде інстальовано в папку на рівні користувача; доступ буде можливий лише з вашого облікового запису користувача. Права локального адміністратора не потрібні.</String>
