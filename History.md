@@ -1,3 +1,7 @@
+## WixBuild: Version 3.11.1.2318
+
+* RobMen - WIXBUG:5724 - fix DLL hijack of clean room when bundle launched elevated.
+
 ## WixBuild: Version 3.11.0.1701
 
 * RobMen: WIXBUG:5536 - introduce wix.nativeca.targets to simplify CPP CA projects.
