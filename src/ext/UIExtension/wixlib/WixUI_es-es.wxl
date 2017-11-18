@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Crea una nueva carpeta</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Nombre de carpeta:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Buscar la carpeta de destino</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Buscar la carpeta de destino.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Cambiar carpeta de destino</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalación de [ProductName]</String>

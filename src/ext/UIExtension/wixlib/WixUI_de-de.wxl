@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Neuen Ordner erstellen</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Ordnername:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Zielordner suchen</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Zielordner suchen.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zielordner ändern</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName]-Setup</String>

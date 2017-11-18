@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Een nieuwe map maken</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mapnaam:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Naar de doelmap bladeren</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Naar de doelmap bladeren.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Doelmap wijzigen</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] Setup</String>

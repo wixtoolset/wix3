@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Yeni bir klasör oluştur</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">K&amp;lasör adı:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Hedef klasöre gözat</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Hedef klasöre gözat.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Hedef klasörü değiştir</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] Kurulumu</String>

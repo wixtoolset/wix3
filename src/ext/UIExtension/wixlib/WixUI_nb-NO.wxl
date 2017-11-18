@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Opprett en ny mappe</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mappenavn:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Søk etter målmappen</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Søk etter målmappen.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Endre målmappe</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Installere [ProductName]</String>

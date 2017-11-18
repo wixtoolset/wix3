@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Жаңа қалта жасау</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Қалта атауы:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Тағайындалған қалтаны шолу</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Тағайындалған қалтаны шолу.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Тағайындау қалтасын өзгерту</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] бағдарламасын орнату</String>

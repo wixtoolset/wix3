@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Umožňuje vytvořit novou složku.</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Název složky:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Umožňuje přejít do cílové složky.</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Umožňuje přejít do cílové složky..</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Změnit cílovou složku</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalace produktu [ProductName]</String>

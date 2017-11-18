@@ -41,7 +41,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Luo uusi kansio</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Kansion nimi:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Selaa kohdekansioon</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Selaa kohdekansioon.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Vaihda kohdekansiota</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>

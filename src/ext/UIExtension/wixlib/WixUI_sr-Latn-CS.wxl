@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Kreirajte novu fasciklu</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">Ime &amp;fascikle:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Potražite odredišnu fasciklu</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Potražite odredišnu fasciklu.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Promena odredišne fascikle</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>

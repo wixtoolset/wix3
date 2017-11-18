@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Ustvari novo mapo</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Ime mape:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Prebrskajte do ciljne mape</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Prebrskajte do ciljne mape.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Spremeni ciljno mapo</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Namestitev programa [ProductName]</String>

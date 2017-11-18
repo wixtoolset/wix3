@@ -40,7 +40,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Создание новой папки</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Имя папки:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Перейдите в конечную папку</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Перейдите в конечную папку.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Изменить конечную папку</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Установка [ProductName]</String>

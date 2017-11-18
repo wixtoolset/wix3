@@ -39,7 +39,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes"><!-- _locID_text="BrowseDlgNewFolderTooltip" _locComment="BrowseDlgNewFolderTooltip" -->Create a new folder</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes"><!-- _locID_text="BrowseDlgPathLabel" _locComment="BrowseDlgPathLabel" -->&amp;Folder name:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes"><!-- _locID_text="BrowseDlgBannerBitmap" _locComment="BrowseDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes"><!-- _locID_text="BrowseDlgDescription" _locComment="BrowseDlgDescription" -->Browse to the destination folder</String>
+    <String Id="BrowseDlgDescription" Overridable="yes"><!-- _locID_text="BrowseDlgDescription" _locComment="BrowseDlgDescription" -->Browse to the destination folder.</String>
     <String Id="BrowseDlgTitle" Overridable="yes"><!-- _locID_text="BrowseDlgTitle" _locComment="BrowseDlgTitle" -->{\WixUI_Font_Title}Change destination folder</String>
 
     <String Id="CancelDlg_Title" Overridable="yes"><!-- _locID_text="CancelDlg_Title" _locComment="CancelDlg_Title" -->[ProductName] Setup</String>

@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Δημιουργία νέου φακέλου</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">Ό&amp;νομα φακέλου:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Αναζήτηση του φακέλου προορισμού</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Αναζήτηση του φακέλου προορισμού.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Αλλαγή φακέλου προορισμού</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Πρόγραμμα εγκατάστασης του [ProductName]</String>

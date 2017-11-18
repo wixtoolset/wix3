@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Kurti naują aplanką</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Aplanko pavadinimas:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Eiti į paskirties aplanką</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Eiti į paskirties aplanką.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Keisti paskirties aplanką</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] sąranka</String>

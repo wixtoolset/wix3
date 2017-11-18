@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Izveidot jaunu mapi</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mapes nosaukums:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Meklēt mērķa mapi</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Meklēt mērķa mapi.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Mērķa mapes maiņa</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>

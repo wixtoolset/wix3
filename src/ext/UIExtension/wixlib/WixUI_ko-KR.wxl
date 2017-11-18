@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">새 폴더 만들기</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">폴더 이름(&amp;F):</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">대상 폴더 찾아보기</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">대상 폴더 찾아보기.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}대상 폴더 변경</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] 설치</String>

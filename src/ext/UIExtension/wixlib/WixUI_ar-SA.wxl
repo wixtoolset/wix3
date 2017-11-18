@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">إنشاء مجلد جديد</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;اسم المجلد:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">استعراض للوصول إلى المجلد الوجهة</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">استعراض للوصول إلى المجلد الوجهة.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}تغيير المجلد الوجهة</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">إعداد [ProductName]</String>

@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Utwórz nowy folder</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">Nazwa &amp;folderu:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Przejdź do folderu docelowego</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Przejdź do folderu docelowego.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zmień folder docelowy</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalator produktu [ProductName]</String>

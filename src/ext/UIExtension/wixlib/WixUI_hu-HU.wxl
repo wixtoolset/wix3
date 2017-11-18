@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Új mappa létrehozása</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mappa neve:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Tallózással keresse meg a célmappát.</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Tallózással keresse meg a célmappát..</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Célmappa módosítása</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>

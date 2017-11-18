@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Vytvoriť nový priečinok</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Názov priečinka:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Vyhľadať cieľový priečinok</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Vyhľadať cieľový priečinok.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zmena cieľového priečinka</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] – inštalácia</String>

@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Створення нової папки</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Ім’я папки:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Перехід до папки призначення</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Перехід до папки призначення.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Змінення папки призначення</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Інсталяція програми [ProductName]</String>

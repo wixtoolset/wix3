@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">新しいフォルダーの作成</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">フォルダー名(&amp;F):</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">インストール先フォルダーを参照します。</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">インストール先フォルダーを参照します。.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}インストール先フォルダーの変更</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] セットアップ</String>
