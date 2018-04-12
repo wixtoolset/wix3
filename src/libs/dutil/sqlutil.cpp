@@ -7,7 +7,46 @@
 // correct GUID's get pulled into this object file
 #include <initguid.h>
 #define DBINITCONSTANTS
+#define _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_
 #include "sqlutil.h"
+
+#if !defined(SQLNCLI_VER)
+#define SQLNCLI_VER 1100
+#endif
+
+#if SQLNCLI_VER >= 1100
+#if defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#define SQLNCLI_CLSID                           CLSID_SQLNCLI11
+#endif // defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#elif SQLNCLI_VER >= 1000
+#if defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#define SQLNCLI_CLSID                           CLSID_SQLNCLI10
+#endif // defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#else
+#if defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#define SQLNCLI_CLSID                           CLSID_SQLNCLI
+#endif  // defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#endif  // SQLNCLI_VER >= 1100
+
+
+#ifndef _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_
+#define _SQLNCLI_OLEDB_DEPRECATE_WARNING __declspec(deprecated("The SQL Server Native Client OLEDB provider is deprecated and will be removed in a future release of SQL Server Native Client. To disable this warning, define the following symbol in your application: _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_"))
+#else
+#define _SQLNCLI_OLEDB_DEPRECATE_WARNING
+#endif
+
+#if SQLNCLI_VER >= 1100
+extern const GUID OLEDBDECLSPEC _SQLNCLI_OLEDB_DEPRECATE_WARNING CLSID_SQLNCLI11 = { 0x397C2819L,0x8272,0x4532,{ 0xAD,0x3A,0xFB,0x5E,0x43,0xBE,0xAA,0x39 } };
+#endif
+
+#if SQLNCLI_VER >= 1000
+extern const GUID OLEDBDECLSPEC _SQLNCLI_OLEDB_DEPRECATE_WARNING CLSID_SQLNCLI10 = { 0x8F4A6B68L,0x4F36,0x4e3c,{ 0xBE,0x81,0xBC,0x7C,0xA4,0xE9,0xC4,0x5C } };
+#endif
+
+extern const GUID OLEDBDECLSPEC _SQLNCLI_OLEDB_DEPRECATE_WARNING CLSID_SQLNCLI = { 0x85ecafccL,0xbdd9,0x4b03,{ 0x97,0xa8,0xfa,0x65,0xcb,0xe3,0x85,0x9b } };
+
+
+
 
 // private prototypes
 static HRESULT FileSpecToString(
@@ -52,8 +91,13 @@ extern "C" HRESULT DAPI SqlConnectDatabase(
     memset(rgdbpsetInit, 0, sizeof(rgdbpsetInit));
 
     //obtain access to the SQLOLEDB provider
-    hr = ::CoCreateInstance(CLSID_SQLOLEDB, NULL, CLSCTX_INPROC_SERVER,
+    hr = ::CoCreateInstance(SQLNCLI_CLSID, NULL, CLSCTX_INPROC_SERVER,
                             IID_IDBInitialize, (LPVOID*)&pidbInitialize);
+	if (FAILED(hr))
+	{
+		hr = ::CoCreateInstance(CLSID_SQLOLEDB, NULL, CLSCTX_INPROC_SERVER,
+				IID_IDBInitialize, (LPVOID*)&pidbInitialize);
+	}
     ExitOnFailure(hr, "failed to create IID_IDBInitialize object");
 
     // if there is an instance
