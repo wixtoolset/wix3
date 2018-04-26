@@ -188,6 +188,11 @@ extern "C" HRESULT DependencyDetectProviderKeyPackageId(
             continue;
         }
         ExitOnFailure(hr, "Failed to get the package provider information.");
+
+        if (psczId && *psczId)
+        {
+            ExitFunction();
+        }
     }
 
     // Older bundles may not have written the id so try the default.
