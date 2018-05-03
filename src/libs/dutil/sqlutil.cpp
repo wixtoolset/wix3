@@ -9,6 +9,21 @@
 #define DBINITCONSTANTS
 #include "sqlutil.h"
 
+
+//Please note that only SQL native client 11 has TLS1.2 support
+#define _SQLNCLI_OLEDB_DEPRECATE_WARNING
+
+#if !defined(SQLNCLI_VER)
+#define SQLNCLI_VER 1100
+#endif
+
+#if SQLNCLI_VER >= 1100
+#if defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+#define SQLNCLI_CLSID                           CLSID_SQLNCLI11
+#endif // defined(_SQLNCLI_OLEDB_) || !defined(_SQLNCLI_ODBC_)
+extern const GUID OLEDBDECLSPEC _SQLNCLI_OLEDB_DEPRECATE_WARNING CLSID_SQLNCLI11 = { 0x397C2819L,0x8272,0x4532,{ 0xAD,0x3A,0xFB,0x5E,0x43,0xBE,0xAA,0x39 } };
+#endif  // SQLNCLI_VER >= 1100
+
 // private prototypes
 static HRESULT FileSpecToString(
     __in const SQL_FILESPEC* psf,
@@ -52,8 +67,13 @@ extern "C" HRESULT DAPI SqlConnectDatabase(
     memset(rgdbpsetInit, 0, sizeof(rgdbpsetInit));
 
     //obtain access to the SQLOLEDB provider
-    hr = ::CoCreateInstance(CLSID_SQLOLEDB, NULL, CLSCTX_INPROC_SERVER,
+    hr = ::CoCreateInstance(SQLNCLI_CLSID, NULL, CLSCTX_INPROC_SERVER,
                             IID_IDBInitialize, (LPVOID*)&pidbInitialize);
+	if (FAILED(hr))
+	{
+		hr = ::CoCreateInstance(CLSID_SQLOLEDB, NULL, CLSCTX_INPROC_SERVER,
+				IID_IDBInitialize, (LPVOID*)&pidbInitialize);
+	}
     ExitOnFailure(hr, "failed to create IID_IDBInitialize object");
 
     // if there is an instance
