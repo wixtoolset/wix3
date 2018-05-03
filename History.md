@@ -1,3 +1,5 @@
+## WixBuild: Version 3.14.0.1703
+
 ## WixBuild: Version 3.14.0.1118
 
 * RobMen - WIXBUG:5724 - fix DLL hijack of clean room when bundle launched elevated.
