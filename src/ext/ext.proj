@@ -11,6 +11,8 @@
       <BuildInParallel>false</BuildInParallel>
     </ProjectReference>
 
+    <ProjectReference Include="UtilExtension\util.proj" />
+
     <ProjectReference Include="BalExtension\bal.proj" />
     <ProjectReference Include="ComPlusExtension\complus.proj" />
     <ProjectReference Include="DependencyExtension\dependency.proj" />
@@ -27,7 +29,6 @@
     <ProjectReference Include="SqlExtension\sql.proj" />
     <ProjectReference Include="TagExtension\tag.proj" />
     <ProjectReference Include="UIExtension\ui.proj" />
-    <ProjectReference Include="UtilExtension\util.proj" />
     <ProjectReference Include="VSExtension\vs.proj" />
   </ItemGroup>
 

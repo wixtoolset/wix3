@@ -4,8 +4,8 @@
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
-    <ProjectReference Include="wixext\WixUtilExtension.csproj" />
     <ProjectReference Include="wixlib\UtilExtension.wixproj" />
+    <ProjectReference Include="wixext\WixUtilExtension.csproj" />
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\Traversal.targets" />
