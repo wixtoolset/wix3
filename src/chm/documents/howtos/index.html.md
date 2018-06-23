@@ -47,3 +47,4 @@ This section includes How To documentation for performing common WiX tasks.
 * [Use WiX Extensions](general/extension_usage_introduction.html)
 * [Optimize building cabinet files](general/optimizing_builds.html)
 * [Specify source file locations](general/specifying_source_files.html)
+* [Install a windows service](general/install_windows_service.html)

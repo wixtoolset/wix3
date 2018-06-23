@@ -12,4 +12,4 @@ This section includes guides to general topics such as debugging and logging ins
 * [How To: Use WiX Extensions](extension_usage_introduction.html)
 * [How To: Optimize build speed](optimizing_builds.html)
 * [How To: Specify source files](specifying_source_files.html)
-
+* [How To: Install a windows service](install_windows_service.html)
