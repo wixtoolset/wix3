@@ -43,5 +43,5 @@ An example of the metadata header (includes the triple-dash delimiting lines):
 Help topics may contain links to external Web pages, and may also contain relative links to other help topics or attributes or elements defined in one of the .xsd schema files.
 
 To build the new content type `msbuild` from the command line in the src\chm directory.  
-It is not necessary to build the entire toolset to build the documentation, but you must first build the src\tools directory once (using the same build command) before building the chm.
+It is not necessary to build the entire toolset to build the documentation, but you must first build the tools\src directory once (using the same build command) before building the chm.
 To build the tools, you will need to install the **Desktop development with C++** workload in Visual Studio, using the Visual Studio Installer.
