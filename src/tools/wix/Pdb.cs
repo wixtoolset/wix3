@@ -84,6 +84,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         internal static Pdb Load(Stream stream, Uri uri, bool suppressVersionCheck, bool suppressSchema)
         {
             XmlReader reader = null;
+            TempFileCollection tempFileCollection = null;
             string cabPath = null;
 
             // look for the Microsoft cabinet file header and save the cabinet data if found
@@ -91,10 +92,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 long cabFileSize = 0;
                 byte[] offsetBuffer = new byte[4];
-                using (TempFileCollection tempFileCollection = new TempFileCollection())
-                {
-                    cabPath = tempFileCollection.AddExtension("cab", true);
-                }
+                tempFileCollection = new TempFileCollection())
+                cabPath = tempFileCollection.AddExtension("cab", false);
 
                 // skip the header checksum
                 stream.Seek(4, SeekOrigin.Current);
@@ -138,16 +137,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
 
                 Pdb pdb = Parse(reader, suppressVersionCheck);
-
-                if (null != cabPath)
-                {
-                    if (pdb.Output.TempFiles == null)
-                    {
-                        pdb.Output.TempFiles = new TempFileCollection();
-                    }
-
-                    pdb.Output.TempFiles.AddFile(cabPath, false);
-                }
+                pdb.Output.TempFiles = tempFileCollection;
 
                 return pdb;
             }
