@@ -92,7 +92,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 long cabFileSize = 0;
                 byte[] offsetBuffer = new byte[4];
-                tempFileCollection = new TempFileCollection())
+                tempFileCollection = new TempFileCollection();
                 cabPath = tempFileCollection.AddExtension("cab", false);
 
                 // skip the header checksum
