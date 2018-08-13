@@ -5410,10 +5410,7 @@
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
           <xs:documentation>
-                        The localizable registry value name.  If this attribute is not provided the default value for the registry key will
-                        be set instead.  The Windows Installer allows several special values to be set for this attribute.  You should not
-                        use them in WiX.  Instead use appropriate values in the Action attribute to get the desired behavior.
-                    </xs:documentation>
+                        The localizable registry value name.
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Root" type="RegistryRootType">
