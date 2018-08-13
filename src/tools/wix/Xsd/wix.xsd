@@ -5404,8 +5404,6 @@
         <xs:annotation>
           <xs:documentation>
                         The localizable key for the registry value.
-                        If the parent element is a RegistryKey, this value may be omitted to use the
-                        path of the parent, or if its specified it will be appended to the path of the parent.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
