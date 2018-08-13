@@ -5411,6 +5411,7 @@
         <xs:annotation>
           <xs:documentation>
                         The localizable registry value name.
+                    </xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Root" type="RegistryRootType">
