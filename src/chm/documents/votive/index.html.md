@@ -7,7 +7,6 @@ after: /overview/
 # Working in Visual Studio
 
 The Visual Studio WiX toolset allows you to easily create WiX projects, edit WiX files using IntelliSense, and compile/link your project within the Visual Studio IDE. 
-The WiX Visual Studio plug-in supports VS2005, VS2008, and VS2010.
 
 For WiX project types, see
 [WiX Project Types](votive_project_templates.html).
