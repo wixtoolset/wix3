@@ -47,6 +47,12 @@ static HRESULT ProcessVS2017(
     __in BOOL fComplete
     );
 
+static HRESULT ProcessVS2019(
+    __in_opt ISetupInstance* pInstance,
+    __in DWORD64 qwVersion,
+    __in BOOL fComplete
+);
+
 static HRESULT SetPropertyForComponent(
     __in DWORD cComponents,
     __in VS_COMPONENT_PROPERTY* rgComponents,
@@ -369,6 +375,80 @@ static HRESULT ProcessVS2017(
         {
             hr = ProcessInstance(pLatest, L"VS2017_ROOT_FOLDER", countof(rgComponents), rgComponents);
             ExitOnFailure(hr, "Failed to process VS2017 instance.");
+        }
+    }
+    else if (pInstance)
+    {
+        hr = InstanceInProducts(pInstance, countof(rgwzProducts), rgwzProducts);
+        ExitOnFailure(hr, "Failed to compare product IDs.");
+
+        if (S_FALSE == hr)
+        {
+            ExitFunction();
+        }
+
+        hr = InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
+        ExitOnFailure(hr, "Failed to compare instances.");
+
+        if (S_FALSE == hr)
+        {
+            ExitFunction();
+        }
+
+        ReleaseNullObject(pLatest);
+
+        pLatest = pInstance;
+        qwLatest = qwVersion;
+
+        // Caller will do a final Release() otherwise.
+        pLatest->AddRef();
+    }
+
+LExit:
+    if (fComplete)
+    {
+        ReleaseObject(pLatest);
+    }
+
+    return hr;
+}
+
+static HRESULT ProcessVS2019(
+    __in_opt ISetupInstance* pInstance,
+    __in DWORD64 qwVersion,
+    __in BOOL fComplete
+)
+{
+    static ISetupInstance* pLatest = NULL;
+    static DWORD64 qwLatest = 0;
+
+    static LPCWSTR rgwzProducts[] =
+    {
+        L"Microsoft.VisualStudio.Product.Community",
+        L"Microsoft.VisualStudio.Product.Professional",
+        L"Microsoft.VisualStudio.Product.Enterprise",
+    };
+
+    // TODO: Consider making table-driven with these defaults per-version for easy customization.
+    static VS_COMPONENT_PROPERTY rgComponents[] =
+    {
+        { L"Microsoft.VisualStudio.Component.FSharp", L"VS2019_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.Roslyn.LanguageServices", L"VS2019_IDE_VB_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.Roslyn.LanguageServices", L"VS2019_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.TestTools.Core", L"VS2019_IDE_VSTS_TESTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.VC.CoreIde", L"VS2019_IDE_VC_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.Web", L"VS2019_IDE_VWD_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.PackageGroup.DslRuntime", L"VS2019_IDE_MODELING_PROJECTSYSTEM_INSTALLED" },
+    };
+
+    HRESULT hr = S_OK;
+
+    if (fComplete)
+    {
+        if (pLatest)
+        {
+            hr = ProcessInstance(pLatest, L"VS2019_ROOT_FOLDER", countof(rgComponents), rgComponents);
+            ExitOnFailure(hr, "Failed to process VS2019 instance.");
         }
     }
     else if (pInstance)
