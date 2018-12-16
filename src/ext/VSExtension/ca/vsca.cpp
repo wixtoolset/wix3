@@ -62,6 +62,7 @@ static HRESULT SetPropertyForComponent(
 static VS_INSTANCE vrgInstances[] =
 {
     { FILEMAKEVERSION(15, 0, 0, 0), FILEMAKEVERSION(15, 0xffff, 0xffff, 0xffff), ProcessVS2017 },
+    { FILEMAKEVERSION(16, 0, 0, 0), FILEMAKEVERSION(16, 0xffff, 0xffff, 0xffff), ProcessVS2019 },
 };
 
 /******************************************************************
