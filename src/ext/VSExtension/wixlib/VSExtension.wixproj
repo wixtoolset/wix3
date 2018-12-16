@@ -23,7 +23,8 @@
     <Compile Include="Vs2013.wxs" />
     <Compile Include="VS14.wxs" />
     <Compile Include="VS2015.wxs" />
-    <Compile Include="VS2017.wxs" />
+    <Compile Include="VS2017.wxs" />   
+	<Compile Include="VS2019.wxs" />
     <Compile Include="VSExtension_x86.wxs" />
     <Compile Include="VsixPackage.wxs" />
     <Compile Include="vs2005\vs2005_VSIPCC_Collection_Files_RTL.wxs" />
