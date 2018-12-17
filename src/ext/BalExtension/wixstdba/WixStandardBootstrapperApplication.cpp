@@ -1091,6 +1091,7 @@ private: // privates
     LExit:
         // destroy main window
         pThis->DestroyMainWindow();
+        pThis->UninitializeTaskbarButton();
 
         // initiate engine shutdown
         DWORD dwQuit = HRESULT_CODE(hr);
@@ -1903,6 +1904,16 @@ private: // privates
             ::UnregisterClassW(WIXSTDBA_WINDOW_CLASS, m_hModule);
             m_fRegistered = FALSE;
         }
+    }
+
+
+    //
+    // UninitializeTaskbarButton - clean up the taskbar registration.
+    //
+    void UninitializeTaskbarButton()
+    {
+        m_fTaskbarButtonOK = FALSE;
+        ReleaseNullObject(m_pTaskbarList);
     }
 
 
@@ -3570,9 +3581,9 @@ public:
     ~CWixStandardBootstrapperApplication()
     {
         AssertSz(!::IsWindow(m_hWnd), "Window should have been destroyed before destructor.");
+        AssertSz(!m_pTaskbarList, "Taskbar should have been released before destructor.");
         AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
-        ReleaseObject(m_pTaskbarList);
         ReleaseDict(m_sdOverridableVariables);
         ReleaseDict(m_shPrereqSupportPackages);
         ReleaseMem(m_rgPrereqPackages);
