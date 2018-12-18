@@ -10,6 +10,10 @@
 #define IDSUSPEND  103
 #define IDRELOAD_BOOTSTRAPPER 104
 
+#define FACILITY_WIX 500
+
+static const HRESULT E_SUSPECTED_AV_INTERFERENCE = MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIX, 2000);
+
 // Note that ordering of the enumeration values is important.
 // Some code paths use < or > comparisions and simply reording values will break those comparisons.
 enum BOOTSTRAPPER_ACTION
