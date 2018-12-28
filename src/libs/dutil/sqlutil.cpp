@@ -25,11 +25,18 @@ extern const GUID OLEDBDECLSPEC _SQLNCLI_OLEDB_DEPRECATE_WARNING CLSID_SQLNCLI11
 #endif  // SQLNCLI_VER >= 1100
 
 // private prototypes
+static HRESULT InitializeDatabaseConnection(
+    __in REFCLSID rclsid,
+    __in_z LPCSTR szFriendlyClsidName,
+    __in DBPROPSET rgdbpsetInit[],
+    __in_ecount(rgdbpsetInit) DWORD cdbpsetInit,
+    __out IDBCreateSession** ppidbSession
+    );
+HRESULT DumpErrorRecords();
 static HRESULT FileSpecToString(
     __in const SQL_FILESPEC* psf,
     __out LPWSTR* ppwz
     );
-
 static HRESULT EscapeSqlIdentifier(
     __in_z LPCWSTR wzDatabase,
     __deref_out_z LPWSTR* ppwz
@@ -55,26 +62,10 @@ extern "C" HRESULT DAPI SqlConnectDatabase(
     Assert(wzServer && wzDatabase && *wzDatabase && ppidbSession);
 
     HRESULT hr = S_OK;
-    IDBInitialize* pidbInitialize = NULL;
-    IDBProperties* pidbProperties = NULL;
-
     LPWSTR pwzServerInstance = NULL;
-    DBPROP rgdbpInit[4];
-    DBPROPSET rgdbpsetInit[1];
+    DBPROP rgdbpInit[4] = { };
+    DBPROPSET rgdbpsetInit[1] = { };
     ULONG cProperties = 0;
-
-    memset(rgdbpInit, 0, sizeof(rgdbpInit));
-    memset(rgdbpsetInit, 0, sizeof(rgdbpsetInit));
-
-    //obtain access to the SQLOLEDB provider
-    hr = ::CoCreateInstance(SQLNCLI_CLSID, NULL, CLSCTX_INPROC_SERVER,
-                            IID_IDBInitialize, (LPVOID*)&pidbInitialize);
-	if (FAILED(hr))
-	{
-		hr = ::CoCreateInstance(CLSID_SQLOLEDB, NULL, CLSCTX_INPROC_SERVER,
-				IID_IDBInitialize, (LPVOID*)&pidbInitialize);
-	}
-    ExitOnFailure(hr, "failed to create IID_IDBInitialize object");
 
     // if there is an instance
     if (wzInstance && *wzInstance)
@@ -142,17 +133,23 @@ extern "C" HRESULT DAPI SqlConnectDatabase(
     rgdbpsetInit[0].rgProperties = rgdbpInit;
     rgdbpsetInit[0].cProperties = cProperties;
 
-    // create and set the property set
-    hr = pidbInitialize->QueryInterface(IID_IDBProperties, (LPVOID*)&pidbProperties);
-    ExitOnFailure(hr, "failed to get IID_IDBProperties object");
-    hr = pidbProperties->SetProperties(1, rgdbpsetInit); 
-    ExitOnFailure(hr, "failed to set properties");
+    // obtain access to the SQL Native Client provider
+    hr = InitializeDatabaseConnection(SQLNCLI_CLSID, "SQL Native Client", rgdbpsetInit, countof(rgdbpsetInit), ppidbSession);
+    if (FAILED(hr))
+    {
+        ExitTrace(hr, "Could not initialize SQL Native Client, falling back to SQL OLE DB...");
 
-    //initialize connection to datasource
-    hr = pidbInitialize->Initialize();
-    ExitOnFailure1(hr, "failed to initialize connection to database: %ls", wzDatabase);
-
-    hr = pidbInitialize->QueryInterface(IID_IDBCreateSession, (LPVOID*)ppidbSession);
+        // try OLE DB but if that fails return original error failure
+        HRESULT hr2 = InitializeDatabaseConnection(CLSID_SQLOLEDB, "SQL OLE DB", rgdbpsetInit, countof(rgdbpsetInit), ppidbSession);
+        if (FAILED(hr2))
+        {
+            ExitTrace(hr2, "Could not initialize SQL OLE DB either, giving up.");
+        }
+        else
+        {
+            hr = S_OK;
+        }
+    }
 
 LExit:
     for (; 0 < cProperties; cProperties--)
@@ -160,8 +157,6 @@ LExit:
         ::VariantClear(&rgdbpInit[cProperties - 1].vValue);
     }
 
-    ReleaseObject(pidbProperties);
-    ReleaseObject(pidbInitialize);
     ReleaseStr(pwzServerInstance);
 
     return hr;
@@ -791,6 +786,110 @@ LExit:
 //
 // private
 //
+
+static HRESULT InitializeDatabaseConnection(
+    __in REFCLSID rclsid,
+    __in_z LPCSTR szFriendlyClsidName,
+    __in DBPROPSET rgdbpsetInit[],
+    __in_ecount(rgdbpsetInit) DWORD cdbpsetInit,
+    __out IDBCreateSession** ppidbSession
+)
+{
+    Unused(szFriendlyClsidName); // only used in DEBUG builds
+
+    HRESULT hr = S_OK;
+    IDBInitialize* pidbInitialize = NULL;
+    IDBProperties* pidbProperties = NULL;
+
+    hr = ::CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, IID_IDBInitialize, (LPVOID*)&pidbInitialize);
+    ExitOnFailure(hr, "failed to initialize %s", szFriendlyClsidName);
+
+    // create and set the property set
+    hr = pidbInitialize->QueryInterface(IID_IDBProperties, (LPVOID*)&pidbProperties);
+    ExitOnFailure(hr, "failed to get IID_IDBProperties for %s", szFriendlyClsidName);
+
+    hr = pidbProperties->SetProperties(cdbpsetInit, rgdbpsetInit);
+    ExitOnFailure(hr, "failed to set properties for %s", szFriendlyClsidName);
+
+    // initialize connection to datasource
+    hr = pidbInitialize->Initialize();
+    if (FAILED(hr))
+    {
+        DumpErrorRecords();
+    }
+    ExitOnFailure(hr, "failed to initialize connection for %s", szFriendlyClsidName);
+
+    hr = pidbInitialize->QueryInterface(IID_IDBCreateSession, (LPVOID*)ppidbSession);
+    ExitOnFailure(hr, "failed to query for connection session for %s", szFriendlyClsidName);
+
+LExit:
+    ReleaseObject(pidbProperties);
+    ReleaseObject(pidbInitialize);
+
+    return hr;
+}
+
+HRESULT DumpErrorRecords()
+{
+    HRESULT hr = S_OK;
+    IErrorInfo* pIErrorInfo = NULL;
+    IErrorRecords* pIErrorRecords = NULL;
+    IErrorInfo* pIErrorInfoRecord = NULL;
+    BSTR bstrDescription = NULL;
+    ULONG i = 0;
+    ULONG cRecords = 0;
+    ERRORINFO ErrorInfo = { };
+
+    // Get IErrorInfo pointer from OLE.  
+    hr = ::GetErrorInfo(0, &pIErrorInfo);
+    if (FAILED(hr))
+    {
+        ExitFunction();
+    }
+
+    // QI for IID_IErrorRecords.  
+    hr = pIErrorInfo->QueryInterface(IID_IErrorRecords, (void**)&pIErrorRecords);
+    if (FAILED(hr))
+    {
+        ExitFunction();
+    }
+
+    // Get error record count.  
+    hr = pIErrorRecords->GetRecordCount(&cRecords);
+    if (FAILED(hr))
+    {
+        ExitFunction();
+    }
+
+    // Loop through the error records.
+    for (i = 0; i < cRecords; i++)
+    {
+        // Get pIErrorInfo from pIErrorRecords.
+        hr = pIErrorRecords->GetErrorInfo(i, 1033, &pIErrorInfoRecord);
+
+        if (SUCCEEDED(hr))
+        {
+            // Get error description and source.
+            hr = pIErrorInfoRecord->GetDescription(&bstrDescription);
+
+            // Retrieve the ErrorInfo structures.
+            hr = pIErrorRecords->GetBasicErrorInfo(i, &ErrorInfo);
+
+            ExitTrace(ErrorInfo.hrError, "SQL error %lu/%lu: %ls", i + 1, cRecords, bstrDescription);
+
+            ReleaseNullObject(pIErrorInfoRecord);
+            ReleaseNullBSTR(bstrDescription);
+        }
+    }
+
+LExit:
+    ReleaseNullBSTR(bstrDescription);
+    ReleaseObject(pIErrorInfoRecord);
+    ReleaseObject(pIErrorRecords);
+    ReleaseObject(pIErrorInfo);
+
+    return hr;
+}
 
 /********************************************************************
  FileSpecToString
