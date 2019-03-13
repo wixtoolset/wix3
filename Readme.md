@@ -3,6 +3,6 @@ The WiX Toolset builds Windows installation packages from XML source code. The t
 
 ## [Home page](http://wixtoolset.org/ "WiX Toolset home page")
 ## [Releases](http://wixtoolset.org/releases/ "WiX Toolset stable and weekly releases")
-## [Bugs and feature requests](http://wixtoolset.org/issues/ "Files bugs and feature requests for WiX Toolset ")
+## [Bugs and feature requests](http://wixtoolset.org/bugs/ "Files bugs and feature requests for WiX Toolset")
 ## [Manual](http://wixtoolset.org/documentation/manual/ "WiX Toolset manuals and documentation links")
 ## [Hacking on WiX](http://wixtoolset.org/development/ "About development on the WiX Toolset")
