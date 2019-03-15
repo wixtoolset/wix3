@@ -6999,6 +6999,10 @@
             </xs:documentation>
       <xs:appinfo>
         <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/library/aa371637.aspx" />
+	<xse:remarks>
+	  <html:p>MsiServiceConfig functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider using
+	  the WixUtilExtension ServiceConfig instead.</html:p>
+        </xse:remarks>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
