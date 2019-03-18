@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Project InitialTargets="DotnetToolRestore" 
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <WixRoot Condition=" '$(WixRoot)'=='' ">$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\))</WixRoot>
+    <DotnetToolsFolder>$(WixRoot)packages\tools\</DotnetToolsFolder>
+    <DotnetExe>$(ProgramW6432)\dotnet\dotnet.exe</DotnetExe>
+    <DotnetExe Condition="!Exists('$(DotnetExe)')">$(MSBuildProgramFiles32)\dotnet\dotnet.exe</DotnetExe>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SignClientPath>$(DotnetToolsFolder)SignClient.exe</SignClientPath>
+  </PropertyGroup>
+
+  <!--
+  ================================================================================================
+  DotnetToolRestore
+
+    Restores the required packages to build using nuget.exe.
+  ================================================================================================
+  -->
+  <ItemGroup>
+    <RestoreDotnetToolsPackage Include="SignClient" Condition="'$(PleaseSignOutput)'!=''">
+      <Version>1.1.7</Version>
+    </RestoreDotnetToolsPackage>
+  </ItemGroup>
+  <Target Name="DotnetToolRestore" DependsOnTargets="_FindDotnetExe;_FindMissingDotnetToolPackages">
+    <Exec Command="&quot;$(DotnetExe)&quot; tool install %(Identity) --version %(Version) --tool-path &quot;$(DotnetToolsFolder)\&quot;" Condition="Exists('$(DotnetExe)') and '@(_MissingDotnetToolPackage)'!=''" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+  </Target>
+
+  <Target Name="_FindMissingDotnetToolPackages">
+    <CreateItem Include="@(RestoreDotnetToolsPackage)" Condition="!Exists('$(DotnetToolsFolder).store\%(Identity)\%(Version)\%(Identity)\%(Version)\%(Identity).%(Version).nupkg')" PreserveExistingMetadata="true">
+      <Output TaskParameter="Include" ItemName="_MissingDotnetToolPackage"/>
+    </CreateItem>
+  </Target>
+
+  <!-- Find dotnet.exe in the PATH if it is not in the default location. -->
+  <Target Name="_FindDotnetExe" Condition="!Exists('$(DotnetExe)')">
+    <CreateItem Include="$(PATH)">
+      <Output TaskParameter="Include" ItemName="_FindDotnetExePaths" />
+    </CreateItem>
+    <CombinePath BasePath="%(_FindDotnetExePaths.Identity)" Paths="dotnet.exe">
+      <Output TaskParameter="CombinedPaths" ItemName="_FindDotnetExeCombinedPaths" />
+    </CombinePath>
+    <CreateItem Include="@(_FindDotnetExeCombinedPaths->Reverse())">
+      <Output TaskParameter="Include" ItemName="_FindDotnetExeCombinedPathsReversed" />
+    </CreateItem>
+    <CreateItem Include="@(_FindDotnetExeCombinedPathsReversed)">
+      <Output TaskParameter="Include" PropertyName="DotnetExe" Condition="Exists('%(_FindDotnetExeCombinedPathsReversed.Identity)')" />
+    </CreateItem>
+  </Target>
+
+  <!-- Sentinel value that indicates Dotnet.targets has been initialized. -->
+  <PropertyGroup>
+    <WixBuildDotnetToolPropertiesDefined>true</WixBuildDotnetToolPropertiesDefined>
+  </PropertyGroup>
+</Project>

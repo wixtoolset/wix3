@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Project InitialTargets="DotnetToolRestore" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!-- Ensure that the SignClient is initialized. -->
+  <Import Project="Dotnet.targets" Condition="'$(WixBuildDotnetToolPropertiesDefined)'!='true'" />
+
+  <PropertyGroup>
+    <_SigningAppSettingsPath>$(MSBuildThisFileDirectory)appsettings.json</_SigningAppSettingsPath>
+    <_SigningFilterNonePath>$(MSBuildThisFileDirectory)signing-filter.none.txt</_SigningFilterNonePath>
+    <_SigningName>WiX Toolset</_SigningName>
+    <_SigningUrl>http://wixtoolset.org</_SigningUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- By default, $(TargetPath) will be signed. You can add files to @(FilesToSign) to sign them as well. -->
+    <FilesToSign Include="$(TargetPath)" />
+  </ItemGroup>
+
+  <Target Name="SignFiles" AfterTargets="AfterBuild" Condition="'$(SignOutput)'=='true'">
+    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(FilesToSign.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+  </Target>
+
+  <!--
+  ================================================================================================
+
+    Signing overrides to actually do signing. We don't sign the MSI packages or their CABs because
+    they are always wrapped in a bundle that is signed.
+
+  ================================================================================================
+  -->
+  <Target Name="SignCabs">
+    <!-- <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignCabs.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" /> -->
+  </Target>
+
+  <Target Name="SignMsi">
+    <!-- <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignMsi.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" /> -->
+  </Target>
+
+  <Target Name="SignContainers">
+    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignContainers.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+  </Target>
+
+  <Target Name="SignBundleEngine">
+    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignBundleEngine.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+  </Target>
+
+  <Target Name="SignBundle">
+    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignBundle.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+  </Target>
+
+  <!-- Sentinel value that indicates WixBuid.Signing.targets has been initialized. -->
+  <PropertyGroup>
+    <WixBuildSigningTargetsDefined>true</WixBuildSigningTargetsDefined>
+  </PropertyGroup>
+</Project>
