@@ -30,6 +30,7 @@
     <TargetName>SfxCA</TargetName>
     <CharacterSet>Unicode</CharacterSet>
     <ProjectModuleDefinitionFile>EntryPoints.def</ProjectModuleDefinitionFile>
+    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
