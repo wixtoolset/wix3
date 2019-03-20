@@ -14,7 +14,7 @@
     <CreateDocumentationFile>true</CreateDocumentationFile>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <FxCopEnabled>true</FxCopEnabled>
-    <SignOutput Condition="'$(PleaseSignOutput)'!=''">true</SignOutput>
+    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <ItemGroup>
