@@ -2433,6 +2433,10 @@
       <Output TaskParameter="Value" PropertyName="PdbOutputFile" />
     </CreateProperty>
 
+    <CreateProperty Value="$(TargetDir)%(CultureGroup.OutputFolder)$(TargetName)$(TargetExt)">
+      <Output TaskParameter="Value" PropertyName="OutputFile" />
+    </CreateProperty>
+
     <!-- Call light using the culture subdirectory for output -->
     <Light
       ObjectFiles="@(CompileObjOutput);@(WixObject);@(WixLibProjects);@(_ResolvedWixLibraryPaths)"
@@ -2461,7 +2465,7 @@
       LocalizationFiles="@(EmbeddedResource)"
       NoLogo="$(LinkerNoLogo)"
       OutputAsXml="$(OutputAsXml)"
-      OutputFile="$(TargetDir)%(CultureGroup.OutputFolder)$(TargetName)$(TargetExt)"
+      OutputFile="$(OutputFile)"
       PdbOutputFile="$(PdbOutputFile)"
       Pedantic="$(LinkerPedantic)"
       ReferencePaths="$(ReferencePaths)"
@@ -2493,7 +2497,7 @@
       VerboseOutput="$(LinkerVerboseOutput)"
       WixProjectFile="$(ProjectPath)"
       WixVariables="$(WixVariables)" />
-    <Message Importance="High" Text="$(MSBuildProjectName) -&gt; $(TargetDir)%(CultureGroup.OutputFolder)$(TargetName)$(TargetExt)" />
+    <Message Importance="High" Text="$(MSBuildProjectName) -&gt; $(OutputFile)" />
   </Target>
 
   <!--
