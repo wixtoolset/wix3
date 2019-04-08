@@ -11,5 +11,6 @@
       $(PrepareForBuildDependsOn);
       WriteCSharpVersionFile
     </PrepareForBuildDependsOn>
+    <SignOutput Condition="'$(SignOutput)'=='' and '$(ShouldSignOutput)'=='true' and '$(PleaseSignOutput)'!=''">true</SignOutput>
   </PropertyGroup>
 </Project>

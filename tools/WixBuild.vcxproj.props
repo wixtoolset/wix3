@@ -48,6 +48,7 @@
     <OutDir Condition=" '$(MultiTargetLibrary)'=='true' ">$(OutDir)$(MultiTargetDirSuffix)\</OutDir>
 
     <AdditionalMultiTargetLibraryPath Condition=" '$(MultiTargetLibrary)'!='true' ">$(OutputPath)$(MultiTargetDirSuffix)\</AdditionalMultiTargetLibraryPath>
+    <ShouldSignOutput Condition="$(MSBuildProjectDirectory.Contains('\src\ext\')) and '$(ConfigurationType)'=='DynamicLibrary'">true</ShouldSignOutput>
   </PropertyGroup>
 
   <PropertyGroup>
