@@ -1,0 +1,1 @@
+* HeathS: Add support for .NET Foundation signing service
