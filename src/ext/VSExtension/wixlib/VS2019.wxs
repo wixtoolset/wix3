@@ -88,42 +88,42 @@
     </Fragment>
 
     <!-- Indicates whether the Visual C# project system is installed as a part of  -->
-    <!-- Visual Studio 2017 standard or higher. If this property is set, that      -->
-    <!-- means Visual Studio 2017 standard or higher is installed and the Visual   -->
-    <!-- C# language tools were installed as a part of VS 2017 setup.              -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2019 setup.              -->
     <Fragment>
         <Property Id="VS2019_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes" />
         <CustomActionRef Id="VSFindInstances" />
     </Fragment>
 
     <!-- Indicates whether the Visual Basic project system is installed as a part of -->
-    <!-- Visual Studio 2017 standard or higher. If this property is set, that        -->
-    <!-- means Visual Studio 2017 standard or higher is installed and the Visual     -->
-    <!-- Basic language tools were installed as a part of VS 2017 setup.             -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2019 setup.             -->
     <Fragment>
         <Property Id="VS2019_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes" />
         <CustomActionRef Id="VSFindInstances" />
     </Fragment>
 
     <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
-    <!-- Visual Studio 2017 standard or higher. If this property is set, that                -->
-    <!-- means Visual Studio 2017 standard or higher is installed and the Visual             -->
-    <!-- Web Developer language tools were installed as a part of VS 2017 setup.             -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2019 setup.             -->
     <Fragment>
         <Property Id="VS2019_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes" />
         <CustomActionRef Id="VSFindInstances" />
     </Fragment>
 
     <!-- Indicates whether the Visual C++ project system is installed as a part of -->
-    <!-- Visual Studio 2017 standard or higher. If this property is set, that      -->
-    <!-- means Visual Studio 2017 standard or higher is installed and the Visual   -->
-    <!-- C++ language tools were installed as a part of VS 2017 setup.             -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2019 setup.             -->
     <Fragment>
         <Property Id="VS2019_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes" />
         <CustomActionRef Id="VSFindInstances" />
     </Fragment>
 
-    <!-- Indicates whether the Visual Studio 2017 Team Test project system is installed -->
+    <!-- Indicates whether the Visual Studio 2019 Team Test project system is installed -->
     <Fragment>
         <Property Id="VS2019_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes" />
         <CustomActionRef Id="VSFindInstances" />
