@@ -12,6 +12,7 @@ static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID = L"LaunchTarge
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER = L"LaunchWorkingFolder";
+static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_AUTO = L"AutoLaunch";
 
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
 
@@ -963,6 +964,23 @@ public: // IBootstrapperApplication
 
         SetState(WIXSTDBA_STATE_APPLIED, hrStatus);
         SetTaskbarButtonProgress(100); // show full progress bar, green, yellow, or red
+
+        // Auto-launch if configured to do so
+        BOOL fLaunchTargetExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH);
+        BOOL fAutoLaunchExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_AUTO);
+        if (fLaunchTargetExists && fAutoLaunchExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction)
+        {
+            // An auto-launch will NOT be executed if a restart is to be performed
+            if (!(m_fRestartRequired && m_fAllowRestart))
+            {
+                LONGLONG llAutoLaunch = 0;
+                HRESULT hr = BalGetNumericVariable(WIXSTDBA_VARIABLE_LAUNCH_AUTO, &llAutoLaunch);
+                if (hr == S_OK && llAutoLaunch)
+                {
+                    OnClickLaunchButton();
+                }
+            }
+        }
 
         return IDNOACTION;
     }
