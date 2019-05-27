@@ -1,3 +1,5 @@
+## WixBuild: Version 3.14.0.2927
+
 ## WixBuild: Version 3.14.0.2812
 
 * HeathS: Add support for .NET Foundation signing service
