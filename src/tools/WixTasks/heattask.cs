@@ -25,6 +25,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         private bool suppressFragments;
         private bool suppressUniqueIds;
         private string[] transforms;
+        private bool fipsCompliant;
 
         public bool AutogenerateGuids
         {
@@ -62,6 +63,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         {
             get { return this.transforms; }
             set { this.transforms = value; }
+        }
+
+        public bool FipsCompliant
+        {
+            get { return this.fipsCompliant; }
+            set { this.fipsCompliant = value; }
         }
 
         /// <summary>
@@ -108,6 +115,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             base.BuildCommandLine(commandLineBuilder);
 
             commandLineBuilder.AppendIfTrue("-ag", this.AutogenerateGuids);
+            commandLineBuilder.AppendIfTrue("-fips", this.FipsCompliant);
             commandLineBuilder.AppendIfTrue("-gg", this.GenerateGuidsNow);
             commandLineBuilder.AppendIfTrue("-nologo", this.NoLogo);
             commandLineBuilder.AppendIfTrue("-sfrag", this.SuppressFragments);
