@@ -231,6 +231,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             }
 
             harvestOptions.Add("-ext", new HeatCommandLineOption("-ext", HeatStrings.HelpMessageExtension));
+            harvestOptions.Add("-fips", new HeatCommandLineOption("-fips", HeatStrings.HelpMessageFips));
             harvestOptions.Add("-nologo", new HeatCommandLineOption("-nologo", HeatStrings.HelpMessageNoLogo));
             harvestOptions.Add("-indent <N>", new HeatCommandLineOption("-indent <N>", HeatStrings.HelpMessageIndentation));
             harvestOptions.Add("-o[ut]", new HeatCommandLineOption("-out", HeatStrings.HelpMessageOut));
