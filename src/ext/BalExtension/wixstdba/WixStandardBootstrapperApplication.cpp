@@ -965,19 +965,24 @@ public: // IBootstrapperApplication
         SetState(WIXSTDBA_STATE_APPLIED, hrStatus);
         SetTaskbarButtonProgress(100); // show full progress bar, green, yellow, or red
 
-        // Auto-launch if configured to do so
-        BOOL fLaunchTargetExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH);
-        BOOL fAutoLaunchExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_AUTO);
-        if (fLaunchTargetExists && fAutoLaunchExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction)
+        // Only perform auto-launch if apply completed successfully,
+        // and if action is either Install, Modify or Repair
+        if (hrStatus == S_OK && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction)
         {
-            // An auto-launch will NOT be executed if a restart is to be performed
-            if (!(m_fRestartRequired && m_fAllowRestart))
+            // Auto-launch if configured to do so
+            BOOL fLaunchTargetExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH);
+            BOOL fAutoLaunchExists = BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_AUTO);
+            if (fLaunchTargetExists && fAutoLaunchExists)
             {
-                LONGLONG llAutoLaunch = 0;
-                HRESULT hr = BalGetNumericVariable(WIXSTDBA_VARIABLE_LAUNCH_AUTO, &llAutoLaunch);
-                if (hr == S_OK && llAutoLaunch)
+                // An auto-launch will NOT be executed if a restart is to be performed
+                if (!(m_fRestartRequired && m_fAllowRestart))
                 {
-                    OnClickLaunchButton();
+                    LONGLONG llAutoLaunch = 0;
+                    HRESULT hr = BalGetNumericVariable(WIXSTDBA_VARIABLE_LAUNCH_AUTO, &llAutoLaunch);
+                    if (hr == S_OK && llAutoLaunch)
+                    {
+                        OnClickLaunchButton();
+                    }
                 }
             }
         }
