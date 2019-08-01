@@ -1992,7 +1992,6 @@
 
     <GenerateCompileWithObjectPath
         Compile="@(Compile)"
-        FipsCompliant="$(FipsCompliant)"
         IntermediateOutputPath="$(IntermediateOutputPath)">
       <Output TaskParameter="CompileWithObjectPath" ItemName="_CompileWithObjectPath" />
     </GenerateCompileWithObjectPath>
