@@ -927,9 +927,9 @@ public: // IBootstrapperApplication
         m_restartResult = restart; // remember the restart result so we return the correct error code no matter what the user chooses to do in the UI.
 
         // If a restart was encountered and we are not suppressing restarts, then restart is required.
-        m_fRestartRequired = (BOOTSTRAPPER_APPLY_RESTART_NONE != restart && BOOTSTRAPPER_RESTART_NEVER < m_command.restart);
+        m_fRestartRequired = BOOTSTRAPPER_APPLY_RESTART_NONE != restart || (!m_fPrereq && BOOTSTRAPPER_RESTART_ALWAYS == m_command.restart);
         // If a restart is required and we're not displaying a UI or we are not supposed to prompt for restart then allow the restart.
-        m_fAllowRestart = m_fRestartRequired && (BOOTSTRAPPER_DISPLAY_FULL > m_command.display || BOOTSTRAPPER_RESTART_PROMPT < m_command.restart);
+        m_fAllowRestart = m_fRestartRequired && BOOTSTRAPPER_RESTART_NEVER < m_command.restart && BOOTSTRAPPER_DISPLAY_FULL > m_command.display;
 
         if (m_fPrereq)
         {
