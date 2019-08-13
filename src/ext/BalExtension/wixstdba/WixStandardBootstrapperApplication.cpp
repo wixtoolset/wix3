@@ -2419,7 +2419,7 @@ private: // privates
         {
             // If a restart was required but we were not automatically allowed to
             // accept the reboot then do the prompt.
-            if (m_fRestartRequired && !m_fAllowRestart)
+            if (m_fRestartRequired && !m_fAllowRestart && BOOTSTRAPPER_RESTART_NEVER < m_command.restart)
             {
                 StrAllocFromError(&sczUnformattedText, HRESULT_FROM_WIN32(ERROR_SUCCESS_REBOOT_REQUIRED), NULL);
 
