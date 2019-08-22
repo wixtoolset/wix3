@@ -1,33 +1,27 @@
-* PhillHogland: WIXBUG:4592 - Register named process, in another user's context with Restart Manager.  If Access Denied, continue install rather than fail.
+## WixBuild: Version 3.14.0.3205
 
-* BobArnson: **BREAKING CHANGE** Changed bundle version to Major.Minor.0.BuildNumber. This allows us to publish updates as Major.Minor.(GreaterThanZero).BuildNumber. MSI product version numbers remain Major.Minor.BuildNumber so major upgrades continue to work. This bundle will not upgrade from build v3.10.1124.0. If you've installed v3.10.1124.0, you must uninstall before installing a later bundle.
+## WixBuild: Version 3.14.0.2927
 
-* BMurri: WIXBUG:3750 - Add LaunchWorkingFolder to wixstdba to facilitate processes that require a different working folder.
+## WixBuild: Version 3.14.0.2812
 
-* SeanHall: WIXBUG:4609 - Fix incorrect use of BVariantCopy by creating the new method BVariantSetValue.
+* HeathS: Add support for .NET Foundation signing service
 
-* SeanHall: WIXBUG:4608 - Fix bug in mbapreq where it wouldn't reload the bootstrapper if there was a mix of installed and uninstalled prerequisites.
+* SeanHall: WIXBUG:5711 - Remove last remaining reference to .NET 2.0 assembly
 
-## WixBuild: Version 3.10.1124.0
+## WixBuild: Version 3.14.0.1703
 
-* SeanHall: WIXBUG:4598 - Fix thmutil documentation.  Also backport some thmutil features/fixes from wix4.
+* RobMen - WIXBUG:5486 - Fix potential deadlock with VSTS logger
 
-* BobArnson: WIXBUG:4580 - Check bit mask appropriately for Burn system variables.
+* RSeanHall - WIXBUG:5803 - Fix dependency bug where custom keys were skipped
 
-* SamuelS: WIXFEAT:4543 - Allow Pyro to exclude empty patch transforms.
+* DRISHTI271110 - WIXBUG:5543 - Support TLS 1.2 in SqlExtension
 
-* HeathS: WIXBUG:4542 - Pad package sequence number log file names for proper sorting
+## WixBuild: Version 3.14.0.1118
 
-* HeathS: Add logging for hash verification and registration issues.
+* RobMen - WIXBUG:5724 - fix DLL hijack of clean room when bundle launched elevated.
 
-* HeathS: Redefine Exit\* macros as variadic macros
+## WixBuild: Version 3.14.0.712
 
-* SeanHall: WIXFEAT:4505 - WixHttpExtension for URL reservations.
+* HeathS: WIXBUG:5597 - Check VS2017 product IDs against supported SKUs
 
-* BobArnson: WIXBUG:4569 - Add SWAPRUN for CD(!) and NET back to the Burn stub.
-
-* BobArnson: Add support for registering Votive into Visual Studio 2015 Preview.
-
-* BobArnson: WiX v3.10
-
-## WixBuild: Version 3.10.0.0
+## WixBuild: Version 3.14.0

@@ -1,17 +1,5 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="mspengine.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: MSP Engine
-// </summary>
-//-------------------------------------------------------------------------------------------------
-
 #pragma once
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 
 #if defined(__cplusplus)
@@ -46,7 +34,8 @@ HRESULT MspEngineDetectPackage(
     );
 HRESULT MspEnginePlanCalculatePackage(
     __in BURN_PACKAGE* pPackage,
-    __in BURN_USER_EXPERIENCE* pUserExperience
+    __in BURN_USER_EXPERIENCE* pUserExperience,
+    __out_opt BOOL* pfBARequestedCache
     );
 HRESULT MspEnginePlanAddPackage(
     __in BOOTSTRAPPER_DISPLAY display,

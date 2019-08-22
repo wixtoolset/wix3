@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="dependency.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Dependency functions for Burn.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -199,6 +188,8 @@ extern "C" HRESULT DependencyDetectProviderKeyPackageId(
             continue;
         }
         ExitOnFailure(hr, "Failed to get the package provider information.");
+
+        ExitFunction();
     }
 
     // Older bundles may not have written the id so try the default.
@@ -884,7 +875,8 @@ static void CalculateDependencyActionStates(
         // Always remove the dependency when uninstalling a bundle even if the package is absent.
         *pDependencyExecuteAction = BURN_DEPENDENCY_ACTION_UNREGISTER;
         break;
-    case BOOTSTRAPPER_ACTION_INSTALL:
+    case BOOTSTRAPPER_ACTION_INSTALL: __fallthrough;
+    case BOOTSTRAPPER_ACTION_CACHE:
         // Always remove the dependency during rollback when installing a bundle.
         *pDependencyRollbackAction = BURN_DEPENDENCY_ACTION_UNREGISTER;
         __fallthrough;

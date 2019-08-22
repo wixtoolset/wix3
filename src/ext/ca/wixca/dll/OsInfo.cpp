@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="OsInfo.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Sets properties for OS product/suite information and standard directories
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -300,7 +289,8 @@ SetPropertyWellKnownSID
 ********************************************************************/
 static HRESULT SetPropertyWellKnownSID(
     __in WELL_KNOWN_SID_TYPE sidType,
-    __in LPCWSTR wzPropertyName
+    __in LPCWSTR wzPropertyName,
+    __in BOOL fIncludeDomainName
     )
 {
     HRESULT hr = S_OK;
@@ -320,11 +310,19 @@ static HRESULT SetPropertyWellKnownSID(
         ExitWithLastError1(hr, "Failed to look up account for SID; skipping account %ls.", wzPropertyName);
     }
 
-    hr = StrAllocFormatted(&pwzPropertyValue, L"%s\\%s", wzRefDomain, wzName);
-    ExitOnFailure(hr, "Failed to format property value");
+    if (fIncludeDomainName)
+    {
+        hr = StrAllocFormatted(&pwzPropertyValue, L"%s\\%s", wzRefDomain, wzName);
+        ExitOnFailure(hr, "Failed to format property value");
 
-    hr = WcaSetProperty(wzPropertyName, pwzPropertyValue);
-    ExitOnFailure(hr, "Failed write property");
+        hr = WcaSetProperty(wzPropertyName, pwzPropertyValue);
+        ExitOnFailure(hr, "Failed write domain\\name property");
+    }
+    else
+    {
+        hr = WcaSetProperty(wzPropertyName, wzName);
+        ExitOnFailure(hr, "Failed write name-only property");
+    }
  
 LExit:
     if (NULL != psid)
@@ -352,12 +350,14 @@ extern "C" UINT __stdcall WixQueryOsWellKnownSID(
     hr = WcaInitialize(hInstall, "WixQueryOsWellKnownSID");
     ExitOnFailure(hr, "WixQueryOsWellKnownSID failed to initialize");
 
-    SetPropertyWellKnownSID(WinLocalSystemSid, L"WIX_ACCOUNT_LOCALSYSTEM");
-    SetPropertyWellKnownSID(WinLocalServiceSid, L"WIX_ACCOUNT_LOCALSERVICE");
-    SetPropertyWellKnownSID(WinNetworkServiceSid, L"WIX_ACCOUNT_NETWORKSERVICE");
-    SetPropertyWellKnownSID(WinBuiltinAdministratorsSid, L"WIX_ACCOUNT_ADMINISTRATORS");
-    SetPropertyWellKnownSID(WinBuiltinUsersSid, L"WIX_ACCOUNT_USERS");
-    SetPropertyWellKnownSID(WinBuiltinGuestsSid, L"WIX_ACCOUNT_GUESTS");
+    SetPropertyWellKnownSID(WinLocalSystemSid, L"WIX_ACCOUNT_LOCALSYSTEM", TRUE);
+    SetPropertyWellKnownSID(WinLocalServiceSid, L"WIX_ACCOUNT_LOCALSERVICE", TRUE);
+    SetPropertyWellKnownSID(WinNetworkServiceSid, L"WIX_ACCOUNT_NETWORKSERVICE", TRUE);
+    SetPropertyWellKnownSID(WinBuiltinAdministratorsSid, L"WIX_ACCOUNT_ADMINISTRATORS", TRUE);
+    SetPropertyWellKnownSID(WinBuiltinUsersSid, L"WIX_ACCOUNT_USERS", TRUE);
+    SetPropertyWellKnownSID(WinBuiltinGuestsSid, L"WIX_ACCOUNT_GUESTS", TRUE);
+    SetPropertyWellKnownSID(WinBuiltinPerfLoggingUsersSid, L"WIX_ACCOUNT_PERFLOGUSERS", TRUE);
+    SetPropertyWellKnownSID(WinBuiltinPerfLoggingUsersSid, L"WIX_ACCOUNT_PERFLOGUSERS_NODOMAIN", FALSE);
 
 LExit:
     if (FAILED(hr))

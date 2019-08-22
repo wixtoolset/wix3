@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+
+<?include WixVer.wxi ?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
+     xmlns:bal='http://schemas.microsoft.com/wix/BalExtension'
+     xmlns:swid="http://schemas.microsoft.com/wix/TagExtension"
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+
+    <Fragment>
+        <Variable Name='InstallFolder' Type='string' Value='[ProgramFilesFolder]WiX Toolset v$(var.WixMajorMinor)' />
+        <util:RegistrySearch Id="PreviousInstallFolderSearch" Root='HKLM' Key='SOFTWARE\Microsoft\Windows Installer XML\$(var.WixMajorMinor)' Value='InstallFolder' Variable='PreviousInstallFolder' />
+        <util:DirectorySearch Path='[PreviousInstallFolder]' Variable='InstallFolder' After='PreviousInstallFolderSearch' Condition='PreviousInstallFolder' />
+
+        <PackageGroup Id='WixPackages'>
+            <MsiPackage Name='data\core.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+
+            <MsiPackage Name='data\wix64.msi' SourceFile='data\'
+                        InstallCondition='VersionNT64' />
+
+            <MsiPackage Name='data\msdk.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+
+            <?ifdef VS2010Available ?>
+            <MsiPackage Name='data\nsdk2010.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2012Available ?>
+            <MsiPackage Name='data\nsdk2012.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2013Available ?>
+            <MsiPackage Name='data\nsdk2013.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2015Available ?>
+            <MsiPackage Name='data\nsdk2015.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+
+            <?ifdef VS2017Available ?>
+            <MsiPackage Name='data\nsdk2017.msi' SourceFile='data\'>
+                <MsiProperty Name='INSTALLFOLDER' Value='[InstallFolder]' />
+            </MsiPackage>
+            <?endif?>
+        </PackageGroup>
+    </Fragment>
+</Wix>

@@ -1,19 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="BurnIntegrationTests.csproj" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{81854E28-5975-4972-A2E9-D695A570D1A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>WixTest.BurnIntegrationTests</RootNamespace>
     <AssemblyName>WixTest.BurnIntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -39,10 +33,7 @@
     <Reference Include="$(OutputPath)BootstrapperCore.dll" />
     <Reference Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.dll" />
     <Reference Include="$(OutputPath)Microsoft.Deployment.WindowsInstaller.Package.dll" />
-    <ProjectReference Include="..\..\WixTestTools\WixTestTools.csproj">
-      <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
-      <Name>WixTestTools</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\WixTestTools\WixTestTools.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\data\Integration\BurnIntegrationTests\BasicTests\A.wxs">

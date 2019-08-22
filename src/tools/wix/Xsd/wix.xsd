@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="wix.xsd" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xse="http://schemas.microsoft.com/wix/2005/XmlSchemaExtension" xmlns:html="http://www.w3.org/1999/xhtml" targetNamespace="http://schemas.microsoft.com/wix/2006/wi" xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <xs:annotation>
     <xs:documentation>
@@ -389,9 +384,17 @@
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder.</xs:documentation>
+          <xs:documentation>The relative destination path and file name for the bootstrapper application DLL. The default is the source file name. Use this attribute to rename the bootstrapper application DLL or extract it into a subfolder. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax">
+        <xs:annotation>
+          <xs:documentation>
+              Extensibility point in the WiX XML Schema.  Schema extensions can register additional
+              attributes at this point in the schema.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:anyAttribute>
     </xs:complexType>
   </xs:element>
   <xs:element name="BootstrapperApplicationRef">
@@ -760,6 +763,7 @@
         <xs:element ref="PayloadGroupRef" />
         <xs:element ref="RemotePayload" />
         <xs:element ref="ExitCode" />
+        <xs:element ref="CommandLine" />
         <xs:any namespace="##other" processContents="lax">
           <xs:annotation>
             <xs:documentation>
@@ -793,7 +797,8 @@
         <xs:annotation>
           <xs:documentation>
             The command-line arguments to specify to indicate a repair. If the executable package can be repaired but
-            does not require any special command-line arguments to do so then set the attribute's value to blank.
+            does not require any special command-line arguments to do so then set the attribute's value to blank. To
+            indicate that the package does not support repair, omit this attribute.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -870,6 +875,7 @@
             The destination path and file name for this chain payload. Use this attribute to rename the
             chain entry point or extract it into a subfolder. The default value is the file name from the
             SourceFile attribute, if provided. At a minimum, the Name or SourceFile attribute must be specified.
+            The use of '..' directories is not allowed.
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -1064,7 +1070,7 @@
     <xs:complexType>
       <xs:attribute name="Name" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The name of the MSI property to set.</xs:documentation>
+          <xs:documentation>The name of the MSI property to set. Burn controls the follow MSI properties so they cannot be set with MsiProperty: ACTION, ALLUSERS, REBOOT, REINSTALL, REINSTALLMODE</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Value" type="xs:string" use="required">
@@ -1232,6 +1238,40 @@
       </xs:attribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="CommandLine">
+    <xs:annotation>
+      <xs:documentation>Describes additional, conditional command-line arguments for an ExePackage.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="InstallArgument" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Additional command-line arguments to apply during package installation if Condition is true.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="UninstallArgument" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Additional command-line arguments to apply during package uninstallation if Condition is true.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="RepairArgument" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Additional command-line arguments to apply during package repair if Condition is true.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Condition" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+              The condition that controls whether the command-line arguments specified in the
+              InstallArgument, UninstallArgument, or RepairArgument attributes are appended to the
+              command line passed to the ExePackage. Which attribute is used depends on the
+              action being applied to the ExePackage. For example, when the ExePackage is
+              being installed, the InstallArgument attribute value is appended to the command
+              line when the ExePackage is executed.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="Payload">
     <xs:annotation>
       <xs:documentation>Describes a payload to a bootstrapper.</xs:documentation>
@@ -1262,7 +1302,7 @@
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The destination path and file name for this payload. The default is the source file name.</xs:documentation>
+          <xs:documentation>The destination path and file name for this payload. The default is the source file name. The use of '..' directories is not allowed.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="DownloadUrl" type="xs:string">
@@ -5364,17 +5404,13 @@
         <xs:annotation>
           <xs:documentation>
                         The localizable key for the registry value.
-                        If the parent element is a RegistryKey, this value may be omitted to use the
-                        path of the parent, or if its specified it will be appended to the path of the parent.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
           <xs:documentation>
-                        The localizable registry value name.  If this attribute is not provided the default value for the registry key will
-                        be set instead.  The Windows Installer allows several special values to be set for this attribute.  You should not
-                        use them in WiX.  Instead use appropriate values in the Action attribute to get the desired behavior.
+                        The localizable registry value name.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -6825,7 +6861,7 @@
       </xs:attribute>
       <xs:attribute name="Account" type="xs:string">
         <xs:annotation>
-          <xs:documentation>The account under which to start the service. Valid only when ServiceType is ownProcess.</xs:documentation>
+          <xs:documentation>Fully qualified names must be used even for local accounts, e.g.: ".\LOCAL_ACCOUNT". Valid only when ServiceType is ownProcess.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Password" type="xs:string">
@@ -6930,7 +6966,7 @@
                 Formatted property that resolves to a privilege constant.
             </xs:documentation>
       <xs:appinfo>
-        <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/library/aa371634.aspx" />
+        <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd408038.aspx" />
       </xs:appinfo>
     </xs:annotation>
   </xs:element>
@@ -7056,7 +7092,7 @@
                 Configures the failure actions for a service being installed or one that already exists. This element's functionality is available starting with MSI 5.0.
             </xs:documentation>
       <xs:appinfo>
-        <xse:msiRef table="MsiServiceConfigFailureActions" href="http://msdn.microsoft.com/library/aa371637.aspx" />
+        <xse:msiRef table="MsiServiceConfigFailureActions" href="http://msdn.microsoft.com/en-us/library/dd408037.aspx" />
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -9180,9 +9216,11 @@
             <xs:annotation>
               <xs:documentation>
                                 Controls which sequences the Directory assignment is sequenced in.
-                                For 'execute', the assignment is scheduled in the InstallExecuteSequence. For 'ui', the
-                                assignment is scheduled in the InstallUISequence.  For 'both', the assignment is scheduled
-                                in both the InstallUISequence and the InstallExecuteSequence. The default is both.
+                                For 'execute', the assignment is scheduled in the InstallExecuteSequence.
+                                For 'ui', the assignment is scheduled in the InstallUISequence.
+                                For 'first', the assignment is scheduled in the InstallUISequence or the InstallExecuteSequence if the InstallUISequence is skipped at install time.
+                                For 'both', the assignment is scheduled in both the InstallUISequence and the InstallExecuteSequence. 
+                                The default is 'both'.
                             </xs:documentation>
             </xs:annotation>
           </xs:attribute>
@@ -9258,9 +9296,11 @@
             <xs:annotation>
               <xs:documentation>
                                 Controls which sequences the Property assignment is sequenced in.
-                                For 'execute', the assignment is scheduled in the InstallExecuteSequence. For 'ui', the
-                                assignment is scheduled in the InstallUISequence.  For 'both', the assignment is scheduled
-                                in both the InstallUISequence and the InstallExecuteSequence. The default is both.
+                                For 'execute', the assignment is scheduled in the InstallExecuteSequence.
+                                For 'ui', the assignment is scheduled in the InstallUISequence.
+                                For 'first', the assignment is scheduled in the InstallUISequence or the InstallExecuteSequence if the InstallUISequence is skipped at install time.
+                                For 'both', the assignment is scheduled in both the InstallUISequence and the InstallExecuteSequence. 
+                                The default is 'both'.
                             </xs:documentation>
             </xs:annotation>
           </xs:attribute>
@@ -10724,7 +10764,7 @@
       </xs:choice>
       <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The Id cannot by longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
+          <xs:documentation>The Id cannot be longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceFile" type="xs:string">
@@ -10770,7 +10810,7 @@
     <xs:complexType>
       <xs:attribute name="Id" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>The Id cannot by longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
+          <xs:documentation>The Id cannot be longer than 55 characters.  In order to prevent errors in cases where the Id is modularized, it should not be longer than 18 characters.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="SourceFile" type="xs:string">
@@ -12707,7 +12747,7 @@
       <xs:documentation>Values of this type will look like: "01234567-89AB-CDEF-0123-456789ABCDEF" or "{01234567-89AB-CDEF-0123-456789ABCDEF}". Also allows "PUT-GUID-HERE" for use in examples.</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?|PUT\-GUID\-(?:\d+\-)?HERE|([!$])(\(var|\(loc|\(wix)\.[_A-Za-z][0-9A-Za-z_.]*\)" />
+      <xs:pattern value="[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?|PUT\-GUID\-(\d+\-)?HERE|([!$])(\(var|\(loc|\(wix)\.[_A-Za-z][0-9A-Za-z_.]*\)" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="AutogenGuid">
@@ -12715,7 +12755,7 @@
       <xs:documentation>Values of this type will look like: "01234567-89AB-CDEF-0123-456789ABCDEF" or "{01234567-89AB-CDEF-0123-456789ABCDEF}". A GUID can be auto-generated by setting the value to "*". Also allows "PUT-GUID-HERE" for use in examples.</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?|[{(]?\?{8}\-\?{4}\-\?{4}\-\?{4}\-\?{12}[})]?|PUT\-GUID\-(?:\d+\-)?HERE|([!$])(\(var|\(loc|\(wix)\.[_A-Za-z][0-9A-Za-z_.]*\)|\*" />
+      <xs:pattern value="[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?|[{(]?\?{8}\-\?{4}\-\?{4}\-\?{4}\-\?{12}[})]?|PUT\-GUID\-(\d+\-)?HERE|([!$])(\(var|\(loc|\(wix)\.[_A-Za-z][0-9A-Za-z_.]*\)|\*" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="BurnContainerType">
@@ -12761,7 +12801,7 @@
       <xs:documentation>Values of this type will look like: "01234567-89AB-CDEF-0123-456789ABCDEF" or "{01234567-89AB-CDEF-0123-456789ABCDEF}", but also allows "PUT-GUID-HERE" for use in examples.  It's also possible to have an empty value "".</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?|PUT\-GUID\-(?:\d+\-)?HERE|([!$])(\(var|\(loc|\(wix)\.[_A-Za-z][0-9A-Za-z_.]*\)|\*|^$" />
+      <xs:pattern value="[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?|PUT\-GUID\-(\d+\-)?HERE|([!$])(\(var|\(loc|\(wix)\.[_A-Za-z][0-9A-Za-z_.]*\)|\*|^$" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="LocalizableInteger">
@@ -12769,7 +12809,7 @@
       <xs:documentation>Values of this type must be an integer or the value can be a localization variable with the format !(loc.Variable) where "Variable" is the name of the variable.</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="[0-9][0-9]*|([!$])\((?:loc|bind)\.[_A-Za-z][0-9A-Za-z_.]+\)" />
+      <xs:pattern value="[0-9][0-9]*|([!$])\((loc|bind)\.[_A-Za-z][0-9A-Za-z_.]+\)" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="ShortFileNameType">
@@ -13041,7 +13081,7 @@
       <xs:documentation>Values of this type must be an integer or the value of one or more preprocessor variables with the format $(var.Variable) where "Variable" is the name of the preprocessor variable.</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="(\b(\d+)\b|(\$\(\w+\.(\w|[.])+\)))+" />
+      <xs:pattern value="((\d+)|(\$\(\w+\.(\w|[.])+\)))+" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

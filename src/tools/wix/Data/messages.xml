@@ -1,16 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!--
-  <copyright file="messages.xml" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
-  <summary>
-    Wix error/verbose/warning messages.
-  </summary>
--->
+
 <Messages Namespace="Microsoft.Tools.WindowsInstallerXml" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
     <Class Name="WixErrors" ContainerName="WixErrorEventArgs" BaseContainerName="MessageEventArgs" Level="Error">
         <Message Id="UnexpectedException" Number="1" SourceLineNumbers="no">
@@ -793,7 +784,7 @@
         </Message>
         <Message Id="IllegalAttributeWhenNested" Number="62">
             <Instance>
-                The {0}/@{1} attribute cannot be specified when the {0} element is nested underneath a {2} element.
+                The {0}/@{1} attribute cannot be specified when the {0} element is nested underneath a {2} element. If this {0} is a member of a ComponentGroup where ComponentGroup/@{1} is set, then the {0}/@{1} attribute should be removed.
                 <Parameter Type="System.String" Name="elementName" />
                 <Parameter Type="System.String" Name="attributeName" />
                 <Parameter Type="System.String" Name="parentElement" />
@@ -2580,7 +2571,7 @@
         </Message>
         <Message Id="CannotDefaultComponentId" Number="330">
             <Instance>
-                The Component/@Id attribute was not found; it is required when there is no valid keypath to use as the default id value. 
+                The Component/@Id attribute was not found; it is required when there is no valid keypath to use as the default id value.
             </Instance>
         </Message>
         <Message Id="ParentElementAttributeRequired" Number="331">
@@ -2740,7 +2731,7 @@
         <Instance>
           Unable to read bundle executable '{0}', because this bundle was created with a newer version of WiX (bundle version '{1}'). You must use a newer version of Windows Installer XML in order to read this bundle.
           <Parameter Type="System.String" Name="bundleExecutable" />
-          <!-- we use a 64-bit field here because the field is really a 32-bit UInt, 
+          <!-- we use a 64-bit field here because the field is really a 32-bit UInt,
               but UInt gives a non-CLS-compliant warning.
               So 64-bit makes sure we don't drop the last bit -->
           <Parameter Type="System.Int64" Name="bundleVersion" />
@@ -2802,12 +2793,6 @@
           The MSI '{0}' set the ALLUSERS Property to '{0}' which is not supported. Remove the Property with Id='ALLUSERS' and use Package/@InstallScope attribute instead.
           <Parameter Type="System.String" Name="path" />
           <Parameter Type="System.String" Name="value" />
-        </Instance>
-      </Message>
-      <Message Id="DisallowedMsiProperty" Number="365">
-        <Instance>
-          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. Remove the MsiProperty element.
-          <Parameter Type="System.String" Name="property" />
         </Instance>
       </Message>
       <Message Id="MissingOrInvalidModuleInstallerVersion" Number="366">
@@ -2955,6 +2940,22 @@
           <Parameter Type="System.String" Name="tableName" />
           <Parameter Type="System.Int32" Name="columnCount" />
           <Parameter Type="System.Int32" Name="supportedColumnCount" />
+        </Instance>
+      </Message>
+      <Message Id="IncompatiblePackageElevationAttributes" Number="387">
+          <Instance>
+              The {0}/@{1} attribute's value, '{2}', is not compatible with attribute @{3}'s value, '{4}'. It is recommended that only the InstallScope attribute be used.
+              <Parameter Type="System.String" Name="elementName" />
+              <Parameter Type="System.String" Name="attribute1Name" />
+              <Parameter Type="System.String" Name="attribute1Value" />
+              <Parameter Type="System.String" Name="attribute2Name" />
+              <Parameter Type="System.String" Name="attribute2Value" />
+          </Instance>
+      </Message>
+      <Message Id="InsecureBundleFilename" Number="388" SourceLineNumbers="no">
+        <Instance>
+          The file name '{0}' creates an insecure bundle. Windows will load unnecessary compatibility shims into a bundle with that file name. These compatibility shims can be DLL hijacked allowing attackers to compromise your customers' computer. Choose a different bundle file name.
+          <Parameter Type="System.String" Name="filename" />
         </Instance>
       </Message>
     </Class>
@@ -3630,7 +3631,7 @@
         </Message>
         <Message Id="StandardDirectoryConflictInMergeModule" Number="1124">
             <Instance>
-                The Directory '{0}' starts with the same Id as the standard folder in Windows Installer '{1}'. A directory Id that begins with the same Id as a standard folder that is in an MSM may encounter a conflict when merging the MSM into an MSI. This may result in the contents of this merge module being installed to an unexpected location. To eliminate this warning, change your directory Id to not start with the same Id as any standard folders. 
+                The Directory '{0}' starts with the same Id as the standard folder in Windows Installer '{1}'. A directory Id that begins with the same Id as a standard folder that is in an MSM may encounter a conflict when merging the MSM into an MSI. This may result in the contents of this merge module being installed to an unexpected location. To eliminate this warning, change your directory Id to not start with the same Id as any standard folders.
                 <Parameter Type="System.String" Name="directory" />
                 <Parameter Type="System.String" Name="standardDirectory" />
             </Instance>
@@ -3784,6 +3785,35 @@
                 The transform did not contain any valid product changes and will not be included in the patch.
             </Instance>
         </Message>
+        <Message Id="VersionTruncated" Number="1148">
+            <Instance>
+                Product version {0} in package '{1}' is not valid per the MSI SDK and cannot be represented in a bundle. It has been truncated to {2}.
+                <Parameter Type="System.String" Name="originalVersion" />
+                <Parameter Type="System.String" Name="package" />
+                <Parameter Type="System.String" Name="truncatedVersion" />
+            </Instance>
+        </Message>
+      <Message Id="DisallowedMsiProperty" Number="1149">
+        <Instance>
+          The '{0}' MsiProperty is controlled by the bootstrapper and cannot be authored. (Illegal properties are: {1}.) Remove the MsiProperty element. This restriction will be enforced as an error in WiX v4.0.
+          <Parameter Type="System.String" Name="property" />
+          <Parameter Type="System.String" Name="illegalValueList" />
+        </Instance>
+      </Message>
+        <Message Id="ServiceConfigFamilyNotSupported" Number="1150">
+            <Instance>
+                {0} functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider replacing {0} with the WixUtilExtension ServiceConfig element.
+                <Parameter Type="System.String" Name="elementName" />
+            </Instance>
+        </Message>
+      <Message Id="PayloadMustBeRelativeToCache" Number="1151">
+        <Instance>
+          The {0}/@{1} attribute's value, '{2}', is not a legal path name: Payload names must be relative to their cache directory and cannot contain '..'.
+          <Parameter Type="System.String" Name="elementName" />
+          <Parameter Type="System.String" Name="attributeName" />
+          <Parameter Type="System.String" Name="attributeValue" />
+        </Instance>
+      </Message>
     </Class>
 
     <Class Name="WixVerboses" ContainerName="WixVerboseEventArgs" BaseContainerName="MessageEventArgs" Level="Information">

@@ -25,7 +25,7 @@ in this case.)
 
 The neutral (invariant) culture can be specified by using *neutral*:
 
-    light.exe myinstaller.wixobj -cultures:netural -loc mystrings_en-US.wxl 
+    light.exe myinstaller.wixobj -cultures:neutral -loc mystrings_en-US.wxl 
     -loc mystrings_fr-FR.wxl -loc mystrings.wxl -out myinstaller.msi
 
 This will cause light to build a neutral installer using the neutral resources from

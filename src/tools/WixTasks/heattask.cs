@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="heattask.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Build task to execute the harvester of the Windows Installer Xml toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
 {
@@ -36,6 +25,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         private bool suppressFragments;
         private bool suppressUniqueIds;
         private string[] transforms;
+        private bool fipsCompliant;
 
         public bool AutogenerateGuids
         {
@@ -73,6 +63,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
         {
             get { return this.transforms; }
             set { this.transforms = value; }
+        }
+
+        public bool FipsCompliant
+        {
+            get { return this.fipsCompliant; }
+            set { this.fipsCompliant = value; }
         }
 
         /// <summary>
@@ -119,6 +115,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             base.BuildCommandLine(commandLineBuilder);
 
             commandLineBuilder.AppendIfTrue("-ag", this.AutogenerateGuids);
+            commandLineBuilder.AppendIfTrue("-fips", this.FipsCompliant);
             commandLineBuilder.AppendIfTrue("-gg", this.GenerateGuidsNow);
             commandLineBuilder.AppendIfTrue("-nologo", this.NoLogo);
             commandLineBuilder.AppendIfTrue("-sfrag", this.SuppressFragments);

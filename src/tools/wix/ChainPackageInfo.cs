@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="ChainPackageInfo.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-// Chain package info for binding Bundles.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
@@ -611,7 +600,28 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                     if (!Common.IsValidModuleOrBundleVersion(this.Version))
                     {
-                        this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        // not a proper .NET version (i.e., five fields); can we get a valid version number up to four fields?
+                        string version = null;
+                        string[] versionParts = this.Version.Split('.');
+                        int count = versionParts.Length;
+                        if (0 < count)
+                        {
+                            version = versionParts[0];
+                            for (int i = 1; i < 4 && i < count; ++i)
+                            {
+                                version = String.Concat(version, ".", versionParts[i]);
+                            }
+                        }
+
+                        if (!String.IsNullOrEmpty(version) && Common.IsValidModuleOrBundleVersion(version))
+                        {
+                            this.core.OnMessage(WixWarnings.VersionTruncated(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath, version));
+                            this.Version = version;
+                        }
+                        else
+                        {
+                            this.core.OnMessage(WixErrors.InvalidProductVersion(this.PackagePayload.SourceLineNumbers, this.Version, sourcePath));
+                        }
                     }
 
                     if (String.IsNullOrEmpty(this.CacheId))
@@ -625,8 +635,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
 
                     this.Manufacturer = ChainPackageInfo.GetProperty(db, "Manufacturer");
-
-                    this.VerifyMsiProperties();
 
                     if (YesNoType.Yes == forcePerMachine)
                     {
@@ -1161,23 +1169,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
 
                 this.PatchXml = writer.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Verifies that only allowed properties are passed to the MSI.
-        /// </summary>
-        private void VerifyMsiProperties()
-        {
-            foreach (string disallowed in new string[] { "ACTION", "ALLUSERS", "REBOOT", "REINSTALL", "REINSTALLMODE" })
-            {
-                foreach (MsiPropertyInfo propertyInfo in this.MsiProperties)
-                {
-                    if (disallowed.Equals(propertyInfo.Name, StringComparison.Ordinal))
-                    {
-                        this.core.OnMessage(WixErrors.DisallowedMsiProperty(this.PackagePayload.SourceLineNumbers, disallowed));
-                    }
-                }
             }
         }
 

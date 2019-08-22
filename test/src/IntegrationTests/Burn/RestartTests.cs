@@ -1,11 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="RestartTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.BurnIntegrationTests
 {
@@ -21,7 +14,7 @@ namespace WixTest.BurnIntegrationTests
         private PackageBuilder packageA;
         private BundleBuilder bundleA;
 
-        [NamedFact(Skip="Disabling this test since it does not consistently lock the file in a way that the Windows Installer sees FilesInUse.")]
+        [NamedFact]
         [RuntimeTest]
         public void Burn_RetryThenCancel()
         {
@@ -33,11 +26,11 @@ namespace WixTest.BurnIntegrationTests
             // Lock the file that will be installed.
             string targetInstallFile = this.GetTestInstallFolder("A\\A.wxs");
             Directory.CreateDirectory(Path.GetDirectoryName(targetInstallFile));
-            using (FileStream lockTargetFile = new FileStream(targetInstallFile, FileMode.Create, FileAccess.Write, FileShare.Read))
+            using (FileStream lockTargetFile = new FileStream(targetInstallFile, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, 4096, FileOptions.DeleteOnClose))
             {
                 installA.Install(expectedExitCode:(int)MSIExec.MSIExecReturnCode.ERROR_INSTALL_USEREXIT);
             }
-
+            
             this.Complete();
         }
 

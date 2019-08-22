@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  <copyright file="UtilExtension.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <?include caerr.wxi ?>
 
@@ -104,6 +99,22 @@
         
         <InstallExecuteSequence>
             <Custom Action="WixRemoveFoldersEx" Before="CostInitialize" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixBroadcastSettingChange" BinaryKey="WixCA" DllEntry="WixBroadcastSettingChange" Execute="immediate" Return="ignore" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixBroadcastSettingChange" After="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixBroadcastEnvironmentChange" BinaryKey="WixCA" DllEntry="WixBroadcastEnvironmentChange" Execute="immediate" Return="ignore" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixBroadcastEnvironmentChange" After="InstallFinalize" Overridable="yes" />
         </InstallExecuteSequence>
     </Fragment>
 
@@ -342,6 +353,11 @@
         <Property Id="WIX_ACCOUNT_GUESTS" Secure="yes" />
         <CustomActionRef Id="WixQueryOsWellKnownSID" />
     </Fragment>
+    <Fragment>
+        <Property Id="WIX_ACCOUNT_PERFLOGUSERS" Secure="yes" />
+        <Property Id="WIX_ACCOUNT_PERFLOGUSERS_NODOMAIN" Secure="yes" />
+        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+    </Fragment>
 
     <Fragment>
       <CustomAction Id="WixQueryOsDriverInfo" BinaryKey="WixCA" DllEntry="WixQueryOsDriverInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />
@@ -384,5 +400,26 @@
     <Fragment>
         <PropertyRef Id="QtExec64CmdLine" />
         <CustomAction Id="QtExec64" BinaryKey="WixCA" DllEntry="CAQuietExec64" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixQuietExecCmdLine" />
+        <CustomAction Id="WixQuietExec" BinaryKey="WixCA" DllEntry="WixQuietExec" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixQuietExec64CmdLine" />
+        <CustomAction Id="WixQuietExec64" BinaryKey="WixCA" DllEntry="WixQuietExec64" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <!-- SilentExec custom actions differ from QtExec in that they do not log the commandline or output of the exe -->
+    <Fragment>
+        <PropertyRef Id="WixSilentExecCmdLine" />
+        <CustomAction Id="WixSilentExec" BinaryKey="WixCA" DllEntry="WixSilentExec" Execute="immediate" Return="check" Impersonate="yes" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="WixSilentExec64CmdLine" />
+        <CustomAction Id="WixSilentExec64" BinaryKey="WixCA" DllEntry="WixSilentExec64" Execute="immediate" Return="check" Impersonate="yes" />
     </Fragment>
 </Wix>

@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="NetFx451.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
   <!--
@@ -20,9 +15,24 @@
   <?define NetFx452MinRelease = 379893 ?>
   <?define NetFx452WebLink = http://go.microsoft.com/fwlink/?LinkId=397707 ?>
   <?define NetFx452RedistLink = http://go.microsoft.com/fwlink/?LinkId=397708 ?>
+  <?define NetFx452EulaLink = http://wixtoolset.org/licenses/netfx452 ?>
+
+  <Fragment>
+    <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
+    <Property Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_452_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx452MinRelease)"
+    </SetProperty>
+  </Fragment>
 
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx452Web" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx452EulaLink)" Overridable="yes" />
+    <WixVariable Id="NetFx452WebDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx452MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx452WebInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx452WebPackageDirectory" Value="redist\" Overridable="yes" />
 
     <PackageGroup Id="NetFx452Web">
       <ExePackage
@@ -30,7 +40,8 @@
           RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx452FullWebLog].html&quot;"
           UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx452FullWebLog].html&quot;"
           PerMachine="yes"
-          DetectCondition="NETFRAMEWORK45 &gt;= $(var.NetFx452MinRelease)"
+          DetectCondition="!(wix.NetFx452WebDetectCondition)"
+          InstallCondition="!(wix.NetFx452WebInstallCondition)"
           Id="NetFx452Web"
           Vital="yes"
           Permanent="yes"
@@ -38,7 +49,7 @@
           DownloadUrl="$(var.NetFx452WebLink)"
           LogPathVariable="NetFx452FullWebLog"
           Compressed="no"
-          Name="redist\NDP452-KB2901954-Web.exe">
+          Name="!(wix.NetFx452WebPackageDirectory)NDP452-KB2901954-Web.exe">
         <RemotePayload CertificatePublicKey="B78FE7F6917E1BC5F4A9C77BA3D555A0E807B9E0"
                        CertificateThumbprint="67B1757863E3EFF760EA9EBB02849AF07D3A8080"
                        Description="Microsoft .NET Framework 4.5.2 Setup"
@@ -53,13 +64,20 @@
   <Fragment>
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
+    <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx452Redist" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx452EulaLink)" Overridable="yes" />
+    <WixVariable Id="NetFx452RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx452MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx452RedistInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx452RedistPackageDirectory" Value="redist\" Overridable="yes" />
+
     <PackageGroup Id="NetFx452Redist">
       <ExePackage
           InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx452FullLog].html&quot;"
           RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx452FullLog].html&quot;"
           UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx452FullLog].html&quot;"
           PerMachine="yes"
-          DetectCondition="NETFRAMEWORK45 &gt;= $(var.NetFx452MinRelease)"
+          DetectCondition="!(wix.NetFx452RedistDetectCondition)"
+          InstallCondition="!(wix.NetFx452RedistInstallCondition)"
           Id="NetFx452Redist"
           Vital="yes"
           Permanent="yes"
@@ -67,7 +85,7 @@
           DownloadUrl="$(var.NetFx452RedistLink)"
           LogPathVariable="NetFx452FullLog"
           Compressed="no"
-          Name="redist\NDP452-KB2901907-x86-x64-AllOS-ENU.exe">
+          Name="!(wix.NetFx452RedistPackageDirectory)NDP452-KB2901907-x86-x64-AllOS-ENU.exe">
         <RemotePayload 
           CertificatePublicKey="B78FE7F6917E1BC5F4A9C77BA3D555A0E807B9E0"
           CertificateThumbprint="67B1757863E3EFF760EA9EBB02849AF07D3A8080"

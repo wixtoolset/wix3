@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="bal.xsd" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:xse="http://schemas.microsoft.com/wix/2005/XmlSchemaExtension"
          xmlns:html="http://www.w3.org/1999/xhtml"
@@ -155,6 +150,16 @@
                     <xs:documentation>If set to "yes", the application version will be displayed on the UI.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
+          <xs:attribute name="SupportCacheOnly" type="YesNoType">
+              <xs:annotation>
+                    <xs:documentation>If set to "yes", the bundle can be pre-cached using the /cache command line argument.</xs:documentation>
+              </xs:annotation>
+          </xs:attribute>
+            <xs:attribute name="ShowFilesInUse" type="YesNoType">
+              <xs:annotation>
+                <xs:documentation>If set to "yes", WixStdBA will show a page allowing the user to restart applications when files are in use.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     
@@ -181,6 +186,19 @@
             </xs:documentation>
             <xs:appinfo>
                 <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="Variable" />
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:attribute>
+
+    <xs:attribute name="UseUILanguages" type="YesNoType">
+        <xs:annotation>
+            <xs:documentation>
+                When set to "yes", causes WixStdBA/Prereq BA to use the user's control panel language settings. Otherwise, the previous API (which uses locale instead of language) is used to maintain compatiblity with previous versions of WiX.
+                On Vista and newer platforms, this value set to "yes" will search all specified user languages, including fallback languages, in order.
+            </xs:documentation>
+            <xs:appinfo>
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="BootstrapperApplication" />
+                <xse:parent namespace="http://schemas.microsoft.com/wix/2006/wi" ref="BootstrapperApplicationRef" />
             </xs:appinfo>
         </xs:annotation>
     </xs:attribute>

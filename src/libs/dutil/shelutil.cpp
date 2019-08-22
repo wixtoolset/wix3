@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="shelutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Shell helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -259,6 +248,7 @@ static HRESULT GetDesktopShellView(
     IDispatch* pdisp = NULL;
     VARIANT vEmpty = {}; // VT_EMPTY
     IShellBrowser* psb = NULL;
+    IShellFolder* psf = NULL;
     IShellView* psv = NULL;
 
     // use the shell view for the desktop using the shell windows automation to find the 
@@ -268,20 +258,35 @@ static HRESULT GetDesktopShellView(
     ExitOnFailure(hr, "Failed to get shell view.");
 
     hr = psw->FindWindowSW(&vEmpty, &vEmpty, SWC_DESKTOP, (long*)&hwnd, SWFO_NEEDDISPATCH, &pdisp);
-    ExitOnFailure(hr, "Failed to get desktop window.");
+    if (S_OK == hr)
+    {
+        hr = IUnknown_QueryService(pdisp, SID_STopLevelBrowser, IID_PPV_ARGS(&psb));
+        ExitOnFailure(hr, "Failed to get desktop window.");
 
-    hr = IUnknown_QueryService(pdisp, SID_STopLevelBrowser, IID_PPV_ARGS(&psb));
-    ExitOnFailure(hr, "Failed to get desktop window.");
+        hr = psb->QueryActiveShellView(&psv);
+        ExitOnFailure(hr, "Failed to get active shell view.");
 
-    hr = psb->QueryActiveShellView(&psv);
-    ExitOnFailure(hr, "Failed to get active shell view.");
+        hr = psv->QueryInterface(riid, ppv);
+        ExitOnFailure(hr, "Failed to query for the desktop shell view.");
+    }
+    else if (S_FALSE == hr)
+    {
+        //Windows XP
+        hr = SHGetDesktopFolder(&psf);
+        ExitOnFailure(hr, "Failed to get desktop folder.");
 
-    hr = psv->QueryInterface(riid, ppv);
-    ExitOnFailure(hr, "Failed to query for the desktop shell view.");
+        hr = psf->CreateViewObject(NULL, IID_IShellView, ppv);
+        ExitOnFailure(hr, "Failed to query for the desktop shell view.");
+    }
+    else
+    {
+        ExitOnFailure(hr, "Failed to get desktop window.");
+    }
 
 LExit:
     ReleaseObject(psv);
     ReleaseObject(psb);
+    ReleaseObject(psf);
     ReleaseObject(pdisp);
     ReleaseObject(psw);
 

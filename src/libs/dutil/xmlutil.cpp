@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="xmlutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    XML helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -130,7 +119,7 @@ extern "C" HRESULT DAPI XmlCreateDocument(
 {
     HRESULT hr = S_OK;
     BOOL (WINAPI *pfnDisableWow64)(__out PVOID* ) = NULL;
-    BOOL (WINAPI *pfnEnableWow64)(__in BOOLEAN ) = NULL;
+    BOOLEAN (WINAPI *pfnEnableWow64)(__in BOOLEAN ) = NULL;
     BOOL (WINAPI *pfnRevertWow64)(__in PVOID ) = NULL;
     BOOL fWow64Available = FALSE;
     void *pvWow64State = NULL;
@@ -147,7 +136,7 @@ extern "C" HRESULT DAPI XmlCreateDocument(
     if (NULL != GetProcAddress(hKernel32, "IsWow64Process"))
     {
         pfnDisableWow64 = (BOOL (WINAPI *)(PVOID *))::GetProcAddress(hKernel32, "Wow64DisableWow64FsRedirection");
-        pfnEnableWow64 = (BOOL (WINAPI *)(BOOLEAN))::GetProcAddress(hKernel32, "Wow64EnableWow64FsRedirection");
+        pfnEnableWow64 = (BOOLEAN (WINAPI *)(BOOLEAN))::GetProcAddress(hKernel32, "Wow64EnableWow64FsRedirection");
         pfnRevertWow64 = (BOOL (WINAPI *)(PVOID))::GetProcAddress(hKernel32, "Wow64RevertWow64FsRedirection");
 
         fWow64Available = pfnDisableWow64 && pfnEnableWow64 && pfnRevertWow64;

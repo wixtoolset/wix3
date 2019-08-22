@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="scaexec.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Entry points into several server custom actions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -1801,7 +1790,7 @@ extern "C" UINT __stdcall CreateUser(
         if (pwzDomain && *pwzDomain)
         {
             er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, NULL, &pDomainControllerInfo );
-            if (HRESULT_FROM_WIN32(er) == RPC_S_SERVER_UNAVAILABLE)
+            if (RPC_S_SERVER_UNAVAILABLE == er)
             {
                 // MSDN says, if we get the above error code, try again with the "DS_FORCE_REDISCOVERY" flag
                 er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, DS_FORCE_REDISCOVERY, &pDomainControllerInfo );
@@ -1989,7 +1978,7 @@ extern "C" UINT __stdcall RemoveUser(
         if (pwzDomain && *pwzDomain)
         {
             er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, NULL, &pDomainControllerInfo );
-            if (HRESULT_FROM_WIN32(er) == RPC_S_SERVER_UNAVAILABLE)
+            if (RPC_S_SERVER_UNAVAILABLE == er)
             {
                 // MSDN says, if we get the above error code, try again with the "DS_FORCE_REDISCOVERY" flag
                 er = ::DsGetDcNameW( NULL, (LPCWSTR)pwzDomain, NULL, NULL, DS_FORCE_REDISCOVERY, &pDomainControllerInfo );

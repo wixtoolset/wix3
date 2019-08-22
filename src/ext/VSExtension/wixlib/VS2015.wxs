@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="VS2015_EXTENSIONS_DIR" Secure="yes">
+            <RegistrySearch Id="VS2015DevEnvForExtensionsSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2015ExtensionsPathSearch" Path="Extensions" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2015_PROJECTTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS2015DevEnvForProjectTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2015ProjectTemplatesPathSearch" Path="ProjectTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2015_SCHEMAS_DIR" Secure="yes">
+            <RegistrySearch Id="VS2015ProductPathSearch" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="14.0" Type="raw">
+                <DirectorySearch Id="VS2015XmlPathSearch" Path="Xml" Depth="1">
+                    <DirectorySearch Id="VS2015XmlSchemasPathSearch" Path="Schemas" Depth="1" />
+                </DirectorySearch>
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2015_ITEMTEMPLATES_DIR" Secure="yes">
+            <RegistrySearch Id="VS2015DevEnvForItemTemplatesSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VS" Name="EnvironmentDirectory" Type="raw">
+                <DirectorySearch Id="VS2015ItemTemplatesPathSearch" Path="ItemTemplates" Depth="1" />
+            </RegistrySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2015_BOOTSTRAPPER_PACKAGE_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVS2015BootstrapperPackageFolder" Root="HKLM" Key="Software\Microsoft\GenericBootstrapper\4.0" Name="Path" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2015_ROOT_FOLDER" Secure="yes">
+            <RegistrySearch Id="SearchForVS2015RootPath" Root="HKLM" Key="Software\Microsoft\VisualStudio\SxS\VS7" Name="14.0" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2015DEVENV" Secure="yes">
+            <RegistrySearch Id="VS2015DevEnvSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2015Setup" Property="VS2015DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2015DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2015Setup" Before="InstallFinalize" Overridable="yes">VS2015DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2015InstallVSTemplates" Property="VS2015DEVENV" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2015DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2015InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2015DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# project system is installed as a part of  -->
+    <!-- Visual Studio 2015 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2015 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2015 setup.              -->
+    <Fragment>
+        <Property Id="VS2015_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVCS2015ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VC#" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic project system is installed as a part of -->
+    <!-- Visual Studio 2015 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2015 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2015 setup.             -->
+    <Fragment>
+        <Property Id="VS2015_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVB2015ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VB" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer 2015 Express IDE component is installed.  -->
+    <!-- If this property is set, that means Visual Web Developer 2015 Express Edition is     -->
+    <!-- installed on the system.                                                             -->
+    <Fragment>
+        <Property Id="VWD2015EXPRESS_IDE" Secure="yes">
+            <RegistrySearch Id="VWD2015ExpressSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VWDExpress\14.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+    <!-- Custom action definition to run vwdexpress.exe /setup                               -->
+    <Fragment>
+        <CustomAction Id="VWD2015Setup" Property="VWD2015EXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD2015EXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VWD2015Setup" Before="InstallFinalize" Overridable="yes">VWD2015EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <!-- Custom action definition to run vwdexpress.exe /InstallVSTemplates                  -->
+    <Fragment>
+        <CustomAction Id="VWD2015InstallVSTemplates" Property="VWD2015EXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VWD2015EXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VWD2015InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VWD2015EXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
+    <!-- Visual Studio 2015 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2015 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2015 setup.             -->
+    <Fragment>
+        <Property Id="VS2015_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <ComponentSearch Id="SearchForVWD2015ProjectSystemUnderVSSetup" Guid="274EB373-6B78-5EBD-8A6C-6D8094E58ECB" />
+            <ComponentSearch Id="SearchForVWD2015ProjectSystemUnderVWDSetup" Guid="71EBDA4A-4A15-426F-95C4-4FC051FD7AA4" Type="directory" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ project system is installed as a part of -->
+    <!-- Visual Studio 2015 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2015 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2015 setup.             -->
+    <Fragment>
+        <Property Id="VS2015_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVC2015ProjectSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\VC" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2015 Team Test project system is installed -->
+    <Fragment>
+        <Property Id="VS2015_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2015TestSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Projects\{3AC096D0-A1C2-E12C-1390-A8335801FDAB}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Modeling project system is installed -->
+    <Fragment>
+        <Property Id="VS2015_IDE_MODELING_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2015ModelingSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Projects\{f088123c-0e9e-452a-89e6-6ba2f21d5cac}" Name="Package" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio F# project system is installed -->
+    <Fragment>
+        <Property Id="VS2015_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes">
+            <RegistrySearch Id="SearchForVSTS2015FSharpSystemUnderVSSetup" Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\Setup\F#" Name="ProductDir" Type="raw" />
+        </Property>
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Express for Windows IDE component is installed. -->
+    <!-- If this property is set, that means Visual Studio Express for Windows is installed  -->
+    <!-- on the system.                                                                      -->
+    <Fragment>
+        <Property Id="VS2015WINEXPRESS_IDE" Secure="yes">
+            <RegistrySearch Id="VS2015WinExpressSearch" Root="HKLM" Key="SOFTWARE\Microsoft\VSWinExpress\14.0\Setup\VS" Name="EnvironmentPath" Type="raw" />
+        </Property>
+    </Fragment>
+    <!-- Custom action definition to run vswinexpress.exe /setup                             -->
+    <Fragment>
+        <CustomAction Id="VS2015WinExpressSetup" Property="VS2015WINEXPRESS_IDE" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2015WINEXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VS2015WinExpressSetup" Before="InstallFinalize" Overridable="yes">VS2015WINEXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    <!-- Custom action definition to run vswinexpress.exe /InstallVSTemplates                -->
+    <Fragment>
+        <CustomAction Id="VS2015WinExpressInstallVSTemplates" Property="VS2015WINEXPRESS_IDE" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2015WINEXPRESS_IDE" />
+        <InstallExecuteSequence>
+            <Custom Action="VS2015WinExpressInstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2015WINEXPRESS_IDE</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+</Wix>

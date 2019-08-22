@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="dirutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Directory helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -345,6 +334,37 @@ LExit:
     ReleaseStr(sczDelete);
 
     return hr;
+}
+
+
+/*******************************************************************
+DirDeleteEmptyDirectoriesToRoot - removes an empty directory and as many
+                                  of its parents as possible.
+
+ Returns: count of directories deleted.
+*******************************************************************/
+extern "C" DWORD DAPI DirDeleteEmptyDirectoriesToRoot(
+    __in_z LPCWSTR wzPath,
+    __in DWORD /*dwFlags*/
+    )
+{
+    DWORD cDeletedDirs = 0;
+    LPWSTR sczPath = NULL;
+
+    while (wzPath && *wzPath && ::RemoveDirectoryW(wzPath))
+    {
+        ++cDeletedDirs;
+
+        HRESULT hr = PathGetParentPath(wzPath, &sczPath);
+        ExitOnFailure(hr, "Failed to get parent directory for path: %ls", wzPath);
+
+        wzPath = sczPath;
+    }
+
+LExit:
+    ReleaseStr(sczPath);
+
+    return cDeletedDirs;
 }
 
 

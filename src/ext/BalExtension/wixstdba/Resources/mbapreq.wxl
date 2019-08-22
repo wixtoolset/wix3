@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <WixLocalization Culture="en-us" Language="1033" xmlns="http://schemas.microsoft.com/wix/2006/localization">
   <String Id="Caption">[WixBundleName] Setup</String>
   <String Id="Title">Microsoft .NET Framework required for [WixBundleName] setup</String>
@@ -17,9 +20,13 @@
   <String Id="ProgressLabel">Processing:</String>
   <String Id="ProgressCancelButton">&amp;Cancel</String>
   <String Id="FailureHeader">Setup Failed</String>
+  <String Id="FailureInstallHeader">Setup Failed</String>
+  <String Id="FailureUninstallHeader">Uninstall Failed</String>
+  <String Id="FailureRepairHeader">Repair Failed</String> 
   <String Id="FailureLogLinkText">One or more issues caused the setup to fail. Please fix the issues and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
   <String Id="FailureRestartText">You must restart your computer to complete the rollback of the software.</String>
   <String Id="FailureRestartButton">&amp;Restart</String>
   <String Id="FailureCloseButton">&amp;Close</String>
   <String Id="NET452WIN7RTMErrorMessage">[WixBundleName] cannot run on Windows 7 RTM with .NET 4.5.2 installed. Install Windows 7 SP1 to run in a supported environment.</String>
+  <String Id="ErrorFailNoActionReboot">No action was taken as a system reboot is required.</String>
 </WixLocalization>

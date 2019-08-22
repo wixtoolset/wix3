@@ -1,18 +1,5 @@
-; // -------------------------------------------------------------------------------------------------
-; // <copyright file="engine.mc" company="Outercurve Foundation">
-; //   Copyright (c) 2004, Outercurve Foundation.
-; //   This software is released under Microsoft Reciprocal License (MS-RL).
-; //   The license and further copyright text can be found in the file
-; //   LICENSE.TXT at the root directory of the distribution.
-; // </copyright>
-; //
-; // <summary>
-; //   Message definitions for the Burn engine.
-; // </summary>
-; // -------------------------------------------------------------------------------------------------
+; // Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
-
-; // header section
 
 MessageIdTypedef=DWORD
 
@@ -46,7 +33,7 @@ MessageId=1
 Severity=Success
 SymbolicName=MSG_BURN_INFO
 Language=English
-Burn v%1!hs!, Windows v%2!d!.%3!d! (Build %4!d!: Service Pack %5!d!), path: %6!ls!, cmdline: '%7!ls!'
+Burn v%1!hs!, Windows v%2!d!.%3!d! (Build %4!d!: Service Pack %5!d!), path: %6!ls!
 .
 
 MessageId=2
@@ -97,6 +84,34 @@ Severity=Warning
 SymbolicName=MSG_RESTART_ABORTED
 Language=English
 Preventing requested restart because bundle is related: '%1!hs!'. Returning restart requested to parent bundle.
+.
+
+MessageId=9
+Severity=Success
+SymbolicName=MSG_BURN_COMMAND_LINE
+Language=English
+Command Line: '%1!ls!'
+.
+
+MessageId=10
+Severity=Success
+SymbolicName=MSG_LAUNCH_ELEVATED_ENGINE_STARTING
+Language=English
+Launching elevated engine process.
+.
+
+MessageId=11
+Severity=Success
+SymbolicName=MSG_LAUNCH_ELEVATED_ENGINE_SUCCESS
+Language=English
+Launched elevated engine process.
+.
+
+MessageId=12
+Severity=Success
+SymbolicName=MSG_CONNECT_TO_ELEVATED_ENGINE_SUCCESS
+Language=English
+Connected to elevated engine.
 .
 
 MessageId=51
@@ -339,9 +354,9 @@ Planned forward compatible bundle: %1!ls!, default requested: %2!hs!, ba request
 
 MessageId=213
 Severity=Success
-SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_EMBEDDED
+SymbolicName=MSG_PLAN_SKIPPED_RELATED_BUNDLE_DEPENDENT
 Language=English
-Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was embedded.
+Plan skipped related bundle: %1!ls!, type: %2!hs!, because it was dependent and the current bundle is being executed as type: %3!hs!.
 .
 
 MessageId=214
@@ -723,6 +738,20 @@ Language=English
 Unable to register source directory: %1!ls!, product: %2!ls!, reason: 0x%3!x!. Continuing...
 .
 
+MessageId=358
+Severity=Success
+SymbolicName=MSG_PAUSE_AU_STARTING
+Language=English
+Pausing automatic updates.
+.
+
+MessageId=359
+Severity=Success
+SymbolicName=MSG_PAUSE_AU_SUCCEEDED
+Language=English
+Paused automatic updates.
+.
+
 MessageId=360
 Severity=Success
 SymbolicName=MSG_SYSTEM_RESTORE_POINT_STARTING
@@ -798,6 +827,20 @@ Severity=Success
 SymbolicName=MSG_VARIABLE_DUMP
 Language=English
 Variable: %1!ls!
+.
+
+MessageId=420
+Severity=Success
+SymbolicName=MSG_RESUME_AU_STARTING
+Language=English
+Resuming automatic updates.
+.
+
+MessageId=421
+Severity=Success
+SymbolicName=MSG_RESUME_AU_SUCCEEDED
+Language=English
+Resumed automatic updates.
 .
 
 MessageId=500

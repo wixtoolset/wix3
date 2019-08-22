@@ -1,19 +1,5 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="variable.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-//
-//    Variable management functions for Burn.
-// </summary>
-//-------------------------------------------------------------------------------------------------
-
 #pragma once
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 
 #if defined(__cplusplus)
@@ -37,17 +23,28 @@ typedef HRESULT (*PFN_INITIALIZEVARIABLE)(
     );
 
 
+// constants
+
+enum BURN_VARIABLE_INTERNAL_TYPE
+{
+    BURN_VARIABLE_INTERNAL_TYPE_NORMAL, // the BA can set this variable.
+    BURN_VARIABLE_INTERNAL_TYPE_OVERRIDABLE_BUILTIN, // the BA can't set this variable, but the unelevated process can serialize it to the elevated process.
+    BURN_VARIABLE_INTERNAL_TYPE_BUILTIN, // the BA can't set this variable, and the unelevated process can't serialize it to the elevated process.
+};
+
+
 // structs
 
 typedef struct _BURN_VARIABLE
 {
     LPWSTR sczName;
     BURN_VARIANT Value;
-    BOOL fHidden;
+    BOOL fHidden;    
+    BOOL fLiteral; // if fLiteral, then when formatting this variable its value should be used as is (don't continue recursively formatting).
     BOOL fPersisted;
 
     // used for late initialization of built-in variables
-    BOOL fBuiltIn;
+    BURN_VARIABLE_INTERNAL_TYPE internalType;
     PFN_INITIALIZEVARIABLE pfnInitialize;
     DWORD_PTR dwpInitializeData;
 } BURN_VARIABLE;
@@ -107,6 +104,12 @@ HRESULT VariableSetNumeric(
     __in LONGLONG llValue,
     __in BOOL fOverwriteBuiltIn
     );
+HRESULT VariableSetLiteralString(
+    __in BURN_VARIABLES* pVariables,
+    __in_z LPCWSTR wzVariable,
+    __in_z_opt LPCWSTR wzValue,
+    __in BOOL fOverwriteBuiltIn
+    );
 HRESULT VariableSetString(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
@@ -119,11 +122,10 @@ HRESULT VariableSetVersion(
     __in DWORD64 qwValue,
     __in BOOL fOverwriteBuiltIn
     );
-HRESULT VariableSetVariant(
+HRESULT VariableSetLiteralVariant(
     __in BURN_VARIABLES* pVariables,
     __in_z LPCWSTR wzVariable,
-    __in BURN_VARIANT* pVariant,
-    __in BOOL fOverwriteBuiltIn
+    __in BURN_VARIANT* pVariant
     );
 HRESULT VariableFormatString(
     __in BURN_VARIABLES* pVariables,
@@ -149,6 +151,7 @@ HRESULT VariableSerialize(
     );
 HRESULT VariableDeserialize(
     __in BURN_VARIABLES* pVariables,
+    __in BOOL fWasPersisted,
     __in_bcount(cbBuffer) BYTE* pbBuffer,
     __in SIZE_T cbBuffer,
     __inout SIZE_T* piBuffer
@@ -175,6 +178,11 @@ HRESULT __cdecl VariableStrAllocFormatted(
     __deref_out_z LPWSTR* ppwz,
     __in __format_string LPCWSTR wzFormat,
     ...
+    );
+HRESULT VariableIsHidden(
+    __in BURN_VARIABLES* pVariables,
+    __in_z LPCWSTR wzVariable,
+    __out BOOL* pfHidden
     );
 
 #if defined(__cplusplus)

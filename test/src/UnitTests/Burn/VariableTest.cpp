@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="VariableTest.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Variable management unit tests for Burn.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 #undef GetTempPath
@@ -384,7 +373,7 @@ namespace Bootstrapper
                 hr = VariableInitialize(&variables2);
                 TestThrowOnFailure(hr, L"Failed to initialize variables.");
 
-                hr = VariableDeserialize(&variables2, pbBuffer, cbBuffer, &iBuffer);
+                hr = VariableDeserialize(&variables2, FALSE, pbBuffer, cbBuffer, &iBuffer);
                 TestThrowOnFailure(hr, L"Failed to deserialize variables.");
 
                 Assert::Equal(gcnew String(L"VAL1"), VariableGetStringHelper(&variables2, L"PROP1"));
@@ -414,11 +403,7 @@ namespace Bootstrapper
                 Assert::True(EvaluateConditionHelper(&variables, L"VersionMsi >= v1.1"));
 
                 // VersionNT
-                Version^ osVersion = Environment::OSVersion->Version;
-                pin_ptr<const WCHAR> wzOsVersionCondition1 = PtrToStringChars(String::Format(L"VersionNT = v{0}.{1}", osVersion->Major, osVersion->Minor));
-                Assert::True(EvaluateConditionHelper(&variables, wzOsVersionCondition1));
-                pin_ptr<const WCHAR> wzOsVersionCondition2 = PtrToStringChars(String::Format(L"VersionNT <> v{0}.{1}", osVersion->Major, osVersion->Minor));
-                Assert::False(EvaluateConditionHelper(&variables, wzOsVersionCondition2));
+                Assert::True(EvaluateConditionHelper(&variables, L"VersionNT <> v0.0.0.0"));
 
                 // VersionNT64
                 if (nullptr == Environment::GetEnvironmentVariable("ProgramFiles(x86)"))
@@ -447,6 +432,7 @@ namespace Bootstrapper
                 VariableGetNumericHelper(&variables, L"Privileged");
                 VariableGetNumericHelper(&variables, L"SystemLanguageID");
                 VariableGetNumericHelper(&variables, L"TerminalServer");
+                VariableGetNumericHelper(&variables, L"UserUILanguageID");
                 VariableGetNumericHelper(&variables, L"UserLanguageID");
 
                 // known folders

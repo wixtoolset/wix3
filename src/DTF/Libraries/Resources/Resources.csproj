@@ -1,12 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--
-  <copyright file="Resources.csproj" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{44931ECB-8D6F-4C12-A872-64E261B6A98E}</ProjectGuid>
@@ -15,6 +10,7 @@
     <AssemblyName>Microsoft.Deployment.Resources</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <CreateDocumentationFile>true</CreateDocumentationFile>
+    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <ItemGroup>

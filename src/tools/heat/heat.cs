@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="heat.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// The Windows Installer XML Toolset Harvester application.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Tools
 {
@@ -41,6 +30,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private int indent;
         private ConsoleMessageHandler messageHandler;
         private HeatCore heatCore;
+        private bool fipsCompliant;
 
         /// <summary>
         /// Instantiate a new Heat class.
@@ -53,6 +43,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             this.messageHandler = new ConsoleMessageHandler("HEAT", "heat.exe");
             this.indent = 4;
             this.showLogo = true;
+            this.fipsCompliant = false;
         }
 
         /// <summary>
@@ -113,6 +104,20 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     return this.messageHandler.LastErrorNumber;
                 }
 
+                // check whether we can continue with non-FIPS compliant algorithms
+                if (!this.fipsCompliant)
+                {
+                    try
+                    {
+                        System.Security.Cryptography.MD5.Create();
+                    }
+                    catch (TargetInvocationException)
+                    {
+                        this.messageHandler.Display(this, WixErrors.UseFipsArgument());
+                        return this.messageHandler.LastErrorNumber;
+                    }
+                }
+
                 if (this.showLogo)
                 {
                     AppCommon.DisplayToolHeader();
@@ -120,6 +125,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
 
                 // set the extension argument for use by all extensions
                 harvesterCore.ExtensionArgument = this.extensionArgument;
+
+                // set the algorithm type used by all extensions
+                harvesterCore.FipsCompliant = this.fipsCompliant;
 
                 // parse the extension's command line arguments
                 string[] extensionOptionsArray = new string[this.extensionOptions.Count];
@@ -223,6 +231,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             }
 
             harvestOptions.Add("-ext", new HeatCommandLineOption("-ext", HeatStrings.HelpMessageExtension));
+            harvestOptions.Add("-fips", new HeatCommandLineOption("-fips", HeatStrings.HelpMessageFips));
             harvestOptions.Add("-nologo", new HeatCommandLineOption("-nologo", HeatStrings.HelpMessageNoLogo));
             harvestOptions.Add("-indent <N>", new HeatCommandLineOption("-indent <N>", HeatStrings.HelpMessageIndentation));
             harvestOptions.Add("-o[ut]", new HeatCommandLineOption("-out", HeatStrings.HelpMessageOut));
@@ -392,6 +401,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                         {
                             this.LoadExtension(args[i]);
                         }
+                    }
+                    else if ("fips" == parameter)
+                    {
+                        this.fipsCompliant = true;
                     }
                     else if ("indent" == parameter)
                     {

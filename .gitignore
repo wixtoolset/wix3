@@ -1,6 +1,8 @@
 [Bb]uild/
 [Pp]ackages/
 ipch/
+.vs/
+obj/
 
 *.chw
 *.suo
@@ -20,5 +22,11 @@ ipch/
 *.tlh
 *.tmp
 *.log
+*.opendb
 *.opensdf
 *.sdf
+*.aps
+*.ncb
+*.cachefile
+*.VC.db
+*.VC.VC.opendb

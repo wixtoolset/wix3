@@ -1,12 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright file="UtilExtension.XmlConfigTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>Util Extension XmlConfig tests</summary>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.Tests.Extensions.UtilExtension
 {
@@ -211,25 +203,25 @@ namespace WixTest.Tests.Extensions.UtilExtension
         private static void VerifyXMLConfigInstallTransformation(string fileName)
         {
             // /Root
-            // Verify new attribute was added to root node (New=”hello”)
+            // Verify new attribute was added to root node (New=ï¿½helloï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root", "New", "hello");
 
             // /Root/Child
-            // Verify “Child” node was created
+            // Verify ï¿½Childï¿½ node was created
             XMLVerifier.VerifyElementExists(fileName, "/Root/Child[@key='foo']");
 
-            // Verify “Child” node has the right text
+            // Verify ï¿½Childï¿½ node has the right text
             XMLVerifier.VerifyElementValue(fileName, "/Root/Child[@key='foo']", "this is text");
 
             // /Root/Child/GrandChild
-            // Verify “GrandChild” has an attribute (“name=Junior”)
+            // Verify ï¿½GrandChildï¿½ has an attribute (ï¿½name=Juniorï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root/Child/GrandChild", "name", "Junior");
 
-            // Verify “GrandChild” has the right text
+            // Verify ï¿½GrandChildï¿½ has the right text
             XMLVerifier.VerifyElementValue(fileName, "/Root/Child/GrandChild", "hi mom");
 
             // /Root/Fragment/Child
-            // Verify Fragment/Child element has a new attribute added (Id=”XmlConfig”)
+            // Verify Fragment/Child element has a new attribute added (Id=ï¿½XmlConfigï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root/Fragment/Child", "Id", "XmlConfig");
 
             // Verify Fragment/Child element has no inner text
@@ -248,15 +240,15 @@ namespace WixTest.Tests.Extensions.UtilExtension
             XMLVerifier.VerifyElementExists(fileName, "/Root[New='hello']", false);
 
             // /Root/Child
-            // Verify “Child” node was deleted
+            // Verify ï¿½Childï¿½ node was deleted
             XMLVerifier.VerifyElementExists(fileName, "/Root/Child[@key='foo']", false);
 
             // /Root/Child/GrandChild
-            // Verify “GrandChild” was deleted
+            // Verify ï¿½GrandChildï¿½ was deleted
             XMLVerifier.VerifyElementExists(fileName, "/Root/Child/GrandChild", false);
 
             // /Root/Fragment/Child
-            // Verify Fragment/Child element still has a new attribute added (Id=”XmlConfig”)
+            // Verify Fragment/Child element still has a new attribute added (Id=ï¿½XmlConfigï¿½)
             XMLVerifier.VerifyAttributeValue(fileName, "/Root/Fragment/Child", "Id", "XmlConfig");
 
             // Verify Fragment/Child element still has no inner text

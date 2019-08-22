@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  <copyright file="TagFolder.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <Property Id="ProductRegid" Value="!(wix.WixTagRegid=InvalidRegid)" />
-
-        <DirectoryRef Id="TARGETDIR">
-            <Directory Id="WixTagFolder" Name="swidtags" ComponentGuidGenerationSeed="0F673797-85FC-49D8-A0D8-B5C81C7C9CDC">
-                <Directory Id="WixTagRegidFolder" Name="!(wix.WixTagRegid=InvalidRegid)" />
-            </Directory>
+        <DirectoryRef Id="WixTagInstallFolder">
+            <Directory Id="WixTagFolder" Name="swidtag" ComponentGuidGenerationSeed="4BAD0C8B-3AF0-BFE3-CC83-094749A1C4B1" />
         </DirectoryRef>
-
-        <SetProperty Action="SetWixTagFolderPerUser" Id="WixTagFolder" Value="[LocalAppDataFolder]" Sequence="both" Before="CostFinalize">NOT ALLUSERS</SetProperty>
-        <SetProperty Action="SetWixTagFolderPerMachine" Id="WixTagFolder" Value="[CommonAppDataFolder]" Sequence="both" Before="CostFinalize">ALLUSERS</SetProperty>
     </Fragment>
 </Wix>

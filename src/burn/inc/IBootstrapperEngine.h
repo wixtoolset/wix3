@@ -1,17 +1,6 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="IBootstrapperEngine.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// IBoostrapperEngine implemented by engine and used by bootstrapper application.
-// </summary>
-//-------------------------------------------------------------------------------------------------
-
 #pragma once
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
+
 
 #define IDERROR -1
 #define IDNOACTION 0
@@ -21,12 +10,15 @@
 #define IDSUSPEND  103
 #define IDRELOAD_BOOTSTRAPPER 104
 
+// Note that ordering of the enumeration values is important.
+// Some code paths use < or > comparisions and simply reording values will break those comparisons.
 enum BOOTSTRAPPER_ACTION
 {
     BOOTSTRAPPER_ACTION_UNKNOWN,
     BOOTSTRAPPER_ACTION_HELP,
     BOOTSTRAPPER_ACTION_LAYOUT,
     BOOTSTRAPPER_ACTION_UNINSTALL,
+    BOOTSTRAPPER_ACTION_CACHE,
     BOOTSTRAPPER_ACTION_INSTALL,
     BOOTSTRAPPER_ACTION_MODIFY,
     BOOTSTRAPPER_ACTION_REPAIR,
@@ -179,8 +171,8 @@ DECLARE_INTERFACE_IID_(IBootstrapperEngine, IUnknown, "6480D616-27A0-44D7-905B-8
         __in_z LPCWSTR wzPackageOrContainerId,
         __in_z_opt LPCWSTR wzPayloadId,
         __in_z LPCWSTR wzUrl,
-        __in_z_opt LPWSTR wzUser,
-        __in_z_opt LPWSTR wzPassword
+        __in_z_opt LPCWSTR wzUser,
+        __in_z_opt LPCWSTR wzPassword
         ) = 0;
 
     STDMETHOD(SetVariableNumeric)(

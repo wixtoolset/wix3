@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="pipe.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Burn Client Server pipe communication handler.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -346,6 +335,7 @@ LExit:
                            communication pipe.
 
 *******************************************************************/
+const LPCWSTR BURN_COMMANDLINE_SWITCH_UNELEVATED = L"burn.unelevated";
 HRESULT PipeLaunchParentProcess(
     __in_z LPCWSTR wzCommandLine,
     __in int nCmdShow,
@@ -428,8 +418,10 @@ extern "C" HRESULT PipeLaunchChildProcess(
     OsGetVersion(&osVersion, &dwServicePack);
     wzVerb = (OS_VERSION_VISTA > osVersion) || !fElevate ? L"open" : L"runas";
 
+    // Since ShellExecuteEx doesn't support passing inherited handles, don't bother with CoreAppendFileHandleSelfToCommandLine.
+    // We could fallback to using ::DuplicateHandle to inject the file handle later if necessary.
     hr = ShelExec(wzExecutablePath, sczParameters, wzVerb, NULL, SW_HIDE, hwndParent, &hProcess);
-    ExitOnFailure1(hr, "Failed to launch elevated child process: %ls", wzExecutablePath);
+    ExitOnFailure(hr, "Failed to launch elevated child process: %ls", wzExecutablePath);
 
     pConnection->dwProcessId = ::GetProcessId(hProcess);
     pConnection->hProcess = hProcess;

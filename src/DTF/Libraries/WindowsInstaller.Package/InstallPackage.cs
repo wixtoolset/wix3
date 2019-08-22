@@ -1,14 +1,4 @@
-//---------------------------------------------------------------------
-// <copyright file="InstallPackage.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>
-// Part of the Deployment Tools Foundation project.
-// </summary>
-//---------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Deployment.WindowsInstaller.Package
 {
@@ -202,6 +192,26 @@ public class InstallPackage : Database
     private delegate void ProcessFilesOnOneMediaDiskHandler(string mediaCab,
         InstallPathMap compressedFileMap, InstallPathMap uncompressedFileMap);
 
+    /// <summary>
+    /// Provides a key (filename) / value (full path) pair where the Binary files can be worked with
+    /// </summary>
+    /// <param name="path">The path to search for files in.  This is NOT recursive.</param>
+    /// <param name="names">The explicit names to search for.  All will be returned if nothing specified.</param>
+    /// <returns>A <see cref="M:System.Colletions.Generic.IDictionary`1{string,string}"/> of the filename/fullpath key value pairs of the directory given.</returns>
+    public virtual IDictionary<string, string> GetFilePaths(string path, ICollection<string> names = null)
+    {
+        IDictionary<string, string> filenameToFullPathMap = new Dictionary<string, string>(100);
+
+        foreach(FileInfo fi in new DirectoryInfo(path).GetFiles())
+        {
+            if (null != names && !names.Contains(fi.Name)) continue;
+
+            filenameToFullPathMap.Add(fi.Name, fi.FullName);
+        }
+
+        return filenameToFullPathMap;
+    }
+
     private void ProcessFilesByMediaDisk(ICollection<string> fileKeys,
         ProcessFilesOnOneMediaDiskHandler diskHandler)
     {
@@ -228,9 +238,9 @@ public class InstallPackage : Database
                 fileView = this.OpenView("SELECT `File`, `Attributes`, `Sequence` " +
                     "FROM `File` ORDER BY `Sequence`");
                 mediaView = this.OpenView("SELECT `DiskId`, `LastSequence`, `Cabinet` " +
-                    "FROM `Media` ORDER BY `DiskId`");
+                    "FROM `Media` ORDER BY `DiskId`");               
                 fileView.Execute();
-                mediaView.Execute();
+                mediaView.Execute();                
 
                 int currentMediaDiskId = -1;
                 int currentMediaMaxSequence = -1;
@@ -427,6 +437,7 @@ public class InstallPackage : Database
     {
         this.UpdateFiles(null);
     }
+
     /// <summary>
     /// Updates the install package with new files from the <see cref="WorkingDirectory"/>.  The
     /// files must be in the relative directory matching their <see cref="InstallPath.SourcePath"/>.
@@ -534,11 +545,13 @@ public class InstallPackage : Database
 
             if(cabFileIsTemp)
             {
-                Record streamRec = new Record(1);
-                streamRec.SetStream(1, cabFile);
-                this.Execute(String.Format(
-                    "UPDATE `_Streams` SET `Data` = ? WHERE `Name` = '{0}'", mediaCab),
-                    streamRec);
+              using (Record streamRec = new Record(1))
+              {
+                  streamRec.SetStream(1, cabFile);
+                  this.Execute(String.Format(
+                      "UPDATE `_Streams` SET `Data` = ? WHERE `Name` = '{0}'", mediaCab),
+                      streamRec);
+              }
             }
         }
 
@@ -748,7 +761,17 @@ public class InstallPackage : Database
         }
     }
 
-    private void ClearReadOnlyAttribute(string baseDirectory, IEnumerable filePaths)
+    /// <summary>
+    /// Clears the +R flag on the specified files in the directory of your choice.
+    /// </summary>
+    /// <param name="baseDirectory">
+    /// This base path is prepended to each item in the <paramref name="filePaths"/> collection.
+    /// </param>
+    /// <param name="filePaths">
+    /// A <seealso cref="IEnumerable"/> collection of filePaths.  If the objects within override ToString to return a valid path relative to
+    /// <paramref name="baseDirectory"/> this method will work.
+    /// </param>
+    public static void ClearReadOnlyAttribute(string baseDirectory, IEnumerable filePaths)
     {
         foreach(object filePath in filePaths)
         {

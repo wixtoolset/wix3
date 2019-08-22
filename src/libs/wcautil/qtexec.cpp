@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="qtexec.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Executes command line instructions without popping up a shell.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -52,12 +41,12 @@ static HRESULT CreatePipes(
     // Create pipes
     if (!::CreatePipe(&hOutTemp, &hOutWrite, &sa, 0))
     {
-        ExitOnLastError(hr, "failed to create output pipe");
+        ExitOnLastError(hr, "Failed to create output pipe");
     }
 
     if (!::CreatePipe(&hInRead, &hInTemp, &sa, 0))
     {
-        ExitOnLastError(hr, "failed to create input pipe");
+        ExitOnLastError(hr, "Failed to create input pipe");
     }
 
 
@@ -65,19 +54,19 @@ static HRESULT CreatePipes(
     // the same pipe
     if (!::DuplicateHandle(::GetCurrentProcess(), hOutWrite, ::GetCurrentProcess(), &hErrWrite, 0, TRUE, DUPLICATE_SAME_ACCESS))
     {
-        ExitOnLastError(hr, "failed to duplicate write handle");
+        ExitOnLastError(hr, "Failed to duplicate write handle");
     }
 
     // We need to create new output read and input write handles that are
     // non inheritable.  Otherwise it creates handles that can't be closed.
     if (!::DuplicateHandle(::GetCurrentProcess(), hOutTemp, ::GetCurrentProcess(), &hOutRead, 0, FALSE, DUPLICATE_SAME_ACCESS))
     {
-        ExitOnLastError(hr, "failed to duplicate output pipe");
+        ExitOnLastError(hr, "Failed to duplicate output pipe");
     }
 
     if (!::DuplicateHandle(::GetCurrentProcess(), hInTemp, ::GetCurrentProcess(), &hInWrite, 0, FALSE, DUPLICATE_SAME_ACCESS))
     {
-        ExitOnLastError(hr, "failed to duplicate input pipe");
+        ExitOnLastError(hr, "Failed to duplicate input pipe");
     }
 
     // now that everything has succeeded, assign to the outputs
@@ -108,7 +97,8 @@ LExit:
     return hr;
 }
 
-static HRESULT LogOutput(
+static HRESULT HandleOutput(
+    __in BOOL fLogOutput,
     __in HANDLE hRead
     )
 {
@@ -136,76 +126,79 @@ static HRESULT LogOutput(
             ExitOnLastError(hr, "Failed to read from handle.");
         }
 
-        // Check for UNICODE or ANSI output
-        if (bFirst)
+        if (fLogOutput)
         {
-            if ((isgraph(pBuffer[0]) && isgraph(pBuffer[1])) ||
-                (isgraph(pBuffer[0]) && isspace(pBuffer[1])) ||
-                (isspace(pBuffer[0]) && isgraph(pBuffer[1])) ||
-                (isspace(pBuffer[0]) && isspace(pBuffer[1])))
+            // Check for UNICODE or ANSI output
+            if (bFirst)
             {
-                bUnicode = FALSE;
+                if ((isgraph(pBuffer[0]) && isgraph(pBuffer[1])) ||
+                    (isgraph(pBuffer[0]) && isspace(pBuffer[1])) ||
+                    (isspace(pBuffer[0]) && isgraph(pBuffer[1])) ||
+                    (isspace(pBuffer[0]) && isspace(pBuffer[1])))
+                {
+                    bUnicode = FALSE;
+                }
+
+                bFirst = FALSE;
             }
 
-            bFirst = FALSE;
-        }
-
-        // Keep track of output
-        if (bUnicode)
-        {
-            hr = StrAllocConcat(&szLog, (LPCWSTR)pBuffer, 0);
-            ExitOnFailure(hr, "failed to concatenate output strings");
-        }
-        else
-        {
-            hr = StrAllocStringAnsi(&szTemp, (LPCSTR)pBuffer, 0, CP_OEMCP);
-            ExitOnFailure(hr, "failed to allocate output string");
-            hr = StrAllocConcat(&szLog, szTemp, 0);
-            ExitOnFailure(hr, "failed to concatenate output strings");
-        }
-
-        // Log each line of the output
-        pNext = szLog;
-        pEnd = wcschr(szLog, L'\r');
-        if (NULL == pEnd)
-        {
-            pEnd = wcschr(szLog, L'\n');
-        }
-        while (pEnd && *pEnd)
-        {
-            // Find beginning of next line
-            pEnd[0] = 0;
-            ++pEnd;
-            if ((pEnd[0] == L'\r') || (pEnd[0] == L'\n'))
+            // Keep track of output
+            if (bUnicode)
             {
-                ++pEnd;
+                hr = StrAllocConcat(&szLog, (LPCWSTR)pBuffer, 0);
+                ExitOnFailure(hr, "Failed to concatenate output strings");
+            }
+            else
+            {
+                hr = StrAllocStringAnsi(&szTemp, (LPCSTR)pBuffer, 0, CP_OEMCP);
+                ExitOnFailure(hr, "Failed to allocate output string");
+                hr = StrAllocConcat(&szLog, szTemp, 0);
+                ExitOnFailure(hr, "Failed to concatenate output strings");
             }
 
-            // Log output
-            hr = StrAllocString(&sczEscaped, pNext, 0);
-            ExitOnFailure(hr, "Failed to allocate copy of string");
-
-            hr = StrReplaceStringAll(&sczEscaped, L"%", L"%%");
-            ExitOnFailure(hr, "Failed to escape percent signs in string");
-
-            hr = StrAnsiAllocString(&szWrite, sczEscaped, 0, CP_OEMCP);
-            ExitOnFailure(hr, "failed to convert output to ANSI");
-            WcaLog(LOGMSG_STANDARD, szWrite);
-
-            // Next line
-            pNext = pEnd;
-            pEnd = wcschr(pNext, L'\r');
+            // Log each line of the output
+            pNext = szLog;
+            pEnd = wcschr(szLog, L'\r');
             if (NULL == pEnd)
             {
-                pEnd = wcschr(pNext, L'\n');
+                pEnd = wcschr(szLog, L'\n');
             }
+            while (pEnd && *pEnd)
+            {
+                // Find beginning of next line
+                pEnd[0] = 0;
+                ++pEnd;
+                if ((pEnd[0] == L'\r') || (pEnd[0] == L'\n'))
+                {
+                    ++pEnd;
+                }
+
+                // Log output
+                hr = StrAllocString(&sczEscaped, pNext, 0);
+                ExitOnFailure(hr, "Failed to allocate copy of string");
+
+                hr = StrReplaceStringAll(&sczEscaped, L"%", L"%%");
+                ExitOnFailure(hr, "Failed to escape percent signs in string");
+
+                hr = StrAnsiAllocString(&szWrite, sczEscaped, 0, CP_OEMCP);
+                ExitOnFailure(hr, "Failed to convert output to ANSI");
+                WcaLog(LOGMSG_STANDARD, szWrite);
+
+                // Next line
+                pNext = pEnd;
+                pEnd = wcschr(pNext, L'\r');
+                if (NULL == pEnd)
+                {
+                    pEnd = wcschr(pNext, L'\n');
+                }
+            }
+
+            hr = StrAllocString(&szTemp, pNext, 0);
+            ExitOnFailure(hr, "Failed to allocate string");
+
+            hr = StrAllocString(&szLog, szTemp, 0);
+            ExitOnFailure(hr, "Failed to allocate string");
         }
-
-        hr = StrAllocString(&szTemp, pNext, 0);
-        ExitOnFailure(hr, "failed to allocate string");
-
-        hr = StrAllocString(&szLog, szTemp, 0);
-        ExitOnFailure(hr, "failed to allocate string");
     }
 
     // Print any text that didn't end with a new line
@@ -215,7 +208,7 @@ static HRESULT LogOutput(
         ExitOnFailure(hr, "Failed to escape percent signs in string");
 
         hr = StrAnsiAllocString(&szWrite, szLog, 0, CP_OEMCP);
-        ExitOnFailure(hr, "failed to convert output to ANSI");
+        ExitOnFailure(hr, "Failed to convert output to ANSI");
 
         WcaLog(LOGMSG_VERBOSE, szWrite);
     }
@@ -236,6 +229,16 @@ HRESULT WIXAPI QuietExec(
     __in DWORD dwTimeout
     )
 {
+    return QuietExecEx(wzCommand, dwTimeout, TRUE, TRUE);
+}
+
+HRESULT WIXAPI QuietExecEx(
+    __inout_z LPWSTR wzCommand,
+    __in DWORD dwTimeout,
+    __in BOOL fLogCommand,
+    __in BOOL fLogOutput
+    )
+{
     HRESULT hr = S_OK;
     PROCESS_INFORMATION oProcInfo;
     STARTUPINFOW oStartInfo;
@@ -251,7 +254,7 @@ HRESULT WIXAPI QuietExec(
 
     // Create output redirect pipes
     hr = CreatePipes(&hOutRead, &hOutWrite, &hErrWrite, &hInRead, &hInWrite);
-    ExitOnFailure(hr, "failed to create output pipes");
+    ExitOnFailure(hr, "Failed to create output pipes");
 
     // Set up startup structure
     oStartInfo.cb = sizeof(STARTUPINFOW);
@@ -260,7 +263,11 @@ HRESULT WIXAPI QuietExec(
     oStartInfo.hStdOutput = hOutWrite;
     oStartInfo.hStdError = hErrWrite;
 
-    WcaLog(LOGMSG_VERBOSE, "%ls", wzCommand);
+    // Log command if we were asked to do so
+    if (fLogCommand)
+    {
+        WcaLog(LOGMSG_VERBOSE, "%ls", wzCommand);
+    }
 
 #pragma prefast(suppress:25028)
     if (::CreateProcessW(NULL,
@@ -281,8 +288,8 @@ HRESULT WIXAPI QuietExec(
         ReleaseFile(hErrWrite);
         ReleaseFile(hInRead);
 
-        // Log output
-        LogOutput(hOutRead);
+        // Log output if we were asked to do so; otherwise just read the output handle
+        HandleOutput(fLogOutput, hOutRead);
 
         // Wait for everything to finish
         ::WaitForSingleObject(oProcInfo.hProcess, dwTimeout);

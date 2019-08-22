@@ -1,14 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="messages.xml" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
-  The messages for the Windows Installer XML Toolset Gaming Extension.
--->
+
 <Messages Namespace="Microsoft.Tools.WindowsInstallerXml.Extensions" Resources="Data.Messages" xmlns="http://schemas.microsoft.com/genmsgs/2004/07/messages">
     <Class Name="TagErrors" ContainerName="TagErrorEventArgs" BaseContainerName="WixErrorEventArgs">
         <Message Id="IllegalName" Number="6601">
@@ -16,6 +9,20 @@
                 The Tag/@Name attribute value, '{1}', contains invalid filename identifiers. The Tag/@Name may have defaulted from the {0}/@Name attrbute. If so, use the Tag/@Name attribute to provide a valid filename. Any character except for the follow may be used: \ ? | > &lt; : / * ".
                 <Parameter Type="System.String" Name="parentElement" />
                 <Parameter Type="System.String" Name="name" />
+            </Instance>
+        </Message>
+        <Message Id="ExampleRegid" Number="6602">
+            <Instance>
+                Regid '{0}' is a placeholder that must be replaced with an appropriate value for your installation. Use the simplified URI for your organization or project.
+                <Parameter Type="System.String" Name="regid" />
+            </Instance>
+        </Message>
+    </Class>
+    <Class Name="TagWarnings" ContainerName="TagWarningEventArgs" BaseContainerName="WixWarningEventArgs">
+        <Message Id="DeprecatedRegidFormat" Number="6701">
+            <Instance>
+                Regid '{0}' uses the deprecated format "regid.YYYY-MM.com.example" so the tag will be ignored. Regid should now be a simplified URI such as "example.com".
+                <Parameter Type="System.String" Name="regid" />
             </Instance>
         </Message>
     </Class>

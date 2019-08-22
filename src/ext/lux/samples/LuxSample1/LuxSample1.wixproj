@@ -1,4 +1,8 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -26,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixLuxExtension">
-      <HintPath>..\..\..\..\build\debug\x86\WixLuxExtension.dll</HintPath>
+      <HintPath>..\..\..\..\..\build\debug\x86\WixLuxExtension.dll</HintPath>
     </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

@@ -1,12 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="NetFx4.5.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
   <!--
@@ -23,6 +18,14 @@
   <?define NetFx45EulaLink =  http://go.microsoft.com/fwlink/?LinkID=260867 ?>
 
   <Fragment>
+    <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
+    <Property Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_45_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx45MinRelease)"
+    </SetProperty>
+  </Fragment>
+
+  <Fragment>
     <util:RegistrySearch
         Id="NETFRAMEWORK45"
         Variable="NETFRAMEWORK45"
@@ -36,7 +39,10 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx45Web" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx45EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx45EulaLink)" Overridable="yes" />
+    <WixVariable Id="NetFx45WebDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx45MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx45WebInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx45WebPackageDirectory" Value="redist\" Overridable="yes" />
 
     <PackageGroup Id="NetFx45Web">
       <ExePackage
@@ -44,7 +50,8 @@
           RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx45FullWebLog].html&quot;"
           UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx45FullWebLog].html&quot;"
           PerMachine="yes"
-          DetectCondition="NETFRAMEWORK45 &gt;= $(var.NetFx45MinRelease)"
+          DetectCondition="!(wix.NetFx45WebDetectCondition)"
+          InstallCondition="!(wix.NetFx45WebInstallCondition)"
           Id="NetFx45Web"
           Vital="yes"
           Permanent="yes"
@@ -52,7 +59,7 @@
           DownloadUrl="$(var.NetFx45WebLink)"
           LogPathVariable="NetFx45FullWebLog"
           Compressed="no"
-          Name="redist\dotNetFx45_Full_setup.exe">
+          Name="!(wix.NetFx45WebPackageDirectory)dotNetFx45_Full_setup.exe">
         <RemotePayload
             Size="1005568"
             Version="4.5.50709.17929"
@@ -69,7 +76,10 @@
     <util:RegistrySearchRef Id="NETFRAMEWORK45"/>
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="NetFx45Redist" />
-    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx45EulaLink)" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="$(var.NetFx45EulaLink)" Overridable="yes" />
+    <WixVariable Id="NetFx45RedistDetectCondition" Value="NETFRAMEWORK45 &gt;= $(var.NetFx45MinRelease)" Overridable="yes" />
+    <WixVariable Id="NetFx45RedistInstallCondition" Value="" Overridable="yes" />
+    <WixVariable Id="NetFx45RedistPackageDirectory" Value="redist\" Overridable="yes" />
 
     <PackageGroup Id="NetFx45Redist">
       <ExePackage
@@ -77,7 +87,8 @@
           RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx45FullLog].html&quot;"
           UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot; /log &quot;[NetFx45FullLog].html&quot;"
           PerMachine="yes"
-          DetectCondition="NETFRAMEWORK45 &gt;= $(var.NetFx45MinRelease)"
+          DetectCondition="!(wix.NetFx45RedistDetectCondition)"
+          InstallCondition="!(wix.NetFx45RedistInstallCondition)"
           Id="NetFx45Redist"
           Vital="yes"
           Permanent="yes"
@@ -85,7 +96,7 @@
           DownloadUrl="$(var.NetFx45RedistLink)"
           LogPathVariable="NetFx45FullLog"
           Compressed="no"
-          Name="redist\dotNetFx45_Full_x86_x64.exe">
+          Name="!(wix.NetFx45RedistPackageDirectory)dotNetFx45_Full_x86_x64.exe">
         <RemotePayload
             Size="50352408" 
             Version="4.5.50709.17929"

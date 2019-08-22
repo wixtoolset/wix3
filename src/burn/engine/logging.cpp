@@ -1,17 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="logging.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-//
-//    Setup chainer/bootstrapper logging for WiX toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -19,6 +6,7 @@
 static DWORD vdwPackageSequence = 0;
 static const DWORD LOG_OPEN_RETRY_COUNT = 3;
 static const DWORD LOG_OPEN_RETRY_WAIT = 2000;
+static CONST LPWSTR LOG_FAILED_EVENT_LOG_MESSAGE = L"Burn Engine Fatal Error: failed to open log file.";
 
 // structs
 
@@ -171,6 +159,33 @@ LExit:
     return hr;
 }
 
+extern "C" void LoggingOpenFailed()
+{
+    HRESULT hr = S_OK;
+    HANDLE hEventLog = NULL;
+    LPCWSTR* lpStrings = const_cast<LPCWSTR*>(&LOG_FAILED_EVENT_LOG_MESSAGE);
+    WORD wNumStrings = 1;
+
+    hr = LogOpen(NULL, L"Setup", L"_Failed", L"txt", FALSE, FALSE, NULL);
+    if (SUCCEEDED(hr))
+    {
+        ExitFunction();
+    }
+
+    // If opening the "failure" log failed, then attempt to record that in the Application event log.
+    hEventLog = ::OpenEventLogW(NULL, L"Application");
+    ExitOnNullWithLastError(hEventLog, hr, "Failed to open Application event log");
+
+    hr = ::ReportEventW(hEventLog, EVENTLOG_ERROR_TYPE, 1, 1, NULL, wNumStrings, 0, lpStrings, NULL);
+    ExitOnNullWithLastError(hEventLog, hr, "Failed to write event log entry");
+
+LExit:
+    if (hEventLog)
+    {
+        ::CloseEventLog(hEventLog);
+    }
+}
+
 extern "C" void LoggingIncrementPackageSequence()
 {
     ++vdwPackageSequence;
@@ -232,6 +247,8 @@ extern "C" LPCSTR LoggingBurnActionToString(
         return "Help";
     case BOOTSTRAPPER_ACTION_LAYOUT:
         return "Layout";
+    case BOOTSTRAPPER_ACTION_CACHE:
+        return "Cache";
     case BOOTSTRAPPER_ACTION_UNINSTALL:
         return "Uninstall";
     case BOOTSTRAPPER_ACTION_INSTALL:

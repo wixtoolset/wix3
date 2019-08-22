@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="Generator.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Helper class to scan object files for unit tests.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Lux
 {
@@ -17,6 +6,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.IO;
+    using System.Linq;
     using System.Xml;
     using Microsoft.Tools.WindowsInstallerXml;
 
@@ -30,7 +20,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
     {
         private StringCollection extensionList = new StringCollection();
         private List<string> inputFiles = new List<string>();
-        private List<string> inputFragments;
+        private HashSet<string> inputFragments;
         private string outputFile;
 
         /// <summary>
@@ -68,7 +58,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
         /// <summary>
         /// Gets the subset of InputFiles that contain unit tests and should be included in a test package.
         /// </summary>
-        public List<string> InputFragments
+        public IEnumerable<string> InputFragments
         {
             get
             {
@@ -94,9 +84,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
         /// <param name="inputFiles">The WiX object and library files to scan for unit tests.</param>
         /// <param name="outputFile">The optional generated test package source file.</param>
         /// <param name="message">Message handler.</param>
-        /// <param name="inputFragments">The subset of InputFiles that are fragments (i.e., are not entry sections like Product) and should be included in a test package.</param>
-        /// <returns>True if successful or False if there were no unit tests in the input files or a test package couldn't be created.</returns>
-        public static bool Generate(StringCollection extensions, List<string> inputFiles, string outputFile, MessageEventHandler message, out List<string> inputFragments)
+        /// <returns>
+        /// If successful, the subset of InputFiles that are fragments (i.e., are not entry sections like Product) and should be included in a test package.
+        /// If there were no unit tests in the input files or a test package couldn't be created, an empty enumerable.
+        /// </returns>
+        public static IEnumerable<string> Generate(StringCollection extensions, List<string> inputFiles, string outputFile, MessageEventHandler message)
         {
             Generator generator = new Generator();
             generator.Extensions = extensions;
@@ -105,8 +97,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
             generator.Message += message;
 
             bool success = generator.Generate();
-            inputFragments = generator.InputFragments;
-            return success;
+            return success ? generator.InputFragments : Enumerable.Empty<string>();
         }
 
         /// <summary>
@@ -116,8 +107,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
         public bool Generate()
         {
             // get the unit tests included in all the objects
-            List<string> unitTestIds = this.FindUnitTests();
-            if (null == unitTestIds || 0 == unitTestIds.Count)
+            var unitTestIds = this.FindUnitTests();
+            if (!unitTestIds.Any())
             {
                 this.OnMessage(LuxBuildErrors.NoUnitTests());
                 return false;
@@ -154,33 +145,26 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
         /// Find all the unit tests from the WixUnitTest tables in all the input files' sections.
         /// </summary>
         /// <returns>Returns a list of unit test ids.</returns>
-        private List<string> FindUnitTests()
+        private IEnumerable<string> FindUnitTests()
         {
             // get the primary keys for every row from every WixUnitTest table in our sections:
             // voila, we have our unit test ids
-            this.inputFragments = new List<string>();
+            this.inputFragments = new HashSet<string>();
             List<string> unitTestIds = new List<string>();
-            Dictionary<Section, string> sections = this.LoadSections();
+            Dictionary<Section, string> sections = this.LoadFragments();
 
             if (null != sections && 0 < sections.Count)
             {
                 foreach (Section section in sections.Keys)
                 {
-                    if (SectionType.Fragment == section.Type)
-                    {
-                        string file = sections[section];
-                        if (!this.inputFragments.Contains(file))
-                        {
-                            this.inputFragments.Add(file);
-                        }
+                    this.inputFragments.Add(sections[section]);
 
-                        Table unitTestTable = section.Tables["WixUnitTest"];
-                        if (null != unitTestTable)
+                    Table unitTestTable = section.Tables["WixUnitTest"];
+                    if (null != unitTestTable)
+                    {
+                        foreach (Row row in unitTestTable.Rows)
                         {
-                            foreach (Row row in unitTestTable.Rows)
-                            {
-                                unitTestIds.Add(row.GetPrimaryKey('/'));
-                            }
+                            unitTestIds.Add(row.GetPrimaryKey('/'));
                         }
                     }
                 }
@@ -194,7 +178,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
         /// given unit tests.
         /// </summary>
         /// <param name="unitTestIds">List of unit test ids.</param>
-        private void GenerateTestSource(List<string> unitTestIds)
+        private void GenerateTestSource(IEnumerable<string> unitTestIds)
         {
             Wix.Product product = new Wix.Product();
             product.Id = "*";
@@ -223,7 +207,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
 
-            this.OnMessage(LuxBuildVerboses.GeneratingConsumer(this.outputFile, unitTestIds.Count));
+            this.OnMessage(LuxBuildVerboses.GeneratingConsumer(this.outputFile, unitTestIds.Count()));
             using (XmlWriter writer = XmlWriter.Create(this.outputFile, settings))
             {
                 writer.WriteStartDocument();
@@ -232,11 +216,34 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
             }
         }
 
+        private static void LoadSections(string inputFile, IDictionary<Section, string> sectionFiles, SectionCollection sections)
+        {
+            var fragments = new List<Section>();
+
+            foreach (Section section in sections)
+            {
+                if (SectionType.Fragment == section.Type)
+                {
+                    fragments.Add(section);
+                }
+                else
+                {
+                    // reject any file that isn't all fragments
+                    return;
+                }
+            }
+
+            foreach (Section section in fragments)
+            {
+                sectionFiles[section] = inputFile;
+            }
+        }
+
         /// <summary>
         /// Load sections from the input files.
         /// </summary>
         /// <returns>Returns a section collection.</returns>
-        private Dictionary<Section, string> LoadSections()
+        private Dictionary<Section, string> LoadFragments()
         {
             // we need a Linker and the extensions for their table definitions
             Linker linker = new Linker();
@@ -266,10 +273,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
                         try
                         {
                             Intermediate intermediate = Intermediate.Load(inputFileFullPath, linker.TableDefinitions, false, false);
-                            foreach (Section section in intermediate.Sections)
-                            {
-                                sectionFiles[section] = inputFile;
-                            }
+                            Generator.LoadSections(inputFile, sectionFiles, intermediate.Sections);
                             continue; // next file
                         }
                         catch (WixNotIntermediateException)
@@ -281,10 +285,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Lux
                         try
                         {
                             Library library = Library.Load(inputFileFullPath, linker.TableDefinitions, false, false);
-                            foreach (Section section in library.Sections)
-                            {
-                                sectionFiles[section] = inputFile;
-                            }
+                            Generator.LoadSections(inputFile, sectionFiles, library.Sections);
                             continue; // next file
                         }
                         catch (WixNotLibraryException)

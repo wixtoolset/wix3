@@ -1,21 +1,4 @@
-//---------------------------------------------------------------------
-// <copyright file="SfxCA.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>
-// Main code file for self-extracting managed MSI custom action
-// packages. Extracts to temp working directory, hosts the CLR,
-// and and invokes an entry point in an extracted module.
-//
-// Optionally, all of this can be done in a separate process
-// with a remote-MSI-API channel hooked up through a named pipe.
-//
-// Part of the Deployment Tools Foundation project.
-// </summary>
-//---------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 #include "EntryPoints.h"

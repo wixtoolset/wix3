@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="NetFxExtension.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
   <!--
@@ -31,6 +26,13 @@
   <Fragment>
     <Property Id="WINDOWSSDKCURRENTVERSION" Secure="yes">
       <RegistrySearch Id="WindowsSdkCurrentVersion" Root="HKLM" Key="Software\Microsoft\Microsoft SDKs\Windows" Name="CurrentVersion" Type="raw" />
+    </Property>
+  </Fragment>
+
+  <!-- Release value of .NET 4.5 and later -->
+  <Fragment>
+    <Property Id="WIXNETFX4RELEASEINSTALLED" Secure="yes">
+      <RegistrySearch Id="NetFx4ReleaseInstalled" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" Name="Release" Type="raw" />
     </Property>
   </Fragment>
 

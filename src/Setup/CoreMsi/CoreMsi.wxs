@@ -1,20 +1,15 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  <copyright file="CoreMsi.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 
 <?include WixVer.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Core" Language="1033" Manufacturer="!(loc.Company)"
              Version="$(var.WixMsiProductVersion)" UpgradeCode="3618724B-2523-44F9-A908-866AA619504D">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
-        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" />
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
@@ -46,6 +41,11 @@
                 <RemoveFolder Id="CleanupShortcutFolder" Directory="ShortcutFolder" On="uninstall" />
             </Component>
 
+            <Component Directory="BinFolder">
+                <File Source="common\wixtoolset.org.ico" />
+                <util:InternetShortcut Id="wixtoolset.org" Directory="ShortcutFolder" Name="WiX Home Page" Target="http://wixtoolset.org/" IconFile="file://[#wixtoolset.org.ico]" />
+            </Component>
+
             <ComponentGroupRef Id="ToolsetComponents" />
             <ComponentGroupRef Id="ExtensionComponents" />
             <ComponentGroupRef Id="LuxComponents" />
@@ -53,5 +53,9 @@
         </Feature>
 
         <FeatureRef Id="Feature_MSBuild" />
+        <FeatureRef Id="Feature_Intellisense2010" />
+        <FeatureRef Id="Feature_Intellisense2012" />
+        <FeatureRef Id="Feature_Intellisense2013" />
+        <FeatureRef Id="Feature_Intellisense2015" />
     </Product>
 </Wix>

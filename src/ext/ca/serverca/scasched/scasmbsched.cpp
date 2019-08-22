@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="scasmbsched.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Schedule deferred custom action to create file shares.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -227,11 +216,22 @@ HRESULT ScaSmbRead(SCA_SMB** ppssList)
         }
         hr = HRESULT_FROM_WIN32(er);
         ExitOnFailure(hr, "Failed to get Source/TargetPath for Directory");
-        // remove trailing backslash
-        if (dwLen > 0 && wzPath[dwLen-1] == L'\\')
+
+        // If the path is to the root of a drive, then it needs a trailing backslash.
+        // Otherwise, it can't have a trailing backslash.
+        if (3 < dwLen)
         {
-            wzPath[dwLen-1] = 0;
+            if (wzPath[dwLen - 1] == L'\\')
+            {
+                wzPath[dwLen - 1] = 0;
+            }
         }
+        else if (2 == dwLen && wzPath[1] == L':')
+        {
+            wzPath[2] = L'\\';
+            wzPath[3] = 0;
+        }
+
         hr = ::StringCchCopyW(pss->wzDirectory, countof(pss->wzDirectory), wzPath);
         ExitOnFailure(hr, "Failed to copy directory string to smb object");
 

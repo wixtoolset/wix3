@@ -1,16 +1,6 @@
 #pragma once
-//-------------------------------------------------------------------------------------------------
-// <copyright file="strutil.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Header for string helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -101,6 +91,11 @@ HRESULT DAPI StrAnsiAllocConcat(
     __in DWORD_PTR cchSource
     );
 HRESULT __cdecl StrAllocFormatted(
+    __deref_out_z LPWSTR* ppwz,
+    __in __format_string LPCWSTR wzFormat,
+    ...
+    );
+HRESULT __cdecl StrAllocConcatFormatted(
     __deref_out_z LPWSTR* ppwz,
     __in __format_string LPCWSTR wzFormat,
     ...
@@ -233,7 +228,7 @@ HRESULT DAPI MultiSzReplaceString(
     __in_z LPCWSTR pwzString
     );
 
-LPCWSTR wcsistr(
+LPCWSTR DAPI wcsistr(
     __in_z LPCWSTR wzString,
     __in_z LPCWSTR wzCharSet
     );

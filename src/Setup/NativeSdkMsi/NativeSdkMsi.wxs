@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  <copyright file="NativeSdkMsi.wxs" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 <?include WixVer.wxi ?>
 
@@ -14,7 +7,7 @@
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Native $(var.VisualStudioTargetVersion) SDK" Language="1033" Manufacturer="!(loc.Company)"
              Version="$(var.WixMsiProductVersion)" UpgradeCode="C1450CC3-3F3F-481E-AC13-E09FAF44FA54">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
-        <swid:Tag Regid="regid.2008-09.org.wixtoolset" Type="component" />
+        <swid:Tag Regid="!(loc.Regid)" InstallDirectory="INSTALLFOLDER" />
 
         <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed." />
 
@@ -23,7 +16,6 @@
         <Feature Id="NativeSdkFeature" Title="Native $(var.VisualStudioTargetVersion) SDK" Level="1">
             <ComponentGroupRef Id="HeaderComponents" />
             <ComponentGroupRef Id="LibComponents" />
-            <ComponentGroupRef Id="ProjectTemplates" />
         </Feature>
     </Product>
 

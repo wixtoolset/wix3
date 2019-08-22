@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="tables.xml" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
-  <summary>
-    Windows Installer standard table definitions.
-  </summary>
--->
+
 <tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
     <tableDefinition name="ActionText">
         <columnDefinition name="Action" type="string" length="72" primaryKey="yes" modularize="column"
@@ -1528,8 +1519,8 @@
         <columnDefinition name="Directory_" type="string" nullable="yes" length="72"/>
         <columnDefinition name="SourceFile" type="object" length="0"/>
         <columnDefinition name="DiskId" type="number" length="2"/>
-        <columnDefinition name="FileCompression" type="number" length="2"/>
-        <columnDefinition name="ConfigurationData" type="string" length="255"/>
+        <columnDefinition name="FileCompression" type="number" length="2" nullable="yes"/>
+        <columnDefinition name="ConfigurationData" type="string" length="255" nullable="yes"/>
         <columnDefinition name="Feature_" type="string" length="72"/>
     </tableDefinition>
     <tableDefinition name="WixOrdering" createSymbols="yes" unreal="yes">
@@ -1789,6 +1780,14 @@
                 keyTable="ChainPackage" keyColumn="1" description="Reference to a ChainPackage entry in the ChainPackage table for the parent Msi."/>
         <columnDefinition name="ChainPackage_Msp" type="string" length="0" category="identifier" primaryKey="yes"
                 keyTable="ChainPackage" keyColumn="1" description="Reference to a ChainPackage entry in the ChainPackage table for the referenced Msp." />
+    </tableDefinition>
+    <tableDefinition name="WixCommandLine" unreal="yes">
+        <columnDefinition name="ChainPackage_" type="string" length="0" category="identifier" 
+                keyTable="ChainPackage" keyColumn="1" description="Reference to a ChainPackage entry in the ChainPackage table."/>
+        <columnDefinition name="InstallArgument" type="string" length="0" nullable="yes" />
+        <columnDefinition name="UninstallArgument" type="string" length="0" nullable="yes" />
+        <columnDefinition name="RepairArgument" type="string" length="0" nullable="yes" />
+        <columnDefinition name="Condition" type="string" length="0" nullable="yes" />
     </tableDefinition>
     <tableDefinition name="RelatedBundle" unreal="yes">
         <columnDefinition name="Id" type="string" length="38" category="guid" primaryKey="yes" />

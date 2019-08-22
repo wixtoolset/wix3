@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="Binder.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-// Binder core of the Windows Installer Xml toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
@@ -619,6 +608,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
             {
                 // Avoid unnecessary boxing if false.
                 this.core.SetProperty(Binder.PARAM_SPSD_NAME, true);
+            }
+
+            this.core.SetProperty(BinderCore.OutputPath, file);
+
+            if (!String.IsNullOrEmpty(this.outputsFile))
+            {
+                this.core.SetProperty(BinderCore.IntermediateFolder, Path.GetDirectoryName(this.outputsFile));
+            }
+            else if (!String.IsNullOrEmpty(this.contentsFile))
+            {
+                this.core.SetProperty(BinderCore.IntermediateFolder, Path.GetDirectoryName(this.contentsFile));
+            }
+            else if (!String.IsNullOrEmpty(this.builtOutputsFile))
+            {
+                this.core.SetProperty(BinderCore.IntermediateFolder, Path.GetDirectoryName(this.builtOutputsFile));
             }
 
             foreach (BinderExtension extension in this.extensions)
@@ -2054,13 +2058,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
             if (null != this.validator)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-              
+
                 // set the output file for source line information
                 this.validator.Output = output;
 
                 this.core.OnMessage(WixVerboses.ValidatingDatabase());
                 this.core.EncounteredError = !this.validator.Validate(tempDatabaseFile);
-              
+
                 stopwatch.Stop();
                 this.core.OnMessage(WixVerboses.ValidatedDatabase(stopwatch.ElapsedMilliseconds));
 
@@ -3368,6 +3372,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 {
                     payloadInfo.Packaging = bundleInfo.DefaultPackagingType;
                 }
+
+                string normalizedPath = payloadInfo.Name.Replace('\\', '/');
+                if (normalizedPath.StartsWith("../", StringComparison.Ordinal) || normalizedPath.Contains("/../"))
+                {
+                    this.core.OnMessage(WixWarnings.PayloadMustBeRelativeToCache(payloadInfo.SourceLineNumbers, "Payload", "Name", payloadInfo.Name));
+                }
             }
 
             Dictionary<string, ContainerInfo> containers = new Dictionary<string, ContainerInfo>();
@@ -3744,6 +3754,23 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
+            // Load the CommandLine information...
+            Dictionary<string, List<WixCommandLineRow>> commandLinesByPackage = new Dictionary<string, List<WixCommandLineRow>>();
+            Table commandLineTable = bundle.Tables["WixCommandLine"];
+            if (null != commandLineTable && 0 < commandLineTable.Rows.Count)
+            {
+                foreach (WixCommandLineRow row in commandLineTable.Rows)
+                {
+                    if (!commandLinesByPackage.ContainsKey(row.PackageId))
+                    {
+                        commandLinesByPackage.Add(row.PackageId, new List<WixCommandLineRow>());
+                    }
+
+                    List<WixCommandLineRow> commandLines = commandLinesByPackage[row.PackageId];
+                    commandLines.Add(row);
+                }
+            }
+
             // Resolve any delayed fields before generating the manifest.
             if (0 < delayedFields.Count)
             {
@@ -3760,7 +3787,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     ApprovedExeForElevation approvedExeForElevation = new ApprovedExeForElevation(wixApprovedExeForElevationRow);
                     approvedExesForElevation.Add(approvedExeForElevation);
                 }
-            }            
+            }
 
             // Set the overridable bundle provider key.
             this.SetBundleProviderKey(bundle, bundleInfo);
@@ -3829,7 +3856,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             string manifestPath = Path.Combine(this.TempFilesLocation, "bundle-manifest.xml");
-            this.CreateBurnManifest(bundleFile, bundleInfo, bundleUpdateRow, updateRegistrationInfo, manifestPath, allRelatedBundles, allVariables, orderedSearches, allPayloads, chain, containers, catalogs, bundle.Tables["WixBundleTag"], approvedExesForElevation);
+            this.CreateBurnManifest(bundleFile, bundleInfo, bundleUpdateRow, updateRegistrationInfo, manifestPath, allRelatedBundles, allVariables, orderedSearches, allPayloads, chain, containers, catalogs, bundle.Tables["WixBundleTag"], approvedExesForElevation, commandLinesByPackage);
 
             this.UpdateBurnResources(bundleTempPath, bundleFile, bundleInfo);
 
@@ -3880,6 +3907,12 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             // layout media
+            string bundleFilename = Path.GetFileName(bundleFile);
+            if ("setup.exe".Equals(bundleFilename, StringComparison.OrdinalIgnoreCase))
+            {
+                this.core.OnMessage(WixErrors.InsecureBundleFilename(bundleFilename));
+            }
+
             try
             {
                 this.core.OnMessage(WixVerboses.LayingOutMedia());
@@ -4248,7 +4281,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
         }
 
-        private void CreateBurnManifest(string outputPath, WixBundleRow bundleInfo, WixBundleUpdateRow updateRow, WixUpdateRegistrationRow updateRegistrationInfo, string path, List<RelatedBundleInfo> allRelatedBundles, List<VariableInfo> allVariables, List<WixSearchInfo> orderedSearches, Dictionary<string, PayloadInfoRow> allPayloads, ChainInfo chain, Dictionary<string, ContainerInfo> containers, Dictionary<string, CatalogInfo> catalogs, Table wixBundleTagTable, List<ApprovedExeForElevation> approvedExesForElevation)
+        private void CreateBurnManifest(string outputPath, WixBundleRow bundleInfo, WixBundleUpdateRow updateRow, WixUpdateRegistrationRow updateRegistrationInfo, string path, List<RelatedBundleInfo> allRelatedBundles, List<VariableInfo> allVariables, List<WixSearchInfo> orderedSearches, Dictionary<string, PayloadInfoRow> allPayloads, ChainInfo chain, Dictionary<string, ContainerInfo> containers, Dictionary<string, CatalogInfo> catalogs, Table wixBundleTagTable, List<ApprovedExeForElevation> approvedExesForElevation, Dictionary<string, List<WixCommandLineRow>> commandLinesByPackage)
         {
             string executableName = Path.GetFileName(outputPath);
 
@@ -4458,7 +4491,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         writer.WriteStartElement("SoftwareTag");
                         writer.WriteAttributeString("Filename", (string)row[0]);
                         writer.WriteAttributeString("Regid", (string)row[1]);
-                        writer.WriteCData((string)row[4]);
+                        writer.WriteAttributeString("Path", (string)row[3]);
+                        writer.WriteCData((string)row[5]);
                         writer.WriteEndElement();
                     }
                 }
@@ -4609,6 +4643,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         writer.WriteAttributeString("Type", exitCode.Type);
                         writer.WriteAttributeString("Code", exitCode.Code);
                         writer.WriteEndElement();
+                    }
+
+                    if (commandLinesByPackage.ContainsKey(package.Id))
+                    {
+                        foreach (WixCommandLineRow commandLine in commandLinesByPackage[package.Id])
+                        {
+                            writer.WriteStartElement("CommandLine");
+                            writer.WriteAttributeString("InstallArgument", commandLine.InstallArgument);
+                            writer.WriteAttributeString("UninstallArgument", commandLine.UninstallArgument);
+                            writer.WriteAttributeString("RepairArgument", commandLine.RepairArgument);
+                            writer.WriteAttributeString("Condition", commandLine.Condition);
+                            writer.WriteEndElement();
+                        }
                     }
 
                     // Output the dependency information.
@@ -7835,7 +7882,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
 
                 // The new Row has to be inserted just after the last cab in this cabinet split chain according to DiskID Sort
-                // This is because the FDI Extract requires DiskID of Split Cabinets to be continuous. It Fails otherwise with 
+                // This is because the FDI Extract requires DiskID of Split Cabinets to be continuous. It Fails otherwise with
                 // Error 2350 (FDI Server Error) as next DiskID did not have the right split cabinet during extraction
                 MediaRow newMediaRow = (MediaRow)mediaTable.CreateRow(null);
                 newMediaRow.Cabinet = newCabinetName;

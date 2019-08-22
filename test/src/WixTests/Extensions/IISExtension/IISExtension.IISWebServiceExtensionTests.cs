@@ -1,12 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright file="IISExtension.IISWebServiceExtensionTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>IIS Extension IISWebServiceExtension tests</summary>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.Tests.Extensions.IISExtension
 {
@@ -60,7 +52,7 @@ namespace WixTest.Tests.Extensions.IISExtension
         }
 
         [NamedFact]
-        [Description("Install the MSI.Verify that “TestFilter” Was added for website 'Test'.Verify that 'Global Filter' was added as a global filter.Uninstall the MSi Verify that filters are removed")]
+        [Description("Install the MSI.Verify that ï¿½TestFilterï¿½ Was added for website 'Test'.Verify that 'Global Filter' was added as a global filter.Uninstall the MSi Verify that filters are removed")]
         [Priority(2)]
         [RuntimeTest]
         public void IISWebServiceExtension_Install()
@@ -71,18 +63,18 @@ namespace WixTest.Tests.Extensions.IISExtension
             // Install  Msi
             MSIExec.InstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            // Verify that Extension “extension1” is present in the WebSvcExtRestrictionList and is enabled
+            // Verify that Extension ï¿½extension1ï¿½ is present in the WebSvcExtRestrictionList and is enabled
             Assert.True(IISVerifier.WebServiceExtensionExists("WiX Test Extension1"), String.Format("WebServiceExtension '{0}' was not created on Install", "WiX Test Extension1"));
             Assert.True(IISVerifier.WebServiceExtensionEnabled("WiX Test Extension1"), String.Format("WebServiceExtension '{0}' was not Enabled on Install", "WiX Test Extension1"));
             
-            // Verify that Extension “extension2” is present in the WebSvcExtRestrictionList and is disabled
+            // Verify that Extension ï¿½extension2ï¿½ is present in the WebSvcExtRestrictionList and is disabled
             Assert.True(IISVerifier.WebServiceExtensionExists("WiX Test Extension2"), String.Format("WebServiceExtension '{0}' was not created on Install", "WiX Test Extension2"));
             Assert.False(IISVerifier.WebServiceExtensionEnabled("WiX Test Extension2"), String.Format("WebServiceExtension '{0}' was not Disabled on Install", "WiX Test Extension2"));
 
             // UnInstall Msi
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
 
-            // Verify that “WiX Test Extension1” and “WiX Test Extension2” were removed 
+            // Verify that ï¿½WiX Test Extension1ï¿½ and ï¿½WiX Test Extension2ï¿½ were removed 
             Assert.False(IISVerifier.WebServiceExtensionExists("WiX Test Extension1"), String.Format("WebServiceExtension '{0}' was not removed on Uninstall", "WiX Test Extension1"));
             Assert.False(IISVerifier.WebServiceExtensionExists("WiX Test Extension2"), String.Format("WebServiceExtension '{0}' was not removed on Uninstall", "WiX Test Extension2"));
         }

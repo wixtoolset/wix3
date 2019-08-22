@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="pathutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    Path helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -205,6 +194,39 @@ DAPI_(HRESULT) PathGetDirectory(
 
     hr = StrAllocString(psczDirectory, wzPath, cchDirectory);
     ExitOnFailure(hr, "Failed to copy directory.");
+
+LExit:
+    return hr;
+}
+
+
+DAPI_(HRESULT) PathGetParentPath(
+    __in_z LPCWSTR wzPath,
+    __out LPWSTR *psczParent
+    )
+{
+    HRESULT hr = S_OK;
+    LPCWSTR wzParent = NULL;
+
+    for (LPCWSTR wz = wzPath; *wz; ++wz)
+    {
+        if (wz[1] && (L'\\' == *wz || L'/' == *wz))
+        {
+            wzParent = wz;
+        }
+    }
+
+    if (wzParent)
+    {
+        DWORD cchPath = static_cast<DWORD>(wzParent - wzPath) + 1;
+
+        hr = StrAllocString(psczParent, wzPath, cchPath);
+        ExitOnFailure(hr, "Failed to copy directory.");
+    }
+    else
+    {
+        ReleaseNullStr(psczParent);
+    }
 
 LExit:
     return hr;
@@ -608,6 +630,7 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
 
     LPWSTR sczTempPath = NULL;
     HANDLE hTempFile = INVALID_HANDLE_VALUE;
+    DWORD dwAttempts = 0;
 
     if (wzDirectory && *wzDirectory)
     {
@@ -640,6 +663,7 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
     do
     {
         fRetry = FALSE;
+        ++dwAttempts;
 
         ::GetLocalTime(&time);
 
@@ -656,8 +680,11 @@ DAPI_(HRESULT) PathCreateTimeBasedTempFile(
             {
                 ::Sleep(100);
 
-                er = ERROR_SUCCESS;
-                fRetry = TRUE;
+                if (10 > dwAttempts)
+                {
+                    er = ERROR_SUCCESS;
+                    fRetry = TRUE;
+                }
             }
 
             hr = HRESULT_FROM_WIN32(er);

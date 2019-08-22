@@ -1,16 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="WixToolTask.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Base class for WiX tool tasks; executes tools in-process
-// so that repeated invocations are much faster.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
 {
@@ -70,7 +58,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             set { this.runAsSeparateProcess = value; }
         }
 
-#region Common Options
+        #region Common Options
         /// <summary>
         /// Gets or sets whether all warnings should be suppressed.
         /// </summary>
@@ -124,7 +112,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             get { return this.noLogo; }
             set { this.noLogo = value; }
         }
-#endregion
+        #endregion
 
         /// <summary>
         /// Cleans up the ManualResetEvent members
@@ -283,14 +271,26 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             WaitHandle[] waitHandles = new WaitHandle[] { this.messagesAvailable, this.toolExited };
             while (WaitHandle.WaitAny(waitHandles) == 0)
             {
+                string message = null;
+
                 lock (this.messageQueue)
                 {
-                    while (this.messageQueue.Count > 0)
+                    if (this.messageQueue.Count > 0)
                     {
-                        this.LogEventsFromTextOutput(messageQueue.Dequeue(), MessageImportance.Normal);
+                        message = messageQueue.Dequeue();
                     }
+                    else
+                    {
+                        this.messagesAvailable.Reset();
+                    }
+                }
 
-                    this.messagesAvailable.Reset();
+                if (!String.IsNullOrEmpty(message))
+                {
+                    // This log to text output must live outside the message lock to
+                    // prevent dead locks when the WixToolTaskLogger.Write() is called
+                    // inside a Console.WriteLine() call.
+                    this.LogEventsFromTextOutput(message, MessageImportance.Normal);
                 }
             }
         }
@@ -393,24 +393,24 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             /// <remarks>All other Write() variants eventually call into this one.</remarks>
             public override void Write(char value)
             {
-                lock (this.messageQueue)
+                if (value == '\n')
                 {
-                    if (value == '\n')
+                    if (this.buffer.Length > 0 && this.buffer[this.buffer.Length - 1] == '\r')
                     {
-                        if (this.buffer.Length > 0 && this.buffer[this.buffer.Length - 1] == '\r')
-                        {
-                            this.buffer.Length = this.buffer.Length - 1;
-                        }
+                        this.buffer.Length = this.buffer.Length - 1;
+                    }
 
+                    lock (this.messageQueue)
+                    {
                         this.messageQueue.Enqueue(this.buffer.ToString());
                         this.messagesAvailable.Set();
+                    }
 
-                        this.buffer.Length = 0;
-                    }
-                    else
-                    {
-                        this.buffer.Append(value);
-                    }
+                    this.buffer.Length = 0;
+                }
+                else
+                {
+                    this.buffer.Append(value);
                 }
             }
         }

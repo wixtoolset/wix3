@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="msuengine.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: MSU Engine
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -88,12 +77,14 @@ LExit:
 // PlanCalculate - calculates the execute and rollback state for the requested package state.
 //
 extern "C" HRESULT MsuEnginePlanCalculatePackage(
-    __in BURN_PACKAGE* pPackage
+    __in BURN_PACKAGE* pPackage,
+    __out_opt BOOL* pfBARequestedCache
     )
 {
     HRESULT hr = S_OK;
     BOOTSTRAPPER_ACTION_STATE execute = BOOTSTRAPPER_ACTION_STATE_NONE;
     BOOTSTRAPPER_ACTION_STATE rollback = BOOTSTRAPPER_ACTION_STATE_NONE;
+    BOOL fBARequestedCache = FALSE;
 
     BOOL fAllowUninstall = FALSE;
     OS_VERSION osVersion = OS_VERSION_UNKNOWN;
@@ -114,7 +105,8 @@ extern "C" HRESULT MsuEnginePlanCalculatePackage(
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
             break;
 
-        case BOOTSTRAPPER_REQUEST_STATE_ABSENT:
+        case BOOTSTRAPPER_REQUEST_STATE_ABSENT: __fallthrough;
+        case BOOTSTRAPPER_REQUEST_STATE_CACHE:
             execute = fAllowUninstall && pPackage->fUninstallable ? BOOTSTRAPPER_ACTION_STATE_UNINSTALL : BOOTSTRAPPER_ACTION_STATE_NONE;
             break;
 
@@ -124,6 +116,7 @@ extern "C" HRESULT MsuEnginePlanCalculatePackage(
 
         default:
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            break;
         }
         break;
 
@@ -135,8 +128,13 @@ extern "C" HRESULT MsuEnginePlanCalculatePackage(
             execute = BOOTSTRAPPER_ACTION_STATE_INSTALL;
             break;
 
+        case BOOTSTRAPPER_REQUEST_STATE_CACHE:
+            execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            fBARequestedCache = TRUE;
+
         default:
             execute = BOOTSTRAPPER_ACTION_STATE_NONE;
+            break;
         }
         break;
 
@@ -187,6 +185,11 @@ extern "C" HRESULT MsuEnginePlanCalculatePackage(
     // return values
     pPackage->execute = execute;
     pPackage->rollback = rollback;
+
+    if (pfBARequestedCache)
+    {
+        *pfBARequestedCache = fBARequestedCache;
+    }
 
 LExit:
     return hr;

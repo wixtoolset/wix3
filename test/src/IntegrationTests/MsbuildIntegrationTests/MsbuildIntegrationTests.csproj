@@ -1,11 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{B64C011E-4473-499A-A858-E48796222900}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>WixTest.MsbuildIntegrationTests</RootNamespace>
     <AssemblyName>WixTest.MsbuildIntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BuildTests.cs" />
@@ -29,10 +31,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WixTestTools\WixTestTools.csproj">
-      <Project>{55CB1042-647B-4347-9876-3EA607AF8DCE}</Project>
-      <Name>WixTestTools</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\WixTestTools\WixTestTools.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\data\Integration\MsbuildIntegrationTests\SimpleMsi\SimpleMsi.wixproj">

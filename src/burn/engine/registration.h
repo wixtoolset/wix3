@@ -1,17 +1,5 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="registration.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-// </summary>
-//-------------------------------------------------------------------------------------------------
-
 #pragma once
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 
 #if defined(__cplusplus)
@@ -87,6 +75,7 @@ typedef struct _BURN_SOFTWARE_TAG
 {
     LPWSTR sczFilename;
     LPWSTR sczRegid;
+    LPWSTR sczPath;
     LPSTR sczTag;
 } BURN_SOFTWARE_TAG;
 
@@ -196,10 +185,12 @@ HRESULT RegistrationSessionBegin(
     __in DWORD64 qwEstimatedSize
     );
 HRESULT RegistrationSessionResume(
-    __in BURN_REGISTRATION* pRegistration
+    __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables
     );
 HRESULT RegistrationSessionEnd(
     __in BURN_REGISTRATION* pRegistration,
+    __in BURN_VARIABLES* pVariables,
     __in BURN_RESUME_MODE resumeMode,
     __in BOOTSTRAPPER_APPLY_RESTART restart,
     __in BURN_DEPENDENCY_REGISTRATION_ACTION dependencyRegistrationAction

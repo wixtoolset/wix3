@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="TagCompiler.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// The compiler for the Windows Installer XML Toolset Software Id Tag Extension.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 {
@@ -24,6 +13,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
     /// </summary>
     public sealed class TagCompiler : CompilerExtension
     {
+        private static readonly string TagFolderId = "WixTagFolder";
+        private const int MsidbComponentAttributes64bit = 256;
+
         private XmlSchema schema;
 
         /// <summary>
@@ -102,8 +94,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             SourceLineNumberCollection sourceLineNumbers = Preprocessor.GetSourceLineNumbers(node);
             string name = null;
             string regid = null;
-            YesNoType licensed = YesNoType.NotSet;
-            string type = null;
+            string installPath = null;
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -117,11 +108,18 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         case "Regid":
                             regid = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
                             break;
+                        case "InstallDirectory":
+                        case "Win64":
+                            this.Core.OnMessage(WixErrors.ExpectedParentWithAttribute(sourceLineNumbers, node.Name, attrib.Name, "Product"));
+                            break;
+                        case "InstallPath":
+                            installPath = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
+                            break;
                         case "Licensed":
-                            licensed = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            this.Core.OnMessage(WixWarnings.DeprecatedAttribute(sourceLineNumbers, node.Name, attrib.Name));
                             break;
                         case "Type":
-                            type = this.ParseTagTypeAttribute(sourceLineNumbers, node, attrib);
+                            this.Core.OnMessage(WixWarnings.DeprecatedAttribute(sourceLineNumbers, node.Name, attrib.Name));
                             break;
                         default:
                             this.Core.UnexpectedAttribute(sourceLineNumbers, attrib);
@@ -171,21 +169,31 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             {
                 this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Regid"));
             }
+            else if (regid.StartsWith("regid."))
+            {
+                this.Core.OnMessage(TagWarnings.DeprecatedRegidFormat(sourceLineNumbers, regid));
+                return;
+            }
+            else if (regid.Equals("example.com", StringComparison.OrdinalIgnoreCase))
+            {
+                this.Core.OnMessage(TagErrors.ExampleRegid(sourceLineNumbers, regid));
+                return;
+            }
+
+            if (String.IsNullOrEmpty(installPath))
+            {
+                this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "InstallPath"));
+            }
 
             if (!this.Core.EncounteredError)
             {
-                string fileName = String.Concat(regid, " ", name, ".swidtag");
+                string fileName = String.Concat(name, ".swidtag");
 
                 Row tagRow = this.Core.CreateRow(sourceLineNumbers, "WixBundleTag");
                 tagRow[0] = fileName;
                 tagRow[1] = regid;
                 tagRow[2] = name;
-                if (YesNoType.Yes == licensed)
-                {
-                    tagRow[3] = 1;
-                }
-                // field 4 is the TagXml set by the binder.
-                tagRow[5] = type;
+                tagRow[3] = installPath;
             }
         }
 
@@ -199,8 +207,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string name = null;
             string regid = null;
             string feature = "WixSwidTag";
-            YesNoType licensed = YesNoType.NotSet;
-            string type = null; ;
+            string installDirectory = null;
+            bool win64 = (Platform.IA64 == this.Core.CurrentPlatform || Platform.X64 == this.Core.CurrentPlatform);
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -217,11 +225,20 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                         case "Feature":
                             feature = this.Core.GetAttributeIdentifierValue(sourceLineNumbers, attrib);
                             break;
+                        case "InstallDirectory":
+                            installDirectory = this.Core.GetAttributeIdentifierValue(sourceLineNumbers, attrib);
+                            break;
+                        case "InstallPath":
+                            this.Core.OnMessage(WixErrors.ExpectedParentWithAttribute(sourceLineNumbers, node.Name, attrib.Name, "Bundle"));
+                            break;
                         case "Licensed":
-                            licensed = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            this.Core.OnMessage(WixWarnings.DeprecatedAttribute(sourceLineNumbers, node.Name, attrib.Name));
                             break;
                         case "Type":
-                            type = this.ParseTagTypeAttribute(sourceLineNumbers, node, attrib);
+                            this.Core.OnMessage(WixWarnings.DeprecatedAttribute(sourceLineNumbers, node.Name, attrib.Name));
+                            break;
+                        case "Win64":
+                            win64 = (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib));
                             break;
                         default:
                             this.Core.UnexpectedAttribute(sourceLineNumbers, attrib);
@@ -271,23 +288,44 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             {
                 this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Regid"));
             }
+            else if (regid.StartsWith("regid."))
+            {
+                this.Core.OnMessage(TagWarnings.DeprecatedRegidFormat(sourceLineNumbers, regid));
+                return;
+            }
+            else if (regid.Equals("example.com", StringComparison.OrdinalIgnoreCase))
+            {
+                this.Core.OnMessage(TagErrors.ExampleRegid(sourceLineNumbers, regid));
+                return;
+            }
+
+            if (String.IsNullOrEmpty(installDirectory))
+            {
+                this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "InstallDirectory"));
+            }
 
             if (!this.Core.EncounteredError)
             {
-                string directoryId = "WixTagRegidFolder";
                 string fileId = this.Core.GenerateIdentifier("tag", regid, ".product.tag");
-                string fileName = String.Concat(regid, " ", name, ".swidtag");
+                string fileName = String.Concat(name, ".swidtag");
                 string shortName = this.Core.GenerateShortName(fileName, false, false);
 
-                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "Directory", directoryId);
+                Row directoryRow = this.Core.CreateRow(sourceLineNumbers, "Directory");
+                directoryRow[0] = "WixTagInstallFolder";
+                directoryRow[1] = installDirectory;
+                directoryRow[2] = ".";
+
+                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "Directory", installDirectory);
 
                 ComponentRow componentRow = (ComponentRow)this.Core.CreateRow(sourceLineNumbers, "Component");
                 componentRow.Component = fileId;
                 componentRow.Guid = "*";
-                componentRow[3] = 0;
-                componentRow.Directory = directoryId;
+                componentRow[3] = (win64 ? TagCompiler.MsidbComponentAttributes64bit : 0);
+                componentRow.Directory = TagCompiler.TagFolderId;
                 componentRow.IsLocalOnly = true;
                 componentRow.KeyPath = fileId;
+
+                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "Directory", TagCompiler.TagFolderId);
 
                 this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "Feature", feature);
                 this.Core.CreateComplexReference(sourceLineNumbers, ComplexReferenceParentType.Feature, feature, null, ComplexReferenceChildType.Component, fileId, true);
@@ -298,22 +336,17 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 fileRow.FileName = String.Concat(shortName, "|", fileName);
 
                 WixFileRow wixFileRow = (WixFileRow)this.Core.CreateRow(sourceLineNumbers, "WixFile");
-                wixFileRow.Directory = directoryId;
+                wixFileRow.Directory = TagCompiler.TagFolderId;
                 wixFileRow.File = fileId;
                 wixFileRow.DiskId = 1;
                 wixFileRow.Attributes = 1;
-                wixFileRow.Source = String.Concat("%TEMP%\\", fileName);
+                wixFileRow.Source = fileName;
 
                 this.Core.EnsureTable(sourceLineNumbers, "SoftwareIdentificationTag");
                 Row row = this.Core.CreateRow(sourceLineNumbers, "WixProductTag");
                 row[0] = fileId;
                 row[1] = regid;
                 row[2] = name;
-                if (YesNoType.Yes == licensed)
-                {
-                    row[3] = 1;
-                }
-                row[4] = type;
 
                 this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "File", fileId);
             }
@@ -367,40 +400,22 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             {
                 this.Core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Regid"));
             }
+            else if (regid.StartsWith("regid."))
+            {
+                this.Core.OnMessage(TagWarnings.DeprecatedRegidFormat(sourceLineNumbers, regid));
+                return;
+            }
+            else if (regid.Equals("example.com", StringComparison.OrdinalIgnoreCase))
+            {
+                this.Core.OnMessage(TagErrors.ExampleRegid(sourceLineNumbers, regid));
+                return;
+            }
 
             if (!this.Core.EncounteredError)
             {
                 string[] id = new string[] { this.Core.GenerateIdentifier("tag", regid, ".product.tag") };
                 this.Core.AddPatchFamilyChildReference(sourceLineNumbers, "Component", id);
             }
-        }
-
-        private string ParseTagTypeAttribute(SourceLineNumberCollection sourceLineNumbers, XmlNode node, XmlAttribute attrib)
-        {
-            string typeValue = this.Core.GetAttributeValue(sourceLineNumbers, attrib);
-            switch (typeValue)
-            {
-                case "application":
-                    typeValue = "Application";
-                    break;
-                case "component":
-                    typeValue = "Component";
-                    break;
-                case "feature":
-                    typeValue = "Feature";
-                    break;
-                case "group":
-                    typeValue = "Group";
-                    break;
-                case "patch":
-                    typeValue = "Patch";
-                    break;
-                default:
-                    this.Core.OnMessage(WixErrors.IllegalAttributeValue(sourceLineNumbers, node.Name, attrib.LocalName, typeValue, "application", "component", "feature", "group", "patch"));
-                    break;
-            }
-
-            return typeValue;
         }
     }
 }

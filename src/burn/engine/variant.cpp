@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="variant.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -447,11 +436,11 @@ static HRESULT BVariantEncryptNumeric(
 
     if (fEncrypt)
     {
-        hr = CrypEncryptMemory(&pVariant->llValue, sizeof(pVariant->llValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypEncryptMemory(&pVariant->llValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
     else
     {
-        hr = CrypDecryptMemory(&pVariant->llValue, sizeof(pVariant->llValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypDecryptMemory(&pVariant->llValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
 
 //LExit:
@@ -483,7 +472,7 @@ static HRESULT BVariantEncryptString(
     if ((MAXDWORD - extraNeeded) < cbData)
     {
         hr = E_INVALIDDATA;
-        ExitOnFailure1(hr, "The string is too big: size %u", cbData);
+        ExitOnFailure(hr, "The string is too big: size %u", cbData);
     }
     else if (0 < extraNeeded)
     {
@@ -516,11 +505,11 @@ static HRESULT BVariantEncryptVersion(
 
     if (fEncrypt)
     {
-        hr = CrypEncryptMemory(&pVariant->qwValue, sizeof(pVariant->qwValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypEncryptMemory(&pVariant->qwValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
     else
     {
-        hr = CrypDecryptMemory(&pVariant->qwValue, sizeof(pVariant->qwValue), VARIANT_ENCRYPTION_SCOPE);
+        hr = CrypDecryptMemory(&pVariant->qwValue, sizeof(pVariant->encryptionPadding), VARIANT_ENCRYPTION_SCOPE);
     }
 
 //LExit:

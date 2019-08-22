@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="tables.xml" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
-<!--
-  The table definitions for the Windows Installer XML Toolset Bal Extension.
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <tableDefinitions xmlns="http://schemas.microsoft.com/wix/2006/tables">
     <tableDefinition name="WixBalCondition" bootstrapperApplicationData="yes">
         <columnDefinition name="Condition" type="string" length="255" primaryKey="yes" localizable="yes"
@@ -32,6 +24,17 @@
                 maxValue="1" description="If 1, don't show Repair button during maintenance."/>
         <columnDefinition name="ShowVersion" type="number" length="2" nullable="yes"
                 maxValue="1" description="If 1, show the version number on the UI."/>
+        <columnDefinition name="ShowFilesInUse" type="number" length="2" nullable="yes"
+                maxValue="1" description="If 1, show a special page when files are in use."/>
+        <columnDefinition name="SupportCacheOnly" type="number" length="2" nullable="yes"
+                maxValue="1" description="If 1, the bundle can be pre-cached using the /cache command line argument."/>
+    </tableDefinition>
+
+    <tableDefinition name="WixStdbaSettings" bootstrapperApplicationData="yes">
+        <columnDefinition name="Name" type="string" length="255" primaryKey="yes" 
+                category="identifier" description="Option variable name."/>
+        <columnDefinition name="Value" type="string" length="0" nullable="yes"
+                category="text" description="Option variable value"/>
     </tableDefinition>
 
     <tableDefinition name="WixStdbaOverridableVariable" bootstrapperApplicationData="yes">

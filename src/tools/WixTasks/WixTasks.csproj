@@ -1,12 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-  <copyright file="WixTasks.csproj" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{21E8F2D3-EF19-49C8-88CA-A22C5B91DFDC}</ProjectGuid>
@@ -15,7 +10,6 @@
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Build.Tasks</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <CreateDocumentationFile>true</CreateDocumentationFile>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
@@ -58,13 +52,10 @@
     <Content Include="wix.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="wix200x.targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="wix2010.targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="wix.ca.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wix.nativeca.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -76,7 +67,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <ProjectReference Include="..\..\dtf\Libraries\WindowsInstaller\WindowsInstaller.csproj" />
@@ -84,12 +75,4 @@
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
-<!--
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="$(TargetPath);$(OutDir)wix.targets;$(OutDir)wix200x.targets;$(OutDir)wix2010.targets" DestinationFolder="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\" SkipUnchangedFiles="true" ContinueOnError="true" />
-    <CreateItem Include="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\$(TargetFileName);$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix.targets;$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix200x.targets;$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\wix2010.targets">
-      <Output TaskParameter="Include" ItemName="FileWrites" />
-    </CreateItem>
-  </Target>
--->
 </Project>

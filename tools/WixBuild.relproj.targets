@@ -1,21 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!--
-  <copyright file="WixBuild.relproj.targets" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="GenerateReleaseInfo" />
-  <UsingTask AssemblyFile="$(OutputPath_x86)WixBuild.dll" TaskName="GenerateReleaseHistory" />
   <UsingTask AssemblyFile="$(ExtensionPackPath)MSBuild.ExtensionPack.dll" TaskName="Zip" />
 
   <PropertyGroup>
-    <IntermediateDocumentsFolder>$(BaseIntermediateOutputPath)chm\intermediate\</IntermediateDocumentsFolder>
     <HistoryFile>$(WixRoot)History.md</HistoryFile>
+
+    <IntermediateDocumentsFolder>$(BaseIntermediateOutputPath)chm\intermediate\</IntermediateDocumentsFolder>
     <ReleasesContainerFolder>$(BaseOutputPath)upload\releases\</ReleasesContainerFolder>
     <StagedContainerFolder>$(BaseOutputPath)upload\staged\</StagedContainerFolder>
 
@@ -65,6 +59,8 @@
   -->
   <PropertyGroup>
     <ReleaseFilesDependsOn>
+      CalculateReleaseFiles;
+      CalculateReleaseDocuments;
       PrepareReleaseFiles
     </ReleaseFilesDependsOn>
   </PropertyGroup>
@@ -117,43 +113,36 @@
   ================================================================================================
   GenerateReleaseMetadata
 
-    Generates a .json class file from input files to be Releaseed.
+    Generates a .json class file from input files to be Released.
 
     [IN]
-    $(HistoryFile) - The history.txt file in the root.
-    @(ReleaseFiles) - The items to add to the metadata.
+    $(HistoryFile) - The history.md file in the root.
+    @(ReleaseFile) - The items to add to the metadata.
 
     [OUT]
-    @(ReleaseMetadata) - The generated .json and .md metadata file.
+    @(ReleaseMetadata) - The generated .md metadata file.
   ================================================================================================
   -->
   <PropertyGroup>
     <GenerateReleaseMetadataDependsOn>
+      ReleaseFiles
     </GenerateReleaseMetadataDependsOn>
-    <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).json</ReleaseInfoFile>
-    <ReleaseHistoryFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseHistoryFile>
+    <ReleaseInfoFile>$(ReleaseMetadataFolder)v$(FullBuildVersionStringDashed).html.md</ReleaseInfoFile>
   </PropertyGroup>
   <Target
     Name="GenerateReleaseMetadata"
     DependsOnTargets="$(GenerateReleaseMetadataDependsOn)"
     Inputs="@(ReleaseFile)"
-    Outputs="$(ReleaseInfoFile);$(ReleaseHistoryFile)">
+    Outputs="$(ReleaseInfoFile)">
 
     <GenerateReleaseInfo
+      HistoryFile="$(HistoryFile)"
       UploadFiles="@(ReleaseFile)"
       Version="$(FullBuildVersionString)"
       OutputFile="$(ReleaseInfoFile)">
 
       <Output TaskParameter="OutputFile" ItemName="FileWrites" /> <!-- This will tell MSBuild to clean up the file during a Clean build -->
     </GenerateReleaseInfo>
-
-    <GenerateReleaseHistory
-      HistoryFile="$(HistoryFile)"
-      Version="$(FullBuildVersionString)"
-      OutputFile="$(ReleaseHistoryFile)">
-
-      <Output TaskParameter="OutputFile" ItemName="FileWrites" /> <!-- This will tell MSBuild to clean up the file during a Clean build -->
-    </GenerateReleaseHistory>
   </Target>
 
   <!--
@@ -167,8 +156,6 @@
   <PropertyGroup>
     <BuildDependsOn>
       BuildProjectReferences;
-      CalculateReleaseFiles;
-      CalculateReleaseDocuments;
       ReleaseFiles;
       ReleaseDocumentation;
       GenerateReleaseMetadata

@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="fileutil.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    File helper functions.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -429,6 +418,14 @@ extern "C" HRESULT DAPI FileVersionFromStringEx(
         {
             ExitFunction1(hr = E_INVALIDARG);
         }
+    }
+
+    if ((L'v' == *wzVersion) || (L'V' == *wzVersion))
+    {
+        ++wzVersion;
+        --cchVersion;
+        wzPartBegin = wzVersion;
+        wzPartEnd = wzVersion;
     }
 
     // save end pointer
@@ -1671,7 +1668,6 @@ extern "C" HRESULT DAPI FileToString(
     BYTE *pbFullFileBuffer = NULL;
     DWORD cbFullFileBuffer = 0;
     BOOL fNullCharFound = FALSE;
-    LPSTR sczAnsiFileText = NULL;
     LPWSTR sczFileText = NULL;
 
     // Check if the file is ANSI
@@ -1755,7 +1751,6 @@ extern "C" HRESULT DAPI FileToString(
     }
 
 LExit:
-    ReleaseStr(sczAnsiFileText);
     ReleaseStr(sczFileText);
     ReleaseMem(pbFullFileBuffer);
 

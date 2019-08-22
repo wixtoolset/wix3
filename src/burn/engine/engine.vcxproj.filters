@@ -242,9 +242,6 @@
     <ClInclude Include="detect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="property.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="pseudobundle.h">
       <Filter>Header Files</Filter>
     </ClInclude>

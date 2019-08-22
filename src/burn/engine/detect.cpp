@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="detect.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//
-// <summary>
-//    Module: Core
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -38,15 +27,14 @@ static HRESULT DownloadUpdateFeed(
     __in_z LPCWSTR wzBundleId,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_UPDATE* pUpdate,
-    __out_opt LPWSTR* psczTempFile
+    __deref_inout_z LPWSTR* psczTempFile
     );
 
 // function definitions
 
 extern "C" void DetectReset(
     __in BURN_REGISTRATION* pRegistration,
-    __in BURN_PACKAGES* pPackages,
-    __in BURN_UPDATE* /*pUpdate*/
+    __in BURN_PACKAGES* pPackages
     )
 {
     RelatedBundlesUninitialize(&pRegistration->relatedBundles);
@@ -324,7 +312,7 @@ static HRESULT DownloadUpdateFeed(
     __in_z LPCWSTR wzBundleId,
     __in BURN_USER_EXPERIENCE* pUX,
     __in BURN_UPDATE* pUpdate,
-    __out_opt LPWSTR* psczTempFile
+    __deref_inout_z LPWSTR* psczTempFile
     )
 {
     HRESULT hr = S_OK;
@@ -332,13 +320,10 @@ static HRESULT DownloadUpdateFeed(
     DOWNLOAD_CACHE_CALLBACK cacheCallback = { };
     DOWNLOAD_AUTHENTICATION_CALLBACK authenticationCallback = { };
     DETECT_AUTHENTICATION_REQUIRED_DATA authenticationData = { };
-    LPWSTR sczUpdateId = NULL;
-    LPWSTR sczDestinationPath = NULL;
-    LPWSTR sczError = NULL;
     DWORD64 qwDownloadSize = 0;
 
     // Always do our work in the working folder, even if cached.
-    hr = PathCreateTimeBasedTempFile(NULL, L"UpdateFeed", NULL, L"xml", &sczDestinationPath, NULL);
+    hr = PathCreateTimeBasedTempFile(NULL, L"UpdateFeed", NULL, L"xml", psczTempFile, NULL);
     ExitOnFailure(hr, "Failed to create UpdateFeed based on current system time.");
 
     // Do we need a means of the BA to pass in a username and password? If so, we should copy it to downloadSource here
@@ -355,22 +340,23 @@ static HRESULT DownloadUpdateFeed(
     authenticationCallback.pv =  static_cast<LPVOID>(&authenticationData);
     authenticationCallback.pfnAuthenticate = &AuthenticationRequired;
 
-    hr = DownloadUrl(&downloadSource, qwDownloadSize, sczDestinationPath, &cacheCallback, &authenticationCallback);
-    ExitOnFailure2(hr, "Failed attempt to download update feed from URL: '%ls' to: '%ls'", downloadSource.sczUrl, sczDestinationPath);
-
-    if (psczTempFile)
-    {
-        hr = StrAllocString(psczTempFile, sczDestinationPath, 0);
-        ExitOnFailure(hr, "Failed to copy temp file string.");
-    }
+    hr = DownloadUrl(&downloadSource, qwDownloadSize, *psczTempFile, &cacheCallback, &authenticationCallback);
+    ExitOnFailure2(hr, "Failed attempt to download update feed from URL: '%ls' to: '%ls'", downloadSource.sczUrl, *psczTempFile);
 
 LExit:
+    if (FAILED(hr))
+    {
+        if (*psczTempFile)
+        {
+            FileEnsureDelete(*psczTempFile);
+        }
+
+        ReleaseNullStr(*psczTempFile);
+    }
+
     ReleaseStr(downloadSource.sczUrl);
     ReleaseStr(downloadSource.sczUser);
     ReleaseStr(downloadSource.sczPassword);
-    ReleaseStr(sczUpdateId);
-    ReleaseStr(sczDestinationPath);
-    ReleaseStr(sczError);
     return hr;
 }
 

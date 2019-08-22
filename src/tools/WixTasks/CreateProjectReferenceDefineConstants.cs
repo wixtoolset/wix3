@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="CreateProjectReferenceDefineConstants.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// Build task to execute the compiler of the Windows Installer Xml toolset.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
 {
@@ -112,7 +101,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
                         targetDir = commonDir;
                     }
                 }
-                defineConstants[targetDirDefine] = targetDir;
+                defineConstants[targetDirDefine] = CreateProjectReferenceDefineConstants.EnsureEndsWithBackslash(targetDir);
 
                 defineConstants[String.Format(CultureInfo.InvariantCulture, "{0}.TargetExt", referenceName)] = targetExt;
                 defineConstants[String.Format(CultureInfo.InvariantCulture, "{0}.TargetFileName", referenceName)] = targetFileName;
@@ -123,9 +112,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
                 if (defineConstants.ContainsKey(targetPathDefine))
                 {
                     string oldTargetPath = defineConstants[targetPathDefine];
-                    defineConstants[targetPathDefine] += ";" + targetPath;
+                    if (!targetPath.Equals(oldTargetPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        defineConstants[targetPathDefine] += ";" + targetPath;
+                    }
 
-                    //If there was only one targetpath we need to create it's culture specific define
+                    //If there was only one targetpath we need to create its culture specific define
                     if (!oldTargetPath.Contains(";"))
                     {
                         string oldSubFolder = FindSubfolder(oldTargetPath, targetDir, targetFileName);
@@ -226,7 +218,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             path1 = path1.TrimEnd(Path.DirectorySeparatorChar);
             path2 = path2.TrimEnd(Path.DirectorySeparatorChar);
 
-            while(!String.IsNullOrEmpty(path1))
+            while (!String.IsNullOrEmpty(path1))
             {
                 for (string searchPath = path2; !String.IsNullOrEmpty(searchPath); searchPath = Path.GetDirectoryName(searchPath))
                 {
@@ -263,6 +255,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             }
 
             return String.Empty;
+        }
+
+        private static string EnsureEndsWithBackslash(string dir)
+        {
+            if (dir[dir.Length - 1] != Path.DirectorySeparatorChar)
+            {
+                dir += Path.DirectorySeparatorChar;
+            }
+
+            return dir;
         }
     }
 }

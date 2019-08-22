@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="scauser.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-//    User functions for CustomActions
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
@@ -144,7 +133,7 @@ HRESULT __stdcall ScaGetUserDeferred(
         {
             AssertSz(FALSE, "Found multiple matching User rows");
         }
-        
+
         hr = WcaGetRecordString(hRec, vuqUser, &pwzData);
         ExitOnFailure(hr, "Failed to get User.User");
         hr = ::StringCchCopyW(pscau->wzKey, countof(pscau->wzKey), pwzData);
@@ -363,7 +352,7 @@ HRESULT ScaUserRead(
             ExitOnFailure(hr, "failed to copy user password");
 
             hr = WcaGetRecordInteger(hRec, vaqAttributes, &psu->iAttributes);
-            ExitOnFailure(hr, "failed to get User.Attributes"); 
+            ExitOnFailure(hr, "failed to get User.Attributes");
 
             // Check if this user is to be added to any groups
             if (fUserGroupExists)
@@ -515,7 +504,7 @@ HRESULT ScaUserExecute(
         if (wzDomain && *wzDomain)
         {
             er = ::DsGetDcNameW(NULL, wzDomain, NULL, NULL, NULL, &pDomainControllerInfo);
-            if (HRESULT_FROM_WIN32(er) == RPC_S_SERVER_UNAVAILABLE)
+            if (RPC_S_SERVER_UNAVAILABLE == er)
             {
                 // MSDN says, if we get the above error code, try again with the "DS_FORCE_REDISCOVERY" flag
                 er = ::DsGetDcNameW(NULL, wzDomain, NULL, NULL, DS_FORCE_REDISCOVERY, &pDomainControllerInfo);
@@ -540,6 +529,8 @@ HRESULT ScaUserExecute(
             ueUserExists = USER_EXISTS_INDETERMINATE;
             hr = HRESULT_FROM_WIN32(er);
             WcaLog(LOGMSG_VERBOSE, "Failed to check existence of domain: %ls, user: %ls (error code 0x%x) - continuing", wzDomain, psu->wzName, hr);
+            hr = S_OK;
+            er = ERROR_SUCCESS;
         }
 
         if (WcaIsInstalling(psu->isInstalled, psu->isAction))
@@ -617,7 +608,7 @@ HRESULT ScaUserExecute(
             // Schedule the removal because the user exists and we don't have any flags set
             // that say, don't remove the user on uninstall.
             //
-            // Note: We can't rollback the removal of a user which is why RemoveUser is a commit 
+            // Note: We can't rollback the removal of a user which is why RemoveUser is a commit
             // CustomAction.
             hr = WcaDoDeferredAction(PLATFORM_DECORATION(L"RemoveUser"), pwzActionData, COST_USER_DELETE);
             ExitOnFailure(hr, "failed to schedule RemoveUser");

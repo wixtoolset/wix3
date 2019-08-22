@@ -1,30 +1,27 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="WixStandardBootstrapperApplication.cpp" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
-
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include "precomp.h"
 
 static const LPCWSTR WIXBUNDLE_VARIABLE_ELEVATED = L"WixBundleElevated";
 
 static const LPCWSTR WIXSTDBA_WINDOW_CLASS = L"WixStdBA";
+
 static const LPCWSTR WIXSTDBA_VARIABLE_INSTALL_FOLDER = L"InstallFolder";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_PATH = L"LaunchTarget";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_TARGET_ELEVATED_ID = L"LaunchTargetElevatedId";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_ARGUMENTS = L"LaunchArguments";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_HIDDEN = L"LaunchHidden";
 static const LPCWSTR WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER = L"LaunchWorkingFolder";
+
 static const DWORD WIXSTDBA_ACQUIRE_PERCENTAGE = 30;
+
 static const LPCWSTR WIXSTDBA_VARIABLE_BUNDLE_FILE_VERSION = L"WixBundleFileVersion";
+static const LPCWSTR WIXSTDBA_VARIABLE_LANGUAGE_ID = L"WixStdBALanguageId";
 
 enum WIXSTDBA_STATE
 {
     WIXSTDBA_STATE_OPTIONS,
+    WIXSTDBA_STATE_FILESINUSE,
     WIXSTDBA_STATE_INITIALIZING,
     WIXSTDBA_STATE_INITIALIZED,
     WIXSTDBA_STATE_HELP,
@@ -48,6 +45,8 @@ enum WM_WIXSTDBA
     WM_WIXSTDBA_PLAN_PACKAGES,
     WM_WIXSTDBA_APPLY_PACKAGES,
     WM_WIXSTDBA_CHANGE_STATE,
+    WM_WIXSTDBA_SHOW_STATE_MODAL,
+    WM_WIXSTDBA_CLOSE_STATE_MODAL,
     WM_WIXSTDBA_SHOW_FAILURE,
 };
 
@@ -58,6 +57,7 @@ enum WIXSTDBA_PAGE
     WIXSTDBA_PAGE_HELP,
     WIXSTDBA_PAGE_INSTALL,
     WIXSTDBA_PAGE_OPTIONS,
+    WIXSTDBA_PAGE_FILESINUSE,
     WIXSTDBA_PAGE_MODIFY,
     WIXSTDBA_PAGE_PROGRESS,
     WIXSTDBA_PAGE_PROGRESS_PASSIVE,
@@ -72,6 +72,7 @@ static LPCWSTR vrgwzPageNames[] = {
     L"Help",
     L"Install",
     L"Options",
+    L"FilesInUse",
     L"Modify",
     L"Progress",
     L"ProgressPassive",
@@ -103,6 +104,13 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_OK_BUTTON,
     WIXSTDBA_CONTROL_CANCEL_BUTTON,
 
+    // FilesInUse page
+    WIXSTDBA_CONTROL_FILESINUSE_TEXT,
+    WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON,
+    WIXSTDBA_CONTROL_FILESINUSE_DONTCLOSE_RADIOBUTTON,
+    WIXSTDBA_CONTROL_FILESINUSE_OK_BUTTON,
+    WIXSTDBA_CONTROL_FILESINUSE_CANCEL_BUTTON,
+
     // Modify page
     WIXSTDBA_CONTROL_REPAIR_BUTTON,
     WIXSTDBA_CONTROL_UNINSTALL_BUTTON,
@@ -131,12 +139,22 @@ enum WIXSTDBA_CONTROL
     WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON,
     WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON,
 
+    WIXSTDBA_CONTROL_SUCCESS_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER,
+
     // Failure page
     WIXSTDBA_CONTROL_FAILURE_LOGFILE_LINK,
     WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT,
     WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT,
     WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON,
     WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON,
+
+    WIXSTDBA_CONTROL_FAILURE_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER,
+    WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER,
 };
 
 static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
@@ -158,6 +176,12 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_OK_BUTTON, L"OptionsOkButton" },
     { WIXSTDBA_CONTROL_CANCEL_BUTTON, L"OptionsCancelButton" },
 
+    { WIXSTDBA_CONTROL_FILESINUSE_TEXT, L"FilesInUseText" },
+    { WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON, L"FilesInUseCloseRadioButton" },
+    { WIXSTDBA_CONTROL_FILESINUSE_DONTCLOSE_RADIOBUTTON, L"FilesInUseDontCloseRadioButton" },
+    { WIXSTDBA_CONTROL_FILESINUSE_OK_BUTTON, L"FilesInUseOkButton" },
+    { WIXSTDBA_CONTROL_FILESINUSE_CANCEL_BUTTON, L"FilesInUseCancelButton" },
+
     { WIXSTDBA_CONTROL_REPAIR_BUTTON, L"RepairButton" },
     { WIXSTDBA_CONTROL_UNINSTALL_BUTTON, L"UninstallButton" },
     { WIXSTDBA_CONTROL_MODIFY_CANCEL_BUTTON, L"ModifyCancelButton" },
@@ -168,7 +192,7 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_PACKAGE_TEXT, L"ExecuteProgressPackageText" },
     { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_BAR, L"ExecuteProgressbar" },
     { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_TEXT, L"ExecuteProgressText" },
-    { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, L"ExecuteProgressActionDataText"},
+    { WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, L"ExecuteProgressActionDataText" },
     { WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, L"OverallProgressPackageText" },
     { WIXSTDBA_CONTROL_OVERALL_PROGRESS_BAR, L"OverallProgressbar" },
     { WIXSTDBA_CONTROL_OVERALL_CALCULATED_PROGRESS_BAR, L"OverallCalculatedProgressbar" },
@@ -185,6 +209,16 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
     { WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, L"FailureRestartText" },
     { WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, L"FailureRestartButton" },
     { WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON, L"FailureCloseButton" },
+
+    { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, L"SuccessInstallHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, L"SuccessUninstallHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, L"SuccessRepairHeader" },
+
+    { WIXSTDBA_CONTROL_FAILURE_HEADER, L"FailureHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, L"FailureInstallHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, L"FailureUninstallHeader" },
+    { WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, L"FailureRepairHeader" },
 };
 
 typedef struct _WIXSTDBA_PREREQ_PACKAGE
@@ -310,7 +344,7 @@ public: // IBootstrapperApplication
         if (SUCCEEDED(hrStatus))
         {
             hrStatus = EvaluateConditions();
-            
+
             if (m_fPrereq)
             {
                 m_fPrereqAlreadyInstalled = TRUE;
@@ -328,6 +362,24 @@ public: // IBootstrapperApplication
         }
 
         SetState(WIXSTDBA_STATE_DETECTED, hrStatus);
+
+        if (BOOTSTRAPPER_ACTION_CACHE == m_plannedAction)
+        {
+            if (m_fSupportCacheOnly)
+            {
+                // Doesn't make sense to prompt the user if cache only is requested.
+                if (BOOTSTRAPPER_DISPLAY_PASSIVE < m_command.display)
+                {
+                    m_command.display = BOOTSTRAPPER_DISPLAY_PASSIVE;
+                }
+
+                m_command.action = BOOTSTRAPPER_ACTION_CACHE;
+            }
+            else
+            {
+                BalLog(BOOTSTRAPPER_LOG_LEVEL_ERROR, "Ignoring attempt to only cache a bundle that does not explicitly support it.");
+            }
+        }
 
         // If we're not interacting with the user or we're doing a layout or we're just after a force restart
         // then automatically start planning.
@@ -378,7 +430,7 @@ public: // IBootstrapperApplication
                 {
                     fInstall = TRUE;
                 }
-                else if(pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
+                else if (pPackage->sczInstallCondition && *pPackage->sczInstallCondition)
                 {
                     hr = m_pEngine->EvaluateCondition(pPackage->sczInstallCondition, &fInstall);
                     if (FAILED(hr))
@@ -570,11 +622,11 @@ public: // IBootstrapperApplication
 
         if (BOOTSTRAPPER_DISPLAY_EMBEDDED == m_command.display)
         {
-             HRESULT hr = m_pEngine->SendEmbeddedError(dwCode, wzError, dwUIHint, &nResult);
-             if (FAILED(hr))
-             {
-                 nResult = IDERROR;
-             }
+            HRESULT hr = m_pEngine->SendEmbeddedError(dwCode, wzError, dwUIHint, &nResult);
+            if (FAILED(hr))
+            {
+                nResult = IDERROR;
+            }
         }
         else if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display)
         {
@@ -595,7 +647,24 @@ public: // IBootstrapperApplication
                         HRESULT hr = StrAllocFromError(&sczError, dwCode, NULL);
                         if (FAILED(hr) || !sczError || !*sczError)
                         {
-                            StrAllocFormatted(&sczError, L"0x%x", dwCode);
+                            // special case for ERROR_FAIL_NOACTION_REBOOT: use loc string for Windows XP
+                            if (ERROR_FAIL_NOACTION_REBOOT == dwCode)
+                            {
+                                LOC_STRING* pLocString = NULL;
+                                hr = LocGetString(m_pWixLoc, L"#(loc.ErrorFailNoActionReboot)", &pLocString);
+                                if (SUCCEEDED(hr))
+                                {
+                                    StrAllocString(&sczError, pLocString->wzText, 0);
+                                }
+                                else
+                                {
+                                    StrAllocFormatted(&sczError, L"0x%x", dwCode);
+                                }
+                            }
+                            else
+                            {
+                                StrAllocFormatted(&sczError, L"0x%x", dwCode);
+                            }
                         }
                     }
 
@@ -630,8 +699,11 @@ public: // IBootstrapperApplication
 #endif
         if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display && (INSTALLMESSAGE_WARNING == mt || INSTALLMESSAGE_USER == mt))
         {
-            int nResult = ::MessageBoxW(m_hWnd, wzMessage, m_pTheme->sczCaption, uiFlags);
-            return nResult;
+            if (!m_fShowingInternalUiThisPackage)
+            {
+                int nResult = ::MessageBoxW(m_hWnd, wzMessage, m_pTheme->sczCaption, uiFlags);
+                return nResult;
+            }
         }
 
         if (INSTALLMESSAGE_ACTIONSTART == mt)
@@ -708,7 +780,8 @@ public: // IBootstrapperApplication
                 wz = sczFormattedString ? sczFormattedString : pPackage->sczDisplayName ? pPackage->sczDisplayName : wzPackageId;
             }
 
-            m_fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI;
+            //Burn engine doesn't show internal UI for msi packages during uninstall or repair actions.
+            m_fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI && BOOTSTRAPPER_ACTION_UNINSTALL != m_plannedAction && BOOTSTRAPPER_ACTION_REPAIR != m_plannedAction;
 
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_PACKAGE_TEXT, wz);
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, wz);
@@ -765,7 +838,7 @@ public: // IBootstrapperApplication
         HRESULT hr = GetPrereqPackage(wzPackageId, &pPrereqPackage, &pPackage);
         if (SUCCEEDED(hr))
         {
-            pPrereqPackage->fSuccessfullyInstalled = TRUE;
+            pPrereqPackage->fSuccessfullyInstalled = SUCCEEDED(hrExitCode);
 
             // If the prerequisite required a restart (any restart) then do an immediate
             // restart to ensure that the bundle will get launched again post reboot.
@@ -910,6 +983,42 @@ public: // IBootstrapperApplication
         }
     }
 
+    virtual STDMETHODIMP_(int) OnExecuteFilesInUse(
+        __in_z LPCWSTR wzPackageId,
+        __in DWORD cFiles,
+        __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
+        )
+    {
+        if (m_fShowFilesInUse && !m_fShowingInternalUiThisPackage && !m_fPrereq && wzPackageId && *wzPackageId)
+        {
+            //If this is an MSI package, display the files in use page.
+            BAL_INFO_PACKAGE* pPackage = NULL;
+            BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
+
+            if (pPackage && BAL_INFO_PACKAGE_TYPE_MSI == pPackage->type)
+            {
+                return ShowFilesInUseModal(cFiles, rgwzFiles);
+            }
+        }
+
+        return __super::OnExecuteFilesInUse(wzPackageId, cFiles, rgwzFiles);
+    }
+
+
+protected: // internals
+    //
+    // FindLocFile - locates the desired localization file
+    //
+    HRESULT FindLocFile(
+        __in_z LPCWSTR wzBasePath,
+        __in_z LPCWSTR wzLocFileName,
+        __in_z_opt LPCWSTR wzLanguage,
+        __inout LPWSTR* psczPath
+        )
+    {
+        return LocProbeForFileEx(wzBasePath, wzLocFileName, wzLanguage, psczPath, m_fUseUILanguages);
+    }
+
 
 private: // privates
     //
@@ -982,6 +1091,7 @@ private: // privates
     LExit:
         // destroy main window
         pThis->DestroyMainWindow();
+        pThis->UninitializeTaskbarButton();
 
         // initiate engine shutdown
         DWORD dwQuit = HRESULT_CODE(hr);
@@ -1019,6 +1129,9 @@ private: // privates
 
         hr = BalManifestLoad(m_hModule, &pixdManifest);
         BalExitOnFailure(hr, "Failed to load bootstrapper application manifest.");
+
+        hr = ParseOptionVariablesFromXml(pixdManifest);
+        BalExitOnFailure(hr, "Failed to process bootstrapper option variables.");
 
         hr = ParseOverridableVariablesFromXml(pixdManifest);
         BalExitOnFailure(hr, "Failed to read overridable variables.");
@@ -1081,8 +1194,8 @@ private: // privates
 
         if (m_command.wzCommandLine && *m_command.wzCommandLine)
         {
-            argv = ::CommandLineToArgvW(m_command.wzCommandLine, &argc);
-            ExitOnNullWithLastError(argv, hr, "Failed to get command line.");
+            hr = AppParseCommandLine(m_command.wzCommandLine, &argc, &argv);
+            ExitOnFailure(hr, "Failed to parse command line.");
 
             for (int i = 0; i < argc; ++i)
             {
@@ -1100,6 +1213,10 @@ private: // privates
 
                         hr = StrAllocString(psczLanguage, &argv[i][0], 0);
                         BalExitOnFailure(hr, "Failed to copy language.");
+                    }
+                    else if (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &argv[i][1], -1, L"cache", -1))
+                    {
+                        m_plannedAction = BOOTSTRAPPER_ACTION_CACHE;
                     }
                 }
                 else if (m_sdOverridableVariables)
@@ -1136,7 +1253,7 @@ private: // privates
     LExit:
         if (argv)
         {
-            ::LocalFree(argv);
+            AppFreeCommandLineArgs(argv);
         }
 
         ReleaseStr(sczVariableName);
@@ -1152,26 +1269,74 @@ private: // privates
     {
         HRESULT hr = S_OK;
         LPWSTR sczLocPath = NULL;
+        LPWSTR sczFormatted = NULL;
         LPCWSTR wzLocFileName = m_fPrereq ? L"mbapreq.wxl" : L"thm.wxl";
 
-        hr = LocProbeForFile(wzModulePath, wzLocFileName, wzLanguage, &sczLocPath);
+        // Find and load .wxl file.
+        hr = FindLocFile(wzModulePath, wzLocFileName, wzLanguage, &sczLocPath);
         BalExitOnFailure2(hr, "Failed to probe for loc file: %ls in path: %ls", wzLocFileName, wzModulePath);
 
         hr = LocLoadFromFile(sczLocPath, &m_pWixLoc);
         BalExitOnFailure1(hr, "Failed to load loc file from path: %ls", sczLocPath);
 
+        // Set WixStdBALanguageId to .wxl language id.
         if (WIX_LOCALIZATION_LANGUAGE_NOT_SET != m_pWixLoc->dwLangId)
         {
             ::SetThreadLocale(m_pWixLoc->dwLangId);
+
+            hr = m_pEngine->SetVariableNumeric(WIXSTDBA_VARIABLE_LANGUAGE_ID, m_pWixLoc->dwLangId);
+            BalExitOnFailure(hr, "Failed to set WixStdBALanguageId variable.");
         }
 
+        // Load ConfirmCancelMessage.
         hr = StrAllocString(&m_sczConfirmCloseMessage, L"#(loc.ConfirmCancelMessage)", 0);
         ExitOnFailure(hr, "Failed to initialize confirm message loc identifier.");
 
         hr = LocLocalizeString(m_pWixLoc, &m_sczConfirmCloseMessage);
         BalExitOnFailure1(hr, "Failed to localize confirm close message: %ls", m_sczConfirmCloseMessage);
 
+        hr = BalFormatString(m_sczConfirmCloseMessage, &sczFormatted);
+        if (SUCCEEDED(hr))
+        {
+            ReleaseStr(m_sczConfirmCloseMessage);
+            m_sczConfirmCloseMessage = sczFormatted;
+            sczFormatted = NULL;
+        }
+
+        // For v3.9->v3.10 transition, duplicate new-to-v3.10 strings.
+        // Do not merge to WiX v4.0.
+        LOC_STRING* pLocString = NULL;
+        hr = LocGetString(m_pWixLoc, L"#(loc.SuccessInstallHeader)", &pLocString);
+        if (E_NOTFOUND == hr)
+        {
+            // Duplicate strings, best-effort only.
+            if (SUCCEEDED(LocGetString(m_pWixLoc, L"#(loc.SuccessHeader)", &pLocString)))
+            {
+                hr = LocAddString(m_pWixLoc, L"SuccessInstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for SuccessInstallHeader.");
+
+                hr = LocAddString(m_pWixLoc, L"SuccessRepairHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for SuccessRepairHeader.");
+
+                hr = LocAddString(m_pWixLoc, L"SuccessUninstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for SuccessUninstallHeader.");
+            }
+
+            if (SUCCEEDED(LocGetString(m_pWixLoc, L"#(loc.FailureHeader)", &pLocString)))
+            {
+                hr = LocAddString(m_pWixLoc, L"FailureInstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for FailureInstallHeader.");
+
+                hr = LocAddString(m_pWixLoc, L"FailureRepairHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for FailureRepairHeader.");
+
+                hr = LocAddString(m_pWixLoc, L"FailureUninstallHeader", pLocString->wzText, pLocString->bOverridable);
+                ExitOnFailure(hr, "Failed to duplicate localization string for FailureUninstallHeader.");
+            }
+        }
+
     LExit:
+        ReleaseStr(sczFormatted);
         ReleaseStr(sczLocPath);
 
         return hr;
@@ -1188,7 +1353,7 @@ private: // privates
         LPCWSTR wzThemeFileName = m_fPrereq ? L"mbapreq.thm" : L"thm.xml";
         LPWSTR sczCaption = NULL;
 
-        hr = LocProbeForFile(wzModulePath, wzThemeFileName, wzLanguage, &sczThemePath);
+        hr = FindLocFile(wzModulePath, wzThemeFileName, wzLanguage, &sczThemePath);
         BalExitOnFailure2(hr, "Failed to probe for theme file: %ls in path: %ls", wzThemeFileName, wzModulePath);
 
         hr = ThemeLoadFromFile(sczThemePath, &m_pTheme);
@@ -1210,6 +1375,84 @@ private: // privates
         ReleaseStr(sczCaption);
         ReleaseStr(sczThemePath);
 
+        return hr;
+    }
+
+
+    HRESULT ParseOptionVariablesFromXml(
+        __in IXMLDOMDocument* pixdManifest
+        )
+    {
+        HRESULT hr = S_OK;
+        IXMLDOMNode* pNode = NULL;
+        IXMLDOMNodeList* pNodes = NULL;
+        DWORD cNodes = 0;
+        LPWSTR sczName = NULL;
+        LPWSTR sczValue = NULL;
+
+        hr = XmlSelectNodes(pixdManifest, L"/BootstrapperApplicationData/WixStdbaSettings ", &pNodes);
+        if (S_FALSE == hr)
+        {
+            ExitFunction1(hr = S_OK);
+        }
+        ExitOnFailure(hr, "Failed to select option variable nodes.");
+
+        hr = pNodes->get_length((long*)&cNodes);
+        ExitOnFailure(hr, "Failed to get option variable node count.");
+
+        if (cNodes)
+        {
+            for (DWORD i = 0; i < cNodes; ++i)
+            {
+                hr = XmlNextElement(pNodes, &pNode, NULL);
+                ExitOnFailure(hr, "Failed to get next node.");
+
+                // @Value
+                hr = XmlGetAttributeEx(pNode, L"Value", &sczValue);
+                if (E_NOTFOUND == hr)
+                {
+                    ReleaseNullStr(sczValue);
+                }
+                else
+                {
+                    ExitOnFailure(hr, "Failed to get @Value.");
+                }
+
+                // @Name
+                hr = XmlGetAttributeEx(pNode, L"Name", &sczName);
+                ExitOnFailure(hr, "Failed to get @Name.");
+
+                if (0 == ::wcscmp(sczName, L"UseUILanguages"))
+                {
+                    if (sczValue && *sczValue)
+                    {
+                        USHORT us;
+                        hr = StrStringToUInt16(sczValue, 0, &us);
+                        ExitOnFailure(hr, "Failed to parse UseUILanguages.");
+
+                        m_fUseUILanguages = us ? TRUE : FALSE;
+                    }
+                }
+                // ***** extension point for new variables *****
+                // else if (0 == ::wcscmp(sczName, L""))
+                // {
+                // }
+                else
+                {
+                    hr = E_NOTFOUND;
+                    ExitOnFailure1(hr, "Failed to recognize option variable \"%ls\".", sczName);
+                }
+
+                // prepare next iteration
+                ReleaseNullObject(pNode);
+            }
+        }
+
+    LExit:
+        ReleaseObject(pNode);
+        ReleaseObject(pNodes);
+        ReleaseStr(sczName);
+        ReleaseStr(sczValue);
         return hr;
     }
 
@@ -1412,7 +1655,7 @@ private: // privates
         BalExitOnFailure(hr, "Failed to read wixstdba options from BootstrapperApplication.xml manifest.");
 
         hr = XmlGetAttributeNumber(pNode, L"SuppressOptionsUI", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1424,7 +1667,7 @@ private: // privates
 
         dwBool = 0;
         hr = XmlGetAttributeNumber(pNode, L"SuppressDowngradeFailure", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1436,7 +1679,7 @@ private: // privates
 
         dwBool = 0;
         hr = XmlGetAttributeNumber(pNode, L"SuppressRepair", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1447,7 +1690,7 @@ private: // privates
         BalExitOnFailure(hr, "Failed to get SuppressRepair value.");
 
         hr = XmlGetAttributeNumber(pNode, L"ShowVersion", &dwBool);
-        if (E_NOTFOUND == hr)
+        if (S_FALSE == hr)
         {
             hr = S_OK;
         }
@@ -1456,6 +1699,28 @@ private: // privates
             m_fShowVersion = 0 < dwBool;
         }
         BalExitOnFailure(hr, "Failed to get ShowVersion value.");
+
+        hr = XmlGetAttributeNumber(pNode, L"SupportCacheOnly", &dwBool);
+        if (S_FALSE == hr)
+        {
+            hr = S_OK;
+        }
+        else if (SUCCEEDED(hr))
+        {
+            m_fSupportCacheOnly = 0 < dwBool;
+        }
+        BalExitOnFailure(hr, "Failed to get SupportCacheOnly value.");
+
+        hr = XmlGetAttributeNumber(pNode, L"ShowFilesInUse", &dwBool);
+        if (S_FALSE == hr)
+        {
+            hr = S_OK;
+        }
+        else if (SUCCEEDED(hr))
+        {
+            m_fShowFilesInUse = 0 < dwBool;
+        }
+        BalExitOnFailure(hr, "Failed to get ShowFilesInUse value.");
 
     LExit:
         ReleaseObject(pNode);
@@ -1643,6 +1908,16 @@ private: // privates
 
 
     //
+    // UninitializeTaskbarButton - clean up the taskbar registration.
+    //
+    void UninitializeTaskbarButton()
+    {
+        m_fTaskbarButtonOK = FALSE;
+        ReleaseNullObject(m_pTaskbarList);
+    }
+
+
+    //
     // WndProc - standard windows message handler.
     //
     static LRESULT CALLBACK WndProc(
@@ -1712,6 +1987,9 @@ private: // privates
             pBA->OnChangeState(static_cast<WIXSTDBA_STATE>(lParam));
             return 0;
 
+        case WM_WIXSTDBA_SHOW_STATE_MODAL:
+            return pBA->OnShowStateModal(static_cast<WIXSTDBA_STATE>(lParam));
+
         case WM_WIXSTDBA_SHOW_FAILURE:
             pBA->OnShowFailure();
             return 0;
@@ -1760,12 +2038,18 @@ private: // privates
                 pBA->OnClickRestartButton();
                 return 0;
 
+            //Files in use
+            case WIXSTDBA_CONTROL_FILESINUSE_OK_BUTTON:
+                pBA->OnClickFilesInUseOkButton();
+                return 0;
+
             case WIXSTDBA_CONTROL_HELP_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_WELCOME_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_MODIFY_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_SUCCESS_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_FAILURE_CANCEL_BUTTON: __fallthrough;
+            case WIXSTDBA_CONTROL_FILESINUSE_CANCEL_BUTTON: __fallthrough;
             case WIXSTDBA_CONTROL_CLOSE_BUTTON:
                 pBA->OnClickCloseButton();
                 return 0;
@@ -1868,7 +2152,7 @@ private: // privates
                                     hr = StrAllocString(&sczLicenseFilename, PathFile(sczLicenseFormatted), 0);
                                     if (SUCCEEDED(hr))
                                     {
-                                        hr = LocProbeForFile(sczLicenseDirectory, sczLicenseFilename, m_sczLanguage, &sczLicensePath);
+                                        hr = FindLocFile(sczLicenseDirectory, sczLicenseFilename, m_sczLanguage, &sczLicensePath);
                                         if (SUCCEEDED(hr))
                                         {
                                             hr = ThemeLoadRichEditFromFile(m_pTheme, WIXSTDBA_CONTROL_EULA_RICHEDIT, sczLicensePath, m_hModule);
@@ -1934,6 +2218,70 @@ private: // privates
         m_pEngine->CloseSplashScreen();
 
         return;
+    }
+
+
+    //
+    // OnShowStateModal - display the given state modal.
+    //
+    int OnShowStateModal(WIXSTDBA_STATE state)
+    {
+        MSG msg = {};
+        int nResult = IDERROR;
+        BOOL fDone = FALSE;
+        TBPFLAG flag = TBPF_PAUSED;
+
+        // The state before showing our page.
+        WIXSTDBA_STATE stateBeforeModal = m_state;
+
+        // Set taskbar to paused.
+        SetTaskbarButtonState(flag);
+        SetState(state, S_OK);
+
+        ++m_cModalPages;
+
+        // Inner message loop
+        while (!fDone && !IsCanceled())
+        {
+            ::WaitMessage();
+
+            while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+            {
+                if (WM_WIXSTDBA_CLOSE_STATE_MODAL == msg.message)
+                {
+                    fDone = TRUE;
+                    nResult = static_cast<int>(msg.lParam);
+
+                    break;
+                }
+                else if (WM_QUIT == msg.message)
+                {
+                    // Exit during modal page.
+                    fDone = TRUE;
+
+                    //Forward quit message to main message loop
+                    ::PostQuitMessage(0);
+
+                    break;
+                }
+                else if (!ThemeHandleKeyboardMessage(m_pTheme, msg.hwnd, &msg))
+                {
+                    ::TranslateMessage(&msg);
+                    ::DispatchMessageW(&msg);
+                }
+            }
+        }
+
+        --m_cModalPages;
+
+        //Restore taskbar state
+        flag = TBPF_NORMAL;
+        SetTaskbarButtonState(flag);
+
+        //Restore previous state
+        SetState(stateBeforeModal, S_OK);
+
+        return IsCanceled() ? IDCANCEL : nResult;
     }
 
 
@@ -2154,6 +2502,32 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_LAUNCH_BUTTON, fLaunchTargetExists && BOOTSTRAPPER_ACTION_UNINSTALL < m_plannedAction);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_RESTART_BUTTON, fShowRestartButton);
+
+                    if ((BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER)))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, FALSE);
+                    }
+                    else
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_HEADER, TRUE);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction);
+                    }
                 }
                 else if (m_rgdwPageIds[WIXSTDBA_PAGE_FAILURE] == dwNewPageId) // on the "Failure" page, show error message and check if the restart button should be enabled.
                 {
@@ -2229,6 +2603,32 @@ private: // privates
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_MESSAGE_TEXT, fShowErrorMessage);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_RESTART_TEXT, fShowRestartButton);
                     ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_RESTART_BUTTON, fShowRestartButton);
+
+                    if ((BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER)) ||
+                        (BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction && ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER)))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, FALSE);
+                    }
+                    else
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_HEADER, TRUE);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_FAILURE_REPAIR_HEADER, BOOTSTRAPPER_ACTION_REPAIR == m_plannedAction);
+                    }
                 }
 
                 // Process each control for special handling in the new page.
@@ -2272,6 +2672,20 @@ private: // privates
                                 }
                             }
 
+                            // If this is an editbox control, try to set its default state to the state of a matching named Burn variable.
+                            if (THEME_CONTROL_TYPE_EDITBOX == pControl->type && WIXSTDBA_CONTROL_FOLDER_EDITBOX != pControl->wId)
+                            {
+                                LPWSTR sczEditboxValue = NULL;
+                                HRESULT hr = BalGetStringVariable(pControl->sczName, &sczEditboxValue);
+
+                                if (SUCCEEDED(hr))
+                                {
+                                    ThemeSetTextControl(m_pTheme, pControl->wId, sczEditboxValue);
+                                }
+
+                                ReleaseStr(sczEditboxValue);
+                            }
+
                             // Hide or disable controls based on the control name with 'State' appended
                             HRESULT hr = StrAllocFormatted(&sczControlName, L"%lsState", pControl->sczName);
                             if (SUCCEEDED(hr))
@@ -2306,6 +2720,12 @@ private: // privates
                             }
                         }
                     }
+                }
+
+                // Exit "modal" pages if any is active.
+                if (m_rgdwPageIds[WIXSTDBA_PAGE_FILESINUSE] == dwOldPageId)
+                {
+                    ExitModalState(IDERROR);
                 }
 
                 ThemeShowPage(m_pTheme, dwOldPageId, SW_HIDE);
@@ -2344,7 +2764,7 @@ private: // privates
         }
 
         // If we're doing progress then we never close, we just cancel to let rollback occur.
-        if (WIXSTDBA_STATE_APPLYING <= m_state && WIXSTDBA_STATE_APPLIED > m_state)
+        if ((WIXSTDBA_STATE_APPLYING <= m_state && WIXSTDBA_STATE_APPLIED > m_state) || WIXSTDBA_STATE_FILESINUSE == m_state)
         {
             // If we canceled disable cancel button since clicking it again is silly.
             if (fClose)
@@ -2502,7 +2922,7 @@ private: // privates
 
         hr = LocLocalizeString(m_pWixLoc, &sczLicenseUrl);
         BalExitOnFailure1(hr, "Failed to localize license URL: %ls", m_sczLicenseUrl);
-        
+
         // Assume there is no hidden variables to be formatted
         // so don't worry about securely freeing it.
         hr = BalFormatString(sczLicenseUrl, &sczLicenseUrl);
@@ -2518,12 +2938,12 @@ private: // privates
                 hr = PathGetDirectory(sczLicensePath, &sczLicenseDirectory);
                 if (SUCCEEDED(hr))
                 {
-                    hr = LocProbeForFile(sczLicenseDirectory, PathFile(sczLicenseUrl), m_sczLanguage, &sczLicensePath);
+                    hr = FindLocFile(sczLicenseDirectory, PathFile(sczLicenseUrl), m_sczLanguage, &sczLicensePath);
                 }
             }
         }
 
-        hr = ShelExec(sczLicensePath ? sczLicensePath : sczLicenseUrl, NULL, L"open", NULL, SW_SHOWDEFAULT, m_hWnd, NULL);
+        hr = ShelExecUnelevated(sczLicensePath ? sczLicensePath : sczLicenseUrl, NULL, L"open", NULL, SW_SHOWDEFAULT);
         BalExitOnFailure(hr, "Failed to launch URL to EULA.");
 
     LExit:
@@ -2547,6 +2967,7 @@ private: // privates
         LPWSTR sczLaunchTargetElevatedId = NULL;
         LPWSTR sczUnformattedArguments = NULL;
         LPWSTR sczArguments = NULL;
+        LPWSTR sczUnformattedLaunchFolder = NULL;
         LPWSTR sczLaunchFolder = NULL;
         int nCmdShow = SW_SHOWNORMAL;
 
@@ -2575,7 +2996,7 @@ private: // privates
 
         if (BalStringVariableExists(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER))
         {
-            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER, &sczLaunchFolder);
+            hr = BalGetStringVariable(WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER, &sczUnformattedLaunchFolder);
             BalExitOnFailure1(hr, "Failed to get launch working directory variable '%ls'.", WIXSTDBA_VARIABLE_LAUNCH_WORK_FOLDER);
         }
 
@@ -2599,6 +3020,12 @@ private: // privates
                 BalExitOnFailure1(hr, "Failed to format launch arguments variable: %ls", sczUnformattedArguments);
             }
 
+            if (sczUnformattedLaunchFolder)
+            {
+                hr = BalFormatString(sczUnformattedLaunchFolder, &sczLaunchFolder);
+                BalExitOnFailure1(hr, "Failed to format launch working directory variable: %ls", sczUnformattedLaunchFolder);
+            }
+
             hr = ShelExec(sczLaunchTarget, sczArguments, L"open", sczLaunchFolder, nCmdShow, m_hWnd, NULL);
             BalExitOnFailure1(hr, "Failed to launch target: %ls", sczLaunchTarget);
 
@@ -2606,7 +3033,8 @@ private: // privates
         }
 
     LExit:
-        ReleaseStr(sczLaunchFolder);
+        StrSecureZeroFreeString(sczLaunchFolder);
+        ReleaseStr(sczUnformattedLaunchFolder);
         StrSecureZeroFreeString(sczArguments);
         ReleaseStr(sczUnformattedArguments);
         ReleaseStr(sczLaunchTargetElevatedId);
@@ -2642,7 +3070,7 @@ private: // privates
         hr = BalGetStringVariable(m_Bundle.sczLogVariable, &sczLogFile);
         BalExitOnFailure1(hr, "Failed to get log file variable '%ls'.", m_Bundle.sczLogVariable);
 
-        hr = ShelExec(L"notepad.exe", sczLogFile, L"open", NULL, SW_SHOWDEFAULT, m_hWnd, NULL);
+        hr = ShelExecUnelevated(L"notepad.exe", sczLogFile, L"open", NULL, SW_SHOWDEFAULT);
         BalExitOnFailure1(hr, "Failed to open log file target: %ls", sczLogFile);
 
     LExit:
@@ -2651,6 +3079,15 @@ private: // privates
         return;
     }
 
+
+    //
+    // OnClickFilesInUseOkButton
+    //
+    void OnClickFilesInUseOkButton()
+    {
+        BOOL fCloseApps = ThemeIsControlChecked(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON);
+        ExitModalState(fCloseApps ? IDOK : IDIGNORE);
+    }
 
     //
     // SetState
@@ -2670,7 +3107,7 @@ private: // privates
             state = WIXSTDBA_STATE_FAILED;
         }
 
-        if (WIXSTDBA_STATE_OPTIONS == state || m_state < state)
+        if (WIXSTDBA_STATE_OPTIONS == state || WIXSTDBA_STATE_FILESINUSE == state || m_state < state)
         {
             ::PostMessageW(m_hWnd, WM_WIXSTDBA_CHANGE_STATE, 0, state);
         }
@@ -2751,6 +3188,10 @@ private: // privates
 
             case WIXSTDBA_STATE_OPTIONS:
                 *pdwPageId = m_rgdwPageIds[WIXSTDBA_PAGE_OPTIONS];
+                break;
+
+            case WIXSTDBA_STATE_FILESINUSE:
+                *pdwPageId = m_rgdwPageIds[WIXSTDBA_PAGE_FILESINUSE];
                 break;
 
             case WIXSTDBA_STATE_PLANNING: __fallthrough;
@@ -2870,7 +3311,7 @@ private: // privates
         BalLog(BOOTSTRAPPER_LOG_LEVEL_STANDARD, "WIXSTDBA: LoadBootstrapperBAFunctions() - BA function DLL %ls", sczBafPath);
 #endif
 
-        m_hBAFModule = ::LoadLibraryW(sczBafPath);
+        m_hBAFModule = ::LoadLibraryExW(sczBafPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
         if (m_hBAFModule)
         {
             PFN_BOOTSTRAPPER_BA_FUNCTION_CREATE pfnBAFunctionCreate = reinterpret_cast<PFN_BOOTSTRAPPER_BA_FUNCTION_CREATE>(::GetProcAddress(m_hBAFModule, "CreateBootstrapperBAFunction"));
@@ -2930,6 +3371,98 @@ private: // privates
         }
     }
 
+    int ShowFilesInUseModal(
+        __in DWORD cFiles,
+        __in_ecount_z(cFiles) LPCWSTR* rgwzFiles
+        )
+    {
+        HRESULT hr = S_OK;
+        LPWSTR sczFilesInUse = NULL;
+        DWORD_PTR cchLen = 0;
+        int nResult = IDERROR;
+
+        // If the user has choosen to ignore on a previously displayed "files in use" page, 
+        // we will return the same result for other cases. No need to display the page again.
+        if (IDIGNORE == m_nLastFilesInUseResult)
+        {
+            nResult = m_nLastFilesInUseResult;
+        }
+        else if (BOOTSTRAPPER_DISPLAY_FULL == m_command.display) // Only show files in use when using full display mode.
+        {
+            // Show applications using the files.
+            if (cFiles > 0)
+            {
+                // See https://msdn.microsoft.com/en-us/library/aa371614%28v=vs.85%29.aspx for details.
+                for (DWORD i = 1; i < cFiles; i += 2)
+                {
+                    hr = ::StringCchLengthW(rgwzFiles[i], STRSAFE_MAX_CCH, reinterpret_cast<UINT_PTR*>(&cchLen));
+                    BalExitOnFailure(hr, "Failed to calculate length of string");
+
+                    if (cchLen > 0)
+                    {
+                        hr = StrAllocConcat(&sczFilesInUse, rgwzFiles[i], 0);
+                        BalExitOnFailure(hr, "Failed to concat files in use");
+
+                        hr = StrAllocConcat(&sczFilesInUse, L"\r\n", 2);
+                        BalExitOnFailure(hr, "Failed to concat files in use");
+                    }
+                }
+            }
+
+            if (sczFilesInUse)
+            {
+                ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_TEXT, sczFilesInUse);
+            }
+            else
+            {
+                ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_TEXT, L"");
+            }
+
+            // Select default option (restart applications).
+            if (IDNOACTION == m_nLastFilesInUseResult)
+            {
+                ThemeSendControlMessage(m_pTheme, WIXSTDBA_CONTROL_FILESINUSE_CLOSE_RADIOBUTTON, BM_SETCHECK, BST_CHECKED, 0);
+            }
+
+            nResult = ShowModalState(WIXSTDBA_STATE_FILESINUSE);
+        }
+        else
+        {
+            // Silent UI level installations always shut down applications and services, 
+            // and on Windows Vista and later, use Restart Manager unless disabled.
+            nResult = IDOK;
+        }
+
+    LExit:
+        ReleaseStr(sczFilesInUse);
+
+        // Remember the answer from the user.
+        m_nLastFilesInUseResult = FAILED(hr) ? IDERROR : nResult;
+
+        return m_nLastFilesInUseResult;
+    }
+
+    int ShowModalState(
+        __in WIXSTDBA_STATE state
+        )
+    {
+        int nResult = IDERROR;
+
+        //Show state and wait for result
+        nResult = ::SendMessageW(m_hWnd, WM_WIXSTDBA_SHOW_STATE_MODAL, 0, state);
+
+        return nResult;
+    }
+
+    void ExitModalState(
+        __in int result
+        )
+    {
+        if (m_cModalPages > 0)
+        {
+            ::PostMessage(m_hWnd, WM_WIXSTDBA_CLOSE_STATE_MODAL, 0, result);
+        }
+    }
 
 public:
     //
@@ -2946,10 +3479,13 @@ public:
         m_hModule = hModule;
         memcpy_s(&m_command, sizeof(m_command), pCommand, sizeof(BOOTSTRAPPER_COMMAND));
 
-        // Pre-req BA should only show help or do an install (to launch the Managed BA which can then do the right action).
-        if (fPrereq && BOOTSTRAPPER_ACTION_HELP != m_command.action && BOOTSTRAPPER_ACTION_INSTALL != m_command.action)
+        if (fPrereq)
         {
-            m_command.action = BOOTSTRAPPER_ACTION_INSTALL;
+            // Pre-req BA should only show help or do an install (to launch the Managed BA which can then do the right action).
+            if (BOOTSTRAPPER_ACTION_HELP != m_command.action)
+            {
+                m_command.action = BOOTSTRAPPER_ACTION_INSTALL;
+            }
         }
         else // maybe modify the action state if the bundle is or is not already installed.
         {
@@ -3008,6 +3544,8 @@ public:
         m_fSuppressDowngradeFailure = FALSE;
         m_fSuppressRepair = FALSE;
         m_fShowVersion = FALSE;
+        m_fSupportCacheOnly = FALSE;
+        m_fShowFilesInUse = FALSE;
 
         m_sdOverridableVariables = NULL;
         m_shPrereqSupportPackages = NULL;
@@ -3024,11 +3562,16 @@ public:
         m_fPrereqInstalled = FALSE;
         m_fPrereqAlreadyInstalled = FALSE;
 
+        m_cModalPages = 0;
+        m_nLastFilesInUseResult = IDNOACTION;
+
         pEngine->AddRef();
         m_pEngine = pEngine;
 
         m_hBAFModule = NULL;
         m_pBAFunction = NULL;
+
+        m_fUseUILanguages = FALSE;
     }
 
 
@@ -3038,9 +3581,9 @@ public:
     ~CWixStandardBootstrapperApplication()
     {
         AssertSz(!::IsWindow(m_hWnd), "Window should have been destroyed before destructor.");
+        AssertSz(!m_pTaskbarList, "Taskbar should have been released before destructor.");
         AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
-        ReleaseObject(m_pTaskbarList);
         ReleaseDict(m_sdOverridableVariables);
         ReleaseDict(m_shPrereqSupportPackages);
         ReleaseMem(m_rgPrereqPackages);
@@ -3104,6 +3647,8 @@ private:
     BOOL m_fSuppressDowngradeFailure;
     BOOL m_fSuppressRepair;
     BOOL m_fShowVersion;
+    BOOL m_fSupportCacheOnly;
+    BOOL m_fShowFilesInUse;
 
     STRINGDICT_HANDLE m_sdOverridableVariables;
 
@@ -3122,8 +3667,13 @@ private:
     BOOL m_fShowingInternalUiThisPackage;
     BOOL m_fTriedToLaunchElevated;
 
+    DWORD m_cModalPages;
+    int m_nLastFilesInUseResult;
+
     HMODULE m_hBAFModule;
     IBootstrapperBAFunction* m_pBAFunction;
+
+    BOOL m_fUseUILanguages;
 };
 
 

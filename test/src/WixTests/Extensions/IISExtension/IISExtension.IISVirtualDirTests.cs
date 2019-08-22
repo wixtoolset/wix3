@@ -1,12 +1,4 @@
-//-----------------------------------------------------------------------
-// <copyright file="IISExtension.IISVirtualDirTests.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// <summary>IIS Extension IISVirtualDir tests</summary>
-//-----------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace WixTest.Tests.Extensions.IISExtension
 {
@@ -87,7 +79,7 @@ namespace WixTest.Tests.Extensions.IISExtension
         }
 
         [NamedFact]
-        [Description("Install the MSI. Verify that the Virtual directory for the web site was set correctly,Application Name is set to “Virtual Directory Test ASP Application”,custom Http headers has an entry for “VDirHttpHeader: Http Header For VDir”,Registered MIME type has an entry for “.foo1   application/test1 “ ")]
+        [Description("Install the MSI. Verify that the Virtual directory for the web site was set correctly,Application Name is set to ï¿½Virtual Directory Test ASP Applicationï¿½,custom Http headers has an entry for ï¿½VDirHttpHeader: Http Header For VDirï¿½,Registered MIME type has an entry for ï¿½.foo1   application/test1 ï¿½ ")]
         [Priority(2)]
         [RuntimeTest]
         public void IISVirtualDir_Install()

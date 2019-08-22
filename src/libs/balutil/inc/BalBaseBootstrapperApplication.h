@@ -1,11 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="BalBaseBootstrapperApplication.h" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 #include <windows.h>
 #include <msiquery.h>
@@ -610,8 +603,8 @@ protected:
     virtual BOOL PromptCancel(
         __in HWND hWnd,
         __in BOOL fForceCancel,
-        __in_z LPCWSTR wzMessage,
-        __in_z LPCWSTR wzCaption
+        __in_z_opt LPCWSTR wzMessage,
+        __in_z_opt LPCWSTR wzCaption
         )
     {
         ::EnterCriticalSection(&m_csCanceled);
@@ -684,14 +677,16 @@ protected:
         ReleaseNullObject(m_pEngine);
     }
 
+protected:
+    CRITICAL_SECTION m_csCanceled;
+    BOOL m_fCanceled;
+
 private:
     long m_cReferences;
     BOOTSTRAPPER_DISPLAY m_display;
     BOOTSTRAPPER_RESTART m_restart;
     IBootstrapperEngine* m_pEngine;
 
-    CRITICAL_SECTION m_csCanceled;
-    BOOL m_fCanceled;
     BOOL m_fApplying;
     BOOL m_fRollingBack;
 

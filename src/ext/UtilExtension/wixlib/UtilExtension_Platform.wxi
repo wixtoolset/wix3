@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  <copyright file="UtilExtension_Platform.wxi" company="Outercurve Foundation">
-    Copyright (c) 2004, Outercurve Foundation.
-    This software is released under Microsoft Reciprocal License (MS-RL).
-    The license and further copyright text can be found in the file
-    LICENSE.TXT at the root directory of the distribution.
-  </copyright>
--->
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
   <?include caSuffix.wxi ?>
@@ -147,8 +142,8 @@
     <UIRef Id="XmlFileErrorsText" />
 
     <CustomAction Id="SchedXmlFile$(var.Suffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="SchedXmlFile" Execute="immediate" Return="check" SuppressModularization="yes" />
-    <CustomAction Id="ExecXmlFile$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlFile" Execute="deferred" Impersonate="no" Return="check" SuppressModularization="yes" />
-    <CustomAction Id="ExecXmlFileRollback$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlFileRollback" Execute="rollback" Impersonate="no" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="ExecXmlFile$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlFile" Execute="deferred" Impersonate="no" Return="check" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ExecXmlFileRollback$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlFileRollback" Execute="rollback" Impersonate="no" Return="check" HideTarget="yes" SuppressModularization="yes" />
 
     <InstallExecuteSequence>
       <Custom Action="SchedXmlFile$(var.Suffix)" After="DuplicateFiles" Overridable="yes">VersionNT &gt; 400</Custom>
@@ -159,8 +154,8 @@
     <UIRef Id="XmlConfigErrorsText" />
 
     <CustomAction Id="SchedXmlConfig$(var.Suffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="SchedXmlConfig" Execute="immediate" Return="check" SuppressModularization="yes" />
-    <CustomAction Id="ExecXmlConfig$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlConfig" Execute="deferred" Impersonate="no" Return="check" SuppressModularization="yes" />
-    <CustomAction Id="ExecXmlConfigRollback$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlConfigRollback" Execute="rollback" Impersonate="no" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="ExecXmlConfig$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlConfig" Execute="deferred" Impersonate="no" Return="check" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ExecXmlConfigRollback$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecXmlConfigRollback" Execute="rollback" Impersonate="no" Return="check" HideTarget="yes" SuppressModularization="yes" />
 
     <InstallExecuteSequence>
       <Custom Action="SchedXmlConfig$(var.Suffix)" After="DuplicateFiles" Overridable="yes">VersionNT &gt; 400</Custom>
@@ -194,8 +189,8 @@
 
     <CustomAction Id="SchedSecureObjects$(var.Suffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="SchedSecureObjects" Execute="immediate" Return="check" SuppressModularization="yes" />
     <CustomAction Id="SchedSecureObjectsRollback$(var.Suffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="SchedSecureObjectsRollback" Execute="immediate" Return="check" SuppressModularization="yes" />
-    <CustomAction Id="ExecSecureObjects$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecSecureObjects" Execute="deferred" Impersonate="no" Return="check" SuppressModularization="yes" />
-    <CustomAction Id="ExecSecureObjectsRollback$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecSecureObjectsRollback" Execute="rollback" Impersonate="no" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="ExecSecureObjects$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecSecureObjects" Execute="deferred" Impersonate="no" Return="check" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ExecSecureObjectsRollback$(var.DeferredSuffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="ExecSecureObjectsRollback" Execute="rollback" Impersonate="no" Return="check" HideTarget="yes" SuppressModularization="yes" />
 
     <InstallExecuteSequence>
       <!-- Condition this so it runs on install and MMode, but not uninstall -->

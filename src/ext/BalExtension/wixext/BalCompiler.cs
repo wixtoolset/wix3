@@ -1,15 +1,4 @@
-//-------------------------------------------------------------------------------------------------
-// <copyright file="BalCompiler.cs" company="Outercurve Foundation">
-//   Copyright (c) 2004, Outercurve Foundation.
-//   This software is released under Microsoft Reciprocal License (MS-RL).
-//   The license and further copyright text can be found in the file
-//   LICENSE.TXT at the root directory of the distribution.
-// </copyright>
-// 
-// <summary>
-// The compiler for the Windows Installer XML Toolset Bal Extension.
-// </summary>
-//-------------------------------------------------------------------------------------------------
+// Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information.
 
 namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 {
@@ -98,6 +87,39 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
         /// <param name="sourceLineNumbers">Source line number for the parent element.</param>
         /// <param name="parentElement">Parent element of element to process.</param>
         /// <param name="attribute">Attribute to process.</param>
+        public override void ParseAttribute(SourceLineNumberCollection sourceLineNumbers, XmlElement parentElement, XmlAttribute attribute)
+        {
+            switch (parentElement.LocalName)
+            {
+                case "BootstrapperApplication":
+                case "BootstrapperApplicationRef":
+                    switch (attribute.LocalName)
+                    {
+                        case "UseUILanguages":
+                            if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attribute))
+                            {
+                                Row row = this.Core.CreateRow(sourceLineNumbers, "WixStdbaSettings");
+                                row[0] = "UseUILanguages";
+                                row[1] = "1";
+                            }
+                            break;
+                        default:
+                            this.Core.UnexpectedAttribute(sourceLineNumbers, attribute);
+                            break;
+                    }
+                    break;
+                default:
+                    this.Core.UnexpectedAttribute(sourceLineNumbers, attribute);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Processes an attribute for the Compiler.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source line number for the parent element.</param>
+        /// <param name="parentElement">Parent element of element to process.</param>
+        /// <param name="attribute">Attribute to process.</param>
         /// <param name="contextValues">Extra information about the context in which this element is being parsed.</param>
         public override void ParseAttribute(SourceLineNumberCollection sourceLineNumbers, XmlElement parentElement, XmlAttribute attribute, Dictionary<string, string> contextValues)
         {
@@ -128,7 +150,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                 break;
                         }
                     }
-                        break;
+                    break;
                 case "Variable":
                     // at the time the extension attribute is parsed, the compiler might not yet have
                     // parsed the Name attribute, so we need to get it directly from the parent element.
@@ -251,6 +273,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             YesNoType suppressDowngradeFailure = YesNoType.NotSet;
             YesNoType suppressRepair = YesNoType.NotSet;
             YesNoType showVersion = YesNoType.NotSet;
+            YesNoType supportCacheOnly = YesNoType.NotSet;
+            YesNoType showFilesInUse = YesNoType.NotSet;
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -302,6 +326,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             break;
                         case "ShowVersion":
                             showVersion = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            break;
+                        case "SupportCacheOnly":
+                            supportCacheOnly = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
+                            break;
+                        case "ShowFilesInUse":
+                            showFilesInUse = this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib);
                             break;
                         default:
                             this.Core.UnexpectedAttribute(sourceLineNumbers, attrib);
@@ -391,7 +421,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     this.Core.CreateWixVariableRow(sourceLineNumbers, "WixStdbaThemeWxl", localizationFile, false);
                 }
 
-                if (YesNoType.Yes == suppressOptionsUI || YesNoType.Yes == suppressDowngradeFailure || YesNoType.Yes == suppressRepair || YesNoType.Yes == showVersion)
+                if (YesNoType.Yes == suppressOptionsUI || YesNoType.Yes == suppressDowngradeFailure || YesNoType.Yes == suppressRepair || YesNoType.Yes == showVersion || YesNoType.Yes == supportCacheOnly || YesNoType.Yes == showFilesInUse)
                 {
                     Row row = this.Core.CreateRow(sourceLineNumbers, "WixStdbaOptions");
                     if (YesNoType.Yes == suppressOptionsUI)
@@ -412,6 +442,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     if (YesNoType.Yes == showVersion)
                     {
                         row[3] = 1;
+                    }
+
+                    if (YesNoType.Yes == showFilesInUse)
+                    {
+                        row[4] = 1;
+                    }
+
+                    if (YesNoType.Yes == supportCacheOnly)
+                    {
+                        row[5] = 1;
                     }
                 }
             }
