@@ -1,0 +1,1 @@
+* jchoover: WIXBUG:6071 - Enable HTTP to HTTPS redirects for burn downloads.
