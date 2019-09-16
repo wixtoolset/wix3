@@ -633,13 +633,13 @@ namespace Microsoft.Deployment.Compression
             }
             else
             {
+                this.ValidateArchivePath(path);
+
                 filePath = path;
             }
 
             if (filePath != null)
             {
-                this.ValidateArchivePath(filePath);
-
                 if (this.directory != null)
                 {
                     filePath = Path.Combine(this.directory, filePath);
