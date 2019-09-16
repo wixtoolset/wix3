@@ -1,3 +1,9 @@
+## WixBuild: Version 3.14.0.3316
+
+* RobMen: WIXBUG:6075 - Fix "Zip Slip" vulnerability in DTF.
+
+* jchoover: WIXBUG:6071 - Enable HTTP to HTTPS redirects for burn downloads.
+
 ## WixBuild: Version 3.14.0.3205
 
 ## WixBuild: Version 3.14.0.2927
