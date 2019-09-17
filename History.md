@@ -1,3 +1,9 @@
+## WixBuild: Version 3.11.2.4516
+
+* HeathS: Add support for .NET Foundation signing service
+
+* RobMen: WIXBUG:6075 - Fix "Zip Slip" vulnerability in DTF.
+
 ## WixBuild: Version 3.11.1.2318
 
 * RobMen - WIXBUG:5724 - fix DLL hijack of clean room when bundle launched elevated.
