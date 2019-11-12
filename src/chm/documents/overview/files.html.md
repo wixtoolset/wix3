@@ -173,7 +173,7 @@ The following list describes the supported file types in WiX:
 
 ## Additional Information
 
-###Structure of .wxs files
+### Structure of .wxs files
 
 All .wxs files are well-formed XML documents that contain a single root element named &lt;Wix/&gt;. The rest of the source file may or may not adhere to the WiX schema before preprocessing. However, after being preprocessed all source files must conform to the WiX schema or they will fail to compile.
 
