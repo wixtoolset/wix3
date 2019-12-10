@@ -738,7 +738,8 @@ public: // IBootstrapperApplication
 
     virtual STDMETHODIMP_(int) OnExecutePackageBegin(
         __in_z LPCWSTR wzPackageId,
-        __in BOOL fExecute
+        __in BOOL fExecute,
+        __inout BOOL* pDisplayInternalUi
         )
     {
         LPWSTR sczFormattedString = NULL;
@@ -792,7 +793,7 @@ public: // IBootstrapperApplication
         }
 
         ReleaseStr(sczFormattedString);
-        return __super::OnExecutePackageBegin(wzPackageId, fExecute);
+        return __super::OnExecutePackageBegin(wzPackageId, fExecute, pDisplayInternalUi);
     }
 
 

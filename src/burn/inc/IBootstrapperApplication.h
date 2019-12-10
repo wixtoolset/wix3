@@ -606,7 +606,8 @@ DECLARE_INTERFACE_IID_(IBootstrapperApplication, IUnknown, "53C31D56-49C0-426B-A
     //  IDNOACTION instructs the engine to continue.
     STDMETHOD_(int, OnExecutePackageBegin)(
         __in_z LPCWSTR wzPackageId,
-        __in BOOL fExecute
+        __in BOOL fExecute,
+        __inout BOOL* pDisplayInternalUi
         ) = 0;
 
     // OnExecutePatchTarget - called when the engine executes one or more patches targeting

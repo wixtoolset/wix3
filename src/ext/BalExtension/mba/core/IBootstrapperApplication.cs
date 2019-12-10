@@ -314,7 +314,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnExecutePackageBegin(
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
-            [MarshalAs(UnmanagedType.Bool)] bool fExecute
+            [MarshalAs(UnmanagedType.Bool)] bool fExecute,
+            [MarshalAs(UnmanagedType.Bool)] ref bool fDisplayInternalUi
             );
 
         [PreserveSig]

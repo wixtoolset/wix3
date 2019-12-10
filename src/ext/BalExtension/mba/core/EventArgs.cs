@@ -1514,16 +1514,19 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
     {
         private string packageId;
         private bool shouldExecute;
+        private bool displayInternalUi;
 
         /// <summary>
         /// Creates a new instance of the <see cref="ExecutePackageBeginEventArgs"/> class.
         /// </summary>
         /// <param name="packageId">The identity of the package to act on.</param>
         /// <param name="shouldExecute">Whether the package should really be acted on.</param>
-        public ExecutePackageBeginEventArgs(string packageId, bool shouldExecute)
+        /// <param name="displayInternalUi">Whether the package should display it's internal UI</param>
+        public ExecutePackageBeginEventArgs(string packageId, bool shouldExecute, bool displayInternalUi)
         {
             this.packageId = packageId;
             this.shouldExecute = shouldExecute;
+            this.displayInternalUi = displayInternalUi;
         }
 
         /// <summary>
@@ -1540,6 +1543,18 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         public bool ShouldExecute
         {
             get { return this.shouldExecute; }
+        }
+
+        public bool DisplayinternalUi 
+        { 
+            get
+            {
+                return this.displayInternalUi;
+            }
+            set
+            {
+                this.displayInternalUi = value;
+            }
         }
     }
 

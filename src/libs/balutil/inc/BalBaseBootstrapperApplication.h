@@ -431,7 +431,8 @@ public: // IBootstrapperApplication
 
     virtual STDMETHODIMP_(int) OnExecutePackageBegin(
         __in_z LPCWSTR wzPackageId,
-        __in BOOL fExecute
+        __in BOOL fExecute,
+        __inout BOOL* pDisplayInternalUi
         )
     {
         // Only track retry on execution (not rollback).
@@ -439,6 +440,8 @@ public: // IBootstrapperApplication
         {
             BalRetryStartPackage(BALRETRY_TYPE_EXECUTE, wzPackageId, NULL);
         }
+
+        if(*pDisplayInternalUi){/*NOPE*/}
 
         m_fRollingBack = !fExecute;
         return CheckCanceled() ? IDCANCEL : IDNOACTION;

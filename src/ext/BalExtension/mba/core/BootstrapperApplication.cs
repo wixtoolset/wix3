@@ -1425,11 +1425,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             return args.Result;
         }
 
-        Result IBootstrapperApplication.OnExecutePackageBegin(string wzPackageId, bool fExecute)
+        Result IBootstrapperApplication.OnExecutePackageBegin(string wzPackageId, bool fExecute, ref bool displayInternalUi)
         {
-            ExecutePackageBeginEventArgs args = new ExecutePackageBeginEventArgs(wzPackageId, fExecute);
+            ExecutePackageBeginEventArgs args = new ExecutePackageBeginEventArgs(wzPackageId, fExecute, displayInternalUi);
             this.OnExecutePackageBegin(args);
 
+            displayInternalUi = args.DisplayinternalUi;
             return args.Result;
         }
 

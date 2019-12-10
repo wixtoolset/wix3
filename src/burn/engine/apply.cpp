@@ -1824,6 +1824,7 @@ static HRESULT ExecuteExePackage(
     HRESULT hrExecute = S_OK;
     GENERIC_EXECUTE_MESSAGE message = { };
     int nResult = 0;
+    BOOL fDisplayInternalUi = false;
 
     if (FAILED(pExecuteAction->exePackage.pPackage->hrCacheResult))
     {
@@ -1835,7 +1836,7 @@ static HRESULT ExecuteExePackage(
     pContext->pExecutingPackage = pExecuteAction->exePackage.pPackage;
 
     // send package execute begin to UX
-    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->exePackage.pPackage->sczId, !fRollback);
+    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->exePackage.pPackage->sczId, !fRollback, &fDisplayInternalUi);
     hr = UserExperienceInterpretExecuteResult(&pEngineState->userExperience, fRollback, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted execute EXE package begin.");
 
@@ -1900,7 +1901,8 @@ static HRESULT ExecuteMsiPackage(
     pContext->pExecutingPackage = pExecuteAction->msiPackage.pPackage;
 
     // send package execute begin to UX
-    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->msiPackage.pPackage->sczId, !fRollback);
+    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->msiPackage.pPackage->sczId, !fRollback, &(pExecuteAction->msiPackage.pPackage->Msi.fDisplayInternalUI));
+    pExecuteAction->msiPackage.uiLevel = MsiEngineCalculateInstallUiLevel(pExecuteAction->msiPackage.pPackage->Msi.fDisplayInternalUI, pEngineState->command.display, pExecuteAction->msiPackage.action);
     hr = UserExperienceInterpretExecuteResult(&pEngineState->userExperience, fRollback, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted execute MSI package begin.");
 
@@ -1951,7 +1953,8 @@ static HRESULT ExecuteMspPackage(
     pContext->pExecutingPackage = pExecuteAction->mspTarget.pPackage;
 
     // send package execute begin to UX
-    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->mspTarget.pPackage->sczId, !fRollback);
+    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->mspTarget.pPackage->sczId, !fRollback, &(pExecuteAction->mspTarget.pPackage->Msp.fDisplayInternalUI));
+    pExecuteAction->mspTarget.uiLevel = MsiEngineCalculateInstallUiLevel(pExecuteAction->mspTarget.pPackage->Msp.fDisplayInternalUI, pEngineState->command.display, pExecuteAction->mspTarget.action);
     hr = UserExperienceInterpretExecuteResult(&pEngineState->userExperience, fRollback, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted execute MSP package begin.");
 
@@ -2003,6 +2006,7 @@ static HRESULT ExecuteMsuPackage(
     HRESULT hrExecute = S_OK;
     GENERIC_EXECUTE_MESSAGE message = { };
     int nResult = 0;
+    BOOL fDisplayInternalUi = false;
 
     if (FAILED(pExecuteAction->msuPackage.pPackage->hrCacheResult))
     {
@@ -2014,7 +2018,7 @@ static HRESULT ExecuteMsuPackage(
     pContext->pExecutingPackage = pExecuteAction->msuPackage.pPackage;
 
     // send package execute begin to UX
-    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->msuPackage.pPackage->sczId, !fRollback);
+    nResult = pEngineState->userExperience.pUserExperience->OnExecutePackageBegin(pExecuteAction->msuPackage.pPackage->sczId, !fRollback, &fDisplayInternalUi);
     hr = UserExperienceInterpretExecuteResult(&pEngineState->userExperience, fRollback, MB_OKCANCEL, nResult);
     ExitOnRootFailure(hr, "UX aborted execute MSU package begin.");
 
