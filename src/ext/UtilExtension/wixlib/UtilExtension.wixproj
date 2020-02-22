@@ -15,6 +15,7 @@
     <Compile Include="UtilExtension.wxs" />
     <Compile Include="UtilExtension_x86.wxs" />
     <Compile Include="UtilExtension_x64.wxs" />
+    <Compile Include="UtilExtension_arm64.wxs" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="de-de.wxl" />
     <EmbeddedResource Include="es-es.wxl" />

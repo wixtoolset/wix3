@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Include="HttpExtension.wxs" />
     <Compile Include="HttpExtension_x86.wxs" />
+    <Compile Include="HttpExtension_arm64.wxs" />
     <EmbeddedResource Include="en-us.wxl" />
   </ItemGroup>
 

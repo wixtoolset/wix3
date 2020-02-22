@@ -116,6 +116,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
         Or
     }
 
+    [Flags]
+    public enum Platforms
+    {
+        None = 0,
+        X86 = 0x1,
+        X64 = 0x2,
+        IA64 = 0x4,
+        ARM = 0x8,
+        ARM64 = 0x10
+    }
+
     /// <summary>
     /// Core class for the compiler.
     /// </summary>
@@ -265,6 +276,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get { return this.currentPlatform; }
             set { this.currentPlatform = value; }
+        }
+
+        /// <summary>
+        /// Gets whether the current platform is a 64-bit platform.
+        /// </summary>
+        /// <value>true if the current platform is X64, ARM64, or IA64.</value>
+        public bool IsCurrentPlatform64Bit
+        {
+            get { return this.CurrentPlatform == Platform.ARM64 || this.CurrentPlatform == Platform.IA64 || this.CurrentPlatform == Platform.X64; }
         }
 
         /// <summary>
@@ -841,6 +861,55 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 WixSimpleReferenceRow wixSimpleReferenceRow = (WixSimpleReferenceRow)this.CreateRow(sourceLineNumbers, "WixSimpleReference");
                 wixSimpleReferenceRow.TableName = tableName;
                 wixSimpleReferenceRow.PrimaryKeys = String.Join("/", primaryKeys);
+            }
+        }
+
+        /// <summary>
+        /// Create a WixSimpleReference row in the active section for a custom action specialized for specific platforms.
+        /// Assumes the suffixes defined in ext/ca/inc/caSuffix.h.
+        /// </summary>
+        /// <param name="sourceLineNumbers">Source line information for the row.</param>
+        /// <param name="customAction">The custom action base name (specialized by platform).</param>
+        /// <param name="supportedPlatforms">The platforms other than x86 for which there are specialized custom actions.</param>
+        public void CreateCustomActionReference(SourceLineNumberCollection sourceLineNumbers, string customAction, Platforms supportedPlatforms)
+        {
+            if (!this.EncounteredError)
+            {
+                string name = customAction;
+
+                switch (this.CurrentPlatform)
+                {
+                    case Platform.X86:
+                        // default: nothing to do
+                        break;
+                    case Platform.X64:
+                        if ((supportedPlatforms & Platforms.X64) == Platforms.X64)
+                        {
+                            // Deferred custom actions take an `_64` suffix instead, for some reason. This method is
+                            // intended for typical compiler extensions that only schedule immediate custom actions.
+                            name = String.Concat(customAction, "_x64");
+                        }
+                        break;
+                    case Platform.ARM:
+                        if ((supportedPlatforms & Platforms.ARM) == Platforms.ARM)
+                        {
+                            name = String.Concat(customAction, "_ARM");
+                        }
+                        break;
+                    case Platform.ARM64:
+                        if ((supportedPlatforms & Platforms.ARM64) == Platforms.ARM64)
+                        {
+                            name = String.Concat(customAction, "_A64");
+                        }
+                        break;
+                    case Platform.IA64:
+                        // yeah, no
+                        break;
+                }
+
+                WixSimpleReferenceRow wixSimpleReferenceRow = (WixSimpleReferenceRow)this.CreateRow(sourceLineNumbers, "WixSimpleReference");
+                wixSimpleReferenceRow.TableName = "CustomAction";
+                wixSimpleReferenceRow.PrimaryKeys = name;
             }
         }
 

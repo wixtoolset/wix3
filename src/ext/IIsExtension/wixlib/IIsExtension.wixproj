@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Include="IIsExtension.wxs" />
     <Compile Include="IIsExtension_x86.wxs" />
+    <Compile Include="IIsExtension_arm64.wxs" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />
     <EmbeddedResource Include="pt-br.wxl" />

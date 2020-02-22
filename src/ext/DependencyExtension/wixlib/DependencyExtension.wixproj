@@ -16,6 +16,7 @@
   <ItemGroup>
     <Compile Include="DependencyExtension.wxs" />
     <Compile Include="DependencyExtension_x86.wxs" />
+    <Compile Include="DependencyExtension_arm64.wxs" />
     <EmbeddedResource Include="en-us.wxl" />
   </ItemGroup>
 

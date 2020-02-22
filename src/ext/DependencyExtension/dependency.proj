@@ -5,6 +5,10 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <ProjectReference Include="ca\wixdepca.vcxproj" />
+    <ProjectReference Include="ca\wixdepca.vcxproj">
+      <Properties>Platform=arm64</Properties>
+    </ProjectReference>
+
     <ProjectReference Include="wixlib\DependencyExtension.wixproj" />
     <ProjectReference Include="wixext\DependencyExtension.csproj" />
   </ItemGroup>

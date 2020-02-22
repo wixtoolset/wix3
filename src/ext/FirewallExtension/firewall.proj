@@ -5,6 +5,9 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <ProjectReference Include="ca\firewall.vcxproj" />
+    <ProjectReference Include="ca\firewall.vcxproj">
+      <Properties>Platform=arm64</Properties>
+    </ProjectReference>
     <ProjectReference Include="wixlib\FirewallExtension.wixproj" />
     <ProjectReference Include="wixext\WixFirewallExtension.csproj" />
   </ItemGroup>
