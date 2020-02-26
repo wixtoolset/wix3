@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include caSuffix.wxi ?>
+  <?include caerr.wxi ?>
+
+  <Fragment>
+    <UI>
+      <ProgressText Action="MessageQueuingExecuteInstall$(var.Suffix)" Template="!(loc.MessageQueuingExecuteInstallTemplate)">!(loc.MessageQueuingExecuteInstall)</ProgressText>
+      <ProgressText Action="MessageQueuingExecuteUninstall$(var.Suffix)" Template="!(loc.MessageQueuingExecuteUninstallTemplate)">!(loc.MessageQueuingExecuteUninstall)</ProgressText>
+    </UI>
+
+    <CustomAction Id="MessageQueuingInstall$(var.Suffix)" BinaryKey="WixMsmqSched$(var.Suffix)" DllEntry="MessageQueuingInstall" Execute="immediate" Return="check" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingUninstall$(var.Suffix)" BinaryKey="WixMsmqSched$(var.Suffix)" DllEntry="MessageQueuingUninstall" Execute="immediate" Return="check" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingExecuteInstall$(var.Suffix)" BinaryKey="WixMsmqExec$(var.Suffix)" DllEntry="MessageQueuingExecuteInstall" Execute="deferred" Return="check" Impersonate="no" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingRollbackInstall$(var.Suffix)" BinaryKey="WixMsmqExec$(var.Suffix)" DllEntry="MessageQueuingRollbackInstall" Execute="rollback" Return="check" Impersonate="no" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingExecuteUninstall$(var.Suffix)" BinaryKey="WixMsmqExec$(var.Suffix)" DllEntry="MessageQueuingExecuteUninstall" Execute="deferred" Return="check" Impersonate="no" SuppressModularization="yes"/>
+    <CustomAction Id="MessageQueuingRollbackUninstall$(var.Suffix)" BinaryKey="WixMsmqExec$(var.Suffix)" DllEntry="MessageQueuingRollbackUninstall" Execute="rollback" Return="check" Impersonate="no" SuppressModularization="yes"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="MessageQueuingUninstall$(var.Suffix)" After="DeleteServices" Overridable="yes">VersionNT >= 500</Custom>
+      <Custom Action="MessageQueuingInstall$(var.Suffix)" Before="InstallServices" Overridable="yes">VersionNT >= 500</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+
+  <Fragment>
+    <Binary Id="WixMsmqExec$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))mqexec.dll" />
+    <Binary Id="WixMsmqSched$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))mqsched.dll" />
+  </Fragment>
+</Include>

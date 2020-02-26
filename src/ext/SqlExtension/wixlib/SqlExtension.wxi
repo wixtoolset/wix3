@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caSuffix.wxi ?>
+    <?include caerr.wxi ?>
+
+    <!-- Server Custom Action Definitions -->
+
+    <Fragment>
+        <UI>
+            <Error Id="$(var.msierrSQLFailedCreateDatabase)">!(loc.msierrSQLFailedCreateDatabase)</Error>
+            <Error Id="$(var.msierrSQLFailedDropDatabase)">!(loc.msierrSQLFailedDropDatabase)</Error>
+            <Error Id="$(var.msierrSQLFailedConnectDatabase)">!(loc.msierrSQLFailedConnectDatabase)</Error>
+            <Error Id="$(var.msierrSQLFailedExecString)">!(loc.msierrSQLFailedExecString)</Error>
+            <Error Id="$(var.msierrSQLDatabaseAlreadyExists)">!(loc.msierrSQLDatabaseAlreadyExists)</Error>
+
+            <ProgressText Action="InstallSqlData$(var.Suffix)">!(loc.ConfigureSql)</ProgressText>
+            <ProgressText Action="UninstallSqlData$(var.Suffix)">!(loc.ConfigureSql)</ProgressText>
+            <ProgressText Action="CreateDatabase$(var.Suffix)">!(loc.CreateDatabase)</ProgressText>
+            <ProgressText Action="DropDatabase$(var.Suffix)">!(loc.DropDatabase)</ProgressText>
+            <ProgressText Action="ExecuteSqlStrings$(var.Suffix)">!(loc.ExecuteSqlStrings)</ProgressText>
+            <ProgressText Action="RollbackExecuteSqlStrings$(var.Suffix)">!(loc.RollbackExecuteSqlStrings)</ProgressText>
+        </UI>
+
+        <!-- The SQL custom actions should impersonate the user because the user"s cridentials are used when connected to the database if none are provided -->
+        <CustomAction Id="InstallSqlData$(var.Suffix)" BinaryKey="ScaSchedule2" DllEntry="InstallSqlData" Execute="immediate" Return="check" />
+        <CustomAction Id="UninstallSqlData$(var.Suffix)" BinaryKey="ScaSchedule2" DllEntry="UninstallSqlData" Execute="immediate" Return="check" />
+        <CustomAction Id="CreateDatabase$(var.Suffix)" BinaryKey="ScaExecute2" DllEntry="CreateDatabase" Execute="deferred" Return="check" HideTarget="yes" SuppressModularization="yes" TerminalServerAware="yes" />
+        <CustomAction Id="RollbackCreateDatabase$(var.Suffix)" BinaryKey="ScaExecute2" DllEntry="DropDatabase" Execute="rollback" Return="check" HideTarget="yes" SuppressModularization="yes" TerminalServerAware="yes" />
+        <CustomAction Id="DropDatabase$(var.Suffix)" BinaryKey="ScaExecute2" DllEntry="DropDatabase" Execute="deferred" Return="check" HideTarget="yes" SuppressModularization="yes" TerminalServerAware="yes" />
+        <CustomAction Id="ExecuteSqlStrings$(var.Suffix)" BinaryKey="ScaExecute2" DllEntry="ExecuteSqlStrings" Execute="deferred" Return="check" HideTarget="yes" SuppressModularization="yes" TerminalServerAware="yes" />
+        <CustomAction Id="RollbackExecuteSqlStrings$(var.Suffix)" BinaryKey="ScaExecute2" DllEntry="ExecuteSqlStrings" Execute="rollback" Return="check" HideTarget="yes" SuppressModularization="yes" TerminalServerAware="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="UninstallSqlData$(var.Suffix)" Before="RemoveFiles" Overridable="yes">NOT SKIPUNINSTALLSQLDATA AND VersionNT &gt; 400</Custom>
+            <Custom Action="InstallSqlData$(var.Suffix)" After="InstallFiles" Overridable="yes">NOT SKIPINSTALLSQLDATA AND VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Server Custom Action DLL Definitions -->
+    <Fragment>
+        <Binary Id="ScaSchedule2$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))scasched.dll" />
+        <Binary Id="ScaExecute2$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))scaexec.dll" />
+    </Fragment>
+</Include>

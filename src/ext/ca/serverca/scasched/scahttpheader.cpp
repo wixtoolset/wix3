@@ -159,7 +159,7 @@ HRESULT ScaWriteHttpHeader(
     LPWSTR pwz = NULL;
     LPWSTR pwzHeaders = NULL;
     LPWSTR pwzNewHeader = NULL;
-    DWORD dwFoundHeaderIndex = 0;
+    DWORD_PTR dwFoundHeaderIndex = 0;
     LPCWSTR wzFoundHeader = NULL;
     BOOL fOldValueFound = FALSE;
 

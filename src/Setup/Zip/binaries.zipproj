@@ -73,15 +73,14 @@
     <Stage Include="$(OutputPath)WixIIsExtension.dll" />
     <Stage Include="$(OutputPath)WixMsmqExtension.dll " />
     <Stage Include="$(OutputPath)WixNetFxExtension.dll" />
-    <!--<Stage Include="$(OutputPath)WixOfficeExtension.dll" />-->
     <Stage Include="$(OutputPath)WixPSExtension.dll" />
     <Stage Include="$(OutputPath)WixSqlExtension.dll" />
     <Stage Include="$(OutputPath)WixTagExtension.dll" />
     <Stage Include="$(OutputPath)WixUIExtension.dll" />
     <Stage Include="$(OutputPath)WixUtilExtension.dll" />
     <Stage Include="$(OutputPath)WixVSExtension.dll" />
-    <Stage Include="$(OutputPath)WixVSExtension.MSBuild12.dll" />
-    <Stage Include="$(OutputPath)WixVSExtension.MSBuild14.dll" />
+    <Stage Include="$(OutputPath)WixVSExtension.MSBuild12.dll" Condition=" Exists('$(OutputPath)WixVSExtension.MSBuild12.dll')" />
+    <Stage Include="$(OutputPath)WixVSExtension.MSBuild14.dll" Condition=" Exists('$(OutputPath)WixVSExtension.MSBuild14.dll')" />
 
     <!-- special wixlib handling -->
     <Stage Include="$(OutputPath)difxapp_x86.wixlib" />
@@ -268,6 +267,17 @@
     </Stage>
     <Stage Include="$(OutputPath_arm)**\wcautil.lib">
       <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm</StageSubDirectory>
+    </Stage>
+
+    <!-- ARM64 -->
+    <Stage Include="$(OutputPath_arm64)**\deputil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm64</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_arm64)**\dutil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm64</StageSubDirectory>
+    </Stage>
+    <Stage Include="$(OutputPath_arm64)**\wcautil.lib">
+      <StageSubDirectory>sdk\vs%(RecursiveDir)\lib\arm64</StageSubDirectory>
     </Stage>
 
     <!-- x64 -->

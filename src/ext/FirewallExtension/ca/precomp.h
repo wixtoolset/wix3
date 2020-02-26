@@ -15,3 +15,4 @@
 
 #include "CustomMsiErrors.h"
 #include "cost.h"
+#include "caSuffix.h"

@@ -14,7 +14,7 @@ namespace Microsoft.Tools.MsgGen
     /// <summary>
     /// The main entry point for GenerateWixInclude.
     /// </summary>
-    public class MsgGen
+    public class GenerateWixInclude
     {
         /// <summary>
         /// The main entry point for GenerateWixInclude.

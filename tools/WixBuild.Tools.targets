@@ -27,18 +27,23 @@
   ================================================================================================
   -->
   <Target Name="Diagnostics">
-    <Message Importance="high" Text="WixRoot = $(WixRoot)" />
-    <Message Importance="high" Text="WixObjRoot = $(WixObjRoot)" />
-    <Message Importance="high" Text="IntermediateOutputPath = $(IntermediateOutputPath)" />
-    <Message Importance="high" Text="OutputPath = $(OutputPath)" />
-    <Message Importance="high" Text="VS2010Available = $(VS2010Available)" />
-    <Message Importance="high" Text="VS2012Available = $(VS2012Available)" />
-    <Message Importance="high" Text="VS2013Available = $(VS2013Available)" />
-    <Message Importance="high" Text="VS2015Available = $(VS2015Available)" />
-    <Message Importance="high" Text="VS2017Available = $(VS2017Available)" />
-    <Message Importance="high" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
-    <Message Importance="high" Text="PlatformSdkArmLibraryRoot = $(PlatformSdkArmLibraryRoot)" />
-    <Message Importance="high" Text="SqlCESdkIncludePath = $(SqlCESdkIncludePath)" />
+    <!-- These are handy debugging messages only shown when /verbosity:detailed is set. -->
+    <Message Importance="low" Text="WixRoot = $(WixRoot)" />
+    <Message Importance="low" Text="WixObjRoot = $(WixObjRoot)" />
+    <Message Importance="low" Text="WIX_BUILDROOT = $(WIX_BUILDROOT)" />
+    <Message Importance="low" Text="IntermediateOutputPath = $(IntermediateOutputPath)" />
+    <Message Importance="low" Text="OutputPath = $(OutputPath)" />
+    <Message Importance="low" Text="VS2010Available = $(VS2010Available)" />
+    <Message Importance="low" Text="VS2012Available = $(VS2012Available)" />
+    <Message Importance="low" Text="VS2013Available = $(VS2013Available)" />
+    <Message Importance="low" Text="VS2015Available = $(VS2015Available)" />
+    <Message Importance="low" Text="VS2017Available = $(VS2017Available)" />
+    <Message Importance="low" Text="PlatformSdkInstallPath = $(PlatformSdkInstallPath)" />
+    <Message Importance="low" Text="PlatformSdkBinPath = $(PlatformSdkBinPath)" />
+    <Message Importance="low" Text="PlatformSdkIncludeRoot = $(PlatformSdkIncludeRoot)" />
+    <Message Importance="low" Text="PlatformSdkArmLibraryRoot = $(PlatformSdkArmLibraryRoot)" />
+    <Message Importance="low" Text="PlatformSdkArm64LibraryRoot = $(PlatformSdkArm64LibraryRoot)" />
+    <Message Importance="low" Text="SqlCESdkIncludePath = $(SqlCESdkIncludePath)" />
   </Target>
 
   <!--
@@ -52,12 +57,7 @@
     $(WIX_ROOT) - The root directory of the wix source files.
   ================================================================================================
   -->
-  <Target Name="CheckRequiredProperties">
-    <!-- These are handy debugging messages only shown when /verbosity:detailed is set. -->
-    <Message Importance="low" Text="WixRoot = $(WixRoot)" />
-    <Message Importance="low" Text="WixObjRoot = $(WixObjRoot)" />
-    <Message Importance="low" Text="WIX_BUILDROOT = $(WIX_BUILDROOT)" />
-
+  <Target Name="CheckRequiredProperties" DependsOnTargets="Diagnostics">
     <PropertyGroup>
       <DisabledWixStrongName32>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,ce35f76fcda82bad', '', 'ABSENT', RegistryView.Registry32))</DisabledWixStrongName32>
       <DisabledWixStrongName64>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\*,ce35f76fcda82bad', '', 'ABSENT', RegistryView.Registry64))</DisabledWixStrongName64>
@@ -81,7 +81,7 @@
     <Error
       Code="WIXBUILD002"
       Condition=" '$(PlatformSdkBinPath)' == '' or !Exists('$(PlatformSdkBinPath)')"
-      Text="Error the &quot;Microsoft Windows SDK for Windows 7 and .NET Framework 4&quot; or &quot;Visual Studio 2010&quot; must be installed." />
+      Text="The &quot;Microsoft Windows SDK for Windows 7 and .NET Framework 4&quot; or &quot;Visual Studio 2010&quot; or later must be installed." />
 
     <Error
       Code="WIXBUILD004"
@@ -133,6 +133,15 @@
       Condition=" '$(PleaseSignOutput)'!='' and ('$(SignClientUser)'=='' or '$(SignClientSecret)'=='') "
       Text="Signing is requested but one or both required properites SignClientUser and SignClientSecret were not specified on the command line or as environment variables." />
 
+    <Error
+      Code="WIXBUILD016"
+      Condition=" $(BuildARM64) and !(Exists('$(PlatformSdkArm64LibraryRoot)')) "
+      Text="No suitable Windows SDK found to build ARM64" />
+
+    <Error
+      Code="WIXBUILD017"
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(BuildARM) and $(BuildARM64))"
+      Text="Official builds must include ARM and ARM64. Install ARM and ARM64 support for VS2017." />
   </Target>
 
   <!--

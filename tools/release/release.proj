@@ -14,7 +14,7 @@
     <Error Text="Azure StorageAuthentication is not specified. Ensure that the StorageAuthentication argument is correct." Condition=" '$(StorageAuthentication)'=='' " />
 
     <MSBuild Projects="WixBuildRelease.proj"
-             Properties="OfficialBuildPrivateKeyPair=$(OfficialBuildPrivateKeyPair);StorageAccount=$(StorageAccount);StorageAuthentication=$(StorageAuthentication);GithubUser=$(GithubUser);GithubPassword=$(GithubPassword)"
+             Properties="OfficialBuildPrivateKeyPair=$(OfficialBuildPrivateKeyPair);StorageAccount=$(StorageAccount);StorageAuthentication=$(StorageAuthentication);GithubUser=$(GithubUser);GithubPassword=$(GithubPassword);BuildARM=true;BuildARM64=true"
              Targets="@(WixReleaseTarget)"
              BuildInParallel="false"
              StopOnFirstFailure="true"
