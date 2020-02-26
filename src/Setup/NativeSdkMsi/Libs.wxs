@@ -45,7 +45,7 @@
 
     <Fragment>
         <ComponentGroup Id="LibARM64Components" Directory="SdkARM64LibFolder">
-            <?if $(var.VisualStudioTargetVersion) = 2017 ?>
+            <?if $(var.BuildARM64) = true ?>
                 <Component>
                     <File Id="dutil_arm64.lib" Source="!(bindpath.arm64)\$(var.VisualStudioTargetVersion)\dutil.lib"/>
                 </Component>

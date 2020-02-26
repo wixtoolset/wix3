@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Compile Include="SqlExtension_x86.wxs" />
-    <Compile Include="SqlExtension_arm64.wxs" />
+    <Compile Include="SqlExtension_arm64.wxs" Condition="$(BuildARM64)" />
     <EmbeddedResource Include="de-de.wxl" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="es-es.wxl" />

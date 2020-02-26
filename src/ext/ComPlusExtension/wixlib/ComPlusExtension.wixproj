@@ -14,7 +14,7 @@
   <ItemGroup>
     <Compile Include="ComPlusExtension_x86.wxs" />
     <Compile Include="ComPlusExtension_x64.wxs" />
-    <Compile Include="ComPlusExtension_arm64.wxs" />
+    <Compile Include="ComPlusExtension_arm64.wxs" Condition="$(BuildARM64)" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="es-es.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />

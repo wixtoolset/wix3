@@ -5,7 +5,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <ProjectReference Include="ca\complusca.proj" />
-    <ProjectReference Include="ca\complusca.proj">
+    <ProjectReference Include="ca\complusca.proj" Condition="$(BuildARM64)">
       <Properties>Platform=arm64</Properties>
     </ProjectReference>
     <ProjectReference Include="wixlib\ComPlusExtension.wixproj" />

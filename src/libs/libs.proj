@@ -10,10 +10,10 @@
     <ProjectReference Include="libs_multitarget.proj">
       <Properties>Platform=x64</Properties>
     </ProjectReference>
-    <ProjectReference Include="libs_multitarget.proj">
+    <ProjectReference Include="libs_multitarget.proj" Condition="$(BuildARM)">
       <Properties>Platform=arm</Properties>
     </ProjectReference>
-    <ProjectReference Include="libs_multitarget.proj">
+    <ProjectReference Include="libs_multitarget.proj" Condition="$(BuildARM64)">
       <Properties>Platform=arm64</Properties>
     </ProjectReference>
   </ItemGroup>

@@ -138,6 +138,10 @@
       Condition=" $(BuildARM64) and !(Exists('$(PlatformSdkArm64LibraryRoot)')) "
       Text="No suitable Windows SDK found to build ARM64" />
 
+    <Error
+      Code="WIXBUILD017"
+      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(BuildARM) and $(BuildARM64))"
+      Text="Official builds must include ARM and ARM64. Install ARM and ARM64 support for VS2017." />
   </Target>
 
   <!--

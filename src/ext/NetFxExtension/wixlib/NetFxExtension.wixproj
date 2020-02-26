@@ -14,7 +14,7 @@
   <ItemGroup>
     <Compile Include="NetFxExtension.wxs" />
     <Compile Include="NetFxExtension_x86.wxs" />
-    <Compile Include="NetFxExtension_arm64.wxs" />
+    <Compile Include="NetFxExtension_arm64.wxs" Condition="$(BuildARM64)" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Platform)' == 'x86' ">

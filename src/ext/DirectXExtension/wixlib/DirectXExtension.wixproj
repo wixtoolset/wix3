@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Compile Include="DirectXExtension_x86.wxs" />
-    <Compile Include="DirectXExtension_arm64.wxs" />
+    <Compile Include="DirectXExtension_arm64.wxs" Condition="$(BuildARM64)" />
   </ItemGroup>
 
   <ItemGroup>

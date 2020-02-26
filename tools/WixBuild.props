@@ -172,9 +172,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <BuildARM Condition=" Exists('$(PlatformSdkArmLibraryRoot)') ">true</BuildARM>
     <BuildARM Condition=" '$(BuildARM)'!='true' ">false</BuildARM>
-    <BuildARM64 Condition=" Exists('$(PlatformSdkArmLibraryRoot)') ">true</BuildARM64>
     <BuildARM64 Condition=" '$(BuildARM64)'!='true' ">false</BuildARM64>
   </PropertyGroup>
 
