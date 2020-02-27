@@ -20,6 +20,7 @@
     <ProjectReference Include="src\chm\chm.helpproj" />
     <ProjectReference Include="src\setup\setup.proj" />
     <ProjectReference Include="test\test.proj" />
+    <!-- <ProjectReference Include="src\wixarm.proj" Condition=" $(BuildARM) " /> -->
   </ItemGroup>
 
   <Import Project="tools\Traversal.targets" />
