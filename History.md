@@ -1,3 +1,13 @@
+## WixBuild: Version 3.14.0.3827
+
+* BobArnson: WIXFEATURE:5558 - Implement ARM64 support in core toolset
+
+* RobMen: WIXBUG:4688 - Support really long paths in MakeSfxCA.exe by using a response file
+
+* RobMen: WIXBUG:6089 - Do not sign SfxCA stub as it prevents signing actual CA dll
+
+* ipetrovic11,stukselbax,SeanHall: WIXFEAT:5658 - Retry launching the elevated bundle once if we think it failed due to antivirus interference.
+
 ## WixBuild: Version 3.14.0.3316
 
 * RobMen: WIXBUG:6075 - Fix "Zip Slip" vulnerability in DTF.
