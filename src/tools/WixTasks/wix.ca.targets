@@ -15,11 +15,28 @@
     <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.14\bin\WixTasks.dll</WixTasksPath>
     <!-- This is a fallback in case using the relative paths above did not work. -->
     <WixTasksPath Condition=" !Exists('$(WixTasksPath)') ">$(MSBuildProgramFiles32)\WiX Toolset v3.14\bin\WixTasks.dll</WixTasksPath>
-
-    <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
   </PropertyGroup>
 
   <UsingTask TaskName="ReadRegistry" AssemblyFile="$(WixTasksPath)"/>
+
+
+  <!--
+  ==================================================================================================
+  CalculateTargetCAFileName
+
+    Creates property TargetCAFileName from TargetName and TargetExt properties.
+    This is necessary because of new sdk-style .csproj format, because there
+    TargetName and TargetExt properties can be only used inside targets otherwise they are blank.
+
+    [OUT]
+    $(TargetCAFileName) - Path for MakeSfxCA to create unmanaged custom action library
+  ==================================================================================================
+  -->
+  <Target Name="CalculateTargetCAFileName">
+    <PropertyGroup>
+      <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
+    </PropertyGroup>
+  </Target>
 
   <!--
   ==================================================================================================
@@ -99,6 +116,7 @@
   ==================================================================================================
   -->
   <Target Name="PackCustomAction"
+   DependsOnTargets="CalculateTargetCAFileName"
    Inputs="@(IntermediateAssembly);@(Content);$(CustomActionContents)"
    Outputs="$(IntermediateOutputPath)$(TargetCAFileName)">
 
@@ -196,7 +214,7 @@
 
   ==================================================================================================
   -->
-  <Target Name="AfterCompile"
+  <Target Name="AfterCompileHack" AfterTargets="AfterCompile"
    DependsOnTargets="PackCustomAction" />
 
   <!--
@@ -208,7 +226,7 @@
 
   ==================================================================================================
   -->
-  <Target Name="BeforeClean"
+  <Target Name="BeforeCleanHack" AfterTargets="BeforeClean"
    DependsOnTargets="CleanCustomAction" />
 
   <Import Project="$(CustomAfterWixCATargets)" Condition=" '$(CustomAfterWixCATargets)' != '' and Exists('$(CustomAfterWixCATargets)')" />
