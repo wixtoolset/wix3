@@ -2527,7 +2527,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureEventManifestRegister", Platforms.ARM | Platforms.ARM64);
             this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureEventManifestUnregister", Platforms.ARM | Platforms.ARM64);
 
-            if (null != messageFile || null !=  parameterFile || null != resourceFile)
+            if (null != messageFile || null != parameterFile || null != resourceFile)
             {
                 this.Core.CreateCustomActionReference(sourceLineNumbers, "SchedXmlFile", Platforms.ARM | Platforms.ARM64);
             }

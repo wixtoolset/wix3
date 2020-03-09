@@ -12070,7 +12070,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.OnMessage(WixWarnings.RequiresMsi200for64bitPackage(sourceLineNumbers));
             }
 
-            if ((0 == String.Compare(platform, "Arm", StringComparison.OrdinalIgnoreCase)) && 500 > msiVersion)
+            if ((0 == String.Compare(platform, "Arm", StringComparison.OrdinalIgnoreCase) || (0 == String.Compare(platform, "Arm64", StringComparison.OrdinalIgnoreCase))) && 500 > msiVersion)
             {
                 msiVersion = 500;
                 this.core.OnMessage(WixWarnings.RequiresMsi500forArmPackage(sourceLineNumbers));
