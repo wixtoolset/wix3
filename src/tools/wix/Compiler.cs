@@ -23,7 +23,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     /// <summary>
-    /// X86, x64, IA64, ARM.
+    /// X86, x64, IA64, ARM, ARM64.
     /// </summary>
     public enum Platform
     {
@@ -6156,11 +6156,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                     case Wix.File.ProcessorArchitectureType.x64:
                                         procArch = "amd64";
                                         break;
+                                    case Wix.File.ProcessorArchitectureType.arm:
+                                        procArch = "arm";
+                                        break;
+                                    case Wix.File.ProcessorArchitectureType.arm64:
+                                        procArch = "arm64";
+                                        break;
                                     case Wix.File.ProcessorArchitectureType.ia64:
                                         procArch = "ia64";
                                         break;
                                     default:
-                                        this.core.OnMessage(WixErrors.IllegalAttributeValue(sourceLineNumbers, "File", "ProcessorArchitecture", procArchValue, "msil", "x86", "x64", "ia64"));
+                                        this.core.OnMessage(WixErrors.IllegalAttributeValue(sourceLineNumbers, "File", "ProcessorArchitecture", procArchValue, "msil", "x86", "x64", "arm", "arm64", "ia64"));
                                         break;
                                 }
                             }
@@ -12024,6 +12030,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                     break;
                                 case Wix.Package.PlatformType.arm:
                                     platform = "Arm";
+                                    break;
+                                case Wix.Package.PlatformType.arm64:
+                                    platform = "Arm64";
                                     break;
                                 default:
                                     this.core.OnMessage(WixErrors.InvalidPlatformValue(sourceLineNumbers, platformValue));
