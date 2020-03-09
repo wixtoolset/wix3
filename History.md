@@ -1,3 +1,13 @@
+## WixBuild: Version 3.14.0.3909
+
+* BobArnson: WIXBUG:6137
+  - Force Package/@InstallerVersion to at least `500` for ARM*.
+  - Include ARM64-aware .cubs.
+
+* BobArnson: WIXBUG:6136
+  - Make ARM64 CAs more 64-bit-aware.
+  - Fix unsuffixed reference that was pulling in 32-bit CAs in ARM64 package.
+
 ## WixBuild: Version 3.14.0.3827
 
 * BobArnson: WIXFEATURE:5558 - Implement ARM64 support in core toolset
