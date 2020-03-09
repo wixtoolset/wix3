@@ -3758,7 +3758,7 @@
         </Message>
         <Message Id="RequiresMsi500forArmPackage" Number="1143">
             <Instance>
-                Package/@InstallerVersion must be 500 or greater for an Arm package. The value will be changed to 500. Please specify a value of 500 or greater in order to eliminate this warning.
+                Package/@InstallerVersion must be 500 or greater for an ARM or ARM64 package. The value will be changed to 500. You can omit the Package/@InstallerVersion value or specify a value of 500 or greater to eliminate this warning.
             </Instance>
         </Message>
         <Message Id="RemotePayloadsMustNotAlsoBeCompressed" Number="1144">
