@@ -131,6 +131,8 @@ HRESULT ExecCommon64(
     HRESULT hr = S_OK;
     LPWSTR pwzCommand = NULL;
     DWORD dwTimeout = 0;
+
+#ifndef _WIN64
     BOOL fIsWow64Initialized = FALSE;
     BOOL fRedirected = FALSE;
 
@@ -145,6 +147,7 @@ HRESULT ExecCommon64(
     hr = WcaDisableWow64FSRedirection();
     ExitOnFailure(hr, "Failed to enable filesystem redirection.");
     fRedirected = TRUE;
+#endif
 
     hr = BuildCommandLine(wzArgumentsProperty, &pwzCommand);
     ExitOnFailure(hr, "Failed to get Command Line");
@@ -157,6 +160,7 @@ HRESULT ExecCommon64(
 LExit:
     ReleaseStr(pwzCommand);
 
+#ifndef _WIN64
     if (fRedirected)
     {
         WcaRevertWow64FSRedirection();
@@ -166,6 +170,7 @@ LExit:
     {
         WcaFinalizeWow64();
     }
+#endif
 
     return hr;
 }
