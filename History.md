@@ -1,3 +1,7 @@
+## WixBuild: Version 3.14.0.3910
+
+* BobArnson: WIXBUG:6141: Add ARM64 to a few more enumerations (code and doc).
+
 ## WixBuild: Version 3.14.0.3909
 
 * BobArnson: WIXBUG:6137
