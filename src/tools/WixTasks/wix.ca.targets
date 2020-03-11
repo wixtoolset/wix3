@@ -170,19 +170,8 @@
       <Output TaskParameter="Include" ItemName="IntermediateCAPackage" />
     </CreateItem>
 
-    <CreateProperty Value="@(IntermediateCAPackage->'%(RootDir)%(Directory)%(Filename).rsp')">
-      <Output TaskParameter="Value" PropertyName="IntermediateCAResponseFile" />
-    </CreateProperty>
-
-    <!-- Use a response file to pass the potentially very long contents to MakeSfxCA.exe -->
-    <WriteLinesToFile File="$(IntermediateCAResponseFile)" Lines="@(CustomActionContents->'&quot;%(Identity)&quot;')" Overwrite="true" />
-
-    <CreateItem Include="$(IntermediateCAResponseFile)">
-      <Output TaskParameter="Include" ItemName="FileWrites" />
-    </CreateItem>
-
     <!-- Run the MakeSfxCA.exe CA packaging tool. -->
-    <Exec Command='"$(MakeSfxCA)" "@(IntermediateCAPackage)" "$(SfxCADll)" "@(IntermediateCAAssembly)" "@$(IntermediateCAResponseFile)"'
+    <Exec Command='"$(MakeSfxCA)" "@(IntermediateCAPackage)" "$(SfxCADll)" "@(IntermediateCAAssembly)" "@(CustomActionContents)"'
      WorkingDirectory="$(ProjectDir)" />
 
     <!-- Add modules to be copied to output dir. -->
