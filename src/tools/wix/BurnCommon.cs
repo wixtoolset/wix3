@@ -3,6 +3,7 @@
 namespace Microsoft.Tools.WindowsInstallerXml
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
 
@@ -18,7 +19,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
         public const string BurnNamespace = "http://schemas.microsoft.com/wix/2008/Burn";
         public const string BurnUXContainerEmbeddedIdFormat = "u{0}";
         public const string BurnUXContainerPayloadIdFormat = "p{0}";
-        public const string BurnAttachedContainerEmbeddedIdFormat = "a{0}";
 
         // See WinNT.h for details about the PE format, including the
         // structure and offsets for IMAGE_DOS_HEADER, IMAGE_NT_HEADERS32,
@@ -71,8 +71,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
         protected const UInt32 BURN_SECTION_OFFSET_FORMAT = 40;
         protected const UInt32 BURN_SECTION_OFFSET_COUNT = 44;
         protected const UInt32 BURN_SECTION_OFFSET_UXSIZE = 48;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE = 52;
-        protected const UInt32 BURN_SECTION_SIZE = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE + 4; // last field + sizeof(DWORD)
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 = 52;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE1 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE2 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE1 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE3 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE2 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE4 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE3 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE5 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE4 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE6 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE5 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE7 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE6 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE8 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE7 + 4;
+        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE9 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE8 + 4;
+        protected const UInt32 BURN_SECTION_SIZE = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE9 + 4; // last field + sizeof(DWORD)
 
         protected const UInt32 BURN_SECTION_MAGIC = 0x00f14300;
         protected const UInt32 BURN_SECTION_VERSION = 0x00000002;
@@ -122,8 +131,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         public UInt32 ContainerCount { get; protected set; }
         public UInt32 UXAddress { get; protected set; }
         public UInt32 UXSize { get; protected set; }
-        public UInt32 AttachedContainerAddress { get; protected set; }
-        public UInt32 AttachedContainerSize { get; protected set; }
+        public Dictionary<UInt32, UInt32> AttachedContainers { get; protected set; } = new Dictionary<uint, uint>();
 
         public void Dispose()
         {
@@ -219,8 +227,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.EngineSize = this.StubSize + this.UXSize;
             }
 
-            this.AttachedContainerAddress = this.ContainerCount > 1 ? this.EngineSize : 0;
-            this.AttachedContainerSize = this.ContainerCount > 1 ? BurnCommon.ReadUInt32(bytes, BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE) : 0;
+            AttachedContainers.Clear();
+            uint nextAddress = EngineSize;
+            if (ContainerCount > 0)
+            {
+                for (uint i = 0; i < (ContainerCount - 1 /* Excluding UX */); ++i)
+                {
+                    uint sizeOffset = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + (i * 4);
+                    uint size = BurnCommon.ReadUInt32(bytes, sizeOffset);
+                    if (size > 0)
+                    {
+                        AttachedContainers.Add(nextAddress, size);
+                        nextAddress += size;
+                    }
+                }
+            }
 
             return true;
         }

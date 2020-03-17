@@ -3,6 +3,7 @@
 namespace Microsoft.Tools.WindowsInstallerXml
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
 
@@ -90,7 +91,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_FORMAT, 1); // Hard-coded to CAB for now.
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_COUNT, 0);
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_UXSIZE, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE1, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE2, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE3, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE4, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE5, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE6, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE7, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE8, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE9, 0);
             this.binaryWriter.BaseStream.Flush();
 
             this.EngineSize = this.StubSize;
@@ -124,6 +134,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
             UInt32 burnSectionCount = 0;
             UInt32 burnSectionOffsetSize = 0;
 
+            if (containerSize == 0)
+            {
+                return false;
+            }
+
             switch (container)
             {
                 case Container.UX:
@@ -135,10 +150,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     break;
 
                 case Container.Attached:
-                    burnSectionCount = 2;
-                    burnSectionOffsetSize = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE;
+                    burnSectionCount = 2 + (uint)AttachedContainers.Count;
+                    burnSectionOffsetSize = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + ((uint)AttachedContainers.Count * 4);
                     // TODO: verify that the size in the section data is 0 or the same size.
-                    this.AttachedContainerSize = (uint)containerSize;
+                    uint nextAddress = 0;
+                    foreach (KeyValuePair<uint, uint> cntnr in AttachedContainers)
+                    {
+                        if (cntnr.Key >= nextAddress)
+                        {
+                            nextAddress = cntnr.Key + cntnr.Value;
+                        }
+                    }
+
+                    AttachedContainers.Add(nextAddress, (uint)containerSize);
                     break;
 
                 default:

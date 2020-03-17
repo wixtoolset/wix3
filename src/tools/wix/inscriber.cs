@@ -150,15 +150,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 File.Copy(signedEngineFile, tempFile, true);
 
                 // If there was an attached container on the original (unsigned) bundle, put it back.
-                if (reader.AttachedContainerSize > 0)
+                foreach (KeyValuePair<uint, uint> cntnr in reader.AttachedContainers)
                 {
-                    reader.Stream.Seek(reader.AttachedContainerAddress, SeekOrigin.Begin);
-
-                    using (BurnWriter writer = BurnWriter.Open(tempFile, this))
+                    uint address = cntnr.Key;
+                    uint size = cntnr.Value;
+                    if (size > 0)
                     {
-                        writer.RememberThenResetSignature();
-                        writer.AppendContainer(reader.Stream, reader.AttachedContainerSize, BurnCommon.Container.Attached);
-                        inscribed = true;
+                        reader.Stream.Seek(address, SeekOrigin.Begin);
+                        using (BurnWriter writer = BurnWriter.Open(tempFile, this))
+                        {
+                            writer.RememberThenResetSignature();
+                            writer.AppendContainer(reader.Stream, size, BurnCommon.Container.Attached);
+                            inscribed = true;
+                        }
                     }
                 }
             }

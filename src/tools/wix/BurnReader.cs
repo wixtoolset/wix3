@@ -5,6 +5,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Xml;
     using Microsoft.Tools.WindowsInstallerXml.Cab;
@@ -154,7 +155,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         public bool ExtractAttachedContainer(string outputDirectory, string tempDirectory)
         {
             // No attached container to extract
-            if (this.AttachedContainerAddress == 0 || this.AttachedContainerSize == 0)
+            if (this.AttachedContainers.Count == 0)
             {
                 return false;
             }
@@ -165,17 +166,20 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             Directory.CreateDirectory(outputDirectory);
-            string tempCabPath = Path.Combine(tempDirectory, "attached.cab");
-
-            this.binaryReader.BaseStream.Seek(this.AttachedContainerAddress, SeekOrigin.Begin);
-            using (Stream tempCab = File.Open(tempCabPath, FileMode.Create, FileAccess.Write))
+            foreach (KeyValuePair<uint, uint> cntnr in AttachedContainers)
             {
-                BurnCommon.CopyStream(this.binaryReader.BaseStream, tempCab, (int)this.AttachedContainerSize);
-            }
+                string tempCabPath = Path.GetTempFileName();
 
-            using (WixExtractCab extract = new WixExtractCab())
-            {
-                extract.Extract(tempCabPath, outputDirectory);
+                this.binaryReader.BaseStream.Seek(cntnr.Key, SeekOrigin.Begin);
+                using (Stream tempCab = File.Open(tempCabPath, FileMode.Create, FileAccess.Write))
+                {
+                    BurnCommon.CopyStream(this.binaryReader.BaseStream, tempCab, (int)cntnr.Value);
+                }
+
+                using (WixExtractCab extract = new WixExtractCab())
+                {
+                    extract.Extract(tempCabPath, outputDirectory);
+                }
             }
 
             foreach (DictionaryEntry entry in this.attachedContainerPayloadNames)

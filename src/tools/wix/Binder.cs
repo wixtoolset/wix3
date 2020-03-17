@@ -3683,7 +3683,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                 if (PackagingType.Embedded == payload.Packaging && String.IsNullOrEmpty(payload.EmbeddedId))
                 {
-                    payload.EmbeddedId = String.Format(CultureInfo.InvariantCulture, BurnCommon.BurnAttachedContainerEmbeddedIdFormat, payloadIndex);
+                    payload.EmbeddedId = Guid.NewGuid().ToString("N");
                     ++payloadIndex;
                 }
             }
