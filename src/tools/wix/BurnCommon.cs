@@ -72,16 +72,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         protected const UInt32 BURN_SECTION_OFFSET_COUNT = 44;
         protected const UInt32 BURN_SECTION_OFFSET_UXSIZE = 48;
         protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 = 52;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE1 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE2 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE1 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE3 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE2 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE4 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE3 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE5 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE4 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE6 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE5 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE7 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE6 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE8 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE7 + 4;
-        protected const UInt32 BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE9 = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE8 + 4;
-        protected const UInt32 BURN_SECTION_SIZE = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE9 + 4; // last field + sizeof(DWORD)
+        protected const UInt32 BURN_SECTION_MIN_SIZE = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + 4; // last field + sizeof(DWORD)
 
         protected const UInt32 BURN_SECTION_MAGIC = 0x00f14300;
         protected const UInt32 BURN_SECTION_VERSION = 0x00000002;
@@ -131,7 +122,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         public UInt32 ContainerCount { get; protected set; }
         public UInt32 UXAddress { get; protected set; }
         public UInt32 UXSize { get; protected set; }
-        public Dictionary<UInt32, UInt32> AttachedContainers { get; protected set; } = new Dictionary<uint, uint>();
+        public List<ContainerSlot> AttachedContainers { get; protected set; } = new List<ContainerSlot>();
 
         public void Dispose()
         {
@@ -180,7 +171,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             reader.BaseStream.Seek(this.wixburnDataOffset, SeekOrigin.Begin);
-            byte[] bytes = reader.ReadBytes((int)BURN_SECTION_SIZE);
+            List<byte> manifest = new List<byte>();
+            manifest.AddRange(reader.ReadBytes((int)BURN_SECTION_MIN_SIZE)); // Read until first attached container
+            uint containerCount = BurnCommon.ReadUInt32(manifest.ToArray(), BURN_SECTION_OFFSET_COUNT);
+            if (containerCount > 2)
+            {
+                manifest.AddRange(reader.ReadBytes((int)(containerCount - 2) * 4)); // Add attached containers 
+            }
+            byte[] bytes = manifest.ToArray();
             UInt32 uint32 = 0;
 
             uint32 = BurnCommon.ReadUInt32(bytes, BURN_SECTION_OFFSET_MAGIC);
@@ -209,7 +207,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.OriginalSignatureOffset = BurnCommon.ReadUInt32(bytes, BURN_SECTION_OFFSET_ORIGINALSIGNATUREOFFSET);
             this.OriginalSignatureSize = BurnCommon.ReadUInt32(bytes, BURN_SECTION_OFFSET_ORIGINALSIGNATURESIZE);
 
-            this.ContainerCount = BurnCommon.ReadUInt32(bytes, BURN_SECTION_OFFSET_COUNT);
+            this.ContainerCount = containerCount;
             this.UXAddress = this.StubSize;
             this.UXSize = BurnCommon.ReadUInt32(bytes, BURN_SECTION_OFFSET_UXSIZE);
 
@@ -237,7 +235,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     uint size = BurnCommon.ReadUInt32(bytes, sizeOffset);
                     if (size > 0)
                     {
-                        AttachedContainers.Add(nextAddress, size);
+                        AttachedContainers.Add(new ContainerSlot(nextAddress, size));
                         nextAddress += size;
                     }
                 }
@@ -286,7 +284,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
 
                 // we need 56 bytes for the manifest header, which is always going to fit in 
                 // the smallest alignment (512 bytes), but just to be paranoid...
-                if (BURN_SECTION_SIZE > BurnCommon.ReadUInt32(bytes, IMAGE_SECTION_HEADER_OFFSET_SIZEOFRAWDATA))
+                if (BURN_SECTION_MIN_SIZE > BurnCommon.ReadUInt32(bytes, IMAGE_SECTION_HEADER_OFFSET_SIZEOFRAWDATA))
                 {
                     this.messageHandler.OnMessage(WixErrors.StubWixburnSectionTooSmall(this.fileExe));
                     return false;
@@ -397,5 +395,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
             Debug.Assert(offset + 8 <= bytes.Length);
             return BurnCommon.ReadUInt32(bytes, offset) + ((UInt64)(BurnCommon.ReadUInt32(bytes, offset + 4)) << 32);
         }
+    }
+
+    internal struct ContainerSlot
+    {
+        public ContainerSlot(uint address, uint size)
+        {
+            Address = address;
+            Size = size;
+        }
+
+        public uint Address { get; set; }
+        public uint Size { get; set; }
     }
 }

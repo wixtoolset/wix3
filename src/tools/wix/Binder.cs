@@ -2,10 +2,14 @@
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
+    using Microsoft.Tools.WindowsInstallerXml.Cab;
+    using Microsoft.Tools.WindowsInstallerXml.CLR.Interop;
+    using Microsoft.Tools.WindowsInstallerXml.MergeMod;
+    using Microsoft.Tools.WindowsInstallerXml.Msi;
+    using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -14,19 +18,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using System.IO;
     using System.Reflection;
     using System.Runtime.InteropServices;
-    using System.Security.Cryptography;
-    using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
     using System.Xml;
     using System.Xml.XPath;
-    using Microsoft.Tools.WindowsInstallerXml.Cab;
-    using Microsoft.Tools.WindowsInstallerXml.CLR.Interop;
-    using Microsoft.Tools.WindowsInstallerXml.MergeMod;
-    using Microsoft.Tools.WindowsInstallerXml.Msi;
-    using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
-
-    using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     // TODO: (4.0) Refactor so that these don't need to be copied.
     // Copied verbatim from ext\UtilExtension\wixext\UtilCompiler.cs

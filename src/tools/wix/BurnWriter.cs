@@ -3,7 +3,6 @@
 namespace Microsoft.Tools.WindowsInstallerXml
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
 
@@ -92,15 +91,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_COUNT, 0);
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_UXSIZE, 0);
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE1, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE2, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE3, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE4, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE5, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE6, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE7, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE8, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE9, 0);
             this.binaryWriter.BaseStream.Flush();
 
             this.EngineSize = this.StubSize;
@@ -154,15 +144,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     burnSectionOffsetSize = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + ((uint)AttachedContainers.Count * 4);
                     // TODO: verify that the size in the section data is 0 or the same size.
                     uint nextAddress = 0;
-                    foreach (KeyValuePair<uint, uint> cntnr in AttachedContainers)
+                    foreach (ContainerSlot cntnr in AttachedContainers)
                     {
-                        if (cntnr.Key >= nextAddress)
+                        if (cntnr.Address >= nextAddress)
                         {
-                            nextAddress = cntnr.Key + cntnr.Value;
+                            nextAddress = cntnr.Address + cntnr.Size;
                         }
                     }
 
-                    AttachedContainers.Add(nextAddress, (uint)containerSize);
+                    AttachedContainers.Add(new ContainerSlot(nextAddress, (uint)containerSize));
                     break;
 
                 default:

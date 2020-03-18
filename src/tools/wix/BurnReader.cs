@@ -2,13 +2,12 @@
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
+    using Microsoft.Tools.WindowsInstallerXml.Cab;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Xml;
-    using Microsoft.Tools.WindowsInstallerXml.Cab;
 
     /// <summary>
     /// Burn PE reader for the Windows Installer Xml toolset.
@@ -166,14 +165,14 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             Directory.CreateDirectory(outputDirectory);
-            foreach (KeyValuePair<uint, uint> cntnr in AttachedContainers)
+            foreach (ContainerSlot cntnr in AttachedContainers)
             {
                 string tempCabPath = Path.GetTempFileName();
 
-                this.binaryReader.BaseStream.Seek(cntnr.Key, SeekOrigin.Begin);
+                this.binaryReader.BaseStream.Seek(cntnr.Address, SeekOrigin.Begin);
                 using (Stream tempCab = File.Open(tempCabPath, FileMode.Create, FileAccess.Write))
                 {
-                    BurnCommon.CopyStream(this.binaryReader.BaseStream, tempCab, (int)cntnr.Value);
+                    BurnCommon.CopyStream(this.binaryReader.BaseStream, tempCab, (int)cntnr.Size);
                 }
 
                 using (WixExtractCab extract = new WixExtractCab())

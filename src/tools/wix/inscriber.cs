@@ -2,16 +2,14 @@
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
+    using Microsoft.Tools.WindowsInstallerXml.Msi;
     using System;
     using System.CodeDom.Compiler;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Runtime.InteropServices;
     using System.Security.Cryptography.X509Certificates;
-    using System.Text;
-    using Microsoft.Tools.WindowsInstallerXml.Msi;
 
     /// <summary>
     /// Converts a wixout representation of an MSM database into a ComponentGroup the form of WiX source.
@@ -150,17 +148,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 File.Copy(signedEngineFile, tempFile, true);
 
                 // If there was an attached container on the original (unsigned) bundle, put it back.
-                foreach (KeyValuePair<uint, uint> cntnr in reader.AttachedContainers)
+                foreach (ContainerSlot cntnr in reader.AttachedContainers)
                 {
-                    uint address = cntnr.Key;
-                    uint size = cntnr.Value;
-                    if (size > 0)
+                    if (cntnr.Size > 0)
                     {
-                        reader.Stream.Seek(address, SeekOrigin.Begin);
+                        reader.Stream.Seek(cntnr.Address, SeekOrigin.Begin);
                         using (BurnWriter writer = BurnWriter.Open(tempFile, this))
                         {
                             writer.RememberThenResetSignature();
-                            writer.AppendContainer(reader.Stream, size, BurnCommon.Container.Attached);
+                            writer.AppendContainer(reader.Stream, cntnr.Size, BurnCommon.Container.Attached);
                             inscribed = true;
                         }
                     }
@@ -238,7 +234,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                 {
                                     // Export to a file, because the MSI API's require us to provide a file path on disk
                                     string hashPath = Path.Combine(this.TempFilesLocation, "MsiDigitalSignature");
-                                    string hashFileName = string.Concat(table,".", signObject, ".bin");
+                                    string hashFileName = string.Concat(table, ".", signObject, ".bin");
 
                                     Directory.CreateDirectory(hashPath);
                                     hashPath = Path.Combine(hashPath, hashFileName);
