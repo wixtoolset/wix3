@@ -143,7 +143,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     burnSectionCount = 2 + (uint)AttachedContainers.Count;
                     burnSectionOffsetSize = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + ((uint)AttachedContainers.Count * 4);
                     // TODO: verify that the size in the section data is 0 or the same size.
-                    uint nextAddress = 0;
+                    uint nextAddress = EngineSize;
                     foreach (ContainerSlot cntnr in AttachedContainers)
                     {
                         if (cntnr.Address >= nextAddress)
