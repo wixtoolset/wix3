@@ -148,7 +148,7 @@ static HRESULT ExecuteCertificateOperation(
     LPWSTR pwzFilePath = NULL;
     BYTE* pbData = NULL;
     DWORD cbData = 0;
-    DWORD cbPFXPassword = 0;
+    DWORD_PTR cbPFXPassword = 0;
 
     BOOL fUserStoreLocation = (CERT_SYSTEM_STORE_CURRENT_USER == dwStoreLocation);
     HCERTSTORE hCertStore = NULL;

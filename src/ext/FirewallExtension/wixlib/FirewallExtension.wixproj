@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Include="FirewallExtension.wxs" />
     <Compile Include="FirewallExtension_x86.wxs" />
+    <Compile Include="FirewallExtension_arm64.wxs" Condition="$(BuildARM64)" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="es-es.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />

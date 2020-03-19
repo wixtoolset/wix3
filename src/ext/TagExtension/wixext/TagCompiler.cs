@@ -208,7 +208,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string regid = null;
             string feature = "WixSwidTag";
             string installDirectory = null;
-            bool win64 = (Platform.IA64 == this.Core.CurrentPlatform || Platform.X64 == this.Core.CurrentPlatform);
+            bool win64 = this.Core.IsCurrentPlatform64Bit;
 
             foreach (XmlAttribute attrib in node.Attributes)
             {

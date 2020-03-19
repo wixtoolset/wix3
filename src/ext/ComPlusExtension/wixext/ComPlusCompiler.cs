@@ -236,23 +236,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 
             if (componentKey != null)
             {
-                if (win64)
-                {
-                    if (this.Core.CurrentPlatform == Platform.IA64)
-                    {
-                        this.Core.OnMessage(WixErrors.UnsupportedPlatformForElement(sourceLineNumbers, "ia64", node.LocalName));
-                    }
-                    else
-                    {
-                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusInstall_x64");
-                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusUninstall_x64");
-                    }
-                }
-                else
-                {
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusInstall");
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusUninstall");
-                }
+                this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureComPlusInstall", Platforms.X64 | Platforms.ARM64);
+                this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureComPlusUninstall", Platforms.X64 | Platforms.ARM64);
             }
         }
 
@@ -973,23 +958,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
 
             if (componentKey != null)
             {
-                if (win64)
-                {
-                    if (this.Core.CurrentPlatform == Platform.IA64)
-                    {
-                        this.Core.OnMessage(WixErrors.UnsupportedPlatformForElement(sourceLineNumbers, "ia64", node.LocalName));
-                    }
-                    else
-                    {
-                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusInstall_x64");
-                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusUninstall_x64");
-                    }
-                }
-                else
-                {
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusInstall");
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusUninstall");
-                }
+                this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureComPlusInstall", Platforms.X64 | Platforms.ARM64);
+                this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureComPlusUninstall", Platforms.X64 | Platforms.ARM64);
             }
         }
 
@@ -1332,23 +1302,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             row[6] = psDllPath;
             row[7] = attributes;
 
-            if (win64)
-            {
-                if (this.Core.CurrentPlatform == Platform.IA64)
-                {
-                    this.Core.OnMessage(WixErrors.UnsupportedPlatformForElement(sourceLineNumbers, "ia64", node.LocalName));
-                }
-                else
-                {
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusInstall_x64");
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusUninstall_x64");
-                }
-            }
-            else
-            {
-                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusInstall");
-                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureComPlusUninstall");
-            }
+            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureComPlusInstall", Platforms.X64 | Platforms.ARM64);
+            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureComPlusUninstall", Platforms.X64 | Platforms.ARM64);
         }
 
         ///	<summary>

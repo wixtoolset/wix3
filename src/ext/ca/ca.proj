@@ -5,11 +5,21 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <ProjectReference Include="serverca\scaexec\scaexec.vcxproj" />
+    <ProjectReference Include="serverca\scaexec\scaexec.vcxproj" Condition="$(BuildARM64)">
+      <Properties>Platform=arm64</Properties>
+    </ProjectReference>
+    
     <ProjectReference Include="serverca\scasched\scasched.vcxproj" />
+    <ProjectReference Include="serverca\scasched\scasched.vcxproj" Condition="$(BuildARM64)">
+      <Properties>Platform=arm64</Properties>
+    </ProjectReference>
 
     <ProjectReference Include="wixca\dll\wixca.vcxproj" />
     <ProjectReference Include="wixca\dll\wixca.vcxproj">
       <Properties>Platform=x64</Properties>
+    </ProjectReference>
+    <ProjectReference Include="wixca\dll\wixca.vcxproj" Condition="$(BuildARM64)">
+      <Properties>Platform=arm64</Properties>
     </ProjectReference>
   </ItemGroup>
 

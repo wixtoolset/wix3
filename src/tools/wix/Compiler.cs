@@ -23,7 +23,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
     using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     /// <summary>
-    /// X86, x64, IA64, ARM.
+    /// X86, x64, IA64, ARM, ARM64.
     /// </summary>
     public enum Platform
     {
@@ -37,7 +37,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
         IA64,
 
         /// <summary>arm.</summary>
-        ARM
+        ARM,
+
+        /// <summary>ARM64.</summary>
+        ARM64
     }
 
     /// <summary>
@@ -135,6 +138,15 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get { return this.currentPlatform; }
             set { this.currentPlatform = value; }
+        }
+
+        /// <summary>
+        /// Gets whether the current platform is a 64-bit platform.
+        /// </summary>
+        /// <value>true if the current platform is X64, ARM64, or IA64.</value>
+        public bool IsCurrentPlatform64Bit
+        {
+            get { return this.core.IsCurrentPlatform64Bit; }
         }
 
         /// <summary>
@@ -1973,7 +1985,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
-            if (!explicitWin64 && (Platform.IA64 == this.CurrentPlatform || Platform.X64 == this.CurrentPlatform))
+            if (!explicitWin64 && this.IsCurrentPlatform64Bit)
             {
                 search64bit = true;
             }
@@ -2454,7 +2466,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 }
             }
 
-            if (!explicitWin64 && (Platform.IA64 == CurrentPlatform || Platform.X64 == CurrentPlatform))
+            if (!explicitWin64 && this.IsCurrentPlatform64Bit)
             {
                 bits |= MsiInterop.MsidbComponentAttributes64bit;
                 win64 = true;
@@ -3727,7 +3739,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.OnMessage(WixErrors.ExpectedAttribute(sourceLineNumbers, node.Name, "Id"));
             }
 
-            if (!explicitWin64 && (MsiInterop.MsidbCustomActionTypeVBScript == targetBits || MsiInterop.MsidbCustomActionTypeJScript == targetBits) && (Platform.IA64 == CurrentPlatform || Platform.X64 == CurrentPlatform))
+            if (!explicitWin64 && (MsiInterop.MsidbCustomActionTypeVBScript == targetBits || MsiInterop.MsidbCustomActionTypeJScript == targetBits) && this.IsCurrentPlatform64Bit)
             {
                 bits |= MsiInterop.MsidbCustomActionType64BitScript;
             }
@@ -6144,11 +6156,17 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                     case Wix.File.ProcessorArchitectureType.x64:
                                         procArch = "amd64";
                                         break;
+                                    case Wix.File.ProcessorArchitectureType.arm:
+                                        procArch = "arm";
+                                        break;
+                                    case Wix.File.ProcessorArchitectureType.arm64:
+                                        procArch = "arm64";
+                                        break;
                                     case Wix.File.ProcessorArchitectureType.ia64:
                                         procArch = "ia64";
                                         break;
                                     default:
-                                        this.core.OnMessage(WixErrors.IllegalAttributeValue(sourceLineNumbers, "File", "ProcessorArchitecture", procArchValue, "msil", "x86", "x64", "ia64"));
+                                        this.core.OnMessage(WixErrors.IllegalAttributeValue(sourceLineNumbers, "File", "ProcessorArchitecture", procArchValue, "msil", "x86", "x64", "arm", "arm64", "ia64"));
                                         break;
                                 }
                             }
@@ -11869,6 +11887,10 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     platform = "Arm";
                     msiVersion = 500;
                     break;
+                case Platform.ARM64:
+                    platform = "Arm64";
+                    msiVersion = 500;
+                    break;
                 default:
                     throw new ArgumentException(WixStrings.EXP_UnknownPlatformEnum, this.currentPlatform.ToString());
             }
@@ -12009,6 +12031,9 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                 case Wix.Package.PlatformType.arm:
                                     platform = "Arm";
                                     break;
+                                case Wix.Package.PlatformType.arm64:
+                                    platform = "Arm64";
+                                    break;
                                 default:
                                     this.core.OnMessage(WixErrors.InvalidPlatformValue(sourceLineNumbers, platformValue));
                                     break;
@@ -12054,7 +12079,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 this.core.OnMessage(WixWarnings.RequiresMsi200for64bitPackage(sourceLineNumbers));
             }
 
-            if ((0 == String.Compare(platform, "Arm", StringComparison.OrdinalIgnoreCase)) && 500 > msiVersion)
+            if ((0 == String.Compare(platform, "Arm", StringComparison.OrdinalIgnoreCase) || (0 == String.Compare(platform, "Arm64", StringComparison.OrdinalIgnoreCase))) && 500 > msiVersion)
             {
                 msiVersion = 500;
                 this.core.OnMessage(WixWarnings.RequiresMsi500forArmPackage(sourceLineNumbers));

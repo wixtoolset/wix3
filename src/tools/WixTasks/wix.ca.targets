@@ -11,10 +11,10 @@
   <PropertyGroup>
     <WixCATargetsImported>true</WixCATargetsImported>
 
-    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
-    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\..\WiX Toolset v3.14\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" '$(WixTasksPath)' == '' ">$(MSBuildExtensionsPath)\..\WiX Toolset v3.14\bin\WixTasks.dll</WixTasksPath>
     <!-- This is a fallback in case using the relative paths above did not work. -->
-    <WixTasksPath Condition=" !Exists('$(WixTasksPath)') ">$(MSBuildProgramFiles32)\WiX Toolset v3.11\bin\WixTasks.dll</WixTasksPath>
+    <WixTasksPath Condition=" !Exists('$(WixTasksPath)') ">$(MSBuildProgramFiles32)\WiX Toolset v3.14\bin\WixTasks.dll</WixTasksPath>
 
     <TargetCAFileName Condition=" '$(TargetCAFileName)' == '' ">$(TargetName).CA$(TargetExt)</TargetCAFileName>
   </PropertyGroup>
@@ -33,8 +33,8 @@
   ==================================================================================================
   -->
   <PropertyGroup>
-    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.11</WixInstallRegKey>
-    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.11</WixInstallRegKeyWow64>
+    <WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.14</WixInstallRegKey>
+    <WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.14</WixInstallRegKeyWow64>
   </PropertyGroup>
   <Target
     Name="_SetDefaultPathValues">
@@ -81,7 +81,7 @@
     </CreateProperty>
 
   </Target>
-  
+
   <!--
   ==================================================================================================
   PackCustomAction
@@ -93,7 +93,7 @@
     @(IntermediateAssembly) - Managed custom action assembly.
     @(Content) - Project items of type Content will be included in the package.
     $(CustomActionContents) - Optional space-delimited list of additional files to include.
-    
+
     [OUT]
     $(IntermediateOutputPath)$(TargetCAFileName) - Managed custom action package with unmanaged stub.
   ==================================================================================================
@@ -114,35 +114,35 @@
      Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.dll' or '%(ReferenceComWrappersToCopyLocal.extension)' == '.exe' ">
       <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
     </CreateItem>
-	
-	<!-- include PDBs for Debug only -->
-	<CreateItem
-	 Include="@(IntermediateAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
-	 Condition=" Exists('%(RootDir)%(Directory)%(Filename).pdb') and '$(Configuration)' == 'Debug' ">
-	  <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-	</CreateItem>
-	
-	<CreateItem
-	 Include="@(ReferenceCopyLocalPaths)"
-	 Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
-	  <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
-	</CreateItem>
-	
-	<CreateItem
+
+    <!-- include PDBs for Debug only -->
+    <CreateItem
+     Include="@(IntermediateAssembly->'%(RootDir)%(Directory)%(Filename).pdb')"
+     Condition=" Exists('%(RootDir)%(Directory)%(Filename).pdb') and '$(Configuration)' == 'Debug' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
+
+    <CreateItem
+     Include="@(ReferenceCopyLocalPaths)"
+     Condition=" '%(ReferenceCopyLocalPaths.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
+      <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
+    </CreateItem>
+
+    <CreateItem
      Include="@(ReferenceComWrappersToCopyLocal)"
      Condition=" '%(ReferenceComWrappersToCopyLocal.extension)' == '.pdb' and '$(Configuration)' == 'Debug' ">
       <Output TaskParameter="Include" ItemName="CustomActionReferenceContents"/>
     </CreateItem>
-	
+
     <!--
-  Items to include in the CA package:
+    Items to include in the CA package:
      - Reference assemblies marked CopyLocal
      - Project items of type Content
      - Additional items in the CustomActionContents property
-  -->
-    <CreateProperty Value="@(CustomActionReferenceContents);@(Content->'%(FullPath)');$(CustomActionContents)">
-      <Output TaskParameter="Value" PropertyName="CustomActionContents" />
-    </CreateProperty>
+    -->
+    <CreateItem Include="@(CustomActionReferenceContents);@(Content->'%(FullPath)');$(CustomActionContents)">
+      <Output TaskParameter="Include" ItemName="CustomActionContents" />
+    </CreateItem>
 
     <CreateItem Include="@(IntermediateAssembly->'%(FullPath)')">
       <Output TaskParameter="Include" ItemName="IntermediateCAAssembly" />
@@ -152,13 +152,24 @@
       <Output TaskParameter="Include" ItemName="IntermediateCAPackage" />
     </CreateItem>
 
+    <CreateProperty Value="@(IntermediateCAPackage->'%(RootDir)%(Directory)%(Filename).rsp')">
+      <Output TaskParameter="Value" PropertyName="IntermediateCAResponseFile" />
+    </CreateProperty>
+
+    <!-- Use a response file to pass the potentially very long contents to MakeSfxCA.exe -->
+    <WriteLinesToFile File="$(IntermediateCAResponseFile)" Lines="@(CustomActionContents->'&quot;%(Identity)&quot;')" Overwrite="true" />
+
+    <CreateItem Include="$(IntermediateCAResponseFile)">
+      <Output TaskParameter="Include" ItemName="FileWrites" />
+    </CreateItem>
+
     <!-- Run the MakeSfxCA.exe CA packaging tool. -->
-    <Exec Command='"$(MakeSfxCA)" "@(IntermediateCAPackage)" "$(SfxCADll)" "@(IntermediateCAAssembly)" "$(CustomActionContents)"'
+    <Exec Command='"$(MakeSfxCA)" "@(IntermediateCAPackage)" "$(SfxCADll)" "@(IntermediateCAAssembly)" "@$(IntermediateCAResponseFile)"'
      WorkingDirectory="$(ProjectDir)" />
-  
+
     <!-- Add modules to be copied to output dir. -->
     <CreateItem Include="@(AddModules);@(IntermediateCAPackage)">
-    <Output TaskParameter="Include" ItemName="AddModules" />
+      <Output TaskParameter="Include" ItemName="AddModules" />
     </CreateItem>
 
   </Target>

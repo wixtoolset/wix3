@@ -57,6 +57,3 @@ which is not installed by default on Windows 8 and Windows Server 2012 and later
 install the .NET 3.5 feature, go to Control Panel, open Programs and Features, and 
 choose *Turn Windows features on or off*. In the list of features, choose *.NET 
 Framework 3.5 (includes .NET 2.0 and 3.0)* and then choose OK.
-
-In the next version of WiX (v3.11), .NET 4.0 will be required; building using .NET 3.5
-will no longer be supported.

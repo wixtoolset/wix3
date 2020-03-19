@@ -11,7 +11,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <!-- turn off deprecation warning -->
-    <DisableSpecificCompilerWarnings>4996</DisableSpecificCompilerWarnings>
+    <DisableSpecificCompilerWarnings>$(DisableSpecificCompilerWarnings);4996</DisableSpecificCompilerWarnings>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,7 +25,12 @@
     <!-- VS2015: turn off 'typedef ignored when no variable declared' -->
     <!-- VS2015: turn off 'declaration hides class member' -->
     <DisableSpecificCompilerWarnings Condition=" $(PlatformToolset.StartsWith('v14')) ">$(DisableSpecificCompilerWarnings);4091;4458</DisableSpecificCompilerWarnings>
-    <DisableSpecificCompilerWarnings Condition=" '$(Platform)'=='arm' ">$(DisableSpecificCompilerWarnings);4996</DisableSpecificCompilerWarnings>
+    <XPDeprecationWarning>false</XPDeprecationWarning>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(BuildARM) or $(BuildArm64) ">
+    <PlatformToolset Condition="$(VS2017Available)">v141</PlatformToolset>
+    <DisableSpecificCompilerWarnings>$(DisableSpecificCompilerWarnings);4996</DisableSpecificCompilerWarnings>
   </PropertyGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -33,10 +38,10 @@
   <!-- Multi-target static libraries get a suffix to prevent collisions. -->
   <PropertyGroup>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v100' ">2010</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110_xp' ">2012</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120_xp' ">2013</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v140_xp' ">2015</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v141_xp' ">2017</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110_xp' or '$(PlatformToolset)'=='v110' ">2012</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120_xp' or '$(PlatformToolset)'=='v120' ">2013</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">2015</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v141_xp' or '$(PlatformToolset)'=='v141' ">2017</MultiTargetDirSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -54,9 +59,10 @@
   <PropertyGroup>
     <ResourceOnlyDll Condition=" '$(ResourceOnlyDll)'=='' ">false</ResourceOnlyDll>
     <GenerateManifest Condition="$(ResourceOnlyDll)">false</GenerateManifest>
-    <WindowsSDKDesktopARMSupport Condition=" '$(Platform)'=='arm' and Exists('$(PlatformSdkArmLibraryRoot)') ">true</WindowsSDKDesktopARMSupport>
     <ArmLibraryDirectories Condition=" '$(Platform)'=='arm' ">$(PlatformSdkArmLibraryRoot)\</ArmLibraryDirectories>
+    <Arm64LibraryDirectories Condition=" '$(Platform)'=='arm64' ">$(PlatformSdkArm64LibraryRoot)\</Arm64LibraryDirectories>
     <ArmPreprocessorDefinitions Condition=" '$(Platform)'=='arm' ">ARM</ArmPreprocessorDefinitions>
+    <Arm64PreprocessorDefinitions Condition=" '$(Platform)'=='arm64' ">ARM64</Arm64PreprocessorDefinitions>
     <UnicodePreprocessorDefinitions Condition=" '$(CharacterSet)'=='Unicode' ">UNICODE;_UNICODE</UnicodePreprocessorDefinitions>
     <StaticLibPreprocessorDefinitions Condition=" '$(ConfigurationType)'=='StaticLibrary' ">_LIB</StaticLibPreprocessorDefinitions>
   </PropertyGroup>
@@ -65,6 +71,13 @@
     <DisableSpecificCompilerWarnings>4564;4800</DisableSpecificCompilerWarnings>
     <LinkDelaySign>$(DelaySign)</LinkDelaySign>
     <LinkKeyFile>$(AssemblyOriginatorKeyFile)</LinkKeyFile>
+    <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)'=='' ">v4.5</TargetFrameworkVersion>
+    <PlatformToolset Condition="$(VS2015Available)">v140</PlatformToolset>
+    <PlatformToolset Condition="$(VS2017Available)">v141</PlatformToolset>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(WindowsTargetPlatformVersion)'=='' AND '$(VisualStudioVersion)'>='15.0'">
+    <WindowsTargetPlatformVersion>$([Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion('Windows', '10.0'))</WindowsTargetPlatformVersion>
   </PropertyGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -74,7 +87,7 @@
       <DisableSpecificWarnings>$(DisableSpecificCompilerWarnings)</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>$(WixVersionPath);$(ProjectDir)inc;$(MSBuildProjectDirectory);$(IntDir);$(SqlCESdkIncludePath);$(ProjectAdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_WIN32_MSI=500;_WIN32_WINNT=0x0501;$(ArmPreprocessorDefinitions);$(UnicodePreprocessorDefinitions);_CRT_STDIO_LEGACY_WIDE_SPECIFIERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_WIN32_MSI=500;_WIN32_WINNT=0x0501;$(ArmPreprocessorDefinitions);$(Arm64PreprocessorDefinitions);$(UnicodePreprocessorDefinitions);_CRT_STDIO_LEGACY_WIDE_SPECIFIERS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
       <CallingConvention>StdCall</CallingConvention>
@@ -107,9 +120,10 @@
       <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition=" '$(Platform)'=='arm' ">
+  <ItemDefinitionGroup Condition=" '$(Platform)'=='arm' or '$(Platform)'=='arm64' ">
     <ClCompile>
       <CallingConvention>CDecl</CallingConvention>
+      <PreprocessorDefinitions>WindowsTargetPlatformVersion=$(WindowsTargetPlatformVersion);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition=" '$(ConfigurationType)'=='StaticLibrary' ">
@@ -158,7 +172,6 @@
       <DelaySign>$(LinkDelaySign)</DelaySign>
     </Link>
   </ItemDefinitionGroup>
-
   <ItemGroup Condition="!$(ResourceOnlyDll)">
     <ClCompile Include="$(WixRoot)src\common\precomp.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

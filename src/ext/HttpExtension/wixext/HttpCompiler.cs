@@ -198,18 +198,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 row[3] = url;
                 row[4] = componentId;
 
-                if (this.Core.CurrentPlatform == Platform.ARM)
-                {
-                    // Ensure ARM version of the CA is referenced.
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixSchedHttpUrlReservationsInstall_ARM");
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixSchedHttpUrlReservationsUninstall_ARM");
-                }
-                else
-                {
-                    // All other supported platforms use x86.
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixSchedHttpUrlReservationsInstall");
-                    this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixSchedHttpUrlReservationsUninstall");
-                }
+                this.Core.CreateCustomActionReference(sourceLineNumbers, "WixSchedHttpUrlReservationsInstall", Platforms.ARM | Platforms.ARM64);
+                this.Core.CreateCustomActionReference(sourceLineNumbers, "WixSchedHttpUrlReservationsUninstall", Platforms.ARM | Platforms.ARM64);
             }
         }
 
