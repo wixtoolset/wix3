@@ -10,4 +10,4 @@ This section includes guides for common redistributable installations and pre-in
 * [How To: Install the .NET Framework using a bootstrapper](install_dotnet.html)
 * [How To: Install the Visual C++ Redistributable with your installer](install_vcredist.html)
 * [How To: Block installation based on OS version](block_install_on_os.html)
-* [How To: Block bootstrapper installation based on registery key](block_stdba_install_on_reg.html)
+* [How To: Block bootstrapper installation based on registry key](block_stdba_install_on_reg.html)
