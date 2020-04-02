@@ -175,7 +175,7 @@ static HRESULT ExecuteCertificateOperation(
     }
 
     // Open the right store.
-    hCertStore = ::CertOpenStore(CERT_STORE_PROV_SYSTEM, 0, NULL, dwStoreLocation, pwzStore);
+    hCertStore = ::CertOpenStore(CERT_STORE_PROV_SYSTEM, 0, NULL, dwStoreLocation | CERT_STORE_MAXIMUM_ALLOWED_FLAG, pwzStore);
     MessageExitOnNullWithLastError1(hCertStore, hr, msierrCERTFailedOpen, "Failed to open certificate store: %ls", pwzStore);
 
     if (SCA_ACTION_INSTALL == saAction) // install operations need more data
