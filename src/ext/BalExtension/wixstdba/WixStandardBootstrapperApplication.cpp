@@ -481,6 +481,29 @@ public: // IBootstrapperApplication
         return CheckCanceled() ? IDCANCEL : IDOK;
     }
 
+    virtual STDMETHODIMP_(void) OnPlanPackageComplete(
+        __in_z LPCWSTR wzPackageId,
+        __in HRESULT hrStatus,
+        __in BOOTSTRAPPER_PACKAGE_STATE state,
+        __in BOOTSTRAPPER_REQUEST_STATE requested,
+        __in BOOTSTRAPPER_ACTION_STATE execute,
+        __in BOOTSTRAPPER_ACTION_STATE rollback
+        )
+    {
+        __super::OnPlanPackageComplete(wzPackageId, hrStatus, state, requested, execute, rollback);
+
+        if (wzPackageId && *wzPackageId)
+        {
+            BAL_INFO_PACKAGE* pPackage = NULL;
+            HRESULT hr = BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
+            if (SUCCEEDED(hr))
+            {
+                pPackage->executeAction = execute;
+                pPackage->rollbackAction = rollback;
+            }
+        }
+    }
+
 
     virtual STDMETHODIMP_(void) OnPlanComplete(
         __in HRESULT hrStatus
@@ -742,6 +765,7 @@ public: // IBootstrapperApplication
         )
     {
         LPWSTR sczFormattedString = NULL;
+        BOOL fShowingInternalUiThisPackage = FALSE;
 
         m_fStartedExecution = TRUE;
 
@@ -780,16 +804,19 @@ public: // IBootstrapperApplication
                 wz = sczFormattedString ? sczFormattedString : pPackage->sczDisplayName ? pPackage->sczDisplayName : wzPackageId;
             }
 
-            //Burn engine doesn't show internal UI for msi packages during uninstall or repair actions.
-            m_fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI && BOOTSTRAPPER_ACTION_UNINSTALL != m_plannedAction && BOOTSTRAPPER_ACTION_REPAIR != m_plannedAction;
+            // Needs to match MsiEngineCalculateInstallUiLevel in msiengine.cpp in Burn.
+            BOOTSTRAPPER_ACTION_STATE packageAction = fExecute ? pPackage->executeAction : pPackage->rollbackAction;
+            fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI &&
+                                            BOOTSTRAPPER_ACTION_UNINSTALL != packageAction &&
+                                            BOOTSTRAPPER_ACTION_REPAIR != packageAction &&
+                                            (BOOTSTRAPPER_DISPLAY_FULL == m_command.display ||
+                                            BOOTSTRAPPER_DISPLAY_PASSIVE == m_command.display);
 
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_PACKAGE_TEXT, wz);
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, wz);
         }
-        else
-        {
-            m_fShowingInternalUiThisPackage = FALSE;
-        }
+
+        m_fShowingInternalUiThisPackage = fShowingInternalUiThisPackage;
 
         ReleaseStr(sczFormattedString);
         return __super::OnExecutePackageBegin(wzPackageId, fExecute);
