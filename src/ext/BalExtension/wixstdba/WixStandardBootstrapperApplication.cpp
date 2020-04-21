@@ -764,6 +764,7 @@ public: // IBootstrapperApplication
         __in BOOL fExecute
         )
     {
+        HRESULT hr = S_OK;
         LPWSTR sczFormattedString = NULL;
         BOOL fShowingInternalUiThisPackage = FALSE;
 
@@ -816,10 +817,13 @@ public: // IBootstrapperApplication
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, wz);
         }
 
+        ::EnterCriticalSection(&m_csShowingInternalUiThisPackage);
         m_fShowingInternalUiThisPackage = fShowingInternalUiThisPackage;
+        hr = __super::OnExecutePackageBegin(wzPackageId, fExecute);
+        ::LeaveCriticalSection(&m_csShowingInternalUiThisPackage);
 
         ReleaseStr(sczFormattedString);
-        return __super::OnExecutePackageBegin(wzPackageId, fExecute);
+        return hr;
     }
 
 
@@ -887,6 +891,7 @@ public: // IBootstrapperApplication
         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, L"");
         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, L"");
         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON, FALSE); // no more cancel.
+        m_fShowingInternalUiThisPackage = FALSE;
 
         SetState(WIXSTDBA_STATE_EXECUTED, S_OK); // we always return success here and let OnApplyComplete() deal with the error.
         SetProgressState(hrStatus);
@@ -2787,7 +2792,13 @@ private: // privates
         }
         else // prompt the user or force the cancel if there is no UI.
         {
-            fClose = PromptCancel(m_hWnd, BOOTSTRAPPER_DISPLAY_FULL != m_command.display, m_sczConfirmCloseMessage ? m_sczConfirmCloseMessage : L"Are you sure you want to cancel?", m_pTheme->sczCaption);
+            ::EnterCriticalSection(&m_csShowingInternalUiThisPackage);
+            fClose = PromptCancel(
+                m_hWnd,
+                BOOTSTRAPPER_DISPLAY_FULL != m_command.display || m_fShowingInternalUiThisPackage,
+                m_sczConfirmCloseMessage ? m_sczConfirmCloseMessage : L"Are you sure you want to cancel?",
+                m_pTheme->sczCaption);
+            ::LeaveCriticalSection(&m_csShowingInternalUiThisPackage);
         }
 
         // If we're doing progress then we never close, we just cancel to let rollback occur.
@@ -3581,6 +3592,7 @@ public:
         m_pTaskbarList = NULL;
         m_uTaskbarButtonCreatedMessage = UINT_MAX;
         m_fTaskbarButtonOK = FALSE;
+        ::InitializeCriticalSection(&m_csShowingInternalUiThisPackage);
         m_fShowingInternalUiThisPackage = FALSE;
         m_fTriedToLaunchElevated = FALSE;
 
@@ -3611,6 +3623,7 @@ public:
         AssertSz(!m_pTaskbarList, "Taskbar should have been released before destructor.");
         AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
+        ::DeleteCriticalSection(&m_csShowingInternalUiThisPackage);
         ReleaseDict(m_sdOverridableVariables);
         ReleaseDict(m_shPrereqSupportPackages);
         ReleaseMem(m_rgPrereqPackages);
@@ -3691,6 +3704,7 @@ private:
     ITaskbarList3* m_pTaskbarList;
     UINT m_uTaskbarButtonCreatedMessage;
     BOOL m_fTaskbarButtonOK;
+    CRITICAL_SECTION m_csShowingInternalUiThisPackage;
     BOOL m_fShowingInternalUiThisPackage;
     BOOL m_fTriedToLaunchElevated;
 
