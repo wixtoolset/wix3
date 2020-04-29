@@ -3813,7 +3813,8 @@ namespace Microsoft.Tools.WindowsInstallerXml
             // Copy the burn.exe to a writable location then mark it to be moved to its
             // final build location.
             string stubPlatform;
-            if (Platform.X64 == bundleInfo.Platform) // today, the x64 Burn uses the x86 stub.
+            if (Platform.X64 == bundleInfo.Platform ||
+                Platform.ARM64 == bundleInfo.Platform) // today, the x64 and arm64 Burn use the x86 stub.
             {
                 stubPlatform = "x86";
             }
