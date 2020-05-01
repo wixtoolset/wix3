@@ -68,14 +68,36 @@ extern "C" HRESULT DAPI ProcWow64(
     HRESULT hr = S_OK;
     BOOL fIsWow64 = FALSE;
 
-    typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
-    LPFN_ISWOW64PROCESS pfnIsWow64Process = (LPFN_ISWOW64PROCESS)::GetProcAddress(::GetModuleHandleW(L"kernel32"), "IsWow64Process");
+    // Try newer API first: IsWow64Process2
+    // It provides more reliable Wow64 process detection on arm64 systems.
 
-    if (pfnIsWow64Process)
+    typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS2)(HANDLE, USHORT *, USHORT *);
+    LPFN_ISWOW64PROCESS2 pfnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)::GetProcAddress(::GetModuleHandleW(L"kernel32"), "IsWow64Process2");
+
+    if (pfnIsWow64Process2)
     {
-        if (!pfnIsWow64Process(hProcess, &fIsWow64))
+        USHORT pProcessMachine = IMAGE_FILE_MACHINE_UNKNOWN;
+        if (!pfnIsWow64Process2(hProcess, &pProcessMachine, nullptr))
         {
-            ExitWithLastError(hr, "Failed to check WOW64 process.");
+            ExitWithLastError(hr, "Failed to check WOW64 process - IsWow64Process2.");
+        }
+
+        if (pProcessMachine != IMAGE_FILE_MACHINE_UNKNOWN)
+        {
+            fIsWow64 = TRUE;
+        }
+    }
+    else
+    {
+        typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
+        LPFN_ISWOW64PROCESS pfnIsWow64Process = (LPFN_ISWOW64PROCESS)::GetProcAddress(::GetModuleHandleW(L"kernel32"), "IsWow64Process");
+
+        if (pfnIsWow64Process)
+        {
+            if (!pfnIsWow64Process(hProcess, &fIsWow64))
+            {
+                ExitWithLastError(hr, "Failed to check WOW64 process - IsWow64Process.");
+            }
         }
     }
 
