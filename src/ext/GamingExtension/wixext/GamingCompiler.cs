@@ -140,7 +140,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string progId = contextValues["ProgId"];
             string componentId = contextValues["ComponentId"];
             string extensionId = contextValues["ExtensionId"];
-            
+
+            this.Core.OnMessage(GamingWarnings.ExtensionDeprecated(sourceLineNumbers));
+
             if (null == extensionId || null == progId || null == componentId)
             {
                 this.Core.OnMessage(WixErrors.ExpectedParentWithAttribute(sourceLineNumbers, "Extension", "IsRichSavedGame", "ProgId"));
@@ -170,6 +172,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string executableFileId = fileId;
             int playTaskOrder = 0;
             int supportTaskOrder = 0;
+
+            this.Core.OnMessage(GamingWarnings.ExtensionDeprecated(sourceLineNumbers));
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
