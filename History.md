@@ -1,3 +1,11 @@
+## WixBuild: Version 3.14.0.4118
+
+* SeanHall: WIXBUG:4342 - Fix WixStdBA hang with DisplayInternalUI when pressing the BA cancel button.
+
+* SeanHall: WIXBUG:6158 - Fix WixStdBA hang with DisplayInternalUI in certain cases.
+
+* JasonStephenson: WIXBUG:4875 - Explicitly request RW permissions for iis:Certificate to avoid install errors due to ACCESS_DENIED.
+
 ## WixBuild: Version 3.14.0.3910
 
 * BobArnson: WIXBUG:6141: Add ARM64 to a few more enumerations (code and doc).
