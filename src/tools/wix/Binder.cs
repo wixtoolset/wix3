@@ -2,31 +2,27 @@
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
+    using Microsoft.Tools.WindowsInstallerXml.Cab;
+    using Microsoft.Tools.WindowsInstallerXml.CLR.Interop;
+    using Microsoft.Tools.WindowsInstallerXml.MergeMod;
+    using Microsoft.Tools.WindowsInstallerXml.Msi;
+    using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
-    using System.Security.Cryptography;
-    using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
     using System.Xml;
     using System.Xml.XPath;
-    using Microsoft.Tools.WindowsInstallerXml.Cab;
-    using Microsoft.Tools.WindowsInstallerXml.CLR.Interop;
-    using Microsoft.Tools.WindowsInstallerXml.MergeMod;
-    using Microsoft.Tools.WindowsInstallerXml.Msi;
-    using Microsoft.Tools.WindowsInstallerXml.Msi.Interop;
-
-    using Wix = Microsoft.Tools.WindowsInstallerXml.Serialize;
 
     // TODO: (4.0) Refactor so that these don't need to be copied.
     // Copied verbatim from ext\UtilExtension\wixext\UtilCompiler.cs
@@ -3381,7 +3377,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
             }
 
             Dictionary<string, ContainerInfo> containers = new Dictionary<string, ContainerInfo>();
-            Dictionary<string, bool> payloadsAddedToContainers = new Dictionary<string, bool>();
 
             // Create the list of containers.
             Table containerTable = bundle.Tables["Container"];
@@ -3428,7 +3423,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                         }
 
                         payload.Container = container.Id;
-                        payloadsAddedToContainers.Add(rowChildName, false);
                     }
                     else if (Enum.GetName(typeof(ComplexReferenceParentType), ComplexReferenceParentType.Layout) == rowParentType)
                     {
@@ -3462,7 +3456,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     // Add the payload to the UX container
                     allPayloads.Add(payloadInfo.Id, payloadInfo);
                     burnUXContainer.Payloads.Add(payloadInfo);
-                    payloadsAddedToContainers.Add(payloadInfo.Id, true);
 
                     // Create the catalog info
                     CatalogInfo catalog = new CatalogInfo(catalogRow, payloadId);
@@ -3507,23 +3500,20 @@ namespace Microsoft.Tools.WindowsInstallerXml
             string layoutDirectory = Path.GetDirectoryName(bundleFile);
 
             // Handle any payloads not explicitly in a container.
-            foreach (string payloadName in allPayloads.Keys)
+            IEnumerable<PayloadInfoRow> payloadsWithNoContainer = allPayloads.Values.Where(p => string.IsNullOrEmpty(p.Container));
+            foreach (PayloadInfoRow payload in payloadsWithNoContainer)
             {
-                if (!payloadsAddedToContainers.ContainsKey(payloadName))
+                if (PackagingType.Embedded == payload.Packaging)
                 {
-                    PayloadInfoRow payload = allPayloads[payloadName];
-                    if (PackagingType.Embedded == payload.Packaging)
+                    payload.Container = defaultAttachedContainer.Id;
+                    defaultAttachedContainer.Payloads.Add(payload);
+                }
+                else if (!String.IsNullOrEmpty(payload.FullFileName))
+                {
+                    FileTransfer transfer;
+                    if (FileTransfer.TryCreate(payload.FullFileName, Path.Combine(layoutDirectory, payload.Name), false, "Payload", payload.SourceLineNumbers, out transfer))
                     {
-                        payload.Container = defaultAttachedContainer.Id;
-                        defaultAttachedContainer.Payloads.Add(payload);
-                    }
-                    else if (!String.IsNullOrEmpty(payload.FullFileName))
-                    {
-                        FileTransfer transfer;
-                        if (FileTransfer.TryCreate(payload.FullFileName, Path.Combine(layoutDirectory, payload.Name), false, "Payload", payload.SourceLineNumbers, out transfer))
-                        {
-                            fileTransfers.Add(transfer);
-                        }
+                        fileTransfers.Add(transfer);
                     }
                 }
             }
