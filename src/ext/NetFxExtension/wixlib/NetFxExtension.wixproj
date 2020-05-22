@@ -30,6 +30,8 @@
     <Compile Include="NetFx46.wxs" />
     <Compile Include="NetFx461.wxs" />
     <Compile Include="NetFx462.wxs" />
+    <Compile Include="NetFx47.wxs" />
+    <Compile Include="NetFx471.wxs" />
     <Compile Include="NetFx472.wxs" />
     <Compile Include="NetFx48.wxs" />
   </ItemGroup>

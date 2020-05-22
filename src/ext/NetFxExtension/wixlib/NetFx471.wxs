@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <!--
+        .NET Framework installation state properties
+
+        Official documentation can be found at the following location:
+
+           .NET Framework 4.5/4.5.1/4.5.2/4.6/4.6.1/4.6.2/4.7/4.7.1 - http://msdn.microsoft.com/en-us/library/w0x726c2(v=vs.110).aspx
+    -->
+
+  <?define NetFx471MinRelease = 461308 ?>
+
+  <Fragment>
+    <PropertyRef Id="WIXNETFX4RELEASEINSTALLED" />
+    <Property Id="WIX_IS_NETFRAMEWORK_471_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_471_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      WIXNETFX4RELEASEINSTALLED >= "#$(var.NetFx471MinRelease)"
+    </SetProperty>
+  </Fragment>
+</Wix>
