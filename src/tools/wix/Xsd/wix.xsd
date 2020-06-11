@@ -3170,6 +3170,14 @@
                 </xs:documentation>
               </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="arm64">
+              <xs:annotation>
+                <xs:documentation>
+                  Set this value to declare that the package is an arm64 package.
+                  This value requires that the InstallerVersion property be set to 500 or greater.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="intel">
               <xs:annotation>
                 <xs:documentation>
@@ -4064,7 +4072,7 @@
           The default value is based on the platform set by the -arch switch to candle.exe
           or the InstallerPlatform property in a .wixproj MSBuild project: 
           For x86 and ARM, the default value is 'no'. 
-          For x64 and IA64, the default value is 'yes'.
+          For x64, ARM64, and IA64, the default value is 'yes'.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -4956,6 +4964,20 @@
                                 </xs:documentation>
               </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="arm">
+              <xs:annotation>
+                <xs:documentation>
+                                    The file is a .NET Framework assembly for a 32-bit ARM processor.
+                                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="arm64">
+              <xs:annotation>
+                <xs:documentation>
+                                    The file is a .NET Framework assembly for a 64-bit ARM processor.
+                                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="ia64">
               <xs:annotation>
                 <xs:documentation>
@@ -5404,17 +5426,13 @@
         <xs:annotation>
           <xs:documentation>
                         The localizable key for the registry value.
-                        If the parent element is a RegistryKey, this value may be omitted to use the
-                        path of the parent, or if its specified it will be appended to the path of the parent.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
           <xs:documentation>
-                        The localizable registry value name.  If this attribute is not provided the default value for the registry key will
-                        be set instead.  The Windows Installer allows several special values to be set for this attribute.  You should not
-                        use them in WiX.  Instead use appropriate values in the Action attribute to get the desired behavior.
+                        The localizable registry value name.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -6981,6 +6999,10 @@
             </xs:documentation>
       <xs:appinfo>
         <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/library/aa371637.aspx" />
+	<xse:remarks>
+	  <html:p>MsiServiceConfig functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider using
+	  the WixUtilExtension ServiceConfig instead.</html:p>
+        </xse:remarks>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -7674,7 +7696,7 @@
           The default value is based on the platform set by the -arch switch to candle.exe
           or the InstallerPlatform property in a .wixproj MSBuild project: 
           For x86 and ARM, the default value is 'no'. 
-          For x64 and IA64, the default value is 'yes'.
+          For x64, ARM64, and IA64, the default value is 'yes'.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -9119,7 +9141,7 @@
           The default value is based on the platform set by the -arch switch to candle.exe
           or the InstallerPlatform property in a .wixproj MSBuild project: 
           For x86 and ARM, the default value is 'no'. 
-          For x64 and IA64, the default value is 'yes'.
+          For x64, ARM64, and IA64, the default value is 'yes'.
               </xs:documentation>
             </xs:annotation>
           </xs:attribute>

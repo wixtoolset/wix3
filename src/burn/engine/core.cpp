@@ -514,10 +514,11 @@ extern "C" HRESULT CoreElevate(
     )
 {
     HRESULT hr = S_OK;
+    DWORD cAVRetryAttempts = 0;
 
-    // If the elevated companion pipe isn't created yet, let's make that happen.
-    if (INVALID_HANDLE_VALUE == pEngineState->companionConnection.hPipe)
+    while (INVALID_HANDLE_VALUE == pEngineState->companionConnection.hPipe)
     {
+        // If the elevated companion pipe isn't created yet, let's make that happen.
         if (!pEngineState->sczBundleEngineWorkingPath)
         {
             hr = CacheBundleToWorkingDirectory(pEngineState->registration.sczId, pEngineState->registration.sczExecutableName, &pEngineState->userExperience.payloads, &pEngineState->section, &pEngineState->sczBundleEngineWorkingPath);
@@ -525,6 +526,11 @@ extern "C" HRESULT CoreElevate(
         }
 
         hr = ElevationElevate(pEngineState, hwndParent);
+        if (E_SUSPECTED_AV_INTERFERENCE == hr && 1 > cAVRetryAttempts)
+        {
+            ++cAVRetryAttempts;
+            continue;
+        }
         ExitOnFailure(hr, "Failed to actually elevate.");
 
         hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, TRUE, TRUE);

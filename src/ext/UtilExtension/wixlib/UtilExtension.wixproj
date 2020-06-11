@@ -15,6 +15,7 @@
     <Compile Include="UtilExtension.wxs" />
     <Compile Include="UtilExtension_x86.wxs" />
     <Compile Include="UtilExtension_x64.wxs" />
+    <Compile Include="UtilExtension_arm64.wxs" Condition="$(BuildARM64)" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="de-de.wxl" />
     <EmbeddedResource Include="es-es.wxl" />
@@ -22,6 +23,7 @@
     <EmbeddedResource Include="ja-jp.wxl" />
     <EmbeddedResource Include="pt-br.wxl" />
     <EmbeddedResource Include="it-it.wxl" />
+	<EmbeddedResource Include="ru-ru.wxl" />
   </ItemGroup>
 
   <ItemGroup>

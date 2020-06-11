@@ -36,6 +36,7 @@ enum OS_INFO_VARIABLE
     OS_INFO_VARIABLE_CompatibilityMode,
     OS_INFO_VARIABLE_TerminalServer,
     OS_INFO_VARIABLE_ProcessorArchitecture,
+    OS_INFO_VARIABLE_WindowsBuildNumber,
 };
 
 enum SET_VARIABLE
@@ -253,6 +254,7 @@ extern "C" HRESULT VariableInitialize(
         {L"VersionMsi", InitializeVariableVersionMsi, 0},
         {L"VersionNT", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT},
         {L"VersionNT64", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT64},
+        {L"WindowsBuildNumber", InitializeVariableVersionNT, OS_INFO_VARIABLE_WindowsBuildNumber},
         {L"WindowsFolder", InitializeVariableCsidlFolder, CSIDL_WINDOWS},
         {L"WindowsVolume", InitializeVariableWindowsVolumeFolder, 0},
         {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0, FALSE, TRUE},
@@ -1671,6 +1673,9 @@ static HRESULT InitializeVariableVersionNT(
             }
         }
         break;
+    case OS_INFO_VARIABLE_WindowsBuildNumber:
+        value.qwValue = static_cast<DWORD64>(ovix.dwBuildNumber);
+        value.Type = BURN_VARIANT_TYPE_NUMERIC;
     default:
         AssertSz(FALSE, "Unknown OS info type.");
         break;

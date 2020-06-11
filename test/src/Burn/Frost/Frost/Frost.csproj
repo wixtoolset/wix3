@@ -11,8 +11,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Test.Frost</RootNamespace>
     <AssemblyName>frost</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <OldToolsVersion>2.0</OldToolsVersion>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>

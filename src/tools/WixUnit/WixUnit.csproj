@@ -33,7 +33,6 @@
     <Compile Include="WixUnit.cs" />
     <EmbeddedFlattenedResource Include="unitTests.xsd" />
     <EmbeddedNativeResource Include="wixunit.rc" />
-    <None Include="app.config" />
   </ItemGroup>
 
   <ItemGroup>

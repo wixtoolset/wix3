@@ -31,7 +31,7 @@
         <Variable Name="MbaNetfxPackageId" Value="!(wix.WixMbaPrereqPackageId)" />
 
         <Chain>
-            <PackageGroupRef Id='NetFx40Web' />
+            <PackageGroupRef Id='NetFx462Redist' />
             <PackageGroupRef Id='WixPackages' />
         </Chain>
     </Bundle>

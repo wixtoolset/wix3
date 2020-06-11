@@ -4,9 +4,9 @@
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProductVersion>3.11</ProductVersion>
+    <ProductVersion>3.14</ProductVersion>
     <ProjectGuid>{196D63B1-29D8-4B4D-9C9C-4F043099066B}</ProjectGuid>
-    <OutputName>WiX311</OutputName>
+    <OutputName>WiX314</OutputName>
     <OutputType>Bundle</OutputType>
     <Cultures>en-us</Cultures>
   </PropertyGroup>

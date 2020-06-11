@@ -13,6 +13,9 @@
     <Stage Include="$(OutputPath_arm)*.pdb">
       <StageSubDirectory>pdbs\arm</StageSubDirectory>
     </Stage>
+    <Stage Include="$(OutputPath_arm64)*.pdb">
+      <StageSubDirectory>pdbs\arm64</StageSubDirectory>
+    </Stage>
     <Stage Include="$(OutputPath_x64)*.pdb">
       <StageSubDirectory>pdbs\x64</StageSubDirectory>
     </Stage>

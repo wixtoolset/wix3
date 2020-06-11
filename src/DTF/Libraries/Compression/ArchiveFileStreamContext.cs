@@ -633,6 +633,8 @@ namespace Microsoft.Deployment.Compression
             }
             else
             {
+                this.ValidateArchivePath(path);
+
                 filePath = path;
             }
 
@@ -645,6 +647,16 @@ namespace Microsoft.Deployment.Compression
             }
 
             return filePath;
+        }
+
+        private void ValidateArchivePath(string filePath)
+        {
+            string basePath = Path.GetFullPath(String.IsNullOrEmpty(this.directory) ? Environment.CurrentDirectory : this.directory);
+            string path = Path.GetFullPath(Path.Combine(basePath, filePath));
+            if (!path.StartsWith(basePath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new InvalidDataException("Archive cannot contain files with absolute or traversal paths.");
+            }
         }
 
         #endregion

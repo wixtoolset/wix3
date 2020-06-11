@@ -141,6 +141,8 @@ enum WIXSTDBA_CONTROL
 
     WIXSTDBA_CONTROL_SUCCESS_HEADER,
     WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER,
+    WIXSTDBA_CONTROL_SUCCESS_INSTALL_DESCRIPTION,
+    WIXSTDBA_CONTROL_SUCCESS_INSTALL_ILLUSTRATION,
     WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER,
     WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER,
 
@@ -212,6 +214,8 @@ static THEME_ASSIGN_CONTROL_ID vrgInitControls[] = {
 
     { WIXSTDBA_CONTROL_SUCCESS_HEADER, L"SuccessHeader" },
     { WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, L"SuccessInstallHeader" },
+    { WIXSTDBA_CONTROL_SUCCESS_INSTALL_DESCRIPTION, L"SuccessInstallDescription" },
+    { WIXSTDBA_CONTROL_SUCCESS_INSTALL_ILLUSTRATION, L"SuccessInstallIllustration" },
     { WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, L"SuccessUninstallHeader" },
     { WIXSTDBA_CONTROL_SUCCESS_REPAIR_HEADER, L"SuccessRepairHeader" },
 
@@ -481,6 +485,29 @@ public: // IBootstrapperApplication
         return CheckCanceled() ? IDCANCEL : IDOK;
     }
 
+    virtual STDMETHODIMP_(void) OnPlanPackageComplete(
+        __in_z LPCWSTR wzPackageId,
+        __in HRESULT hrStatus,
+        __in BOOTSTRAPPER_PACKAGE_STATE state,
+        __in BOOTSTRAPPER_REQUEST_STATE requested,
+        __in BOOTSTRAPPER_ACTION_STATE execute,
+        __in BOOTSTRAPPER_ACTION_STATE rollback
+        )
+    {
+        __super::OnPlanPackageComplete(wzPackageId, hrStatus, state, requested, execute, rollback);
+
+        if (wzPackageId && *wzPackageId)
+        {
+            BAL_INFO_PACKAGE* pPackage = NULL;
+            HRESULT hr = BalInfoFindPackageById(&m_Bundle.packages, wzPackageId, &pPackage);
+            if (SUCCEEDED(hr))
+            {
+                pPackage->executeAction = execute;
+                pPackage->rollbackAction = rollback;
+            }
+        }
+    }
+
 
     virtual STDMETHODIMP_(void) OnPlanComplete(
         __in HRESULT hrStatus
@@ -741,7 +768,9 @@ public: // IBootstrapperApplication
         __in BOOL fExecute
         )
     {
+        HRESULT hr = S_OK;
         LPWSTR sczFormattedString = NULL;
+        BOOL fShowingInternalUiThisPackage = FALSE;
 
         m_fStartedExecution = TRUE;
 
@@ -780,19 +809,25 @@ public: // IBootstrapperApplication
                 wz = sczFormattedString ? sczFormattedString : pPackage->sczDisplayName ? pPackage->sczDisplayName : wzPackageId;
             }
 
-            //Burn engine doesn't show internal UI for msi packages during uninstall or repair actions.
-            m_fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI && BOOTSTRAPPER_ACTION_UNINSTALL != m_plannedAction && BOOTSTRAPPER_ACTION_REPAIR != m_plannedAction;
+            // Needs to match MsiEngineCalculateInstallUiLevel in msiengine.cpp in Burn.
+            BOOTSTRAPPER_ACTION_STATE packageAction = fExecute ? pPackage->executeAction : pPackage->rollbackAction;
+            fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI &&
+                                            BOOTSTRAPPER_ACTION_UNINSTALL != packageAction &&
+                                            BOOTSTRAPPER_ACTION_REPAIR != packageAction &&
+                                            (BOOTSTRAPPER_DISPLAY_FULL == m_command.display ||
+                                            BOOTSTRAPPER_DISPLAY_PASSIVE == m_command.display);
 
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_PACKAGE_TEXT, wz);
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, wz);
         }
-        else
-        {
-            m_fShowingInternalUiThisPackage = FALSE;
-        }
+
+        ::EnterCriticalSection(&m_csShowingInternalUiThisPackage);
+        m_fShowingInternalUiThisPackage = fShowingInternalUiThisPackage;
+        hr = __super::OnExecutePackageBegin(wzPackageId, fExecute);
+        ::LeaveCriticalSection(&m_csShowingInternalUiThisPackage);
 
         ReleaseStr(sczFormattedString);
-        return __super::OnExecutePackageBegin(wzPackageId, fExecute);
+        return hr;
     }
 
 
@@ -860,6 +895,7 @@ public: // IBootstrapperApplication
         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_ACTIONDATA_TEXT, L"");
         ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, L"");
         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_PROGRESS_CANCEL_BUTTON, FALSE); // no more cancel.
+        m_fShowingInternalUiThisPackage = FALSE;
 
         SetState(WIXSTDBA_STATE_EXECUTED, S_OK); // we always return success here and let OnApplyComplete() deal with the error.
         SetProgressState(hrStatus);
@@ -1091,6 +1127,7 @@ private: // privates
     LExit:
         // destroy main window
         pThis->DestroyMainWindow();
+        pThis->UninitializeTaskbarButton();
 
         // initiate engine shutdown
         DWORD dwQuit = HRESULT_CODE(hr);
@@ -1907,6 +1944,16 @@ private: // privates
 
 
     //
+    // UninitializeTaskbarButton - clean up the taskbar registration.
+    //
+    void UninitializeTaskbarButton()
+    {
+        m_fTaskbarButtonOK = FALSE;
+        ReleaseNullObject(m_pTaskbarList);
+    }
+
+
+    //
     // WndProc - standard windows message handler.
     //
     static LRESULT CALLBACK WndProc(
@@ -2508,6 +2555,16 @@ private: // privates
                         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_HEADER, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
                     }
 
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_DESCRIPTION))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_DESCRIPTION, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+
+                    if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_ILLUSTRATION))
+                    {
+                        ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_INSTALL_ILLUSTRATION, BOOTSTRAPPER_ACTION_INSTALL == m_plannedAction);
+                    }
+
                     if (ThemeControlExists(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER))
                     {
                         ThemeControlEnable(m_pTheme, WIXSTDBA_CONTROL_SUCCESS_UNINSTALL_HEADER, BOOTSTRAPPER_ACTION_UNINSTALL == m_plannedAction);
@@ -2749,7 +2806,13 @@ private: // privates
         }
         else // prompt the user or force the cancel if there is no UI.
         {
-            fClose = PromptCancel(m_hWnd, BOOTSTRAPPER_DISPLAY_FULL != m_command.display, m_sczConfirmCloseMessage ? m_sczConfirmCloseMessage : L"Are you sure you want to cancel?", m_pTheme->sczCaption);
+            ::EnterCriticalSection(&m_csShowingInternalUiThisPackage);
+            fClose = PromptCancel(
+                m_hWnd,
+                BOOTSTRAPPER_DISPLAY_FULL != m_command.display || m_fShowingInternalUiThisPackage,
+                m_sczConfirmCloseMessage ? m_sczConfirmCloseMessage : L"Are you sure you want to cancel?",
+                m_pTheme->sczCaption);
+            ::LeaveCriticalSection(&m_csShowingInternalUiThisPackage);
         }
 
         // If we're doing progress then we never close, we just cancel to let rollback occur.
@@ -3543,6 +3606,7 @@ public:
         m_pTaskbarList = NULL;
         m_uTaskbarButtonCreatedMessage = UINT_MAX;
         m_fTaskbarButtonOK = FALSE;
+        ::InitializeCriticalSection(&m_csShowingInternalUiThisPackage);
         m_fShowingInternalUiThisPackage = FALSE;
         m_fTriedToLaunchElevated = FALSE;
 
@@ -3570,9 +3634,10 @@ public:
     ~CWixStandardBootstrapperApplication()
     {
         AssertSz(!::IsWindow(m_hWnd), "Window should have been destroyed before destructor.");
+        AssertSz(!m_pTaskbarList, "Taskbar should have been released before destructor.");
         AssertSz(!m_pTheme, "Theme should have been released before destructor.");
 
-        ReleaseObject(m_pTaskbarList);
+        ::DeleteCriticalSection(&m_csShowingInternalUiThisPackage);
         ReleaseDict(m_sdOverridableVariables);
         ReleaseDict(m_shPrereqSupportPackages);
         ReleaseMem(m_rgPrereqPackages);
@@ -3653,6 +3718,7 @@ private:
     ITaskbarList3* m_pTaskbarList;
     UINT m_uTaskbarButtonCreatedMessage;
     BOOL m_fTaskbarButtonOK;
+    CRITICAL_SECTION m_csShowingInternalUiThisPackage;
     BOOL m_fShowingInternalUiThisPackage;
     BOOL m_fTriedToLaunchElevated;
 

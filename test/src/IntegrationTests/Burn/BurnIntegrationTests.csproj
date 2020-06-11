@@ -8,7 +8,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>WixTest.BurnIntegrationTests</RootNamespace>
     <AssemblyName>WixTest.BurnIntegrationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />

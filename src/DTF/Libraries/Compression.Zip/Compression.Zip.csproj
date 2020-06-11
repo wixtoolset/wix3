@@ -11,6 +11,7 @@
     <AssemblyName>Microsoft.Deployment.Compression.Zip</AssemblyName>
     <CreateDocumentationFile>true</CreateDocumentationFile>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <ItemGroup>

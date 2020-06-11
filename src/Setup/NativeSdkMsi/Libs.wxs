@@ -7,6 +7,7 @@
         <ComponentGroup Id="LibComponents">
             <ComponentGroupRef Id="LibX86Components" />
             <ComponentGroupRef Id="LibX64Components" />
+            <ComponentGroupRef Id="LibARM64Components" />
         </ComponentGroup>
     </Fragment>
 
@@ -39,6 +40,22 @@
             <Component>
                 <File Id="deputil_x64.lib" Source="!(bindpath.x64)\$(var.VisualStudioTargetVersion)\deputil.lib"/>
             </Component>
+        </ComponentGroup>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="LibARM64Components" Directory="SdkARM64LibFolder">
+            <?if $(var.BuildARM64) = true and $(var.VisualStudioTargetVersion) = 2017 ?>
+                <Component>
+                    <File Id="dutil_arm64.lib" Source="!(bindpath.arm64)\$(var.VisualStudioTargetVersion)\dutil.lib"/>
+                </Component>
+                <Component>
+                    <File Id="wcautil_arm64.lib" Source="!(bindpath.arm64)\$(var.VisualStudioTargetVersion)\wcautil.lib"/>
+                </Component>
+                <Component>
+                    <File Id="deputil_arm64.lib" Source="!(bindpath.arm64)\$(var.VisualStudioTargetVersion)\deputil.lib"/>
+                </Component>
+            <?endif?>
         </ComponentGroup>
     </Fragment>
 </Wix>

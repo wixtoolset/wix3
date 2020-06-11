@@ -148,6 +148,38 @@ The WixNetfxExtension includes package groups that make it easier to include .NE
       <p>.Net Framework 4.6.2 standalone setup.</p>
     </td>
   </tr>
+  <tr>
+    <td valign="top">
+      <p>NetFx472Web</p>
+    </td>
+    <td>
+      <p>.Net Framework 4.7.2 web setup.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>NetFx472Redist</p>
+    </td>
+    <td>
+      <p>.Net Framework 4.7.2 standalone setup.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>NetFx48Web</p>
+    </td>
+    <td>
+      <p>.Net Framework 4.8 web setup.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>NetFx48Redist</p>
+    </td>
+    <td>
+      <p>.Net Framework 4.8 standalone setup.</p>
+    </td>
+  </tr>
 </table>
 
 ## Properties
@@ -219,6 +251,22 @@ The following properties (available starting in WiX v3.10) let you detect a part
     </td>
     <td>
       <p>Set to 1 if .NET Framework 4.6.2 or later is installed. Available starting in WiX v3.11.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_472_OR_LATER_INSTALLED</p>
+    </td>
+    <td>
+      <p>Set to 1 if .NET Framework 4.7.2 or later is installed. Available starting in WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>WIX_IS_NETFRAMEWORK_48_OR_LATER_INSTALLED</p>
+    </td>
+    <td>
+      <p>Set to 1 if .NET Framework 4.8 or later is installed. Available starting in WiX v3.14.</p>
     </td>
   </tr>
 </table>
