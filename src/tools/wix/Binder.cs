@@ -3364,11 +3364,6 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     }
                 }
 
-                if (payloadInfo.Packaging == PackagingType.Unknown)
-                {
-                    payloadInfo.Packaging = bundleInfo.DefaultPackagingType;
-                }
-
                 string normalizedPath = payloadInfo.Name.Replace('\\', '/');
                 if (normalizedPath.StartsWith("../", StringComparison.Ordinal) || normalizedPath.Contains("/../"))
                 {
@@ -3487,6 +3482,23 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     if (null != variableCache)
                     {
                         Binder.PopulatePackageVariableCache(packageInfo, variableCache);
+                    }
+                }
+            }
+
+            // Set payload packaging for payloads with non-explicit value
+            IEnumerable<PayloadInfoRow> unknownPackagingPayloads = allPayloads.Values.Where(p => p.Packaging.Equals(PackagingType.Unknown));
+            foreach (PayloadInfoRow payloadInfoRow in unknownPackagingPayloads)
+            {
+                payloadInfoRow.Packaging = bundleInfo.DefaultPackagingType;
+
+                // Override packaging for payloads in explictly attached containers
+                if (!string.IsNullOrWhiteSpace(payloadInfoRow.Container) && !payloadInfoRow.Container.Equals(burnUXContainer.Id) && !payloadInfoRow.Container.Equals(defaultAttachedContainer.Id) && containers.ContainsKey(payloadInfoRow.Container))
+                {
+                    ContainerInfo container = containers[payloadInfoRow.Container];
+                    if (container.Type.Equals("attached"))
+                    {
+                        payloadInfoRow.Packaging = PackagingType.Embedded;
                     }
                 }
             }
