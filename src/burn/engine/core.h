@@ -199,6 +199,10 @@ HRESULT CoreAppendFileHandleAttachedToCommandLine(
     __out HANDLE* phExecutableFile,
     __deref_inout_z LPWSTR* psczCommandLine
     );
+HRESULT CoreAppendNoRestartToCommandLine(
+    __deref_inout_z LPWSTR* psczCommandLine,
+    __deref_inout_z_opt LPWSTR* psczObfuscatedCommandLine
+);
 HRESULT CoreAppendFileHandleSelfToCommandLine(
     __in LPCWSTR wzExecutablePath,
     __out HANDLE* phExecutableFile,

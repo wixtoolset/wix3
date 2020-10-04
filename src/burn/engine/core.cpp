@@ -1007,6 +1007,50 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT CoreAppendNoRestartToCommandLine(
+    __deref_inout_z LPWSTR * psczCommandLine,
+    __deref_inout_z_opt LPWSTR * psczObfuscatedCommandLine
+)
+{
+    HRESULT hr = S_OK;
+    INT ccArgs = 0;
+    LPWSTR* rgszArgs = nullptr;
+    BOOL fHasRestartFlag = FALSE;
+
+    hr = AppParseCommandLine(*psczCommandLine, &ccArgs, &rgszArgs);
+    ExitOnFailure(hr, "Failed parsing command line");
+
+    for (INT i = 0; i < ccArgs; ++i)
+    {
+        if (rgszArgs[i][0] == L'-' || rgszArgs[i][0] == L'/')
+        {
+            if ((CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &rgszArgs[i][1], -1, L"norestart", -1))
+                || (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &rgszArgs[i][1], -1, L"forcerestart", -1)))
+            {
+                fHasRestartFlag = TRUE;
+                break;
+            }
+        }
+    }
+
+    if (!fHasRestartFlag)
+    {
+        hr = StrAllocConcat(psczCommandLine, L" -norestart", 0);
+        ExitOnFailure(hr, "Failed concatenating '-norestart' to command line");
+
+        hr = StrAllocConcat(psczObfuscatedCommandLine, L" -norestart", 0);
+        ExitOnFailure(hr, "Failed concatenating '-norestart' to obfuscated command line");
+    }
+
+LExit:
+    if (rgszArgs)
+    {
+        ::LocalFree(rgszArgs);
+    }
+
+    return hr;
+}
+
 extern "C" HRESULT CoreAppendFileHandleSelfToCommandLine(
     __in LPCWSTR wzExecutablePath,
     __out HANDLE* phExecutableFile,
@@ -1452,6 +1496,13 @@ static HRESULT ParseCommandLine(
     if (BOOTSTRAPPER_DISPLAY_UNKNOWN == pCommand->display)
     {
         pCommand->display = BOOTSTRAPPER_DISPLAY_FULL;
+    }
+
+    // When running embedded or related, default restart to 'never'. Parent bundle will take reboot action based on its command line and our exit code
+    if (((BOOTSTRAPPER_RESTART_AUTOMATIC == pCommand->restart) || (BOOTSTRAPPER_RESTART_UNKNOWN == pCommand->restart))
+        && ((BOOTSTRAPPER_RELATION_NONE != pCommand->relationType) || (BURN_MODE_EMBEDDED == *pMode)))
+    {
+        pCommand->restart = BOOTSTRAPPER_RESTART_NEVER;
     }
 
     if (BOOTSTRAPPER_RESTART_UNKNOWN == pCommand->restart)

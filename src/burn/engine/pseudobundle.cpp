@@ -97,16 +97,10 @@ extern "C" HRESULT PseudoBundleInitialize(
         ExitOnFailure(hr, "Failed to append relation type to install arguments for related bundle package");
     }
 
-    hr = StrAllocConcat(&pPackage->Exe.sczInstallArguments, L" -norestart", 0);
-    ExitOnFailure(hr, "Failed to append '/norestart' to install arguments for related bundle package");
-
     if (wzRepairArguments)
     {
         hr = StrAllocString(&pPackage->Exe.sczRepairArguments, wzRepairArguments, 0);
         ExitOnFailure(hr, "Failed to copy repair arguments for related bundle package");
-
-        hr = StrAllocConcat(&pPackage->Exe.sczRepairArguments, L" -norestart", 0);
-        ExitOnFailure(hr, "Failed to append '/norestart' to repair arguments for related bundle package");
 
         if (sczRelationTypeCommandLineSwitch)
         {
@@ -121,9 +115,6 @@ extern "C" HRESULT PseudoBundleInitialize(
     {
         hr = StrAllocString(&pPackage->Exe.sczUninstallArguments, wzUninstallArguments, 0);
         ExitOnFailure(hr, "Failed to copy uninstall arguments for related bundle package");
-
-        hr = StrAllocConcat(&pPackage->Exe.sczUninstallArguments, L" -norestart", 0);
-        ExitOnFailure(hr, "Failed to append '/norestart' to uninstall arguments for related bundle package");
 
         if (sczRelationTypeCommandLineSwitch)
         {
