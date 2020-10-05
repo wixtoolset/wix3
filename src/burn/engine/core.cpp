@@ -1024,6 +1024,7 @@ extern "C" HRESULT CoreAppendNoRestartToCommandLine(
     {
         if (rgszArgs[i][0] == L'-' || rgszArgs[i][0] == L'/')
         {
+            // Not looking for 'promptrestart' because that isn't supported in embedded UI
             if ((CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &rgszArgs[i][1], -1, L"norestart", -1))
                 || (CSTR_EQUAL == ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, &rgszArgs[i][1], -1, L"forcerestart", -1)))
             {
@@ -1045,7 +1046,7 @@ extern "C" HRESULT CoreAppendNoRestartToCommandLine(
 LExit:
     if (rgszArgs)
     {
-        ::LocalFree(rgszArgs);
+        AppFreeCommandLineArgs(rgszArgs);
     }
 
     return hr;
