@@ -21,11 +21,13 @@ In this tutorial, we will create a C# Windows Form Application and then use WiX 
 1. In the <b>MySetup</b> project, right-click on the <b>References</b> node and choose <b>Add Reference...</b>.
 1. Navigate to the <b>Projects</b> tab, click on the <b>MyApplication</b> project, and click the <b>Add</b> 
 button, and then press OK.
-1. Find the comment that says:
+1. Find the lines that say:
 
-        <!-- TODO: Insert your files, registry keys, and other resources here. -->
+        <!-- <Component Id="ProductComponent"> -->
+            <!-- TODO: Insert your files, registry keys, and other resources here. -->
+        <!-- </Component> -->
 
-    Delete that line and replace it with the following lines of code:
+    Uncomment the first and last of those lines and replace the middle line (TODO:) with:
 
         <File Source="$(var.MyApplication.TargetPath)" />
 1. Build the WiX project.
