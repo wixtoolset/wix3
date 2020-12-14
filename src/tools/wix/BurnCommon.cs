@@ -362,7 +362,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private static UInt32 ReadUInt32(byte[] bytes, UInt32 offset)
         {
             Debug.Assert(offset + 4 <= bytes.Length);
-            return (UInt32)(bytes[offset] + (bytes[offset + 1] << 8) + (bytes[offset + 2] << 16) + (bytes[offset + 3] << 24));
+            return BurnCommon.ReadUInt16(bytes, offset) + ((UInt32)(BurnCommon.ReadUInt16(bytes, offset + 2)) << 16);
         }
 
         /// <summary>
