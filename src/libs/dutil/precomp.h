@@ -37,7 +37,6 @@
 #include <wtsapi32.h>
 #include <wuapi.h>
 #include <commctrl.h>
-#include <ShellScalingApi.h>
 
 #include "dutil.h"
 #include "aclutil.h"
