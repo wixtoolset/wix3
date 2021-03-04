@@ -209,8 +209,8 @@ static const THEME_CONTROL* FindControlFromHWnd(
     __in HWND hWnd
     );
 static void GetControlDimensions(
-    __in const RECT* prcParent,
     __in const THEME_CONTROL* pControl,
+    __in const RECT* prcParent,
     __out int* piWidth,
     __out int* piHeight,
     __out int* piX,
@@ -232,6 +232,15 @@ static void ScaleTheme(
     __in UINT nDpi,
     __in int x,
     __in int y
+    );
+static void ScaleControls(
+    __in DWORD cControls,
+    __in THEME_CONTROL* rgControls,
+    __in UINT nDpi
+    );
+static void ScaleControl(
+    __in THEME_CONTROL* pControl,
+    __in UINT nDpi
     );
 
 DAPI_(HRESULT) ThemeInitialize(
@@ -443,6 +452,11 @@ DAPI_(HRESULT) ThemeLoadControls(
     __in DWORD cAssignControlIds
     )
 {
+    int w = 0;
+    int h = 0;
+    int x = 0;
+    int y = 0;
+
     AssertSz(!pTheme->hwndParent, "Theme already loaded controls because it has a parent window.");
 
     HRESULT hr = S_OK;
@@ -588,8 +602,7 @@ DAPI_(HRESULT) ThemeLoadControls(
 
         pControl->wId = wControlId;
 
-        int w, h, x, y;
-        GetControlDimensions(&rcParent, pControl, &w, &h, &x, &y);
+        GetControlDimensions(pControl, &rcParent, &w, &h, &x, &y);
 
         // Disable paged controls so their shortcut keys don't trigger when their page isn't being shown.
         dwWindowBits |= 0 < pControl->wPageId ? WS_DISABLED : 0;
@@ -743,22 +756,22 @@ DAPI_(HRESULT) ThemeLocalize(
 
         if (LOC_CONTROL_NOT_SET != pLocControl->nX)
         {
-            pControl->nX = pLocControl->nX;
+            pControl->nDefaultDpiX = pLocControl->nX;
         }
 
         if (LOC_CONTROL_NOT_SET != pLocControl->nY)
         {
-            pControl->nY = pLocControl->nY;
+            pControl->nDefaultDpiY = pLocControl->nY;
         }
 
         if (LOC_CONTROL_NOT_SET != pLocControl->nWidth)
         {
-            pControl->nWidth = pLocControl->nWidth;
+            pControl->nDefaultDpiWidth = pLocControl->nWidth;
         }
 
         if (LOC_CONTROL_NOT_SET != pLocControl->nHeight)
         {
-            pControl->nHeight = pLocControl->nHeight;
+            pControl->nDefaultDpiHeight = pLocControl->nHeight;
         }
 
         if (pLocControl->wzText && *pLocControl->wzText)
@@ -1022,13 +1035,14 @@ extern "C" LRESULT CALLBACK ThemeDefWindowProc(
             break;
 
         case WM_SIZE:
-            if (pTheme->fAutoResize)
+            if (pTheme->fAutoResize || pTheme->fForceResize)
             {
+                pTheme->fForceResize = FALSE;
                 ::GetClientRect(pTheme->hwndParent, &rcParent);
                 for (DWORD i = 0; i < pTheme->cControls; ++i)
                 {
-                    GetControlDimensions(&rcParent, pTheme->rgControls + i, &w, &h, &x, &y);
-                    ::MoveWindow(pTheme->rgControls[i].hWnd, x, y, w, h, TRUE);
+                    GetControlDimensions(pTheme->rgControls + i, &rcParent, &w, &h, &x, &y);
+                    ::SetWindowPos(pTheme->rgControls[i].hWnd, NULL, x, y, w, h, SWP_NOACTIVATE | SWP_NOZORDER);
                     if (THEME_CONTROL_TYPE_LISTVIEW == pTheme->rgControls[i].type)
                     {
                         SizeListViewColumns(pTheme->rgControls + i);
@@ -2583,10 +2597,10 @@ static HRESULT ParseControl(
     }
     ExitOnFailure(hr, "Failed when querying control Name.");
 
-    hr = XmlGetAttributeNumber(pixn, L"X", reinterpret_cast<DWORD*>(&pControl->nX));
+    hr = XmlGetAttributeNumber(pixn, L"X", &dwValue);
     if (S_FALSE == hr)
     {
-        hr = XmlGetAttributeNumber(pixn, L"x", reinterpret_cast<DWORD*>(&pControl->nX));
+        hr = XmlGetAttributeNumber(pixn, L"x", &dwValue);
         if (S_FALSE == hr)
         {
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
@@ -2594,10 +2608,12 @@ static HRESULT ParseControl(
     }
     ExitOnFailure(hr, "Failed to find control X attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"Y", reinterpret_cast<DWORD*>(&pControl->nY));
+    pControl->nX = pControl->nDefaultDpiX = dwValue;
+
+    hr = XmlGetAttributeNumber(pixn, L"Y", &dwValue);
     if (S_FALSE == hr)
     {
-        hr = XmlGetAttributeNumber(pixn, L"y", reinterpret_cast<DWORD*>(&pControl->nY));
+        hr = XmlGetAttributeNumber(pixn, L"y", &dwValue);
         if (S_FALSE == hr)
         {
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
@@ -2605,10 +2621,12 @@ static HRESULT ParseControl(
     }
     ExitOnFailure(hr, "Failed to find control Y attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"Height", reinterpret_cast<DWORD*>(&pControl->nHeight));
+    pControl->nY = pControl->nDefaultDpiY = dwValue;
+
+    hr = XmlGetAttributeNumber(pixn, L"Height", &dwValue);
     if (S_FALSE == hr)
     {
-        hr = XmlGetAttributeNumber(pixn, L"h", reinterpret_cast<DWORD*>(&pControl->nHeight));
+        hr = XmlGetAttributeNumber(pixn, L"h", &dwValue);
         if (S_FALSE == hr)
         {
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
@@ -2616,16 +2634,20 @@ static HRESULT ParseControl(
     }
     ExitOnFailure(hr, "Failed to find control height attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"Width", reinterpret_cast<DWORD*>(&pControl->nWidth));
+    pControl->nHeight = pControl->nDefaultDpiHeight = dwValue;
+
+    hr = XmlGetAttributeNumber(pixn, L"Width", &dwValue);
     if (S_FALSE == hr)
     {
-        hr = XmlGetAttributeNumber(pixn, L"w", reinterpret_cast<DWORD*>(&pControl->nWidth));
+        hr = XmlGetAttributeNumber(pixn, L"w", &dwValue);
         if (S_FALSE == hr)
         {
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
         }
     }
     ExitOnFailure(hr, "Failed to find control width attribute.");
+
+    pControl->nWidth = pControl->nDefaultDpiWidth = dwValue;
 
     // Parse the optional background resource image.
     hr = ParseImage(hModule, wzRelativePath, pixn, &pControl->hImage);
@@ -3575,6 +3597,7 @@ static BOOL OnDpiChanged(
         ExitFunction();
     }
 
+    pTheme->fForceResize = !pTheme->fAutoResize;
     ScaleTheme(pTheme, nDpi, pRect->left, pRect->top);
 
 LExit:
@@ -3677,18 +3700,18 @@ static const THEME_CONTROL* FindControlFromHWnd(
 }
 
 static void GetControlDimensions(
-    __in const RECT* prcParent,
     __in const THEME_CONTROL* pControl,
+    __in const RECT* prcParent,
     __out int* piWidth,
     __out int* piHeight,
     __out int* piX,
     __out int* piY
     )
 {
-    *piWidth  = pControl->nWidth < 1  ? pControl->nX < 0 ? prcParent->right  + pControl->nWidth  : prcParent->right  + pControl->nWidth  - pControl->nX : pControl->nWidth;
-    *piHeight = pControl->nHeight < 1 ? pControl->nY < 0 ? prcParent->bottom + pControl->nHeight : prcParent->bottom + pControl->nHeight - pControl->nY : pControl->nHeight;
-    *piX = pControl->nX < 0 ? prcParent->right  + pControl->nX - *piWidth  : pControl->nX;
-    *piY = pControl->nY < 0 ? prcParent->bottom + pControl->nY - *piHeight : pControl->nY;
+    *piWidth  = pControl->nWidth  + (0 < pControl->nWidth  ? 0 : prcParent->right  - max(0, pControl->nX));
+    *piHeight = pControl->nHeight + (0 < pControl->nHeight ? 0 : prcParent->bottom - max(0, pControl->nY));
+    *piX = pControl->nX + (-1 < pControl->nX ? 0 : prcParent->right - *piWidth);
+    *piY = pControl->nY + (-1 < pControl->nY ? 0 : prcParent->bottom - *piHeight);
 }
 
 static HRESULT SizeListViewColumns(
@@ -3769,5 +3792,31 @@ static void ScaleTheme(
     pTheme->nMinimumHeight = DpiuScaleValue(pTheme->nDefaultDpiMinimumHeight, pTheme->nDpi);
     pTheme->nMinimumWidth = DpiuScaleValue(pTheme->nDefaultDpiMinimumWidth, pTheme->nDpi);
 
+    ScaleControls(pTheme->cControls, pTheme->rgControls, pTheme->nDpi);
+
     ::SetWindowPos(pTheme->hwndParent, NULL, x, y, pTheme->nWidth, pTheme->nHeight, SWP_NOACTIVATE | SWP_NOZORDER);
+}
+
+static void ScaleControls(
+    __in DWORD cControls,
+    __in THEME_CONTROL* rgControls,
+    __in UINT nDpi
+    )
+{
+    for (DWORD i = 0; i < cControls; ++i)
+    {
+        THEME_CONTROL* pControl = rgControls + i;
+        ScaleControl(pControl, nDpi);
+    }
+}
+
+static void ScaleControl(
+    __in THEME_CONTROL* pControl,
+    __in UINT nDpi
+    )
+{
+    pControl->nWidth = DpiuScaleValue(pControl->nDefaultDpiWidth, nDpi);
+    pControl->nHeight = DpiuScaleValue(pControl->nDefaultDpiHeight, nDpi);
+    pControl->nX = DpiuScaleValue(pControl->nDefaultDpiX, nDpi);
+    pControl->nY = DpiuScaleValue(pControl->nDefaultDpiY, nDpi);
 }
