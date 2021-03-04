@@ -14,6 +14,15 @@ extern "C" {
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
 
+typedef enum DPIU_AWARENESS
+{
+    DPIU_AWARENESS_NONE = 0x0,
+    DPIU_AWARENESS_SYSTEM = 0x1,
+    DPIU_AWARENESS_PERMONITOR = 0x2,
+    DPIU_AWARENESS_PERMONITORV2 = 0x4,
+    DPIU_AWARENESS_GDISCALED = 0x8,
+} DPIU_PROCESS_AWARENESS;
+
 typedef struct _DPIU_WINDOW_CONTEXT
 {
     UINT nDpi;
@@ -27,6 +36,13 @@ typedef HRESULT (APIENTRY *PFN_GETDPIFORMONITOR)(
     );
 typedef UINT (APIENTRY *PFN_GETDPIFORWINDOW)(
     __in HWND hwnd
+    );
+typedef BOOL (APIENTRY* PFN_SETPROCESSDPIAWARE)();
+typedef HRESULT (APIENTRY* PFN_SETPROCESSDPIAWARENESS)(
+    __in PROCESS_DPI_AWARENESS value
+    );
+typedef BOOL (APIENTRY* PFN_SETPROCESSDPIAWARENESSCONTEXT)(
+    __in DPI_AWARENESS_CONTEXT value
     );
 
 void DAPI DpiuInitialize();
@@ -48,6 +64,16 @@ void DAPI DpiuGetWindowContext(
 int DAPI DpiuScaleValue(
     __in int nDefaultDpiValue,
     __in UINT nTargetDpi
+    );
+
+/********************************************************************
+ DpiuSetProcessDpiAwareness - set the process DPI awareness. The ranking is
+     PERMONITORV2 > PERMONITOR > SYSTEM > GDISCALED > NONE.
+
+*******************************************************************/
+HRESULT DAPI DpiuSetProcessDpiAwareness(
+    __in DPIU_AWARENESS supportedAwareness,
+    __in_opt DPIU_AWARENESS* pSelectedAwareness
     );
 
 #ifdef __cplusplus

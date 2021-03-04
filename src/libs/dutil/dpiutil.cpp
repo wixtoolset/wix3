@@ -17,6 +17,9 @@
 
 static PFN_GETDPIFORMONITOR vpfnGetDpiForMonitor = NULL;
 static PFN_GETDPIFORWINDOW vpfnGetDpiForWindow = NULL;
+static PFN_SETPROCESSDPIAWARE vpfnSetProcessDPIAware = NULL;
+static PFN_SETPROCESSDPIAWARENESS vpfnSetProcessDpiAwareness = NULL;
+static PFN_SETPROCESSDPIAWARENESSCONTEXT vpfnSetProcessDpiAwarenessContext = NULL;
 
 static HMODULE vhShcoreDll = NULL;
 static HMODULE vhUser32Dll = NULL;
@@ -31,6 +34,7 @@ DAPI_(void) DpiuInitialize()
     {
         // Ignore failures.
         vpfnGetDpiForMonitor = reinterpret_cast<PFN_GETDPIFORMONITOR>(::GetProcAddress(vhShcoreDll, "GetDpiForMonitor"));
+        vpfnSetProcessDpiAwareness = reinterpret_cast<PFN_SETPROCESSDPIAWARENESS>(::GetProcAddress(vhShcoreDll, "SetProcessDpiAwareness"));
     }
 
     hr = LoadSystemLibrary(L"User32.dll", &vhUser32Dll);
@@ -38,6 +42,8 @@ DAPI_(void) DpiuInitialize()
     {
         // Ignore failures.
         vpfnGetDpiForWindow = reinterpret_cast<PFN_GETDPIFORWINDOW>(::GetProcAddress(vhUser32Dll, "GetDpiForWindow"));
+        vpfnSetProcessDPIAware = reinterpret_cast<PFN_SETPROCESSDPIAWARE>(::GetProcAddress(vhUser32Dll, "SetProcessDPIAware"));
+        vpfnSetProcessDpiAwarenessContext = reinterpret_cast<PFN_SETPROCESSDPIAWARENESSCONTEXT>(::GetProcAddress(vhUser32Dll, "SetProcessDpiAwarenessContext"));
     }
 
     vfDpiuInitialized = TRUE;
@@ -114,4 +120,76 @@ DAPI_(int) DpiuScaleValue(
     )
 {
     return ::MulDiv(nDefaultDpiValue, nTargetDpi, USER_DEFAULT_SCREEN_DPI);
+}
+
+DAPI_(HRESULT) DpiuSetProcessDpiAwareness(
+    __in DPIU_AWARENESS supportedAwareness,
+    __in_opt DPIU_AWARENESS* pSelectedAwareness
+    )
+{
+    HRESULT hr = S_OK;
+    DPIU_AWARENESS selectedAwareness = DPIU_AWARENESS_NONE;
+    DPI_AWARENESS_CONTEXT awarenessContext = DPI_AWARENESS_CONTEXT_UNAWARE;
+    PROCESS_DPI_AWARENESS awareness = PROCESS_DPI_UNAWARE;
+
+    if (vpfnSetProcessDpiAwarenessContext)
+    {
+        if (DPIU_AWARENESS_PERMONITORV2 & supportedAwareness)
+        {
+            awarenessContext = DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
+            selectedAwareness = DPIU_AWARENESS_PERMONITORV2;
+        }
+        else if (DPIU_AWARENESS_PERMONITOR & supportedAwareness)
+        {
+            awarenessContext = DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE;
+            selectedAwareness = DPIU_AWARENESS_PERMONITOR;
+        }
+        else if (DPIU_AWARENESS_SYSTEM & supportedAwareness)
+        {
+            awarenessContext = DPI_AWARENESS_CONTEXT_SYSTEM_AWARE;
+            selectedAwareness = DPIU_AWARENESS_SYSTEM;
+        }
+        else if (DPIU_AWARENESS_GDISCALED & supportedAwareness)
+        {
+            awarenessContext = DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED;
+            selectedAwareness = DPIU_AWARENESS_GDISCALED;
+        }
+
+        if (!vpfnSetProcessDpiAwarenessContext(awarenessContext))
+        {
+            ExitOnLastError(hr, "Failed to set process DPI awareness context.");
+        }
+    }
+    else if (vpfnSetProcessDpiAwareness)
+    {
+        if (DPIU_AWARENESS_PERMONITOR & supportedAwareness)
+        {
+            awareness = PROCESS_PER_MONITOR_DPI_AWARE;
+            selectedAwareness = DPIU_AWARENESS_PERMONITOR;
+        }
+        else if (DPIU_AWARENESS_SYSTEM & supportedAwareness)
+        {
+            awareness = PROCESS_SYSTEM_DPI_AWARE;
+            selectedAwareness = DPIU_AWARENESS_SYSTEM;
+        }
+
+        hr = vpfnSetProcessDpiAwareness(awareness);
+        ExitOnFailure(hr, "Failed to set process DPI awareness.");
+    }
+    else if (vpfnSetProcessDPIAware && (DPIU_AWARENESS_SYSTEM & supportedAwareness))
+    {
+        selectedAwareness = DPIU_AWARENESS_SYSTEM;
+        if (!vpfnSetProcessDPIAware())
+        {
+            ExitOnLastError(hr, "Failed to set process DPI aware.");
+        }
+    }
+
+LExit:
+    if (pSelectedAwareness)
+    {
+        *pSelectedAwareness = selectedAwareness;
+    }
+
+    return hr;
 }
