@@ -184,6 +184,16 @@ static void CALLBACK OnBillboardTimer(
     __in HWND hwnd,
     __in UINT_PTR idEvent
     );
+static BOOL OnDpiChanged(
+    __in THEME* pTheme,
+    __in WPARAM wParam,
+    __in LPARAM lParam
+    );
+static void OnNcCreate(
+    __in THEME* pTheme,
+    __in HWND hWnd,
+    __in LPARAM lParam
+    );
 static HRESULT OnRichEditEnLink(
     __in LPARAM lParam,
     __in HWND hWndRichEdit,
@@ -217,6 +227,12 @@ static LRESULT CALLBACK StaticOwnerDrawWndProc(
     __in WPARAM wParam,
     __in LPARAM lParam
     );
+static void ScaleTheme(
+    __in THEME* pTheme,
+    __in UINT nDpi,
+    __in int x,
+    __in int y
+    );
 
 DAPI_(HRESULT) ThemeInitialize(
     __in_opt HMODULE hModule
@@ -227,6 +243,8 @@ DAPI_(HRESULT) ThemeInitialize(
     WNDCLASSW wcHyperlink = { };
     WNDCLASSW wcStaticOwnerDraw = { };
     WNDPROC pfnWcStaticOwnerDrawBaseWndProc = NULL;
+
+    DpiuInitialize();
 
     hr = XmlInitialize();
     ExitOnFailure(hr, "Failed to initialize XML.");
@@ -312,6 +330,7 @@ DAPI_(void) ThemeUninitialize()
     }
 
     XmlUninitialize();
+    DpiuUninitialize();
 }
 
 
@@ -915,6 +934,17 @@ extern "C" LRESULT CALLBACK ThemeDefWindowProc(
     {
         switch (uMsg)
         {
+        case WM_NCCREATE:
+            if (pTheme->hwndParent)
+            {
+                AssertSz(FALSE, "WM_NCCREATE called multiple times");
+            }
+            else
+            {
+                OnNcCreate(pTheme, hWnd, lParam);
+            }
+            break;
+
         case WM_NCHITTEST:
             if (pTheme->dwStyle & WS_POPUP)
             {
@@ -922,10 +952,10 @@ extern "C" LRESULT CALLBACK ThemeDefWindowProc(
             }
             break;
 
-        case WM_WINDOWPOSCHANGED:
+        case WM_DPICHANGED:
+            if (OnDpiChanged(pTheme, wParam, lParam))
             {
-                //WINDOWPOS* pos = reinterpret_cast<LPWINDOWPOS>(lParam);
-                //ThemeWindowPositionChanged(pTheme, pos);
+                return 0;
             }
             break;
 
@@ -1701,6 +1731,7 @@ static HRESULT ParseTheme(
     ExitOnNull(pTheme, hr, E_OUTOFMEMORY, "Failed to allocate memory for theme.");
 
     pTheme->wId = ++wThemeId;
+    pTheme->nDpi = USER_DEFAULT_SCREEN_DPI;
 
     // Parse the optional background resource image.
     hr = ParseImage(hModule, wzRelativePath, pThemeElement, &pTheme->hImage);
@@ -1829,6 +1860,7 @@ static HRESULT ParseApplication(
 {
     HRESULT hr = S_OK;
     IXMLDOMNode* pixn = NULL;
+    DWORD dwValue = 0;
     BSTR bstr = NULL;
     LPWSTR sczIconFile = NULL;
 
@@ -1846,10 +1878,10 @@ static HRESULT ParseApplication(
     }
     ExitOnFailure(hr, "Failed to get AutoResize attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"Width", reinterpret_cast<DWORD*>(&pTheme->nWidth));
+    hr = XmlGetAttributeNumber(pixn, L"Width", &dwValue);
     if (S_FALSE == hr)
     {
-        hr = XmlGetAttributeNumber(pixn, L"w", reinterpret_cast<DWORD*>(&pTheme->nWidth));
+        hr = XmlGetAttributeNumber(pixn, L"w", &dwValue);
         if (S_FALSE == hr)
         {
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
@@ -1858,10 +1890,12 @@ static HRESULT ParseApplication(
     }
     ExitOnFailure(hr, "Failed to get application width attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"Height", reinterpret_cast<DWORD*>(&pTheme->nHeight));
+    pTheme->nWidth = pTheme->nDefaultDpiWidth = dwValue;
+
+    hr = XmlGetAttributeNumber(pixn, L"Height", &dwValue);
     if (S_FALSE == hr)
     {
-        hr = XmlGetAttributeNumber(pixn, L"h", reinterpret_cast<DWORD*>(&pTheme->nHeight));
+        hr = XmlGetAttributeNumber(pixn, L"h", &dwValue);
         if (S_FALSE == hr)
         {
             hr = HRESULT_FROM_WIN32(ERROR_INVALID_DATA);
@@ -1870,19 +1904,27 @@ static HRESULT ParseApplication(
     }
     ExitOnFailure(hr, "Failed to get application height attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"MinimumWidth", reinterpret_cast<DWORD*>(&pTheme->nMinimumWidth));
+    pTheme->nHeight = pTheme->nDefaultDpiHeight = dwValue;
+
+    hr = XmlGetAttributeNumber(pixn, L"MinimumWidth", &dwValue);
     if (S_FALSE == hr)
     {
+        dwValue = 0;
         hr = S_OK;
     }
     ExitOnFailure(hr, "Failed to get application minimum width attribute.");
 
-    hr = XmlGetAttributeNumber(pixn, L"MinimumHeight", reinterpret_cast<DWORD*>(&pTheme->nMinimumHeight));
+    pTheme->nMinimumWidth = pTheme->nDefaultDpiMinimumWidth = dwValue;
+
+    hr = XmlGetAttributeNumber(pixn, L"MinimumHeight", &dwValue);
     if (S_FALSE == hr)
     {
+        dwValue = 0;
         hr = S_OK;
     }
     ExitOnFailure(hr, "Failed to get application minimum height attribute.");
+
+    pTheme->nMinimumHeight = pTheme->nDefaultDpiMinimumHeight = dwValue;
 
     hr = XmlGetAttributeNumber(pixn, L"FontId", &pTheme->dwFontId);
     if (S_FALSE == hr)
@@ -3518,6 +3560,46 @@ static void CALLBACK OnBillboardTimer(
     }
 }
 
+static BOOL OnDpiChanged(
+    __in THEME* pTheme,
+    __in WPARAM wParam,
+    __in LPARAM lParam
+    )
+{
+    UINT nDpi = HIWORD(wParam);
+    RECT* pRect = reinterpret_cast<RECT*>(lParam);
+    BOOL fIgnored = pTheme->nDpi == nDpi;
+
+    if (fIgnored)
+    {
+        ExitFunction();
+    }
+
+    ScaleTheme(pTheme, nDpi, pRect->left, pRect->top);
+
+LExit:
+    return !fIgnored;
+}
+
+static void OnNcCreate(
+    __in THEME* pTheme,
+    __in HWND hWnd,
+    __in LPARAM lParam
+    )
+{
+    DPIU_WINDOW_CONTEXT windowContext = { };
+    CREATESTRUCTW* pCreateStruct = reinterpret_cast<CREATESTRUCTW*>(lParam);
+
+    pTheme->hwndParent = hWnd;
+
+    DpiuGetWindowContext(pTheme->hwndParent, &windowContext);
+
+    if (windowContext.nDpi != pTheme->nDpi)
+    {
+        ScaleTheme(pTheme, windowContext.nDpi, pCreateStruct->x, pCreateStruct->y);
+    }
+}
+
 static HRESULT OnRichEditEnLink(
     __in LPARAM lParam,
     __in HWND hWndRichEdit,
@@ -3671,4 +3753,21 @@ static LRESULT CALLBACK StaticOwnerDrawWndProc(
     default:
         return (*vpfnStaticOwnerDrawBaseWndProc)(hWnd, uMsg, wParam, lParam);
     }
+}
+
+static void ScaleTheme(
+    __in THEME* pTheme,
+    __in UINT nDpi,
+    __in int x,
+    __in int y
+    )
+{
+    pTheme->nDpi = nDpi;
+
+    pTheme->nHeight = DpiuScaleValue(pTheme->nDefaultDpiHeight, pTheme->nDpi);
+    pTheme->nWidth = DpiuScaleValue(pTheme->nDefaultDpiWidth, pTheme->nDpi);
+    pTheme->nMinimumHeight = DpiuScaleValue(pTheme->nDefaultDpiMinimumHeight, pTheme->nDpi);
+    pTheme->nMinimumWidth = DpiuScaleValue(pTheme->nDefaultDpiMinimumWidth, pTheme->nDpi);
+
+    ::SetWindowPos(pTheme->hwndParent, NULL, x, y, pTheme->nWidth, pTheme->nHeight, SWP_NOACTIVATE | SWP_NOZORDER);
 }

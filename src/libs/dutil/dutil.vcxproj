@@ -66,6 +66,7 @@
     <ClCompile Include="dictutil.cpp" />
     <ClCompile Include="dirutil.cpp" />
     <ClCompile Include="dlutil.cpp" />
+    <ClCompile Include="dpiutil.cpp" />
     <ClCompile Include="dutil.cpp" />
     <ClCompile Include="eseutil.cpp" />
     <ClCompile Include="fileutil.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="inc\dictutil.h" />
     <ClInclude Include="inc\dirutil.h" />
     <ClInclude Include="inc\dlutil.h" />
+    <ClInclude Include="inc\dpiutil.h" />
     <ClInclude Include="inc\dutil.h" />
     <ClInclude Include="inc\eseutil.h" />
     <ClInclude Include="inc\fileutil.h" />

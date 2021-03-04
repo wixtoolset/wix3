@@ -60,6 +60,9 @@
     <ClCompile Include="dlutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dpiutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="dutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -219,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\dlutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\dpiutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\dutil.h">

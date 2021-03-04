@@ -37,6 +37,7 @@
 #include <wtsapi32.h>
 #include <wuapi.h>
 #include <commctrl.h>
+#include <ShellScalingApi.h>
 
 #include "dutil.h"
 #include "aclutil.h"
@@ -50,6 +51,7 @@
 #include "eseutil.h"
 #include "dirutil.h"
 #include "dlutil.h"
+#include "dpiutil.h"
 #include "fileutil.h"
 #include "gdiputil.h"
 #include "dictutil.h"

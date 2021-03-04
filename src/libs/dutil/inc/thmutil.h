@@ -154,6 +154,10 @@ struct THEME
     DWORD dwFontId;
     HANDLE hIcon;
     LPWSTR sczCaption;
+    int nDefaultDpiHeight;
+    int nDefaultDpiMinimumHeight;
+    int nDefaultDpiWidth;
+    int nDefaultDpiMinimumWidth;
     int nHeight;
     int nMinimumHeight;
     int nWidth;
@@ -179,6 +183,8 @@ struct THEME
     // state variables that should be ignored
     HWND hwndParent; // parent for loaded controls
     HWND hwndHover; // current hwnd hovered over
+
+    UINT nDpi;
 };
 
 
