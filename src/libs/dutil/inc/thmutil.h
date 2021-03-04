@@ -138,13 +138,27 @@ struct THEME_PAGE
     DWORD* rgdwControlIndices;
 };
 
+struct THEME_FONT_INSTANCE
+{
+    UINT nDpi;
+    HFONT hFont;
+};
+
 struct THEME_FONT
 {
-    HFONT hFont;
+    LONG lfHeight;
+    LONG lfWeight;
+    BYTE lfUnderline;
+    BYTE lfQuality;
+    LPWSTR sczFaceName;
+
     COLORREF crForeground;
     HBRUSH hForeground;
     COLORREF crBackground;
     HBRUSH hBackground;
+
+    DWORD cFontInstances;
+    THEME_FONT_INSTANCE* rgFontInstances;
 };
 
 
