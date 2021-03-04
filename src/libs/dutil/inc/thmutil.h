@@ -45,6 +45,7 @@ struct THEME_COLUMN
 {
     LPWSTR pszName;
     UINT uStringId;
+    int nDefaultDpiBaseWidth;
     int nBaseWidth;
     int nWidth;
     BOOL fExpands;
