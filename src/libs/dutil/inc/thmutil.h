@@ -36,7 +36,7 @@ typedef enum THEME_CONTROL_TYPE
 
 struct THEME_BILLBOARD
 {
-    HBITMAP hImage;
+    Gdiplus::Image* pImage;
     LPWSTR sczUrl;
 };
 
@@ -89,7 +89,7 @@ struct THEME_CONTROL
     int nSourceY;
     UINT uStringId;
 
-    HBITMAP hImage;
+    Gdiplus::Image* pImage;
 
     // Don't free these; it's just a handle to the central image lists stored in THEME. The handle is freed once, there.
     HIMAGELIST rghImageList[4];
@@ -186,7 +186,7 @@ struct THEME
     int nSourceY;
     UINT uStringId;
 
-    HBITMAP hImage;
+    Gdiplus::Image* pImage;
 
     DWORD cFonts;
     THEME_FONT* rgFonts;
