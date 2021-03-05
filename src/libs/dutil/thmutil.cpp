@@ -265,6 +265,7 @@ DAPI_(HRESULT) ThemeInitialize(
     WNDPROC pfnWcStaticOwnerDrawBaseWndProc = NULL;
 
     DpiuInitialize();
+    DpiuSetProcessDpiAwareness(static_cast<DPIU_AWARENESS>(DPIU_AWARENESS_PERMONITORV2 | DPIU_AWARENESS_PERMONITOR), NULL);
 
     hr = XmlInitialize();
     ExitOnFailure(hr, "Failed to initialize XML.");
