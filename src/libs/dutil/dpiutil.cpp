@@ -122,6 +122,14 @@ DAPI_(int) DpiuScaleValue(
     return ::MulDiv(nDefaultDpiValue, nTargetDpi, USER_DEFAULT_SCREEN_DPI);
 }
 
+DAPI_(int) DpiuUnscaleValue(
+    __in int nScaledValue,
+    __in UINT nSourceDpi
+    )
+{
+    return ::MulDiv(nScaledValue, USER_DEFAULT_SCREEN_DPI, nSourceDpi);
+}
+
 DAPI_(HRESULT) DpiuSetProcessDpiAwareness(
     __in DPIU_AWARENESS supportedAwareness,
     __in_opt DPIU_AWARENESS* pSelectedAwareness

@@ -458,7 +458,7 @@ DAPI_(void) ThemeFree(
 
 DAPI_(HRESULT) ThemeLoadControls(
     __in THEME* pTheme,
-    __in HWND hwndParent,
+    __in HWND /* hwndParent */,
     __in_ecount_opt(cAssignControlIds) const THEME_ASSIGN_CONTROL_ID* rgAssignControlIds,
     __in DWORD cAssignControlIds
     )
@@ -468,12 +468,13 @@ DAPI_(HRESULT) ThemeLoadControls(
     int x = 0;
     int y = 0;
 
-    AssertSz(!pTheme->hwndParent, "Theme already loaded controls because it has a parent window.");
-
     HRESULT hr = S_OK;
     RECT rcParent = { };
 
-    pTheme->hwndParent = hwndParent;
+    if (!pTheme->hwndParent)
+    {
+        ExitOnFailure(hr = E_INVALIDSTATE, "ThemeLoadControls called before theme parent window created.");
+    }
 
     ::GetClientRect(pTheme->hwndParent, &rcParent);
 
@@ -3263,8 +3264,9 @@ static HRESULT DrawButton(
     DWORD_PTR dwStyle = ::GetWindowLongPtrW(pdis->hwndItem, GWL_STYLE);
     int nSourceX = pControl->hImage ? 0 : pControl->nSourceX;
     int nSourceY = pControl->hImage ? 0 : pControl->nSourceY;
-    DWORD dwSourceWidth = pControl->nDefaultDpiWidth;
-    DWORD dwSourceHeight = pControl->nDefaultDpiHeight;
+
+    DWORD dwSourceWidth = DpiuUnscaleValue(pdis->rcItem.right - pdis->rcItem.left, pTheme->nDpi);
+    DWORD dwSourceHeight = DpiuUnscaleValue(pdis->rcItem.bottom - pdis->rcItem.top, pTheme->nDpi);
 
     HDC hdcMem = ::CreateCompatibleDC(pdis->hDC);
     HBITMAP hDefaultBitmap = static_cast<HBITMAP>(::SelectObject(hdcMem, pControl->hImage ? pControl->hImage : pTheme->hImage));
@@ -3370,8 +3372,8 @@ static HRESULT DrawImage(
     DWORD dwWidth = pdis->rcItem.right - pdis->rcItem.left;
     int nSourceX = pControl->hImage ? 0 : pControl->nSourceX;
     int nSourceY = pControl->hImage ? 0 : pControl->nSourceY;
-    DWORD dwSourceHeight = pControl->nDefaultDpiHeight;
-    DWORD dwSourceWidth = pControl->nDefaultDpiWidth;
+    int nSourceHeight = DpiuUnscaleValue(dwHeight, pTheme->nDpi);
+    int nSourceWidth = DpiuUnscaleValue(dwWidth, pTheme->nDpi);
 
     BLENDFUNCTION bf = { };
     bf.BlendOp = AC_SRC_OVER;
@@ -3383,9 +3385,9 @@ static HRESULT DrawImage(
 
     // Try to draw the image with transparency and if that fails (usually because the image has no
     // alpha channel) then draw the image as is.
-    if (!::AlphaBlend(pdis->hDC, 0, 0, dwWidth, dwHeight, hdcMem, nSourceX, nSourceY, dwSourceWidth, dwSourceHeight, bf))
+    if (!::AlphaBlend(pdis->hDC, 0, 0, dwWidth, dwHeight, hdcMem, nSourceX, nSourceY, nSourceWidth, nSourceHeight, bf))
     {
-        ::StretchBlt(pdis->hDC, 0, 0, dwWidth, dwHeight, hdcMem, nSourceX, nSourceY, dwSourceWidth, dwSourceHeight, SRCCOPY);
+        ::StretchBlt(pdis->hDC, 0, 0, dwWidth, dwHeight, hdcMem, nSourceX, nSourceY, nSourceWidth, nSourceHeight, SRCCOPY);
     }
 
     ::SelectObject(hdcMem, hDefaultBitmap);
@@ -3404,30 +3406,30 @@ static HRESULT DrawProgressBar(
     DWORD dwProgressPercentage = LOWORD(pControl->dwData);
     DWORD dwHeight = pdis->rcItem.bottom - pdis->rcItem.top;
     DWORD dwCenter = (pdis->rcItem.right - 2) * dwProgressPercentage / 100;
-    DWORD dwSourceHeight = pControl->nDefaultDpiHeight;
+    int nSourceHeight = DpiuUnscaleValue(dwHeight, pTheme->nDpi);
     int nSourceX = pControl->hImage ? 0 : pControl->nSourceX;
-    int nSourceY = (pControl->hImage ? 0 : pControl->nSourceY) + (dwProgressColor * dwSourceHeight);
+    int nSourceY = (pControl->hImage ? 0 : pControl->nSourceY) + (dwProgressColor * nSourceHeight);
 
     HDC hdcMem = ::CreateCompatibleDC(pdis->hDC);
     HBITMAP hDefaultBitmap = static_cast<HBITMAP>(::SelectObject(hdcMem, pControl->hImage ? pControl->hImage : pTheme->hImage));
 
     // Draw the left side of the progress bar.
-    ::StretchBlt(pdis->hDC, 0, 0, 1, dwHeight, hdcMem, nSourceX, nSourceY, 1, dwSourceHeight, SRCCOPY);
+    ::StretchBlt(pdis->hDC, 0, 0, 1, dwHeight, hdcMem, nSourceX, nSourceY, 1, nSourceHeight, SRCCOPY);
 
     // Draw the filled side of the progress bar, if there is any.
     if (0 < dwCenter)
     {
-        ::StretchBlt(pdis->hDC, 1, 0, dwCenter, dwHeight, hdcMem, nSourceX + 1, nSourceY, 1, dwSourceHeight, SRCCOPY);
+        ::StretchBlt(pdis->hDC, 1, 0, dwCenter, dwHeight, hdcMem, nSourceX + 1, nSourceY, 1, nSourceHeight, SRCCOPY);
     }
 
     // Draw the unfilled side of the progress bar, if there is any.
     if (dwCenter < static_cast<DWORD>(pdis->rcItem.right - 2))
     {
-        ::StretchBlt(pdis->hDC, 1 + dwCenter, 0, pdis->rcItem.right - dwCenter - 1, dwHeight, hdcMem, nSourceX + 2, nSourceY, 1, dwSourceHeight, SRCCOPY);
+        ::StretchBlt(pdis->hDC, 1 + dwCenter, 0, pdis->rcItem.right - dwCenter - 1, dwHeight, hdcMem, nSourceX + 2, nSourceY, 1, nSourceHeight, SRCCOPY);
     }
 
     // Draw the right side of the progress bar.
-    ::StretchBlt(pdis->hDC, pdis->rcItem.right - 1, 0, 1, dwHeight, hdcMem, nSourceX, nSourceY, 1, dwSourceHeight, SRCCOPY);
+    ::StretchBlt(pdis->hDC, pdis->rcItem.right - 1, 0, 1, dwHeight, hdcMem, nSourceX, nSourceY, 1, nSourceHeight, SRCCOPY);
 
     ::SelectObject(hdcMem, hDefaultBitmap);
     ::DeleteDC(hdcMem);
@@ -3802,8 +3804,8 @@ static void GetControlDimensions(
     __out int* piY
     )
 {
-    *piWidth  = pControl->nWidth  + (0 < pControl->nWidth  ? 0 : prcParent->right  - max(0, pControl->nX));
-    *piHeight = pControl->nHeight + (0 < pControl->nHeight ? 0 : prcParent->bottom - max(0, pControl->nY));
+    *piWidth  = pControl->nWidth  + (1 < pControl->nWidth  ? 0 : prcParent->right  - max(0, pControl->nX));
+    *piHeight = pControl->nHeight + (1 < pControl->nHeight ? 0 : prcParent->bottom - max(0, pControl->nY));
     *piX = pControl->nX + (-1 < pControl->nX ? 0 : prcParent->right - *piWidth);
     *piY = pControl->nY + (-1 < pControl->nY ? 0 : prcParent->bottom - *piHeight);
 }

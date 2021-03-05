@@ -93,6 +93,15 @@ int DAPI DpiuScaleValue(
     );
 
 /********************************************************************
+ DpiuUnscaleValue - scale the back to the default DPI.
+
+*******************************************************************/
+DAPI_(int) DpiuUnscaleValue(
+    __in int nScaledValue,
+    __in UINT nSourceDpi
+    );
+
+/********************************************************************
  DpiuSetProcessDpiAwareness - set the process DPI awareness. The ranking is
      PERMONITORV2 > PERMONITOR > SYSTEM > GDISCALED > NONE.
 
