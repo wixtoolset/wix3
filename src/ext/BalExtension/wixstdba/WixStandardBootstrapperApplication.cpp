@@ -807,15 +807,15 @@ public: // IBootstrapperApplication
                 }
 
                 wz = sczFormattedString ? sczFormattedString : pPackage->sczDisplayName ? pPackage->sczDisplayName : wzPackageId;
-            }
 
-            // Needs to match MsiEngineCalculateInstallUiLevel in msiengine.cpp in Burn.
-            BOOTSTRAPPER_ACTION_STATE packageAction = fExecute ? pPackage->executeAction : pPackage->rollbackAction;
-            fShowingInternalUiThisPackage = pPackage && pPackage->fDisplayInternalUI &&
-                                            BOOTSTRAPPER_ACTION_UNINSTALL != packageAction &&
-                                            BOOTSTRAPPER_ACTION_REPAIR != packageAction &&
-                                            (BOOTSTRAPPER_DISPLAY_FULL == m_command.display ||
-                                            BOOTSTRAPPER_DISPLAY_PASSIVE == m_command.display);
+                // Needs to match MsiEngineCalculateInstallUiLevel in msiengine.cpp in Burn.
+                BOOTSTRAPPER_ACTION_STATE packageAction = fExecute ? pPackage->executeAction : pPackage->rollbackAction;
+                fShowingInternalUiThisPackage = pPackage->fDisplayInternalUI &&
+                                                BOOTSTRAPPER_ACTION_UNINSTALL != packageAction &&
+                                                BOOTSTRAPPER_ACTION_REPAIR != packageAction &&
+                                                (BOOTSTRAPPER_DISPLAY_FULL == m_command.display ||
+                                                BOOTSTRAPPER_DISPLAY_PASSIVE == m_command.display);
+            }
 
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_EXECUTE_PROGRESS_PACKAGE_TEXT, wz);
             ThemeSetTextControl(m_pTheme, WIXSTDBA_CONTROL_OVERALL_PROGRESS_PACKAGE_TEXT, wz);
