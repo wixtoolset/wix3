@@ -147,6 +147,14 @@
                 </xs:annotation>
             </xs:attribute>
 
+            <xs:attribute name="Outbound" type="YesNoType">
+                <xs:annotation>
+                    <xs:documentation>
+                        If "yes," registers an outbound firewall rule.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
             <xs:attribute name="Profile">
               <xs:annotation>
                 <xs:documentation>

@@ -99,6 +99,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                     {
                         fire.IgnoreFailure = Firewall.YesNoType.yes;
                     }
+
+                    if (0x2 == (attr & 0x2)) // feaOutbound
+                    {
+                        fire.Outbound = Firewall.YesNoType.yes;
+                    }
                 }
 
                 if (!row.IsColumnEmpty(7))

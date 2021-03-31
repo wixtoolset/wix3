@@ -12,6 +12,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
     using System.Xml.Schema;
     using Microsoft.Tools.WindowsInstallerXml;
 
+
     /// <summary>
     /// The compiler for the Windows Installer XML Toolset Firewall Extension.
     /// </summary>
@@ -129,6 +130,12 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                             if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib))
                             {
                                 attributes |= 0x1; // feaIgnoreFailures
+                            }
+                            break;
+                        case "Outbound":
+                            if (YesNoType.Yes == this.Core.GetAttributeYesNoValue(sourceLineNumbers, attrib))
+                            {
+                                attributes |= 0x2; // feaOutbound
                             }
                             break;
                         case "Program":
