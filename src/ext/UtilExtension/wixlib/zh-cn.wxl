@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<WixLocalization Culture="zh-cn" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrUSRFailedUserCreate" Overridable="yes">无法创建用户。  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">由于密码错误无法创建用户。  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">无法在组中添加用户。  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreateExists" Overridable="yes">无法创建已经存在的用户。  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSMBFailedCreate" Overridable="yes">无法创建网络分享。  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrSMBFailedDrop" Overridable="yes">无法关闭网络分享。  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">无法使用PerfMon注册DLL。  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">无法使用PerfMon删除DLL注册。  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrInstallPerfCounterData" Overridable="yes">无法安装性能计数器。  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUninstallPerfCounterData" Overridable="yes">无法卸载性能计数器。  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">无法为 [3]\[4] 创建安全描述符，系统错误： [2]</String>
+    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">无法在对象 [3] 上设置安全描述符， 系统错误： [2]</String>
+    <String Id="msierrSecureObjectsUnknownType" Overridable="yes">未知对象类型 [3]，系统错误： [2]</String>
+
+    <String Id="msierrXmlFileFailedRead" Overridable="yes">在读取XML文件时发生一个错误。</String>
+    <String Id="msierrXmlFileFailedOpen" Overridable="yes">无法打开XML文件 [3]，系统错误： [2]</String>
+    <String Id="msierrXmlFileFailedSelect" Overridable="yes">在XML文件 [4] 中查找结点 [3] 时发生错误，系统错误： [2]</String>
+    <String Id="msierrXmlFileFailedSave" Overridable="yes">无法保存XML文件 [3]， 系统错误： [2]</String>
+
+    <String Id="msierrXmlConfigFailedRead" Overridable="yes">在配置XML文件时发生一个错误。</String>
+    <String Id="msierrXmlConfigFailedOpen" Overridable="yes">无法打开XML文件 [3]，系统错误： [2]</String>
+    <String Id="msierrXmlConfigFailedSelect" Overridable="yes">在XML文件 [4] 中查找结点 [3] 时发生错误，系统错误： [2]</String>
+    <String Id="msierrXmlConfigFailedSave" Overridable="yes">无法保存XML文件 [3]， 系统错误： [2]</String>
+</WixLocalization>
