@@ -26,6 +26,10 @@
           <Payload SourceFile='..\..\..\License.txt' />
         </BootstrapperApplicationRef>
 
+        <util:RegistrySearchRef Id="NETFRAMEWORK35_SP_LEVEL" />
+
+        <Variable Name="MbaNetfxPackageId" Value="!(wix.WixMbaPrereqPackageId)" />
+
         <Chain>
             <PackageGroupRef Id='NetFx462Redist' />
             <PackageGroupRef Id='WixPackages' />
