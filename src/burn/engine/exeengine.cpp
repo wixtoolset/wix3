@@ -516,6 +516,10 @@ extern "C" HRESULT ExeEngineExecutePackage(
     {
         hr = CoreAppendFileHandleSelfToCommandLine(sczExecutablePath, &hExecutableFile, &sczCommand, &sczCommandObfuscated);
         ExitOnFailure(hr, "Failed to append %ls", BURN_COMMANDLINE_SWITCH_FILEHANDLE_SELF);
+
+        // We append "norestart" to command line with if it doesn't contain another 'xxrestart' option
+        hr = CoreAppendNoRestartToCommandLine(&sczCommand, &sczCommandObfuscated);
+        ExitOnFailure(hr, "Failed to append '-norestart'");
     }
 
     // Log before we add the secret pipe name and client token for embedded processes.
