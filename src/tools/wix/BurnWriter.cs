@@ -90,7 +90,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_FORMAT, 1); // Hard-coded to CAB for now.
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_COUNT, 0);
             this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_UXSIZE, 0);
-            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE, 0);
+            this.WriteToBurnSectionOffset(BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0, 0);
             this.binaryWriter.BaseStream.Flush();
 
             this.EngineSize = this.StubSize;
@@ -124,6 +124,11 @@ namespace Microsoft.Tools.WindowsInstallerXml
             UInt32 burnSectionCount = 0;
             UInt32 burnSectionOffsetSize = 0;
 
+            if (containerSize == 0)
+            {
+                return false;
+            }
+
             switch (container)
             {
                 case Container.UX:
@@ -135,10 +140,19 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     break;
 
                 case Container.Attached:
-                    burnSectionCount = 2;
-                    burnSectionOffsetSize = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE;
+                    burnSectionCount = 2 + (uint)AttachedContainers.Count;
+                    burnSectionOffsetSize = BURN_SECTION_OFFSET_ATTACHEDCONTAINERSIZE0 + ((uint)AttachedContainers.Count * 4);
                     // TODO: verify that the size in the section data is 0 or the same size.
-                    this.AttachedContainerSize = (uint)containerSize;
+                    uint nextAddress = EngineSize;
+                    foreach (ContainerSlot cntnr in AttachedContainers)
+                    {
+                        if (cntnr.Address >= nextAddress)
+                        {
+                            nextAddress = cntnr.Address + cntnr.Size;
+                        }
+                    }
+
+                    AttachedContainers.Add(new ContainerSlot(nextAddress, (uint)containerSize));
                     break;
 
                 default:

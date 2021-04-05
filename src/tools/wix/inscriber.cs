@@ -2,16 +2,14 @@
 
 namespace Microsoft.Tools.WindowsInstallerXml
 {
+    using Microsoft.Tools.WindowsInstallerXml.Msi;
     using System;
     using System.CodeDom.Compiler;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Runtime.InteropServices;
     using System.Security.Cryptography.X509Certificates;
-    using System.Text;
-    using Microsoft.Tools.WindowsInstallerXml.Msi;
 
     /// <summary>
     /// Converts a wixout representation of an MSM database into a ComponentGroup the form of WiX source.
@@ -150,15 +148,18 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 File.Copy(signedEngineFile, tempFile, true);
 
                 // If there was an attached container on the original (unsigned) bundle, put it back.
-                if (reader.AttachedContainerSize > 0)
+                using (BurnWriter writer = BurnWriter.Open(tempFile, this))
                 {
-                    reader.Stream.Seek(reader.AttachedContainerAddress, SeekOrigin.Begin);
-
-                    using (BurnWriter writer = BurnWriter.Open(tempFile, this))
+                    writer.AttachedContainers.Clear();
+                    writer.RememberThenResetSignature();
+                    foreach (ContainerSlot cntnr in reader.AttachedContainers)
                     {
-                        writer.RememberThenResetSignature();
-                        writer.AppendContainer(reader.Stream, reader.AttachedContainerSize, BurnCommon.Container.Attached);
-                        inscribed = true;
+                        if (cntnr.Size > 0)
+                        {
+                            reader.Stream.Seek(cntnr.Address, SeekOrigin.Begin);
+                            writer.AppendContainer(reader.Stream, cntnr.Size, BurnCommon.Container.Attached);
+                            inscribed = true;
+                        }
                     }
                 }
             }
@@ -234,7 +235,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                                 {
                                     // Export to a file, because the MSI API's require us to provide a file path on disk
                                     string hashPath = Path.Combine(this.TempFilesLocation, "MsiDigitalSignature");
-                                    string hashFileName = string.Concat(table,".", signObject, ".bin");
+                                    string hashFileName = string.Concat(table, ".", signObject, ".bin");
 
                                     Directory.CreateDirectory(hashPath);
                                     hashPath = Path.Combine(hashPath, hashFileName);

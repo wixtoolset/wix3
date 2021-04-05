@@ -133,15 +133,6 @@
       Condition=" '$(PleaseSignOutput)'!='' and ('$(SignClientUser)'=='' or '$(SignClientSecret)'=='') "
       Text="Signing is requested but one or both required properites SignClientUser and SignClientSecret were not specified on the command line or as environment variables." />
 
-    <Error
-      Code="WIXBUILD016"
-      Condition=" $(BuildARM64) and !(Exists('$(PlatformSdkArm64LibraryRoot)')) "
-      Text="No suitable Windows SDK found to build ARM64" />
-
-    <Error
-      Code="WIXBUILD017"
-      Condition=" '$(OFFICIAL_WIX_BUILD)'!='' and !($(BuildARM) and $(BuildARM64))"
-      Text="Official builds must include ARM and ARM64. Install ARM and ARM64 support for VS2017." />
   </Target>
 
   <!--
