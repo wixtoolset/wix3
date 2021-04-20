@@ -68,6 +68,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private SubStorage activeSubstorage;
         private bool deltaBinaryPatch;
         private string tempFilesLocation;
+        private bool suppressHardLinks;
         private Dictionary<BindStage, StringCollection> sourcePaths;
         private Dictionary<BindStage, StringCollection> bindPaths;
         private Dictionary<BindStage, NameValueCollection> namedBindPaths;
@@ -186,6 +187,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
         {
             get { return this.tempFilesLocation; }
             set { this.tempFilesLocation = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the option to suppress hard links during build.
+        /// </summary>
+        /// <value>The option to suppress hard links during build.</value>
+        public bool SuppressHardLinks
+        {
+            get { return this.suppressHardLinks; }
+            set { this.suppressHardLinks = value; }
         }
 
         /// <summary>
@@ -622,10 +633,13 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 File.Delete(destination);
             }
 
-            if (!CreateHardLink(destination, source, IntPtr.Zero))
+            if (this.suppressHardLinks || !CreateHardLink(destination, source, IntPtr.Zero))
             {
 #if DEBUG
-                int er = Marshal.GetLastWin32Error();
+                if (!this.suppressHardLinks)
+                {
+                    int er = Marshal.GetLastWin32Error();
+                }
 #endif
 
                 File.Copy(source, destination, overwrite);
