@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">A(z) [ProductName] telepítése</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">A telepítési hatókör és mappa kiválasztása</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">A telepítési hatókör és mappa kiválasztása.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Telepítési hatókör</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Telepítés &amp;csak önmaga számára ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">A(z) [ProductName] egy felhasználói mappába települ, és csak az Ön felhasználói fiókjával lesz elérhető. Nem szükségesek rendszergazdai jogok.</String>

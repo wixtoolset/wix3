@@ -40,7 +40,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Создание новой папки</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Имя папки:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Перейдите в конечную папку</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Перейдите в конечную папку.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Изменить конечную папку</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Установка [ProductName]</String>
@@ -111,7 +111,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Установка [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Выберите область и папку для установки</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Выберите область и папку для установки.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Область установки</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Установка для &amp;текущего пользователя ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Продукт [ProductName] будет установлен в папке пользователя и доступен только для текущего пользователя. Привилегии локального администратора не требуются.</String>
@@ -129,7 +129,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Установка [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Я принимаю условия лицензионного соглашения</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Внимательно прочитайте следующее лицензионное соглашение</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Внимательно прочитайте следующее лицензионное соглашение.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Лицензионное соглашение</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Установка [ProductName]</String>
@@ -212,7 +212,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Полная установка</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Выберите тип установки</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Укажите наиболее подходящий тип установки</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Укажите наиболее подходящий тип установки.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Устанавливает самые распространенные компоненты программ. Рекомендуется для большинства пользователей.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Позволяет выбирать для установки отдельные компоненты и задавать их местонахождение. Рекомендуется для опытных пользователей.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Устанавливает все компоненты программы. Этот вариант требует больше всего места на диске.</String>

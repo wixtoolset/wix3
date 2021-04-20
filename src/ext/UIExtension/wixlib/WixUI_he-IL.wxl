@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">צור תיקיה חדשה</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;שם תיקיה:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">עבור אל תיקיית היעד</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">עבור אל תיקיית היעד.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}שינוי תיקיית יעד</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">בחר את הטווח והתיקיה להתקנה</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">בחר את הטווח והתיקיה להתקנה.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}טווח התקנה</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}התקן &amp;רק עבורך ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] יותקן בתיקיה לפי משתמש ויהיה זמין רק עבור חשבון המשתמש שלך. אינך זקוק להרשאות מקומיות של מנהל מערכת.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">אני &amp;מקבל את תנאי הסכם הרשיון</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">קרא בעיון את הסכם הרשיון שלהלן</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">קרא בעיון את הסכם הרשיון שלהלן.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}הסכם רשיון למשתמש קצה</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">תוכנית ההתקנה של [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">התקנה מלאה</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}בחירת סוג התקנה</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">בחר בסוג ההתקנה שמתאים ביותר לצרכיך</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">בחר בסוג ההתקנה שמתאים ביותר לצרכיך.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">התקנת תכונות התוכנית הנפוצות ביותר. מומלץ עבור מרבית המשתמשים.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">מתן אפשרות למשתמשים לבחור אילו תכונות תוכנית יותקנו והיכן הן יותקנו. מומלץ עבור משתמשים מתקדמים.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">כל תכונות התוכנית יותקנו. האפשרות דורשת את שטח הדיסק הרב ביותר.</String>

@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Stvaranje nove mape</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Naziv mape:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Pregledavanje odredišne mape</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Pregledavanje odredišne mape.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Promjena odredišne mape</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Odaberite opseg i mapu instalacije</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Odaberite opseg i mapu instalacije.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Opseg instalacije</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalacija &amp;samo za vas ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] instalirat će se u korisničku mapu i bit će dostupan samo iz vašeg korisničkog računa. Nisu vam potrebne lokalne administratorske ovlasti.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Prihvaćam uvjete licencnog ugovora</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pozorno pročitajte sljedeći licencni ugovor</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Pozorno pročitajte sljedeći licencni ugovor.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Licencni ugovor za krajnjeg korisnika</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalacija programa [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Potpuna instalacija</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Odaberite vrstu instalacije</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Odaberite vrstu instalacije koja najbolje odgovara vašim potrebama</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Odaberite vrstu instalacije koja najbolje odgovara vašim potrebama.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Instalira najčešće značajke programa. Preporučuje se za većinu korisnika.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Korisniku omogućuje da odabere značajke programa koje želi instalirati te mjesto na koje će se instalirati. Preporučuje se za napredne korisnike.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Instaliraju se sve značajke programa. Potrebno je najviše prostora na disku.</String>

@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">إنشاء مجلد جديد</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;اسم المجلد:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">استعراض للوصول إلى المجلد الوجهة</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">استعراض للوصول إلى المجلد الوجهة.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}تغيير المجلد الوجهة</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">إعداد [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">اختر نطاق التثبيت والمجلد</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">اختر نطاق التثبيت والمجلد.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}نطاق التثبيت</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}التثبيت لك &amp;فقط ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">سيتم تثبيت [ProductName] في مجلد لكل مستخدم ولن يكون متوفرًا سوى لحساب المستخدم الخاص بك. ولا تحتاج إلى امتيازات مسؤول محلي.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">إعداد [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">أوافق &amp;على الشروط الواردة في اتفاقية الترخيص</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">الرجاء قراءة اتفاقية الترخيص التالية بعناية</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">الرجاء قراءة اتفاقية الترخيص التالية بعناية.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}اتفاقية ترخيص المستخدم</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">إعداد [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">تثبيت كامل</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}اختيار نوع الإعداد</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">اختر نوع الإعداد الأكثر ملاءمة لاحتياجاتك</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">اختر نوع الإعداد الأكثر ملاءمة لاحتياجاتك.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">تثبيت ميزات البرنامج الأكثر شيوعًا. مستحسن لمعظم المستخدمين.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">السماح للمستخدمين باختيار ميزات البرنامج التي سيتم تثبيتها وموقع تثبيتها. مستحسن للمستخدمين المتقدمين.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">سيتم تثبيت جميع ميزات البرنامج. وهذا يتطلب معظم مساحة القرص.</String>

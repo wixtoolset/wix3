@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Crea una nueva carpeta</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Nombre de carpeta:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Buscar la carpeta de destino</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Buscar la carpeta de destino.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Cambiar carpeta de destino</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalación de [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Instalación de [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Elija el ámbito y la carpeta de instalación</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Elija el ámbito y la carpeta de instalación.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Ámbito de la instalación</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalar &amp;solo para el usuario actual ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] se instalará en una carpeta por usuario y solo estará disponible para su cuenta de usuario. No se necesitan privilegios de administrador local.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalación de [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">A&amp;cepto los términos del Contrato de licencia</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lea detenidamente el siguiente Contrato de licencia</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lea detenidamente el siguiente Contrato de licencia.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Contrato de licencia para el usuario final</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalación de [ProductName]</String>

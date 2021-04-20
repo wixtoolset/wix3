@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Loo uus kaust</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Kausta nimi:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Liikuge sirvides soovitud sihtkausta juurde</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Liikuge sirvides soovitud sihtkausta juurde.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Sihtkausta muutmine</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Toote [ProductName] install</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Valige installimise ulatus ja kaust</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Valige installimise ulatus ja kaust.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installimise ulatus</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installimine &amp;ainult teie jaoks ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Toode [ProductName] installitakse kasutajapõhisesse kausta ja see on saadaval ainult teie kasutajakontole. Teil ei ole vaja kohaliku administraatori õigusi.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Toote [ProductName] install</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Nõustun litsentsilepingu tingimustega</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Palun lugege alltoodud litsentsileping hoolikalt läbi</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Palun lugege alltoodud litsentsileping hoolikalt läbi.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lõppkasutaja litsentsileping</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Toote [ProductName] install</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Täielik install</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installitüübi valimine</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Valige oma vajadustele vastav installitüüp</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Valige oma vajadustele vastav installitüüp.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Installitakse levinumad programmifunktsioonid. Soovitatav enamikule kasutajatele.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Võimaldab kasutajatel otsustada programmifunktsioonide installimise valiku ja koha üle. Soovitatav kogenud kasutajatele.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Installitakse kõik programmifunktsioonid. Nõuab kõige rohkem kettaruumi.</String>

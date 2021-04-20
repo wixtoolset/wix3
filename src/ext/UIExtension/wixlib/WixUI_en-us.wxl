@@ -39,7 +39,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes"><!-- _locID_text="BrowseDlgNewFolderTooltip" _locComment="BrowseDlgNewFolderTooltip" -->Create a new folder</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes"><!-- _locID_text="BrowseDlgPathLabel" _locComment="BrowseDlgPathLabel" -->&amp;Folder name:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes"><!-- _locID_text="BrowseDlgBannerBitmap" _locComment="BrowseDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes"><!-- _locID_text="BrowseDlgDescription" _locComment="BrowseDlgDescription" -->Browse to the destination folder</String>
+    <String Id="BrowseDlgDescription" Overridable="yes"><!-- _locID_text="BrowseDlgDescription" _locComment="BrowseDlgDescription" -->Browse to the destination folder.</String>
     <String Id="BrowseDlgTitle" Overridable="yes"><!-- _locID_text="BrowseDlgTitle" _locComment="BrowseDlgTitle" -->{\WixUI_Font_Title}Change destination folder</String>
 
     <String Id="CancelDlg_Title" Overridable="yes"><!-- _locID_text="CancelDlg_Title" _locComment="CancelDlg_Title" -->[ProductName] Setup</String>
@@ -110,7 +110,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes"><!-- _locID_text="InstallScopeDlg_Title" _locComment="InstallScopeDlg_Title" -->[ProductName] Setup</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallScopeDlgBannerBitmap" _locComment="InstallScopeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Choose the installation scope and folder</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgDescription" _locComment="InstallScopeDlgDescription" -->Choose the installation scope and folder.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes"><!-- _locID_text="InstallScopeDlgTitle" _locComment="InstallScopeDlgTitle" -->{\WixUI_Font_Title}Installation Scope</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUser" _locComment="InstallScopeDlgPerUser" -->{\WixUI_Font_Emphasized}Install &amp;just for you ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes"><!-- _locID_text="InstallScopeDlgPerUserDescription" _locComment="InstallScopeDlgPerUserDescription" -->[ProductName] will be installed in a per-user folder and be available just for your user account. You do not need local Administrator privileges.</String>
@@ -128,7 +128,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes"><!-- _locID_text="LicenseAgreementDlg_Title" _locComment="LicenseAgreementDlg_Title" -->[ProductName] Setup</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgLicenseAcceptedCheckBox" _locComment="LicenseAgreementDlgLicenseAcceptedCheckBox" -->I &amp;accept the terms in the License Agreement</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgBannerBitmap" _locComment="LicenseAgreementDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgDescription" _locComment="LicenseAgreementDlgDescription" -->Please read the following license agreement carefully</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgDescription" _locComment="LicenseAgreementDlgDescription" -->Please read the following license agreement carefully.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes"><!-- _locID_text="LicenseAgreementDlgTitle" _locComment="LicenseAgreementDlgTitle" -->{\WixUI_Font_Title}End-User License Agreement</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes"><!-- _locID_text="MaintenanceTypeDlg_Title" _locComment="MaintenanceTypeDlg_Title" -->[ProductName] Setup</String>
@@ -211,7 +211,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteButtonTooltip" _locComment="SetupTypeDlgCompleteButtonTooltip" -->Complete Installation</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes"><!-- _locID_text="SetupTypeDlgBannerBitmap" _locComment="SetupTypeDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes"><!-- _locID_text="SetupTypeDlgTitle" _locComment="SetupTypeDlgTitle" -->{\WixUI_Font_Title}Choose Setup Type</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Choose the setup type that best suits your needs</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes"><!-- _locID_text="SetupTypeDlgDescription" _locComment="SetupTypeDlgDescription" -->Choose the setup type that best suits your needs.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes"><!-- _locID_text="SetupTypeDlgTypicalText" _locComment="SetupTypeDlgTypicalText" -->Installs the most common program features. Recommended for most users.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCustomText" _locComment="SetupTypeDlgCustomText" -->Allows users to choose which program features will be installed and where they will be installed. Recommended for advanced users.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes"><!-- _locID_text="SetupTypeDlgCompleteText" _locComment="SetupTypeDlgCompleteText" -->All program features will be installed. Requires the most disk space.</String>

@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Utwórz nowy folder</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">Nazwa &amp;folderu:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Przejdź do folderu docelowego</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Przejdź do folderu docelowego.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zmień folder docelowy</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Instalator produktu [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Instalator produktu [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Wybierz zakres i folder instalacji</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Wybierz zakres i folder instalacji.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Zakres instalacji</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Zainstaluj tylko dla &amp;siebie ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">Produkt [ProductName] zostanie zainstalowany w folderze przypisanym do użytkownika i będzie dostępny tylko na Twoim koncie użytkownika. Nie potrzebujesz uprawnień administratora lokalnego.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Instalator produktu [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Akceptuję warunki Umowy licencyjnej</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Przeczytaj uważnie poniższą umowę licencyjną</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Przeczytaj uważnie poniższą umowę licencyjną.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Umowa licencyjna użytkownika oprogramowania</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Instalator produktu [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Instalacja pełna</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Wybierz typ instalacji</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Wybierz typ instalacji, który najlepiej odpowiada Twoim potrzebom</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Wybierz typ instalacji, który najlepiej odpowiada Twoim potrzebom.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Instaluje najczęściej używane funkcje programu. Zalecana w przypadku większości użytkowników.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Umożliwia użytkownikom wybranie funkcji programu do zainstalowania i lokalizacji, w której zostaną zainstalowane. Zalecana w przypadku użytkowników zaawansowanych.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Zostaną zainstalowane wszystkie funkcje programu. Wymaga najwięcej miejsca na dysku.</String>

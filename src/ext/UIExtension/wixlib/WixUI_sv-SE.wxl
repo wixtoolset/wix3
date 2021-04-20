@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Skapa en ny mapp</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mappnamn:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Bläddra till målmappen</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Bläddra till målmappen.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Byt målmapp</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Välj installationsomfattning och mapp</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Välj installationsomfattning och mapp.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installationsomfattning</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installera &amp;bara för mig: ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] installeras i en mapp per användare och blir bara tillgängligt för ditt användarkonto. Du behöver inte lokala administratörsprivilegier.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Jag &amp;accepterar villkoren i licensavtalet</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Läs följande licensavtal noggrant</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Läs följande licensavtal noggrant.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Licensavtal</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Installationsguiden för [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Fullständig installation</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Välj installationstyp</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Välj den installationstyp som passar dig bäst</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Välj den installationstyp som passar dig bäst.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Installerar de vanligaste programfunktionerna. Rekommenderas för de flesta användare.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Användaren kan välja vilka programfunktioner som ska installeras och var de ska installeras. Rekommenderas för avancerade användare.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Alla program installeras. Kräver mest diskutrymme.</String>

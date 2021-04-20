@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Izveidot jaunu mapi</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mapes nosaukums:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Meklēt mērķa mapi</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Meklēt mērķa mapi.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Mērķa mapes maiņa</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Izvēlieties instalēšanas tvērumu un mapi</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Izvēlieties instalēšanas tvērumu un mapi.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Instalēšanas tvērums</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Instalēt &amp;tikai sev ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] tiks instalēts lietotājam paredzētā mapē un būs pieejams tikai jūsu lietotāja kontam. Nav nepieciešamas lokālā administratora atļaujas.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Es &amp;piekrītu licences līguma nosacījumiem</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lūdzu, uzmanīgi izlasiet šo licences līgumu</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lūdzu, uzmanīgi izlasiet šo licences līgumu.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lietotāja licences līgums</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] uzstādīšana</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Pilna instalācija</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Uzstādīšanas tipa izvēle</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Izvēlieties savām vajadzībām visatbilstošāko uzstādīšanas tipu</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Izvēlieties savām vajadzībām visatbilstošāko uzstādīšanas tipu.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Tiek instalēti visbiežāk lietotie programmas līdzekļi. Ieteicams lielākajai daļai lietotāju.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Lietotāji var izvēlēties instalēšanas vietu un instalējamos programmas līdzekļus. Ieteicams pieredzējušiem lietotājiem.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Tiks instalēti visi programmas līdzekļi. Aizņem visvairāk vietas diskā.</String>

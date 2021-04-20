@@ -41,7 +41,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Luo uusi kansio</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Kansion nimi:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Selaa kohdekansioon</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Selaa kohdekansioon.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Vaihda kohdekansiota</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
@@ -112,7 +112,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Valitse asennuksen laajuus ja kansio</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Valitse asennuksen laajuus ja kansio.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Asennuksen laajuus</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Asenna &amp;vain nykyiselle käyttäjälle ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] asennetaan käyttäjäkohtaiseen kansioon, ja se on vain nykyisen käyttäjätilin käytettävissä. Paikallisia järjestelmänvalvojaoikeuksia ei tarvita.</String>
@@ -130,7 +130,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">&amp;Hyväksyn käyttöoikeussopimuksen ehdot</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lue seuraava käyttöoikeussopimus huolellisesti</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Lue seuraava käyttöoikeussopimus huolellisesti.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Käyttöoikeussopimus</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Tuotteen [ProductName] asennus</String>
@@ -213,7 +213,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Täydellinen asennus</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Valitse asennustyyppi</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Valitse tarpeitasi parhaiten vastaava asennustyyppi</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Valitse tarpeitasi parhaiten vastaava asennustyyppi.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Asentaa yleisimmät ohjelman ominaisuudet. Suositellaan useimmille käyttäjille.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Käyttäjä voi valita, mitkä ohjelman ominaisuudet asennetaan ja mihin ne asennetaan. Suositellaan kokeneille käyttäjille.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Kaikki ohjelman ominaisuudet asennetaan. Vaatii eniten levytilaa.</String>

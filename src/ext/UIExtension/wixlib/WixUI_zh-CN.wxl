@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">新建文件夹</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">文件夹名称(&amp;F):</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">浏览到目标文件夹</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">浏览到目标文件夹.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}更改目标文件夹</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">选择安装范围和文件夹</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">选择安装范围和文件夹.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}安装范围</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}只为您([LogonUser])安装(&amp;J)</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] 将安装在每用户文件夹中并且仅供您的用户帐户使用。您不需要本地管理员特权。</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">我接受许可协议中的条款(&amp;A)</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">请认真阅读以下许可协议</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">请认真阅读以下许可协议.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}最终用户许可协议</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">[ProductName] 安装程序</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">完整安装</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}选择安装类型</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">选择最符合您需求的安装类型</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">选择最符合您需求的安装类型.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">安装最常用的程序功能。建议大多数用户使用。</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">允许用户选择要安装的程序功能及其安装位置。建议高级用户使用。</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">将安装所有程序功能。需要最多磁盘空间。</String>

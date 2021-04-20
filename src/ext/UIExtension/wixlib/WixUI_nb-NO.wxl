@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">Opprett en ny mappe</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;Mappenavn:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">Søk etter målmappen</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">Søk etter målmappen.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}Endre målmappe</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">Installere [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">Installere [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">Velg installasjonsomfang og -mappe</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">Velg installasjonsomfang og -mappe.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Installasjonsomfang</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}Installer &amp;bare for deg ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] blir installert i en mappe per bruker og blir bare tilgjengelig for din brukerkonto. Du trenger ikke lokale administratorrettigheter.</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">Installere [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">Jeg &amp;godtar vilkårene i lisensavtalen</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Les nøye gjennom lisensavtalen nedenfor</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">Les nøye gjennom lisensavtalen nedenfor.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}Lisensavtale for sluttbrukere</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">Installere [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">Fullstendig installasjon</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}Velg installasjonstype</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">Velg installasjonstypen som passer best til dine behov</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">Velg installasjonstypen som passer best til dine behov.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">Installerer de vanligste programfunksjonene. Anbefales for de fleste brukere.</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">Gjør det mulig for brukere å velge hvilke programfunksjoner som installeres, og hvor de installeres. Anbefales for avanserte brukere.</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">Alle programfunksjoner blir installert. Krever mest diskplass.</String>

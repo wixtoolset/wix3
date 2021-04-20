@@ -36,7 +36,7 @@
     <String Id="BrowseDlgNewFolderTooltip" Overridable="yes">สร้างโฟลเดอร์ใหม่</String>
     <String Id="BrowseDlgPathLabel" Overridable="yes">&amp;ชื่อโฟลเดอร์:</String>
     <String Id="BrowseDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="BrowseDlgDescription" Overridable="yes">เรียกดูโฟลเดอร์ปลายทาง</String>
+    <String Id="BrowseDlgDescription" Overridable="yes">เรียกดูโฟลเดอร์ปลายทาง.</String>
     <String Id="BrowseDlgTitle" Overridable="yes">{\WixUI_Font_Title}เปลี่ยนโฟลเดอร์ปลายทาง</String>
 
     <String Id="CancelDlg_Title" Overridable="yes">การติดตั้ง [ProductName]</String>
@@ -107,7 +107,7 @@
 
     <String Id="InstallScopeDlg_Title" Overridable="yes">การติดตั้ง [ProductName]</String>
     <String Id="InstallScopeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="InstallScopeDlgDescription" Overridable="yes">เลือกขอบเขตการติดตั้งและโฟลเดอร์</String>
+    <String Id="InstallScopeDlgDescription" Overridable="yes">เลือกขอบเขตการติดตั้งและโฟลเดอร์.</String>
     <String Id="InstallScopeDlgTitle" Overridable="yes">{\WixUI_Font_Title}ขอบเขตการติดตั้ง</String>
     <String Id="InstallScopeDlgPerUser" Overridable="yes">{\WixUI_Font_Emphasized}ติดตั้งสำหรับ&amp;คุณเท่านั้น ([LogonUser])</String>
     <String Id="InstallScopeDlgPerUserDescription" Overridable="yes">[ProductName] จะได้รับการติดตั้งในโฟลเดอร์ต่อผู้ใช้และจะพร้อมใช้งานสำหรับบัญชีผู้ใช้ของคุณเท่านั้น คุณไม่จำเป็นต้องมีสิทธิ์ผู้ดูแลระบบของเครื่อง</String>
@@ -125,7 +125,7 @@
     <String Id="LicenseAgreementDlg_Title" Overridable="yes">การติดตั้ง [ProductName]</String>
     <String Id="LicenseAgreementDlgLicenseAcceptedCheckBox" Overridable="yes">ฉัน&amp;ยอมรับเงื่อนไขในข้อตกลงสิทธิ์การใช้งาน</String>
     <String Id="LicenseAgreementDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
-    <String Id="LicenseAgreementDlgDescription" Overridable="yes">โปรดอ่านข้อตกลงสิทธิ์การใช้งานต่อไปนี้อย่างถี่ถ้วน</String>
+    <String Id="LicenseAgreementDlgDescription" Overridable="yes">โปรดอ่านข้อตกลงสิทธิ์การใช้งานต่อไปนี้อย่างถี่ถ้วน.</String>
     <String Id="LicenseAgreementDlgTitle" Overridable="yes">{\WixUI_Font_Title}ข้อตกลงสิทธิ์การใช้งานสำหรับผู้ใช้</String>
 
     <String Id="MaintenanceTypeDlg_Title" Overridable="yes">การติดตั้ง [ProductName]</String>
@@ -208,7 +208,7 @@
     <String Id="SetupTypeDlgCompleteButtonTooltip" Overridable="yes">การติดตั้งแบบสมบูรณ์</String>
     <String Id="SetupTypeDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
     <String Id="SetupTypeDlgTitle" Overridable="yes">{\WixUI_Font_Title}เลือกชนิดการติดตั้ง</String>
-    <String Id="SetupTypeDlgDescription" Overridable="yes">เลือกชนิดการติดตั้งที่ตรงกับความต้องการของคุณมากที่สุด</String>
+    <String Id="SetupTypeDlgDescription" Overridable="yes">เลือกชนิดการติดตั้งที่ตรงกับความต้องการของคุณมากที่สุด.</String>
     <String Id="SetupTypeDlgTypicalText" Overridable="yes">ติดตั้งคุณลักษณะของโปรแกรมโดยทั่วไป แนะนำสำหรับผู้ใช้ส่วนใหญ่</String>
     <String Id="SetupTypeDlgCustomText" Overridable="yes">อนุญาตให้ผู้ใช้เลือกคุณลักษณะของโปรแกรมที่จะติดตั้ง รวมไปถึงตำแหน่งที่จะติดตั้ง แนะนำสำหรับผู้ใช้ขั้นสูง</String>
     <String Id="SetupTypeDlgCompleteText" Overridable="yes">คุณลักษณะทั้งหมดของโปแกรมจะได้รับการติดตั้ง จำเป็นต้องใช้เนื้อที่ว่างดิสก์มากที่สุด</String>
