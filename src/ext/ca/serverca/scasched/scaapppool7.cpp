@@ -356,7 +356,26 @@ HRESULT ScaWriteAppPool7(
     {
         hr = ScaWriteConfigID(IIS_APPPOOL_MANAGED_RUNTIME_VERSION);
         ExitOnFailure(hr, "failed to set app pool managed runtime version mode");
-        hr = ScaWriteConfigString(psap->wzManagedRuntimeVersion);
+        
+        if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, psap->wzManagedRuntimeVersion, -1, L"no managed code", -1))
+        {
+            WcaLog(LOGMSG_STANDARD, "Writing managedRuntimeVersion as '%ls' to applicationHost.config", psap->wzManagedRuntimeVersion);
+            hr = ScaWriteConfigString(psap->wzManagedRuntimeVersion);
+        }
+        else
+        {
+            WcaLog(LOGMSG_STANDARD, "Writing managedRuntimeVersion empty for 'No Managed Code' to applicationHost.config");
+            hr = ScaWriteConfigString(L"");
+        }
+        
+        ExitOnFailure(hr, "failed to set app pool managed runtime version value");
+    }
+    else
+    {
+        hr = ScaWriteConfigID(IIS_APPPOOL_MANAGED_RUNTIME_VERSION);
+        ExitOnFailure(hr, "failed to set app pool managed runtime version mode");
+        WcaLog(LOGMSG_STANDARD, "Writing managedRuntimeVersion empty for 'No Managed Code' to applicationHost.config");
+        hr = ScaWriteConfigString(L"");
         ExitOnFailure(hr, "failed to set app pool managed runtime version value");
     }
 

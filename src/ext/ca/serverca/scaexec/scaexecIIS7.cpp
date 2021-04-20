@@ -554,29 +554,29 @@ HRESULT IIS7AspProperty(
 
     //read web site key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzSiteName);
-    ExitOnFailure(hr, "Failed read webDir webkey");
+    ExitOnFailure(hr, "Failed to read webDir webkey");
 
     //read path key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzPathName);
-    ExitOnFailure(hr, "Failed read webDir path");
+    ExitOnFailure(hr, "Failed to read webDir path");
 
     //Construct Location path
     hr = StrAllocFormatted(&pwzLocationPath, L"%s/%s", IIS_CONFIG_APPHOST_ROOT, pwzSiteName);
-    ExitOnFailure(hr, "failed to format webDir location");
+    ExitOnFailure(hr, "Failed to format webDir location");
     //
     //Do not append trailing '/' for default vDir
     //
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzPathName, -1, L"/", -1))
     {
         hr = StrAllocConcat(&pwzLocationPath, L"/", 0);
-        ExitOnFailure(hr, "failed to copy location WebDir '/'");
+        ExitOnFailure(hr, "Failed to copy location WebDir '/'");
         hr = StrAllocConcat(&pwzLocationPath, pwzPathName, 0);
-        ExitOnFailure(hr, "failed to copy location WebDir path");
+        ExitOnFailure(hr, "Failed to copy location WebDir path");
     }
 
     //get asp section at config path location tag
     hr = pAdminMgr->GetAdminSection( ScopeBSTR(IIS_CONFIG_ASP_SECTION), pwzLocationPath, &pSection);
-    ExitOnFailure(hr, "Failed get httpErrors section");
+    ExitOnFailure(hr, "Failed to get httpErrors section");
 
     // Get  action
     hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iAction);
@@ -590,11 +590,11 @@ HRESULT IIS7AspProperty(
             {
                 //system.webServer/asp /session | allowSessionState
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
-                ExitOnFailure(hr, "Failed to read asp session state");
+                ExitOnFailure(hr, "Failed to read ASP session state");
                 hr = pSection->GetElementByName(ScopeBSTR(IIS_CONFIG_SESSION), &pElement);
-                ExitOnFailure(hr, "Failed to get asp session element");
+                ExitOnFailure(hr, "Failed to get ASP session element");
                 hr = Iis7PutPropertyBool( pElement, IIS_CONFIG_ALLOWSTATE, iData);
-                ExitOnFailure(hr, "Failed to put asp session value");
+                ExitOnFailure(hr, "Failed to put ASP session value");
                 ReleaseNullObject(pElement);
                 break;
             }
@@ -616,40 +616,40 @@ HRESULT IIS7AspProperty(
             {
                 //system.webServer/asp | bufferingOn
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
-                ExitOnFailure(hr, "Failed to read asp bufferingOn");
+                ExitOnFailure(hr, "Failed to read ASP bufferingOn");
                 hr = Iis7PutPropertyBool( pSection, IIS_CONFIG_BUFFERING, iData);
-                ExitOnFailure(hr, "Failed to put asp bufferingOn value");
+                ExitOnFailure(hr, "Failed to put ASP bufferingOn value");
                 break;
             }
             case IIS_ASP_PARENTPATHS:
             {
                 //system.webServer/asp | enableParentPaths
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
-                ExitOnFailure(hr, "Failed to read asp ParentPaths");
+                ExitOnFailure(hr, "Failed to read ASP ParentPaths");
                 hr = Iis7PutPropertyBool( pSection, IIS_CONFIG_PARENTPATHS, iData);
-                ExitOnFailure(hr, "Failed to put asp ParentPaths value");
+                ExitOnFailure(hr, "Failed to put ASP ParentPaths value");
                 break;
             }
             case IIS_ASP_SCRIPTLANG:
             {
                 //system.webServer/asp | scriptLanguage
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
-                ExitOnFailure(hr, "Failed to read asp scriptLanguage");
+                ExitOnFailure(hr, "Failed to read ASP scriptLanguage");
                 hr = Iis7PutPropertyString( pSection, IIS_CONFIG_SCRIPTLANG, pwzData);
-                ExitOnFailure(hr, "Failed to put asp scriptLanguage value");
+                ExitOnFailure(hr, "Failed to put ASP scriptLanguage value");
                 break;
             }
             case IIS_ASP_SCRIPTTIMEOUT:
             {
                 //system.webServer/asp /limits | scriptTimeout
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
-                ExitOnFailure(hr, "Failed to read asp scriptTimeout");
+                ExitOnFailure(hr, "Failed to read ASP scriptTimeout");
                 hr = pSection->GetElementByName(ScopeBSTR(IIS_CONFIG_LIMITS), &pElement);
-                ExitOnFailure(hr, "Failed to get asp session element");
+                ExitOnFailure(hr, "Failed to get ASP session element");
                 *wcTime = '\0';
                 ConvSecToHMS(iData, wcTime, countof( wcTime));
                 hr = Iis7PutPropertyString( pElement, IIS_CONFIG_SCRIPTTIMEOUT, wcTime);
-                ExitOnFailure(hr, "Failed to put asp scriptTimeout value");
+                ExitOnFailure(hr, "Failed to put ASP scriptTimeout value");
                 ReleaseNullObject(pElement);
                 break;
 
@@ -658,18 +658,18 @@ HRESULT IIS7AspProperty(
             {
                 //system.webServer/asp | appAllowDebugging
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
-                ExitOnFailure(hr, "Failed to read asp appAllowDebugging");
+                ExitOnFailure(hr, "Failed to read ASP appAllowDebugging");
                 hr = Iis7PutPropertyBool( pSection, IIS_CONFIG_ALLOWDEBUG, iData);
-                ExitOnFailure(hr, "Failed to put asp appAllowDebugging value");
+                ExitOnFailure(hr, "Failed to put ASP appAllowDebugging value");
                 break;
             }
             case IIS_ASP_SCRIPTCLIENTDEBUG:
             {
                 //system.webServer/asp | appAllowClientDebug
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
-                ExitOnFailure(hr, "Failed to read asp appAllowClientDebug");
+                ExitOnFailure(hr, "Failed to read ASP appAllowClientDebug");
                 hr = Iis7PutPropertyBool( pSection, IIS_CONFIG_ALLOWCLIENTDEBUG, iData);
-                ExitOnFailure(hr, "Failed to put asp appAllowClientDebug value");
+                ExitOnFailure(hr, "Failed to put ASP appAllowClientDebug value");
                 break;
             }
             default:
@@ -719,11 +719,11 @@ HRESULT IIS7WebDir(
 
     //read web site key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzSiteName);
-    ExitOnFailure(hr, "Failed read webDir webkey");
+    ExitOnFailure(hr, "Failed to read webDir webkey");
 
     //read path key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzPathName);
-    ExitOnFailure(hr, "Failed read webDir path");
+    ExitOnFailure(hr, "Failed to read webDir path");
 
     switch (iAction)
     {
@@ -738,20 +738,20 @@ HRESULT IIS7WebDir(
         {
             //Construct Location path
             hr = StrAllocString(&pwzLocationPath, pwzSiteName, 0);
-            ExitOnFailure(hr, "failed to copy location WebDir web name");
+            ExitOnFailure(hr, "Failed to copy location WebDir web name");
             //
             //Do not append trailing '/' for default vDir
             //
             if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzPathName, -1, L"/", -1))
             {
                 hr = StrAllocConcat(&pwzLocationPath, L"/", 0);
-                ExitOnFailure(hr, "failed to copy location WebDir '/'");
+                ExitOnFailure(hr, "Failed to copy location WebDir '/'");
                 hr = StrAllocConcat(&pwzLocationPath, pwzPathName, 0);
-                ExitOnFailure(hr, "failed to copy location WebDir path");
+                ExitOnFailure(hr, "Failed to copy location WebDir path");
             }
             // and delete location tag for this application
             hr = ClearLocationTag(pAdminMgr, pwzLocationPath);
-            ExitOnFailure1(hr, "failed to clear location tag for %ls", pwzLocationPath)
+            ExitOnFailure1(hr, "Failed to clear location tag for %ls", pwzLocationPath)
             break;
         }
         default:
@@ -799,11 +799,11 @@ HRESULT IIS7WebProperty(
             //set value at system.applicationHost/webLimits | maxGlobalBandwidth
             //Get IIS config section
             hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_WEBLIMITS_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pSection);
-            ExitOnFailure(hr, "Failed get isapiCgiRestriction section");
+            ExitOnFailure(hr, "Failed to get isapiCgiRestriction section");
             if (!pSection)
             {
                 hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-                ExitOnFailure(hr, "Failed get isapiCgiRestriction section object");
+                ExitOnFailure(hr, "Failed to get isapiCgiRestriction section object");
             }
             hr = Iis7PutPropertyInteger(pSection, IIS_CONFIG_WEBLIMITS_MAXBAND, iData);
 
@@ -816,11 +816,11 @@ HRESULT IIS7WebProperty(
             //set value at system.applicationHost/log | logInUTF8
             //Get IIS config section
             hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_LOG_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pSection);
-            ExitOnFailure(hr, "Failed get isapiCgiRestriction section");
+            ExitOnFailure(hr, "Failed to get isapiCgiRestriction section");
             if (!pSection)
             {
                 hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-                ExitOnFailure(hr, "Failed get isapiCgiRestriction section object");
+                ExitOnFailure(hr, "Failed to get isapiCgiRestriction section object");
             }
             hr = Iis7PutPropertyBool(pSection, IIS_CONFIG_LOG_UTF8, iData);
 
@@ -872,19 +872,19 @@ HRESULT IIS7WebSvcExt(
 
     //Get IIS config section
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_RESTRICTION_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pSection);
-    ExitOnFailure(hr, "Failed get isapiCgiRestriction section");
+    ExitOnFailure(hr, "Failed to get isapiCgiRestriction section");
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get isapiCgiRestriction section object");
+        ExitOnFailure(hr, "Failed to get isapiCgiRestriction section object");
     }
     //get collection
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get isapiCgiRestriction collection");
+    ExitOnFailure(hr, "Failed to get isapiCgiRestriction collection");
 
     //find element
     hr = Iis7FindAppHostElementPath(pCollection, IIS_CONFIG_ADD, IIS_CONFIG_PATH, pwzPath, &pElement, NULL);
-    ExitOnFailure(hr, "Failed get isapiCgiRestriction element");
+    ExitOnFailure(hr, "Failed to get isapiCgiRestriction element");
     fFound = (NULL != pElement);
 
     switch (iAction)
@@ -895,10 +895,10 @@ HRESULT IIS7WebSvcExt(
             {
                 //create a restriction element
                 hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_ADD), &pElement);
-                ExitOnFailure(hr, "Failed create isapiCgiRestriction element");
+                ExitOnFailure(hr, "Failed to create isapiCgiRestriction element");
                 //put path
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_PATH, pwzPath);
-                ExitOnFailure(hr, "Failed set isapiCgiRestriction path property");
+                ExitOnFailure(hr, "Failed to set isapiCgiRestriction path property");
             }
             //update common properties
 
@@ -906,7 +906,7 @@ HRESULT IIS7WebSvcExt(
             hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
             ExitOnFailure(hr, "Failed to read WebSvcExt allowed");
             hr = Iis7PutPropertyBool(pElement, IIS_CONFIG_ALLOWED, iData);
-            ExitOnFailure(hr, "Failed set isapiCgiRestriction allowed property");
+            ExitOnFailure(hr, "Failed to set isapiCgiRestriction allowed property");
 
             //update groupId
             hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
@@ -914,7 +914,7 @@ HRESULT IIS7WebSvcExt(
             if (*pwzData)
             {
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_GROUPID, pwzData);
-                ExitOnFailure(hr, "Failed set isapiCgiRestriction groupId property");
+                ExitOnFailure(hr, "Failed to set isapiCgiRestriction groupId property");
             }
             //update description
             hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
@@ -922,13 +922,13 @@ HRESULT IIS7WebSvcExt(
             if (*pwzData)
             {
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_DESC, pwzData);
-                ExitOnFailure(hr, "Failed set isapiCgiRestriction description property");
+                ExitOnFailure(hr, "Failed to set isapiCgiRestriction description property");
             }
             // add element if new
             if (!fFound)
             {
                 hr = pCollection->AddElement(pElement);
-                ExitOnFailure(hr, "Failed add isapiCgiRestriction element");
+                ExitOnFailure(hr, "Failed to add isapiCgiRestriction element");
             }
 
             break;
@@ -936,7 +936,7 @@ HRESULT IIS7WebSvcExt(
         case IIS_DELETE:
         {
             hr = DeleteCollectionElement(pCollection, IIS_CONFIG_ADD, IIS_CONFIG_PATH, pwzPath);
-            ExitOnFailure(hr, "Failed delete isapiCgiRestriction element");
+            ExitOnFailure(hr, "Failed to delete isapiCgiRestriction element");
             break;
         }
         default:
@@ -988,27 +988,27 @@ HRESULT IIS7WebError(
 
     //read web site key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzSiteName);
-    ExitOnFailure(hr, "Failed read web error site name");
+    ExitOnFailure(hr, "Failed to read web error site name");
 
     //read app key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzAppName);
-    ExitOnFailure(hr, "Failed read web error app name");
+    ExitOnFailure(hr, "Failed to read web error app name");
 
     //Construct config root path
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s", IIS_CONFIG_APPHOST_ROOT, pwzSiteName);
-    ExitOnFailure(hr, "failed to format web error config path");
+    ExitOnFailure(hr, "Failed to format web error config path");
 
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzAppName, -1, L"/", -1))
     {
         hr = StrAllocConcat(&pwzConfigPath, L"/", 0);
-        ExitOnFailure(hr, "failed to copy web error config path delim");
+        ExitOnFailure(hr, "Failed to copy web error config path delim");
         hr = StrAllocConcat(&pwzConfigPath, pwzAppName, 0);
-        ExitOnFailure(hr, "failed to app name to web error config path");
+        ExitOnFailure(hr, "Failed to app name to web error config path");
     }
 
     //get httpErrors section at config path location tag
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_HTTPERRORS_SECTION), pwzConfigPath, &pSection);
-    ExitOnFailure(hr, "Failed get httpErrors section");
+    ExitOnFailure(hr, "Failed to get httpErrors section");
 
     //get existing httpErrors list & clear collection
     hr = PopulateHttpErrors(pSection, &psweList);
@@ -1016,7 +1016,7 @@ HRESULT IIS7WebError(
 
     //get collection
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get httpErrors collection");
+    ExitOnFailure(hr, "Failed to get httpErrors collection");
 
     DWORD cErrors = 0;
     hr = pCollection->get_Count(&cErrors);
@@ -1030,10 +1030,10 @@ HRESULT IIS7WebError(
         if (IIS_WEBERROR == iAction)
         {
             hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &(we.iErrorCode));
-            ExitOnFailure(hr, "failed to get httpErrors ErrorCode");
+            ExitOnFailure(hr, "Failed to get httpErrors ErrorCode");
 
             hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &(we.iSubCode));
-            ExitOnFailure(hr, "failed to get httpErrors SubCode");
+            ExitOnFailure(hr, "Failed to get httpErrors SubCode");
             //0 is the sub error code wild card for IIS6, change to -1 for IIS7
             if (we.iSubCode == 0)
             {
@@ -1052,7 +1052,7 @@ HRESULT IIS7WebError(
             if (!fFound)
             {
                 hr = AddWebErrorToList(&psweList);
-                ExitOnFailure(hr, "failed to add web error to list");
+                ExitOnFailure(hr, "Failed to add web error to list");
                 pswe = psweList;
             }
             else
@@ -1080,9 +1080,9 @@ HRESULT IIS7WebError(
 
     //No inheritance - put a clear in at this loc tag
     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_CLEAR), &pElement);
-    ExitOnFailure(hr, "Failed create httpErrors clear");
+    ExitOnFailure(hr, "Failed to create httpErrors clear");
     hr = pCollection->AddElement(pElement);
-    ExitOnFailure(hr, "Failed add httpErrors clear");
+    ExitOnFailure(hr, "Failed to add httpErrors clear");
 
     //now we have merged new, from MSI, http errors with global list
     //write this back out at location tag.
@@ -1090,31 +1090,31 @@ HRESULT IIS7WebError(
     for ( pswe = psweList; pswe; pswe = pswe->psweNext)
     {
         hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_ERROR), &pElement);
-        ExitOnFailure(hr, "Failed create httpErrors element");
+        ExitOnFailure(hr, "Failed to create httpErrors element");
 
         // status code
         hr = Iis7PutPropertyInteger(pElement, IIS_CONFIG_STATUSCODE, pswe->iErrorCode);
-        ExitOnFailure(hr, "Failed set httpErrors code value");
+        ExitOnFailure(hr, "Failed to set httpErrors code value");
 
         //sub status
         hr = Iis7PutPropertyInteger(pElement, IIS_CONFIG_SUBSTATUS, pswe->iSubCode);
-        ExitOnFailure(hr, "Failed set httpErrors sub code value");
+        ExitOnFailure(hr, "Failed to set httpErrors sub code value");
 
         //lang path
         hr = Iis7PutPropertyString(pElement, IIS_CONFIG_LANGPATH, pswe->wzLangPath);
-        ExitOnFailure(hr, "Failed set httpErrors lang path value");
+        ExitOnFailure(hr, "Failed to set httpErrors lang path value");
 
         //path
         hr = Iis7PutPropertyString(pElement, IIS_CONFIG_PATH, pswe->wzFile);
-        ExitOnFailure(hr, "Failed set httpErrors path value");
+        ExitOnFailure(hr, "Failed to set httpErrors path value");
 
         //response mode
         hr = Iis7PutPropertyInteger(pElement, IIS_CONFIG_RESPMODE, pswe->iResponseMode);
-        ExitOnFailure(hr, "Failed set httpErrors resp mode value");
+        ExitOnFailure(hr, "Failed to set httpErrors resp mode value");
 
         //add the element
         hr = pCollection->AddElement(pElement);
-        ExitOnFailure(hr, "Failed add httpErrors element");
+        ExitOnFailure(hr, "Failed to add httpErrors element");
         ReleaseNullObject(pElement);
     }
 
@@ -1150,20 +1150,20 @@ static HRESULT PopulateHttpErrors(IAppHostElement *pSection, SCA_WEB_ERROR **pps
     VariantInit(&vtIndex);
 
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get httpErrors collection");
+    ExitOnFailure(hr, "Failed to get httpErrors collection");
 
     hr = pCollection->get_Count(&cErrors);
-    ExitOnFailure(hr, "Failed get sites collection count");
+    ExitOnFailure(hr, "Failed to get sites collection count");
 
     vtIndex.vt = VT_UI4;
     for (DWORD i = 0; i < cErrors; ++i)
     {
         vtIndex.ulVal = i;
         hr = pCollection->get_Item(vtIndex , &pElement);
-        ExitOnFailure(hr, "Failed get httpErrors collection item");
+        ExitOnFailure(hr, "Failed to get httpErrors collection item");
 
         hr = AddWebErrorToList(ppsweList);
-        ExitOnFailure(hr, "Failed add web error list item");
+        ExitOnFailure(hr, "Failed to add web error list item");
         pswe = *ppsweList;
 
         //get all properties
@@ -1179,25 +1179,25 @@ static HRESULT PopulateHttpErrors(IAppHostElement *pSection, SCA_WEB_ERROR **pps
 
         // status code
         hr = pElement->GetPropertyByName(ScopeBSTR(IIS_CONFIG_STATUSCODE), &pProperty);
-        ExitOnFailure(hr, "Failed get httpErrors code property");
+        ExitOnFailure(hr, "Failed to get httpErrors code property");
         hr = pProperty->get_Value(&vPropValue);
-        ExitOnFailure(hr, "Failed get httpErrors code value");
+        ExitOnFailure(hr, "Failed to get httpErrors code value");
         pswe->iErrorCode = vPropValue.uintVal;
         ReleaseVariant(vPropValue);
 
         //sub status
         hr = pElement->GetPropertyByName(ScopeBSTR(IIS_CONFIG_SUBSTATUS), &pProperty);
-        ExitOnFailure(hr, "Failed get httpErrors sub code property");
+        ExitOnFailure(hr, "Failed to get httpErrors sub code property");
         hr = pProperty->get_Value(&vPropValue);
-        ExitOnFailure(hr, "Failed get httpErrors sub code value");
+        ExitOnFailure(hr, "Failed to get httpErrors sub code value");
         pswe->iSubCode = vPropValue.intVal;
         ReleaseVariant(vPropValue);
 
         //lang path
         hr = pElement->GetPropertyByName(ScopeBSTR(IIS_CONFIG_LANGPATH), &pProperty);
-        ExitOnFailure(hr, "Failed get httpErrors lang path property");
+        ExitOnFailure(hr, "Failed to get httpErrors lang path property");
         hr = pProperty->get_Value(&vPropValue);
-        ExitOnFailure(hr, "Failed get httpErrors lang path value");
+        ExitOnFailure(hr, "Failed to get httpErrors lang path value");
         hr = ::StringCchCopyW(pswe->wzLangPath, countof(pswe->wzLangPath), vPropValue.bstrVal);
         ExitOnFailure(hr, "Failed to copy httpErrors lang path");
         ReleaseVariant(vPropValue);
@@ -1225,7 +1225,7 @@ static HRESULT PopulateHttpErrors(IAppHostElement *pSection, SCA_WEB_ERROR **pps
 
     //remove the elements from connection so we can add back later
     hr = pCollection->Clear();
-    ExitOnFailure(hr, "Failed clear httpErrors collection");
+    ExitOnFailure(hr, "Failed to clear httpErrors collection");
 
 LExit:
     ReleaseVariant(vPropValue);
@@ -1253,7 +1253,7 @@ static HRESULT AddWebErrorToList(SCA_WEB_ERROR **ppsweList)
 
     SCA_WEB_ERROR* pswe = static_cast<SCA_WEB_ERROR*>(MemAlloc(sizeof(SCA_WEB_ERROR), TRUE));
 
-    ExitOnNull(pswe, hr, E_OUTOFMEMORY, "failed to allocate memory for new web error list element");
+    ExitOnNull(pswe, hr, E_OUTOFMEMORY, "Failed to allocate memory for new web error list element");
 
     pswe->psweNext = *ppsweList;
     *ppsweList = pswe;
@@ -1315,33 +1315,33 @@ HRESULT IIS7HttpHeader(
 
     //read web site key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzSiteName);
-    ExitOnFailure(hr, "Failed read header web site name");
+    ExitOnFailure(hr, "Failed to read header web site name");
 
     //read app key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzAppName);
-    ExitOnFailure(hr, "Failed read header appkey");
+    ExitOnFailure(hr, "Failed to read header appkey");
 
     //Construct config root path
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s", IIS_CONFIG_APPHOST_ROOT, pwzSiteName);
-    ExitOnFailure(hr, "failed to format web error config path");
+    ExitOnFailure(hr, "Failed to format web error config path");
 
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzAppName, -1, L"/", -1))
     {
         hr = StrAllocConcat(&pwzConfigPath, L"/", 0);
-        ExitOnFailure(hr, "failed to copy web error config path delim");
+        ExitOnFailure(hr, "Failed to copy web error config path delim");
         hr = StrAllocConcat(&pwzConfigPath, pwzAppName, 0);
-        ExitOnFailure(hr, "failed to app name to web error config path");
+        ExitOnFailure(hr, "Failed to app name to web error config path");
     }
 
     //get admin handlers section at config path location tag
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_HTTPPROTO_SECTION), pwzConfigPath, &pSection);
-    ExitOnFailure(hr, "Failed get http protocol section");
+    ExitOnFailure(hr, "Failed to get http protocol section");
 
     hr = pSection->GetElementByName(ScopeBSTR(IIS_CONFIG_HEADERS), &pElementHeaders);
-    ExitOnFailure(hr, "Failed get http customHeaders section");
+    ExitOnFailure(hr, "Failed to get http customHeaders section");
 
     hr = pElementHeaders->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get http customHeaders collection");
+    ExitOnFailure(hr, "Failed to get http customHeaders collection");
 
    // Get filter action
     hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iAction);
@@ -1358,7 +1358,7 @@ HRESULT IIS7HttpHeader(
             ExitOnFailure(hr, "Fail to read httpHeader value");
 
             hr = Iis7FindAppHostElementString(pCollection, IIS_CONFIG_ADD, IIS_CONFIG_NAME, pwzHeaderName, &pElement, NULL);
-            ExitOnFailure(hr, "Failed get isapiCgiRestriction element");
+            ExitOnFailure(hr, "Failed to get isapiCgiRestriction element");
             fFound = (NULL != pElement);
 
             if (!fFound)
@@ -1377,7 +1377,7 @@ HRESULT IIS7HttpHeader(
             if (!fFound)
             {
                 hr = pCollection->AddElement(pElement);
-                ExitOnFailure(hr, "Failed add http header");
+                ExitOnFailure(hr, "Failed to add http header");
             }
 
         }
@@ -1422,12 +1422,12 @@ HRESULT IIS7FilterGlobal(
     IAppHostElement *pSection = NULL;
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_ISAPI_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pSection);
-    ExitOnFailure(hr, "Failed get sites section");
+    ExitOnFailure(hr, "Failed to get sites section");
 
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get isapiFilters section object");
+        ExitOnFailure(hr, "Failed to get isapiFilters section object");
     }
 
    // Get filter action
@@ -1486,10 +1486,10 @@ static HRESULT CreateGlobalFilter( __inout LPWSTR *ppwzCustomActionData, IAppHos
     IAppHostElementCollection *pCollection = NULL;
 
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get filter collection");
+    ExitOnFailure(hr, "Failed to get filter collection");
 
     hr = pCollection->get_Count(&cFilters);
-    ExitOnFailure(hr, "Failed get filter collection count");
+    ExitOnFailure(hr, "Failed to get filter collection count");
 
     // Attempt to delete, we will we recreate with desired property values and order
     hr = DeleteCollectionElement(pCollection, IIS_CONFIG_FILTER, IIS_CONFIG_NAME, pwzFilterName);
@@ -1575,7 +1575,7 @@ static HRESULT DeleteGlobalFilter( __inout LPWSTR *ppwzCustomActionData, IAppHos
     IAppHostElementCollection *pCollection = NULL;
 
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get filter collection");
+    ExitOnFailure(hr, "Failed to get filter collection");
 
     //filter Name key
     hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzFilterName);
@@ -1675,17 +1675,17 @@ static HRESULT CreateSiteFilter(__inout LPWSTR *ppwzCustomActionData, IAppHostWr
 
      //Construct config root
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s", IIS_CONFIG_APPHOST_ROOT, pwzSiteName);
-    ExitOnFailure(hr, "failed to format filter config path");
+    ExitOnFailure(hr, "Failed to format filter config path");
 
     //get admin isapiFilters section at config path location tag
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_ISAPI_SECTION), pwzConfigPath, &pSection);
-    ExitOnFailure(hr, "Failed get isapiFilters section");
+    ExitOnFailure(hr, "Failed to get isapiFilters section");
 
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get filter collection");
+    ExitOnFailure(hr, "Failed to get filter collection");
 
     hr = pCollection->get_Count(&cFilters);
-    ExitOnFailure(hr, "Failed get filter collection count");
+    ExitOnFailure(hr, "Failed to get filter collection count");
 
     // Attempt to delete, we will we recreate with desired property values and order
     hr = DeleteCollectionElement(pCollection, IIS_CONFIG_FILTER, IIS_CONFIG_NAME, pwzFilterName);
@@ -1778,7 +1778,7 @@ static HRESULT DeleteSiteFilter(__inout LPWSTR *ppwzCustomActionData, IAppHostWr
 
      //Construct config root
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s", IIS_CONFIG_APPHOST_ROOT, pwzSiteName);
-    ExitOnFailure(hr, "failed to format filter config path");
+    ExitOnFailure(hr, "Failed to format filter config path");
 
     //get admin isapiFilters section at config path location tag
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_ISAPI_SECTION), pwzConfigPath, &pSection);
@@ -1834,11 +1834,11 @@ HRESULT IIS7Site(
     ExitOnFailure(hr, "Failed to read sites from config");
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_SITES_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pSites);
-    ExitOnFailure(hr, "Failed get sites section");
-    ExitOnNull(pSites, hr, ERROR_FILE_NOT_FOUND, "Failed get sites section object");
+    ExitOnFailure(hr, "Failed to get sites section");
+    ExitOnNull(pSites, hr, ERROR_FILE_NOT_FOUND, "Failed to get sites section object");
 
     hr = pSites->get_Collection( &pCollection);
-    ExitOnFailure(hr, "Failed get site collection");
+    ExitOnFailure(hr, "Failed to get site collection");
     switch (iAction)
     {
         case IIS_DELETE :
@@ -1871,7 +1871,7 @@ HRESULT IIS7Site(
     if (iData != MSI_NULL_INTEGER && -1 != iData)
     {
         hr = Iis7PutPropertyInteger(pSiteElem, IIS_CONFIG_SITE_ID, iData);
-        ExitOnFailure(hr, "Failed set site Id data");
+        ExitOnFailure(hr, "Failed to set site Id data");
     }
     //Set Site AutoStart
     hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
@@ -1879,7 +1879,7 @@ HRESULT IIS7Site(
     if (MSI_NULL_INTEGER != iData)
     {
         hr = Iis7PutPropertyBool(pSiteElem, IIS_CONFIG_AUTOSTART, iData);
-        ExitOnFailure(hr, "Failed set site config data");
+        ExitOnFailure(hr, "Failed to set site config data");
     }
 
     //Set Site Connection timeout
@@ -1896,7 +1896,7 @@ HRESULT IIS7Site(
         ConvSecToHMS( iData, wcTime, countof( wcTime));
 
         hr = Iis7PutPropertyString(pElement, IIS_CONFIG_CONNECTTIMEOUT, wcTime);
-        ExitOnFailure(hr, "IIS: failed set connection timeout config data");
+        ExitOnFailure(hr, "IIS: Failed to set connection timeout config data");
    }
 
 LExit:
@@ -1999,13 +1999,13 @@ HRESULT IIS7Application(
                     // TODO: it seems odd that these are just
                     // jammed together, need to determine if this requires a '\'
                     hr = StrAllocString(&pwzLocationPath, pwzSiteName, 0);
-                    ExitOnFailure(hr, "failed to copy location config path web name");
+                    ExitOnFailure(hr, "Failed to copy location config path web name");
                     hr = StrAllocConcat(&pwzLocationPath, pwzAppPath, 0);
-                    ExitOnFailure(hr, "failed to copy location config path appPath ");
+                    ExitOnFailure(hr, "Failed to copy location config path appPath ");
 
                     // and delete location tag for this application
                     hr = ClearLocationTag(pAdminMgr, pwzLocationPath);
-                    ExitOnFailure1(hr, "failed to clear location tag for %ls", pwzLocationPath);
+                    ExitOnFailure1(hr, "Failed to clear location tag for %ls", pwzLocationPath);
                 }
             }
             break;
@@ -2336,25 +2336,25 @@ HRESULT IIS7AppExtension(
 
     //Construct config root
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s", IIS_CONFIG_APPHOST_ROOT, pwzWebName);
-    ExitOnFailure(hr, "failed to format appext config path");
+    ExitOnFailure(hr, "Failed to format appext config path");
     //
     //Do not append trailing '/' for default vDir
     //
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzWebRoot, -1, L"/", -1))
     {
         hr = StrAllocConcat(&pwzConfigPath, L"/", 0);
-        ExitOnFailure(hr, "failed to copy appext config path delim");
+        ExitOnFailure(hr, "Failed to copy appext config path delim");
         hr = StrAllocConcat(&pwzConfigPath, pwzWebRoot, 0);
-        ExitOnFailure(hr, "failed to copy appext config path root name");
+        ExitOnFailure(hr, "Failed to copy appext config path root name");
     }
     //get admin handlers section at config path location tag
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_HANDLERS_SECTION), pwzConfigPath, &pSection);
-    ExitOnFailure(hr, "Failed get appext section");
+    ExitOnFailure(hr, "Failed to get appext section");
 
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get appext section object");
+        ExitOnFailure(hr, "Failed to get appext section object");
     }
 
     // Get AppExt action
@@ -2362,7 +2362,7 @@ HRESULT IIS7AppExtension(
     ExitOnFailure(hr, "Failed to read appExt action");
 
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get handlers collection for appext");
+    ExitOnFailure(hr, "Failed to get handlers collection for appext");
 
     while (IIS_APPEXT_END != iAction)
     {
@@ -2375,7 +2375,7 @@ HRESULT IIS7AppExtension(
             {
                 // These IDs aren't really stable but this is stable enough to support repair since the MSI won't change
                 hr = StrAllocFormatted(&pwzHandlerName, L"MsiCustom-%u", ++cHandlers);
-                ExitOnFailure(hr, "Failed increment handler name");
+                ExitOnFailure(hr, "Failed to increment handler name");
 
                 hr = Iis7FindAppHostElementString(pCollection, IIS_CONFIG_ADD, IIS_CONFIG_NAME, pwzHandlerName, &pElement, NULL);
                 ExitOnFailure(hr, "Failed to find mimemap extension");
@@ -2385,26 +2385,26 @@ HRESULT IIS7AppExtension(
                 {
                     //create new handler element
                     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_ADD), &pElement);
-                    ExitOnFailure(hr, "Failed get create handler element for appext");
+                    ExitOnFailure(hr, "Failed to get create handler element for appext");
 
                     hr = Iis7PutPropertyString(pElement, IIS_CONFIG_NAME, pwzHandlerName);
-                    ExitOnFailure(hr, "Failed set appext name property");
+                    ExitOnFailure(hr, "Failed to set appext name property");
                 }
 
                 //BUGBUG: For compat we are assuming these are all ISAPI MODULES so we are
                 //setting the modules property to IsapiModule.
                 //Currently can't deal with handlers of different module types.
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_MODULES, L"IsapiModule");
-                ExitOnFailure(hr, "Failed set site appExt path property");
+                ExitOnFailure(hr, "Failed to set site appExt path property");
 
                 //get extension (path)
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read appExt extension");
                 hr = StrAllocFormatted(&pwzPath, L"*.%s", pwzData);
-                ExitOnFailure(hr, "Failed decorate appExt path");
+                ExitOnFailure(hr, "Failed to decorate appExt path");
                 //put property
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_PATH, pwzPath);
-                ExitOnFailure(hr, "Failed set site appExt path property");
+                ExitOnFailure(hr, "Failed to set site appExt path property");
 
                 //get executable
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
@@ -2418,7 +2418,7 @@ HRESULT IIS7AppExtension(
                 ExitOnFailure(hr, "Failed to read appExt verbs");
                 //put property
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_VERBS, pwzData);
-                ExitOnFailure(hr, "Failed set site appExt verbs property");
+                ExitOnFailure(hr, "Failed to set site appExt verbs property");
 
                 break;
             }
@@ -2433,7 +2433,7 @@ HRESULT IIS7AppExtension(
         {
             //  put handler element at beginning of list
             hr = pCollection->AddElement(pElement, 0);
-            ExitOnFailure(hr, "Failed add handler element for appext");
+            ExitOnFailure(hr, "Failed to add handler element for appext");
         }
 
         ReleaseNullObject(pElement);
@@ -2491,26 +2491,26 @@ LExit:
 
     //Construct config root
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s",  IIS_CONFIG_APPHOST_ROOT, pwzWebName);
-    ExitOnFailure(hr, "failed to format mime map config path web name");
+    ExitOnFailure(hr, "Failed to format mime map config path web name");
     //
     //Do not append trailing '/' for default vDir
     //
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzWebRoot, -1, L"/", -1))
     {
         hr = StrAllocConcat(&pwzConfigPath, L"/", 0);
-        ExitOnFailure(hr, "failed to copy appext config path delim");
+        ExitOnFailure(hr, "Failed to copy appext config path delim");
         hr = StrAllocConcat(&pwzConfigPath, pwzWebRoot, 0);
-        ExitOnFailure(hr, "failed to copy appext config path root name");
+        ExitOnFailure(hr, "Failed to copy appext config path root name");
     }
 
     //get admin section <staticContent> at config path location tag
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_STATICCONTENT_SECTION), pwzConfigPath, &pSection);
-    ExitOnFailure(hr, "Failed get staticContent section for mimemap");
+    ExitOnFailure(hr, "Failed to get staticContent section for mimemap");
 
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get staticContent section object");
+        ExitOnFailure(hr, "Failed to get staticContent section object");
     }
 
     // Get mimemap action
@@ -2518,7 +2518,7 @@ LExit:
     ExitOnFailure(hr, "Failed to read mimemap action");
 
     hr = pSection->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get staticContent collection for mimemap");
+    ExitOnFailure(hr, "Failed to get staticContent collection for mimemap");
 
     while (IIS_MIMEMAP_END != iAction)
     {
@@ -2539,19 +2539,19 @@ LExit:
                 {
                     //create new mimeMap element
                     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_MIMEMAP), &pElement);
-                    ExitOnFailure(hr, "Failed get create MimeMap element");
+                    ExitOnFailure(hr, "Failed to get create MimeMap element");
                 }
 
                 //put property
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_FILEEXT, pwzData);
-                ExitOnFailure(hr, "Failed set mimemap extension property");
+                ExitOnFailure(hr, "Failed to set mimemap extension property");
 
                 //get type
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read mimemap type");
                 //put property
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_MIMETYPE, pwzData);
-                ExitOnFailure(hr, "Failed set mimemap type property");
+                ExitOnFailure(hr, "Failed to set mimemap type property");
 
                 break;
             }
@@ -2566,7 +2566,7 @@ LExit:
         {
             //  put mimeMap element at beginning of list
             hr = pCollection->AddElement(pElement, -1);
-            ExitOnFailure(hr, "Failed add mimemap");
+            ExitOnFailure(hr, "Failed to add mimemap");
         }
 
         // Get AppExt action
@@ -2623,16 +2623,16 @@ HRESULT IIS7DirProperties(
 
     //Construct config root
     hr = StrAllocFormatted(&pwzConfigPath, L"%s/%s",  IIS_CONFIG_APPHOST_ROOT, pwzWebName);
-    ExitOnFailure(hr, "failed to format mime map config path web name");
+    ExitOnFailure(hr, "Failed to format mime map config path web name");
     //
     //Do not append trailing '/' for default vDir
     //
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzWebRoot, -1, L"/", -1))
     {
         hr = StrAllocConcat(&pwzConfigPath, L"/", 0);
-        ExitOnFailure(hr, "failed to copy appext config path delim");
+        ExitOnFailure(hr, "Failed to copy appext config path delim");
         hr = StrAllocConcat(&pwzConfigPath, pwzWebRoot, 0);
-        ExitOnFailure(hr, "failed to copy appext config path root name");
+        ExitOnFailure(hr, "Failed to copy appext config path root name");
     }
 
     // Get DirProps action
@@ -2652,15 +2652,15 @@ HRESULT IIS7DirProperties(
                 //no translation required
                 //get admin section at config path location tag
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_HANDLERS_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get handlers section for DirProp");
+                ExitOnFailure(hr, "Failed to get handlers section for DirProp");
                 if (!pSection)
                 {
                     hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-                    ExitOnFailure(hr, "Failed get handlers section object for DirProps");
+                    ExitOnFailure(hr, "Failed to get handlers section object for DirProps");
                 }
                 dwData = iData;
                 hr = Iis7PutPropertyInteger( pSection, L"accessPolicy", dwData);
-                ExitOnFailure(hr, "Failed set accessPolicy for DirProps");
+                ExitOnFailure(hr, "Failed to set accessPolicy for DirProps");
                 ReleaseNullObject(pSection);
                 break;
             }
@@ -2669,9 +2669,9 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read DirProps user");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/anonymousAuthentication"), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get AnonymousAuthentication section for DirProp");
+                ExitOnFailure(hr, "Failed to get AnonymousAuthentication section for DirProp");
                 hr = Iis7PutPropertyString( pSection, IIS_CONFIG_USERNAME, pwzData);
-                ExitOnFailure(hr, "Failed set accessPolicy for DirProps");
+                ExitOnFailure(hr, "Failed to set accessPolicy for DirProps");
                 ReleaseNullObject(pSection);
                 break;
             }
@@ -2680,9 +2680,9 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read DirProps pwd");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/anonymousAuthentication"), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get AnonymousAuthentication section for DirProp");
+                ExitOnFailure(hr, "Failed to get AnonymousAuthentication section for DirProp");
                 hr = Iis7PutPropertyString( pSection, IIS_CONFIG_PASSWORD, pwzData);
-                ExitOnFailure(hr, "Failed set accessPolicy for DirProps");
+                ExitOnFailure(hr, "Failed to set accessPolicy for DirProps");
                 ReleaseNullObject(pSection);
                 break;
             }
@@ -2708,7 +2708,7 @@ HRESULT IIS7DirProperties(
                 // E.G security/authentication/windowsAuthentication [property enabled true|false]
                 dwData= iData;
                 hr = SetDirPropAuthentications(pAdminMgr, pwzConfigPath, dwData);
-                ExitOnFailure(hr, "Failed set Authentication for DirProps");
+                ExitOnFailure(hr, "Failed to set Authentication for DirProps");
                 break;
             }
             case IIS_DIRPROP_SSLFLAGS :
@@ -2718,10 +2718,10 @@ HRESULT IIS7DirProperties(
                 //iData contains bit flags for /security/access sslFlags
                 //no translation required
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/access"), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get security/access section for DirProp");
+                ExitOnFailure(hr, "Failed to get security/access section for DirProp");
                 dwData = iData;
                 hr = Iis7PutPropertyInteger( pSection, L"sslFlags", dwData);
-                ExitOnFailure(hr, "Failed set security/access for DirProps");
+                ExitOnFailure(hr, "Failed to set security/access for DirProps");
                 ReleaseNullObject(pSection);
                 break;
             }
@@ -2738,7 +2738,7 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
                 ExitOnFailure(hr, "Failed to read DirProps aspDetailedError");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_ASP_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get asp section for DirProp");
+                ExitOnFailure(hr, "Failed to get ASP section for DirProp");
                 hr = Iis7PutPropertyBool(pSection, IIS_CONFIG_SCRIPTERROR, iData);
                 ExitOnFailure(hr, "Failed to set DirProps aspDetailedError");
                 ReleaseNullObject(pSection);
@@ -2749,7 +2749,7 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read DirProps httpExpires provider");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_STATICCONTENT_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get staticContent section for DirProp");
+                ExitOnFailure(hr, "Failed to get staticContent section for DirProp");
                 hr = pSection->GetElementByName(ScopeBSTR(IIS_CONFIG_CLIENTCACHE), &pElement);
                 ExitOnFailure(hr, "Failed to get clientCache element");
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_HTTPEXPIRES, pwzData);
@@ -2765,7 +2765,7 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
                 ExitOnFailure(hr, "Failed to read DirProps httpExpires provider");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_STATICCONTENT_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get staticContent section for DirProp");
+                ExitOnFailure(hr, "Failed to get staticContent section for DirProp");
                 hr = pSection->GetElementByName(ScopeBSTR(IIS_CONFIG_CLIENTCACHE), &pElement);
                 ExitOnFailure(hr, "Failed to get clientCache element");
                 *wcTime = '\0';
@@ -2783,7 +2783,7 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read DirProps cacheControlCustom");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_STATICCONTENT_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get staticContent section for DirProp");
+                ExitOnFailure(hr, "Failed to get staticContent section for DirProp");
                 hr = pSection->GetElementByName(ScopeBSTR(IIS_CONFIG_CLIENTCACHE), &pElement);
                 ExitOnFailure(hr, "Failed to get clientCache element");
                 hr = Iis7PutPropertyString(pElement, IIS_CONFIG_CACHECUST, pwzData);
@@ -2797,9 +2797,9 @@ HRESULT IIS7DirProperties(
                 //no value, if have ID tag write clear to system.webServer/httpErrors
                 //error collection
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_HTTPERRORS_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get httperrors section for DirProp");
+                ExitOnFailure(hr, "Failed to get httperrors section for DirProp");
                 hr = pSection->get_Collection(&pCollection);
-                ExitOnFailure(hr, "Failed get error collection for DirProp");
+                ExitOnFailure(hr, "Failed to get error collection for DirProp");
                 hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_CLEAR), &pElement);
                 ExitOnFailure(hr, "Failed to create clear element for error collection for DirProp");
                 hr = pCollection->AddElement(pElement);
@@ -2813,7 +2813,7 @@ HRESULT IIS7DirProperties(
                 hr = WcaReadIntegerFromCaData(ppwzCustomActionData, &iData);
                 ExitOnFailure(hr, "Failed to read DirProps logVisits");
                 hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_HTTPLOGGING_SECTION), pwzConfigPath, &pSection);
-                ExitOnFailure(hr, "Failed get httpLogging section for DirProp");
+                ExitOnFailure(hr, "Failed to get httpLogging section for DirProp");
                 hr = Iis7PutPropertyBool(pSection, IIS_CONFIG_DONTLOG, iData);
                 ExitOnFailure(hr, "Failed to set DirProps aspDetailedError");
                 ReleaseNullObject(pSection);
@@ -2943,20 +2943,20 @@ static HRESULT GetNextAvailableSiteId(
    *plSiteId = 0;
 
     hr = pCollection->get_Count(&cSites);
-    ExitOnFailure(hr, "Failed get sites collection count");
+    ExitOnFailure(hr, "Failed to get sites collection count");
 
     vtIndex.vt = VT_UI4;
     for (DWORD i = 0; i < cSites; ++i)
     {
         vtIndex.ulVal = i;
         hr = pCollection->get_Item(vtIndex , &pElement);
-        ExitOnFailure(hr, "Failed get sites collection item");
+        ExitOnFailure(hr, "Failed to get sites collection item");
 
         hr = pElement->GetPropertyByName(ScopeBSTR(IIS_CONFIG_ID), &pProperty);
-        ExitOnFailure(hr, "Failed get site property");
+        ExitOnFailure(hr, "Failed to get site property");
 
         hr = pProperty->get_Value(&vPropValue);
-        ExitOnFailure(hr, "Failed get site property value");
+        ExitOnFailure(hr, "Failed to get site property value");
 
         *plSiteId = vPropValue.lVal;
         if (*plSiteId > plNextAvailSite)
@@ -2992,11 +2992,11 @@ static HRESULT GetSiteElement(
    *fFound = FALSE;
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_SITES_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pSites);
-    ExitOnFailure(hr, "Failed get sites section");
-    ExitOnNull(pSites, hr, ERROR_FILE_NOT_FOUND, "Failed get sites section object");
+    ExitOnFailure(hr, "Failed to get sites section");
+    ExitOnNull(pSites, hr, ERROR_FILE_NOT_FOUND, "Failed to get sites section object");
 
     hr = pSites->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get sites collection");
+    ExitOnFailure(hr, "Failed to get sites collection");
 
     hr = Iis7FindAppHostElementString(pCollection, IIS_CONFIG_SITE, IIS_CONFIG_NAME, swSiteName, ppSiteElement, NULL);
     ExitOnFailure1(hr, "Failed to find site %ls", swSiteName);
@@ -3021,7 +3021,7 @@ static HRESULT GetApplicationElement( IAppHostElement *pSiteElement,
    *fFound = FALSE;
 
     hr = pSiteElement->get_Collection( &pCollection);
-    ExitOnFailure(hr, "Failed get site app collection");
+    ExitOnFailure(hr, "Failed to get site app collection");
 
     hr = Iis7FindAppHostElementString(pCollection, IIS_CONFIG_APPLICATION, IIS_CONFIG_PATH, swAppPath, ppAppElement, NULL);
     ExitOnFailure1(hr, "Failed to find app %ls", swAppPath);
@@ -3047,12 +3047,12 @@ static HRESULT GetApplicationElementForVDir( IAppHostElement *pSiteElement,
     *ppwzVDirSubPath = NULL;
 
     hr = pSiteElement->get_Collection( &pCollection);
-    ExitOnFailure(hr, "Failed get site app collection");
+    ExitOnFailure(hr, "Failed to get site app collection");
 
     // Start with full path
     int iLastPathIndex = lstrlenW(pwzVDirPath) - 1;
     hr = StrAllocString(&pwzAppPath, pwzVDirPath, 0);
-    ExitOnFailure(hr, "Failed allocate application path");
+    ExitOnFailure(hr, "Failed to allocate application path");
 
     for (int iSubPathIndex = iLastPathIndex; (iSubPathIndex >= 0) && (!*fFound); --iSubPathIndex)
     {
@@ -3101,20 +3101,20 @@ static HRESULT CreateSite(
     IAppHostElement *pNewElement = NULL;
 
     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_SITE), &pNewElement);
-    ExitOnFailure(hr, "Failed create site element");
+    ExitOnFailure(hr, "Failed to create site element");
 
     hr = Iis7PutPropertyString(pNewElement, IIS_CONFIG_NAME, swSiteName);
-    ExitOnFailure(hr, "Failed set site name property");
+    ExitOnFailure(hr, "Failed to set site name property");
 
     DWORD lSiteId = 0;
     hr = GetNextAvailableSiteId(pCollection, &lSiteId);
-    ExitOnFailure(hr, "Failed get next site id");
+    ExitOnFailure(hr, "Failed to get next site id");
 
     Iis7PutPropertyInteger(pNewElement, IIS_CONFIG_ID, lSiteId);
-    ExitOnFailure(hr, "Failed set site id property");
+    ExitOnFailure(hr, "Failed to set site id property");
 
     hr = pCollection->AddElement(pNewElement);
-    ExitOnFailure(hr, "Failed add site element");
+    ExitOnFailure(hr, "Failed to add site element");
 
     *pSiteElement = pNewElement;
     pNewElement = NULL;
@@ -3136,16 +3136,16 @@ static HRESULT CreateApplication(
     IAppHostElementCollection *pCollection = NULL;
 
     hr = pSiteElement->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get application collection");
+    ExitOnFailure(hr, "Failed to get application collection");
 
     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_APPLICATION), &pNewElement);
-    ExitOnFailure(hr, "Failed get application element");
+    ExitOnFailure(hr, "Failed to get application element");
 
     hr = Iis7PutPropertyString(pNewElement, IIS_CONFIG_PATH, swAppPath);
-    ExitOnFailure(hr, "Failed set application path property");
+    ExitOnFailure(hr, "Failed to set application path property");
 
     hr = pCollection->AddElement(pNewElement);
-    ExitOnFailure(hr, "Failed add application to collection");
+    ExitOnFailure(hr, "Failed to add application to collection");
 
     *pAppElement = pNewElement;
     pNewElement = NULL;
@@ -3166,7 +3166,7 @@ static HRESULT DeleteApplication(
     IAppHostElementCollection *pCollection = NULL;
 
     hr = pSiteElement->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get application collection");
+    ExitOnFailure(hr, "Failed to get application collection");
 
     hr = DeleteCollectionElement(pCollection, IIS_CONFIG_APPLICATION, IIS_CONFIG_PATH, swAppPath);
     ExitOnFailure(hr, "Failed to delete website");
@@ -3187,7 +3187,7 @@ static HRESULT SetAppPool(
     if (*pwzAppPool != 0)
     {
         hr = Iis7PutPropertyString(pAppElement, IIS_CONFIG_APPPOOL, pwzAppPool);
-        ExitOnFailure(hr, "Failed set application appPool property");
+        ExitOnFailure(hr, "Failed to set application appPool property");
     }
 LExit:
     return hr;
@@ -3205,7 +3205,7 @@ static HRESULT CreateVdir(
     BOOL fFound;
 
     hr = pAppElement->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get application VDir collection");
+    ExitOnFailure(hr, "Failed to get application VDir collection");
 
     hr = Iis7FindAppHostElementString(pCollection, IIS_CONFIG_VDIR, IIS_CONFIG_PATH, pwzVDirPath, &pElement, NULL);
     ExitOnFailure(hr, "Failed while finding virtualDir");
@@ -3214,19 +3214,19 @@ static HRESULT CreateVdir(
     if (!fFound)
     {
         hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_VDIR), &pElement);
-        ExitOnFailure(hr, "Failed create application VDir collection");
+        ExitOnFailure(hr, "Failed to create application VDir collection");
 
         hr = Iis7PutPropertyString(pElement, IIS_CONFIG_PATH, pwzVDirPath);
-        ExitOnFailure(hr, "Failed set VDir path property");
+        ExitOnFailure(hr, "Failed to set VDir path property");
     }
 
     hr = Iis7PutPropertyString(pElement, IIS_CONFIG_PHYSPATH, pwzVDirPhyDir);
-    ExitOnFailure(hr, "Failed set VDir phys path property");
+    ExitOnFailure(hr, "Failed to set VDir phys path property");
 
     if (!fFound)
     {
         hr = pCollection->AddElement(pElement);
-        ExitOnFailure(hr, "Failed add application VDir element");
+        ExitOnFailure(hr, "Failed to add application VDir element");
     }
 
 LExit:
@@ -3245,7 +3245,7 @@ static HRESULT DeleteVdir(
     IAppHostElementCollection *pCollection = NULL;
 
     hr = pAppElement->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get application VDir collection");
+    ExitOnFailure(hr, "Failed to get application VDir collection");
 
     hr = DeleteCollectionElement(pCollection, IIS_CONFIG_VDIR, IIS_CONFIG_PATH, pwzVDirPath);
     ExitOnFailure(hr, "Failed to delete vdir");
@@ -3273,25 +3273,25 @@ static HRESULT CreateBinding(
     VariantInit(&vtProp);
 
     hr = pSiteElem->get_ChildElements(&pChildElems);
-    ExitOnFailure(hr, "Failed get site child elements collection");
+    ExitOnFailure(hr, "Failed to get site child elements collection");
 
     vtProp.vt = VT_BSTR;
     vtProp.bstrVal = ::SysAllocString(IIS_CONFIG_BINDINGS);
     hr = pChildElems->get_Item(vtProp, &pBindings);
-    ExitOnFailure(hr, "Failed get bindings element");
+    ExitOnFailure(hr, "Failed to get bindings element");
     ReleaseVariant(vtProp);
 
     hr = pBindings->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get bindings collection");
+    ExitOnFailure(hr, "Failed to get bindings collection");
 
     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_BINDING), &pBindingElement);
-    ExitOnFailure(hr, "Failed get binding element");
+    ExitOnFailure(hr, "Failed to get binding element");
 
     hr = Iis7PutPropertyString(pBindingElement, IIS_CONFIG_PROTOCOL, pwzProtocol);
-    ExitOnFailure(hr, "Failed set binding protocol property");
+    ExitOnFailure(hr, "Failed to set binding protocol property");
 
     hr = Iis7PutPropertyString(pBindingElement, IIS_CONFIG_BINDINGINFO, pwzInfo);
-    ExitOnFailure(hr, "Failed set binding information property");
+    ExitOnFailure(hr, "Failed to set binding information property");
 
     hr = pCollection->AddElement(pBindingElement);
     if (hr == HRESULT_FROM_WIN32(ERROR_ALREADY_EXISTS))
@@ -3302,7 +3302,7 @@ static HRESULT CreateBinding(
     }
     else
     {
-        ExitOnFailure(hr, "Failed add binding to site");
+        ExitOnFailure(hr, "Failed to add binding to site");
     }
 
 LExit:
@@ -3329,25 +3329,25 @@ static HRESULT CreateWebLog(
     VariantInit(&vtProp);
 
     hr = pSiteElem->get_ChildElements(&pChildElems);
-    ExitOnFailure(hr, "Failed get site child elements collection");
+    ExitOnFailure(hr, "Failed to get site child elements collection");
 
     vtProp.vt = VT_BSTR;
     vtProp.bstrVal = ::SysAllocString(IIS_CONFIG_WEBLOG);
     hr = pChildElems->get_Item(vtProp, &pLogFile);
-    ExitOnFailure(hr, "Failed get logfile element");
+    ExitOnFailure(hr, "Failed to get logfile element");
     ReleaseVariant(vtProp);
 
     if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzFormat, -1, L"none", -1))
     {
         hr = Iis7PutPropertyString(pLogFile, IIS_CONFIG_LOGFORMAT, pwzFormat);
-        ExitOnFailure(hr, "Failed set logfile format property");
+        ExitOnFailure(hr, "Failed to set logfile format property");
         hr = Iis7PutPropertyString(pLogFile, IIS_CONFIG_ENABLED, IIS_CONFIG_TRUE);
-        ExitOnFailure(hr, "Failed set logfile enabled property");
+        ExitOnFailure(hr, "Failed to set logfile enabled property");
     }
     else
     {
         hr = Iis7PutPropertyString(pLogFile, IIS_CONFIG_ENABLED, IIS_CONFIG_FALSE);
-        ExitOnFailure(hr, "Failed set logfile enabled property");
+        ExitOnFailure(hr, "Failed to set logfile enabled property");
     }
 
 LExit:
@@ -3406,7 +3406,7 @@ static BOOL AddSslCertificateToBindingCallback(IAppHostElement *pBindingElement,
     if (Iis7IsMatchingAppHostElement(pBindingElement, &pBindingInfo->comparison))
     {
         hr = pBindingElement->get_Methods(&pAppHostMethodCollection);
-        ExitOnFailure(hr, "failed to get binding method collection");
+        ExitOnFailure(hr, "Failed to get binding method collection");
 
         hr = Iis7FindAppHostMethod(pAppHostMethodCollection, L"AddSslCertificate", &pAddSslMethod, NULL);
         if (FAILED(hr))
@@ -3416,19 +3416,19 @@ static BOOL AddSslCertificateToBindingCallback(IAppHostElement *pBindingElement,
         }
 
         pAddSslMethod->CreateInstance(&pAddSslMethodInstance);
-        ExitOnFailure(hr, "failed to create an instance of AddSslCertificate method");
+        ExitOnFailure(hr, "Failed to create an instance of AddSslCertificate method");
 
         pAddSslMethodInstance->get_Input(&pAddSslInput);
-        ExitOnFailure(hr, "failed to get input element of AddSslCertificate method");
+        ExitOnFailure(hr, "Failed to get input element of AddSslCertificate method");
 
         Iis7PutPropertyString(pAddSslInput, IIS_CONFIG_CERTIFICATESTORENAME, pBindingInfo->pwzStoreName);
-        ExitOnFailure(hr, "failed to set certificateStoreName input parameter of AddSslCertificate method");
+        ExitOnFailure(hr, "Failed to set certificateStoreName input parameter of AddSslCertificate method");
 
         Iis7PutPropertyString(pAddSslInput, IIS_CONFIG_CERTIFICATEHASH, pBindingInfo->pwzEncodedCertificateHash);
-        ExitOnFailure(hr, "failed to set certificateHash input parameter of AddSslCertificate method");
+        ExitOnFailure(hr, "Failed to set certificateHash input parameter of AddSslCertificate method");
 
         hr = pAddSslMethodInstance->Execute();
-        ExitOnFailure(hr, "failed to execute AddSslCertificate method");
+        ExitOnFailure(hr, "Failed to execute AddSslCertificate method");
     }
 LExit:
     pBindingInfo->hr = hr;
@@ -3455,16 +3455,16 @@ static HRESULT CreateSslBinding( IAppHostElement *pSiteElem, LPCWSTR pwzStoreNam
     VariantInit(&vtProp);
 
     hr = pSiteElem->get_ChildElements(&pChildElems);
-    ExitOnFailure(hr, "Failed get site child elements collection");
+    ExitOnFailure(hr, "Failed to get site child elements collection");
 
     vtProp.vt = VT_BSTR;
     vtProp.bstrVal = ::SysAllocString(IIS_CONFIG_BINDINGS);
     hr = pChildElems->get_Item(vtProp, &pBindingsElement);
-    ExitOnFailure(hr, "Failed get bindings element");
+    ExitOnFailure(hr, "Failed to get bindings element");
     ReleaseVariant(vtProp);
 
     hr = pBindingsElement->get_Collection(&pBindingsCollection);
-    ExitOnFailure(hr, "Failed get bindings collection");
+    ExitOnFailure(hr, "Failed to get bindings collection");
 
     bindingInfo.comparison.sczElementName = IIS_CONFIG_BINDING;
     bindingInfo.comparison.sczAttributeName = IIS_CONFIG_PROTOCOL;
@@ -3480,7 +3480,7 @@ static HRESULT CreateSslBinding( IAppHostElement *pSiteElem, LPCWSTR pwzStoreNam
     hr = Iis7EnumAppHostElements(pBindingsCollection, AddSslCertificateToBindingCallback, &bindingInfo, NULL, NULL);
     ExitOnFailure(hr, "Failed to enumerate bindings collection");
     hr = bindingInfo.hr;
-    ExitOnFailure(hr, "Failed to add ssl binding");
+    ExitOnFailure(hr, "Failed to add SSL binding");
 
 LExit:
     ReleaseVariant(vtProp);
@@ -3512,11 +3512,11 @@ static HRESULT DeleteAppPool( IAppHostWritableAdminManager *pAdminMgr,
     IAppHostElementCollection *pCollection = NULL;
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_APPPOOL_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pAppPools);
-    ExitOnFailure(hr, "Failed get AppPools section");
-    ExitOnNull(pAppPools, hr, E_UNEXPECTED, "Failed get appPools section object");
+    ExitOnFailure(hr, "Failed to get AppPools section");
+    ExitOnNull(pAppPools, hr, E_UNEXPECTED, "Failed get AppPools section object");
 
     hr = pAppPools->get_Collection( &pCollection);
-    ExitOnFailure(hr, "Failed get AppPools collection");
+    ExitOnFailure(hr, "Failed to get AppPools collection");
 
     hr = DeleteCollectionElement(pCollection, IIS_CONFIG_ADD, IIS_CONFIG_NAME, swAppPoolName);
     ExitOnFailure1(hr, "Failed to delete app pool %ls", swAppPoolName);
@@ -3550,31 +3550,31 @@ static HRESULT CreateAppPool(
     BOOL fFound = FALSE;
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_APPPOOL_SECTION), ScopeBSTR(IIS_CONFIG_APPHOST_ROOT), &pAppPools);
-    ExitOnFailure(hr, "Failed get AppPools section");
-    ExitOnNull(pAppPools, hr, ERROR_FILE_NOT_FOUND, "Failed get AppPools section object");
+    ExitOnFailure(hr, "Failed to get AppPools section");
+    ExitOnNull(pAppPools, hr, ERROR_FILE_NOT_FOUND, "Failed to get AppPools section object");
 
     hr = pAppPools->get_Collection( &pCollection);
-    ExitOnFailure(hr, "Failed get AppPools collection");
+    ExitOnFailure(hr, "Failed to get AppPools collection");
 
     hr = Iis7FindAppHostElementString(pCollection, IIS_CONFIG_ADD, IIS_CONFIG_NAME, swAppPoolName, &pAppPoolElement, NULL);
-    ExitOnFailure(hr, "Failed find AppPool element");
+    ExitOnFailure(hr, "Failed to find AppPool element");
     fFound = (NULL != pAppPoolElement);
 
     if (!fFound)
     {
         hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_ADD), &pAppPoolElement);
-        ExitOnFailure(hr, "Failed create AppPool element");
+        ExitOnFailure(hr, "Failed to create AppPool element");
     }
 
     hr = Iis7PutPropertyString(pAppPoolElement, IIS_CONFIG_NAME, swAppPoolName);
-    ExitOnFailure(hr, "Failed set AppPool name property");
+    ExitOnFailure(hr, "Failed to set AppPool name property");
 
     //For WiX II6 /ABO compat we will default managedPipelineMode="Classic"
     hr = Iis7PutPropertyString(pAppPoolElement, IIS_CONFIG_PIPELINEMODE, L"Classic");
-    ExitOnFailure(hr, "Failed set AppPool managedPipelineMode property");
+    ExitOnFailure(hr, "Failed to set AppPool managedPipelineMode property");
     //For WiX II6 /ABO compat we will be hardcoding autostart="true"
     hr = Iis7PutPropertyString(pAppPoolElement, IIS_CONFIG_APPPOOL_AUTO, L"true");
-    ExitOnFailure(hr, "Failed set AppPool autoStart property");
+    ExitOnFailure(hr, "Failed to set AppPool autoStart property");
 
     if (!fFound)
     {
@@ -3645,9 +3645,9 @@ static HRESULT CreateAppPool(
                 {
                     *wcData = '\0';
                     hr = ::StringCchCopyW(wcData, countof(wcData), wszToken);
-                    ExitOnFailure(hr, "failed to copy AppPool schedule");
+                    ExitOnFailure(hr, "Failed to copy AppPool schedule");
                     hr = ::StringCchCatW(wcData, countof(wcData), L":00");
-                    ExitOnFailure(hr, "failed to append AppPool schedule");
+                    ExitOnFailure(hr, "Failed to append AppPool schedule");
 
                     hr = pCollection2->CreateNewElement(ScopeBSTR(IIS_CONFIG_ADD), &pElement3);
                     ExitOnFailure(hr, "Failed to create AppPool schedule element");
@@ -3857,18 +3857,32 @@ static HRESULT CreateAppPool(
             {
                 // managedPipelineMode
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
-                ExitOnFailure(hr, "Failed to read AppPool managedRuntimeVersion");
+                ExitOnFailure(hr, "Failed to read AppPool managedPipelineMode");
                 hr = Iis7PutPropertyString(pAppPoolElement, IIS_CONFIG_PIPELINEMODE, pwzData);
-                ExitOnFailure(hr, "Failed set AppPool managedPipelineMode property");
+                ExitOnFailure(hr, "Failed to set AppPool managedPipelineMode property");
                 break;
             }
             case IIS_APPPOOL_MANAGED_RUNTIME_VERSION:
             {
                 // managedRuntimeVersion
+				// v2.0
+				// v4.0
+				// NoManagedCode
                 hr = WcaReadStringFromCaData(ppwzCustomActionData, &pwzData);
                 ExitOnFailure(hr, "Failed to read AppPool managedRuntimeVersion");
-                hr = Iis7PutPropertyString(pAppPoolElement, IIS_CONFIG_MANAGEDRUNTIMEVERSION, pwzData);
-                ExitOnFailure(hr, "Failed set AppPool managedRuntimeVersion property");
+
+				if (CSTR_EQUAL != ::CompareStringW(LOCALE_INVARIANT, NORM_IGNORECASE, pwzData, -1, L"no managed code", -1))
+				{
+					WcaLog(LOGMSG_STANDARD, "Writing managedRuntimeVersion as '%ls' to applicationHost.config", pwzData);
+					hr = Iis7PutPropertyString(pAppPoolElement, IIS_CONFIG_MANAGEDRUNTIMEVERSION, pwzData);
+				}
+				else
+				{
+					WcaLog(LOGMSG_STANDARD, "Writing managedRuntimeVersion empty for 'No Managed Code' to applicationHost.config");
+					hr = Iis7PutPropertyEmpty(pAppPoolElement, IIS_CONFIG_MANAGEDRUNTIMEVERSION);
+				}
+
+				ExitOnFailure(hr, "Failed to set AppPool managedRuntimeVersion property");
                 break;
             }
 
@@ -3912,54 +3926,54 @@ static HRESULT SetDirPropAuthentications(IAppHostWritableAdminManager *pAdminMgr
 
     // AnonymousAuthentication = 1
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/anonymousAuthentication"), ScopeBSTR(wszConfigPath), &pSection);
-    ExitOnFailure(hr, "Failed get AnonymousAuthentication section for DirProp");
+    ExitOnFailure(hr, "Failed to get AnonymousAuthentication section for DirProp");
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get AnonymousAuthentication section object for DirProps");
+        ExitOnFailure(hr, "Failed to get AnonymousAuthentication section object for DirProps");
     }
 
     hr = Iis7PutPropertyBool(pSection, L"enabled", (BOOL)(dwData & 0x1));
-    ExitOnFailure(hr, "Failed set AnonymousAuthentication enabled for DirProps");
+    ExitOnFailure(hr, "Failed to set AnonymousAuthentication enabled for DirProps");
     ReleaseNullObject(pSection);
 
     // basicAuthentication = 2
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/basicAuthentication"), ScopeBSTR(wszConfigPath), &pSection);
-    ExitOnFailure(hr, "Failed get basicAuthentication section for DirProp");
+    ExitOnFailure(hr, "Failed to get basicAuthentication section for DirProp");
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get basicAuthentication section object for DirProps");
+        ExitOnFailure(hr, "Failed to get basicAuthentication section object for DirProps");
     }
 
     hr = Iis7PutPropertyBool(pSection, L"enabled", (BOOL)(dwData & 0x2));
-    ExitOnFailure(hr, "Failed set basicAuthentication enabled for DirProps");
+    ExitOnFailure(hr, "Failed to set basicAuthentication enabled for DirProps");
     ReleaseNullObject(pSection);
 
     // WindowsAuthentication = 4
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/windowsAuthentication"), ScopeBSTR(wszConfigPath), &pSection);
-    ExitOnFailure(hr, "Failed get windowsAuthentication section for DirProp");
+    ExitOnFailure(hr, "Failed to get windowsAuthentication section for DirProp");
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get windowsAuthentication section object for DirProps");
+        ExitOnFailure(hr, "Failed to get windowsAuthentication section object for DirProps");
     }
 
     hr = Iis7PutPropertyBool(pSection, L"enabled", (BOOL)(dwData & 0x4));
-    ExitOnFailure(hr, "Failed set windowsAuthentication enabled for DirProps");
+    ExitOnFailure(hr, "Failed to set windowsAuthentication enabled for DirProps");
     ReleaseNullObject(pSection);
 
     // digestAuthentication = 16
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/digestAuthentication"), ScopeBSTR(wszConfigPath), &pSection);
-    ExitOnFailure(hr, "Failed get digestAuthentication section for DirProp");
+    ExitOnFailure(hr, "Failed to get digestAuthentication section for DirProp");
     if (!pSection)
     {
         hr = HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND);
-        ExitOnFailure(hr, "Failed get digestAuthentication section object for DirProps");
+        ExitOnFailure(hr, "Failed to get digestAuthentication section object for DirProps");
     }
 
     hr = Iis7PutPropertyBool(pSection, L"enabled", (BOOL)(dwData & 0x10));
-    ExitOnFailure(hr, "Failed set digestAuthentication enabled for DirProps");
+    ExitOnFailure(hr, "Failed to set digestAuthentication enabled for DirProps");
     ReleaseNullObject(pSection);
 
 LExit:
@@ -3983,13 +3997,13 @@ static HRESULT SetDirPropAuthProvider(IAppHostWritableAdminManager *pAdminMgr,
     WCHAR *wszNextToken = NULL;
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(L"system.webServer/security/authentication/windowsAuthentication"), ScopeBSTR(wszConfigPath), &pSection);
-    ExitOnFailure(hr, "Failed get windowsAuthentication section for DirProp providers");
+    ExitOnFailure(hr, "Failed to get windowsAuthentication section for DirProp providers");
 
     hr = pSection->GetElementByName(ScopeBSTR(L"providers"), &pElement);
-    ExitOnFailure(hr, "Failed get win auth providers section");
+    ExitOnFailure(hr, "Failed to get win auth providers section");
 
     hr = pElement->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get win auth providers collection");
+    ExitOnFailure(hr, "Failed to get win auth providers collection");
 
     hr = pCollection->Clear();
     ExitOnFailure(hr, "Failed to clear win auth providers collection");
@@ -4042,16 +4056,16 @@ static HRESULT SetDirPropDefDoc(
     WCHAR *wszNextToken = NULL;
 
     hr = pAdminMgr->GetAdminSection(ScopeBSTR(IIS_CONFIG_DEFAULTDOC_SECTION), ScopeBSTR(wszConfigPath), &pSection);
-    ExitOnFailure(hr, "Failed get defaultDocument section for DirProp");
+    ExitOnFailure(hr, "Failed to get defaultDocument section for DirProp");
 
     hr = pSection->GetElementByName(ScopeBSTR(L"files"), &pElement);
-    ExitOnFailure(hr, "Failed get win files section");
+    ExitOnFailure(hr, "Failed to get win files section");
 
     hr = pElement->get_Collection(&pCollection);
-    ExitOnFailure(hr, "Failed get files collection");
+    ExitOnFailure(hr, "Failed to get files collection");
 
     hr = pCollection->Clear();
-    ExitOnFailure(hr, "Failed clear files collection");
+    ExitOnFailure(hr, "Failed to clear files collection");
 
     //Clear out inherited items - add clear
     hr = pCollection->CreateNewElement(ScopeBSTR(IIS_CONFIG_CLEAR), &pNewElement);

@@ -32,6 +32,15 @@ LExit:
     return hr;
 }
 
+extern "C" HRESULT DAPI Iis7PutPropertyEmpty(
+    __in IAppHostElement *pElement,
+    __in LPCWSTR wzPropName
+    )
+{
+    HRESULT hr = Iis7PutPropertyString(pElement, wzPropName, L"\0");
+    return hr;
+}
+
 extern "C" HRESULT DAPI Iis7PutPropertyString(
     __in IAppHostElement *pElement,
     __in LPCWSTR wzPropName,
@@ -44,7 +53,7 @@ extern "C" HRESULT DAPI Iis7PutPropertyString(
     ::VariantInit(&vtPut);
     vtPut.vt = VT_BSTR;
     vtPut.bstrVal = ::SysAllocString(wzString);
-    ExitOnNull(vtPut.bstrVal, hr, E_OUTOFMEMORY, "failed SysAllocString");
+    ExitOnNull(vtPut.bstrVal, hr, E_OUTOFMEMORY, "failed SysAllocString for value '%ls'", wzString);
 
     hr = Iis7PutPropertyVariant(pElement, wzPropName, vtPut);
 

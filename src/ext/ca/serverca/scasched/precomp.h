@@ -11,6 +11,7 @@
 #include <windows.h>
 #include <msiquery.h>
 #include <MsiDefs.h>
+#include <Winnls.h>
 
 #include <lm.h>        // NetApi32.lib
 #include <xenroll.h> // ICEnroll2
