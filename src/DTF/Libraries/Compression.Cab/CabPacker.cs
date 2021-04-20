@@ -424,13 +424,11 @@ namespace Microsoft.Deployment.Compression.Cab
         {
             try
             {
-                if (disposing)
+                // See comment in CabUnpacker.Dispose for more info.
+                if (this.fciHandle != null)
                 {
-                    if (this.fciHandle != null)
-                    {
-                        this.fciHandle.Dispose();
-                        this.fciHandle = null;
-                    }
+                    this.fciHandle.Dispose();
+                    this.fciHandle = null;
                 }
             }
             finally
