@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<WixLocalization Culture="lt-lt" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrUSRFailedUserCreate" Overridable="yes">Nepavyko sukurti vartotojo.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">Vartotojo sukurti nepavyko, nes klaidingas slaptažodis.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">Nepavyko pridėti vartotojo prie grupės.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreateExists" Overridable="yes">Vartotojo sukurti nepavyko, nes toks vartotojas jau egzistuoja.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSMBFailedCreate" Overridable="yes">Nepavyko sukurti tinklo prieigos resurso.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrSMBFailedDrop" Overridable="yes">Nepavyko ištrinti tinklo prieigos resurso.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">Nepavyko užregistruoti DLL failo į PerfMon tarnybą.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">Nepavyko išregistruoti DLL failo iš PerfMon tarnybos.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrInstallPerfCounterData" Overridable="yes">Nepavyko įdiegti našumo stebėjimo skaitliukų.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUninstallPerfCounterData" Overridable="yes">Nepavyko išdiegti našumo stebėjimo skaitliukų.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">Nepavyko sukurti [3]\[4] saugos aprašo. Sistemos klaida: [2]</String>
+    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">Nepavyko nustatyti objekto [3] saugos aprašo. Sistemos klaida: [2]</String>
+    <String Id="msierrSecureObjectsUnknownType" Overridable="yes">Nežinomas objekto tipas [3]. Sistemos klaida: [2]</String>
+
+    <String Id="msierrXmlFileFailedRead" Overridable="yes">Klaida konfigūruojant XML failus.</String>
+    <String Id="msierrXmlFileFailedOpen" Overridable="yes">Nepavyko atidaryti XML failo [3]. Sistemos klaida: [2]</String>
+    <String Id="msierrXmlFileFailedSelect" Overridable="yes">XML faile [4] nepavyko rasti [3] elemento. Sistemos klaida: [2]</String>
+    <String Id="msierrXmlFileFailedSave" Overridable="yes">Nepavyko išsaugoti pakeitimų į XML failą [3]. Sistemos klaida: [2]</String>
+
+    <String Id="msierrXmlConfigFailedRead" Overridable="yes">Klaida konfigūruojant XML failus.</String>
+    <String Id="msierrXmlConfigFailedOpen" Overridable="yes">Nepavyko atidaryti XML failo [3]. Sistemos klaida: [2]</String>
+    <String Id="msierrXmlConfigFailedSelect" Overridable="yes">XML faile [4] nepavyko rasti [3] elemento. Sistemos klaida: [2]</String>
+    <String Id="msierrXmlConfigFailedSave" Overridable="yes">Nepavyko išsaugoti pakeitimų į XML failą [3]. Sistemos klaida: [2]</String>
+</WixLocalization>
