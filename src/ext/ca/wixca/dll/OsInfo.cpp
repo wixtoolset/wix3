@@ -29,7 +29,10 @@ extern "C" UINT __stdcall WixQueryOsInfo(
 
     // identify product suites
     ovix.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
+#pragma warning(push)
+#pragma warning(disable:4996)
     ::GetVersionExW(reinterpret_cast<LPOSVERSIONINFOW>(&ovix));
+#pragma warning(pop)
 
     if (VER_SUITE_SMALLBUSINESS == (ovix.wSuiteMask & VER_SUITE_SMALLBUSINESS))
     {

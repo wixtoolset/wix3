@@ -16,10 +16,10 @@
 
   <PropertyGroup>
     <!-- If available and we're not explicitly setting the toolset, use VS2017; otherwise fall back to VS2015, VS2013, VS2012, VS2010, in that order. -->
-    <PlatformToolset Condition=" $(VS2017Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2017') ">v141_xp</PlatformToolset>
-    <PlatformToolset Condition=" $(VS2015Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2015') ">v140_xp</PlatformToolset>
-    <PlatformToolset Condition=" $(VS2013Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2013') ">v120_xp</PlatformToolset>
-    <PlatformToolset Condition=" $(VS2012Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2012') ">v110_xp</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2017Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2017') ">v141</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2015Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2015') ">v140</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2013Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2013') ">v120</PlatformToolset>
+    <PlatformToolset Condition=" $(VS2012Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2012') ">v110</PlatformToolset>
     <PlatformToolset Condition=" $(VS2010Available) and ('$(PlatformToolset)'=='' or '$(DefaultToVS)'=='2010') ">v100</PlatformToolset>
     <ProjectSubSystem Condition=" '$(ProjectSubSystem)'=='' ">Windows</ProjectSubSystem>
     <!-- VS2015: turn off 'typedef ignored when no variable declared' -->
@@ -38,10 +38,10 @@
   <!-- Multi-target static libraries get a suffix to prevent collisions. -->
   <PropertyGroup>
     <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v100' ">2010</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110_xp' or '$(PlatformToolset)'=='v110' ">2012</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120_xp' or '$(PlatformToolset)'=='v120' ">2013</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v140_xp' or '$(PlatformToolset)'=='v140' ">2015</MultiTargetDirSuffix>
-    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v141_xp' or '$(PlatformToolset)'=='v141' ">2017</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v110' ">2012</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v120' ">2013</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v140' ">2015</MultiTargetDirSuffix>
+    <MultiTargetDirSuffix Condition=" '$(PlatformToolset)'=='v141' ">2017</MultiTargetDirSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
