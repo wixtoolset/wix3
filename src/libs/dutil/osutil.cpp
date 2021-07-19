@@ -19,7 +19,11 @@ extern "C" void DAPI OsGetVersion(
     if (OS_VERSION_UNKNOWN == vOsVersion)
     {
         ovi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
+
+#pragma warning(push)
+#pragma warning(disable:4996)
         ::GetVersionExW(reinterpret_cast<OSVERSIONINFOW*>(&ovi)); // only fails if version info size is set incorrectly.
+#pragma warning(pop)
 
         vdwOsServicePack = static_cast<DWORD>(ovi.wServicePackMajor) << 16 | ovi.wServicePackMinor;
         if (4 == ovi.dwMajorVersion)

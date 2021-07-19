@@ -21,6 +21,7 @@
 #include <accctrl.h>
 #include <aclapi.h>
 #include <Dsgetdc.h>
+#include <versionhelpers.h>
 
 #include <winperf.h>    // PerfMon counter header file.
 #include <loadperf.h>   // PerfMon counter header file.
