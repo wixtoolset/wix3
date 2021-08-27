@@ -24,6 +24,7 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * LocalAppDataFolder - gets the well-known folder for CSIDL\_LOCAL\_APPDATA.
 * LogonUser - gets the current user name.
 * MyPicturesFolder - gets the well-known folder for CSIDL\_MYPICTURES.
+* NativeMachine - gets the [Image File Machine value](https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants) representing the native architecture of the machine. This property is only set on Windows 10, version 1511 (TH2) and higher.
 * NTProductType - numeric product type from OS version information.
 * NTSuiteBackOffice - non-zero if OS version suite is Back Office.
 * NTSuiteDataCenter - non-zero if OS version suite is Datacenter.

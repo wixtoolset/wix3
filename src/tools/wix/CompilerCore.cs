@@ -186,6 +186,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
                 "LocalAppDataFolder",
                 "LogonUser",
                 "MyPicturesFolder",
+                "NativeMachine",
                 "NTProductType",
                 "NTSuiteBackOffice",
                 "NTSuiteDataCenter",
