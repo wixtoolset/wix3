@@ -458,7 +458,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         internal static string GetFileHash(FileInfo fileInfo)
         {
             byte[] hashBytes;
-            using (SHA1Managed managed = new SHA1Managed())
+            using (SHA1 managed = new SHA1CryptoServiceProvider())
             {
                 using (FileStream stream = fileInfo.OpenRead())
                 {
