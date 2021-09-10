@@ -50,13 +50,13 @@
           Compressed="no"
           Name="!(wix.NetFx48WebPackageDirectory)ndp48-web.exe">
         <RemotePayload 
-          CertificatePublicKey="D17AFCE951979605250FAEBAFA7AE974899AED22" 
-          CertificateThumbprint="C82273A065EC470FB1EBDE846A91E6FFB29E9C12" 
+          CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B" 
+          CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B" 
           Description="Microsoft .NET Framework 4.8 Setup" 
-          Hash="5A84A8E612E270E27D0061D58DB6B470153BE1F9" 
+          Hash="4181398AA1FD5190155AC3A388434E5F7EA0B667" 
           ProductName="Microsoft .NET Framework 4.8" 
-          Size="1479400" 
-          Version="4.8.3928.0" />
+          Size="1439328" 
+          Version="4.8.4115.0" />
       </ExePackage>
     </PackageGroup>
   </Fragment>
@@ -87,13 +87,13 @@
           Compressed="no"
           Name="!(wix.NetFx48RedistPackageDirectory)ndp48-x86-x64-allos-enu.exe">
         <RemotePayload
-          CertificatePublicKey="D17AFCE951979605250FAEBAFA7AE974899AED22" 
-          CertificateThumbprint="C82273A065EC470FB1EBDE846A91E6FFB29E9C12" 
+          CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B" 
+          CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B" 
           Description="Microsoft .NET Framework 4.8 Setup" 
-          Hash="8DD233698D5EB4609B86C2AC917279FE39E0EF4C" 
+          Hash="E322E2E0FB4C86172C38A97DC6C71982134F0570" 
           ProductName="Microsoft .NET Framework 4.8" 
           Size="117380440" 
-          Version="4.8.3928.0" />
+          Version="4.8.4115.0" />
       </ExePackage>
     </PackageGroup>
   </Fragment>

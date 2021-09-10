@@ -50,12 +50,12 @@
           Compressed="no"
           Name="!(wix.NetFx472WebPackageDirectory)NDP472-KB4054531-Web.exe">
         <RemotePayload 
-          CertificatePublicKey="C090C1A2CAFA9B967D9C87C7FE02F7C01FBDE4F2" 
-          CertificateThumbprint="5EAD300DC7E4D637948ECB0ED829A072BD152E17" 
+          CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B" 
+          CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B" 
           Description="Microsoft .NET Framework 4.7.2 Setup" 
-          Hash="CEDBBF404B166A5E72D035760BCB0FA508E4F4CB" 
+          Hash="0E1EC7C7E9E2C7678DB5548DE80FC5C57F97DDE2" 
           ProductName="Microsoft .NET Framework 4.7.2" 
-          Size="1432848" 
+          Size="1405792" 
           Version="4.7.3081.0" />
       </ExePackage>
     </PackageGroup>
@@ -87,12 +87,12 @@
           Compressed="no"
           Name="!(wix.NetFx472RedistPackageDirectory)NDP472-KB4054530-x86-x64-AllOS-ENU.exe">
         <RemotePayload
-          CertificatePublicKey="C090C1A2CAFA9B967D9C87C7FE02F7C01FBDE4F2" 
-          CertificateThumbprint="5EAD300DC7E4D637948ECB0ED829A072BD152E17" 
+          CertificatePublicKey="F49F9B33E25E33CCA0BFB15A62B7C29FFAB3880B" 
+          CertificateThumbprint="ABDCA79AF9DD48A0EA702AD45260B3C03093FB4B" 
           Description="Microsoft .NET Framework 4.7.2 Setup" 
-          Hash="31FC0D305A6F651C9E892C98EB10997AE885EB1E" 
+          Hash="CDAC2CCE64932CF8BDC57FEE18296E98B1967B16" 
           ProductName="Microsoft .NET Framework 4.7.2" 
-          Size="83943272" 
+          Size="83940592" 
           Version="4.7.3081.0" />
       </ExePackage>
     </PackageGroup>
