@@ -112,7 +112,8 @@ extern "C" HRESULT DAPI ProcNativeMachine(
     __out USHORT* pusNativeMachine
     )
 {
-    HRESULT hr = S_OK;
+    // S_FALSE will indicate that the method is not supported.
+    HRESULT hr = S_FALSE;
 
     typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS2)(HANDLE, USHORT *, USHORT *);
     LPFN_ISWOW64PROCESS2 pfnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)::GetProcAddress(::GetModuleHandleW(L"kernel32"), "IsWow64Process2");
@@ -124,6 +125,7 @@ extern "C" HRESULT DAPI ProcNativeMachine(
         {
             ExitWithLastError(hr, "Failed to check WOW64 process - IsWow64Process2.");
         }
+        hr = S_OK;
     }
 
 LExit:

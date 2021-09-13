@@ -508,7 +508,10 @@ extern "C" UINT __stdcall WixQueryNativeMachine(
     hr = ::ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
     ExitOnFailure(hr, "Failed to get native machine value.");
 
-    WcaSetIntProperty(L"WIX_NATIVE_MACHINE", usNativeMachine);
+    if (hr != S_FALSE)
+    {
+        WcaSetIntProperty(L"WIX_NATIVE_MACHINE", usNativeMachine);
+    }
 
 LExit:
     if (FAILED(hr))

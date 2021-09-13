@@ -1820,8 +1820,11 @@ static HRESULT InitializeVariableNativeMachine(
     hr = ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
     ExitOnFailure(hr, "Failed to get native machine value.");
     
-    hr = BVariantSetNumeric(pValue, usNativeMachine);
-    ExitOnFailure(hr, "Failed to set variant value.");
+    if (hr != S_FALSE)
+    {
+        hr = BVariantSetNumeric(pValue, usNativeMachine);
+        ExitOnFailure(hr, "Failed to set variant value.");
+    }
 
 LExit:
     return hr;
