@@ -505,16 +505,19 @@ extern "C" UINT __stdcall WixQueryNativeMachine(
     hr = WcaInitialize(hInstall, "WixQueryNativeMachine");
     ExitOnFailure(hr, "WixQueryNativeMachine failed to initialize");
     
-    hr = ::ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
+    hr = ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
     ExitOnFailure(hr, "Failed to get native machine value.");
 
-    if (hr != S_FALSE)
+    if (S_FALSE != hr)
     {
         WcaSetIntProperty(L"WIX_NATIVE_MACHINE", usNativeMachine);
     }
 
 LExit:
     if (FAILED(hr))
+    {
         er = ERROR_INSTALL_FAILURE;
+    }
+
     return WcaFinalize(er);
 }

@@ -227,7 +227,7 @@
       <Custom Action="WixQueryOsDriverInfo$(var.Suffix)" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
     </InstallUISequence>
   </Fragment>
-  
+
   <Fragment>
     <CustomAction Id="WixQueryNativeMachine$(var.Suffix)" BinaryKey="WixCA$(var.Suffix)" DllEntry="WixQueryNativeMachine" Execute="firstSequence" Return="check" SuppressModularization="yes" />
 

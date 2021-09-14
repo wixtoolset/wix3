@@ -1820,7 +1820,7 @@ static HRESULT InitializeVariableNativeMachine(
     hr = ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
     ExitOnFailure(hr, "Failed to get native machine value.");
     
-    if (hr != S_FALSE)
+    if (S_FALSE != hr)
     {
         hr = BVariantSetNumeric(pValue, usNativeMachine);
         ExitOnFailure(hr, "Failed to set variant value.");

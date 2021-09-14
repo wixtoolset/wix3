@@ -559,7 +559,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Set to an [Image File Machine value](https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants) representing the native architecture of the machine. This property is only set on Windows 10, version 1511 (TH2) and higher.</p>
+<p>Set to an [Image File Machine value](https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants) representing the native architecture of the machine. This property was added in v3.14 and is only set on Windows 10, version 1511 (TH2) and higher.</p>
 </td>
 </tr>
 </table>
