@@ -420,6 +420,7 @@ namespace Bootstrapper
                 Assert::Equal(E_INVALIDARG, hr);
                 Assert::False(EvaluateConditionHelper(&variables, L"VersionNT = \"VAL\""));
 
+                VariableGetNumericHelper(&variables, L"NativeMachine");
                 VariableGetNumericHelper(&variables, L"NTProductType");
                 VariableGetNumericHelper(&variables, L"NTSuiteBackOffice");
                 VariableGetNumericHelper(&variables, L"NTSuiteDataCenter");

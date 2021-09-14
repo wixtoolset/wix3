@@ -76,13 +76,13 @@ extern "C" HRESULT DAPI ProcWow64(
 
     if (pfnIsWow64Process2)
     {
-        USHORT pProcessMachine = IMAGE_FILE_MACHINE_UNKNOWN;
-        if (!pfnIsWow64Process2(hProcess, &pProcessMachine, nullptr))
+        USHORT usProcessMachine = IMAGE_FILE_MACHINE_UNKNOWN;
+        if (!pfnIsWow64Process2(hProcess, &usProcessMachine, NULL))
         {
             ExitWithLastError(hr, "Failed to check WOW64 process - IsWow64Process2.");
         }
 
-        if (pProcessMachine != IMAGE_FILE_MACHINE_UNKNOWN)
+        if (usProcessMachine != IMAGE_FILE_MACHINE_UNKNOWN)
         {
             fIsWow64 = TRUE;
         }
@@ -102,6 +102,31 @@ extern "C" HRESULT DAPI ProcWow64(
     }
 
     *pfWow64 = fIsWow64;
+
+LExit:
+    return hr;
+}
+
+extern "C" HRESULT DAPI ProcNativeMachine(
+    __in HANDLE hProcess,
+    __out USHORT* pusNativeMachine
+    )
+{
+    // S_FALSE will indicate that the method is not supported.
+    HRESULT hr = S_FALSE;
+
+    typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS2)(HANDLE, USHORT *, USHORT *);
+    LPFN_ISWOW64PROCESS2 pfnIsWow64Process2 = (LPFN_ISWOW64PROCESS2)::GetProcAddress(::GetModuleHandleW(L"kernel32"), "IsWow64Process2");
+
+    if (pfnIsWow64Process2)
+    {
+        USHORT usProcessMachineUnused = IMAGE_FILE_MACHINE_UNKNOWN;
+        if (!pfnIsWow64Process2(hProcess, &usProcessMachineUnused, pusNativeMachine))
+        {
+            ExitWithLastError(hr, "Failed to check WOW64 process - IsWow64Process2.");
+        }
+        hr = S_OK;
+    }
 
 LExit:
     return hr;

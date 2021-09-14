@@ -277,6 +277,11 @@
       <CustomActionRef Id="WixQueryOsDriverInfo" />
     </Fragment>
 
+    <Fragment>
+      <Property Id="WIX_NATIVE_MACHINE" Secure="yes" />
+      <CustomActionRef Id="WixQueryNativeMachine" />
+    </Fragment>
+
     <!-- ShellExec custom actions (for when only one is needed; multiple executions need their own IDs) --> 
     <Fragment>
         <PropertyRef Id="WixShellExecBinaryId" />
