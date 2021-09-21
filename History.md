@@ -1,3 +1,19 @@
+## WixBuild: Version 3.14.0.5721
+
+* BobArnso: WIXFEAT:6469 - Drop XP support for v3.14 => v4 transition.
+
+* BobArnson: Fix WixStdBA null-reference crash.
+
+* BobArnson: WIXBUG:6143 - Correct Payload/@SuppressSignatureVerification doc.
+
+* SeanHall: WIXBUG:6299 - Fix OverflowException in ReadUInt32.
+
+* SeanHall: WIXFEAT:5575 - Add .NET 4.7 and 4.7.1 MSI properties to NetFxExtension.
+
+* SeanHall: WIXFEAT:5575 - Add .NET 4.7.2 to NetFxExtension.
+
+* SeanHall: WIXFEAT:5977 - Add .NET 4.8 to NetFxExtension.
+
 ## WixBuild: Version 3.14.0.4118
 
 * SeanHall: WIXBUG:4342 - Fix WixStdBA hang with DisplayInternalUI when pressing the BA cancel button.
