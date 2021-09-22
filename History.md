@@ -1,3 +1,5 @@
+## WixBuild: Version 3.14.0.5722
+
 ## WixBuild: Version 3.14.0.5721
 
 * BobArnso: WIXFEAT:6469 - Drop XP support for v3.14 => v4 transition.
