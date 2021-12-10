@@ -22,9 +22,10 @@
     <EmbeddedResource Include="fr-fr.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />
     <EmbeddedResource Include="lt-lt.wxl" />
+    <EmbeddedResource Include="nl-nl.wxl" />
     <EmbeddedResource Include="pt-br.wxl" />
     <EmbeddedResource Include="it-it.wxl" />
-	<EmbeddedResource Include="ru-ru.wxl" />
+    <EmbeddedResource Include="ru-ru.wxl" />
   </ItemGroup>
 
   <ItemGroup>
