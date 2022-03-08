@@ -17,6 +17,7 @@ The [WixVSExtension](~/xsd/vs/index.html) includes a set of custom actions to ma
   * [Visual Studio 2015](#vs2015properties)
   * [Visual Studio 2017](#vs2017properties)
   * [Visual Studio 2019](#vs2019properties)
+  * [Visual Studio 2022](#vs2022properties)
 * [Custom Actions](#allcustomactions)
 
 ## <a name="allproperties"></a> Properties
@@ -1370,6 +1371,138 @@ Here is a complete list of properties for the <a name="VS2019properties">**Visua
   </tr>
 </table>
 
+Here is a complete list of properties for the <a name="VS2019properties">**Visual Studio 2022**</a> product family:
+
+<table cellspacing="0" cellpadding="4" class="style1" border="1">
+    <tr>
+    <td valign="top">
+      <p><b>Property name</b></p>
+    </td>
+    <td valign="top">
+      <p><b>Meaning</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022DEVENV</p>
+    </td>
+    <td>
+      <p>Full path to devenv.exe for Visual Studio 2022 if it is installed on the system. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_EXTENSIONS_DIR</p>
+    </td>
+    <td>
+      <p>Full path to the Visual Studio 2022 extensions directory. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_ITEMTEMPLATES_DIR</p>
+    </td>
+    <td>
+      <p>Full path to the Visual Studio 2022 item templates directory. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_PROJECTTEMPLATES_DIR</p>
+    </td>
+    <td>
+      <p>Full path to the Visual Studio 2022 project templates directory. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_SCHEMAS_DIR</p>
+    </td>
+    <td>
+      <p>Full path to the Visual Studio 2022 XML schemas directory. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_ROOT_FOLDER</p>
+    </td>
+    <td>
+      <p>Full path to the Visual Studio 2022 root installation directory. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_DIR</p>
+    </td>
+    <td>
+      <p>Full path to the Visual Studio 2022 directory containing devenv.exe. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_VB_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether Visual Studio 2022 Professional Edition or higher is installed and the Visual Basic project system is installed for it. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_VC_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether Visual Studio 2022 Professional Edition or higher is installed and the Visual C++ project system is installed for it. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether Visual Studio 2022 Professional Edition or higher is installed and the Visual C# project system is installed for it. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_VWD_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether Visual Studio 2022 Professional Edition or higher is installed and the Visual Web Developer project system is installed for it. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_VSTS_TESTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether or not the Visual Studio 2022 Team Test project system is installed on the system. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_MODELING_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether or not the Visual Studio 2022 Modeling project system is installed on the system. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_IDE_FSHARP_PROJECTSYSTEM_INSTALLED</p>
+    </td>
+    <td>
+      <p>Indicates whether or not the Visual Studio 2022 F# project system is installed on the system. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>VS2022_BOOTSTRAPPER_PACKAGE_FOLDER</p>
+    </td>
+    <td>
+      <p>The location of the Visual Studio 2022 bootstrapper package folder. This property is available starting with WiX v3.14.</p>
+    </td>
+  </tr>
+</table>
 ## <a name="allcustomactions"></a> Custom Actions
 
 Here is a complete list of custom actions:
@@ -1841,18 +1974,18 @@ Here is a complete list of custom actions:
   </tr>
   <tr>
     <td valign="top">
-      <p>VS2019Setup</p>
+      <p>VS2022Setup</p>
     </td>
     <td>
-      <p>Runs devenv.exe /setup if Visual Studio 2019 Community Edition or higher is found on the system. Including this custom action automatically adds the VS2019DEVENV property. This custom action is available starting with WiX v3.14.</p>
+      <p>Runs devenv.exe /setup if Visual Studio 2022 Community Edition or higher is found on the system. Including this custom action automatically adds the VS2022DEVENV property. This custom action is available starting with WiX v3.14.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <p>VS2019InstallVSTemplates</p>
+      <p>VS2022InstallVSTemplates</p>
     </td>
     <td>
-      <p>Runs devenv.exe /InstallVSTemplates if Visual Studio 2019 Community Edition or higher is found on the system. Including this custom action automatically adds the VS2019DEVENV property. This custom action is available starting with WiX v3.14.</p>
+      <p>Runs devenv.exe /InstallVSTemplates if Visual Studio 2022 Community Edition or higher is found on the system. Including this custom action automatically adds the VS2022DEVENV property. This custom action is available starting with WiX v3.14.</p>
     </td>
   </tr>
 </table>
