@@ -1371,7 +1371,7 @@ Here is a complete list of properties for the <a name="VS2019properties">**Visua
   </tr>
 </table>
 
-Here is a complete list of properties for the <a name="VS2019properties">**Visual Studio 2022**</a> product family:
+Here is a complete list of properties for the <a name="VS2022properties">**Visual Studio 2022**</a> product family:
 
 <table cellspacing="0" cellpadding="4" class="style1" border="1">
     <tr>
