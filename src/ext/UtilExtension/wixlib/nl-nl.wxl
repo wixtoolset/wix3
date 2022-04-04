@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<WixLocalization Culture="nl-NL" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="msierrUSRFailedUserCreate" Overridable="yes">De gebruiker kon niet worden aangemaakt.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes">De gebruiker kon niet worden aangemaakt vanwege een ongeldig wachtwoord.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes">De gebruikersgroep kon niet worden toegevoegd.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUSRFailedUserCreateExists" Overridable="yes">De gebruiker kon niet worden aangemaakt omdat hij al bestond.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSMBFailedCreate" Overridable="yes">Netwerk delen kon niet worden aangemaakt.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrSMBFailedDrop" Overridable="yes">Netwerk delen kon niet worden verwijderd.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrPERFMONFailedRegisterDLL" Overridable="yes">De DLL kon niet worden geregistreerd bij PerfMon.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrPERFMONFailedUnregisterDLL" Overridable="yes">De DLL kon niet worden gederegistreerd bij PerfMon.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrInstallPerfCounterData" Overridable="yes">De performance tellers konden niet worden geïnstalleerd.  ([2]   [3]   [4]   [5])</String>
+    <String Id="msierrUninstallPerfCounterData" Overridable="yes">De performance tellers konden niet worden gedeïnstalleerd.  ([2]   [3]   [4]   [5])</String>
+
+    <String Id="msierrSecureObjectsFailedCreateSD" Overridable="yes">De beveiligingsbeschrijver voor [3]\[4] kon niet worden gecreëerd, systeemfout: [2]</String>
+    <String Id="msierrSecureObjectsFailedSet" Overridable="yes">De beveiligingsbeschrijver voor object [3] kon niet worden ingesteld, systeemfout: [2]</String>
+    <String Id="msierrSecureObjectsUnknownType" Overridable="yes">Onbekend Objectstype [3], systeemfout: [2]</String>
+
+    <String Id="msierrXmlFileFailedRead" Overridable="yes">Er trad een fout op bij het lezen van XML-bestanden.</String>
+    <String Id="msierrXmlFileFailedOpen" Overridable="yes">XML-bestand [3] kon niet worden geopend, systeemfout: [2]</String>
+    <String Id="msierrXmlFileFailedSelect" Overridable="yes">Node [3] kon niet worden gevonden in XML-bestand: [4], systeemfout: [2]</String>
+    <String Id="msierrXmlFileFailedSave" Overridable="yes">Bij het opslaan van veranderingen in XML-bestand [3] trad een fout op, systeemfout: [2]</String>
+
+    <String Id="msierrXmlConfigFailedRead" Overridable="yes">Bij het configureren van XML-bestanden trad een fout op.</String>
+    <String Id="msierrXmlConfigFailedOpen" Overridable="yes">XML-bestand [3] kon niet worden geopend, systeemfout: [2]</String>
+    <String Id="msierrXmlConfigFailedSelect" Overridable="yes">Node [3] kon niet worden gevonden in XML-bestand: [4], systeemfout: [2]</String>
+    <String Id="msierrXmlConfigFailedSave" Overridable="yes">Bij het opslaan van veranderingen in XML-bestand [3] trad een fout op, systeemfout: [2]</String>
+</WixLocalization>
