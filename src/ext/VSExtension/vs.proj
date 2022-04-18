@@ -4,9 +4,8 @@
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
-    <ProjectReference Include="ca\vsca.vcxproj" />
-    <ProjectReference Include="wixlib\VSExtension.wixproj" />
     <ProjectReference Include="wixext\WixVSExtension.csproj" />
+    <ProjectReference Include="wixlib\VSExtension.wixproj" />
 
     <ProjectReference Include="wixext\WixVSExtension.MSBuild12\WixVSExtension.MSBuild12.csproj" Condition=" '$(VS2013Available)'=='true' " />
     <ProjectReference Include="wixext\WixVSExtension.MSBuild14\WixVSExtension.MSBuild14.csproj" Condition=" '$(VS2015Available)'=='true' " />

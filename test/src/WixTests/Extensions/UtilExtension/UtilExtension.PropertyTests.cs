@@ -61,13 +61,6 @@ namespace WixTest.Tests.Extensions.UtilExtension
             VerifyPropery(logFile, "WIX_ACCOUNT_USERS", UserVerifier.GetLocalUserNameFromSID(UserVerifier.SIDStrings.BUILTIN_USERS));
             VerifyPropery(logFile, "WIX_ACCOUNT_GUESTS", UserVerifier.GetLocalUserNameFromSID(UserVerifier.SIDStrings.BUILTIN_GUESTS));
 
-            if (Environment.OSVersion.Version >= new Version(10, 0, 10586, 0))
-            {
-                Assert.True(
-                    LogVerifier.MessageInLogFileRegex(logFile, "Property(S): WIX_NATIVE_MACHINE = [1-9]\\d*"), 
-                    String.Format("Property 'WIX_NATIVE_MACHINE' with with positive non-zero value was not found in the log file: '{0}'", logFile));
-            }
-
             MSIExec.UninstallProduct(msiFile, MSIExec.MSIExecReturnCode.SUCCESS);
         }
 

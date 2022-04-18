@@ -8,6 +8,7 @@
     <AssemblyName>wix</AssemblyName>
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml</RootNamespace>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <NoWarn>618</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

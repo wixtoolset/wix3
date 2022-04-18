@@ -46,7 +46,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         private Dictionary<string, int> downloadRetries;
         private bool downgrade;
 
-        private ICommand completeCommand;
         private ICommand licenseCommand;
         private ICommand launchHomePageCommand;
         private ICommand launchNewsCommand;
@@ -101,7 +100,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         /// <summary>
         /// Gets the title for the application.
         /// </summary>
-        public string Version
+        public string Version 
         {
             get { return String.Concat("v", WixBA.Model.Version.ToString()); }
         }
@@ -140,19 +139,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                     this.downgrade = value;
                     base.OnPropertyChanged("Downgrade");
                 }
-            }
-        }
-
-        public ICommand CompleteCommand
-        {
-            get
-            {
-                if (this.completeCommand == null)
-                {
-                    this.completeCommand = new RelayCommand(param => WixBA.LaunchUrl(WixDistribution.VSExtensionsLandingUrl), param => true);
-                }
-
-                return this.completeCommand;
             }
         }
 
@@ -275,7 +261,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 if (this.tryAgainCommand == null)
                 {
-                    this.tryAgainCommand = new RelayCommand(param =>
+                    this.tryAgainCommand = new RelayCommand(param => 
                         {
                             this.root.Canceled = false;
                             WixBA.Plan(WixBA.Model.PlannedAction);
@@ -317,9 +303,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                     case InstallationState.Applying:
                         switch (WixBA.Model.PlannedAction)
                         {
-                            case LaunchAction.Layout:
-                                return "Laying out...";
-
                             case LaunchAction.Install:
                                 return "Installing...";
 
@@ -340,9 +323,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                     case InstallationState.Applied:
                         switch (WixBA.Model.PlannedAction)
                         {
-                            case LaunchAction.Layout:
-                                return "Successfully created layout";
-
                             case LaunchAction.Install:
                                 return "Successfully installed";
 
@@ -369,9 +349,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                         {
                             switch (WixBA.Model.PlannedAction)
                             {
-                                case LaunchAction.Layout:
-                                    return "Failed to create layout";
-
                                 case LaunchAction.Install:
                                     return "Failed to install";
 
@@ -436,6 +413,29 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             }
             else if (Hresult.Succeeded(e.Status))
             {
+                // block if CLR v2 isn't available; sorry, it's needed for the MSBuild tasks
+                if (WixBA.Model.Engine.EvaluateCondition("NETFRAMEWORK35_SP_LEVEL < 1"))
+                {
+                    string message = "WiX Toolset requires the .NET Framework 3.5.1 Windows feature to be enabled.";
+                    WixBA.Model.Engine.Log(LogLevel.Verbose, message);
+
+                    if (Display.Full == WixBA.Model.Command.Display)
+                    {
+                        WixBA.Dispatcher.Invoke((Action)delegate()
+                            {
+                                MessageBox.Show(message, "WiX Toolset", MessageBoxButton.OK, MessageBoxImage.Error);
+                                if (null != WixBA.View)
+                                {
+                                    WixBA.View.Close();
+                                }
+                            }
+                        );
+                    }
+
+                    this.root.InstallState = InstallationState.Failed;
+                    return;
+                }
+
                 if (this.Downgrade)
                 {
                     // TODO: What behavior do we want for downgrade?
@@ -457,10 +457,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
             {
                 this.root.InstallState = InstallationState.Failed;
             }
-
-            // Force all commands to reevaluate CanExecute.
-            // InvalidateRequerySuggested must be run on the UI thread.
-            WixBA.Dispatcher.Invoke(new Action(CommandManager.InvalidateRequerySuggested));
         }
 
         private void PlanPackageBegin(object sender, PlanPackageBeginEventArgs e)
@@ -595,13 +591,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
         {
             WixBA.Model.Result = e.Status; // remember the final result of the apply.
 
-            // Set the state to applied or failed unless the state has already been set back to the preapply state
-            // which means we need to show the UI as it was before the apply started.
-            if (this.root.InstallState != this.root.PreApplyState)
-            {
-                this.root.InstallState = Hresult.Succeeded(e.Status) ? InstallationState.Applied : InstallationState.Failed;
-            }
-
             // If we're not in Full UI mode, we need to alert the dispatcher to stop and close the window for passive.
             if (Bootstrapper.Display.Full != WixBA.Model.Command.Display)
             {
@@ -609,24 +598,33 @@ namespace Microsoft.Tools.WindowsInstallerXml.UX
                 if (Bootstrapper.Display.Passive == WixBA.Model.Command.Display)
                 {
                     WixBA.Model.Engine.Log(LogLevel.Verbose, "Automatically closing the window for non-interactive install");
-                    WixBA.Dispatcher.BeginInvoke(new Action(WixBA.View.Close));
+                    WixBA.Dispatcher.BeginInvoke((Action)delegate()
+                    {
+                        WixBA.View.Close();
+                    }
+                    );
                 }
                 else
                 {
                     WixBA.Dispatcher.InvokeShutdown();
                 }
-                return;
             }
             else if (Hresult.Succeeded(e.Status) && LaunchAction.UpdateReplace == WixBA.Model.PlannedAction) // if we successfully applied an update close the window since the new Bundle should be running now.
             {
                 WixBA.Model.Engine.Log(LogLevel.Verbose, "Automatically closing the window since update successful.");
-                WixBA.Dispatcher.BeginInvoke(new Action(WixBA.View.Close));
-                return;
+                WixBA.Dispatcher.BeginInvoke((Action)delegate()
+                {
+                    WixBA.View.Close();
+                }
+                );
             }
 
-            // Force all commands to reevaluate CanExecute.
-            // InvalidateRequerySuggested must be run on the UI thread.
-            WixBA.Dispatcher.Invoke(new Action(CommandManager.InvalidateRequerySuggested));
+            // Set the state to applied or failed unless the state has already been set back to the preapply state
+            // which means we need to show the UI as it was before the apply started.
+            if (this.root.InstallState != this.root.PreApplyState)
+            {
+                this.root.InstallState = Hresult.Succeeded(e.Status) ? InstallationState.Applied : InstallationState.Failed;
+            }
         }
 
         private void ParseCommandLine()

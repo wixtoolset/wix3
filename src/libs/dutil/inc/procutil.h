@@ -22,10 +22,6 @@ HRESULT DAPI ProcWow64(
     __in HANDLE hProcess,
     __out BOOL* pfWow64
     );
-HRESULT DAPI ProcNativeMachine(
-    __in HANDLE hProcess,
-    __out USHORT* pusNativeMachine
-    );
 HRESULT DAPI ProcDisableWowFileSystemRedirection(
     __in PROC_FILESYSTEMREDIRECTION* pfsr
     );

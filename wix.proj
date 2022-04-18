@@ -14,13 +14,21 @@
     </ProjectReference>
 
     <ProjectReference Include="src\dtf\dtf.proj" />
+
     <ProjectReference Include="src\tools\tools.proj" />
+
     <ProjectReference Include="src\burn\burn.proj" />
+
     <ProjectReference Include="src\ext\ext.proj" />
+
     <ProjectReference Include="src\chm\chm.helpproj" />
+
+    <ProjectReference Include="src\votive\votive.proj" />
+
+    <ProjectReference Include="src\wixarm.proj" />
+
     <ProjectReference Include="src\setup\setup.proj" />
     <ProjectReference Include="test\test.proj" />
-    <!-- <ProjectReference Include="src\wixarm.proj" Condition=" $(BuildARM) " /> -->
   </ItemGroup>
 
   <Import Project="tools\Traversal.targets" />

@@ -30,7 +30,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
         private int indent;
         private ConsoleMessageHandler messageHandler;
         private HeatCore heatCore;
-        private bool fipsCompliant;
 
         /// <summary>
         /// Instantiate a new Heat class.
@@ -43,7 +42,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             this.messageHandler = new ConsoleMessageHandler("HEAT", "heat.exe");
             this.indent = 4;
             this.showLogo = true;
-            this.fipsCompliant = false;
         }
 
         /// <summary>
@@ -104,20 +102,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     return this.messageHandler.LastErrorNumber;
                 }
 
-                // check whether we can continue with non-FIPS compliant algorithms
-                if (!this.fipsCompliant)
-                {
-                    try
-                    {
-                        System.Security.Cryptography.MD5.Create();
-                    }
-                    catch (TargetInvocationException)
-                    {
-                        this.messageHandler.Display(this, WixErrors.UseFipsArgument());
-                        return this.messageHandler.LastErrorNumber;
-                    }
-                }
-
                 if (this.showLogo)
                 {
                     AppCommon.DisplayToolHeader();
@@ -125,9 +109,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
 
                 // set the extension argument for use by all extensions
                 harvesterCore.ExtensionArgument = this.extensionArgument;
-
-                // set the algorithm type used by all extensions
-                harvesterCore.FipsCompliant = this.fipsCompliant;
 
                 // parse the extension's command line arguments
                 string[] extensionOptionsArray = new string[this.extensionOptions.Count];
@@ -231,7 +212,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
             }
 
             harvestOptions.Add("-ext", new HeatCommandLineOption("-ext", HeatStrings.HelpMessageExtension));
-            harvestOptions.Add("-fips", new HeatCommandLineOption("-fips", HeatStrings.HelpMessageFips));
             harvestOptions.Add("-nologo", new HeatCommandLineOption("-nologo", HeatStrings.HelpMessageNoLogo));
             harvestOptions.Add("-indent <N>", new HeatCommandLineOption("-indent <N>", HeatStrings.HelpMessageIndentation));
             harvestOptions.Add("-o[ut]", new HeatCommandLineOption("-out", HeatStrings.HelpMessageOut));
@@ -401,10 +381,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                         {
                             this.LoadExtension(args[i]);
                         }
-                    }
-                    else if ("fips" == parameter)
-                    {
-                        this.fipsCompliant = true;
                     }
                     else if ("indent" == parameter)
                     {

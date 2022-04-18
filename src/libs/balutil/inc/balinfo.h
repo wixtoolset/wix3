@@ -40,8 +40,6 @@ typedef struct _BAL_INFO_PACKAGE
     LPWSTR sczVersion;
     LPWSTR sczInstallCondition;
     BAL_INFO_CACHE_TYPE cacheType;
-    BOOTSTRAPPER_ACTION_STATE executeAction; // this must be set by the BA in OnPlanPackageComplete.
-    BOOTSTRAPPER_ACTION_STATE rollbackAction; // this must be set by the BA in OnPlanPackageComplete.
 } BAL_INFO_PACKAGE;
 
 

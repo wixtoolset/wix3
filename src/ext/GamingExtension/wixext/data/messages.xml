@@ -11,11 +11,4 @@
             </Instance>
         </Message>
     </Class>
-    <Class Name="GamingWarnings" ContainerName="GamingWarningEventArgs" BaseContainerName="WixWarningEventArgs">
-        <Message Id="ExtensionDeprecated" Number="6311">
-            <Instance>
-                Windows Game Explorer has been deprecated, therefore WixGamingExtension has been deprecated and will be removed from future versions of WiX Toolset.
-            </Instance>
-        </Message>
-    </Class>
 </Messages>

@@ -104,9 +104,6 @@ extern "C" HRESULT CoreInitialize(
     hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, fElevated, TRUE);
     ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_ELEVATED);
 
-    hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_UILEVEL, pEngineState->command.display, TRUE);
-    ExitOnFailure(hr, "Failed to overwrite the %ls built-in variable.", BURN_BUNDLE_UILEVEL);
-
     if (sczSourceProcessPath)
     {
         hr = VariableSetLiteralString(&pEngineState->variables, BURN_BUNDLE_SOURCE_PROCESS_PATH, sczSourceProcessPath, TRUE);
@@ -471,7 +468,7 @@ extern "C" HRESULT CorePlan(
             DWORD dwExecuteActionEarlyIndex = pEngineState->plan.cExecuteActions;
 
             // Plan the related bundles first to support downgrades with ref-counting.
-            hr = PlanRelatedBundlesBegin(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan);
+            hr = PlanRelatedBundlesBegin(&pEngineState->userExperience, &pEngineState->registration, pEngineState->command.relationType, &pEngineState->plan, pEngineState->mode);
             ExitOnFailure(hr, "Failed to plan related bundles.");
 
             hr = PlanPackages(&pEngineState->registration, &pEngineState->userExperience, &pEngineState->packages, &pEngineState->plan, &pEngineState->log, &pEngineState->variables, pEngineState->registration.fInstalled, pEngineState->command.display, pEngineState->command.relationType, NULL, &hSyncpointEvent);
@@ -514,11 +511,10 @@ extern "C" HRESULT CoreElevate(
     )
 {
     HRESULT hr = S_OK;
-    DWORD cAVRetryAttempts = 0;
 
-    while (INVALID_HANDLE_VALUE == pEngineState->companionConnection.hPipe)
+    // If the elevated companion pipe isn't created yet, let's make that happen.
+    if (INVALID_HANDLE_VALUE == pEngineState->companionConnection.hPipe)
     {
-        // If the elevated companion pipe isn't created yet, let's make that happen.
         if (!pEngineState->sczBundleEngineWorkingPath)
         {
             hr = CacheBundleToWorkingDirectory(pEngineState->registration.sczId, pEngineState->registration.sczExecutableName, &pEngineState->userExperience.payloads, &pEngineState->section, &pEngineState->sczBundleEngineWorkingPath);
@@ -526,11 +522,6 @@ extern "C" HRESULT CoreElevate(
         }
 
         hr = ElevationElevate(pEngineState, hwndParent);
-        if (E_SUSPECTED_AV_INTERFERENCE == hr && 1 > cAVRetryAttempts)
-        {
-            ++cAVRetryAttempts;
-            continue;
-        }
         ExitOnFailure(hr, "Failed to actually elevate.");
 
         hr = VariableSetNumeric(&pEngineState->variables, BURN_BUNDLE_ELEVATED, TRUE, TRUE);

@@ -185,8 +185,7 @@ HRESULT RegistrationSessionBegin(
     __in DWORD64 qwEstimatedSize
     );
 HRESULT RegistrationSessionResume(
-    __in BURN_REGISTRATION* pRegistration,
-    __in BURN_VARIABLES* pVariables
+    __in BURN_REGISTRATION* pRegistration
     );
 HRESULT RegistrationSessionEnd(
     __in BURN_REGISTRATION* pRegistration,

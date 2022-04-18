@@ -315,8 +315,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference InstallCertificates and UninstallCertificates since nothing will happen without them
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "InstallCertificates", Platforms.ARM64);
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "UninstallCertificates", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "InstallCertificates");
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "UninstallCertificates");
             this.Core.EnsureTable(sourceLineNumbers, "CertificateHash"); // Certificate CustomActions require the CertificateHash table
 
             if (!this.Core.EncounteredError)
@@ -1196,7 +1196,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             if (null != componentId)
             {
                 // Reference ConfigureIIs since nothing will happen without it
-                this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
             }
 
             if (!this.Core.EncounteredError)
@@ -1372,7 +1372,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "IIsWebDirProperties", dirProperties);
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             if (!this.Core.EncounteredError)
             {
@@ -1778,7 +1778,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             if (!this.Core.EncounteredError)
             {
@@ -1898,7 +1898,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             if (!this.Core.EncounteredError)
             {
@@ -2080,7 +2080,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             if (!this.Core.EncounteredError)
             {
@@ -2181,7 +2181,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             if (!this.Core.EncounteredError)
             {
@@ -2468,7 +2468,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             if (null != componentId)
             {
                 // Reference ConfigureIIs since nothing will happen without it
-                this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
             }
 
             if (!this.Core.EncounteredError)
@@ -2553,7 +2553,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             Row row = this.Core.CreateRow(sourceLineNumbers, "IIsHttpHeader");
             row[0] = id;
@@ -2726,7 +2726,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference ConfigureIIs since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "ConfigureIIs", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "ConfigureIIs");
 
             if (!this.Core.EncounteredError)
             {

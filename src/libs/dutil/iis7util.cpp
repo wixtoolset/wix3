@@ -135,7 +135,7 @@ LExit:
     return hr;
 }
 
-BOOL DAPI CompareVariantDefault(
+BOOL CompareVariantDefault(
     __in VARIANT* pVariant1,
     __in VARIANT* pVariant2
     )
@@ -185,7 +185,7 @@ BOOL DAPI CompareVariantDefault(
     return fEqual;
 }
 
-BOOL DAPI CompareVariantPath(
+BOOL CompareVariantPath(
     __in VARIANT* pVariant1,
     __in VARIANT* pVariant2
     )

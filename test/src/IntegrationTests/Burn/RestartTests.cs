@@ -14,7 +14,7 @@ namespace WixTest.BurnIntegrationTests
         private PackageBuilder packageA;
         private BundleBuilder bundleA;
 
-        [NamedFact]
+        [NamedFact(Skip="Disabling this test since it does not consistently lock the file in a way that the Windows Installer sees FilesInUse.")]
         [RuntimeTest]
         public void Burn_RetryThenCancel()
         {
@@ -26,11 +26,11 @@ namespace WixTest.BurnIntegrationTests
             // Lock the file that will be installed.
             string targetInstallFile = this.GetTestInstallFolder("A\\A.wxs");
             Directory.CreateDirectory(Path.GetDirectoryName(targetInstallFile));
-            using (FileStream lockTargetFile = new FileStream(targetInstallFile, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, 4096, FileOptions.DeleteOnClose))
+            using (FileStream lockTargetFile = new FileStream(targetInstallFile, FileMode.Create, FileAccess.Write, FileShare.Read))
             {
                 installA.Install(expectedExitCode:(int)MSIExec.MSIExecReturnCode.ERROR_INSTALL_USEREXIT);
             }
-            
+
             this.Complete();
         }
 

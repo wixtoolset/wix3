@@ -8,18 +8,6 @@ after: using_standard_customactions
 
 The QtExec custom action allows you to run an arbitrary command line in an MSI-based setup in silent mode. QtExec is commonly used to suppress console windows that would otherwise appear appear when invoking the executable directly. The custom action is located in the WixCA library, which is a part of the WixUtilExtension.
 
-
-## Naming in WiX v3.x and WiX v4.0
-
-Prior to WiX v3.10, only `CAQuietExec` and `CAQuietExec64` are available, which used the properties `QtExecCmdTimeout` (used for both 32-bit and 64-bit custom actions), `QtExecCmdLine`, and `QtExec64CmdLine`.
-
-Starting in WiX v3.10, those same identifiers are available but the new, preferred custom action names are `WixQuietExec` and `WixQuietExec64` with properties named `WixQuietExecCmdTimeout`, `WixQuietExec64CmdTimeout`, `WixQuietExecCmdLine`, and `WixQuietExec64CmdLine`.
-
-In WiX v4.0, only the `WixQuietExec` names will be supported.
-
-The `WixSilentExec` actions introduced in WiX v3.10 already support the new naming scheme.
-
-
 ## Immediate execution
 
 When the QtExec action is run as an immediate custom action, it will try to execute the command stored in the WixQuietExecCmdLine property. The following is an example of authoring an immediate QtExec custom action:
@@ -69,7 +57,7 @@ When the WixQuietExec (or WixSilentExec) action is run as a deferred custom acti
 If you need to set a command line that uses other Windows Installer properties, you must schedule an immediate custom action to set the command line property value and schedule a deferred custom action to run QtExec. The property Id used in the SetProperty custom action must match the Id value used in the deferred custom action. A common use of this pattern for QtExec custom actions is to run an executable that will be installed as a part of the setup. The following is an example of authoring a deferred QtExec custom action that relies on another property value:
 
     <SetProperty Id="QtExecDeferredExampleWithProperty" Value="&quot;[#MyExecutable.exe]&quot;"
-                Sequence="execute" Before="QtExecDeferredExampleWithProperty" />
+                Before="QtExecDeferredExampleWithProperty" />
     <CustomAction Id="QtExecDeferredExampleWithProperty" BinaryKey="WixCA" DllEntry="WixQuietExec"
                 Execute="deferred" Return="check" Impersonate="no"/>
     .
@@ -89,7 +77,7 @@ If you need to run a 64-bit executable, use the 64-bit aware QtExec. To use the 
     .
     .
     <SetProperty Id="QtExecDeferredExampleWithProperty" Value="&quot;[#MyExecutable.exe]&quot;" 
-                Before="QtExecDeferredExampleWithProperty" Sequence="execute" />
+                Before="QtExecDeferredExampleWithProperty" />
     <CustomAction Id="QtExecDeferredExampleWithProperty" BinaryKey="WixCA" DllEntry="WixQuietExec64"
                 Execute="deferred" Return="check" Impersonate="no"/>
     .

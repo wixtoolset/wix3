@@ -14,9 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\tools\wconsole\CommandLineResponseFile.cs">
-      <Link>CommandLineResponseFile.cs</Link>
-    </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MakeSfxCA.cs" />
     <None Include="app.config" />

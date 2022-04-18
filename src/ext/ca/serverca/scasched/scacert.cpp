@@ -165,7 +165,7 @@ static HRESULT ConfigureCertificates(
 
     BYTE* pbCertificate = NULL;
     DWORD cbCertificate = 0;
-    DWORD_PTR cbPFXPassword = 0;
+    DWORD cbPFXPassword = 0;
 
     // Bail quickly if the Certificate table isn't around.
     if (S_OK != WcaTableExists(L"Certificate"))

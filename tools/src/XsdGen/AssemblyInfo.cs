@@ -11,3 +11,4 @@ using System.Security.Permissions;
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

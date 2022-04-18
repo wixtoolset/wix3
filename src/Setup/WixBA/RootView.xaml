@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
@@ -19,8 +19,6 @@
 
     <Grid>
         <Rectangle MouseLeftButtonDown="Background_MouseLeftButtonDown" Fill="{StaticResource BackgroundBrush}"/>
-        <!-- Title -->
-        <TextBlock Style="{StaticResource TitleTextStyle}" DataContext="{Binding InstallationViewModel}" Text="{Binding Title}"/>
         <Grid VerticalAlignment="Stretch" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -56,19 +54,7 @@
             <Image Grid.Row="1" Grid.Column="0" Source="resources\gear.png" DataContext="{Binding InstallationViewModel}" Visibility="{Binding UninstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <!-- Complete -->
-            <Button Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" DataContext="{Binding InstallationViewModel}" Command="{Binding CompleteCommand}" Visibility="{Binding CompleteEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <!-- TODO: Don't hard code dimensions -->
-                <Grid Height="100" Width="230">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" TextWrapping="Wrap">Need Visual Studio integration? Click here to view available extensions.</TextBlock>
-                    <TextBlock Grid.Row="2">Complete</TextBlock>
-                </Grid>
-            </Button>
+            <Button Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" DataContext="{Binding InstallationViewModel}" IsEnabled="False" Visibility="{Binding CompleteEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">Complete</Button>
             <Image Grid.Row="1" Grid.Column="2" Source="resources\gear.png" DataContext="{Binding InstallationViewModel}" Visibility="{Binding CompleteEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <!-- Failed -->
@@ -120,7 +106,7 @@
 
             <!-- News -->
             <Button Grid.Row="2" Grid.Column="1" DataContext="{Binding InstallationViewModel}" Command="{Binding LaunchNewsCommand}" Background="#FFCB0000">News</Button>
-            <Image Grid.Row="2" Grid.Column="1" Source="resources\news.png"/>
+            <Image Grid.Row="3" Grid.Column="1" Source="resources\news.png"/>
 
             <!-- Exit -->
             <Button Grid.Row="2" Grid.Column="2" Background="#FFCB0000" DataContext="{Binding InstallationViewModel}" Visibility="{Binding ExitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding CloseCommand}">Exit</Button>

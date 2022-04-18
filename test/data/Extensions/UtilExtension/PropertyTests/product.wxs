@@ -169,11 +169,7 @@
     <!-- Set to 1 if the video card driver on the target machine is a WDDM driver. This property is only set on machines running Windows Vista or higher.-->
 
     <PropertyRef Id="WIX_DWM_COMPOSITION_ENABLED" />
-    <!-- Set to 1 if the target machine has composition enabled. This property is only set on machines running Windows Vista or higher.-->
-
-    <PropertyRef Id="WIX_NATIVE_MACHINE" />
-    <!-- Set to an Image File Machine value representing the native architecture of the machine. https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants
-         This property is only set on Windows 10, version 1511 (TH2) and higher.-->
+    <!-- Set to 1 if the target machine has composition enabled. This property is only set on machines running Windows Vista or higher."-->
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder" Name="PFiles">

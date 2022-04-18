@@ -35,8 +35,7 @@ HRESULT ElevationSessionBegin(
 HRESULT ElevationSessionResume(
     __in HANDLE hPipe,
     __in_z LPCWSTR wzResumeCommandLine,
-    __in BOOL fDisableResume,
-    __in BURN_VARIABLES* pVariables
+    __in BOOL fDisableResume
     );
 HRESULT ElevationSessionEnd(
     __in HANDLE hPipe,

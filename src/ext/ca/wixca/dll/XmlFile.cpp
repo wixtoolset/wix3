@@ -481,6 +481,7 @@ extern "C" UINT __stdcall ExecXmlFile(
     HRESULT hrOpenFailure = S_OK;
     UINT er = ERROR_SUCCESS;
 
+    BOOL fIsWow64Process = FALSE;
     BOOL fIsFSRedirectDisabled = FALSE;
     BOOL fPreserveDate = FALSE;
 
@@ -530,12 +531,10 @@ extern "C" UINT __stdcall ExecXmlFile(
     hr = WcaReadIntegerFromCaData(&pwz, (int*) &xa);
     ExitOnFailure(hr, "failed to process CustomActionData");
 
-#ifndef _WIN64
     // Initialize the Wow64 API - store the result in fWow64APIPresent
     // If it fails, this doesn't warrant an error yet, because we only need the Wow64 API in some cases
     WcaInitializeWow64();
-    BOOL fIsWow64Process = WcaIsWow64Process();
-#endif
+    fIsWow64Process = WcaIsWow64Process();
 
     if (xaOpenFile != xa && xaOpenFilex64 != xa)
         ExitOnFailure(hr = E_INVALIDARG, "invalid custom action data");
@@ -557,7 +556,6 @@ extern "C" UINT __stdcall ExecXmlFile(
 
         if (xaOpenFilex64 == xa)
         {
-#ifndef _WIN64
             if (!fIsWow64Process)
             {
                 hr = E_NOTIMPL;
@@ -568,7 +566,6 @@ extern "C" UINT __stdcall ExecXmlFile(
             ExitOnFailure(hr, "Custom action was told to act on a 64-bit component, but was unable to disable filesystem redirection through the Wow64 API.");
 
             fIsFSRedirectDisabled = TRUE;
-#endif
         }
 
         hr = XmlLoadDocumentFromFileEx(pwzFile, XML_LOAD_PRESERVE_WHITESPACE, &pixd);
@@ -811,9 +808,7 @@ LExit:
         fIsFSRedirectDisabled = FALSE;
         WcaRevertWow64FSRedirection();
     }
-#ifndef _WIN64
     WcaFinalizeWow64();
-#endif
 
     ReleaseStr(pwzCustomActionData);
     ReleaseStr(pwzData);
@@ -885,7 +880,6 @@ extern "C" UINT __stdcall ExecXmlFileRollback(
     hr = WcaReadStreamFromCaData(&pwz, &pbData, &cbData);
     ExitOnFailure(hr, "failed to read file contents from custom action data");
 
-#ifndef _WIN64
     fIs64Bit = (BOOL)iIs64Bit;
 
     if (fIs64Bit)
@@ -906,7 +900,6 @@ extern "C" UINT __stdcall ExecXmlFileRollback(
         hr = WcaDisableWow64FSRedirection();
         ExitOnFailure(hr, "Custom action was told to rollback a 64-bit component, but was unable to Disable Filesystem Redirection through the Wow64 API.");
     }
-#endif
 
     // Always preserve the modified date on rollback
     hr = FileGetTime(pwzFileName, NULL, NULL, &ft);

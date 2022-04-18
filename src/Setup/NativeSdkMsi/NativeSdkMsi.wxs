@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
+
+
 <?include WixVer.wxi ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
@@ -16,6 +18,7 @@
         <Feature Id="NativeSdkFeature" Title="Native $(var.VisualStudioTargetVersion) SDK" Level="1">
             <ComponentGroupRef Id="HeaderComponents" />
             <ComponentGroupRef Id="LibComponents" />
+            <ComponentGroupRef Id="ProjectTemplates" />
         </Feature>
     </Product>
 
@@ -26,7 +29,6 @@
                 <Directory Id="SdkLibFolder" Name="lib">
                     <Directory Id="SdkX86LibFolder" Name="x86" />
                     <Directory Id="SdkX64LibFolder" Name="x64" />
-                    <Directory Id="SdkARM64LibFolder" Name="ARM64" />
                 </Directory>
             </Directory>
         </DirectoryRef>

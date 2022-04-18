@@ -7,11 +7,11 @@ after: bundle_built_in_variables
 
 Searches are used to detect if the target machine meets certain conditions. The result of a search is stored into a variable. Variables are then used to construct install conditions. The search schemas are in the WixUtilExtension. Here is the list of supported searches:
 
-* [FileSearch](~/xsd/util/filesearch.html)
-* [RegistrySearch](~/xsd/util/registrysearch.html)
-* [DirectorySearch](~/xsd/util/directorysearch.html)
-* [ComponentSearch](~/xsd/util/componentsearch.html)
-* [ProductSearch](~/xsd/util/productsearch.html)
+* [&lt;FileSearch&gt;](~/xsd/util/filesearch.html)
+* [&lt;RegistrySearch&gt;](~/xsd/util/registrysearch.html)
+* [&lt;DirectorySearch&gt;](~/xsd/util/directorysearch.html)
+* [&lt;ComponentSearch&gt;](~/xsd/util/componentsearch.html)
+* [&lt;ProductSearch&gt;](~/xsd/util/productsearch.html)
 
 A search can be dependent on the result of another search. Keep in mind that all searches are in the WiXUtilExtension. So remember to add the WiXUtilExtension namespace in the authoring. Here is an example:
 
@@ -21,13 +21,13 @@ A search can be dependent on the result of another search. Keep in mind that all
       <Fragment>
         <util:RegistrySearch Id="Path"
             Variable="UniqueId"
-            Root="HKLM"
-            Key="Software\MyCompany\MyProduct\Unique Id\Product"
+            Root="HKLM,SOFTWARE\Microsoft\MyProduct\Unique Id\"
+            Key="Product"
             Result="Value" />
         <util:RegistrySearch 
             Variable="patchLevel"
-            Root="HKLM"
-            Key="Software\MyCompany\MyProduct\[UniqueId]\Setup\PatchLevel"
+            Root="HKLM,SOFTWARE\Microsoft\MyProduct\[UniqueId]\Setup"
+            Key="PatchLevel"
             Result="Exists" 
             After="Path" />
       </Fragment>
@@ -41,13 +41,13 @@ After the searches are defined and stored into variables, the variables can then
       &lt;Fragment&gt;
         &lt;util:RegistrySearch Id=&quot;Path&quot;
             Variable=&quot;UniqueId&quot;
-            Root=&quot;HKLM&quot;
-            Key=&quot;Software\MyCompany\MyProduct\Unique Id\Product&quot;
+            Root=&quot;HKLM,SOFTWARE\Microsoft\MyProduct\Unique Id\&quot;
+            Key=&quot;Product&quot;
             Result=&quot;Value&quot; /&gt;
         &lt;util:RegistrySearch 
             Variable=&quot;patchLevel&quot;
-            Root=&quot;HKLM&quot;
-            Key=&quot;Software\MyCompany\MyProduct\[UniqueId]\Setup\PatchLevel&quot;
+            Root=&quot;HKLM,SOFTWARE\Microsoft\MyProduct\[UniqueId]\Setup&quot;
+            Key=&quot;PatchLevel&quot;
             Result=&quot;Exists&quot; 
             After=&quot;Path&quot; /&gt;
 

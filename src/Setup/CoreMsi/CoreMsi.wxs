@@ -5,7 +5,7 @@
 
 <?include WixVer.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:swid="http://schemas.microsoft.com/wix/TagExtension">
     <Product Id="*" Name="!(loc.ShortProduct) v$(var.WixMajorMinor) Core" Language="1033" Manufacturer="!(loc.Company)"
              Version="$(var.WixMsiProductVersion)" UpgradeCode="3618724B-2523-44F9-A908-866AA619504D">
         <Package Compressed="yes" InstallerVersion="200" SummaryCodepage="1252" InstallScope="perMachine" />
@@ -41,11 +41,6 @@
                 <RemoveFolder Id="CleanupShortcutFolder" Directory="ShortcutFolder" On="uninstall" />
             </Component>
 
-            <Component Directory="BinFolder">
-                <File Source="common\wixtoolset.org.ico" />
-                <util:InternetShortcut Id="wixtoolset.org" Directory="ShortcutFolder" Name="WiX Home Page" Target="http://wixtoolset.org/" IconFile="file://[#wixtoolset.org.ico]" />
-            </Component>
-
             <ComponentGroupRef Id="ToolsetComponents" />
             <ComponentGroupRef Id="ExtensionComponents" />
             <ComponentGroupRef Id="LuxComponents" />
@@ -53,9 +48,5 @@
         </Feature>
 
         <FeatureRef Id="Feature_MSBuild" />
-        <FeatureRef Id="Feature_Intellisense2010" />
-        <FeatureRef Id="Feature_Intellisense2012" />
-        <FeatureRef Id="Feature_Intellisense2013" />
-        <FeatureRef Id="Feature_Intellisense2015" />
     </Product>
 </Wix>

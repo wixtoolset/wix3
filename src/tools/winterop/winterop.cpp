@@ -32,10 +32,7 @@ HRESULT ResetAcls(
     OSVERSIONINFO osvi;
 
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-#pragma warning(push)
-#pragma warning(disable:4996)
     if (!::GetVersionExA(&osvi))
-#pragma warning(pop)
     {
         ExitOnLastError(hr, "failed to get OS version");
     }

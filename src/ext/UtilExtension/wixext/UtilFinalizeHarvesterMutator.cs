@@ -581,12 +581,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                                             parentIndex = String.Concat("file/", registryValue.Value.Substring(2, registryValue.Value.Length - 3));
                                             processed = true;
                                         }
-                                        else if ((registryValue.Value.StartsWith("\"[!", StringComparison.Ordinal) || registryValue.Value.StartsWith("\"[#", StringComparison.Ordinal))
-                                            && registryValue.Value.EndsWith("]\"", StringComparison.Ordinal))
-                                        {
-                                            parentIndex = String.Concat("file/", registryValue.Value.Substring(3, registryValue.Value.Length - 5));
-                                            processed = true;
-                                        }
                                         else if (String.Equals(Path.GetFileName(registryValue.Value), "mscoree.dll", StringComparison.OrdinalIgnoreCase))
                                         {
                                             wixClass.ForeignServer = "mscoree.dll";

@@ -13,11 +13,6 @@
 
   <ItemGroup>
     <Compile Include="NetFxExtension.wxs" />
-    <Compile Include="NetFxExtension_x86.wxs" />
-    <Compile Include="NetFxExtension_arm64.wxs" Condition="$(BuildARM64)" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
     <Compile Include="NetFx1.wxs" />
     <Compile Include="NetFx1.1.wxs" />
     <Compile Include="NetFx2.wxs" />
@@ -28,12 +23,7 @@
     <Compile Include="NetFx451.wxs" />
     <Compile Include="NetFx452.wxs" />
     <Compile Include="NetFx46.wxs" />
-    <Compile Include="NetFx461.wxs" />
-    <Compile Include="NetFx462.wxs" />
-    <Compile Include="NetFx47.wxs" />
-    <Compile Include="NetFx471.wxs" />
-    <Compile Include="NetFx472.wxs" />
-    <Compile Include="NetFx48.wxs" />
+    <Compile Include="NetFxExtension_x86.wxs" />
   </ItemGroup>
 
   <ItemGroup>

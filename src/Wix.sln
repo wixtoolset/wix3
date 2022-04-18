@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.960
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wix", "tools\wix\Wix.csproj", "{9E03A94C-C70E-45C6-A269-E737BBD8B319}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -295,7 +295,8 @@ Global
 		{21E8F2D3-EF19-49C8-88CA-A22C5B91DFDC}.Release|x64.Build.0 = Release|x64
 		{21E8F2D3-EF19-49C8-88CA-A22C5B91DFDC}.Release|x86.ActiveCfg = Release|x86
 		{21E8F2D3-EF19-49C8-88CA-A22C5B91DFDC}.Release|x86.Build.0 = Release|x86
-		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|arm.ActiveCfg = Debug|arm
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|arm.Build.0 = Debug|arm
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
@@ -305,7 +306,8 @@ Global
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|x64.Build.0 = Debug|x64
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|x86.ActiveCfg = Debug|x86
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Debug|x86.Build.0 = Debug|x86
-		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Release|Any CPU.ActiveCfg = Release|x86
+		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Release|arm.ActiveCfg = Release|arm
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Release|arm.Build.0 = Release|arm
 		{24121677-0ED0-41B5-833F-1B9A18E87BF4}.Release|Mixed Platforms.ActiveCfg = Release|x64
@@ -342,8 +344,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0FD71F40-2DDE-4A6F-B945-612D3EF80593}
 	EndGlobalSection
 EndGlobal

@@ -2137,7 +2137,7 @@ namespace Microsoft.Tools.WindowsInstaller.Tools
 
             if (null != platforms)
             {
-                if (this.OnError(InspectorTestType.PackagePlatformsDeprecated, platforms, "The Package/@Platforms attribute is deprecated. Use Package/@Platform instead.  Platform accepts only a single platform (x86, x64, ia64, arm, arm64). If the value in Package/@Platforms corresponds to one of those values, it will be updated."))
+                if (this.OnError(InspectorTestType.PackagePlatformsDeprecated, platforms, "The Package/@Platforms attribute is deprecated. Use Package/@Platform instead.  Platform accepts only a single platform (x86, x64, or ia64). If the value in Package/@Platforms corresponds to one of those values, it will be updated."))
                 {
                     string platformsValue = platforms.Value.ToLower();
                     if ("intel" == platformsValue || "x64" == platformsValue || "intel64" == platformsValue)

@@ -62,9 +62,9 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             // hash the data
             byte[] hash;
 
-            using (SHA1 sha1 = new SHA1CryptoServiceProvider())
+            using (MD5 md5 = new MD5CryptoServiceProvider())
             {
-                hash = sha1.ComputeHash(data);
+                hash = md5.ComputeHash(data);
             }
 
             // build up the identifier

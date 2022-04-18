@@ -23,6 +23,9 @@
     <EmbeddedResource Include="Xsd\docCompiler.xsd" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
   </ItemGroup>

@@ -332,8 +332,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             if (null != componentId)
             {
                 // Reference InstallSqlData and UninstallSqlData since nothing will happen without it
-                this.Core.CreateCustomActionReference(sourceLineNumbers, "InstallSqlData", Platforms.ARM64);
-                this.Core.CreateCustomActionReference(sourceLineNumbers, "UninstallSqlData", Platforms.ARM64);
+                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "InstallSqlData");
+                this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "UninstallSqlData");
             }
 
             if (!this.Core.EncounteredError)
@@ -642,8 +642,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference InstallSqlData and UninstallSqlData since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "InstallSqlData", Platforms.ARM64);
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "UninstallSqlData", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "InstallSqlData");
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "UninstallSqlData");
 
             if (!this.Core.EncounteredError)
             {
@@ -834,8 +834,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             }
 
             // Reference InstallSqlData and UninstallSqlData since nothing will happen without it
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "InstallSqlData", Platforms.ARM64);
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "UninstallSqlData", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "InstallSqlData");
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "UninstallSqlData");
 
             if (!this.Core.EncounteredError)
             {

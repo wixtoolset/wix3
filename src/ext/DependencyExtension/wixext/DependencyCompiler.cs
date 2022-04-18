@@ -386,7 +386,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 if (PackageType.None == packageType)
                 {
                     // Reference the Check custom action to check for dependencies on the current provider.
-                    this.Core.CreateCustomActionReference(sourceLineNumbers, "WixDependencyCheck", Platforms.ARM | Platforms.ARM64);
+                    if (Platform.ARM == this.Core.CurrentPlatform)
+                    {
+                        // Ensure the ARM version of the CA is referenced.
+                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixDependencyCheck_ARM");
+                    }
+                    else
+                    {
+                        // All other supported platforms use x86.
+                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixDependencyCheck");
+                    }
 
                     // Generate registry rows for the provider using binder properties.
                     string keyProvides = String.Concat(DependencyCommon.RegistryRoot, key);
@@ -544,7 +553,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 // Reference the Require custom action if required.
                 if (requiresAction)
                 {
-                    this.Core.CreateCustomActionReference(sourceLineNumbers, "WixDependencyRequire", Platforms.ARM | Platforms.ARM64);
+                    if (Platform.ARM == this.Core.CurrentPlatform)
+                    {
+                        // Ensure the ARM version of the CA is referenced.
+                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixDependencyRequire_ARM");
+                    }
+                    else
+                    {
+                        // All other supported platforms use x86.
+                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixDependencyRequire");
+                    }
                 }
 
                 Row row = this.Core.CreateRow(sourceLineNumbers, "WixDependency");
@@ -625,7 +643,16 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 // Reference the Require custom action if required.
                 if (requiresAction)
                 {
-                    this.Core.CreateCustomActionReference(sourceLineNumbers, "WixDependencyRequire", Platforms.ARM | Platforms.ARM64);
+                    if (Platform.ARM == this.Core.CurrentPlatform)
+                    {
+                        // Ensure the ARM version of the CA is referenced.
+                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixDependencyRequire_ARM");
+                    }
+                    else
+                    {
+                        // All other supported platforms use x86.
+                        this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "WixDependencyRequire");
+                    }
                 }
 
                 // Create a link dependency on the row that contains information we'll need during bind.

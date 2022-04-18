@@ -10,7 +10,6 @@
     <AssemblyName>Microsoft.Deployment.Resources</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <CreateDocumentationFile>true</CreateDocumentationFile>
-    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <ItemGroup>

@@ -8,6 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.WixBuild</RootNamespace>
     <AssemblyName>WixBuild</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GenerateReleaseInfo.cs" />
@@ -19,11 +20,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Microsoft.Build.Utilities" />
   </ItemGroup>
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
   <Import Project="$(LibGit2SharpPropsFilePath)" />
-
+  
   <!-- LibGit2Sharp is not strong named, so this assembly can't be strong named either. -->
   <PropertyGroup>
     <DelaySign>false</DelaySign>

@@ -8,6 +8,7 @@
     <AssemblyName>shine</AssemblyName>
     <OutputType>Exe</OutputType>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Tools</RootNamespace>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 

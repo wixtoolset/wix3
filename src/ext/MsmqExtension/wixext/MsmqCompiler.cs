@@ -253,8 +253,8 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             row[9] = serviceTypeGuid;
             row[10] = attributes;
 
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "MessageQueuingInstall", Platforms.ARM64);
-            this.Core.CreateCustomActionReference(sourceLineNumbers, "MessageQueuingUninstall", Platforms.ARM64);
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "MessageQueuingInstall");
+            this.Core.CreateWixSimpleReferenceRow(sourceLineNumbers, "CustomAction", "MessageQueuingUninstall");
         }
 
         ///	<summary>

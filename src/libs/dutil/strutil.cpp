@@ -888,38 +888,6 @@ extern "C" HRESULT __cdecl StrAllocFormatted(
 
 
 /********************************************************************
-StrAllocConcatFormatted - allocates or reuses dynamic string memory
-and adds a formatted string
-
-NOTE: caller is responsible for freeing ppwz even if function fails
-********************************************************************/
-extern "C" HRESULT __cdecl StrAllocConcatFormatted(
-    __deref_out_z LPWSTR* ppwz,
-    __in __format_string LPCWSTR wzFormat,
-    ...
-    )
-{
-    Assert(ppwz && wzFormat && *wzFormat);
-
-    HRESULT hr = S_OK;
-    LPWSTR sczFormatted = NULL;
-    va_list args;
-
-    va_start(args, wzFormat);
-    hr = StrAllocFormattedArgs(&sczFormatted, wzFormat, args);
-    va_end(args);
-    ExitOnFailure(hr, "Failed to allocate formatted string");
-
-    hr = StrAllocConcat(ppwz, sczFormatted, 0);
-
-LExit:
-    ReleaseStr(sczFormatted);
-
-    return hr;
-}
-
-
-/********************************************************************
 StrAllocFormattedSecure - allocates or reuses dynamic string memory 
 and formats it. If the memory needs to reallocated, 
 calls SecureZeroMemory on original block of memory after it is moved.
@@ -2682,7 +2650,7 @@ StrSecureZeroString - zeroes out string to the make sure the contents
 don't remain in memory.
 
 ****************************************************************************/
-extern "C" DAPI_(HRESULT) StrSecureZeroString(
+extern "C" HRESULT StrSecureZeroString(
     __in LPWSTR pwz
     )
 {
@@ -2712,7 +2680,7 @@ StrSecureZeroFreeString - zeroes out string to the make sure the contents
 don't remain in memory, then frees the string.
 
 ****************************************************************************/
-extern "C" DAPI_(HRESULT) StrSecureZeroFreeString(
+extern "C" HRESULT StrSecureZeroFreeString(
     __in LPWSTR pwz
     )
 {

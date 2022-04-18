@@ -222,8 +222,6 @@ typedef struct _BURN_PACKAGE
             BOOL fRepairable;
             BURN_EXE_PROTOCOL_TYPE protocol;
 
-            BOOL fSupportsAncestors;
-
             BURN_EXE_EXIT_CODE* rgExitCodes;
             DWORD cExitCodes;
 

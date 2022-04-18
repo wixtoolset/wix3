@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -10,15 +12,8 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|ARM64">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM64">
-      <Configuration>Release</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
+
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C2A0A56C-3997-4FF5-A985-3CC6862317F2}</ProjectGuid>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -26,11 +21,14 @@
     <TargetName>mqexec</TargetName>
     <ProjectModuleDefinitionFile>mqexec.def</ProjectModuleDefinitionFile>
   </PropertyGroup>
+
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.props" />
+
   <PropertyGroup>
     <ProjectAdditionalIncludeDirectories>$(WixRoot)src\libs\dutil\inc;$(WixRoot)src\libs\wcautil</ProjectAdditionalIncludeDirectories>
     <ProjectAdditionalLinkLibraries>msi.lib;dutil$(MultiTargetTargetNameSuffix).lib;wcautil$(MultiTargetTargetNameSuffix).lib</ProjectAdditionalLinkLibraries>
   </PropertyGroup>
+
   <ItemGroup>
     <ClCompile Include="mqexec.cpp" />
     <ClCompile Include="mqqueueexec.cpp" />
@@ -47,5 +45,6 @@
   <ItemGroup>
     <ResourceCompile Include="mqexec.rc" />
   </ItemGroup>
+
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
 </Project>

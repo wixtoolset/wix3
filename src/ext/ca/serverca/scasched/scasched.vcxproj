@@ -23,16 +23,6 @@
       <Platform>ARM</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|ARM64">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM64">
-      <Configuration>Release</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
 
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7DC66B4B-9B17-4EA5-B9A6-FBF6E7A73271}</ProjectGuid>

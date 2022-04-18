@@ -62,7 +62,75 @@
         </UI>
     </Fragment>
 
-    <!-- WiX OS-detection properties -->
+    <Fragment>
+        <CustomAction Id="WixFailWhenDeferred" BinaryKey="WixCA" DllEntry="WixFailWhenDeferred" Execute="deferred" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixFailWhenDeferred" Before="InstallFinalize" Overridable="yes">WIXFAILWHENDEFERRED=1 AND VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixWaitForEvent" BinaryKey="WixCA" DllEntry="WixWaitForEvent" Execute="immediate" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixWaitForEvent" Before="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixWaitForEventDeferred" BinaryKey="WixCA" DllEntry="WixWaitForEvent" Execute="deferred" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixWaitForEventDeferred" After="InstallInitialize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixExitEarlyWithSuccess" BinaryKey="WixCA" DllEntry="WixExitEarlyWithSuccess" Execute="immediate" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixExitEarlyWithSuccess" After="FindRelatedProducts" Overridable="yes">NEWERVERSIONDETECTED AND VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixRemoveFoldersEx" BinaryKey="WixCA" DllEntry="WixRemoveFoldersEx" Execute="immediate" Return="ignore" />
+        
+        <InstallExecuteSequence>
+            <Custom Action="WixRemoveFoldersEx" Before="CostInitialize" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixBroadcastSettingChange" BinaryKey="WixCA" DllEntry="WixBroadcastSettingChange" Execute="immediate" Return="ignore" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixBroadcastSettingChange" After="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixBroadcastEnvironmentChange" BinaryKey="WixCA" DllEntry="WixBroadcastEnvironmentChange" Execute="immediate" Return="ignore" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixBroadcastEnvironmentChange" After="InstallFinalize" Overridable="yes" />
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- WiX OS-detection properties and custom action -->
+    <Fragment>
+        <CustomAction Id="WixQueryOsInfo" BinaryKey="WixCA" DllEntry="WixQueryOsInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+        
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryOsInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallExecuteSequence>
+        
+        <InstallUISequence>
+            <Custom Action="WixQueryOsInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallUISequence>
+    </Fragment>
+
     <Fragment>
         <Property Id="WIX_SUITE_BACKOFFICE" Secure="yes" />
         <CustomActionRef Id="WixQueryOsInfo" />
@@ -142,6 +210,18 @@
     <Fragment>
         <Property Id="WIX_SUITE_WH_SERVER" Secure="yes" />
         <CustomActionRef Id="WixQueryOsInfo" />
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixQueryOsDirs" BinaryKey="WixCA" DllEntry="WixQueryOsDirs" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+        
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryOsDirs" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallExecuteSequence>
+        
+        <InstallUISequence>
+            <Custom Action="WixQueryOsDirs" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallUISequence>
     </Fragment>
 
     <Fragment>
@@ -238,6 +318,18 @@
     </Fragment>
 
     <Fragment>
+        <CustomAction Id="WixQueryOsWellKnownSID" BinaryKey="WixCA" DllEntry="WixQueryOsWellKnownSID" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryOsWellKnownSID" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <Custom Action="WixQueryOsWellKnownSID" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+        </InstallUISequence>
+    </Fragment>
+  
+    <Fragment>
         <Property Id="WIX_ACCOUNT_LOCALSYSTEM" Secure="yes" />
         <CustomActionRef Id="WixQueryOsWellKnownSID" />
     </Fragment>
@@ -261,10 +353,17 @@
         <Property Id="WIX_ACCOUNT_GUESTS" Secure="yes" />
         <CustomActionRef Id="WixQueryOsWellKnownSID" />
     </Fragment>
+
     <Fragment>
-        <Property Id="WIX_ACCOUNT_PERFLOGUSERS" Secure="yes" />
-        <Property Id="WIX_ACCOUNT_PERFLOGUSERS_NODOMAIN" Secure="yes" />
-        <CustomActionRef Id="WixQueryOsWellKnownSID" />
+      <CustomAction Id="WixQueryOsDriverInfo" BinaryKey="WixCA" DllEntry="WixQueryOsDriverInfo" Execute="firstSequence" Return="check" SuppressModularization="yes" />
+
+      <InstallExecuteSequence>
+        <Custom Action="WixQueryOsDriverInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+      </InstallExecuteSequence>
+
+      <InstallUISequence>
+        <Custom Action="WixQueryOsDriverInfo" After="AppSearch" Overridable="yes">VersionNT &gt; 400 OR (VersionNT = 400 AND ServicePackLevel &gt; 3)</Custom>
+      </InstallUISequence>
     </Fragment>
 
     <Fragment>
@@ -275,11 +374,6 @@
     <Fragment>
       <Property Id="WIX_DWM_COMPOSITION_ENABLED" Secure="yes" />
       <CustomActionRef Id="WixQueryOsDriverInfo" />
-    </Fragment>
-
-    <Fragment>
-      <Property Id="WIX_NATIVE_MACHINE" Secure="yes" />
-      <CustomActionRef Id="WixQueryNativeMachine" />
     </Fragment>
 
     <!-- ShellExec custom actions (for when only one is needed; multiple executions need their own IDs) --> 

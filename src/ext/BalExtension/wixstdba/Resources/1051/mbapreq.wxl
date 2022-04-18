@@ -27,6 +27,4 @@
   <String Id="FailureRestartText">Dokončenie všetkých zmien softvéru vyžaduje reštart počítača.</String>
   <String Id="FailureRestartButton">&amp;Reštartovať</String>
   <String Id="FailureCloseButton">&amp;Zavrieť</String>
-  <String Id="NET452WIN7RTMErrorMessage">[WixBundleName] nepodporuje systém Windows 7 RTM s .NET Framework 4.5.2. Nainštalujte balík Windows 7 Service Pack 1 zo strediska pre prevzatie softvéru spoločnosti Microsoft.</String>
-  <String Id="ErrorFailNoActionReboot">Nebola vykonaná žiadna akcia, pretože je potrebný reštart operačného systému.</String>
 </WixLocalization>

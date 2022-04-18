@@ -7,33 +7,23 @@
         <?error Required value "platform" not defined in include caSuffix.wxi ?>
     <?endif ?>
 
-    <?if $(var.platform)="" ?>
-        <?undef platform ?>
-        <?define platform="x86" ?>
-    <?endif ?>
-
     <?ifdef Suffix ?>
         <?undef Suffix ?>
         <?undef DeferredSuffix ?>
     <?endif ?>
 
-    <?if $(var.platform)~="x86" ?>
+    <?if $(var.platform)="x86" ?>
         <?define Suffix="" ?>
         <?define DeferredSuffix="" ?>
     <?endif ?>
 
-    <?if $(var.platform)~="x64" ?>
+    <?if $(var.platform)="x64" ?>
         <?define Suffix="_x64" ?>
         <?define DeferredSuffix="_64" ?>
     <?endif ?>
 
-    <?if $(var.platform)~="arm" ?>
+    <?if $(var.platform)="arm" ?>
         <?define Suffix="_ARM" ?>
         <?define DeferredSuffix="_ARM" ?>
-    <?endif ?>
-
-    <?if $(var.platform)~="arm64" ?>
-        <?define Suffix="_A64" ?>
-        <?define DeferredSuffix="_A64" ?>
     <?endif ?>
 </Include>

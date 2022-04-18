@@ -12,7 +12,6 @@
     <CreateDocumentationFile>true</CreateDocumentationFile>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FxCopEnabled>false</FxCopEnabled>
-    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <ItemGroup>

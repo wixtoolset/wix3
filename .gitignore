@@ -2,7 +2,6 @@
 [Pp]ackages/
 ipch/
 .vs/
-obj/
 
 *.chw
 *.suo
@@ -25,8 +24,3 @@ obj/
 *.opendb
 *.opensdf
 *.sdf
-*.aps
-*.ncb
-*.cachefile
-*.VC.db
-*.VC.VC.opendb

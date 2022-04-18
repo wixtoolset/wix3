@@ -7,6 +7,18 @@ LPCWSTR vcsEventManifestQuery = L"SELECT `Component_`, `File` FROM `EventManifes
 enum ePerfMonManifestQuery { pfmComponent = 1, pfmFile, pfmResourceFileDir };
 enum eEventManifestQuery { emComponent = 1, emFile};
 
+BOOL IsVistaOrAbove()
+{
+    OSVERSIONINFO osvi;
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    if (!::GetVersionEx(&osvi))
+    {
+        return false;
+    }
+    return osvi.dwMajorVersion >= 6;
+}
+
 
 /********************************************************************
  ConfigurePerfmonManifestRegister - CUSTOM ACTION ENTRY POINT for scheduling
@@ -27,7 +39,7 @@ extern "C" UINT __stdcall ConfigurePerfmonManifestRegister(
     hr = WcaInitialize(hInstall, "ConfigurePerfmonManifestReg");
     ExitOnFailure(hr, "Failed to initialize");
 
-    if (!IsWindowsVistaOrGreater())
+    if (!IsVistaOrAbove())
     {
         WcaLog(LOGMSG_VERBOSE, "Skipping ConfigurePerfmonManifestRegister() because the target system does not support perfmon manifest");
         ExitFunction1(hr = S_FALSE);
@@ -124,7 +136,7 @@ extern "C" UINT __stdcall ConfigurePerfmonManifestUnregister(
     hr = WcaInitialize(hInstall, "ConfigurePerfmonManifestUnreg");
     ExitOnFailure(hr, "Failed to initialize");
 
-    if (!IsWindowsVistaOrGreater())
+    if (!IsVistaOrAbove())
     {
         WcaLog(LOGMSG_VERBOSE, "Skipping ConfigurePerfmonManifestUnregister() because the target system does not support perfmon manifest");
         ExitFunction1(hr = S_FALSE);
@@ -212,7 +224,7 @@ extern "C" UINT __stdcall ConfigureEventManifestRegister(
     hr = WcaInitialize(hInstall, "ConfigureEventManifestReg");
     ExitOnFailure(hr, "Failed to initialize");
     
-    if (!IsWindowsVistaOrGreater())
+    if (!IsVistaOrAbove())
     {
         WcaLog(LOGMSG_VERBOSE, "Skipping ConfigureEventManifestRegister() because the target system does not support event manifest");
         ExitFunction1(hr = S_FALSE);
@@ -294,7 +306,7 @@ extern "C" UINT __stdcall ConfigureEventManifestUnregister(
     hr = WcaInitialize(hInstall, "ConfigureEventManifestUnreg");
     ExitOnFailure(hr, "Failed to initialize");
     
-    if (!IsWindowsVistaOrGreater())
+    if (!IsVistaOrAbove())
     {
         WcaLog(LOGMSG_VERBOSE, "Skipping ConfigureEventManifestUnregister() because the target system does not support event manifest");
         ExitFunction1(hr = S_FALSE);

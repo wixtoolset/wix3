@@ -48,8 +48,6 @@ HRESULT LoggingOpen(
     __in_z LPCWSTR wzBundleName
     );
 
-void LoggingOpenFailed();
-
 void LoggingIncrementPackageSequence();
 
 HRESULT LoggingSetPackageVariable(

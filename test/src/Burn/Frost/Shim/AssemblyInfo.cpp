@@ -22,3 +22,5 @@ using namespace System::Security::Permissions;
 [assembly:ComVisible(false)];
 
 [assembly:CLSCompliantAttribute(true)];
+
+[assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];

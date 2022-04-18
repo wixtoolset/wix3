@@ -87,9 +87,10 @@ extern "C" UINT __stdcall RegisterPerfmon(
 
     HMODULE hMod = NULL;
     PFNPERFCOUNTERTEXTSTRINGS pfnPerfCounterTextString;
+    DWORD_PTR dwRet;
     LPWSTR pwzShortPath = NULL;
     DWORD_PTR cchShortPath = MAX_PATH;
-    DWORD cchShortPathLength  = 0;
+    DWORD_PTR cchShortPathLength  = 0;
 
     LPWSTR pwzCommand = NULL;
 
@@ -115,14 +116,14 @@ extern "C" UINT __stdcall RegisterPerfmon(
     ExitOnFailure(hr, "failed to allocate string");
 
     WcaLog(LOGMSG_VERBOSE, "Converting DLL path to short format: %ls", pwzData);
-    cchShortPathLength = ::GetShortPathNameW(pwzData, pwzShortPath, static_cast<DWORD>(cchShortPath));
+    cchShortPathLength = ::GetShortPathNameW(pwzData, pwzShortPath, cchShortPath);
     if (cchShortPathLength > cchShortPath)
     {
         cchShortPath = cchShortPathLength + 1;
         hr = StrAlloc(&pwzShortPath, cchShortPath);
         ExitOnFailure(hr, "failed to allocate string");
 
-        cchShortPathLength = ::GetShortPathNameW(pwzData, pwzShortPath, static_cast<DWORD>(cchShortPath));
+        cchShortPathLength = ::GetShortPathNameW(pwzData, pwzShortPath, cchShortPath);
     }
 
     if (0 == cchShortPathLength)
@@ -134,10 +135,10 @@ extern "C" UINT __stdcall RegisterPerfmon(
     ExitOnFailure(hr, "failed to format lodctr string");
 
     WcaLog(LOGMSG_VERBOSE, "RegisterPerfmon running command: '%ls'", pwzCommand);
-    er = (*pfnPerfCounterTextString)(pwzCommand, TRUE);
-    if (er != ERROR_SUCCESS && er != ERROR_ALREADY_EXISTS)
+    dwRet = (*pfnPerfCounterTextString)(pwzCommand, TRUE);
+    if (dwRet != ERROR_SUCCESS && dwRet != ERROR_ALREADY_EXISTS)
     {
-        hr = HRESULT_FROM_WIN32(er);
+        hr = HRESULT_FROM_WIN32(dwRet);
         MessageExitOnFailure1(hr, msierrPERFMONFailedRegisterDLL, "failed to register with PerfMon, DLL: %ls", pwzData);
     }
 

@@ -58,7 +58,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             set { this.runAsSeparateProcess = value; }
         }
 
-        #region Common Options
+#region Common Options
         /// <summary>
         /// Gets or sets whether all warnings should be suppressed.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             get { return this.noLogo; }
             set { this.noLogo = value; }
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Cleans up the ManualResetEvent members
@@ -271,26 +271,14 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             WaitHandle[] waitHandles = new WaitHandle[] { this.messagesAvailable, this.toolExited };
             while (WaitHandle.WaitAny(waitHandles) == 0)
             {
-                string message = null;
-
                 lock (this.messageQueue)
                 {
-                    if (this.messageQueue.Count > 0)
+                    while (this.messageQueue.Count > 0)
                     {
-                        message = messageQueue.Dequeue();
+                        this.LogEventsFromTextOutput(messageQueue.Dequeue(), MessageImportance.Normal);
                     }
-                    else
-                    {
-                        this.messagesAvailable.Reset();
-                    }
-                }
 
-                if (!String.IsNullOrEmpty(message))
-                {
-                    // This log to text output must live outside the message lock to
-                    // prevent dead locks when the WixToolTaskLogger.Write() is called
-                    // inside a Console.WriteLine() call.
-                    this.LogEventsFromTextOutput(message, MessageImportance.Normal);
+                    this.messagesAvailable.Reset();
                 }
             }
         }
@@ -393,24 +381,24 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
             /// <remarks>All other Write() variants eventually call into this one.</remarks>
             public override void Write(char value)
             {
-                if (value == '\n')
+                lock (this.messageQueue)
                 {
-                    if (this.buffer.Length > 0 && this.buffer[this.buffer.Length - 1] == '\r')
+                    if (value == '\n')
                     {
-                        this.buffer.Length = this.buffer.Length - 1;
-                    }
+                        if (this.buffer.Length > 0 && this.buffer[this.buffer.Length - 1] == '\r')
+                        {
+                            this.buffer.Length = this.buffer.Length - 1;
+                        }
 
-                    lock (this.messageQueue)
-                    {
                         this.messageQueue.Enqueue(this.buffer.ToString());
                         this.messagesAvailable.Set();
-                    }
 
-                    this.buffer.Length = 0;
-                }
-                else
-                {
-                    this.buffer.Append(value);
+                        this.buffer.Length = 0;
+                    }
+                    else
+                    {
+                        this.buffer.Append(value);
+                    }
                 }
             }
         }

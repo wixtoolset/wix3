@@ -5,12 +5,6 @@
 #define IDERROR -1
 #define IDNOACTION 0
 
-#ifndef FACILITY_WIX
-#define FACILITY_WIX 500
-#endif
-
-static const HRESULT E_SUSPECTED_AV_INTERFERENCE = MAKE_HRESULT(SEVERITY_ERROR, FACILITY_WIX, 2000);
-
 #define IDDOWNLOAD 101 // Only valid as a return code from OnResolveSource() to instruct the engine to use the download source.
 #define IDRESTART  102
 #define IDSUSPEND  103
@@ -177,8 +171,8 @@ DECLARE_INTERFACE_IID_(IBootstrapperEngine, IUnknown, "6480D616-27A0-44D7-905B-8
         __in_z LPCWSTR wzPackageOrContainerId,
         __in_z_opt LPCWSTR wzPayloadId,
         __in_z LPCWSTR wzUrl,
-        __in_z_opt LPCWSTR wzUser,
-        __in_z_opt LPCWSTR wzPassword
+        __in_z_opt LPWSTR wzUser,
+        __in_z_opt LPWSTR wzPassword
         ) = 0;
 
     STDMETHOD(SetVariableNumeric)(

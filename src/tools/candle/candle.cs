@@ -410,10 +410,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                         {
                             this.platform = Platform.ARM;
                         }
-                        else if (String.Equals(args[i], "arm64", StringComparison.OrdinalIgnoreCase))
-                        {
-                            this.platform = Platform.ARM64;
-                        }
                         else
                         {
                             this.messageHandler.Display(this, WixErrors.InvalidPlatformParameter(parameter, args[i]));
@@ -432,7 +428,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                     }
                     else if ("ss" == parameter)
                     {
-                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("ss"));
+                        this.messageHandler.Display(this, WixWarnings.DeprecatedCommandLineSwitch("sfdvital"));
                         this.suppressSchema = true;
                     }
                     else if ("swall" == parameter)

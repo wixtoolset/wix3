@@ -31,6 +31,7 @@
             <ComponentGroupRef Id="BurnSdkComponents" />
             <ComponentGroupRef Id="DtfComponents" />
             <ComponentGroupRef Id="ExtensionSdkComponents" />
+            <ComponentGroupRef Id="ProjectTemplates" />
         </Feature>
     </Product>
 </Wix>

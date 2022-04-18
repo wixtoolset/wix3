@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caerr.wxi ?>
+    
+    <!-- DirectX Custom Action DLL Definitions -->
+    <Fragment>
+        <Binary Id="WixDirectXCA" SourceFile="$(var.directxcaDll)" />
+    </Fragment>
+    
+    <Fragment>
+        <CustomAction Id="WixQueryDirectXCaps" BinaryKey="WixDirectXCA" DllEntry="WixQueryDirectXCaps" Return="ignore" />
+        
+        <InstallUISequence>
+            <Custom Action="WixQueryDirectXCaps" Before="LaunchConditions" Overridable="yes">VersionNT &gt; 400</Custom>
+        </InstallUISequence>
+
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryDirectXCaps" Before="LaunchConditions" Overridable="yes">VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+    
+    <Fragment>
+        <Property Id="WIX_DIRECTX_VERTEXSHADERVERSION" Secure="yes" Value="NotSet" />
+        <CustomActionRef Id="WixQueryDirectXCaps" />
+    </Fragment>
+    
+    <Fragment>
+        <Property Id="WIX_DIRECTX_PIXELSHADERVERSION" Secure="yes" Value="NotSet" />
+        <CustomActionRef Id="WixQueryDirectXCaps" />
+    </Fragment>
+</Wix>

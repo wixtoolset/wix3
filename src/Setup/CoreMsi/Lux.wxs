@@ -19,6 +19,7 @@
 
             <Component>
                 <File Source="nit.exe" />
+                <File Source="nit.exe.config" />
             </Component>
 
             <Component>

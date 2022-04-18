@@ -588,9 +588,8 @@ extern "C" UINT __stdcall ExecXmlConfig(
     HRESULT hrOpenFailure = S_OK;
     UINT er = ERROR_SUCCESS;
 
-#ifndef _WIN64
+    BOOL fIsWow64Process = FALSE;
     BOOL fIsFSRedirectDisabled = FALSE;
-#endif
     BOOL fPreserveDate = FALSE;
 
     LPWSTR pwzCustomActionData = NULL;
@@ -636,12 +635,10 @@ extern "C" UINT __stdcall ExecXmlConfig(
     hr = WcaReadIntegerFromCaData(&pwz, (int*) &xa);
     ExitOnFailure(hr, "failed to process CustomActionData");
 
-#ifndef _WIN64
     // Initialize the Wow64 API - store the result in fWow64APIPresent
     // If it fails, this doesn't warrant an error yet, because we only need the Wow64 API in some cases
     WcaInitializeWow64();
-    BOOL fIsWow64Process = WcaIsWow64Process();
-#endif
+    fIsWow64Process = WcaIsWow64Process();
 
     if (xaOpenFile != xa && xaOpenFilex64 != xa)
     {
@@ -660,7 +657,6 @@ extern "C" UINT __stdcall ExecXmlConfig(
         // Open the file
         ReleaseNullObject(pixd);
 
-#ifndef _WIN64
         if (xaOpenFilex64 == xa)
         {
             if (!fIsWow64Process)
@@ -674,7 +670,6 @@ extern "C" UINT __stdcall ExecXmlConfig(
 
             fIsFSRedirectDisabled = TRUE;
         }
-#endif
 
         hr = XmlLoadDocumentFromFileEx(pwzFile, XML_LOAD_PRESERVE_WHITESPACE, &pixd);
         if (FAILED(hr))
@@ -950,18 +945,15 @@ extern "C" UINT __stdcall ExecXmlConfig(
                 ExitOnFailure1(hr, "failed to set modified time of file : %ls", pwzFile);
             }
 
-#ifndef _WIN64
             if (fIsFSRedirectDisabled)
             {
                 fIsFSRedirectDisabled = FALSE;
                 WcaRevertWow64FSRedirection();
             }
-#endif
         }
     }
 
 LExit:
-#ifndef _WIN64
     // Make sure we revert FS Redirection if necessary before exiting
     if (fIsFSRedirectDisabled)
     {
@@ -969,7 +961,6 @@ LExit:
         WcaRevertWow64FSRedirection();
     }
     WcaFinalizeWow64();
-#endif
 
     ReleaseStr(pwzCustomActionData);
     ReleaseStr(pwzData);
@@ -1010,9 +1001,7 @@ extern "C" UINT __stdcall ExecXmlConfigRollback(
     UINT er = ERROR_SUCCESS;
 
     int iIs64Bit;
-#ifndef _WIN64
     BOOL fIs64Bit = FALSE;
-#endif
 
     LPWSTR pwzCustomActionData = NULL;
     LPWSTR pwz = NULL;
@@ -1028,6 +1017,7 @@ extern "C" UINT __stdcall ExecXmlConfigRollback(
     // initialize
     hr = WcaInitialize(hInstall, "ExecXmlConfigRollback");
     ExitOnFailure(hr, "failed to initialize");
+
 
     hr = WcaGetProperty( L"CustomActionData", &pwzCustomActionData);
     ExitOnFailure(hr, "failed to get CustomActionData");
@@ -1045,7 +1035,6 @@ extern "C" UINT __stdcall ExecXmlConfigRollback(
     hr = WcaReadStreamFromCaData(&pwz, &pbData, &cbData);
     ExitOnFailure(hr, "failed to read file contents from custom action data");
 
-#ifndef _WIN64
     fIs64Bit = (BOOL)iIs64Bit;
 
     if (fIs64Bit)
@@ -1066,7 +1055,6 @@ extern "C" UINT __stdcall ExecXmlConfigRollback(
         hr = WcaDisableWow64FSRedirection();
         ExitOnFailure(hr, "Custom action was told to rollback a 64-bit component, but was unable to Disable Filesystem Redirection through the Wow64 API.");
     }
-#endif
 
     hr = FileGetTime(pwzFileName, NULL, NULL, &ft);
     ExitOnFailure1(hr, "Failed to get modified date of file %ls.", pwzFileName);
@@ -1094,13 +1082,11 @@ LExit:
 
     ReleaseFile(hFile);
 
-#ifndef _WIN64
     if (fIs64Bit)
     {
         WcaRevertWow64FSRedirection();
         WcaFinalizeWow64();
     }
-#endif
 
     ReleaseMem(pbData);
 

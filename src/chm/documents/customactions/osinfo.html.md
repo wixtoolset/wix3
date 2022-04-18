@@ -5,7 +5,7 @@ after: using_standard_customactions
 ---
 # OSInfo custom actions
 
-The WixQueryOsInfo, WixQueryOsDirs, WixQueryOsDriverInfo, and WixQueryNativeMachine custom actions in wixca (part of WixUtilExtension) set properties over and above the MSI set for OS product/suite detection, architecture, and standard directories. The WixQueryOsWellKnownSID custom action sets properties for the localized names of some built in Windows users and groups.
+The WixQueryOsInfo, WixQueryOsDirs, and WixQueryOsDriverInfo custom actions in wixca (part of WixUtilExtension) set properties over and above the MSI set for OS product/suite detection and standard directories. The WixQueryOsWellKnownSID custom action sets properties for the localized names of some built in Windows users and groups.
 
 To use these custom actions you simply need to add a [&lt;PropertyRef&gt;](~/xsd/wix/propertyref.html) to the property you want to use and then include WixUtilExtensions when linking. For example:
 
@@ -465,7 +465,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Local System account (WinLocalSystemSid).</p>
+<p>Localized qualified name of the Local System account.</p>
 </td>
 </tr>
 
@@ -475,7 +475,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Local Service account (WinLocalServiceSid).</p>
+<p>Localized qualified name of the Local Service account.</p>
 </td>
 </tr>
 
@@ -485,7 +485,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Network Service account (WinNetworkServiceSid).</p>
+<p>Localized qualified name of the Network Service account.</p>
 </td>
 </tr>
 
@@ -495,7 +495,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Administrators group (WinBuiltinAdministratorsSid).</p>
+<p>Localized qualified name of the Administrators group.</p>
 </td>
 </tr>
 
@@ -505,7 +505,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Users group (WinBuiltinUsersSid).</p>
+<p>Localized qualified name of the Users group.</p>
 </td>
 </tr>
 
@@ -515,17 +515,7 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 </td>
 
 <td>
-<p>Localized qualified name of the Users group (WinBuiltinGuestsSid).</p>
-</td>
-</tr>
-
-<tr>
-<td valign="top">
-<p>WIX_ACCOUNT_PERFLOGUSERS, WIX_ACCOUNT_PERFLOGUSERS_NODOMAIN</p>
-</td>
-
-<td>
-<p>Localized qualified name of the Performance Log Users group (WinBuiltinPerfLoggingUsersSid).</p>
+<p>Localized qualified name of the Users group.</p>
 </td>
 </tr>
 </table>
@@ -547,19 +537,5 @@ WixUtilExtension will automatically schedule the custom actions as needed after 
 <td valign="top">WIX_DWM_COMPOSITION_ENABLED</td>
 
 <td>Set to 1 if the target machine has composition enabled. This property is only set on machines running Windows Vista or higher.</td>
-</tr>
-</table>
-
-<h2>WixQueryNativeMachine properties</h2>
-
-<table>
-<tr>
-<td valign="top">
-<p>WIX_NATIVE_MACHINE</p>
-</td>
-
-<td>
-<p>Set to an [Image File Machine value](https://docs.microsoft.com/en-us/windows/win32/sysinfo/image-file-machine-constants) representing the native architecture of the machine. This property was added in v3.14 and is only set on Windows 10, version 1511 (TH2) and higher.</p>
-</td>
 </tr>
 </table>

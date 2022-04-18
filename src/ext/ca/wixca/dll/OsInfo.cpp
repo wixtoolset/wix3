@@ -29,10 +29,7 @@ extern "C" UINT __stdcall WixQueryOsInfo(
 
     // identify product suites
     ovix.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
-#pragma warning(push)
-#pragma warning(disable:4996)
     ::GetVersionExW(reinterpret_cast<LPOSVERSIONINFOW>(&ovix));
-#pragma warning(pop)
 
     if (VER_SUITE_SMALLBUSINESS == (ovix.wSuiteMask & VER_SUITE_SMALLBUSINESS))
     {
@@ -292,8 +289,7 @@ SetPropertyWellKnownSID
 ********************************************************************/
 static HRESULT SetPropertyWellKnownSID(
     __in WELL_KNOWN_SID_TYPE sidType,
-    __in LPCWSTR wzPropertyName,
-    __in BOOL fIncludeDomainName
+    __in LPCWSTR wzPropertyName
     )
 {
     HRESULT hr = S_OK;
@@ -313,19 +309,11 @@ static HRESULT SetPropertyWellKnownSID(
         ExitWithLastError1(hr, "Failed to look up account for SID; skipping account %ls.", wzPropertyName);
     }
 
-    if (fIncludeDomainName)
-    {
-        hr = StrAllocFormatted(&pwzPropertyValue, L"%s\\%s", wzRefDomain, wzName);
-        ExitOnFailure(hr, "Failed to format property value");
+    hr = StrAllocFormatted(&pwzPropertyValue, L"%s\\%s", wzRefDomain, wzName);
+    ExitOnFailure(hr, "Failed to format property value");
 
-        hr = WcaSetProperty(wzPropertyName, pwzPropertyValue);
-        ExitOnFailure(hr, "Failed write domain\\name property");
-    }
-    else
-    {
-        hr = WcaSetProperty(wzPropertyName, wzName);
-        ExitOnFailure(hr, "Failed write name-only property");
-    }
+    hr = WcaSetProperty(wzPropertyName, pwzPropertyValue);
+    ExitOnFailure(hr, "Failed write property");
  
 LExit:
     if (NULL != psid)
@@ -353,14 +341,12 @@ extern "C" UINT __stdcall WixQueryOsWellKnownSID(
     hr = WcaInitialize(hInstall, "WixQueryOsWellKnownSID");
     ExitOnFailure(hr, "WixQueryOsWellKnownSID failed to initialize");
 
-    SetPropertyWellKnownSID(WinLocalSystemSid, L"WIX_ACCOUNT_LOCALSYSTEM", TRUE);
-    SetPropertyWellKnownSID(WinLocalServiceSid, L"WIX_ACCOUNT_LOCALSERVICE", TRUE);
-    SetPropertyWellKnownSID(WinNetworkServiceSid, L"WIX_ACCOUNT_NETWORKSERVICE", TRUE);
-    SetPropertyWellKnownSID(WinBuiltinAdministratorsSid, L"WIX_ACCOUNT_ADMINISTRATORS", TRUE);
-    SetPropertyWellKnownSID(WinBuiltinUsersSid, L"WIX_ACCOUNT_USERS", TRUE);
-    SetPropertyWellKnownSID(WinBuiltinGuestsSid, L"WIX_ACCOUNT_GUESTS", TRUE);
-    SetPropertyWellKnownSID(WinBuiltinPerfLoggingUsersSid, L"WIX_ACCOUNT_PERFLOGUSERS", TRUE);
-    SetPropertyWellKnownSID(WinBuiltinPerfLoggingUsersSid, L"WIX_ACCOUNT_PERFLOGUSERS_NODOMAIN", FALSE);
+    SetPropertyWellKnownSID(WinLocalSystemSid, L"WIX_ACCOUNT_LOCALSYSTEM");
+    SetPropertyWellKnownSID(WinLocalServiceSid, L"WIX_ACCOUNT_LOCALSERVICE");
+    SetPropertyWellKnownSID(WinNetworkServiceSid, L"WIX_ACCOUNT_NETWORKSERVICE");
+    SetPropertyWellKnownSID(WinBuiltinAdministratorsSid, L"WIX_ACCOUNT_ADMINISTRATORS");
+    SetPropertyWellKnownSID(WinBuiltinUsersSid, L"WIX_ACCOUNT_USERS");
+    SetPropertyWellKnownSID(WinBuiltinGuestsSid, L"WIX_ACCOUNT_GUESTS");
 
 LExit:
     if (FAILED(hr))
@@ -485,39 +471,5 @@ LExit:
     {
         er = ERROR_INSTALL_FAILURE;
     }
-    return WcaFinalize(er);
-}
-
-/********************************************************************
-WixQueryNativeMachine - entry point for WixQueryNativeMachine custom action
-
- Called as Type 1 custom action (DLL from the Binary table) from 
- Windows Installer to set properties that indicates the native machine architecture
-********************************************************************/
-extern "C" UINT __stdcall WixQueryNativeMachine(
-    __in MSIHANDLE hInstall
-    )
-{
-    HRESULT hr = S_OK;
-    USHORT usNativeMachine = IMAGE_FILE_MACHINE_UNKNOWN;
-    DWORD er = ERROR_SUCCESS;
-
-    hr = WcaInitialize(hInstall, "WixQueryNativeMachine");
-    ExitOnFailure(hr, "WixQueryNativeMachine failed to initialize");
-    
-    hr = ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
-    ExitOnFailure(hr, "Failed to get native machine value.");
-
-    if (S_FALSE != hr)
-    {
-        WcaSetIntProperty(L"WIX_NATIVE_MACHINE", usNativeMachine);
-    }
-
-LExit:
-    if (FAILED(hr))
-    {
-        er = ERROR_INSTALL_FAILURE;
-    }
-
     return WcaFinalize(er);
 }

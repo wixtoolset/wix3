@@ -6,7 +6,6 @@
 
   <Import Project="WixBuild.props" Condition=" '$(WixBuildPropertiesDefined)'!='true' " />
   <Import Project="WixBuild$(MSBuildProjectExtension).targets" Condition=" Exists('WixBuild$(MSBuildProjectExtension).targets') " />
-  <Import Project="WixBuild.Signing.targets" />
   <Import Project="WixBuild.Tools.targets" />
   <Import Project="WixBuild.VisualStudioSdk.targets" Condition=" '$(TargetVisualStudio)'!='' " />
 

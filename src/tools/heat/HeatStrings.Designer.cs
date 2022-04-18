@@ -72,16 +72,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools {
                 return ResourceManager.GetString("HelpMessageExtension", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to enables FIPS compliant algorithms.
-        /// </summary>
-        internal static string HelpMessageFips {
-            get {
-                return ResourceManager.GetString("HelpMessageFips", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to indentation multiple (overrides default of 4).
         /// </summary>

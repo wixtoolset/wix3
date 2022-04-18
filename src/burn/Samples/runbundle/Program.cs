@@ -3,7 +3,6 @@
 namespace Wix.Samples
 {
     using System;
-    using System.Linq;
     using Wix.Samples;
 
     /// <summary>
@@ -24,7 +23,7 @@ namespace Wix.Samples
             runner.Progress += Program.OnProgress;
 
             Console.WriteLine("Installing: {0}", runner.Path);
-            int exitCode = runner.Run(String.Join(" ", args.Skip(1).ToArray()));
+            int exitCode = runner.Run();
             if (0 == exitCode)
             {
                 Console.WriteLine("\r\nUninstalling: {0}", runner.Path);

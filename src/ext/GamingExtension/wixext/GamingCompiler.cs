@@ -140,9 +140,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string progId = contextValues["ProgId"];
             string componentId = contextValues["ComponentId"];
             string extensionId = contextValues["ExtensionId"];
-
-            this.Core.OnMessage(GamingWarnings.ExtensionDeprecated(sourceLineNumbers));
-
+            
             if (null == extensionId || null == progId || null == componentId)
             {
                 this.Core.OnMessage(WixErrors.ExpectedParentWithAttribute(sourceLineNumbers, "Extension", "IsRichSavedGame", "ProgId"));
@@ -172,8 +170,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
             string executableFileId = fileId;
             int playTaskOrder = 0;
             int supportTaskOrder = 0;
-
-            this.Core.OnMessage(GamingWarnings.ExtensionDeprecated(sourceLineNumbers));
 
             foreach (XmlAttribute attrib in node.Attributes)
             {
@@ -401,7 +397,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Extensions
                 // use the directory ID as the shortcut ID because Game Explorer wants one
                 // shortcut per directory, so that makes the directory ID unique
                 string directoryId = this.CreateTaskDirectoryRow(sourceLineNumbers, componentId, TaskType.Support, taskOrder);
-                Extensions.UtilCompiler.CreateWixInternetShortcut(this.Core, sourceLineNumbers, componentId, directoryId, directoryId, name, address, Extensions.UtilCompiler.InternetShortcutType.Link, null, 0);
+                Extensions.UtilCompiler.CreateWixInternetShortcut(this.Core, sourceLineNumbers, componentId, directoryId, directoryId, name, address, Extensions.UtilCompiler.InternetShortcutType.Link);
             }
         }
 

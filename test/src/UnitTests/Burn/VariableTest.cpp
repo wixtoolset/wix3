@@ -420,7 +420,6 @@ namespace Bootstrapper
                 Assert::Equal(E_INVALIDARG, hr);
                 Assert::False(EvaluateConditionHelper(&variables, L"VersionNT = \"VAL\""));
 
-                VariableGetNumericHelper(&variables, L"NativeMachine");
                 VariableGetNumericHelper(&variables, L"NTProductType");
                 VariableGetNumericHelper(&variables, L"NTSuiteBackOffice");
                 VariableGetNumericHelper(&variables, L"NTSuiteDataCenter");
@@ -433,7 +432,6 @@ namespace Bootstrapper
                 VariableGetNumericHelper(&variables, L"Privileged");
                 VariableGetNumericHelper(&variables, L"SystemLanguageID");
                 VariableGetNumericHelper(&variables, L"TerminalServer");
-                VariableGetNumericHelper(&variables, L"UserUILanguageID");
                 VariableGetNumericHelper(&variables, L"UserLanguageID");
 
                 // known folders

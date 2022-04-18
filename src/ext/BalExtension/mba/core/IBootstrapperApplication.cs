@@ -88,7 +88,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId
             );
 
-        [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Result OnDetectCompatiblePackage(
             [MarshalAs(UnmanagedType.LPWStr)] string wzPackageId,
@@ -526,11 +525,6 @@ namespace Microsoft.Tools.WindowsInstallerXml.Bootstrapper
         /// The error came while trying to authenticate with an HTTP proxy.
         /// </summary>
         HttpProxyAuthentication,
-
-        /// <summary>
-        /// The error occurred during apply.
-        /// </summary>
-        Apply,
     };
 
     public enum RelatedOperation

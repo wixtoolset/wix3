@@ -8,13 +8,10 @@
     <OutputName>msmq</OutputName>
     <OutputType>Library</OutputType>
     <BindFiles>true</BindFiles>
-    <Pedantic>true</Pedantic>
-    <Cultures>en-us</Cultures>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="MsmqExtension_x86.wxs" />
-    <Compile Include="MsmqExtension_arm64.wxs" Condition="$(BuildARM64)" />
+    <Compile Include="MsmqExtension.wxs" />
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="ja-jp.wxl" />
   </ItemGroup>

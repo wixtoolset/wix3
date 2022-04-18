@@ -144,10 +144,7 @@ extern "C" HRESULT EngineRun(
     fXmlInitialized = TRUE;
 
     ovix.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
-#pragma warning(push)
-#pragma warning(disable:4996)
     if (!::GetVersionExW((LPOSVERSIONINFOW)&ovix))
-#pragma warning(pop)
     {
         ExitWithLastError(hr, "Failed to get OS info.");
     }
@@ -208,7 +205,7 @@ LExit:
     // and that will dump anything captured in the log memory buffer to the log.
     if (FAILED(hr) && BURN_LOGGING_STATE_CLOSED == engineState.log.state)
     {
-        LoggingOpenFailed();
+        LogOpen(NULL, L"Setup", L"_Failed", L"txt", FALSE, FALSE, NULL);
     }
 
     UserExperienceRemove(&engineState.userExperience);

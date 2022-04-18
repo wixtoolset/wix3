@@ -36,7 +36,6 @@ enum OS_INFO_VARIABLE
     OS_INFO_VARIABLE_CompatibilityMode,
     OS_INFO_VARIABLE_TerminalServer,
     OS_INFO_VARIABLE_ProcessorArchitecture,
-    OS_INFO_VARIABLE_WindowsBuildNumber,
 };
 
 enum SET_VARIABLE
@@ -91,10 +90,6 @@ static HRESULT InitializeVariableVersionNT(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
     );
-static HRESULT InitializeVariableNativeMachine(
-    __in DWORD_PTR dwpData,
-    __inout BURN_VARIANT* pValue
-    );
 static HRESULT InitializeVariableOsInfo(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
@@ -136,10 +131,6 @@ static HRESULT InitializeVariableRebootPending(
     __inout BURN_VARIANT* pValue
     );
 static HRESULT InitializeSystemLanguageID(
-    __in DWORD_PTR dwpData,
-    __inout BURN_VARIANT* pValue
-    );
-static HRESULT InitializeUserUILanguageID(
     __in DWORD_PTR dwpData,
     __inout BURN_VARIANT* pValue
     );
@@ -222,7 +213,6 @@ extern "C" HRESULT VariableInitialize(
         {L"LocalAppDataFolder", InitializeVariableCsidlFolder, CSIDL_LOCAL_APPDATA},
         {VARIABLE_LOGONUSER, InitializeVariableLogonUser, 0},
         {L"MyPicturesFolder", InitializeVariableCsidlFolder, CSIDL_MYPICTURES},
-        {L"NativeMachine", InitializeVariableNativeMachine, 0},
         {L"NTProductType", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTProductType},
         {L"NTSuiteBackOffice", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteBackOffice},
         {L"NTSuiteDataCenter", InitializeVariableOsInfo, OS_INFO_VARIABLE_NTSuiteDataCenter},
@@ -254,12 +244,10 @@ extern "C" HRESULT VariableInitialize(
         {L"TempFolder", InitializeVariableTempFolder, 0},
         {L"TemplateFolder", InitializeVariableCsidlFolder, CSIDL_TEMPLATES},
         {L"TerminalServer", InitializeVariableOsInfo, OS_INFO_VARIABLE_TerminalServer},
-        {L"UserUILanguageID", InitializeUserUILanguageID, 0},
         {L"UserLanguageID", InitializeUserLanguageID, 0},
         {L"VersionMsi", InitializeVariableVersionMsi, 0},
         {L"VersionNT", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT},
         {L"VersionNT64", InitializeVariableVersionNT, OS_INFO_VARIABLE_VersionNT64},
-        {L"WindowsBuildNumber", InitializeVariableVersionNT, OS_INFO_VARIABLE_WindowsBuildNumber},
         {L"WindowsFolder", InitializeVariableCsidlFolder, CSIDL_WINDOWS},
         {L"WindowsVolume", InitializeVariableWindowsVolumeFolder, 0},
         {BURN_BUNDLE_ACTION, InitializeVariableNumeric, 0, FALSE, TRUE},
@@ -273,7 +261,6 @@ extern "C" HRESULT VariableInitialize(
         {BURN_BUNDLE_SOURCE_PROCESS_PATH, InitializeVariableString, NULL, FALSE, TRUE},
         {BURN_BUNDLE_SOURCE_PROCESS_FOLDER, InitializeVariableString, NULL, FALSE, TRUE},
         {BURN_BUNDLE_TAG, InitializeVariableString, (DWORD_PTR)L"", FALSE, TRUE},
-        {BURN_BUNDLE_UILEVEL, InitializeVariableNumeric, 0, FALSE, TRUE},
         {BURN_BUNDLE_VERSION, InitializeVariableVersion, 0, FALSE, TRUE},
     };
 
@@ -841,7 +828,7 @@ extern "C" HRESULT VariableSerialize(
 
         // If we aren't persisting, include only variables that aren't rejected by the elevated process.
         // If we are persisting, include only variables that should be persisted.
-        fIncluded = (!fPersisting && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariable->internalType) ||
+        fIncluded = (!fPersisting && BURN_VARIABLE_INTERNAL_TYPE_BUILTIN != pVariable->internalType) || 
                     (fPersisting && pVariable->fPersisted);
 
         // Write included flag.
@@ -1646,7 +1633,7 @@ static HRESULT InitializeVariableVersionNT(
     {
         ExitWithLastError(hr, "Failed to locate RtlGetVersion.");
     }
-
+    
     ovix.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
     hr = static_cast<HRESULT>(rtlGetVersion(&ovix));
     ExitOnFailure(hr, "Failed to get OS info.");
@@ -1678,9 +1665,6 @@ static HRESULT InitializeVariableVersionNT(
             }
         }
         break;
-    case OS_INFO_VARIABLE_WindowsBuildNumber:
-        value.qwValue = static_cast<DWORD64>(ovix.dwBuildNumber);
-        value.Type = BURN_VARIANT_TYPE_NUMERIC;
     default:
         AssertSz(FALSE, "Unknown OS info type.");
         break;
@@ -1708,10 +1692,7 @@ static HRESULT InitializeVariableOsInfo(
     BURN_VARIANT value = { };
 
     ovix.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
-#pragma warning(push)
-#pragma warning(disable:4996)
     if (!::GetVersionExW((LPOSVERSIONINFOW)&ovix))
-#pragma warning(pop)
     {
         ExitWithLastError(hr, "Failed to get OS info.");
     }
@@ -1802,29 +1783,6 @@ static HRESULT InitializeVariableSystemInfo(
 
     hr = BVariantCopy(&value, pValue);
     ExitOnFailure(hr, "Failed to set variant value.");
-
-LExit:
-    return hr;
-}
-
-static HRESULT InitializeVariableNativeMachine(
-    __in DWORD_PTR dwpData,
-    __inout BURN_VARIANT* pValue
-    )
-{
-    UNREFERENCED_PARAMETER(dwpData);
-    
-    HRESULT hr = S_OK;
-    USHORT usNativeMachine = IMAGE_FILE_MACHINE_UNKNOWN;
-
-    hr = ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
-    ExitOnFailure(hr, "Failed to get native machine value.");
-    
-    if (S_FALSE != hr)
-    {
-        hr = BVariantSetNumeric(pValue, usNativeMachine);
-        ExitOnFailure(hr, "Failed to set variant value.");
-    }
 
 LExit:
     return hr;
@@ -1938,35 +1896,26 @@ static HRESULT InitializeVariableSystemFolder(
     BOOL f64 = (BOOL)dwpData;
     WCHAR wzSystemFolder[MAX_PATH] = { };
 
-#if !defined(_WIN64)
-    BOOL fIsWow64 = FALSE;
-    ProcWow64(::GetCurrentProcess(), &fIsWow64);
-
-    if (fIsWow64)
+#ifndef _WIN64
+    if (f64)
     {
-        if (f64)
+        // Try to get the WOW system folder. If this function is not implemented (aka: 32-bit Windows)
+        // then we'll leave the folder blank.
+        if (!::GetSystemWow64DirectoryW(wzSystemFolder, countof(wzSystemFolder)))
         {
-            if (!::GetSystemDirectoryW(wzSystemFolder, countof(wzSystemFolder)))
+            DWORD er = ::GetLastError();
+            if (ERROR_CALL_NOT_IMPLEMENTED != er)
             {
-                ExitWithLastError(hr, "Failed to get 64-bit system folder.");
+                er = ERROR_SUCCESS;
             }
-        }
-        else
-        {
-            if (!::GetSystemWow64DirectoryW(wzSystemFolder, countof(wzSystemFolder)))
-            {
-                ExitWithLastError(hr, "Failed to get 32-bit system folder.");
-            }
+            ExitOnWin32Error(er, hr, "Failed to get 32-bit system folder.");
         }
     }
     else
     {
-        if (!f64)
+        if (!::GetSystemDirectoryW(wzSystemFolder, countof(wzSystemFolder)))
         {
-            if (!::GetSystemDirectoryW(wzSystemFolder, countof(wzSystemFolder)))
-            {
-                ExitWithLastError(hr, "Failed to get 32-bit system folder.");
-            }
+            ExitWithLastError(hr, "Failed to get 64-bit system folder.");
         }
     }
 #else
@@ -2100,23 +2049,6 @@ static HRESULT InitializeSystemLanguageID(
 
     HRESULT hr = S_OK;
     LANGID langid = ::GetSystemDefaultLangID();
-
-    hr = BVariantSetNumeric(pValue, langid);
-    ExitOnFailure(hr, "Failed to set variant value.");
-
-LExit:
-    return hr;
-}
-
-static HRESULT InitializeUserUILanguageID(
-    __in DWORD_PTR dwpData,
-    __inout BURN_VARIANT* pValue
-    )
-{
-    UNREFERENCED_PARAMETER(dwpData);
-
-    HRESULT hr = S_OK;
-    LANGID langid = ::GetUserDefaultUILanguage();
 
     hr = BVariantSetNumeric(pValue, langid);
     ExitOnFailure(hr, "Failed to set variant value.");
