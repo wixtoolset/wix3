@@ -56,6 +56,7 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * VersionMsi - version value representing the Windows Installer engine version.
 * VersionNT - version value representing the OS version. The result is a version variable (v#.#.#.#) which differs from the MSI Property &apos;VersionNT&apos; which is an integer. For example, to use this variable in a Bundle condition try: &quot;VersionNT &gt; v6.1&quot;.
 * VersionNT64 - version value representing the OS version if 64-bit. Undefined if running a 32-bit operating system. The result is a version variable (v#.#.#.#) which differs from the MSI Property &apos;VersionNT64&apos; which is an integer. For example, to use this variable in a Bundle condition try: &quot;VersionNT64 &gt; v6.1&quot;.
+* WindowsBuildNumber - gets the value of [RTL_OSVERSIONINFOEXW.dwBuildNumber](https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_osversioninfoexw).
 * WindowsFolder - gets the well-known folder for CSIDL\_WINDOWS.
 * WindowsVolume - gets the well-known folder for the windows volume.
 * WixBundleAction - set to the numeric value of BOOTSTRAPPER\_ACTION from the command-line and updated during the call to IBootstrapperEngine::Plan().
