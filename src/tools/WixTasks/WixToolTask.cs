@@ -240,6 +240,11 @@ namespace Microsoft.Tools.WindowsInstallerXml.Build.Tasks
                 Assembly toolAssembly = Assembly.LoadFrom((string)pathAndArguments[0]);
                 this.exitCode = (int)toolAssembly.EntryPoint.Invoke(null, new object[] { pathAndArguments[1] });
             }
+            catch (BadImageFormatException bife)
+            {
+                Log.LogError("Unable to load tool from path {0} due to architecture mismatch.  Consider setting the RunAsSeparateProcess parameter to $(RunWixToolsOutOfProc).", bife.FileName);
+                this.exitCode = -1;
+            }
             catch (FileNotFoundException fnfe)
             {
                 Log.LogError("Unable to load tool from path {0}.  Consider setting the ToolPath parameter to $(WixToolPath).", fnfe.FileName);
