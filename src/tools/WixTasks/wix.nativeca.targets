@@ -9,13 +9,9 @@
 
     <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v100' ">VS2010</WixPlatformToolset>
     <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v110' ">VS2012</WixPlatformToolset>
-    <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v110_xp' ">VS2012</WixPlatformToolset>
     <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v120' ">VS2013</WixPlatformToolset>
-    <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v120_xp' ">VS2013</WixPlatformToolset>
     <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v140' ">VS2015</WixPlatformToolset>
-    <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v140_xp' ">VS2015</WixPlatformToolset>
     <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v141' ">VS2017</WixPlatformToolset>
-    <WixPlatformToolset Condition=" '$(PlatformToolset)'=='v141_xp' ">VS2017</WixPlatformToolset>
 
     <WixPlatformToolset Condition=" '$(WixPlatformToolset)'=='' ">VS2015</WixPlatformToolset>
   </PropertyGroup>

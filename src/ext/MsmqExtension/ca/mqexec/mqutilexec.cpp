@@ -40,7 +40,7 @@ static HRESULT CreateSidFromDomainRidPair(
 static HRESULT InitLsaUnicodeString(
     PLSA_UNICODE_STRING plusStr,
     LPCWSTR pwzStr,
-    DWORD dwLen
+    SIZE_T dwLen
     );
 static void FreeLsaUnicodeString(
     PLSA_UNICODE_STRING plusStr
@@ -351,7 +351,7 @@ LExit:
 static HRESULT InitLsaUnicodeString(
     PLSA_UNICODE_STRING plusStr,
     LPCWSTR pwzStr,
-    DWORD dwLen
+    SIZE_T dwLen
     )
 {
     HRESULT hr = S_OK;

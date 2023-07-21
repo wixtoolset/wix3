@@ -26,6 +26,7 @@
                 <Directory Id="SdkLibFolder" Name="lib">
                     <Directory Id="SdkX86LibFolder" Name="x86" />
                     <Directory Id="SdkX64LibFolder" Name="x64" />
+                    <Directory Id="SdkARM64LibFolder" Name="ARM64" />
                 </Directory>
             </Directory>
         </DirectoryRef>

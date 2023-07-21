@@ -29,7 +29,10 @@ extern "C" UINT __stdcall WixQueryOsInfo(
 
     // identify product suites
     ovix.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
+#pragma warning(push)
+#pragma warning(disable:4996)
     ::GetVersionExW(reinterpret_cast<LPOSVERSIONINFOW>(&ovix));
+#pragma warning(pop)
 
     if (VER_SUITE_SMALLBUSINESS == (ovix.wSuiteMask & VER_SUITE_SMALLBUSINESS))
     {
@@ -482,5 +485,39 @@ LExit:
     {
         er = ERROR_INSTALL_FAILURE;
     }
+    return WcaFinalize(er);
+}
+
+/********************************************************************
+WixQueryNativeMachine - entry point for WixQueryNativeMachine custom action
+
+ Called as Type 1 custom action (DLL from the Binary table) from 
+ Windows Installer to set properties that indicates the native machine architecture
+********************************************************************/
+extern "C" UINT __stdcall WixQueryNativeMachine(
+    __in MSIHANDLE hInstall
+    )
+{
+    HRESULT hr = S_OK;
+    USHORT usNativeMachine = IMAGE_FILE_MACHINE_UNKNOWN;
+    DWORD er = ERROR_SUCCESS;
+
+    hr = WcaInitialize(hInstall, "WixQueryNativeMachine");
+    ExitOnFailure(hr, "WixQueryNativeMachine failed to initialize");
+    
+    hr = ProcNativeMachine(::GetCurrentProcess(), &usNativeMachine);
+    ExitOnFailure(hr, "Failed to get native machine value.");
+
+    if (S_FALSE != hr)
+    {
+        WcaSetIntProperty(L"WIX_NATIVE_MACHINE", usNativeMachine);
+    }
+
+LExit:
+    if (FAILED(hr))
+    {
+        er = ERROR_INSTALL_FAILURE;
+    }
+
     return WcaFinalize(er);
 }

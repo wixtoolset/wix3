@@ -21,6 +21,12 @@ struct VS_COMPONENT_PROPERTY
     LPCWSTR pwzProperty;
 };
 
+static HRESULT InstanceInProducts(
+    __in ISetupInstance* pInstance,
+    __in DWORD cProducts,
+    __in LPCWSTR* rgwzProducts
+    );
+
 static HRESULT InstanceIsGreater(
     __in_opt ISetupInstance* pPreviousInstance,
     __in DWORD64 qwPreviousVersion,
@@ -41,6 +47,18 @@ static HRESULT ProcessVS2017(
     __in BOOL fComplete
     );
 
+static HRESULT ProcessVS2019(
+    __in_opt ISetupInstance* pInstance,
+    __in DWORD64 qwVersion,
+    __in BOOL fComplete
+    );
+
+static HRESULT ProcessVS2022(
+	__in_opt ISetupInstance* pInstance,
+	__in DWORD64 qwVersion,
+	__in BOOL fComplete
+);
+
 static HRESULT SetPropertyForComponent(
     __in DWORD cComponents,
     __in VS_COMPONENT_PROPERTY* rgComponents,
@@ -50,6 +68,8 @@ static HRESULT SetPropertyForComponent(
 static VS_INSTANCE vrgInstances[] =
 {
     { FILEMAKEVERSION(15, 0, 0, 0), FILEMAKEVERSION(15, 0xffff, 0xffff, 0xffff), ProcessVS2017 },
+    { FILEMAKEVERSION(16, 0, 0, 0), FILEMAKEVERSION(16, 0xffff, 0xffff, 0xffff), ProcessVS2019 },
+    { FILEMAKEVERSION(17, 0, 0, 0), FILEMAKEVERSION(17, 0xffff, 0xffff, 0xffff), ProcessVS2022 },
 };
 
 /******************************************************************
@@ -144,11 +164,8 @@ extern "C" UINT __stdcall FindInstances(
     {
         const VS_INSTANCE* pElem = &vrgInstances[i];
 
-        if (pElem->qwMinVersion <= qwVersion && qwVersion <= pElem->qwMaxVersion)
-        {
-            hr = pElem->pfnProcessInstance(NULL, 0, TRUE);
-            ExitOnFailure(hr, "Failed to process latest instance.");
-        }
+        hr = pElem->pfnProcessInstance(NULL, 0, TRUE);
+        ExitOnFailure(hr, "Failed to process latest instance.");
     }
 
 LExit:
@@ -169,6 +186,54 @@ LExit:
     }
 
     return WcaFinalize(er);
+}
+
+static HRESULT InstanceInProducts(
+    __in ISetupInstance* pInstance,
+    __in DWORD cProducts,
+    __in LPCWSTR* rgwzProducts
+    )
+{
+    HRESULT hr = S_OK;
+    ISetupInstance2* pInstance2 = NULL;
+    ISetupPackageReference* pProduct = NULL;
+    BSTR bstrId = NULL;
+
+    hr = pInstance->QueryInterface(IID_PPV_ARGS(&pInstance2));
+    if (FAILED(hr))
+    {
+        // Older implementations shipped when only VS SKUs were supported.
+        WcaLog(LOGMSG_VERBOSE, "Could not query instance for product information; assuming supported product.");
+
+        hr = S_OK;
+        ExitFunction();
+    }
+
+    hr = pInstance2->GetProduct(&pProduct);
+    ExitOnFailure(hr, "Failed to get product package reference.");
+
+    hr = pProduct->GetId(&bstrId);
+    ExitOnFailure(hr, "Failed to get product package ID.");
+
+    for (DWORD i = 0; i < cProducts; ++i)
+    {
+        const LPCWSTR wzProduct = rgwzProducts[i];
+
+        if (CSTR_EQUAL == ::CompareStringW(LOCALE_NEUTRAL, NORM_IGNORECASE, bstrId, -1, wzProduct, -1))
+        {
+            hr = S_OK;
+            ExitFunction();
+        }
+    }
+
+    hr = S_FALSE;
+
+LExit:
+    ReleaseBSTR(bstrId);
+    ReleaseObject(pProduct);
+    ReleaseObject(pInstance2);
+
+    return hr;
 }
 
 static HRESULT InstanceIsGreater(
@@ -288,6 +353,13 @@ static HRESULT ProcessVS2017(
     static ISetupInstance* pLatest = NULL;
     static DWORD64 qwLatest = 0;
 
+    static LPCWSTR rgwzProducts[] =
+    {
+        L"Microsoft.VisualStudio.Product.Community",
+        L"Microsoft.VisualStudio.Product.Professional",
+        L"Microsoft.VisualStudio.Product.Enterprise",
+    };
+
     // TODO: Consider making table-driven with these defaults per-version for easy customization.
     static VS_COMPONENT_PROPERTY rgComponents[] =
     {
@@ -312,19 +384,29 @@ static HRESULT ProcessVS2017(
     }
     else if (pInstance)
     {
+        hr = InstanceInProducts(pInstance, countof(rgwzProducts), rgwzProducts);
+        ExitOnFailure(hr, "Failed to compare product IDs.");
+
+        if (S_FALSE == hr)
+        {
+            ExitFunction();
+        }
+
         hr = InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
         ExitOnFailure(hr, "Failed to compare instances.");
 
-        if (S_OK == hr)
+        if (S_FALSE == hr)
         {
-            ReleaseNullObject(pLatest);
-
-            pLatest = pInstance;
-            qwLatest = qwVersion;
-
-            // Caller will do a final Release() otherwise.
-            pLatest->AddRef();
+            ExitFunction();
         }
+
+        ReleaseNullObject(pLatest);
+
+        pLatest = pInstance;
+        qwLatest = qwVersion;
+
+        // Caller will do a final Release() otherwise.
+        pLatest->AddRef();
     }
 
 LExit:
@@ -334,6 +416,154 @@ LExit:
     }
 
     return hr;
+}
+
+static HRESULT ProcessVS2019(
+    __in_opt ISetupInstance* pInstance,
+    __in DWORD64 qwVersion,
+    __in BOOL fComplete
+    )
+{
+    static ISetupInstance* pLatest = NULL;
+    static DWORD64 qwLatest = 0;
+
+    static LPCWSTR rgwzProducts[] =
+    {
+        L"Microsoft.VisualStudio.Product.Community",
+        L"Microsoft.VisualStudio.Product.Professional",
+        L"Microsoft.VisualStudio.Product.Enterprise",
+    };
+
+    // TODO: Consider making table-driven with these defaults per-version for easy customization.
+    static VS_COMPONENT_PROPERTY rgComponents[] =
+    {
+        { L"Microsoft.VisualStudio.Component.FSharp", L"VS2019_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.Roslyn.LanguageServices", L"VS2019_IDE_VB_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.Roslyn.LanguageServices", L"VS2019_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.PackageGroup.TestTools.Core", L"VS2019_IDE_VSTS_TESTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.VC.CoreIde", L"VS2019_IDE_VC_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.Component.Web", L"VS2019_IDE_VWD_PROJECTSYSTEM_INSTALLED" },
+        { L"Microsoft.VisualStudio.PackageGroup.DslRuntime", L"VS2019_IDE_MODELING_PROJECTSYSTEM_INSTALLED" },
+    };
+
+    HRESULT hr = S_OK;
+
+    if (fComplete)
+    {
+        if (pLatest)
+        {
+            hr = ProcessInstance(pLatest, L"VS2019_ROOT_FOLDER", countof(rgComponents), rgComponents);
+            ExitOnFailure(hr, "Failed to process VS2019 instance.");
+        }
+    }
+    else if (pInstance)
+    {
+        hr = InstanceInProducts(pInstance, countof(rgwzProducts), rgwzProducts);
+        ExitOnFailure(hr, "Failed to compare product IDs.");
+
+        if (S_FALSE == hr)
+        {
+            ExitFunction();
+        }
+
+        hr = InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
+        ExitOnFailure(hr, "Failed to compare instances.");
+
+        if (S_FALSE == hr)
+        {
+            ExitFunction();
+        }
+
+        ReleaseNullObject(pLatest);
+
+        pLatest = pInstance;
+        qwLatest = qwVersion;
+
+        // Caller will do a final Release() otherwise.
+        pLatest->AddRef();
+    }
+
+LExit:
+    if (fComplete)
+    {
+        ReleaseObject(pLatest);
+    }
+
+    return hr;
+}
+
+static HRESULT ProcessVS2022(
+	__in_opt ISetupInstance* pInstance,
+	__in DWORD64 qwVersion,
+	__in BOOL fComplete
+)
+{
+	static ISetupInstance* pLatest = NULL;
+	static DWORD64 qwLatest = 0;
+
+	static LPCWSTR rgwzProducts[] =
+	{
+		L"Microsoft.VisualStudio.Product.Community",
+		L"Microsoft.VisualStudio.Product.Professional",
+		L"Microsoft.VisualStudio.Product.Enterprise",
+	};
+
+	// TODO: Consider making table-driven with these defaults per-version for easy customization.
+	static VS_COMPONENT_PROPERTY rgComponents[] =
+	{
+		{ L"Microsoft.VisualStudio.Component.FSharp", L"VS2022_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" },
+		{ L"Microsoft.VisualStudio.Component.Roslyn.LanguageServices", L"VS2022_IDE_VB_PROJECTSYSTEM_INSTALLED" },
+		{ L"Microsoft.VisualStudio.Component.Roslyn.LanguageServices", L"VS2022_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" },
+		{ L"Microsoft.VisualStudio.PackageGroup.TestTools.Core", L"VS2022_IDE_VSTS_TESTSYSTEM_INSTALLED" },
+		{ L"Microsoft.VisualStudio.Component.VC.CoreIde", L"VS2022_IDE_VC_PROJECTSYSTEM_INSTALLED" },
+		{ L"Microsoft.VisualStudio.Component.Web", L"VS2022_IDE_VWD_PROJECTSYSTEM_INSTALLED" },
+		{ L"Microsoft.VisualStudio.PackageGroup.DslRuntime", L"VS2022_IDE_MODELING_PROJECTSYSTEM_INSTALLED" },
+	};
+
+	HRESULT hr = S_OK;
+
+	if (fComplete)
+	{
+		if (pLatest)
+		{
+			hr = ProcessInstance(pLatest, L"VS2022_ROOT_FOLDER", countof(rgComponents), rgComponents);
+			ExitOnFailure(hr, "Failed to process VS2022 instance.");
+		}
+	}
+	else if (pInstance)
+	{
+		hr = InstanceInProducts(pInstance, countof(rgwzProducts), rgwzProducts);
+		ExitOnFailure(hr, "Failed to compare product IDs.");
+
+		if (S_FALSE == hr)
+		{
+			ExitFunction();
+		}
+
+		hr = InstanceIsGreater(pLatest, qwLatest, pInstance, qwVersion);
+		ExitOnFailure(hr, "Failed to compare instances.");
+
+		if (S_FALSE == hr)
+		{
+			ExitFunction();
+		}
+
+		ReleaseNullObject(pLatest);
+
+		pLatest = pInstance;
+		qwLatest = qwVersion;
+
+		// Caller will do a final Release() otherwise.
+		pLatest->AddRef();
+	}
+
+LExit:
+	if (fComplete)
+	{
+		ReleaseObject(pLatest);
+	}
+
+	return hr;
 }
 
 static HRESULT SetPropertyForComponent(

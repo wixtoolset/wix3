@@ -8,7 +8,6 @@
     <AssemblyName>WixVSExtension.MSBuild14</AssemblyName>
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Tools.WindowsInstallerXml.Extensions.WixVSExtension</RootNamespace>
-    <TargetFrameworkVersion>4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />

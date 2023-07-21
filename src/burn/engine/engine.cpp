@@ -144,7 +144,10 @@ extern "C" HRESULT EngineRun(
     fXmlInitialized = TRUE;
 
     ovix.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
+#pragma warning(push)
+#pragma warning(disable:4996)
     if (!::GetVersionExW((LPOSVERSIONINFOW)&ovix))
+#pragma warning(pop)
     {
         ExitWithLastError(hr, "Failed to get OS info.");
     }

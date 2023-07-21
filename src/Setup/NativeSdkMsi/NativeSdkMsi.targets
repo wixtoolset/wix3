@@ -16,7 +16,7 @@
     <OutputName>nsdk$(VisualStudioTargetVersion)</OutputName>
     <OutputType>Package</OutputType>
     <Cultures>en-us</Cultures>
-    <DefineConstants>$(DefineConstants);VisualStudioTargetVersion=$(VisualStudioTargetVersion);NativeTemplatesFromVersion=$(NativeTemplatesFromVersion)</DefineConstants>
+    <DefineConstants>$(DefineConstants);VisualStudioTargetVersion=$(VisualStudioTargetVersion);NativeTemplatesFromVersion=$(NativeTemplatesFromVersion);BuildARM64=$(BuildARM64)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

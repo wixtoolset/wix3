@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="VS2019_ROOT_FOLDER" Secure="yes" />
+
+        <!-- Currently supported only on x86 -->
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2019_ROOT_FOLDER" />
+        <Property Id="VS2019_IDE_DIR" Secure="yes">
+            <DirectorySearch Id="VS2019DirectorySearch" Path="[VS2019_ROOT_FOLDER]">
+                <DirectorySearch Id="VS2019EnvironmentDirectorySearch" Path="Common7\IDE" Depth="1" />
+            </DirectorySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2019_EXTENSIONS_DIR" Secure="yes">
+            <DirectorySearchRef Id="VS2019EnvironmentDirectorySearch" Parent="VS2019DirectorySearch" Path="Common7\IDE">
+                <DirectorySearch Id="VS2019ExtensionsDirectorySearch" Path="Extensions" Depth="1" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2019_PROJECTTEMPLATES_DIR" Secure="yes">
+            <DirectorySearchRef Id="VS2019EnvironmentDirectorySearch" Parent="VS2019DirectorySearch" Path="Common7\IDE">
+                <DirectorySearch Id="VS2019ProjectTemplatesDirectorySearch" Path="ProjectTemplates" Depth="1" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2019_ROOT_FOLDER" />
+        <Property Id="VS2019_SCHEMAS_DIR" Secure="yes">
+            <DirectorySearch Id="VS2019XmlDirectorySearch" Path="[VS2019_ROOT_FOLDER]\Xml" Depth="1">
+                <DirectorySearch Id="VS2019XmlSchemasDirectorySearch" Path="Schemas" Depth="1" />
+            </DirectorySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2019_ITEMTEMPLATES_DIR" Secure="yes">
+            <DirectorySearchRef Id="VS2019EnvironmentDirectorySearch" Parent="VS2019DirectorySearch" Path="Common7\IDE">
+                <DirectorySearch Id="VS2019ItemTemplatesDirectorySearch" Path="ItemTemplates" Depth="1" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <PropertyRef Id="VS2019_ROOT_FOLDER" />
+        <Property Id="VS2019_BOOTSTRAPPER_PACKAGE_FOLDER" Secure="yes">
+            <DirectorySearch Id="VS2019SDKDirectorySearch" Path="[VS2019_ROOT_FOLDER]\SDK" Depth="1">
+                <DirectorySearch Id="SearchForVS2019BootstrapperPackageDirectory" Path="Bootstrapper" Depth="1" />
+            </DirectorySearch>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="VS2019DEVENV" Secure="yes">
+            <DirectorySearchRef Id="VS2019EnvironmentDirectorySearch" Parent="VS2019DirectorySearch" Path="Common7\IDE">
+                <FileSearch Id="VS2019DevEnvSearch" Name="devenv.exe" />
+            </DirectorySearchRef>
+        </Property>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2019Setup" Property="VS2019DEVENV" ExeCommand="/setup" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2019DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2019Setup" Before="InstallFinalize" Overridable="yes">VS2019DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="VS2019InstallVSTemplates" Property="VS2019DEVENV" ExeCommand="/InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
+        <PropertyRef Id="VS2019DEVENV" />
+
+        <InstallExecuteSequence>
+            <Custom Action="VS2019InstallVSTemplates" Before="InstallFinalize" Overridable="yes">VS2019DEVENV</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <!-- Indicates whether the Visual C# project system is installed as a part of  -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual   -->
+    <!-- C# language tools were installed as a part of VS 2019 setup.              -->
+    <Fragment>
+        <Property Id="VS2019_IDE_VCSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Basic project system is installed as a part of -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that        -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual     -->
+    <!-- Basic language tools were installed as a part of VS 2019 setup.             -->
+    <Fragment>
+        <Property Id="VS2019_IDE_VB_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Web Developer project system is installed as a part of -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that                -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual             -->
+    <!-- Web Developer language tools were installed as a part of VS 2019 setup.             -->
+    <Fragment>
+        <Property Id="VS2019_IDE_VWD_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual C++ project system is installed as a part of -->
+    <!-- Visual Studio 2019 standard or higher. If this property is set, that      -->
+    <!-- means Visual Studio 2019 standard or higher is installed and the Visual   -->
+    <!-- C++ language tools were installed as a part of VS 2019 setup.             -->
+    <Fragment>
+        <Property Id="VS2019_IDE_VC_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio 2019 Team Test project system is installed -->
+    <Fragment>
+        <Property Id="VS2019_IDE_VSTS_TESTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio Modeling project system is installed -->
+    <Fragment>
+        <Property Id="VS2019_IDE_MODELING_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+
+    <!-- Indicates whether the Visual Studio F# project system is installed -->
+    <Fragment>
+        <Property Id="VS2019_IDE_FSHARP_PROJECTSYSTEM_INSTALLED" Secure="yes" />
+        <CustomActionRef Id="VSFindInstances" />
+    </Fragment>
+</Wix>

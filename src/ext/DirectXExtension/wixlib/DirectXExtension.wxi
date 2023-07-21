@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?include caSuffix.wxi ?>
+    <?include caerr.wxi ?>
+    
+    <!-- DirectX Custom Action DLL Definitions -->
+    <Fragment>
+        <Binary Id="WixDirectXCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))directx.dll" />
+    </Fragment>
+
+    <Fragment>
+        <CustomAction Id="WixQueryDirectXCaps$(var.Suffix)" BinaryKey="WixDirectXCA$(var.Suffix)" DllEntry="WixQueryDirectXCaps" Return="ignore" />
+        
+        <InstallUISequence>
+            <Custom Action="WixQueryDirectXCaps$(var.Suffix)" Before="LaunchConditions" Overridable="yes">VersionNT &gt; 400</Custom>
+        </InstallUISequence>
+
+        <InstallExecuteSequence>
+            <Custom Action="WixQueryDirectXCaps$(var.Suffix)" Before="LaunchConditions" Overridable="yes">VersionNT &gt; 400</Custom>
+        </InstallExecuteSequence>
+    </Fragment>
+
+    <Fragment>
+        <Property Id="WIX_DIRECTX_VERTEXSHADERVERSION" Secure="yes" Value="NotSet" />
+        <CustomActionRef Id="WixQueryDirectXCaps$(var.Suffix)" />
+    </Fragment>
+
+    <Fragment>
+        <Property Id="WIX_DIRECTX_PIXELSHADERVERSION" Secure="yes" Value="NotSet" />
+        <CustomActionRef Id="WixQueryDirectXCaps$(var.Suffix)" />
+    </Fragment>
+</Include>

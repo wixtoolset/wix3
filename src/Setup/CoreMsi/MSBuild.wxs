@@ -16,14 +16,6 @@
             </Component>
 
             <Component>
-                <File Source="wix200x.targets" />
-            </Component>
-
-            <Component>
-                <File Source="wix2010.targets" />
-            </Component>
-
-            <Component>
                 <File Source="wix.ca.targets" />
             </Component>
 
