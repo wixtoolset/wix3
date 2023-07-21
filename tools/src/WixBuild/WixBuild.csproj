@@ -19,7 +19,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
   </ItemGroup>
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), wix.proj))\tools\WixBuild.targets" />
   <Import Project="$(LibGit2SharpPropsFilePath)" />

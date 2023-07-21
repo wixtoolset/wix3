@@ -12,6 +12,7 @@ namespace Microsoft.Deployment.Tools.MakeSfxCA
     using Microsoft.Deployment.Compression.Cab;
     using Microsoft.Deployment.Resources;
     using ResourceCollection = Microsoft.Deployment.Resources.ResourceCollection;
+    using Microsoft.Tools.WindowsInstallerXml;
 
     /// <summary>
     /// Command-line tool for building self-extracting custom action packages.
@@ -48,6 +49,8 @@ namespace Microsoft.Deployment.Tools.MakeSfxCA
         /// <returns>0 on success, nonzero on failure.</returns>
         public static int Main(string[] args)
         {
+            args = ExpandArguments(args);
+
             if (args.Length < 3)
             {
                 Usage(Console.Out);
@@ -172,6 +175,35 @@ namespace Microsoft.Deployment.Tools.MakeSfxCA
             log.WriteLine("MakeSfxCA finished: " + new FileInfo(output).FullName);
         }
 
+        /// <summary>
+        /// Read the arguments include parsing response files.
+        /// </summary>
+        /// <param name="args">Arguments to expand</param>
+        /// <returns>Expanded list of arguments</returns>
+        private static string[] ExpandArguments(string[] args)
+        {
+            string[] result = new string[args.Length];
+            int j = 0;
+
+            for (int i = 0; i < args.Length; ++i)
+            {
+                if (args[i].StartsWith("@"))
+                {
+                    string[] parsed = CommandLineResponseFile.Parse(args[i].Substring(1));
+
+                    Array.Resize(ref result, result.Length + parsed.Length - 1);
+                    Array.Copy(parsed, 0, result, j, parsed.Length);
+                    j += parsed.Length;
+                }
+                else
+                {
+                    result[j] = args[i];
+                    ++j;
+                }
+            }
+
+            return result;
+        }
         /// <summary>
         /// Splits any list items delimited by semicolons into separate items.
         /// </summary>

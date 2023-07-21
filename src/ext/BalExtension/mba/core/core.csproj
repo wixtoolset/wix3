@@ -14,6 +14,7 @@
     <CreateDocumentationFile>true</CreateDocumentationFile>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <FxCopEnabled>true</FxCopEnabled>
+    <ShouldSignOutput>true</ShouldSignOutput>
   </PropertyGroup>
 
   <ItemGroup>

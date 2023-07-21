@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include caSuffix.wxi ?>
+  <?include caerr.wxi ?>
+
+  <Fragment>
+    <UI>
+      <Error Id="$(var.msierrComPlusCannotConnect)">!(loc.msierrComPlusCannotConnect)</Error>
+      <Error Id="$(var.msierrComPlusPartitionReadFailed)">!(loc.msierrComPlusPartitionReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusPartitionRoleReadFailed)">!(loc.msierrComPlusPartitionRoleReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusUserInPartitionRoleReadFailed)">!(loc.msierrComPlusUserInPartitionRoleReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusPartitionUserReadFailed)">!(loc.msierrComPlusPartitionUserReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusApplicationReadFailed)">!(loc.msierrComPlusApplicationReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusApplicationRoleReadFailed)">!(loc.msierrComPlusApplicationRoleReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusUserInApplicationRoleReadFailed)">!(loc.msierrComPlusUserInApplicationRoleReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusAssembliesReadFailed)">!(loc.msierrComPlusAssembliesReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusSubscriptionReadFailed)">!(loc.msierrComPlusSubscriptionReadFailed)</Error>
+      <Error Id="$(var.msierrComPlusPartitionDependency)">!(loc.msierrComPlusPartitionDependency)</Error>
+      <Error Id="$(var.msierrComPlusPartitionNotFound)">!(loc.msierrComPlusPartitionNotFound)</Error>
+      <Error Id="$(var.msierrComPlusPartitionIdConflict)">!(loc.msierrComPlusPartitionIdConflict)</Error>
+      <Error Id="$(var.msierrComPlusPartitionNameConflict)">!(loc.msierrComPlusPartitionNameConflict)</Error>
+      <Error Id="$(var.msierrComPlusApplicationDependency)">!(loc.msierrComPlusApplicationDependency)</Error>
+      <Error Id="$(var.msierrComPlusApplicationNotFound)">!(loc.msierrComPlusApplicationNotFound)</Error>
+      <Error Id="$(var.msierrComPlusApplicationIdConflict)">!(loc.msierrComPlusApplicationIdConflict)</Error>
+      <Error Id="$(var.msierrComPlusApplicationNameConflict)">!(loc.msierrComPlusApplicationNameConflict)</Error>
+      <Error Id="$(var.msierrComPlusApplicationRoleDependency)">!(loc.msierrComPlusApplicationRoleDependency)</Error>
+      <Error Id="$(var.msierrComPlusApplicationRoleNotFound)">!(loc.msierrComPlusApplicationRoleNotFound)</Error>
+      <Error Id="$(var.msierrComPlusApplicationRoleConflict)">!(loc.msierrComPlusApplicationRoleConflict)</Error>
+      <Error Id="$(var.msierrComPlusAssemblyDependency)">!(loc.msierrComPlusAssemblyDependency)</Error>
+      <Error Id="$(var.msierrComPlusSubscriptionIdConflict)">!(loc.msierrComPlusSubscriptionIdConflict)</Error>
+      <Error Id="$(var.msierrComPlusSubscriptionNameConflict)">!(loc.msierrComPlusSubscriptionNameConflict)</Error>
+      <Error Id="$(var.msierrComPlusFailedLookupNames)">!(loc.msierrComPlusFailedLookupNames)</Error>
+
+      <ProgressText Action="ComPlusInstallExecute$(var.Suffix)">!(loc.ComPlusInstallExecute)</ProgressText>
+      <ProgressText Action="ComPlusUninstallExecute$(var.Suffix)">!(loc.ComPlusUninstallExecute)</ProgressText>
+
+      <ProgressText Action="CreateComPlusPartitions$(var.Suffix)" Template="!(loc.CreateComPlusPartitionsTemplate)">!(loc.CreateComPlusPartitions)</ProgressText>
+      <ProgressText Action="RemoveComPlusPartitions$(var.Suffix)" Template="!(loc.RemoveComPlusPartitionsTemplate)">!(loc.RemoveComPlusPartitions)</ProgressText>
+      <ProgressText Action="AddUsersToComPlusPartitionRoles$(var.Suffix)" Template="!(loc.AddUsersToComPlusPartitionRolesTemplate)">!(loc.AddUsersToComPlusPartitionRoles)</ProgressText>
+      <ProgressText Action="RemoveUsersFromComPlusPartRoles$(var.Suffix)" Template="!(loc.RemoveUsersFromComPlusPartitionRolesTemplate)">!(loc.RemoveUsersFromComPlusPartitionRoles)</ProgressText>
+      <ProgressText Action="AddComPlusPartitionUsers$(var.Suffix)" Template="!(loc.AddComPlusPartitionUsersTemplate)">!(loc.AddComPlusPartitionUsers)</ProgressText>
+      <ProgressText Action="RemoveComPlusPartitionUsers$(var.Suffix)" Template="!(loc.RemoveComPlusPartitionUsersTemplate)">!(loc.RemoveComPlusPartitionUsers)</ProgressText>
+      <ProgressText Action="CreateComPlusApplications$(var.Suffix)" Template="!(loc.CreateComPlusApplicationsTemplate)">!(loc.CreateComPlusApplications)</ProgressText>
+      <ProgressText Action="RemoveComPlusApplications$(var.Suffix)" Template="!(loc.RemoveComPlusApplicationsTemplate)">!(loc.RemoveComPlusApplications)</ProgressText>
+      <ProgressText Action="CreateComPlusApplicationRoles$(var.Suffix)" Template="!(loc.CreateComPlusApplicationRolesTemplate)">!(loc.CreateComPlusApplicationRoles)</ProgressText>
+      <ProgressText Action="RemoveComPlusApplicationRoles$(var.Suffix)" Template="!(loc.RemoveComPlusApplicationRolesTemplate)">!(loc.RemoveComPlusApplicationRoles)</ProgressText>
+      <ProgressText Action="AddUsersToComPlusApplicationRoles$(var.Suffix)" Template="!(loc.AddUsersToComPlusApplicationRolesTemplate)">!(loc.AddUsersToComPlusApplicationRoles)</ProgressText>
+      <ProgressText Action="RemoveUsersFromComPlusAppRoles$(var.Suffix)" Template="!(loc.RemoveUsersFromComPlusApplicationRolesTemplate)">!(loc.RemoveUsersFromComPlusApplicationRoles)</ProgressText>
+      <ProgressText Action="RegisterComPlusAssemblies$(var.Suffix)" Template="!(loc.RegisterComPlusAssembliesTemplate)">!(loc.RegisterComPlusAssemblies)</ProgressText>
+      <ProgressText Action="UnregisterComPlusAssemblies$(var.Suffix)" Template="!(loc.UnregisterComPlusAssembliesTemplate)">!(loc.UnregisterComPlusAssemblies)</ProgressText>
+      <ProgressText Action="AddComPlusRoleAssignments$(var.Suffix)" Template="!(loc.AddComPlusRoleAssignmentsTemplate)">!(loc.AddComPlusRoleAssignments)</ProgressText>
+      <ProgressText Action="RemoveComPlusRoleAssignments$(var.Suffix)" Template="!(loc.RemoveComPlusRoleAssignmentsTemplate)">!(loc.RemoveComPlusRoleAssignments)</ProgressText>
+      <ProgressText Action="CreateSubscrComPlusComponents$(var.Suffix)" Template="!(loc.CreateSubscriptionsComPlusComponentsTemplate)">!(loc.CreateSubscriptionsComPlusComponents)</ProgressText>
+      <ProgressText Action="RemoveSubscrComPlusComponents$(var.Suffix)" Template="!(loc.RemoveSubscriptionsComPlusComponentsTemplate)">!(loc.RemoveSubscriptionsComPlusComponents)</ProgressText>
+    </UI>
+
+    <CustomAction Id="ConfigureComPlusInstall$(var.Suffix)" BinaryKey="WixCPSched$(var.Suffix)" DllEntry="ConfigureComPlusInstall" Execute="immediate" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="ConfigureComPlusUninstall$(var.Suffix)" BinaryKey="WixCPSched$(var.Suffix)" DllEntry="ConfigureComPlusUninstall" Execute="immediate" Return="check" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusInstallPrepare$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusPrepare" Execute="deferred" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusRollbackInstallPrepare$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusCleanup" Execute="rollback" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusInstallExecute$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusInstallExecute" Execute="deferred" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusInstallExecuteCommit$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusInstallExecuteCommit" Execute="commit" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusRollbackInstallExecute$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusRollbackInstallExecute" Execute="rollback" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusInstallCommit$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusCleanup" Execute="commit" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusUninstallPrepare$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusPrepare" Execute="deferred" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusRollbackUninstallPrepare$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusCleanup" Execute="rollback" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusUninstallExecute$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusUninstallExecute" Execute="deferred" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusRollbackUninstallExecute$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusInstallExecute" Execute="rollback" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+    <CustomAction Id="ComPlusUninstallCommit$(var.Suffix)" BinaryKey="WixCPExec$(var.Suffix)" DllEntry="ComPlusCleanup" Execute="commit" Return="check" Impersonate="no" HideTarget="yes" SuppressModularization="yes" />
+
+    <Property Id="ComPlusInstallPrepare$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusRollbackInstallPrepare$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusInstallExecute$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusInstallExecuteCommit$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusRollbackInstallExecute$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusInstallCommit$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusUninstallPrepare$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusRollbackUninstallPrepare$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusUninstallExecute$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusRollbackUninstallExecute$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+    <Property Id="ComPlusUninstallCommit$(var.Suffix)" Hidden="yes" SuppressModularization="yes" />
+
+    <InstallExecuteSequence>
+      <Custom Action="ConfigureComPlusUninstall$(var.Suffix)" After="DeleteServices" Overridable="yes">VersionNT >= 500</Custom>
+      <Custom Action="ConfigureComPlusInstall$(var.Suffix)" Before="InstallServices" Overridable="yes">VersionNT >= 500</Custom>
+    </InstallExecuteSequence>
+  </Fragment>
+
+  <Fragment>
+    <Binary Id="WixCPExec$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))cpexec.dll" />
+    <Binary Id="WixCPSched$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))cpsched.dll" />
+  </Fragment>
+</Include>

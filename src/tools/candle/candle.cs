@@ -410,6 +410,10 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools
                         {
                             this.platform = Platform.ARM;
                         }
+                        else if (String.Equals(args[i], "arm64", StringComparison.OrdinalIgnoreCase))
+                        {
+                            this.platform = Platform.ARM64;
+                        }
                         else
                         {
                             this.messageHandler.Display(this, WixErrors.InvalidPlatformParameter(parameter, args[i]));

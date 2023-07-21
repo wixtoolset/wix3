@@ -4,6 +4,12 @@
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
+    <ProjectReference Include="wixlib\DIFxAppExtension.wixproj">
+      <Properties>Platform=x86</Properties>
+    </ProjectReference>
+    <ProjectReference Include="wixlib\DIFxAppExtension.wixproj">
+      <Properties>Platform=x64</Properties>
+    </ProjectReference>
     <ProjectReference Include="wixext\WixDifxAppExtension.csproj" />
   </ItemGroup>
 

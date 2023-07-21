@@ -4,6 +4,7 @@
 
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <?include caSuffix.wxi ?>
+
     <Fragment>
         <CustomAction Id="WixDependencyRequire$(var.Suffix)" BinaryKey="WixDepCA$(var.Suffix)" DllEntry="WixDependencyRequire" Execute="immediate" Return="check" SuppressModularization="yes"/>
         <InstallExecuteSequence>
@@ -12,6 +13,7 @@
         <UIRef Id="WixDependencyErrors"/>
         <PropertyRef Id="DISABLEDEPENDENCYCHECK"/>
     </Fragment>
+
     <Fragment>
         <CustomAction Id="WixDependencyCheck$(var.Suffix)" BinaryKey="WixDepCA$(var.Suffix)" DllEntry="WixDependencyCheck" Execute="immediate" Return="check" SuppressModularization="yes"/>
         <InstallExecuteSequence>
@@ -20,6 +22,7 @@
         <UIRef Id="WixDependencyErrors"/>
         <PropertyRef Id="IGNOREDEPENDENCIES"/>
     </Fragment>
+
     <Fragment>
         <Binary Id="WixDepCA$(var.Suffix)" SourceFile="!(bindpath.$(var.platform))wixdepca.dll"/>
     </Fragment>

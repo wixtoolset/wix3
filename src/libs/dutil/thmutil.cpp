@@ -14,12 +14,15 @@ const DWORD THEME_INVALID_ID = 0xFFFFFFFF;
 const COLORREF THEME_INVISIBLE_COLORREF = 0xFFFFFFFF;
 const DWORD GROW_WINDOW_TEXT = 250;
 const LPCWSTR THEME_WC_HYPERLINK = L"ThemeHyperLink";
+const LPCWSTR THEME_WC_STATICOWNERDRAW = L"ThemeStaticOwnerDraw";
 
 static Gdiplus::GdiplusStartupInput vgsi;
 static Gdiplus::GdiplusStartupOutput vgso = { };
 static ULONG_PTR vgdiToken = 0;
 static ULONG_PTR vgdiHookToken = 0;
 static HMODULE vhHyperlinkRegisteredModule = NULL;
+static HMODULE vhStaticOwnerDrawRegisteredModule = NULL;
+static WNDPROC vpfnStaticOwnerDrawBaseWndProc = NULL;
 static HMODULE vhModuleRichEd = NULL;
 static HCURSOR vhCursorHand = NULL;
 
@@ -208,6 +211,12 @@ static void GetControlDimensions(
 static HRESULT SizeListViewColumns(
     __inout THEME_CONTROL* pControl
     );
+static LRESULT CALLBACK StaticOwnerDrawWndProc(
+    __in HWND hWnd,
+    __in UINT uMsg,
+    __in WPARAM wParam,
+    __in LPARAM lParam
+    );
 
 DAPI_(HRESULT) ThemeInitialize(
     __in_opt HMODULE hModule
@@ -216,6 +225,8 @@ DAPI_(HRESULT) ThemeInitialize(
     HRESULT hr = S_OK;
     INITCOMMONCONTROLSEX icex = { };
     WNDCLASSW wcHyperlink = { };
+    WNDCLASSW wcStaticOwnerDraw = { };
+    WNDPROC pfnWcStaticOwnerDrawBaseWndProc = NULL;
 
     hr = XmlInitialize();
     ExitOnFailure(hr, "Failed to initialize XML.");
@@ -239,6 +250,22 @@ DAPI_(HRESULT) ThemeInitialize(
         ExitWithLastError(hr, "Failed to get button window class.");
     }
     vhHyperlinkRegisteredModule = hModule;
+
+    if (!::GetClassInfoW(NULL, WC_STATICW, &wcStaticOwnerDraw))
+    {
+        ExitWithLastError(hr, "Failed to get static window class.");
+    }
+
+    pfnWcStaticOwnerDrawBaseWndProc = wcStaticOwnerDraw.lpfnWndProc;
+    wcStaticOwnerDraw.lpfnWndProc = StaticOwnerDrawWndProc;
+    wcStaticOwnerDraw.hInstance = hModule;
+    wcStaticOwnerDraw.lpszClassName = THEME_WC_STATICOWNERDRAW;
+    if (!::RegisterClassW(&wcStaticOwnerDraw))
+    {
+        ExitWithLastError(hr, "Failed to register window.");
+    }
+    vhStaticOwnerDrawRegisteredModule = hModule;
+    vpfnStaticOwnerDrawBaseWndProc = pfnWcStaticOwnerDrawBaseWndProc;
 
     // Initialize GDI+ and common controls.
     vgsi.SuppressBackgroundThread = TRUE;
@@ -269,6 +296,13 @@ DAPI_(void) ThemeUninitialize()
     {
         ::UnregisterClassW(THEME_WC_HYPERLINK, vhHyperlinkRegisteredModule);
         vhHyperlinkRegisteredModule = NULL;
+    }
+
+    if (vhStaticOwnerDrawRegisteredModule)
+    {
+        ::UnregisterClassW(THEME_WC_STATICOWNERDRAW, vhStaticOwnerDrawRegisteredModule);
+        vhStaticOwnerDrawRegisteredModule = NULL;
+        vpfnStaticOwnerDrawBaseWndProc = NULL;
     }
 
     if (vgdiToken)
@@ -471,7 +505,7 @@ DAPI_(HRESULT) ThemeLoadControls(
         case THEME_CONTROL_TYPE_IMAGE: // images are basically just owner drawn static controls (so we can draw .jpgs and .pngs instead of just bitmaps).
             if (pControl->hImage || (pTheme->hImage && 0 <= pControl->nSourceX && 0 <= pControl->nSourceY))
             {
-                wzWindowClass = WC_STATICW;
+                wzWindowClass = THEME_WC_STATICOWNERDRAW;
                 dwWindowBits |= SS_OWNERDRAW;
                 pControl->dwInternalStyle |= INTERNAL_CONTROL_STYLE_OWNER_DRAW;
             }
@@ -485,7 +519,7 @@ DAPI_(HRESULT) ThemeLoadControls(
         case THEME_CONTROL_TYPE_PROGRESSBAR:
             if (pControl->hImage || (pTheme->hImage && 0 <= pControl->nSourceX && 0 <= pControl->nSourceY))
             {
-                wzWindowClass = WC_STATICW; // no such thing as an owner drawn progress bar so we'll make our own out of a static control.
+                wzWindowClass = THEME_WC_STATICOWNERDRAW; // no such thing as an owner drawn progress bar so we'll make our own out of a static control.
                 dwWindowBits |= SS_OWNERDRAW;
                 pControl->dwInternalStyle |= INTERNAL_CONTROL_STYLE_OWNER_DRAW;
             }
@@ -3621,4 +3655,20 @@ static HRESULT SizeListViewColumns(
 
 LExit:
     return hr;
+}
+
+static LRESULT CALLBACK StaticOwnerDrawWndProc(
+    __in HWND hWnd,
+    __in UINT uMsg,
+    __in WPARAM wParam,
+    __in LPARAM lParam
+    )
+{
+    switch (uMsg)
+    {
+    case WM_UPDATEUISTATE:
+        return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
+    default:
+        return (*vpfnStaticOwnerDrawBaseWndProc)(hWnd, uMsg, wParam, lParam);
+    }
 }

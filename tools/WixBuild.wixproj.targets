@@ -3,40 +3,7 @@
 
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <PropertyGroup>
-    <SignToolExe>&quot;$(PlatformSdkBinPath)signtool.exe&quot;</SignToolExe>
-  </PropertyGroup>
-
   <Import Project="$(WixTargetsPath)" />
-
-  <!-- Signing overrides to actually do signing -->
-  <!--
-    We don't sign the Msi Packages or their cabinets because they are
-    always wrapped in a bundle that is signed.
-  -->
-  <Target Name="SignCabs">
-  <!--
-    <Exec Command="$(SignToolExe) sign /n &quot;.NET Foundation&quot; /t http://timestamp.digicert.com &quot;%(SignCabs.FullPath)&quot;" />
-  -->
-  </Target>
-
-  <Target Name="SignMsi">
-  <!--
-    <Exec Command="$(SignToolExe) sign /n &quot;.NET Foundation&quot; /t http://timestamp.digicert.com &quot;%(SignMsi.FullPath)&quot;" />
-  -->
-  </Target>
-
-  <Target Name="SignContainers">
-    <Exec Command="$(SignToolExe) sign /n &quot;.NET Foundation&quot; /t http://timestamp.digicert.com &quot;%(SignContainers.FullPath)&quot;" />
-  </Target>
-
-  <Target Name="SignBundleEngine">
-    <Exec Command="$(SignToolExe) sign /n &quot;.NET Foundation&quot; /t http://timestamp.digicert.com &quot;%(SignBundleEngine.FullPath)&quot;" />
-  </Target>
-
-  <Target Name="SignBundle">
-    <Exec Command="$(SignToolExe) sign /n &quot;.NET Foundation&quot; /t http://timestamp.digicert.com &quot;%(SignBundle.FullPath)&quot;" />
-  </Target>
 
   <PropertyGroup>
     <PrepareForBuildDependsOn>

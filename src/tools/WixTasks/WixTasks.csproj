@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
@@ -67,7 +67,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <ProjectReference Include="..\..\dtf\Libraries\WindowsInstaller\WindowsInstaller.csproj" />

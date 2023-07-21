@@ -64,7 +64,7 @@ namespace Microsoft.Tools.WindowsInstallerXml.Tools {
         /// <summary>
         ///   Looks up a localized string similar to  usage:  candle.exe [-?] [-nologo] [-out outputFile] sourceFile [sourceFile ...] [@responseFile]
         ///
-        ///   -arch      x86, intel, x64, intel64, or ia64 (default: x86)
+        ///   -arch      x86, intel, x64, intel64, ia64, arm, arm64 (default: x86)
         ///   -d&lt;name&gt;[=&lt;value&gt;]  define a parameter for the preprocessor
         ///   -ext &lt;extension&gt;  extension assembly or &quot;class, assembly&quot;
         ///   -fips      enables FIPS compliant algorithms

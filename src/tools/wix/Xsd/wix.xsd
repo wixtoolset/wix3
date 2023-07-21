@@ -996,7 +996,7 @@
           By default, a Bundle will use the hash of a package to verify its contents. If this attribute is explicitly set to "no"
           and the package is signed with an Authenticode signature the Bundle will verify the contents of the package using the
           signature instead. Therefore, the default for this attribute could be considered to be "yes". It is unusual for "yes" to
-          be the default of an attribute. In this case, the default was changed in WiX v3.9 after experiencing real world issues
+          be the default of an attribute. In this case, the default was changed in WiX v3.9 after experiencing real-world issues
           with Windows verifying Authenticode signatures. Since the Authenticode signatures are no more secure than hashing the
           packages directly, the default was changed.
         </xs:documentation>
@@ -1320,10 +1320,12 @@
       <xs:attribute name="SuppressSignatureVerification" type="YesNoTypeUnion">
         <xs:annotation>
           <xs:documentation>
-            By default, a Bundle will use a package's Authenticode signature to verify the contents. If the package does not
-            have an Authenticode signature then the Bundle will use a hash of the package instead. Set this attribute to "yes"
-            to suppress the default behavior and force the Bundle to always use the hash of the package even when the package
-            is signed.
+            By default, a Bundle will use the hash of a payload to verify its contents. If this attribute is explicitly set to "no"
+            and the payload is signed with an Authenticode signature the Bundle will verify the contents of the payload using the
+            signature instead. Therefore, the default for this attribute could be considered to be "yes". It is unusual for "yes" to
+            be the default of an attribute. In this case, the default was changed in WiX v3.9 after experiencing real-world issues
+            with Windows verifying Authenticode signatures. Since the Authenticode signatures are no more secure than hashing the
+            payloads directly, the default was changed.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -1395,7 +1397,7 @@
       </xs:attribute>
       <xs:attribute name="Hash" type="HexType" use="required">
         <xs:annotation>
-          <xs:documentation>SHA-1 hash of the RemotePayload.  Include this attribute if the remote file is unsigned or SuppressSignatureVerification is set to Yes.</xs:documentation>
+          <xs:documentation>SHA-1 hash of the RemotePayload.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="ProductName" type="xs:string" use="required">
@@ -3170,6 +3172,14 @@
                 </xs:documentation>
               </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="arm64">
+              <xs:annotation>
+                <xs:documentation>
+                  Set this value to declare that the package is an arm64 package.
+                  This value requires that the InstallerVersion property be set to 500 or greater.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="intel">
               <xs:annotation>
                 <xs:documentation>
@@ -4064,7 +4074,7 @@
           The default value is based on the platform set by the -arch switch to candle.exe
           or the InstallerPlatform property in a .wixproj MSBuild project: 
           For x86 and ARM, the default value is 'no'. 
-          For x64 and IA64, the default value is 'yes'.
+          For x64, ARM64, and IA64, the default value is 'yes'.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -4956,6 +4966,20 @@
                                 </xs:documentation>
               </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="arm">
+              <xs:annotation>
+                <xs:documentation>
+                                    The file is a .NET Framework assembly for a 32-bit ARM processor.
+                                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="arm64">
+              <xs:annotation>
+                <xs:documentation>
+                                    The file is a .NET Framework assembly for a 64-bit ARM processor.
+                                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="ia64">
               <xs:annotation>
                 <xs:documentation>
@@ -5404,17 +5428,13 @@
         <xs:annotation>
           <xs:documentation>
                         The localizable key for the registry value.
-                        If the parent element is a RegistryKey, this value may be omitted to use the
-                        path of the parent, or if its specified it will be appended to the path of the parent.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:attribute name="Name" type="xs:string">
         <xs:annotation>
           <xs:documentation>
-                        The localizable registry value name.  If this attribute is not provided the default value for the registry key will
-                        be set instead.  The Windows Installer allows several special values to be set for this attribute.  You should not
-                        use them in WiX.  Instead use appropriate values in the Action attribute to get the desired behavior.
+                        The localizable registry value name.
                     </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -6981,6 +7001,10 @@
             </xs:documentation>
       <xs:appinfo>
         <xse:msiRef table="MsiServiceConfig" href="http://msdn.microsoft.com/library/aa371637.aspx" />
+	<xse:remarks>
+	  <html:p>MsiServiceConfig functionality is documented in the Windows Installer SDK to "not [work] as expected." Consider using
+	  the WixUtilExtension ServiceConfig instead.</html:p>
+        </xse:remarks>
       </xs:appinfo>
     </xs:annotation>
     <xs:complexType>
@@ -7674,7 +7698,7 @@
           The default value is based on the platform set by the -arch switch to candle.exe
           or the InstallerPlatform property in a .wixproj MSBuild project: 
           For x86 and ARM, the default value is 'no'. 
-          For x64 and IA64, the default value is 'yes'.
+          For x64, ARM64, and IA64, the default value is 'yes'.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -9119,7 +9143,7 @@
           The default value is based on the platform set by the -arch switch to candle.exe
           or the InstallerPlatform property in a .wixproj MSBuild project: 
           For x86 and ARM, the default value is 'no'. 
-          For x64 and IA64, the default value is 'yes'.
+          For x64, ARM64, and IA64, the default value is 'yes'.
               </xs:documentation>
             </xs:annotation>
           </xs:attribute>

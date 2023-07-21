@@ -161,4 +161,7 @@ Supported harvesting types:
   <data name="HelpMessageIndentation" xml:space="preserve">
     <value>indentation multiple (overrides default of 4)</value>
   </data>
+  <data name="HelpMessageFips" xml:space="preserve">
+    <value>enables FIPS compliant algorithms</value>
+  </data>
 </root>

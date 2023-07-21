@@ -48,6 +48,9 @@
     <BindInputPaths Include="$(OutputPath_arm)">
         <BindName>arm</BindName>
     </BindInputPaths>
+    <BindInputPaths Include="$(OutputPath_arm64)">
+        <BindName>arm64</BindName>
+    </BindInputPaths>
     <BindInputPaths Include="$(BindInputPaths)" />
   </ItemGroup>
 

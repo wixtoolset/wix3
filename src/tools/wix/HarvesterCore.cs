@@ -16,6 +16,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         private bool encounteredError;
         private string extensionArgument;
         private string rootDirectory;
+        private bool fipsCompliant;
 
         /// <summary>
         /// Instantiate a new HarvesterCore.
@@ -61,6 +62,16 @@ namespace Microsoft.Tools.WindowsInstallerXml
         }
 
         /// <summary>
+        /// Gets or sets if the harvester should use FIPS compliant algorithms.
+        /// </summary>
+        /// <value>true if the harvester should use FIPS compliant algorithms.</value>
+        public bool FipsCompliant
+        {
+            get { return this.fipsCompliant; }
+            set { this.fipsCompliant = value; }
+        }
+
+        /// <summary>
         /// Return an identifier based on passed file/directory name
         /// </summary>
         /// <param name="name">File/directory name to generate identifer from</param>
@@ -79,7 +90,7 @@ namespace Microsoft.Tools.WindowsInstallerXml
         [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", MessageId = "System.InvalidOperationException.#ctor(System.String)")]
         public string GenerateIdentifier(string prefix, params string[] args)
         {
-            return Common.GenerateIdentifier(prefix, false, args);
+            return Common.GenerateIdentifier(prefix, this.fipsCompliant, args);
         }
 
         /// <summary>

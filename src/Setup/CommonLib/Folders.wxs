@@ -74,6 +74,7 @@
         <DirectoryRef Id="SdkFolder">
             <Directory Id="SdkX86Folder" Name="x86" />
             <Directory Id="SdkX64Folder" Name="x64" />
+            <Directory Id="SdkARM64Folder" Name="ARM64" />
         </DirectoryRef>
     </Fragment>
 
