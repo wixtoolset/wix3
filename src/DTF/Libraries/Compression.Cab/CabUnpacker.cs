@@ -324,13 +324,15 @@ namespace Microsoft.Deployment.Compression.Cab
         {
             try
             {
-                if (disposing)
+                // While fdiHandle is a SafeHandle, it will callback to C# method from this instance
+                // when releasing handle, and since finalizers execute in nondeterministic order, if
+                // the handle's finalizer runs after this instance, it will get exception and crash
+                // the process. Therefore we must release this handle regardless of the 'disposing'
+                // flag.
+                if (this.fdiHandle != null)
                 {
-                    if (this.fdiHandle != null)
-                    {
-                        this.fdiHandle.Dispose();
-                        this.fdiHandle = null;
-                    }
+                    this.fdiHandle.Dispose();
+                    this.fdiHandle = null;
                 }
             }
             finally
