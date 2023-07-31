@@ -56,22 +56,50 @@ The Burn engine offers a set of commonly-used variables so you can use them with
 * VersionMsi - version value representing the Windows Installer engine version.
 * VersionNT - version value representing the OS version. The result is a version variable (v#.#.#.#) which differs from the MSI Property &apos;VersionNT&apos; which is an integer. For example, to use this variable in a Bundle condition try: &quot;VersionNT &gt; v6.1&quot;.
 * VersionNT64 - version value representing the OS version if 64-bit. Undefined if running a 32-bit operating system. The result is a version variable (v#.#.#.#) which differs from the MSI Property &apos;VersionNT64&apos; which is an integer. For example, to use this variable in a Bundle condition try: &quot;VersionNT64 &gt; v6.1&quot;.
+* WindowsBuildNumber - gets the value of [RTL_OSVERSIONINFOEXW.dwBuildNumber](https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/ns-wdm-_osversioninfoexw).
 * WindowsFolder - gets the well-known folder for CSIDL\_WINDOWS.
 * WindowsVolume - gets the well-known folder for the windows volume.
 * WixBundleAction - set to the numeric value of BOOTSTRAPPER\_ACTION from the command-line and updated during the call to IBootstrapperEngine::Plan().
-* WixBundleDirectoryLayout - set to the folder provided to the -layout switch (default is the directory containing the bundle executable). This variable can also be set by the bootstrapper application to modify where files will be laid out.
+* WixBundleActiveParent - set to the value of the parent switch from the command line.
 * WixBundleElevated - gets whether the bundle was launched elevated and will be set to 1 once the bundle is elevated. For example, use this variable to show or hide the elevation shield in the bootstrapper application UI.
-* WixBundleExecutePackageCacheFolder - gets the absolute path to the currently executing package&apos;s cache folder.  This variable is only available while the package is executing.
+* WixBundleExecutePackageAction - set to the numeric value of BOOTSTRAPPER_ACTION_STATE for the currently executing package. This variable is only available while the package is executing, and is not available to the BA if the package is per-machine.
+* WixBundleExecutePackageCacheFolder - gets the absolute path to the currently executing package&apos;s cache folder. This variable is only available while the package is executing, and is not available to the BA if the package is per-machine.
 * WixBundleForcedRestartPackage - gets the ID of the package that caused a force restart during apply. This value is reset on the next call to apply.
 * WixBundleInstalled - gets whether the bundle was already installed. This value is only set when the engine initializes.
-* WixBundleLastUsedSource - gets the path of the last successful source resolution for a container or payload.
-* WixBundleName - gets the name of the bundle (from Bundle/@Name). This variable can also be set by the bootstrapper application to modify the bundle name at runtime.
-* WixBundleManufacturer - gets the manufacturer of the bundle (from Bundle/@Manufacturer).
-* WixBundleOriginalSource - gets the source path from where the bundle originally ran.
-* WixBundleOriginalSourceFolder - gets the folder from where the bundle originally ran.
 * WixBundleSourceProcessPath - gets the source path of the bundle where originally executed. Will only be set when bundle is executing in the clean room.
 * WixBundleSourceProcessFolder - gets the source folder of the bundle where originally executed. Will only be set when bundle is executing in the clean room.
 * WixBundleProviderKey - gets the bundle dependency provider key.
 * WixBundleTag - gets the developer-defined tag string for this bundle (from Bundle/@Tag).
 * WixBundleUILevel - gets the level of the user interface (the value BOOTSTRAPPER\_DISPLAY enum).
 * WixBundleVersion - gets the version for this bundle (from Bundle/@Version).
+
+# Burn Well-Known Variables
+
+The Burn engine has several well-known variables that can be changed at runtime to affect the behavior of the bundle. Here is the list of the well-known variable names:
+
+* WixBundleLayoutDirectory - set to the folder provided to the -layout switch (default is the directory containing the bundle executable). This variable can also be set by the bootstrapper application to modify where files will be laid out.
+* WixBundleLastUsedSource - gets the path of the last successful source resolution for a container or payload. This value is persisted.
+* WixBundleName - gets the name of the bundle (from Bundle/@Name). This variable can also be set by the bootstrapper application to modify the bundle name at runtime. This value is persisted.
+* WixBundleManufacturer - gets the manufacturer of the bundle (from Bundle/@Manufacturer).
+* WixBundleOriginalSource - gets the source path from where the bundle originally ran. This value is persisted.
+* WixBundleOriginalSourceFolder - gets the folder from where the bundle originally ran. This value is persisted.
+
+# Example for WixBundleSourceProcessPath versus WixBundleOriginalSource
+
+If the user double clicks the bundle executable from C:\Users\username\Downloads\bundle.exe, then for security reasons it will extract itself to %TMP%\<random guid>\.ba and run itself from there.
+That new process is called the clean room process.
+Here are example values for the source variables:
+
+* WixBundleSourceProcessPath - C:\Users\username\Downloads\bundle.exe
+* WixBundleSourceProcessFolder - C:\Users\username\Downloads\
+* WixBundleOriginalSource - C:\Users\username\Downloads\bundle.exe
+* WixBundleOriginalSourceFolder - C:\Users\username\Downloads\
+
+Now consider that the bundle was installed, and the user goes to Add/Remove Programs to uninstall the bundle.
+ARP will run the cached bundle from the package cache, not the original file location.
+Here are example values for the source variables:
+
+* WixBundleSourceProcessPath - C:\ProgramData\Package Cache\<bundle id>\bundle.exe
+* WixBundleSourceProcessFolder - C:\ProgramData\Package Cache\<bundle id>\
+* WixBundleOriginalSource - C:\Users\username\Downloads\bundle.exe
+* WixBundleOriginalSourceFolder - C:\Users\username\Downloads\
