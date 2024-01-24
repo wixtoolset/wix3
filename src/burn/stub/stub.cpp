@@ -2,6 +2,10 @@
 
 #include "precomp.h"
 
+static const HRESULT E_SUSPECTED_TAMPERING = MAKE_HRESULT(SEVERITY_ERROR, 500/*FACILITY_WIX*/, 2001);
+
+static void AvoidLocalDllRedirection(LPCWSTR wzPath);
+
 
 int WINAPI wWinMain(
     __in HINSTANCE hInstance,
@@ -53,6 +57,8 @@ int WINAPI wWinMain(
         AppInitialize(rgsczSafelyLoadSystemDlls, countof(rgsczSafelyLoadSystemDlls));
     }
 
+    AvoidLocalDllRedirection(sczPath);
+
     // call run
     hr = EngineRun(hInstance, hEngineFile, lpCmdLine, nCmdShow, &dwExitCode);
     ExitOnFailure(hr, "Failed to run application.");
@@ -62,4 +68,24 @@ LExit:
     ReleaseStr(sczPath);
 
     return FAILED(hr) ? (int)hr : (int)dwExitCode;
+}
+
+static void AvoidLocalDllRedirection(LPCWSTR wzPath)
+{
+    LPWSTR sczLocalPath = NULL;
+    HMODULE hmodComCtl = NULL;
+
+    // Bail if there's a <bundle>.exe.local directory, as it's a feature of
+    // DLL redirection that has no real use for a bundle and is a hole for
+    // DLL hijacking attacks.
+
+    if (FAILED(StrAllocFormatted(&sczLocalPath, L"%ls.local", wzPath))
+        || DirExists(sczLocalPath, NULL)
+        || FileExistsEx(sczLocalPath, NULL)
+        || FAILED(LoadSystemLibrary(L"Comctl32.dll", &hmodComCtl)))
+    {
+        ::ExitProcess((UINT)E_SUSPECTED_TAMPERING);
+    }
+
+    ReleaseStr(sczLocalPath);
 }

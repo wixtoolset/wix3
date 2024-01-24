@@ -6,6 +6,7 @@
 
 #include <dutil.h>
 #include <apputil.h>
+#include <dirutil.h>
 #include <strutil.h>
 #include <fileutil.h>
 #include <pathutil.h>

@@ -42,6 +42,7 @@
       <SwapRunFromCD>true</SwapRunFromCD>
       <SwapRunFromNET>true</SwapRunFromNET>
       <DelayLoadDLLs>cabinet.dll;crypt32.dll;msi.dll;shlwapi.dll;version.dll;wininet.dll;wintrust.dll</DelayLoadDLLs>
+      <AdditionalOptions>/DEPENDENTLOADFLAG:0x800 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
 
@@ -82,7 +83,7 @@
           Outputs="$(OutputPath)$(NormalizedPlatform)\$(TargetName).exe">
 
     <MakeDir Directories="$(OutputPath)$(NormalizedPlatform)" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(OutputPath)$(NormalizedPlatform)\" 
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(OutputPath)$(NormalizedPlatform)\"
           UseHardlinksIfPossible="true" />
   </Target>
 </Project>
