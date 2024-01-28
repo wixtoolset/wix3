@@ -2,15 +2,12 @@
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
 
 
-<Project InitialTargets="DotnetToolRestore" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <!-- Ensure that the SignClient is initialized. -->
-  <Import Project="Dotnet.targets" Condition="'$(WixBuildDotnetToolPropertiesDefined)'!='true'" />
-
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <_SigningAppSettingsPath>$(MSBuildThisFileDirectory)appsettings.json</_SigningAppSettingsPath>
-    <_SigningFilterNonePath>$(MSBuildThisFileDirectory)signing-filter.none.txt</_SigningFilterNonePath>
-    <_SigningName>WiX Toolset</_SigningName>
-    <_SigningUrl>http://wixtoolset.org</_SigningUrl>
+    <SigningToolExe>$(WIX_ROOT).tools\sign.exe</SigningToolExe>
+    <SigningCommand>code azure-key-vault</SigningCommand>
+    <SigningFilelist>$(MSBuildThisFileDirectory)signing-filter.none.txt</SigningFilelist>
+    <SigningConfiguration>--description "WiX Toolset" --description-url "https://wixtoolset.org/" --timestamp-url "http://timestamp.digicert.com" --file-list "$(SigningFilelist)" --azure-key-vault-url $(SigningKeyVaultUri) --azure-key-vault-tenant-id $(SigningTenantId) --azure-key-vault-client-id $(SigningClientId) --azure-key-vault-client-secret $(SigningClientSecret) --azure-key-vault-certificate $(SigningCertName)</SigningConfiguration>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +16,10 @@
   </ItemGroup>
 
   <Target Name="SignFiles" AfterTargets="AfterBuild" Condition="'$(SignOutput)'=='true'">
-    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(FilesToSign.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+    <Message Importance="high" Text="Signing file: %(FilesToSign.FullPath)" />
+
+    <Exec Command='"$(SigningToolExe)" $(SigningCommand) $(SigningConfiguration) "%(FilesToSign.FullPath)"'
+          WorkingDirectory="$(MSBuildProjectDirectory)" EchoOff="true" />
   </Target>
 
   <!--
@@ -30,24 +30,24 @@
 
   ================================================================================================
   -->
-  <Target Name="SignCabs">
-    <!-- <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignCabs.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" /> -->
-  </Target>
+  <Target Name="SignCabs" />
 
-  <Target Name="SignMsi">
-    <!-- <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignMsi.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" /> -->
-  </Target>
+  <Target Name="SignMsi" />
 
-  <Target Name="SignContainers">
-    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignContainers.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
-  </Target>
+  <Target Name="SignContainers" />
 
   <Target Name="SignBundleEngine">
-    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignBundleEngine.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+    <Message Importance="high" Text="Signing bundle engine: @(SignBundleEngine->&apos;%(Identity)&apos;)" />
+
+    <Exec Command='"$(SigningToolExe)" $(SigningCommand) $(SigningConfiguration) "@(SignBundleEngine->&apos;%(Identity)&apos;)"'
+          WorkingDirectory="$(MSBuildProjectDirectory)" EchoOff="true" />
   </Target>
 
   <Target Name="SignBundle">
-    <Exec Command="&quot;$(SignClientPath)&quot; sign -c &quot;$(_SigningAppSettingsPath)&quot; -i &quot;%(SignBundle.FullPath)&quot; -f &quot;$(_SigningFilterNonePath)&quot; -s &quot;$(SignClientSecret)&quot; -r &quot;$(SignClientUser)&quot; -n &quot;$(_SigningName)&quot; -d &quot;$(_SigningName)&quot; -u &quot;$(_SigningUrl)&quot;" />
+    <Message Importance="high" Text="Signing bundle: @(SignBundle->&apos;%(Identity)&apos;)" />
+
+    <Exec Command='"$(SigningToolExe)" $(SigningCommand) $(SigningConfiguration) "@(SignBundle->&apos;%(Identity)&apos;)"'
+          WorkingDirectory="$(MSBuildProjectDirectory)" EchoOff="true" />
   </Target>
 
   <!-- Sentinel value that indicates WixBuid.Signing.targets has been initialized. -->

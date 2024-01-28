@@ -125,13 +125,13 @@
 
     <Error
       Code="WIXBUILD014"
-      Condition=" '$(PleaseSignOutput)'!='' and !Exists('$(SignClientPath)') "
-      Text="Cannot locate SignClient. Ensure SignClient is present at &quot;$(SignClientPath)&quot;. If not, run the following command from the root of the project: msbuild -t:DotnetToolRestore" />
+      Condition=" '$(PleaseSignOutput)'!='' and !Exists('$(SigningToolExe)') "
+      Text="Cannot locate SigningTool. Ensure SigningTool is present at &quot;$(SigningToolExe)&quot;." />
 
     <Error
       Code="WIXBUILD015"
-      Condition=" '$(PleaseSignOutput)'!='' and ('$(SignClientUser)'=='' or '$(SignClientSecret)'=='') "
-      Text="Signing is requested but one or both required properites SignClientUser and SignClientSecret were not specified on the command line or as environment variables." />
+      Condition=" '$(PleaseSignOutput)'!='' and ('$(SigningKeyVaultUri)'=='' or '$(SigningCertName)'=='') "
+      Text="Signing is requested but one or both required properites SigningKeyVaultUri and SigningCertName were not specified on the command line or as environment variables." />
 
     <Error
       Code="WIXBUILD016"

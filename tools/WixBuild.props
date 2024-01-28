@@ -30,7 +30,6 @@
   </PropertyGroup>
 
   <Import Project="Nuget.targets" />
-  <Import Project="Dotnet.targets" />
 
   <!-- Converts the VS-standard Debug and Release to the wix-standard debug and ship -->
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == '' or '$(WixFlavor)' == 'debug' ">
