@@ -210,8 +210,8 @@ extern "C" HRESULT DAPI DirEnsureDeleteEx(
             }
         }
 
-        // If we're deleting files and/or child directories loop through the contents of the directory.
-        if (fDeleteFiles || fRecurse)
+        // If we're deleting files and/or child directories loop through the contents of the directory, but skip junctions.
+        if ((fDeleteFiles || fRecurse) && (0 == (dwAttrib & FILE_ATTRIBUTE_REPARSE_POINT)))
         {
             if (fScheduleDelete)
             {
