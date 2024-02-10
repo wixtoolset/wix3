@@ -93,7 +93,9 @@ bool DeleteDirectory(const wchar_t* szDir)
                 StringCchCopy(szPath + cchDir + 1, cchPathBuf - (cchDir + 1), fd.cFileName);
                 if ((fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
                 {
-                        if (wcscmp(fd.cFileName, L".") != 0 && wcscmp(fd.cFileName, L"..") != 0)
+                        if (wcscmp(fd.cFileName, L".") != 0
+                            && wcscmp(fd.cFileName, L"..") != 0
+                            && ((fd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) == 0))
                         {
                                 DeleteDirectory(szPath);
                         }

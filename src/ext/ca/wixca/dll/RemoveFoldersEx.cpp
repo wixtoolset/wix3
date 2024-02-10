@@ -24,6 +24,14 @@ static HRESULT RecursePath(
     WIN32_FIND_DATAW wfd;
     LPWSTR sczNext = NULL;
 
+    // Do NOT follow junctions.
+    DWORD dwAttributes = ::GetFileAttributesW(wzPath);
+    if (dwAttributes & FILE_ATTRIBUTE_REPARSE_POINT)
+    {
+        WcaLog(LOGMSG_STANDARD, "Path is a junction; skipping: %ls", wzPath);
+        ExitFunction();
+    }
+
     // First recurse down to all the child directories.
     hr = StrAllocFormatted(&sczSearch, L"%s*", wzPath);
     ExitOnFailure1(hr, "Failed to allocate file search string in path: %S", wzPath);
@@ -159,10 +167,10 @@ extern "C" UINT WINAPI WixRemoveFoldersEx(
 
         hr = PathExpand(&sczExpandedPath, sczPath, PATH_EXPAND_ENVIRONMENT);
         ExitOnFailure2(hr, "Failed to expand path: %S for row: %S", sczPath, sczId);
-        
+
         hr = PathBackslashTerminate(&sczExpandedPath);
         ExitOnFailure1(hr, "Failed to backslash-terminate path: %S", sczExpandedPath);
-    
+
         WcaLog(LOGMSG_STANDARD, "Recursing path: %S for row: %S.", sczExpandedPath, sczId);
         hr = RecursePath(sczExpandedPath, sczId, sczComponent, sczProperty, iMode, &dwCounter, &hTable, &hColumns);
         ExitOnFailure2(hr, "Failed while navigating path: %S for row: %S", sczPath, sczId);
