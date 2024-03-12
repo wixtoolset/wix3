@@ -164,38 +164,18 @@ bool ExtractToTempDirectory(__in MSIHANDLE hSession, __in HMODULE hModule,
         StringCchCopy(szTempDir, cchTempDirBuf, szModule);
         StringCchCat(szTempDir, cchTempDirBuf, L"-");
 
+        BOOL fCreatedDirectory = FALSE;
         DWORD cchTempDir = (DWORD) wcslen(szTempDir);
-        for (int i = 0; DirectoryExists(szTempDir); i++)
+        for (int i = 0; i < 10000 && !fCreatedDirectory; i++)
         {
                 swprintf_s(szTempDir + cchTempDir, cchTempDirBuf - cchTempDir, L"%d", i);
+                fCreatedDirectory = ::CreateDirectory(szTempDir, NULL);
         }
 
-        if (!CreateDirectory(szTempDir, NULL))
+        if (!fCreatedDirectory)
         {
-                cchCopied = GetTempPath(cchTempDirBuf, szTempDir);
-                if (cchCopied == 0 || cchCopied >= cchTempDirBuf)
-                {
-                        Log(hSession, L"Failed to get temp directory. Error code %d", GetLastError());
-                        return false;
-                }
-
-                wchar_t* szModuleName = wcsrchr(szModule, L'\\');
-                if (szModuleName == NULL) szModuleName = szModule;
-                else szModuleName = szModuleName + 1;
-                StringCchCat(szTempDir, cchTempDirBuf, szModuleName);
-                StringCchCat(szTempDir, cchTempDirBuf, L"-");
-
-                cchTempDir = (DWORD) wcslen(szTempDir);
-                for (int i = 0; DirectoryExists(szTempDir); i++)
-                {
-                        swprintf_s(szTempDir + cchTempDir, cchTempDirBuf - cchTempDir, L"%d", i);
-                }
-
-                if (!CreateDirectory(szTempDir, NULL))
-                {
-                        Log(hSession, L"Failed to create temp directory. Error code %d", GetLastError());
-                        return false;
-                }
+                Log(hSession, L"Failed to create temp directory. Error code %d", ::GetLastError());
+                return false;
         }
 
         Log(hSession, L"Extracting custom action to temporary directory: %s\\", szTempDir);

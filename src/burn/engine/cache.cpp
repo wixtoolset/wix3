@@ -13,13 +13,15 @@ static BOOL vfInitializedCache = FALSE;
 static BOOL vfRunningFromCache = FALSE;
 static LPWSTR vsczSourceProcessPath = NULL;
 static LPWSTR vsczWorkingFolder = NULL;
+static BOOL vfWorkingFolderElevated = FALSE;
 static LPWSTR vsczDefaultUserPackageCache = NULL;
 static LPWSTR vsczDefaultMachinePackageCache = NULL;
 static LPWSTR vsczCurrentMachinePackageCache = NULL;
 
 static HRESULT CalculateWorkingFolder(
     __in_z LPCWSTR wzBundleId,
-    __deref_out_z LPWSTR* psczWorkingFolder
+    __deref_out_z LPWSTR* psczWorkingFolder,
+    __out_opt BOOL* pfWorkingFolderElevated
     );
 static HRESULT GetLastUsedSourceFolder(
     __in BURN_VARIABLES* pVariables,
@@ -195,11 +197,29 @@ extern "C" HRESULT CacheEnsureWorkingFolder(
 {
     HRESULT hr = S_OK;
     LPWSTR sczWorkingFolder = NULL;
+    BOOL fElevatedWorkingFolder = FALSE;
+    PSECURITY_DESCRIPTOR psd = NULL;
+    LPSECURITY_ATTRIBUTES pWorkingFolderAcl = NULL;
 
-    hr = CalculateWorkingFolder(wzBundleId, &sczWorkingFolder);
+    hr = CalculateWorkingFolder(wzBundleId, &sczWorkingFolder, &fElevatedWorkingFolder);
     ExitOnFailure(hr, "Failed to calculate working folder to ensure it exists.");
 
-    hr = DirEnsureExists(sczWorkingFolder, NULL);
+    // If elevated, allocate the pWorkingFolderAcl to protect the working folder to only Admins and SYSTEM.
+    if (fElevatedWorkingFolder)
+    {
+        LPCWSTR wzSddl = L"D:PAI(A;;FA;;;BA)(A;OICIIO;GA;;;BA)(A;;FA;;;SY)(A;OICIIO;GA;;;SY)";
+        if (!::ConvertStringSecurityDescriptorToSecurityDescriptorW(wzSddl, SDDL_REVISION_1, &psd, NULL))
+        {
+            ExitWithLastError(hr, "Failed to create the security descriptor for the working folder.");
+        }
+
+        pWorkingFolderAcl = reinterpret_cast<LPSECURITY_ATTRIBUTES>(MemAlloc(sizeof(SECURITY_ATTRIBUTES), TRUE));
+        pWorkingFolderAcl->nLength = sizeof(SECURITY_ATTRIBUTES);
+        pWorkingFolderAcl->lpSecurityDescriptor = psd;
+        pWorkingFolderAcl->bInheritHandle = FALSE;
+    }
+
+    hr = DirEnsureExists(sczWorkingFolder, pWorkingFolderAcl);
     ExitOnFailure(hr, "Failed create working folder.");
 
     // Best effort to ensure our working folder is not encrypted.
@@ -212,6 +232,11 @@ extern "C" HRESULT CacheEnsureWorkingFolder(
     }
 
 LExit:
+    ReleaseMem(pWorkingFolderAcl);
+    if (psd)
+    {
+        ::LocalFree(psd);
+    }
     ReleaseStr(sczWorkingFolder);
 
     return hr;
@@ -237,7 +262,7 @@ extern "C" HRESULT CacheCalculateBundleWorkingPath(
     }
     else // Otherwise, use the real working folder.
     {
-        hr = CalculateWorkingFolder(wzBundleId, &sczWorkingFolder);
+        hr = CalculateWorkingFolder(wzBundleId, &sczWorkingFolder, NULL);
         ExitOnFailure(hr, "Failed to get working folder for bundle.");
 
         hr = StrAllocFormatted(psczWorkingPath, L"%ls%ls\\%ls", sczWorkingFolder, BUNDLE_WORKING_FOLDER_NAME, wzExecutableName);
@@ -258,7 +283,7 @@ extern "C" HRESULT CacheCalculateBundleLayoutWorkingPath(
     HRESULT hr = S_OK;
     LPWSTR sczWorkingFolder = NULL;
 
-    hr = CalculateWorkingFolder(wzBundleId, psczWorkingPath);
+    hr = CalculateWorkingFolder(wzBundleId, psczWorkingPath, NULL);
     ExitOnFailure(hr, "Failed to get working folder for bundle layout.");
 
     hr = StrAllocConcat(psczWorkingPath, wzBundleId, 0);
@@ -278,7 +303,7 @@ extern "C" HRESULT CacheCalculatePayloadWorkingPath(
 {
     HRESULT hr = S_OK;
 
-    hr = CalculateWorkingFolder(wzBundleId, psczWorkingPath);
+    hr = CalculateWorkingFolder(wzBundleId, psczWorkingPath, NULL);
     ExitOnFailure(hr, "Failed to get working folder for payload.");
 
     hr = StrAllocConcat(psczWorkingPath, pPayload->sczKey, 0);
@@ -296,7 +321,7 @@ extern "C" HRESULT CacheCalculateContainerWorkingPath(
 {
     HRESULT hr = S_OK;
 
-    hr = CalculateWorkingFolder(wzBundleId, psczWorkingPath);
+    hr = CalculateWorkingFolder(wzBundleId, psczWorkingPath, NULL);
     ExitOnFailure(hr, "Failed to get working folder for container.");
 
     hr = StrAllocConcat(psczWorkingPath, pContainer->sczHash, 0);
@@ -921,7 +946,7 @@ extern "C" HRESULT CacheRemoveWorkingFolder(
 
     if (vfInitializedCache)
     {
-        hr = CalculateWorkingFolder(wzBundleId, &sczWorkingFolder);
+        hr = CalculateWorkingFolder(wzBundleId, &sczWorkingFolder, NULL);
         ExitOnFailure(hr, "Failed to calculate the working folder to remove it.");
 
         // Try to clean out everything in the working folder.
@@ -1035,7 +1060,7 @@ extern "C" void CacheCleanup(
 
     if (!fPerMachine)
     {
-        hr = CalculateWorkingFolder(wzBundleId, &sczFolder);
+        hr = CalculateWorkingFolder(wzBundleId, &sczFolder, NULL);
         if (SUCCEEDED(hr))
         {
             hr = PathConcat(sczFolder, L"*.*", &sczFiles);
@@ -1099,7 +1124,8 @@ extern "C" void CacheUninitialize()
 
 static HRESULT CalculateWorkingFolder(
     __in_z LPCWSTR /*wzBundleId*/,
-    __deref_out_z LPWSTR* psczWorkingFolder
+    __deref_out_z LPWSTR* psczWorkingFolder,
+    __out_opt BOOL* pfWorkingFolderElevated
     )
 {
     HRESULT hr = S_OK;
@@ -1143,10 +1169,17 @@ static HRESULT CalculateWorkingFolder(
 
         hr = StrAllocFormatted(&vsczWorkingFolder, L"%ls%ls\\", wzTempPath, wzGuid);
         ExitOnFailure(hr, "Failed to append bundle id on to temp path for working folder.");
+
+        vfWorkingFolderElevated = fElevated;
     }
 
     hr = StrAllocString(psczWorkingFolder, vsczWorkingFolder, 0);
     ExitOnFailure(hr, "Failed to copy working folder path.");
+
+    if (pfWorkingFolderElevated)
+    {
+        *pfWorkingFolderElevated = vfWorkingFolderElevated;
+    }
 
 LExit:
     return hr;
