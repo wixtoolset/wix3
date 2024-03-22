@@ -7,7 +7,7 @@
         <MajorBuildNumber>3</MajorBuildNumber>
         <MinorBuildNumber>14</MinorBuildNumber>
         <StartBuildYear>2017</StartBuildYear>
-        <BuildRevision>0</BuildRevision>
+        <BuildRevision>1</BuildRevision>
 
         <MajorMinorVersionString>$(MajorBuildNumber)$(MinorBuildNumber)</MajorMinorVersionString>
         <MajorMinorVersionDottedString>$(MajorBuildNumber).$(MinorBuildNumber)</MajorMinorVersionDottedString>
