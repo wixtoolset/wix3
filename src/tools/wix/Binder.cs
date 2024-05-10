@@ -6275,14 +6275,21 @@ namespace Microsoft.Tools.WindowsInstallerXml
                     string version;
                     string language;
 
-                    using (FileStream fileStream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    try
                     {
-                        if (Int32.MaxValue < fileStream.Length)
+                        using (FileStream fileStream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
-                            throw new WixException(WixErrors.FileTooLarge(fileRow.SourceLineNumbers, fileRow.Source));
-                        }
+                            if (Int32.MaxValue < fileStream.Length)
+                            {
+                                throw new WixException(WixErrors.FileTooLarge(fileRow.SourceLineNumbers, fileRow.Source));
+                            }
 
-                        fileRow.FileSize = Convert.ToInt32(fileStream.Length, CultureInfo.InvariantCulture);
+                            fileRow.FileSize = Convert.ToInt32(fileStream.Length, CultureInfo.InvariantCulture);
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        throw new WixException(WixErrors.BinderIOException(fileRow.SourceLineNumbers, fileInfo.FullName, e.Message));
                     }
 
                     try

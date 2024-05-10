@@ -4012,5 +4012,12 @@
                 <Parameter Type="System.Int64" Name="size" />
             </Instance>
         </Message>
+        <Message Id="BinderIOException" Number="9035">
+            <Instance>
+                The file '{0}' cannot be accessed. Exception: {1}
+                <Parameter Type="System.String" Name="fileName" />
+                <Parameter Type="System.String" Name="exceptionMessage" />
+            </Instance>
+        </Message>
     </Class>
 </Messages>
